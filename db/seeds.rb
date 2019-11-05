@@ -7,3 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 Workspace.create(address: 'app-academy')
+User.create(email: "asdf", password: "asdfasdf")
+
+WorkspaceUser.create(user_id: 1, workspace_id: 1)

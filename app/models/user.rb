@@ -4,6 +4,9 @@ class User < ApplicationRecord
   validates :email, :password_digest, :session_token, presence: true
   validates :email, :session_token, uniqueness: true
 
+  # MUST HAVE ALLOW_NIL OR IT WILL ALWAYS FAIL VALIDATION
+  validates :password, length: { minimum: 6 }, allow_nil: true 
+
   # joins connection to a workspace, contains logged_in info
   has_many :connections,
     foreign_key: :user_id,
@@ -29,7 +32,7 @@ class User < ApplicationRecord
   end
   
   # makes sure the user has a session_token
-  def ensure_session_token!
+  def ensure_session_token
     self.session_token ||= SecureRandom.urlsafe_base64(16)
   end
 
@@ -43,6 +46,6 @@ class User < ApplicationRecord
   # finds a user given their email and password
   def self.find_by_credentials(email, password)
     user = User.find_by_email(email)
-    user && user.is_password?(password) ? user : null
+    user && user.is_password?(password) ? user : nil
   end
 end

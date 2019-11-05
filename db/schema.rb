@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2019_11_05_002907) do
   create_table "workspace_users", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "workspace_id", null: false
-    t.boolean "logged_in", default: false, null: false
+    t.boolean "logged_in", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "workspace_id"], name: "index_workspace_users_on_user_id_and_workspace_id", unique: true

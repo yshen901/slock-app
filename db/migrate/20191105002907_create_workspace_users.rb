@@ -3,7 +3,7 @@ class CreateWorkspaceUsers < ActiveRecord::Migration[5.2]
     create_table :workspace_users do |t|
       t.bigint :user_id, null: false
       t.bigint :workspace_id, null: false
-      t.boolean :logged_in, null: false, default: false
+      t.boolean :logged_in, default: false
       t.timestamps
     end
 

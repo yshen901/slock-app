@@ -1,11 +1,11 @@
-class UsersController < ApplicationController
+class Api::UsersController < ApplicationController
   def create
     # find the user and the workspace
     @user = User.find_by_credentials(
-      user_params[:user][:email]
-      user_params[:user][:password]
+      user_params[:email],
+      user_params[:password]
     )
-    workspace = Workspace.find_by_address(user_params[:user][:workspace_address])
+    workspace = Workspace.find_by_address(user_params[:workspace_address])
 
     # 3 cases:
     #   a) workspace doesn't exist             => render errors
@@ -27,10 +27,11 @@ class UsersController < ApplicationController
       end
     else
       @user = User.new(
-        email: user_params[:user][:email],
-        password: user_params[:user][:password]
+        email: user_params[:email],
+        password: user_params[:password]
       )
       if @user.save
+        debugger
         WorkspaceUser.create(user_id: @user.id, workspace_id: workspace.id, logged_in: true)
         login!(@user)
         render '/api/users/show'
