@@ -16,16 +16,18 @@ class WorkspaceSigninForm extends React.Component {
   }
 
 
-  /* NOTE: Dispatch returns a PROMISE
-      ...Promises are code that are "promised" to run to completion before
+  /* NOTE: Dispatch returns a PROMISE, reload =/= re-render
+      1) Promises are code that are "promised" to run to completion before
          the callbacks in .then(successCallback, errorCallback) are called
+      2) Use window.location.reload() to reload the page - this clears the state.
+      3) For this case, you don't need to re-direct at all...just force a re-render
   */
   handleSubmit(e) {
     e.preventDefault();
     dispatch(getWorkspace(this.state.workspace_address))
       .then(
         () => this.props.history.push(`/signin/${ this.state.workspace_address }`),
-        () => this.props.history.push('/signin')
+        () => {debugger; this.setState({state: this.state});}
       );
   }
 
@@ -34,9 +36,21 @@ class WorkspaceSigninForm extends React.Component {
   }
 
   render() {
+    let errors = getState().errors.session;
+    let error_class = "auth-errors hidden"
+    if (errors.length > 0)
+      error_class = "auth-errors"
     return (
       <div className="auth-page">
         <AuthNav />
+        <div className={error_class}>
+          <h6>!!!</h6>
+          <h6>
+            <strong>We couldn't find your workspace.</strong> 
+            &nbsp;If you can't remember your workspace's address, we can 
+            &nbsp;<Link to='/tbd'>send you a reminder</Link>.
+          </h6>
+        </div>
         <div className="auth-box" id="workspace-signin">
           <div className="auth-greeting">
             <h1>Sign in to your workspace</h1>

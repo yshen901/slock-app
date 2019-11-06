@@ -26,8 +26,11 @@ class UserSigninForm extends React.Component {
   */
   handleSubmit(e) {
     e.preventDefault();
-    this.props.processForm(this.state);
-    this.props.history.push("/tbd");
+    this.props.processForm(this.state)
+      .then(
+        () => this.props.history.push("/tbd"),
+        () => {debugger; this.setState({state: this.state});}
+      )
   }
 
   updateForm(type) {
@@ -42,9 +45,16 @@ class UserSigninForm extends React.Component {
   render() {
     // TODO: DESIGN THE PAGE THAT IS REDIRECTED TO
     let greeting = this.createGreeting();
+    let error_class = "auth-errors hidden"
+    if (getState().errors.session.length > 0)
+      error_class = "auth-errors"
     return (
       <div className="auth-page">
         <AuthNav />
+        <div className={error_class}>
+          <h6>!!!</h6>
+          <h6> Sorry, you entered an incorrect email address or password.</h6>
+        </div>
         <div className='auth-box' id='user-signin'>
           <div className="auth-greeting">
             <h1>{greeting}</h1>

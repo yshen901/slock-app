@@ -468,8 +468,8 @@ function (_React$Component) {
         className: "logo",
         to: "/"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module './slack.jpg'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()))
-      }), "IMAGE TBD")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        src: "/images/logo.png"
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "auth-nav-link",
@@ -571,17 +571,26 @@ function (_React$Component) {
   _createClass(UserSigninForm, [{
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this2 = this;
+
       e.preventDefault();
-      this.props.processForm(this.state);
-      this.props.history.push("/tbd");
+      this.props.processForm(this.state).then(function () {
+        return _this2.props.history.push("/tbd");
+      }, function () {
+        debugger;
+
+        _this2.setState({
+          state: _this2.state
+        });
+      });
     }
   }, {
     key: "updateForm",
     value: function updateForm(type) {
-      var _this2 = this;
+      var _this3 = this;
 
       return function (e) {
-        return _this2.setState(_defineProperty({}, type, e.currentTarget.value));
+        return _this3.setState(_defineProperty({}, type, e.currentTarget.value));
       };
     }
   }, {
@@ -595,9 +604,13 @@ function (_React$Component) {
     value: function render() {
       // TODO: DESIGN THE PAGE THAT IS REDIRECTED TO
       var greeting = this.createGreeting();
+      var error_class = "auth-errors hidden";
+      if (getState().errors.session.length > 0) error_class = "auth-errors";
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-page"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_nav__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: error_class
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "!!!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, " Sorry, you entered an incorrect email address or password.")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-box",
         id: "user-signin"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -771,9 +784,11 @@ function (_React$Component) {
     _this.updateForm = _this.updateForm.bind(_assertThisInitialized(_this));
     return _this;
   }
-  /* NOTE: Dispatch returns a PROMISE
-      ...Promises are code that are "promised" to run to completion before
+  /* NOTE: Dispatch returns a PROMISE, reload =/= re-render
+      1) Promises are code that are "promised" to run to completion before
          the callbacks in .then(successCallback, errorCallback) are called
+      2) Use window.location.reload() to reload the page - this clears the state.
+      3) For this case, you don't need to re-direct at all...just force a re-render
   */
 
 
@@ -786,7 +801,11 @@ function (_React$Component) {
       dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_4__["getWorkspace"])(this.state.workspace_address)).then(function () {
         return _this2.props.history.push("/signin/".concat(_this2.state.workspace_address));
       }, function () {
-        return _this2.props.history.push('/signin');
+        debugger;
+
+        _this2.setState({
+          state: _this2.state
+        });
       });
     }
   }, {
@@ -799,9 +818,16 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var errors = getState().errors.session;
+      var error_class = "auth-errors hidden";
+      if (errors.length > 0) error_class = "auth-errors";
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-page"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_nav__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: error_class
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "!!!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "We couldn't find your workspace."), "\xA0If you can't remember your workspace's address, we can \xA0", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+        to: "/tbd"
+      }, "send you a reminder"), ".")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-box",
         id: "workspace-signin"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -880,10 +906,16 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "nav"
+        className: "nav",
+        id: "home-nav"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "left"
+        className: "left"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "logo",
+        to: "/"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: "/images/logo.png"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "home-link",
         to: "/tbd"
       }, "Why Slock?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -899,11 +931,14 @@ function (_React$Component) {
         className: "home-link",
         to: "/tbd"
       }, "Pricing")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "right"
+        className: "right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "home-link",
         to: "/signin"
-      }, "Sign In")));
+      }, "Sign In"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "home-button",
+        onClick: this.handleSubmit
+      }, "Try Slock")));
     }
   }]);
 
@@ -992,14 +1027,17 @@ function (_React$Component) {
       });else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "homepage"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_home_nav__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "greeting"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Whatever work you do"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "you can do it in Slock"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Slock gives your team the power and alignment you need to do your best work."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        id: "home-box"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "home-greeting"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Whatever work you do,"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "you can do it in Slock"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Slock gives your team the power and alignment you need to do your best work."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "home-button",
         onClick: this.handleSubmit
       }, "Try Slock"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "signin-message"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Already using Slock?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: "/signin"
-      }, "Sign in.")));
+      }, "Sign in."))));
     }
   }]);
 

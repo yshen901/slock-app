@@ -10,7 +10,6 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-
 }
 
 .auth-greeting h1 {
@@ -44,6 +43,33 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.auth-errors {
+  position: absolute;
+  top: 510px;
+  left: 50%;
+
+  width: 590px;
+  margin-left: -300px;
+
+  border: 1px solid lightgrey;
+  border-left: 4px solid red;
+  border-radius: 5px;
+
+  background: white;
+
+  display: flex;
+}
+
+.auth-page .auth-errors {
+  top: 580px;
+}
+
+.auth-errors h6{
+  padding: 10px;
+  padding-left: 20px;
+  font-size: 14px;
 }
 
 .auth-box form {

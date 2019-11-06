@@ -12,6 +12,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  z-index: 2;
 }
 
 .right {
@@ -21,21 +23,26 @@
   justify-content: space-around;
   align-items: center;
 
-  align-self: right;
   margin-right: 20px;
 }
 
 .left {
   display: flex;
+  justify-content: start;
+  align-items: center;
 
-  align-self: left;
   margin-left: 20px;
   width: 25%;
 }
 
 .logo {
-  border: 1px black solid;
-  padding: 3px;
+  width: 105px;
+  height: 30px;
+}
+
+img {
+  width: inherit;
+  height: inherit;
 }
 
 .home-link {

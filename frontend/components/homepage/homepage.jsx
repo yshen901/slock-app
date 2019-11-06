@@ -31,19 +31,21 @@ class Homepage extends React.Component {
       return (
         <div id="homepage">
           <HomeNav />
-          <div id="greeting">
-            <h1>Whatever work you do</h1>
-            <h1>you can do it in Slock</h1>
-            <br/>
-            <h4>Slock gives your team the power and alignment you need to do your best work.</h4>
-            <br/>
-          </div>
+          <div id="home-box">
+            <div id="home-greeting">
+              <h1>Whatever work you do,</h1>
+              <h1>you can do it in Slock</h1>
+              <br/>
+              <h4>Slock gives your team the power and alignment you need to do your best work.</h4>
+              <br/>
+            </div>
 
-          <button onClick={this.handleSubmit}>Try Slock</button>
+            <button className="home-button" onClick={this.handleSubmit}>Try Slock</button>
 
-          <div id="signin-message">
-            <h6>Already using Slock?</h6>
-            <Link to='/signin'>Sign in.</Link>
+            <div id="signin-message">
+              <h6>Already using Slock?</h6>
+              <Link to='/signin'>Sign in.</Link>
+            </div>
           </div>
         </div>
       )

@@ -7,8 +7,7 @@ class AuthNav extends React.Component {
       <div className="nav">
         <div className="left">
           <Link className="logo" to='/'>
-            <img src={require('./slack.jpg')} />
-            IMAGE TBD
+            <img src="/images/logo.png" />
           </Link>
         </div>
         <div className="right">

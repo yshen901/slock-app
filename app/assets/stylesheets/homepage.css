@@ -1,17 +1,50 @@
 #homepage {
   display: flex;
-  align-items: center;
   flex-direction: column;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
-#greeting {
+#homepage .nav {
+  border-bottom: none;
+
+  box-sizing: border-box;
+  padding-left: 12%;
+  padding-right: 12%;
+}
+
+#homepage .left {
+  width: 52%;
+  justify-content: space-around;
+}
+
+#homepage .right {
+  width: 18%;
+}
+
+#home-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 120px;
+}
+
+#home-greeting {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-#homepage button {
+#home-greeting h1 {
+  font-size: 60px;
+  font-weight: bold;
+}
+
+#home-greeting h4 {
+  font-size: 20px;
+  margin: 10px;
+}
+
+.home-button {
   color: white;
   background: purple;
   border-radius: 5px;
@@ -24,22 +57,19 @@
   height: 50px;
 }
 
-#homepage button:hover {
+.home-button:hover {
   background: rgb(95, 1, 95);
   transition: 0.3s;
   cursor: pointer;
 }
 
-#greeting h1 {
-  font-size: 30px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-}
 
 #signin-message {
   display: flex;
   justify-content: space-around;
   margin-top: 30px;
+  
+  font-size: 15px;
 }
 
 #signin-message h6 {
