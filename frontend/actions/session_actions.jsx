@@ -1,9 +1,11 @@
 import * as SessionAPI from '../util/session_api_util';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
+export const RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";
 export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
+export const RECEIVE_ERRORS = "RECEIVE_ERRORS";
 
-// 
+// DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
 export const HOME_WORKSPACE = 'app-academy';
 
 /* NOTE: How actions (thunk and creater) work
@@ -21,20 +23,46 @@ const logoutCurrentUser = () => ({
   type: LOGOUT_CURRENT_USER
 });
 
+const receiveWorkspace = workspace => ({
+  type: RECEIVE_WORKSPACE,
+  workspace
+});
+
+const receiveErrors = errors => ({
+  type: RECEIVE_ERRORS,
+  errors
+})
+
 export const signup = user => dispatch => (
   SessionAPI
     .signup(user)
-    .then(user => dispatch(receiveUser(user)))
+    .then(
+      user => dispatch(receiveUser(user)),
+      errors => dispatch(receiveErrors(errors))
+    )
 );
 
 export const login = user => dispatch => (
   SessionAPI
     .login(user)
-    .then(user => dispatch(receiveUser(user)))
+    .then(user => dispatch(receiveUser(user)),
+      errors => dispatch(receiveErrors(errors))
+    )
 );
 
 export const logout = () => dispatch => (
   SessionAPI
     .logout()
-    .then(() => dispatch(logoutCurrentUser()))
+    .then(() => dispatch(logoutCurrentUser()),
+      errors => dispatch(receiveErrors(errors))
+    )
 );
+
+export const getWorkspace = (workspace_address) => dispatch => (
+  SessionAPI
+    .getWorkspace(workspace_address)
+    .then((workspace) => dispatch(receiveWorkspace(workspace)),
+      errors => dispatch(receiveErrors(errors))
+    )
+)
+

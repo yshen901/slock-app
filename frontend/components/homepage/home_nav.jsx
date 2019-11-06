@@ -4,16 +4,16 @@ import { Link } from 'react-router-dom';
 class HomeNav extends React.Component {
   render() {
     return (
-      <div id="home-nav">
-        <div id="links">
-          <Link className="nav-link" to="/tbd">Why Slock?</Link>
-          <Link className="nav-link" to="/tbd">Solutions</Link>
-          <Link className="nav-link" to="/tbd">Resources</Link>
-          <Link className="nav-link" to="/tbd">Enterprise</Link>
-          <Link className="nav-link" to="/tbd">Pricing</Link>
+      <div id="nav">
+        <div id="left">
+          <Link className="home-link" to="/tbd">Why Slock?</Link>
+          <Link className="home-link" to="/tbd">Solutions</Link>
+          <Link className="home-link" to="/tbd">Resources</Link>
+          <Link className="home-link" to="/tbd">Enterprise</Link>
+          <Link className="home-link" to="/tbd">Pricing</Link>
         </div>
-        <div id="auth">
-          <Link className="nav-link" to="/signin">Sign In</Link>
+        <div id="right">
+          <Link className="home-link" to="/signin">Sign In</Link>
         </div>
           
       </div>

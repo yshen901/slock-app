@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/yshen901/slack-clone/issues"
   },
-  "homepage": "https://github.com/yshen901/slack-clone#readme"
+  "homepage": "https://github.com/yshen901/slack-clone#readme",
+  "devDependencies": {
+    "image-webpack-loader": "^6.0.0"
+  }
 }

@@ -20,3 +20,10 @@ export const logout = () => (
     url: "/api/session",
   })
 )
+
+export const getWorkspace = (workspace_address) => (
+  $.ajax({
+    method: "GET",
+    url: `/api/workspaces/${workspace_address}`
+  })
+)

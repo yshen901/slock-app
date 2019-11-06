@@ -1,27 +1,5 @@
-#user-signin {
-  position:absolute;
-  top: 200px;
-  left: 50%; /* Use left percentage then negative margin to center*/
-  margin-left: -250px; 
-
-  width: 500px;
-  padding: 20px;
-  
-  border: solid 1px gray;
-  border-radius: 5px;
-  
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#user-signin form {
-  display: flex;
-  flex-direction: column;
-}
-
 #user-signin form input {
-  width: 282px;
+  width: 382px;
   height: 30px;
   margin-bottom: 15px;
 
@@ -33,7 +11,7 @@
 }
 
 #user-signin form input[type="submit"]{
-  width: 300px;
+  width: 400px;
   height: 50px;
 
   background: #007a5a;
@@ -43,5 +21,17 @@
   color: white;
   font-weight: bold;
   font-size: 20px;
+}
+
+#user-signin .auth-box-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#user-signin .auth-form-link {
+  font-weight: normal;
+  padding: 5px;
 }
 

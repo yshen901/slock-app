@@ -12,4 +12,13 @@
  *
  *= require_tree .
  *= require_self
- */
+*/
+
+strong {
+  font-weight: bold;
+}
+
+.green { color: green }
+.blue { color: rgb(33, 33, 245) }
+.pink { color: rgb(255, 70, 255) }
+.orange { color: rgb(241, 157, 0) }
