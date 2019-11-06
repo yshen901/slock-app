@@ -1,23 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app';
-import * as SessionAPI from './util/session_api_util';
+import Root from './components/root'
 
-const Root = () => (
-  <div id="root-component">
-    <App />
-  </div>
-);
+import { signup, login, logout } from './actions/session_actions';
+import configureStore from './store/store'
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
-  loadWindowFuncs();
+  const store = configureStore();
+  loadWindowFuncs(store);
 
-  ReactDOM.render(<Root />, root)
+  ReactDOM.render(<Root store={store}/>, root)
 });
 
-const loadWindowFuncs = () => {
-  window.signup = SessionAPI.signup;
-  window.login = SessionAPI.login;
-  window.logout = SessionAPI.logout;
+const loadWindowFuncs = (store) => {
+  window.signup = signup;
+  window.login = login;
+  window.logout = logout;
+
+  window.getState = store.getState;
+  window.dispatch = store.dispatch;
 }

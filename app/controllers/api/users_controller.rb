@@ -31,7 +31,6 @@ class Api::UsersController < ApplicationController
         password: user_params[:password]
       )
       if @user.save
-        debugger
         WorkspaceUser.create(user_id: @user.id, workspace_id: workspace.id, logged_in: true)
         login!(@user)
         render '/api/users/show'

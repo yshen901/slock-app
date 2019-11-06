@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Workspace.create(address: 'app-academy')
+Workspace.create(address: 'slack')
 User.create(email: "asdf", password: "asdfasdf")
 
 WorkspaceUser.create(user_id: 1, workspace_id: 1)

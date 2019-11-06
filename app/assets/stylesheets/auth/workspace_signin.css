@@ -1,0 +1,59 @@
+#workspace-signin {
+  position:absolute;
+  top: 200px;
+  left: 50%; /* Use left percentage then negative margin to center*/
+  margin-left: -250px; 
+
+  width: 500px;
+  padding: 20px;
+  
+  border: solid 1px gray;
+  border-radius: 5px;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#workspace-signin form {
+  display: flex;
+  flex-direction: column;
+}
+
+#workspace-signin label {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#workspace-signin form input {
+  width: 184px;
+  height: 30px;
+  margin-bottom: 15px;
+
+  border-radius: 5px;
+  border: 1px solid black;
+
+  font-size: 18px;
+}
+
+
+/* TODO: Make the alignment perfect, and add a tag for .slack.com*/
+#workspace-signin form input[type="submit"]{
+  width: 297px;
+  height: 50px;
+
+  background: #007a5a;
+  border: none;
+  border-radius: 5px;
+
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#workspace-signin form input[type="text"]{
+  text-align: right;
+  padding: 8px;
+}
+
+

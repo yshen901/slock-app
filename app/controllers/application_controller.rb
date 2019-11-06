@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
 
   # logs out the user, and sets all of their workspaces to logged_out
   def logout!
-    debugger
     current_user.connections.each do |connection| 
       connection.logout!
     end

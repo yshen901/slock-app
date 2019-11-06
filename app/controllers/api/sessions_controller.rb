@@ -13,7 +13,6 @@ class Api::SessionsController < ApplicationController
       login!(@user)
       connection = WorkspaceUser.find_by(user_id: @user.id, workspace_id: workspace.id)
       connection.login!
-      debugger
       render 'api/users/show'
     end
   end
