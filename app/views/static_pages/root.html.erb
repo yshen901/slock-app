@@ -1,10 +1,11 @@
-<!-- NOTE: Bootstrapping the current user (root)
+<!-- NOTE: Bootstrapping the current user and the current_workspace (root)
   This creates an API hook that returns the current user, then fetches that
   information when the app mounts. Since that request is asynchronous, it will
   cause a flickering where the page is rendered first, then re-rendered with
   the user information. To circumvent this, we will boostrap the current user
   along with the HTML when the page initially loads.
 -->
+
 <% if logged_in? %>
   <script type="text/javascript">
     window.currentUser = <%= render(

@@ -19084,3 +19084,400 @@ Processing by StaticPagesController#root as HTML
 Completed 200 OK in 112ms (Views: 109.5ms | ActiveRecord: 1.7ms)
 
 
+Started GET "/" for ::1 at 2019-11-06 16:48:21 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "SKSh3n3QSjCLcmDmhhn0Qw"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.5ms)
+  [1m[36mWorkspaceUser Load (0.2ms)[0m  [1m[34mSELECT  "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."user_id" = $1 AND "workspace_users"."logged_in" = $2 LIMIT $3[0m  [["user_id", 1], ["logged_in", true], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:13
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:14
+  Rendered api/workspaces/_workspace.json.jbuilder (0.5ms)
+  Rendered static_pages/root.html.erb within layouts/application (6.2ms)
+Completed 200 OK in 45ms (Views: 43.5ms | ActiveRecord: 0.6ms)
+
+
+Started DELETE "/api/session" for ::1 at 2019-11-06 16:48:28 -0800
+Processing by Api::SessionsController#destroy as JSON
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "SKSh3n3QSjCLcmDmhhn0Qw"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "SdgPzsiD5yOEuv_O-SVNgA"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Update (0.4ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "SdgPzsiD5yOEuv_O-SVNgA"], ["updated_at", "2019-11-07 00:48:28.413350"], ["id", 1]]
+  ↳ app/models/user.rb:42
+  [1m[35m (3.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:42
+Completed 200 OK in 12ms (Views: 0.2ms | ActiveRecord: 5.4ms)
+
+
+Started GET "/api/workspaces/app-academy" for ::1 at 2019-11-06 16:50:12 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"app-academy"}
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/controllers/api/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.3ms)
+  Rendered api/workspaces/show.json.jbuilder (7.0ms)
+Completed 200 OK in 20ms (Views: 8.7ms | ActiveRecord: 3.3ms)
+
+
+Started GET "/api/workspaces/app-academy" for ::1 at 2019-11-06 16:50:12 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"app-academy"}
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/controllers/api/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.3ms)
+  Rendered api/workspaces/show.json.jbuilder (1.0ms)
+Completed 200 OK in 4ms (Views: 2.5ms | ActiveRecord: 0.2ms)
+
+
+Started POST "/api/session" for ::1 at 2019-11-06 16:50:17 -0800
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"app-academy", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:48
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "kd74Gb6Bro19fzRFUTL6fg"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Update (0.4ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "kd74Gb6Bro19fzRFUTL6fg"], ["updated_at", "2019-11-07 00:50:17.771585"], ["id", 1]]
+  ↳ app/models/user.rb:42
+  [1m[35m (3.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:42
+  [1m[36mWorkspaceUser Load (0.2ms)[0m  [1m[34mSELECT "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/controllers/application_controller.rb:23
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.8ms)
+  Rendered api/users/show.json.jbuilder (9.6ms)
+Started POST "/api/session" for ::1 at 2019-11-06 16:50:31 -0800
+Started POST "/api/session" for ::1 at 2019-11-06 16:50:31 -0800
+Started POST "/api/session" for ::1 at 2019-11-06 16:50:31 -0800
+Completed 200 OK in 13886ms (Views: 19.5ms | ActiveRecord: 12.9ms)
+
+
+Started POST "/api/session" for ::1 at 2019-11-06 16:50:31 -0800
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"app-academy", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (5.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:48
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"app-academy", "email"=>"asdf", "password"=>"[FILTERED]"}}
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"app-academy", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mWorkspace Load (5.0ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"app-academy", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:48
+  [1m[35m (1.7ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/session" for ::1 at 2019-11-06 16:50:31 -0800
+  ↳ app/models/user.rb:42
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:48
+  [1m[36mWorkspace Load (273.1ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:48
+  [1m[36mUser Exists (274.5ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+Processing by Api::SessionsController#create as JSON
+  ↳ app/controllers/api/sessions_controller.rb:7
+  ↳ app/models/user.rb:42
+  [1m[36mWorkspace Load (0.5ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:42
+  Parameters: {"user"=>{"workspace_address"=>"app-academy", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Exists (1.0ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[35m (2.9ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:42
+  [1m[36mWorkspace Load (1.8ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  ↳ app/models/user.rb:48
+  [1m[36mUser Exists (1.0ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "zB3zKk6jufn2gETrhKG7Yw"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (1.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "7SMff0tkJ6Ae3GU5yLNUwA"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  [1m[35m (294.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Update (2.4ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "zB3zKk6jufn2gETrhKG7Yw"], ["updated_at", "2019-11-07 00:50:32.819247"], ["id", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mWorkspace Load (2.7ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "tVjZvkj6nU5u4IAtRXwSpA"], ["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  ↳ app/controllers/api/sessions_controller.rb:7
+  ↳ app/models/user.rb:42
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (1.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "EQ6Ymw8NnpBxkJDWjIpSHQ"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Update (9.1ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "7SMff0tkJ6Ae3GU5yLNUwA"], ["updated_at", "2019-11-07 00:50:32.821017"], ["id", 1]]
+  ↳ app/models/user.rb:42
+  [1m[35m (3.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[35m (2.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mWorkspaceUser Load (1.4ms)[0m  [1m[34mSELECT "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/controllers/application_controller.rb:23
+  [1m[36mUser Update (7.3ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "tVjZvkj6nU5u4IAtRXwSpA"], ["updated_at", "2019-11-07 00:50:32.827735"], ["id", 1]]
+  ↳ app/models/user.rb:42
+  ↳ app/models/user.rb:42
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists (1.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "zNFIYwMsu1Ufn8t3llTg_A"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  ↳ app/models/user.rb:42
+  [1m[35m (2.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Update (7.8ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "EQ6Ymw8NnpBxkJDWjIpSHQ"], ["updated_at", "2019-11-07 00:50:32.831269"], ["id", 1]]
+  [1m[36mWorkspaceUser Load (1.0ms)[0m  [1m[34mSELECT "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/models/user.rb:42
+  ↳ app/models/workspace_user.rb:11
+  ↳ app/controllers/application_controller.rb:23
+  ↳ app/models/user.rb:42
+  [1m[35m (3.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mWorkspaceUser Load (0.7ms)[0m  [1m[34mSELECT "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."user_id" = $1[0m  [["user_id", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:42
+  [1m[36mUser Update (5.2ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "zNFIYwMsu1Ufn8t3llTg_A"], ["updated_at", "2019-11-07 00:50:32.838909"], ["id", 1]]
+  ↳ app/models/user.rb:42
+  ↳ app/controllers/application_controller.rb:23
+  ↳ app/models/workspace_user.rb:11
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:42
+  ↳ app/models/workspace_user.rb:11
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspaceUser Load (1.6ms)[0m  [1m[34mSELECT "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/models/workspace_user.rb:11
+  ↳ app/controllers/application_controller.rb:23
+  [1m[36mWorkspace Load (1.6ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering api/users/show.json.jbuilder
+  [1m[36mWorkspaceUser Load (20235.8ms)[0m  [1m[34mSELECT "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/controllers/application_controller.rb:23
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (20237.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[35m (2.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (1.6ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (2.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  Rendered api/users/show.json.jbuilder (8.9ms)
+  [1m[36mWorkspace Load (2.6ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  ↳ app/models/workspace_user.rb:11
+Completed 200 OK in 21717ms (Views: 35.1ms | ActiveRecord: 296.7ms)
+
+
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (4.9ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (3.9ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  Rendering api/users/show.json.jbuilder
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+Started POST "/api/session" for ::1 at 2019-11-06 16:50:54 -0800
+  ↳ app/models/workspace_user.rb:11
+  ↳ app/models/workspace_user.rb:11
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.2ms)
+  Rendered api/users/show.json.jbuilder (700.4ms)
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  Rendered api/users/show.json.jbuilder (5.4ms)
+  [1m[35m (3.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (10.4ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+Completed 200 OK in 23231ms (Views: 723.9ms | ActiveRecord: 296.4ms)
+
+
+Completed 200 OK in 23227ms (Views: 14.2ms | ActiveRecord: 20261.6ms)
+
+
+  Rendering api/users/show.json.jbuilder
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.2ms)
+  Rendered api/users/show.json.jbuilder (2.2ms)
+Completed 200 OK in 23936ms (Views: 17.9ms | ActiveRecord: 332.6ms)
+
+
+  Rendered api/users/_user.json.jbuilder (0.2ms)
+  Rendered api/users/show.json.jbuilder (7.3ms)
+Completed 200 OK in 23101ms (Views: 19.8ms | ActiveRecord: 20262.7ms)
+
+
+Started DELETE "/api/session" for ::1 at 2019-11-06 16:50:55 -0800
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"app-academy", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:48
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "Bk4-6iV4oNH_ZGWMY4RhOA"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Update (0.6ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "Bk4-6iV4oNH_ZGWMY4RhOA"], ["updated_at", "2019-11-07 00:50:56.011780"], ["id", 1]]
+  ↳ app/models/user.rb:42
+  [1m[35m (2.3ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:42
+  [1m[36mWorkspaceUser Load (0.3ms)[0m  [1m[34mSELECT "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/controllers/application_controller.rb:22
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (0.4ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.3ms)
+  Rendered api/users/show.json.jbuilder (1.2ms)
+Completed 200 OK in 341ms (Views: 3.2ms | ActiveRecord: 16.7ms)
+
+
+Started POST "/api/session" for ::1 at 2019-11-06 16:50:56 -0800
+Processing by Api::SessionsController#destroy as JSON
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"app-academy", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "kd74Gb6Bro19fzRFUTL6fg"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+Completed 401 Unauthorized in 11ms (Views: 0.3ms | ActiveRecord: 1.5ms)
+
+
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:48
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "h3JXTPS33-u4i8_jhold_A"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Update (0.5ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "h3JXTPS33-u4i8_jhold_A"], ["updated_at", "2019-11-07 00:50:56.367005"], ["id", 1]]
+  ↳ app/models/user.rb:42
+  [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:42
+  [1m[36mWorkspaceUser Load (0.5ms)[0m  [1m[34mSELECT "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/controllers/application_controller.rb:22
+  [1m[35m (0.5ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.3ms)
+  Rendered api/users/show.json.jbuilder (1.2ms)
+Completed 200 OK in 330ms (Views: 3.5ms | ActiveRecord: 14.7ms)
+
+
+Started DELETE "/api/session" for ::1 at 2019-11-06 16:50:57 -0800
+Processing by Api::SessionsController#destroy as JSON
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "h3JXTPS33-u4i8_jhold_A"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.8ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (1.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "1Chzc4uo7i1OPtpT-ymUDw"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Update (0.8ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "1Chzc4uo7i1OPtpT-ymUDw"], ["updated_at", "2019-11-07 00:50:57.932996"], ["id", 1]]
+  ↳ app/models/user.rb:42
+  [1m[35m (4.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:42
+Completed 200 OK in 24ms (Views: 0.4ms | ActiveRecord: 8.6ms)
+
+
+Started GET "/api/workspaces/app-academy" for ::1 at 2019-11-06 16:51:02 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"app-academy"}
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/controllers/api/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.8ms)
+  Rendered api/workspaces/show.json.jbuilder (3.0ms)
+Completed 200 OK in 12ms (Views: 8.2ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/api/workspaces/app-academy" for ::1 at 2019-11-06 16:51:02 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"app-academy"}
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/controllers/api/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.3ms)
+  Rendered api/workspaces/show.json.jbuilder (1.3ms)
+Completed 200 OK in 5ms (Views: 3.3ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/api/session" for ::1 at 2019-11-06 16:51:04 -0800
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"app-academy", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:48
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "app-academy"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "7Hex8EiKdMgM6cXqmzgKZA"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:42
+  [1m[36mUser Update (0.4ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "7Hex8EiKdMgM6cXqmzgKZA"], ["updated_at", "2019-11-07 00:51:05.083997"], ["id", 1]]
+  ↳ app/models/user.rb:42
+  [1m[35m (3.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:42
+  [1m[36mWorkspaceUser Load (0.4ms)[0m  [1m[34mSELECT "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/controllers/application_controller.rb:22
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.3ms)
+  Rendered api/users/show.json.jbuilder (1.0ms)
+Completed 200 OK in 322ms (Views: 2.6ms | ActiveRecord: 7.3ms)
+
+

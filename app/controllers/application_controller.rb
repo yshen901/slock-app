@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
 
   def current_workspace
     return nil unless session[:session_token]
-    # debugger # STEP 1: FIND THE WORKSPACE THE CURRENT_USER IS LOGGED INTO
     connection = WorkspaceUser.find_by(user_id: current_user[:id], logged_in: true)
     @current_workspace ||= Workspace.find_by_id(connection[:workspace_id])
   end
@@ -23,8 +22,6 @@ class ApplicationController < ActionController::Base
     connections.each do |connection|
       connection[:workspace_id] == workspace[:id] ? connection.login! : connection.logout!
     end
-    
-    debugger
   end
 
   # returns whether the user is logged in
