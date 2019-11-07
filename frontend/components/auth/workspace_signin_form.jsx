@@ -27,7 +27,7 @@ class WorkspaceSigninForm extends React.Component {
     dispatch(getWorkspace(this.state.workspace_address))
       .then(
         () => this.props.history.push(`/signin/${ this.state.workspace_address }`),
-        () => {debugger; this.setState({state: this.state});}
+        () => this.setState({state: this.state})
       );
   }
 
@@ -41,7 +41,7 @@ class WorkspaceSigninForm extends React.Component {
     if (errors.length > 0)
       error_class = "auth-errors"
     return (
-      <div className="auth-page">
+      <div className="auth-page" id="workspace-signin">
         <AuthNav />
         <div className={error_class}>
           <h6>!!!</h6>
@@ -51,7 +51,7 @@ class WorkspaceSigninForm extends React.Component {
             &nbsp;<Link to='/tbd'>send you a reminder</Link>.
           </h6>
         </div>
-        <div className="auth-box" id="workspace-signin">
+        <div className="auth-box">
           <div className="auth-greeting">
             <h1>Sign in to your workspace</h1>
             <h4>Enter your workspace's <strong>Slock URL.</strong></h4>

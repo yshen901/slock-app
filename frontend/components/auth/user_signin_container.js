@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { login } from '../../actions/session_actions';
+import { login, getWorkspace } from '../../actions/session_actions';
 import { withRouter } from 'react-router-dom';
 import UserAuthForm from './user_auth_form'
 
@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  processForm: (user) => dispatch(login(user))
+  processForm: (user) => dispatch(login(user)),
+  getWorkspace: (workspace_address) => dispatch(getWorkspace(workspace_address))
 });
 
 export default withRouter(connect(

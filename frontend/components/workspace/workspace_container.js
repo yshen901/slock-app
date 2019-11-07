@@ -4,7 +4,7 @@ import Workspace from './workspace';
 import { logout } from '../../actions/session_actions'
 
 const mapStateToProps = (state, ownProps) => ({
-  workspace_address: ownProps.match.params.workspace_address
+  workspace: getState().entities.workspaces[ownProps.match.params.workspace_id]
 });
 
 const mapDispatchToProps = (dispatch) => ({

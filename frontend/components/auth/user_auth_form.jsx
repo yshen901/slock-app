@@ -20,6 +20,14 @@ class UserSigninForm extends React.Component {
     this.createGreeting = this.createGreeting.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getWorkspace(this.props.workspace_address)
+      .then(
+        null,
+        () => this.props.history.push('/signin')
+      )
+  }
+
   /* NOTE: ALTERNATIVE WAY TO REDIRECT
       CHANGING PROPS WILL TRIGGER A RE-RENDER OF THE FIRST THING IN HISTORY
       THIS WAY AVOIDS HAVING TO PASS AROUND STUFF, AND RENDER/HANDLESUBMIT CAN BE SEPARATE
@@ -29,7 +37,7 @@ class UserSigninForm extends React.Component {
     this.props.processForm(this.state)
       .then(
         // () => this.props.history.push('/'),
-        () => this.props.history.push(`/workspace/${this.state.workspace_address}`),
+        () => this.props.history.push(`/workspace/${getState().session.workspace_id}`),
         () => this.setState({state: this.state})
       )
   }
@@ -44,19 +52,18 @@ class UserSigninForm extends React.Component {
   }
 
   render() {
-    // TODO: DESIGN THE PAGE THAT IS REDIRECTED TO
     let greeting = this.createGreeting();
     let error_class = "auth-errors hidden"
     if (getState().errors.session.length > 0)
       error_class = "auth-errors"
     return (
-      <div className="auth-page">
+      <div className="auth-page" id='user-signin'>
         <AuthNav />
         <div className={error_class}>
           <h6>!!!</h6>
           <h6> Sorry, you entered an incorrect email address or password.</h6>
         </div>
-        <div className='auth-box' id='user-signin'>
+        <div className='auth-box'>
           <div className="auth-greeting">
             <h1>{greeting}</h1>
             <br/>

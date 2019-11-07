@@ -62,7 +62,7 @@
   display: flex;
 }
 
-.auth-page .auth-errors {
+#user-signin .auth-errors {
   top: 580px;
 }
 

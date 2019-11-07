@@ -18,7 +18,7 @@ class Workspace extends React.Component {
     return (
       <div className="workspace">
         <div>
-          Welcome to {this.props.workspace_address}
+          Welcome to {this.props.workspace.address}
         </div>
         <button onClick={this.logout}>Log Out</button>
       </div>

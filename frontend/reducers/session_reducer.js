@@ -10,8 +10,6 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
   Object.freeze(state);
   let nextState = Object.assign({}, state);
 
-  // TODO: Make sure this doesn't bug out in edge cases...like when someone directly
-  //       goes to a link w/ an incorrect workspace name, we gotta redirect immediately
   switch(action.type) {
     case RECEIVE_USER:
       nextState['user_id'] = action.user.id;
