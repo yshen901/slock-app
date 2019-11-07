@@ -27,3 +27,10 @@ export const getWorkspace = (workspace_address) => (
     url: `/api/workspaces/${workspace_address}`
   })
 )
+
+export const getWorkspaces = () => (
+  $.ajax({
+    method: "GET",
+    url: `/api/workspaces`
+  })
+)

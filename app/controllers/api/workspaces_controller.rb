@@ -9,4 +9,9 @@ class Api::WorkspacesController < ApplicationController
       render json: ["Workspace does not exist"], status: 402
     end
   end
+
+  def index
+    @workspaces = Workspace.all
+    render '/api/workspaces/index'
+  end
 end

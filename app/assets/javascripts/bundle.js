@@ -1480,6 +1480,7 @@ var loadWindowFuncs = function loadWindowFuncs(store) {
   window.login = _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["login"];
   window.logout = _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["logout"];
   window.getWorkspace = _util_session_api_util__WEBPACK_IMPORTED_MODULE_4__["getWorkspace"];
+  window.getWorkspaces = _util_session_api_util__WEBPACK_IMPORTED_MODULE_4__["getWorkspaces"];
   window.getState = store.getState;
   window.dispatch = store.dispatch;
 };
@@ -1564,7 +1565,7 @@ var ProtectedRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withR
 /*!*******************************************!*\
   !*** ./frontend/util/session_api_util.js ***!
   \*******************************************/
-/*! exports provided: signup, login, logout, getWorkspace */
+/*! exports provided: signup, login, logout, getWorkspace, getWorkspaces */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1573,6 +1574,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWorkspace", function() { return getWorkspace; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWorkspaces", function() { return getWorkspaces; });
 var signup = function signup(user) {
   return $.ajax({
     method: "POST",
@@ -1601,6 +1603,12 @@ var getWorkspace = function getWorkspace(workspace_address) {
   return $.ajax({
     method: "GET",
     url: "/api/workspaces/".concat(workspace_address)
+  });
+};
+var getWorkspaces = function getWorkspaces() {
+  return $.ajax({
+    method: "GET",
+    url: "/api/workspaces"
   });
 };
 
@@ -33981,7 +33989,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, useHistory, useLocation, useParams, useRouteMatch, withRouter */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, useHistory, useLocation, useParams, useRouteMatch, withRouter, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
