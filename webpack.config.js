@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  mode: 'production',
   context: __dirname,
   entry: './frontend/slack-clone.jsx',
   output: {
