@@ -569,7 +569,8 @@ function (_React$Component) {
     _this.updateForm = _this.updateForm.bind(_assertThisInitialized(_this));
     _this.createGreeting = _this.createGreeting.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // TODO: How to do this without double action
+
 
   _createClass(UserSigninForm, [{
     key: "componentDidMount",
@@ -1386,6 +1387,7 @@ var RootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.jsx");
+ // TODO: NO NEED TO BOOSTRAP WORKSPACE, AS EVERYTHING CAN BE FOUND THROUGH CURRENT_USER
 
 var DEFAULT_SESSION = {
   user_id: null,
@@ -1435,8 +1437,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions/session_actions */ "./frontend/actions/session_actions.jsx");
 /* harmony import */ var _util_session_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./util/session_api_util */ "./frontend/util/session_api_util.js");
-/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
+/* harmony import */ var _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./util/workspace_api_util */ "./frontend/util/workspace_api_util.js");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -1462,9 +1466,9 @@ document.addEventListener('DOMContentLoaded', function () {
         session: []
       }
     };
-    store = Object(_store_store__WEBPACK_IMPORTED_MODULE_5__["default"])(preloadedState);
+    store = Object(_store_store__WEBPACK_IMPORTED_MODULE_6__["default"])(preloadedState);
   } else {
-    store = Object(_store_store__WEBPACK_IMPORTED_MODULE_5__["default"])();
+    store = Object(_store_store__WEBPACK_IMPORTED_MODULE_6__["default"])();
   }
 
   delete window.currentUser;
@@ -1481,6 +1485,10 @@ var loadWindowFuncs = function loadWindowFuncs(store) {
   window.logout = _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["logout"];
   window.getWorkspace = _util_session_api_util__WEBPACK_IMPORTED_MODULE_4__["getWorkspace"];
   window.getWorkspaces = _util_session_api_util__WEBPACK_IMPORTED_MODULE_4__["getWorkspaces"];
+  window.getChannel = _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_5__["getChannel"];
+  window.getChannels = _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_5__["getChannels"];
+  window.postChannel = _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_5__["postChannel"];
+  window.deleteChannel = _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_5__["deleteChannel"];
   window.getState = store.getState;
   window.dispatch = store.dispatch;
 };
@@ -1599,16 +1607,59 @@ var logout = function logout() {
     url: "/api/session"
   });
 };
-var getWorkspace = function getWorkspace(workspace_address) {
+var getWorkspace = function getWorkspace(workspaceAddress) {
   return $.ajax({
     method: "GET",
-    url: "/api/workspaces/".concat(workspace_address)
+    url: "/api/workspaces/".concat(workspaceAddress)
   });
 };
 var getWorkspaces = function getWorkspaces() {
   return $.ajax({
     method: "GET",
     url: "/api/workspaces"
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/workspace_api_util.js":
+/*!*********************************************!*\
+  !*** ./frontend/util/workspace_api_util.js ***!
+  \*********************************************/
+/*! exports provided: getChannels, getChannel, postChannel, deleteChannel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getChannels", function() { return getChannels; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getChannel", function() { return getChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postChannel", function() { return postChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannel", function() { return deleteChannel; });
+var getChannels = function getChannels(workspaceId) {
+  return $.ajax({
+    method: "GET",
+    url: "/api/workspaces/".concat(workspaceId, "/channels")
+  });
+};
+var getChannel = function getChannel(channelId) {
+  return $.ajax({
+    method: "GET",
+    url: "/api/channels/".concat(channelId)
+  });
+};
+var postChannel = function postChannel(channel) {
+  return $.ajax({
+    method: "POST",
+    url: "/api/channels",
+    data: {
+      channel: channel
+    }
+  });
+};
+var deleteChannel = function deleteChannel(channelId) {
+  return $.ajax({
+    method: "DELETE",
+    url: "/api/channels/".concat(channelId)
   });
 };
 
@@ -33989,7 +34040,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, useHistory, useLocation, useParams, useRouteMatch, withRouter, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, useHistory, useLocation, useParams, useRouteMatch, withRouter */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

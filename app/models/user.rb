@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   before_validation :ensure_session_token
 
+  # TODO: VALIDATION THAT REQUIRES EMAIL TO HAVE AN @
   validates :email, :password_digest, :session_token, presence: true
   validates :email, :session_token, uniqueness: true
 

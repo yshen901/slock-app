@@ -10,3 +10,7 @@ Workspace.create(address: 'slack')
 User.create(email: "asdf", password: "asdfasdf")
 
 WorkspaceUser.create(user_id: 1, workspace_id: 1)
+
+Channel.create(name: "Home", workspace_id: 1)
+Channel.create(name: "Customer Support", workspace_id: 1)
+Channel.create(name: "Community", workspace_id: 1)

@@ -7,8 +7,13 @@ class Workspace < ApplicationRecord
     class_name: :WorkspaceUser,
     dependent: :destroy
 
+  # the channels under this workspace  
+  has_many :channels,
+    dependent: :destroy
+    
   # the users the workspace has
   has_many :users,
     through: :connections,
     source: :user
+
 end
