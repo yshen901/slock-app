@@ -9,7 +9,6 @@ let DEFAULT_SESSION = {
 const SessionReducer = (state = DEFAULT_SESSION, action) => {
   Object.freeze(state);
   let nextState = Object.assign({}, state);
-
   switch(action.type) {
     case RECEIVE_USER:
       nextState['user_id'] = action.user.id;

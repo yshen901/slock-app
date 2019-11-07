@@ -20,7 +20,7 @@ class Api::UsersController < ApplicationController
     elsif @user
       connection = WorkspaceUser.new(user_id: @user.id, workspace_id: workspace.id, logged_in: true)
       if connection.save
-        login!(@user)
+        login!(@user, workspace)
         render '/api/users/show'
       else
         render json: connection.errors.full_messages, status: 401
@@ -32,7 +32,7 @@ class Api::UsersController < ApplicationController
       )
       if @user.save
         WorkspaceUser.create(user_id: @user.id, workspace_id: workspace.id, logged_in: true)
-        login!(@user)
+        login!(@user, workspace)
         render '/api/users/show'
       else
         render json: @user.errors.full_messages, status: 401

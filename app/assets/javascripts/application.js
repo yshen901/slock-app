@@ -12,7 +12,7 @@
 //
 //= require rails-ujs
 //= require activestorage
-//= require turbolinks
+//  require turbolinks //NOTE: INVLUDING THIS WILL MAKE THE BACK BUTTON BUG OUT
 //= require_tree .
 //= require jquery
 //= require jquery_ujs

@@ -17,12 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
           [window.currentUser.id]: window.currentUser 
         },
         workspaces: {
-          
+          [window.currentWorkspace.id]: window.currentWorkspace
         }
       },
       session: {
         user_id: window.currentUser.id,
-        workspace_id: 1
+        workspace_id: window.currentWorkspace.id
       },
       errors: {
         session: []
@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     store = configureStore();
   }
   delete window.currentUser;
+  delete window.currentWorkspace;
 
   loadWindowFuncs(store);
 

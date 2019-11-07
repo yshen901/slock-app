@@ -11,6 +11,11 @@
       "api/users/user.json.jbuilder",
       user: current_user
     ).html_safe %>
+
+    window.currentWorkspace = <%= render(
+      "api/workspaces/workspace.json.jbuilder",
+      workspace: current_workspace
+    ).html_safe %>
   </script>
 <% end %>
 

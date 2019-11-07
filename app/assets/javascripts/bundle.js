@@ -1452,11 +1452,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var preloadedState = {
       entities: {
         users: _defineProperty({}, window.currentUser.id, window.currentUser),
-        workspaces: {}
+        workspaces: _defineProperty({}, window.currentWorkspace.id, window.currentWorkspace)
       },
       session: {
         user_id: window.currentUser.id,
-        workspace_id: 1
+        workspace_id: window.currentWorkspace.id
       },
       errors: {
         session: []
@@ -1468,6 +1468,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   delete window.currentUser;
+  delete window.currentWorkspace;
   loadWindowFuncs(store);
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
     store: store

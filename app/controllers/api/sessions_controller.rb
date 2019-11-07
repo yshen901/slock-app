@@ -10,9 +10,7 @@ class Api::SessionsController < ApplicationController
     elsif !@user
       render json: ["Email/Password combination doesn't exist on this workspace"], status: 401
     else
-      login!(@user)
-      connection = WorkspaceUser.find_by(user_id: @user.id, workspace_id: workspace.id)
-      connection.login!
+      login!(@user, workspace)
       render 'api/users/show'
     end
   end
