@@ -2,8 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './components/root'
 
-import { signup, login, logout } from './actions/session_actions';
-import { getWorkspace, getWorkspaces } from './util/session_api_util';
+import {
+  signup, 
+  login, 
+  logout 
+} from './actions/session_actions';
+
+import { 
+  getWorkspace, 
+  getWorkspaces 
+} from './util/session_api_util';
+
+import { 
+  getChannels,
+  getChannel,
+  postChannel,
+  deleteChannel
+} from './util/workspace_api_util';
+
 import configureStore from './store/store'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -47,6 +63,11 @@ const loadWindowFuncs = (store) => {
 
   window.getWorkspace = getWorkspace;
   window.getWorkspaces = getWorkspaces;
+
+  window.getChannel = getChannel;
+  window.getChannels = getChannels;
+  window.postChannel = postChannel;
+  window.deleteChannel = deleteChannel;
 
   window.getState = store.getState;
   window.dispatch = store.dispatch;

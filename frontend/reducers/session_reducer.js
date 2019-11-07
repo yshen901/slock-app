@@ -1,6 +1,6 @@
 import { RECEIVE_USER, RECEIVE_WORKSPACE, LOGOUT_CURRENT_USER } from '../actions/session_actions';
 
-
+// TODO: NO NEED TO BOOSTRAP WORKSPACE, AS EVERYTHING CAN BE FOUND THROUGH CURRENT_USER
 let DEFAULT_SESSION = {
   user_id: null, 
   workspace_id: null

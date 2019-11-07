@@ -21,10 +21,10 @@ export const logout = () => (
   })
 )
 
-export const getWorkspace = (workspace_address) => (
+export const getWorkspace = (workspaceAddress) => (
   $.ajax({
     method: "GET",
-    url: `/api/workspaces/${workspace_address}`
+    url: `/api/workspaces/${workspaceAddress}`
   })
 )
 
