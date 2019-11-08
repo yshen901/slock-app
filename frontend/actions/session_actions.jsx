@@ -3,6 +3,7 @@ import * as SessionAPI from '../util/session_api_util';
 export const RECEIVE_USER = 'RECEIVE_USER';
 export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
 export const RECEIVE_ERRORS = "RECEIVE_ERRORS";
+export const CLEAR_ERRORS = "CLEAR_ERRORS"
 
 // DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
 export const HOME_WORKSPACE = 'slack';
@@ -22,7 +23,7 @@ const logoutCurrentUser = () => ({
   type: LOGOUT_CURRENT_USER
 });
 
-const receiveErrors = errors => ({
+export const receiveErrors = errors => ({
   type: RECEIVE_ERRORS,
   errors
 })

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// TODO: THE RIGHT SIDE SHOULD BE DIFFERENT WHEN LOGGED IN
+// TODO1: THE RIGHT SIDE SHOULD BE DIFFERENT WHEN LOGGED IN
 class AuthNav extends React.Component {
   render() {
     return (

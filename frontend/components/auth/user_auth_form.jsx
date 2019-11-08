@@ -20,7 +20,7 @@ class UserSigninForm extends React.Component {
     this.createGreeting = this.createGreeting.bind(this);
   }
 
-  // TODO: How to do this without double action
+  // TODO2: How to do this without double action
   componentDidMount() {
     this.props.getWorkspace(this.props.workspace_address)
       .then(

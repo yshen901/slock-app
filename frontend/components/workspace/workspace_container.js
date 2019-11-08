@@ -8,7 +8,7 @@ import { objectToArray } from '../../selectors/selectors';
 
 const mapStateToProps = (state, ownProps) => ({
   user: state.entities.users[state.session.user_id],
-  workspace: state.entities.workspaces[ownProps.match.params.workspace_id],
+  workspace_address: ownProps.match.params.workspace_address,
   channels: objectToArray(state.entities.channels)
 });
 

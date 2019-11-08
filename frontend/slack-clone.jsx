@@ -8,10 +8,10 @@ import {
   logout 
 } from './actions/session_actions';
 
-import { 
-  getWorkspace, 
-  getWorkspaces 
-} from './util/workspace_api_util';
+import {
+  getWorkspace,
+  postWorkspace
+} from './actions/workspace_actions';
 
 import { 
   getChannels,
@@ -32,13 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
         users: { 
           [window.currentUser.id]: window.currentUser 
         },
-        workspaces: {
-          [window.currentWorkspace.id]: window.currentWorkspace
-        }
+        workspaces: window.currentWorkspaces
       },
       session: {
         user_id: window.currentUser.id,
-        workspace_id: window.currentWorkspace.id
+        workspace_id: Object.keys(window.currentWorkspaces)[0]
       },
       errors: {
         session: []
@@ -62,7 +60,7 @@ const loadWindowFuncs = (store) => {
   window.logout = logout;
 
   window.getWorkspace = getWorkspace;
-  window.getWorkspaces = getWorkspaces;
+  window.postWorkspace = postWorkspace;
 
   window.getChannel = getChannel;
   window.getChannels = getChannels;

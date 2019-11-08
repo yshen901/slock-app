@@ -17,7 +17,7 @@ class WorkspaceSidebar extends React.Component {
   }
 
   channelLink(channelId) {
-    return `/workspace/${this.props.match.params.workspace_id}/${channelId}`
+    return `/workspace/${this.props.workspace_address}/${channelId}`
   }
 
   render() {
@@ -25,7 +25,7 @@ class WorkspaceSidebar extends React.Component {
       <div id="workspace-sidebar">
 
         <div id="workspace-sidebar-nav">
-          <h2>{this.props.workspace.address}</h2>
+          <h2>{this.props.workspace_address}</h2>
           <h6>&#9673; {this.props.user.email}</h6>
           <button onClick={this.logout}>Log Out</button>
         </div>

@@ -44,21 +44,30 @@
   margin: 10px;
 }
 
-.home-button {
+.home-button, .nav-button {
   color: white;
-  background: purple;
+  background: rgb(100, 0, 100);
   border-radius: 5px;
 
   font-size: 15px;
-  font-weight: bold;
   border: none;
 
-  width: 130px;
-  height: 50px;
+  width: auto;
+  height: 40px;
+  
+  display: flex;
+  align-content: center;
 }
 
-.home-button:hover {
-  background: rgb(95, 1, 95);
+.home-button {
+  padding-left: 30px;
+  padding-right: 30px;
+  height: 50px;
+  font-weight: bold;
+}
+
+.home-button:hover, .nav-button:hover {
+  background: rgb(75, 1, 75);
   transition: 0.3s;
   cursor: pointer;
 }

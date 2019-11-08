@@ -1,8 +1,10 @@
 import * as WorkspaceAPI from "../util/workspace_api_util";
 import * as ChannelAPI from '../util/channel_api_util';
 import { arrayToObject } from '../selectors/selectors';
+import { receiveErrors } from './session_actions';
 
 export const RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";
+
 
 const receiveWorkspace = (workspace, channels) => ({
   type: RECEIVE_WORKSPACE,
@@ -10,7 +12,7 @@ const receiveWorkspace = (workspace, channels) => ({
   channels: arrayToObject(channels)
 });
 
-export const getWorkspace = (workspace_address) => dispatch => (
+export const getWorkspace = workspace_address => dispatch => (
   WorkspaceAPI
     .getWorkspace(workspace_address)
     .then(
@@ -20,5 +22,17 @@ export const getWorkspace = (workspace_address) => dispatch => (
           .then(channels => dispatch(receiveWorkspace(workspace, channels)))
       },
       errors => dispatch(receiveErrors(errors))
+    )
+)
+
+export const postWorkspace = workspace => dispatch => (
+  WorkspaceAPI
+    .postWorkspace(workspace)
+    .then(
+      workspace => {
+        ChannelAPI
+          .getChannels(workspace.id)
+          .then(channels => dispatch(receiveWorkspace(workspace, channels)))
+      }
     )
 )

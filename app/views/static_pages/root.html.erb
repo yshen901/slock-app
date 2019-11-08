@@ -1,4 +1,4 @@
-<!-- NOTE: Bootstrapping the current user and the current_workspace (root)
+<!-- NOTE: Bootstrapping the current user and the current_workspaces (root)
   This creates an API hook that returns the current user, then fetches that
   information when the app mounts. Since that request is asynchronous, it will
   cause a flickering where the page is rendered first, then re-rendered with
@@ -13,9 +13,9 @@
       user: current_user
     ).html_safe %>
 
-    window.currentWorkspace = <%= render(
-      "api/workspaces/workspace.json.jbuilder",
-      workspace: current_workspace
+    window.currentWorkspaces = <%= render(
+      "api/workspaces/workspaces.json.jbuilder",
+      workspaces: current_workspaces
     ).html_safe %>
   </script>
 <% end %>

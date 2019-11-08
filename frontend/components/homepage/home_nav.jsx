@@ -2,8 +2,32 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-// TODO: THE RIGHT SIDE SHOULD BE DIFFERENT WHEN YOU ARE LOGGED IN
+// TODO1: THE RIGHT SIDE SHOULD BE DIFFERENT WHEN YOU ARE LOGGED IN
 class HomeNav extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  generateRight() {
+    if(getState().session.workspace_id)
+      return (
+        <div className="right">
+          <button className="nav-button" onClick={this.props.toggleDropdown}>
+            <div>Your Workspaces</div>
+          </button>
+        </div>
+      )
+    else
+      return (
+        <div className="right">
+          <Link className="home-link" to="/signin">Sign In</Link>
+          <button className="nav-button" onClick={() => this.props.redirectTo('/signup')}>
+            <div>Get Started</div>
+          </button>
+        </div>
+      )
+  }
+
   render() {
     return (
       <div className="nav" id="home-nav">
@@ -17,11 +41,7 @@ class HomeNav extends React.Component {
           <Link className="home-link" to="/tbd">Enterprise</Link>
           <Link className="home-link" to="/tbd">Pricing</Link>
         </div>
-        <div className="right">
-          <Link className="home-link" to="/signin">Sign In</Link>
-          <button className="home-button" onClick={this.handleSubmit}>Try Slock</button>
-        </div>
-          
+        {this.generateRight()}
       </div>
     )
   }

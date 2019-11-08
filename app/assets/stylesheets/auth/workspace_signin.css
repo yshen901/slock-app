@@ -10,7 +10,7 @@
 }
 
 
-/* TODO: Make the alignment perfect, and add a tag for .slack.com*/
+/* TODO2: Make the alignment perfect, and add a tag for .slack.com*/
 #workspace-signin form input[type="submit"]{
   width: 297px;
   height: 50px;

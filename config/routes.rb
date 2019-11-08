@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :users, only: :create
     resource :session, only: [:create, :destroy] #RESOURCE  
     
-    resources :workspaces, only: :index
+    resources :workspaces, only: [:index, :create]
 
     resources :workspaces, only: :show do
       resources :channels, only: :index

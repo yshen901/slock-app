@@ -35,7 +35,8 @@ class WorkspaceSigninForm extends React.Component {
     this.setState({ workspace_address: e.currentTarget.value });
   }
 
-  // TODO: Add a button that directly jumps to workspace page if the user is already signed in
+  // TODO1: Add a button that directly jumps to workspace page if the user is already signed in
+  // TODO1: ERROR MESSAGES PERSIST EVEN AFTER NAVIGATING AWAY
   render() {
     let errors = getState().errors.session;
     let error_class = "auth-errors hidden"

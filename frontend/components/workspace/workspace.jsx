@@ -14,7 +14,7 @@ class Workspace extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getWorkspace(this.props.workspace.address)
+    this.props.getWorkspace(this.props.workspace_address)
       .then(
         null,
         () => this.props.history.push('/')

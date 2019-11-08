@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_user, :current_workspace, :logged_in?
+  helper_method :current_user, :current_workspaces, :logged_in?
 
   # finds the currently logged in user
   def current_user
@@ -7,10 +7,9 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by_session_token(session[:session_token])
   end
 
-  def current_workspace
+  def current_workspaces
     return nil unless session[:session_token]
-    connection = WorkspaceUser.find_by(user_id: current_user[:id], logged_in: true)
-    @current_workspace ||= Workspace.find_by_id(connection[:workspace_id])
+    @current_workspaces ||= Workspace.joins(:users).where("logged_in = true AND users.id = 1");
   end
 
   # logs in the user
@@ -18,10 +17,8 @@ class ApplicationController < ActionController::Base
     session[:session_token] = user.reset_session_token
     @current_user = user
     
-    connections = user.connections;
-    connections.each do |connection|
-      connection[:workspace_id] == workspace[:id] ? connection.login! : connection.logout!
-    end
+    connection = WorkspaceUser.find_by(workspace_id: workspace[:id], user_id: user.id)
+    connection.login!
   end
 
   # returns whether the user is logged in
