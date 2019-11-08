@@ -1,9 +1,9 @@
 import { 
   RECEIVE_USER,
-  RECEIVE_WORKSPACE,
   LOGOUT_CURRENT_USER,
   RECEIVE_ERRORS,
 } from '../../actions/session_actions';
+import { RECEIVE_WORKSPACE } from '../../actions/workspace_actions';
 
 const SessionErrorsReducer = (state=[], action) => {
   Object.freeze(state);

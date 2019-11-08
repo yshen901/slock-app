@@ -11,14 +11,14 @@ import {
 import { 
   getWorkspace, 
   getWorkspaces 
-} from './util/session_api_util';
+} from './util/workspace_api_util';
 
 import { 
   getChannels,
   getChannel,
   postChannel,
   deleteChannel
-} from './util/workspace_api_util';
+} from './util/channel_api_util';
 
 import configureStore from './store/store'
 

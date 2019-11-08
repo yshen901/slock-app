@@ -1,28 +1,13 @@
-export const getChannels = (workspaceId) => (
+export const getWorkspace = (workspaceAddress) => (
   $.ajax({
     method: "GET",
-    url: `/api/workspaces/${workspaceId}/channels`
+    url: `/api/workspaces/${workspaceAddress}`
   })
 )
 
-export const getChannel = (channelId) => (
+export const getWorkspaces = () => (
   $.ajax({
     method: "GET",
-    url: `/api/channels/${channelId}`
-  })
-)
-
-export const postChannel = (channel) => (
-  $.ajax({
-    method: "POST",
-    url: "/api/channels",
-    data: {channel}
-  })
-)
-
-export const deleteChannel = (channelId) => (
-  $.ajax({
-    method: "DELETE",
-    url: `/api/channels/${channelId}`
+    url: `/api/workspaces`
   })
 )

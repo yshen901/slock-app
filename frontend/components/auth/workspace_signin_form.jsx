@@ -2,7 +2,7 @@ import React from 'react';
 import AuthNav from './auth_nav';
 import AuthFooter from './auth_footer';
 import { Link } from 'react-router-dom';
-import { getWorkspace } from '../../actions/session_actions';
+import { getWorkspace } from '../../actions/workspace_actions';
 
 class WorkspaceSigninForm extends React.Component {
   constructor() {
@@ -35,6 +35,7 @@ class WorkspaceSigninForm extends React.Component {
     this.setState({ workspace_address: e.currentTarget.value });
   }
 
+  // TODO: Add a button that directly jumps to workspace page if the user is already signed in
   render() {
     let errors = getState().errors.session;
     let error_class = "auth-errors hidden"

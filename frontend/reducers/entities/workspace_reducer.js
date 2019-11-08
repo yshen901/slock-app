@@ -1,4 +1,4 @@
-import { RECEIVE_WORKSPACE } from "../../actions/session_actions";
+import { RECEIVE_WORKSPACE } from "../../actions/workspace_actions";
 
 const WorkspaceReducer = (state = {}, action) => {
   Object.freeze(state);

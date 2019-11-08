@@ -1,0 +1,67 @@
+#workspace-sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+#workspace-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+
+  color: white;
+  opacity: 0.9;
+
+  padding-bottom: 20px;
+}
+
+#workspace-sidebar-nav h2{
+  font-size: 22px;
+  font-weight: bold;
+  padding-bottom: 1px;
+}
+
+#workspace-sidebar-nav h6{
+  font-size: 13px;
+  font-weight: 100;
+  padding-bottom: 4px;
+}
+
+#channels {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-link, .sidebar-list-header{
+  color: white;
+  text-decoration: none;
+  opacity: 0.75;
+
+  height: 100%;
+
+  margin-bottom: 8px;
+}
+
+.sidebar-list-header {
+  font-size: 14px;
+  font-weight: bold;
+  opacity: 0.75;
+  transition: 0.3s;
+}
+
+.sidebar-list-header:hover {
+  opacity: 1;
+}
+
+.sidebar-link {
+  font-size: 13px;
+  height: 13px;
+}
+
+.sidebar-link:hover {
+  background: rgb(34, 0, 34);
+  cursor: pointer;
+}

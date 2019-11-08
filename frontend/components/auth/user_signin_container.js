@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
-import { login, getWorkspace } from '../../actions/session_actions';
+import { login } from '../../actions/session_actions';
+import { getWorkspace } from '../../actions/workspace_actions';
 import { withRouter } from 'react-router-dom';
 import UserAuthForm from './user_auth_form'
 

@@ -1,12 +1,11 @@
 import * as SessionAPI from '../util/session_api_util';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
-export const RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";
 export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
 export const RECEIVE_ERRORS = "RECEIVE_ERRORS";
 
 // DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
-export const HOME_WORKSPACE = 'app-academy';
+export const HOME_WORKSPACE = 'slack';
 
 /* NOTE: How actions (thunk and creater) work
        1) Receives currentUser, as this action is the same regardless of signin/logout
@@ -21,11 +20,6 @@ const receiveUser = currentUser => ({
 
 const logoutCurrentUser = () => ({
   type: LOGOUT_CURRENT_USER
-});
-
-const receiveWorkspace = workspace => ({
-  type: RECEIVE_WORKSPACE,
-  workspace
 });
 
 const receiveErrors = errors => ({
@@ -57,12 +51,4 @@ export const logout = () => dispatch => (
       errors => dispatch(receiveErrors(errors))
     )
 );
-
-export const getWorkspace = (workspace_address) => dispatch => (
-  SessionAPI
-    .getWorkspace(workspace_address)
-    .then((workspace) => dispatch(receiveWorkspace(workspace)),
-      errors => dispatch(receiveErrors(errors))
-    )
-)
 
