@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import AuthNav from './auth_nav';
 import AuthFooter from './auth_footer';
+import WorkspaceDropdown from '../modals/workspace_dropdown'
 
 class UserSigninForm extends React.Component {
   constructor(props) {
@@ -13,11 +14,16 @@ class UserSigninForm extends React.Component {
       workspace_address: this.props.workspace_address,
       email: "",
       password: "",
+      listOpen: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateForm = this.updateForm.bind(this);
     this.createGreeting = this.createGreeting.bind(this);
+
+    this.redirectTo = this.redirectTo.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.dropdownClass = this.dropdownClass.bind(this);
   }
 
   // TODO2: How to do this without double action
@@ -52,6 +58,24 @@ class UserSigninForm extends React.Component {
     return `${this.props.formType} to ${address.join(' ')}`;
   }
 
+  redirectTo(path) {
+    this.props.history.push(path);
+  }
+
+  toggleDropdown() {
+    if (this.state.listOpen)
+      this.setState({ listOpen: false })
+    else
+      this.setState({ listOpen: true })
+  }
+
+  dropdownClass() {
+    if (this.state.listOpen)
+      return "auth dropdown"
+    else
+      return "auth dropdown hidden"
+  }
+
   render() {
     let greeting = this.createGreeting();
     let error_class = "auth-errors hidden"
@@ -59,7 +83,9 @@ class UserSigninForm extends React.Component {
       error_class = "auth-errors"
     return (
       <div className="auth-page" id='user-signin'>
-        <AuthNav />
+        <AuthNav toggleDropdown={this.toggleDropdown} />
+        <WorkspaceDropdown dropdownClass={this.dropdownClass} redirectTo={this.redirectTo} />
+
         <div className={error_class}>
           <h6>!!!</h6>
           <h6> Sorry, you entered an incorrect email address or password.</h6>

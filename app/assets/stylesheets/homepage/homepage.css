@@ -7,8 +7,13 @@
   border-bottom: none;
 
   box-sizing: border-box;
-  padding-left: 12%;
-  padding-right: 12%;
+  padding-left: 16%;
+  padding-right: 16%;
+}
+
+#homepage .left, #homepage .right {
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 #homepage .left {

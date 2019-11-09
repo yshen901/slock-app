@@ -24,7 +24,7 @@ class WorkspaceForm extends React.Component {
       case "channel":
         this.setState({ page: "finish" })
         break;
-      case "finish": //TODO: FLASH ERRORS UPON RE-RENDER
+      case "finish": //TODO1: FLASH ERRORS UPON RE-RENDER
         dispatch(postWorkspace(this.state))
           .then(
             () => this.props.history.push(`/workspace/${this.state.address}`),
@@ -37,7 +37,7 @@ class WorkspaceForm extends React.Component {
     return (e) => this.setState({ [type]: e.currentTarget.value })
   }
 
-  // TODO: ADD A WHO ELSE IS WORKING ON THIS PROJECT FORM
+  // TODO2: ADD A WHO ELSE IS WORKING ON THIS PROJECT FORM
   // NOTE: IF YOU USE AN INPUT WITHOUT A FORM, YOU WILL NEED TO SET A VALUE
   //       OR IT WON'T REGISTER (I THINK) ... MORE RESEARCH NEEDED IF YOU HAVE TIME
   render() {

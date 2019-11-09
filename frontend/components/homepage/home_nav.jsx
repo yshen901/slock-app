@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-// TODO1: THE RIGHT SIDE SHOULD BE DIFFERENT WHEN YOU ARE LOGGED IN
 class HomeNav extends React.Component {
   constructor(props) {
     super(props);

@@ -1,6 +1,6 @@
 import React from 'react';
 import WorkspaceSidebarContainer from "./workspace_sidebar_container"
-import ChannelModalContainer from './workspace_modals/channel_modal_container';
+import ChannelModalContainer from '../modals/channel_modal_container';
 
 class Workspace extends React.Component {
   constructor() {
