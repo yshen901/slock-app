@@ -636,7 +636,7 @@ function (_React$Component) {
       e.preventDefault();
       this.props.processForm(this.state).then( // () => this.props.history.push('/'),
       function () {
-        return _this3.props.history.push("/workspace/".concat(getState().session.workspace_id));
+        return _this3.props.history.push("/workspace/".concat(_this3.state.workspace_address));
       }, function () {
         return _this3.setState({
           state: _this3.state

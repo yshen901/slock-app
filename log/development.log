@@ -62122,3 +62122,1440 @@ Processing by StaticPagesController#root as HTML
 Completed 200 OK in 156ms (Views: 152.6ms | ActiveRecord: 2.8ms)
 
 
+Started GET "/" for ::1 at 2019-11-08 15:58:20 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.6ms)
+  [1m[36mWorkspace Load (1.4ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (4.5ms)
+  Rendered static_pages/root.html.erb within layouts/application (9.3ms)
+Completed 200 OK in 71ms (Views: 68.7ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 15:58:21 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (2.1ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (9.9ms)
+  Rendered static_pages/root.html.erb within layouts/application (18.5ms)
+Completed 200 OK in 99ms (Views: 94.5ms | ActiveRecord: 3.5ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 15:59:26 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.4ms)
+  [1m[36mWorkspace Load (1.4ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.9ms)
+  Rendered static_pages/root.html.erb within layouts/application (8.2ms)
+Completed 200 OK in 76ms (Views: 73.1ms | ActiveRecord: 1.8ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 15:59:27 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (1.5ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (13.1ms)
+Completed 200 OK in 99ms (Views: 96.0ms | ActiveRecord: 2.1ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 15:59:32 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.4ms)
+  [1m[36mWorkspace Load (1.1ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.6ms)
+  Rendered static_pages/root.html.erb within layouts/application (6.5ms)
+Completed 200 OK in 72ms (Views: 69.6ms | ActiveRecord: 1.3ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 15:59:33 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.0ms)
+  [1m[36mWorkspace Load (1.5ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.1ms)
+  Rendered static_pages/root.html.erb within layouts/application (14.1ms)
+Completed 200 OK in 110ms (Views: 106.4ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 15:59:34 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.0ms)
+  [1m[36mWorkspace Load (1.6ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.1ms)
+  Rendered static_pages/root.html.erb within layouts/application (14.6ms)
+Completed 200 OK in 118ms (Views: 114.7ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 15:59:34 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (4.9ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (8.5ms)
+  Rendered static_pages/root.html.erb within layouts/application (19.2ms)
+Completed 200 OK in 119ms (Views: 112.0ms | ActiveRecord: 5.4ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:00:03 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.1ms)
+  [1m[36mWorkspace Load (1.7ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (7.1ms)
+  Rendered static_pages/root.html.erb within layouts/application (17.1ms)
+Completed 200 OK in 113ms (Views: 109.8ms | ActiveRecord: 2.4ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:00:04 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (1.6ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.0ms)
+  Rendered static_pages/root.html.erb within layouts/application (14.0ms)
+Completed 200 OK in 106ms (Views: 101.6ms | ActiveRecord: 3.5ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:01:43 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (3.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.7ms)
+  [1m[36mWorkspace Load (0.9ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.3ms)
+  Rendered static_pages/root.html.erb within layouts/application (12.6ms)
+Completed 200 OK in 66ms (Views: 60.6ms | ActiveRecord: 4.3ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:01:44 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (1.8ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.8ms)
+  Rendered static_pages/root.html.erb within layouts/application (14.0ms)
+Completed 200 OK in 83ms (Views: 79.3ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:02:21 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.2ms)
+  [1m[36mWorkspace Load (7.8ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (10.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (19.9ms)
+Completed 200 OK in 78ms (Views: 68.0ms | ActiveRecord: 9.3ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:02:22 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.6ms)
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.3ms)
+  Rendered static_pages/root.html.erb within layouts/application (7.3ms)
+Completed 200 OK in 46ms (Views: 44.5ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:02:36 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.7ms)
+  [1m[36mWorkspace Load (1.4ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (4.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (11.5ms)
+Completed 200 OK in 109ms (Views: 106.3ms | ActiveRecord: 2.4ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:02:37 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.4ms)
+  [1m[36mWorkspace Load (0.6ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.2ms)
+  Rendered static_pages/root.html.erb within layouts/application (5.3ms)
+Completed 200 OK in 36ms (Views: 34.2ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:03:17 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.0ms)
+  [1m[36mWorkspace Load (1.6ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.8ms)
+  Rendered static_pages/root.html.erb within layouts/application (16.9ms)
+Completed 200 OK in 126ms (Views: 122.8ms | ActiveRecord: 2.7ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:03:18 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.0ms)
+  [1m[36mWorkspace Load (2.1ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (6.2ms)
+  Rendered static_pages/root.html.erb within layouts/application (18.8ms)
+Completed 200 OK in 114ms (Views: 109.2ms | ActiveRecord: 3.6ms)
+
+
+Started GET "/api/workspaces/slock" for ::1 at 2019-11-08 16:03:23 -0800
+
+LoadError - Unable to autoload constant WorkspacesController, expected /home/yshen901/Documents/app-academy/slack-clone/app/controllers/concerns/workspaces_controller.rb to define it:
+
+Started GET "/" for ::1 at 2019-11-08 16:03:46 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (1.0ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (4.1ms)
+  Rendered static_pages/root.html.erb within layouts/application (11.0ms)
+Completed 200 OK in 67ms (Views: 65.0ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:03:48 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.8ms)
+  [1m[36mWorkspace Load (1.3ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (10.4ms)
+Completed 200 OK in 42ms (Views: 39.0ms | ActiveRecord: 2.4ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:03:49 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.5ms)
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.5ms)
+  Rendered static_pages/root.html.erb within layouts/application (6.7ms)
+Completed 200 OK in 41ms (Views: 39.3ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:04:30 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.0ms)
+  [1m[36mWorkspace Load (3.9ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (9.0ms)
+  Rendered static_pages/root.html.erb within layouts/application (18.0ms)
+Completed 200 OK in 117ms (Views: 111.0ms | ActiveRecord: 4.7ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:04:31 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.8ms)
+  [1m[36mWorkspace Load (1.8ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.5ms)
+  Rendered static_pages/root.html.erb within layouts/application (13.3ms)
+Completed 200 OK in 92ms (Views: 89.2ms | ActiveRecord: 2.2ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:04:31 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (4.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.0ms)
+  [1m[36mWorkspace Load (1.7ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.3ms)
+  Rendered static_pages/root.html.erb within layouts/application (18.1ms)
+Completed 200 OK in 106ms (Views: 98.5ms | ActiveRecord: 6.2ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:05:29 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (2.2ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (6.3ms)
+  Rendered static_pages/root.html.erb within layouts/application (14.1ms)
+Completed 200 OK in 105ms (Views: 101.2ms | ActiveRecord: 2.7ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:05:29 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.0ms)
+  [1m[36mWorkspace Load (1.5ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.3ms)
+  Rendered static_pages/root.html.erb within layouts/application (16.8ms)
+Completed 200 OK in 92ms (Views: 88.1ms | ActiveRecord: 2.7ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:05:30 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.1ms)
+  [1m[36mWorkspace Load (1.5ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.2ms)
+  Rendered static_pages/root.html.erb within layouts/application (14.6ms)
+Completed 200 OK in 77ms (Views: 73.3ms | ActiveRecord: 2.8ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:05:39 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.8ms)
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.1ms)
+  Rendered static_pages/root.html.erb within layouts/application (6.9ms)
+Completed 200 OK in 67ms (Views: 65.8ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:05:40 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.7ms)
+  [1m[36mWorkspace Load (1.4ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.8ms)
+  Rendered static_pages/root.html.erb within layouts/application (9.9ms)
+Completed 200 OK in 55ms (Views: 52.2ms | ActiveRecord: 2.4ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:05:46 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.0ms)
+  [1m[36mWorkspace Load (1.9ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (14.8ms)
+Completed 200 OK in 97ms (Views: 92.4ms | ActiveRecord: 3.7ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:05:47 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.3ms)
+  [1m[36mWorkspace Load (0.5ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.0ms)
+  Rendered static_pages/root.html.erb within layouts/application (5.2ms)
+Completed 200 OK in 54ms (Views: 53.3ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:05:48 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.6ms)
+  [1m[36mWorkspace Load (0.8ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.1ms)
+  Rendered static_pages/root.html.erb within layouts/application (8.7ms)
+Completed 200 OK in 49ms (Views: 46.0ms | ActiveRecord: 2.1ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:06:06 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.0ms)
+  [1m[36mWorkspace Load (1.6ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (10.3ms)
+  Rendered static_pages/root.html.erb within layouts/application (20.4ms)
+Completed 200 OK in 172ms (Views: 167.7ms | ActiveRecord: 3.1ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:06:07 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (5.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (5.6ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (30.0ms)
+  Rendered static_pages/root.html.erb within layouts/application (44.8ms)
+Completed 200 OK in 108ms (Views: 95.3ms | ActiveRecord: 11.4ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:06:08 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.6ms)
+  [1m[36mWorkspace Load (1.2ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (4.0ms)
+  Rendered static_pages/root.html.erb within layouts/application (10.0ms)
+Completed 200 OK in 60ms (Views: 57.5ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:06:23 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.8ms)
+  [1m[36mWorkspace Load (1.2ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.5ms)
+  Rendered static_pages/root.html.erb within layouts/application (13.2ms)
+Completed 200 OK in 118ms (Views: 114.3ms | ActiveRecord: 2.5ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:06:24 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.4ms)
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (5.9ms)
+Completed 200 OK in 35ms (Views: 33.7ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:06:28 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (2.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.1ms)
+  [1m[36mWorkspace Load (1.9ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (4.3ms)
+  Rendered static_pages/root.html.erb within layouts/application (13.1ms)
+Completed 200 OK in 66ms (Views: 60.3ms | ActiveRecord: 4.6ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:06:29 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (5.1ms)
+  [1m[36mWorkspace Load (1.5ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (18.9ms)
+Completed 200 OK in 101ms (Views: 97.2ms | ActiveRecord: 3.2ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:06:30 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (1.5ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.1ms)
+  Rendered static_pages/root.html.erb within layouts/application (12.9ms)
+Completed 200 OK in 90ms (Views: 86.8ms | ActiveRecord: 2.1ms)
+
+
+Started POST "/api/workspaces" for ::1 at 2019-11-08 16:06:37 -0800
+Processing by Api::WorkspacesController#create as JSON
+  Parameters: {"workspace"=>{"page"=>"finish", "address"=>"asdf", "channel"=>"jkje"}}
+Unpermitted parameters: :page, :channel
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:22
+  [1m[36mWorkspace Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "asdf"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:22
+  [1m[36mWorkspace Create (0.4ms)[0m  [1m[32mINSERT INTO "workspaces" ("address", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["address", "asdf"], ["created_at", "2019-11-09 00:06:37.649242"], ["updated_at", "2019-11-09 00:06:37.649242"]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:22
+  [1m[35m (3.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:22
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:23
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:23
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:23
+  [1m[36mWorkspaceUser Create (0.4ms)[0m  [1m[32mINSERT INTO "workspace_users" ("user_id", "workspace_id", "logged_in", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 1], ["workspace_id", 3], ["logged_in", true], ["created_at", "2019-11-09 00:06:37.670044"], ["updated_at", "2019-11-09 00:06:37.670044"]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:23
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:23
+Unpermitted parameters: :page, :address
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:24
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:24
+  [1m[36mChannel Create (0.4ms)[0m  [1m[32mINSERT INTO "channels" ("name", "workspace_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "jkje"], ["workspace_id", 3], ["created_at", "2019-11-09 00:06:37.687769"], ["updated_at", "2019-11-09 00:06:37.687769"]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:24
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:24
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.2ms)
+  Rendered api/workspaces/show.json.jbuilder (1.0ms)
+Completed 200 OK in 47ms (Views: 2.7ms | ActiveRecord: 14.9ms)
+
+
+Started GET "/api/workspaces/3/channels" for ::1 at 2019-11-08 16:06:37 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"3"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.3ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 3]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.4ms)
+  Rendered api/channels/index.json.jbuilder (2.5ms)
+Completed 200 OK in 5ms (Views: 4.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/api/workspaces/asdf" for ::1 at 2019-11-08 16:06:37 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"asdf"}
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "asdf"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.4ms)
+  Rendered api/workspaces/show.json.jbuilder (1.7ms)
+Completed 200 OK in 5ms (Views: 3.5ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/api/workspaces/3/channels" for ::1 at 2019-11-08 16:06:37 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"3"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.3ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 3]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.5ms)
+  Rendered api/channels/index.json.jbuilder (3.3ms)
+Completed 200 OK in 6ms (Views: 5.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:07:11 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (3.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.1ms)
+  [1m[36mWorkspace Load (1.4ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.2ms)
+  Rendered static_pages/root.html.erb within layouts/application (18.0ms)
+Completed 200 OK in 525ms (Views: 518.7ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:07:12 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (1.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.8ms)
+  [1m[36mWorkspace Load (1.0ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.7ms)
+  Rendered static_pages/root.html.erb within layouts/application (11.3ms)
+Completed 200 OK in 79ms (Views: 75.2ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:07:55 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.7ms)
+  [1m[36mWorkspace Load (0.8ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.1ms)
+  Rendered static_pages/root.html.erb within layouts/application (7.9ms)
+Completed 200 OK in 57ms (Views: 55.1ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:07:56 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.5ms)
+  [1m[36mWorkspace Load (0.9ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.8ms)
+  Rendered static_pages/root.html.erb within layouts/application (7.3ms)
+Completed 200 OK in 43ms (Views: 40.6ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:08:16 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (0.6ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.2ms)
+  Rendered static_pages/root.html.erb within layouts/application (9.5ms)
+Completed 200 OK in 62ms (Views: 59.9ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:08:17 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.7ms)
+  [1m[36mWorkspace Load (1.1ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.5ms)
+  Rendered static_pages/root.html.erb within layouts/application (8.7ms)
+Completed 200 OK in 67ms (Views: 64.9ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:08:22 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (2.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.0ms)
+  [1m[36mWorkspace Load (1.7ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (14.7ms)
+Completed 200 OK in 118ms (Views: 113.0ms | ActiveRecord: 3.6ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:08:23 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.5ms)
+  [1m[36mWorkspace Load (0.9ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.2ms)
+  Rendered static_pages/root.html.erb within layouts/application (7.5ms)
+Completed 200 OK in 47ms (Views: 45.3ms | ActiveRecord: 1.2ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:08:35 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.4ms)
+  [1m[36mWorkspace Load (0.6ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.2ms)
+  Rendered static_pages/root.html.erb within layouts/application (5.5ms)
+Completed 200 OK in 90ms (Views: 88.8ms | ActiveRecord: 0.9ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:08:36 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (4.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.8ms)
+  [1m[36mWorkspace Load (0.9ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (4.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (15.8ms)
+Completed 200 OK in 65ms (Views: 59.2ms | ActiveRecord: 5.3ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:08:36 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.7ms)
+  [1m[36mWorkspace Load (1.1ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (10.8ms)
+Completed 200 OK in 46ms (Views: 43.6ms | ActiveRecord: 1.6ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:09:11 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (4.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.9ms)
+  [1m[36mWorkspace Load (1.6ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (5.7ms)
+  Rendered static_pages/root.html.erb within layouts/application (17.1ms)
+Completed 200 OK in 118ms (Views: 110.7ms | ActiveRecord: 5.9ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:09:11 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (1.2ms)
+  [1m[36mWorkspace Load (1.5ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (6.1ms)
+  Rendered static_pages/root.html.erb within layouts/application (15.6ms)
+Completed 200 OK in 97ms (Views: 93.4ms | ActiveRecord: 2.3ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:09:12 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.7ms)
+  [1m[36mWorkspace Load (1.2ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.7ms)
+  Rendered static_pages/root.html.erb within layouts/application (9.0ms)
+Completed 200 OK in 51ms (Views: 48.4ms | ActiveRecord: 1.5ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:09:13 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (2.8ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.6ms)
+  [1m[36mWorkspace Load (0.8ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.8ms)
+  Rendered static_pages/root.html.erb within layouts/application (10.9ms)
+Completed 200 OK in 49ms (Views: 44.5ms | ActiveRecord: 3.6ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:09:26 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.5ms)
+  [1m[36mWorkspace Load (1.8ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (3.7ms)
+  Rendered static_pages/root.html.erb within layouts/application (8.8ms)
+Completed 200 OK in 51ms (Views: 47.7ms | ActiveRecord: 2.2ms)
+
+
+Started POST "/api/workspaces" for ::1 at 2019-11-08 16:09:41 -0800
+Processing by Api::WorkspacesController#create as JSON
+  Parameters: {"workspace"=>{"page"=>"finish", "address"=>"APP-ACADEMY", "channel"=>"ELLIOT'S CIRCLE"}}
+Unpermitted parameters: :page, :channel
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:22
+  [1m[36mWorkspace Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "APP-ACADEMY"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:22
+  [1m[36mWorkspace Create (0.4ms)[0m  [1m[32mINSERT INTO "workspaces" ("address", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["address", "APP-ACADEMY"], ["created_at", "2019-11-09 00:09:41.565986"], ["updated_at", "2019-11-09 00:09:41.565986"]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:22
+  [1m[35m (3.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:22
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:23
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:23
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:23
+  [1m[36mWorkspaceUser Create (0.3ms)[0m  [1m[32mINSERT INTO "workspace_users" ("user_id", "workspace_id", "logged_in", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["user_id", 1], ["workspace_id", 4], ["logged_in", true], ["created_at", "2019-11-09 00:09:41.575183"], ["updated_at", "2019-11-09 00:09:41.575183"]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:23
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:23
+Unpermitted parameters: :page, :address
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:24
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:24
+  [1m[36mChannel Create (0.3ms)[0m  [1m[32mINSERT INTO "channels" ("name", "workspace_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["name", "ELLIOT'S CIRCLE"], ["workspace_id", 4], ["created_at", "2019-11-09 00:09:41.580461"], ["updated_at", "2019-11-09 00:09:41.580461"]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:24
+  [1m[35m (1.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/concerns/workspaces_controller.rb:24
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.5ms)
+  Rendered api/workspaces/show.json.jbuilder (1.6ms)
+Completed 200 OK in 28ms (Views: 4.1ms | ActiveRecord: 9.2ms)
+
+
+Started GET "/api/workspaces/4/channels" for ::1 at 2019-11-08 16:09:41 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"4"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.3ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 4]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.4ms)
+  Rendered api/channels/index.json.jbuilder (2.5ms)
+Completed 200 OK in 5ms (Views: 4.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/api/workspaces/APP-ACADEMY" for ::1 at 2019-11-08 16:09:41 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"APP-ACADEMY"}
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "APP-ACADEMY"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.4ms)
+  Rendered api/workspaces/show.json.jbuilder (1.6ms)
+Completed 200 OK in 5ms (Views: 3.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/api/workspaces/4/channels" for ::1 at 2019-11-08 16:09:41 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"4"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.5ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 4]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.5ms)
+  Rendered api/channels/index.json.jbuilder (4.2ms)
+Completed 200 OK in 8ms (Views: 6.3ms | ActiveRecord: 0.5ms)
+
+
+Started DELETE "/api/session" for ::1 at 2019-11-08 16:09:47 -0800
+Processing by Api::SessionsController#destroy as JSON
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "nBmTK2CrONhAW2dogCwXNA"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "_dqGQMLS0j7UfcvmfQlznA"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Update (0.4ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "_dqGQMLS0j7UfcvmfQlznA"], ["updated_at", "2019-11-09 00:09:47.538888"], ["id", 1]]
+  ↳ app/models/user.rb:43
+  [1m[35m (3.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:43
+Completed 200 OK in 12ms (Views: 0.2ms | ActiveRecord: 5.3ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:13:32 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.8ms)
+  Rendered api/workspaces/show.json.jbuilder (2.9ms)
+Completed 200 OK in 11ms (Views: 7.6ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:13:32 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (2.6ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.9ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/index.json.jbuilder (10.0ms)
+Completed 200 OK in 16ms (Views: 12.0ms | ActiveRecord: 2.6ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:13:32 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.8ms)
+  Rendered api/workspaces/show.json.jbuilder (2.9ms)
+Completed 200 OK in 11ms (Views: 7.8ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:13:32 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (1.4ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.5ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/index.json.jbuilder (6.1ms)
+Completed 200 OK in 10ms (Views: 7.4ms | ActiveRecord: 1.4ms)
+
+
+Started POST "/api/session" for ::1 at 2019-11-08 16:13:34 -0800
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"slack", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:49
+  [1m[36mWorkspace Load (0.4ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "5tfK2EZ7_ucp-p4MAoSHtQ"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Update (0.5ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "5tfK2EZ7_ucp-p4MAoSHtQ"], ["updated_at", "2019-11-09 00:13:34.609306"], ["id", 1]]
+  ↳ app/models/user.rb:43
+  [1m[35m (3.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:43
+  [1m[36mWorkspaceUser Load (0.3ms)[0m  [1m[34mSELECT  "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."workspace_id" = $1 AND "workspace_users"."user_id" = $2 LIMIT $3[0m  [["workspace_id", 1], ["user_id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:20
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.3ms)
+  Rendered api/users/show.json.jbuilder (6.8ms)
+Completed 200 OK in 371ms (Views: 9.0ms | ActiveRecord: 7.3ms)
+
+
+Started GET "/api/workspaces/1" for ::1 at 2019-11-08 16:13:34 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"1"}
+  [1m[36mWorkspace Load (0.4ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "1"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+Completed 402 Payment Required in 2ms (Views: 0.2ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:13:45 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.5ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.8ms)
+  Rendered api/workspaces/show.json.jbuilder (2.7ms)
+Completed 200 OK in 11ms (Views: 7.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:13:45 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.5ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (1.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.2ms)
+  Rendered api/channels/_channel.json.jbuilder (0.2ms)
+  Rendered api/channels/index.json.jbuilder (10.4ms)
+Completed 200 OK in 17ms (Views: 14.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:13:45 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.5ms)
+  Rendered api/workspaces/show.json.jbuilder (2.0ms)
+Completed 200 OK in 8ms (Views: 5.2ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:13:45 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.7ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.5ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/index.json.jbuilder (4.5ms)
+Completed 200 OK in 8ms (Views: 6.3ms | ActiveRecord: 0.7ms)
+
+
+Started POST "/api/session" for ::1 at 2019-11-08 16:13:49 -0800
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"slack", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:49
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "_rLK5oK5aq4SWta9hJx38g"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Update (0.4ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "_rLK5oK5aq4SWta9hJx38g"], ["updated_at", "2019-11-09 00:13:49.575565"], ["id", 1]]
+  ↳ app/models/user.rb:43
+  [1m[35m (3.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:43
+  [1m[36mWorkspaceUser Load (0.5ms)[0m  [1m[34mSELECT  "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."workspace_id" = $1 AND "workspace_users"."user_id" = $2 LIMIT $3[0m  [["workspace_id", 1], ["user_id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:20
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.3ms)
+  Rendered api/users/show.json.jbuilder (1.2ms)
+Completed 200 OK in 370ms (Views: 3.4ms | ActiveRecord: 7.9ms)
+
+
+Started GET "/api/workspaces/1" for ::1 at 2019-11-08 16:13:49 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"1"}
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "1"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+Completed 402 Payment Required in 1ms (Views: 0.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:14:05 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.5ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.9ms)
+  Rendered api/workspaces/show.json.jbuilder (3.1ms)
+Completed 200 OK in 12ms (Views: 8.6ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:14:05 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (4.5ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.9ms)
+  Rendered api/channels/_channel.json.jbuilder (0.2ms)
+  Rendered api/channels/_channel.json.jbuilder (0.3ms)
+  Rendered api/channels/index.json.jbuilder (15.7ms)
+Completed 200 OK in 22ms (Views: 16.2ms | ActiveRecord: 4.5ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:14:05 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.4ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.8ms)
+  Rendered api/workspaces/show.json.jbuilder (4.4ms)
+Completed 200 OK in 13ms (Views: 10.4ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:14:05 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.3ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.3ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/index.json.jbuilder (3.1ms)
+Completed 200 OK in 6ms (Views: 4.7ms | ActiveRecord: 0.3ms)
+
+
+Started POST "/api/session" for ::1 at 2019-11-08 16:14:12 -0800
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"slack", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:49
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "V1y4PiQrPY2Etb6g0YaMxw"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Update (0.3ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "V1y4PiQrPY2Etb6g0YaMxw"], ["updated_at", "2019-11-09 00:14:13.132309"], ["id", 1]]
+  ↳ app/models/user.rb:43
+  [1m[35m (3.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:43
+  [1m[36mWorkspaceUser Load (0.2ms)[0m  [1m[34mSELECT  "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."workspace_id" = $1 AND "workspace_users"."user_id" = $2 LIMIT $3[0m  [["workspace_id", 1], ["user_id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:20
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (0.1ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.3ms)
+  Rendered api/users/show.json.jbuilder (1.2ms)
+Completed 200 OK in 327ms (Views: 3.1ms | ActiveRecord: 6.8ms)
+
+
+Started GET "/api/workspaces/1" for ::1 at 2019-11-08 16:14:13 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"1"}
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "1"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+Completed 402 Payment Required in 2ms (Views: 0.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:14:49 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "V1y4PiQrPY2Etb6g0YaMxw"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.4ms)
+  [1m[36mWorkspace Load (0.5ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.4ms)
+  Rendered static_pages/root.html.erb within layouts/application (5.7ms)
+Completed 200 OK in 505ms (Views: 504.1ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/" for ::1 at 2019-11-08 16:14:50 -0800
+Processing by StaticPagesController#root as HTML
+  Rendering static_pages/root.html.erb within layouts/application
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "V1y4PiQrPY2Etb6g0YaMxw"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  Rendered api/users/_user.json.jbuilder (0.4ms)
+  [1m[36mWorkspace Load (0.8ms)[0m  [1m[34mSELECT "workspaces".* FROM "workspaces" INNER JOIN "workspace_users" ON "workspace_users"."workspace_id" = "workspaces"."id" INNER JOIN "users" ON "users"."id" = "workspace_users"."user_id" WHERE (logged_in = true AND users.id = 1)[0m
+  ↳ app/views/api/workspaces/_workspaces.json.jbuilder:1
+  Rendered api/workspaces/_workspaces.json.jbuilder (2.3ms)
+  Rendered static_pages/root.html.erb within layouts/application (6.0ms)
+Completed 200 OK in 36ms (Views: 34.7ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:14:53 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.3ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.3ms)
+  Rendered api/workspaces/show.json.jbuilder (1.3ms)
+Completed 200 OK in 5ms (Views: 3.6ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:14:53 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.3ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.5ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.0ms)
+  Rendered api/channels/index.json.jbuilder (3.6ms)
+Completed 200 OK in 6ms (Views: 5.0ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:14:53 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.3ms)
+  Rendered api/workspaces/show.json.jbuilder (1.0ms)
+Completed 200 OK in 4ms (Views: 2.6ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:14:53 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.7ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.3ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.0ms)
+  Rendered api/channels/index.json.jbuilder (3.4ms)
+Completed 200 OK in 6ms (Views: 4.7ms | ActiveRecord: 0.7ms)
+
+
+Started POST "/api/session" for ::1 at 2019-11-08 16:14:56 -0800
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"slack", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:49
+  [1m[36mWorkspace Load (0.4ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "Wyfe9uwylmsq0pDNkvJ12w"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Update (0.4ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "Wyfe9uwylmsq0pDNkvJ12w"], ["updated_at", "2019-11-09 00:14:56.707576"], ["id", 1]]
+  ↳ app/models/user.rb:43
+  [1m[35m (3.8ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:43
+  [1m[36mWorkspaceUser Load (0.3ms)[0m  [1m[34mSELECT  "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."workspace_id" = $1 AND "workspace_users"."user_id" = $2 LIMIT $3[0m  [["workspace_id", 1], ["user_id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:20
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (0.1ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.3ms)
+  Rendered api/users/show.json.jbuilder (0.9ms)
+Completed 200 OK in 362ms (Views: 2.2ms | ActiveRecord: 7.3ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:14:56 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.5ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.4ms)
+  Rendered api/workspaces/show.json.jbuilder (1.9ms)
+Completed 200 OK in 5ms (Views: 3.7ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:14:56 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.2ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.3ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/index.json.jbuilder (3.0ms)
+Completed 200 OK in 5ms (Views: 4.3ms | ActiveRecord: 0.2ms)
+
+
+Started DELETE "/api/session" for ::1 at 2019-11-08 16:14:59 -0800
+Processing by Api::SessionsController#destroy as JSON
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "Wyfe9uwylmsq0pDNkvJ12w"], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:7
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "bhYJW0nxvILww6QKHF3Lsg"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Update (0.6ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "bhYJW0nxvILww6QKHF3Lsg"], ["updated_at", "2019-11-09 00:14:59.324651"], ["id", 1]]
+  ↳ app/models/user.rb:43
+  [1m[35m (3.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:43
+Completed 200 OK in 14ms (Views: 0.2ms | ActiveRecord: 6.2ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:15:08 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.5ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.8ms)
+  Rendered api/workspaces/show.json.jbuilder (2.7ms)
+Completed 200 OK in 10ms (Views: 7.2ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:15:08 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.5ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.9ms)
+  Rendered api/channels/_channel.json.jbuilder (0.2ms)
+  Rendered api/channels/_channel.json.jbuilder (0.2ms)
+  Rendered api/channels/index.json.jbuilder (10.1ms)
+Completed 200 OK in 18ms (Views: 16.2ms | ActiveRecord: 0.5ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:15:08 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.3ms)
+  Rendered api/workspaces/show.json.jbuilder (1.0ms)
+Completed 200 OK in 4ms (Views: 2.7ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:15:08 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (1.6ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.3ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/index.json.jbuilder (4.5ms)
+Completed 200 OK in 7ms (Views: 4.7ms | ActiveRecord: 1.6ms)
+
+
+Started POST "/api/session" for ::1 at 2019-11-08 16:15:11 -0800
+Processing by Api::SessionsController#create as JSON
+  Parameters: {"user"=>{"workspace_address"=>"slack", "email"=>"asdf", "password"=>"[FILTERED]"}}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "asdf"], ["LIMIT", 1]]
+  ↳ app/models/user.rb:49
+  [1m[36mWorkspace Load (0.2ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/api/sessions_controller.rb:7
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (2.0ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["email", "asdf"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."session_token" = $1 AND "users"."id" != $2 LIMIT $3[0m  [["session_token", "A9Mal4TXyLkM4hUNQS0bhw"], ["id", 1], ["LIMIT", 1]]
+  ↳ app/models/user.rb:43
+  [1m[36mUser Update (0.5ms)[0m  [1m[33mUPDATE "users" SET "session_token" = $1, "updated_at" = $2 WHERE "users"."id" = $3[0m  [["session_token", "A9Mal4TXyLkM4hUNQS0bhw"], ["updated_at", "2019-11-09 00:15:11.723195"], ["id", 1]]
+  ↳ app/models/user.rb:43
+  [1m[35m (4.0ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/user.rb:43
+  [1m[36mWorkspaceUser Load (0.3ms)[0m  [1m[34mSELECT  "workspace_users".* FROM "workspace_users" WHERE "workspace_users"."workspace_id" = $1 AND "workspace_users"."user_id" = $2 LIMIT $3[0m  [["workspace_id", 1], ["user_id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/application_controller.rb:20
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[36mWorkspace Load (0.1ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/models/workspace_user.rb:11
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/models/workspace_user.rb:11
+  Rendering api/users/show.json.jbuilder
+  Rendered api/users/_user.json.jbuilder (0.3ms)
+  Rendered api/users/show.json.jbuilder (6.1ms)
+Completed 200 OK in 346ms (Views: 7.5ms | ActiveRecord: 8.6ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:15:11 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (0.7ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.3ms)
+  Rendered api/workspaces/show.json.jbuilder (1.0ms)
+Completed 200 OK in 4ms (Views: 2.6ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:15:11 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.2ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.3ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/index.json.jbuilder (3.0ms)
+Completed 200 OK in 6ms (Views: 4.7ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/api/workspaces/slack" for ::1 at 2019-11-08 16:15:21 -0800
+Processing by Api::WorkspacesController#show as JSON
+  Parameters: {"id"=>"slack"}
+  [1m[36mWorkspace Load (1.1ms)[0m  [1m[34mSELECT  "workspaces".* FROM "workspaces" WHERE "workspaces"."address" = $1 LIMIT $2[0m  [["address", "slack"], ["LIMIT", 1]]
+  ↳ app/controllers/concerns/workspaces_controller.rb:5
+  Rendering api/workspaces/show.json.jbuilder
+  Rendered api/workspaces/_workspace.json.jbuilder (0.8ms)
+  Rendered api/workspaces/show.json.jbuilder (7.0ms)
+Completed 200 OK in 16ms (Views: 12.2ms | ActiveRecord: 1.1ms)
+
+
+Started GET "/api/workspaces/1/channels" for ::1 at 2019-11-08 16:15:21 -0800
+Processing by Api::ChannelsController#index as JSON
+  Parameters: {"workspace_id"=>"1"}
+  Rendering api/channels/index.json.jbuilder
+  [1m[36mChannel Load (0.4ms)[0m  [1m[34mSELECT "channels".* FROM "channels" WHERE "channels"."workspace_id" = $1[0m  [["workspace_id", 1]]
+  ↳ app/views/api/channels/index.json.jbuilder:1
+  Rendered api/channels/_channel.json.jbuilder (0.5ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/_channel.json.jbuilder (0.1ms)
+  Rendered api/channels/index.json.jbuilder (5.0ms)
+Completed 200 OK in 10ms (Views: 8.2ms | ActiveRecord: 0.4ms)
+
+

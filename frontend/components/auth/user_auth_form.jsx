@@ -38,7 +38,7 @@ class UserSigninForm extends React.Component {
     this.props.processForm(this.state)
       .then(
         // () => this.props.history.push('/'),
-        () => this.props.history.push(`/workspace/${getState().session.workspace_id}`),
+        () => this.props.history.push(`/workspace/${this.state.workspace_address}`),
         () => this.setState({state: this.state})
       )
   }
