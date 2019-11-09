@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { postWorkspace, getWorkspace } from '../../actions/workspace_actions';
+import { postWorkspace } from '../../actions/workspace_actions';
+import { receiveErrors } from '../../actions/session_actions';
 
 class WorkspaceForm extends React.Component {
   constructor() {
@@ -28,7 +29,9 @@ class WorkspaceForm extends React.Component {
         dispatch(postWorkspace(this.state))
           .then(
             () => this.props.history.push(`/workspace/${this.state.address}`),
-            () => this.setState({page: "address", address: "", channel: ""})
+            (errors) => {
+              this.setState({page: "address", address: "", channel: ""})
+            }
           )
     }
   }

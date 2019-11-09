@@ -17,7 +17,6 @@ class Homepage extends React.Component {
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.dropdownClass = this.dropdownClass.bind(this);
   }
-
   
   changeField(e) {
     this.setState({ email: e.currentTarget.value });
@@ -43,7 +42,7 @@ class Homepage extends React.Component {
 
   render() {
     return (
-      <div id="homepage">
+      <div id="homepage" onClick={e => this.setState({listOpen: false})}>
         <HomeNav toggleDropdown={this.toggleDropdown} redirectTo={this.redirectTo}/>
         <WorkspaceDropdown dropdownClass={this.dropdownClass} redirectTo={this.redirectTo}/>
 
@@ -56,7 +55,7 @@ class Homepage extends React.Component {
             <br/>
           </div>
 
-          <button className="home-button" onClick={() => this.redirectTo('/signup')}>Try Slock</button>
+          <button className="home-button" onClick={(e) => {this.redirectTo('/signup')}}>Try Slock</button>
 
           <div id="signin-message">
             <h6>Already using Slock?</h6>

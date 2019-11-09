@@ -4,6 +4,7 @@ import AuthFooter from './auth_footer';
 import WorkspaceDropdown from '../modals/workspace_dropdown';
 import { Link } from 'react-router-dom';
 import { getWorkspace } from '../../actions/workspace_actions';
+import { refreshErrors } from '../../actions/session_actions';
 
 class WorkspaceSigninForm extends React.Component {
   constructor() {
@@ -63,10 +64,12 @@ class WorkspaceSigninForm extends React.Component {
   render() {
     let errors = getState().errors.session;
     let error_class = "auth-errors hidden"
-    if (errors.length > 0)
+    if (errors.length > 0) {
       error_class = "auth-errors"
+      dispatch(refreshErrors());
+    }
     return (
-      <div className="auth-page" id="workspace-signin">
+      <div className="auth-page" id="workspace-signin" onClick={() => this.setState({listOpen: false})}>
         <AuthNav toggleDropdown={this.toggleDropdown}/>
         <WorkspaceDropdown dropdownClass={this.dropdownClass} redirectTo={this.redirectTo}/>
 

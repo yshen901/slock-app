@@ -28,6 +28,10 @@ export const receiveErrors = errors => ({
   errors
 })
 
+export const clearErrors = errors => ({
+  type: CLEAR_ERRORS
+})
+
 export const signup = user => dispatch => (
   SessionAPI
     .signup(user)
@@ -53,3 +57,6 @@ export const logout = () => dispatch => (
     )
 );
 
+export const refreshErrors = () => dispatch => {
+  dispatch(clearErrors())
+}

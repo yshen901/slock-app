@@ -79,10 +79,12 @@ class UserSigninForm extends React.Component {
   render() {
     let greeting = this.createGreeting();
     let error_class = "auth-errors hidden"
-    if (getState().errors.session.length > 0)
-      error_class = "auth-errors"
+    if (getState().errors.session.length > 0) {
+      error_class = "auth-errors";
+      this.props.refreshErrors();
+    }
     return (
-      <div className="auth-page" id='user-signin'>
+      <div className="auth-page" id='user-signin' onClick={() => this.setState({ listOpen: false })}>
         <AuthNav toggleDropdown={this.toggleDropdown} />
         <WorkspaceDropdown dropdownClass={this.dropdownClass} redirectTo={this.redirectTo} />
 

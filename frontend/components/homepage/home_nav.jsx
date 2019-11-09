@@ -11,7 +11,7 @@ class HomeNav extends React.Component {
     if(getState().session.workspace_id)
       return (
         <div className="right">
-          <button className="nav-button" onClick={this.props.toggleDropdown}>
+          <button className="nav-button" onClick={(e) => { e.stopPropagation(); this.props.toggleDropdown() }}>
             <div>Your Workspaces</div>
           </button>
         </div>

@@ -1,6 +1,7 @@
 #homepage {
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 #homepage .nav {
@@ -23,6 +24,7 @@
 
 #homepage .right {
   width: 18%;
+  justify-content: space-evenly;
 }
 
 #home-box {
