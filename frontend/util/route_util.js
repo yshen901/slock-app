@@ -15,7 +15,7 @@ const Protected = ({ component: Component, path, loggedIn, exact }) => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loggedIn: Boolean(state.session.user_id)
 });
 

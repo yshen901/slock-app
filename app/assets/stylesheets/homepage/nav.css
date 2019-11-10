@@ -72,6 +72,10 @@ img {
   padding: 10px;
 }
 
+#auth-signin:hover {
+  cursor: pointer;
+}
+
 .auth-nav-link:hover {
   background-color: rgb(223, 221, 221);
   color: rgb(121, 121, 121)

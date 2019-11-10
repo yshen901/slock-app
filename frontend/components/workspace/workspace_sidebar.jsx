@@ -31,15 +31,16 @@ class WorkspaceSidebar extends React.Component {
         </div>
 
         <div id="channels">
-          <Link to="/tbd" className='sidebar-list-header'>Channels</Link>
+          <div className='sidebar-header'>
+            <div className='sidebar-header-link' onClick={() => this.props.toggle("channelBrowse")}>Channels</div>
+            <div className='sidebar-header-button' onClick={() => this.props.toggle("channelNew")}>+</div>
+          </div>
           <div className="sidebar-list">
             {this.props.channels.map((channel, idx) => (
-              <Link key={idx} className="sidebar-link" to={this.channelLink(channel.id)}># {channel.name}</Link>
+              <Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># {channel.name}</Link>
             ))}
           </div>
         </div>
-        <br/>
-        <div className="sidebar-link" onClick={() => this.props.toggle("channel")}>+ Add a Channel</div>
       </div>
     )
   }

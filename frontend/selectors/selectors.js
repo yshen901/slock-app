@@ -1,6 +1,12 @@
 export const objectToArray = (object) => {
-  return Object.keys(object).map((key, idx) => {
+  return Object.keys(object).map((key) => {
     return object[key];
+  })
+}
+
+export const objectToNameArray = (object) => {
+  return Object.values(object).map((value) => {
+    return value["name"].toLowerCase();
   })
 }
 

@@ -3,16 +3,16 @@ import AuthNav from './auth_nav';
 import AuthFooter from './auth_footer';
 import WorkspaceDropdown from '../modals/workspace_dropdown';
 import { Link } from 'react-router-dom';
-import { getWorkspace } from '../../actions/workspace_actions';
-import { refreshErrors } from '../../actions/session_actions';
+import { findWorkspace } from '../../actions/workspace_actions';
+import { refreshErrors } from '../../actions/error_actions';
 
 class WorkspaceSigninForm extends React.Component {
   constructor() {
     super();
     this.state = {
       workspace_address: "",
-      listOpen: false
-    }
+      listOpen: false,
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateForm = this.updateForm.bind(this);
@@ -31,7 +31,7 @@ class WorkspaceSigninForm extends React.Component {
   */
   handleSubmit(e) {
     e.preventDefault();
-    dispatch(getWorkspace(this.state.workspace_address))
+    dispatch(findWorkspace(this.state.workspace_address))
       .then(
         () => this.props.history.push(`/signin/${ this.state.workspace_address }`),
         () => this.setState({state: this.state})
@@ -48,24 +48,24 @@ class WorkspaceSigninForm extends React.Component {
 
   toggleDropdown() {
     if (this.state.listOpen)
-      this.setState({ listOpen: false })
+      this.setState({ listOpen: false });
     else
-      this.setState({ listOpen: true })
+      this.setState({ listOpen: true });
   }
 
   dropdownClass() {
     if (this.state.listOpen)
-      return "auth dropdown"
+      return "auth dropdown";
     else
-      return "auth dropdown hidden"
+      return "auth dropdown hidden";
   }
 
   // TODO1: ERROR MESSAGES PERSIST EVEN AFTER NAVIGATING AWAY
   render() {
     let errors = getState().errors.session;
-    let error_class = "auth-errors hidden"
+    let error_class = "auth-errors hidden";
     if (errors.length > 0) {
-      error_class = "auth-errors"
+      error_class = "auth-errors";
       dispatch(refreshErrors());
     }
     return (

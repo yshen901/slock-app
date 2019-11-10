@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   def current_workspaces
     return nil unless session[:session_token]
-    @current_workspaces ||= Workspace.joins(:users).where("logged_in = true AND users.id = 1");
+    @current_workspaces ||= Workspace.joins(:users).where("logged_in = true AND users.id = #{current_user.id}");
   end
 
   # logs in the user

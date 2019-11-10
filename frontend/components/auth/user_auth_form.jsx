@@ -28,7 +28,7 @@ class UserSigninForm extends React.Component {
 
   // TODO2: How to do this without double action
   componentDidMount() {
-    this.props.getWorkspace(this.props.workspace_address)
+    this.props.findWorkspace(this.props.workspace_address)
       .then(
         null,
         () => this.props.history.push('/signin')
@@ -90,7 +90,7 @@ class UserSigninForm extends React.Component {
 
         <div className={error_class}>
           <h6>!!!</h6>
-          <h6> Sorry, you entered an incorrect email address or password.</h6>
+          <h6>{this.props.error_message}</h6>
         </div>
         <div className='auth-box'>
           <div className="auth-greeting">
@@ -105,7 +105,7 @@ class UserSigninForm extends React.Component {
             <input type="password"
               onChange={this.updateForm('password')}
               placeholder="password" />
-            <input type="submit" value="Sign In"/>
+            <input type="submit" value={this.props.formType}/>
           </form>
           <h4 className="auth-box-footer">
             <Link to='/tbd' className='auth-form-link'>Forgot your password?</Link>

@@ -2,6 +2,7 @@
   position: absolute;
   top: 70px;
   right: 20%;
+  z-index: 100;
   width: 270px;
 
   display: flex;

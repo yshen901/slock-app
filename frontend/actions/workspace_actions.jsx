@@ -1,7 +1,7 @@
 import * as WorkspaceAPI from "../util/workspace_api_util";
 import * as ChannelAPI from '../util/channel_api_util';
 import { arrayToObject } from '../selectors/selectors';
-import { receiveErrors } from './session_actions';
+import { receiveErrors } from './error_actions';
 
 export const RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";
 
@@ -11,6 +11,15 @@ const receiveWorkspace = (workspace, channels) => ({
   workspace,
   channels: arrayToObject(channels)
 });
+
+export const findWorkspace = workspace_address => dispatch => (
+  WorkspaceAPI
+    .getWorkspace(workspace_address)
+    .then(
+      null,
+      errors => dispatch(receiveErrors(errors))
+    )
+)
 
 export const getWorkspace = workspace_address => dispatch => (
   WorkspaceAPI

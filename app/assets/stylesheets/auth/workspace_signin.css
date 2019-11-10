@@ -10,18 +10,24 @@
 }
 
 /* TODO2: Make the alignment perfect, and add a tag for .slack.com*/
-#workspace-signin form input[type="submit"]{
+#workspace-signin form input[type="submit"] {
   width: 297px;
   height: 50px;
 
   background: #007a5a;
   border: none;
   border-radius: 5px;
-
+  
   color: white;
   font-weight: bold;
   font-size: 20px;
 }
+
+#workspace-signin form input[type="submit"]:hover {
+  cursor: pointer;
+  box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.1);
+}
+
 
 #workspace-signin form input[type="text"]{
   text-align: right;

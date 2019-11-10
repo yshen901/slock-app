@@ -18,12 +18,17 @@ class Api::UsersController < ApplicationController
     if !workspace
       render json: ["Workspace doesn't exist"], status: 401
     elsif @user
-      connection = WorkspaceUser.new(user_id: @user.id, workspace_id: workspace.id, logged_in: true)
-      if connection.save
-        login!(@user, workspace)
-        render '/api/users/show'
+      connection = WorkspaceUser.find_by(user_id: @user.id, workspace_id: workspace.id);
+      if connection
+        render json: ["User already exists"], status: 401
       else
-        render json: connection.errors.full_messages, status: 401
+        connection = WorkspaceUser.new(user_id: @user.id, workspace_id: workspace.id, logged_in: true)
+        if connection.save
+          login!(@user, workspace)
+          render '/api/users/show'
+        else
+          render json: connection.errors.full_messages, status: 401
+        end
       end
     else
       @user = User.new(

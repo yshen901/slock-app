@@ -1,13 +1,15 @@
 import React from 'react';
 import WorkspaceSidebarContainer from "./workspace_sidebar_container"
 import ChannelModalContainer from '../modals/channel_modal_container';
+import NewChannelModalContainer from '../modals/new_channel_modal_container';
 
 class Workspace extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      channel: "hidden"
+      channelBrowse: "hidden",
+      channelNew: "hidden"
     }
 
     this.toggle = this.toggle.bind(this);
@@ -32,14 +34,14 @@ class Workspace extends React.Component {
     return (
       <div id="workspace">
         <WorkspaceSidebarContainer toggle={this.toggle}/>
-        <div id="channel-chat">
-          <div id="channel-nav-bar"></div>
-          <div id="channel-chat"></div>
-        </div>
 
         <ChannelModalContainer
-          hidden={this.state["channel"]}
-          close={() => this.toggle("channel")} />
+          hidden={this.state["channelBrowse"]}
+          close={() => this.toggle("channelBrowse")} />
+
+        <NewChannelModalContainer
+          hidden={this.state["channelNew"]}
+          close={() => this.toggle("channelNew")} />
       </div>
     )
   }

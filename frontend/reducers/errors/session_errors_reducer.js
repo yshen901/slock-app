@@ -1,9 +1,13 @@
 import { 
   RECEIVE_USER,
   LOGOUT_CURRENT_USER,
-  RECEIVE_ERRORS,
-  CLEAR_ERRORS
 } from '../../actions/session_actions';
+
+import {
+  RECEIVE_ERRORS,
+  CLEAR_ERRORS,
+} from '../../actions/error_actions';
+
 import { RECEIVE_WORKSPACE } from '../../actions/workspace_actions';
 
 const SessionErrorsReducer = (state=[], action) => {

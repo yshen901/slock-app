@@ -16,10 +16,13 @@ class Api::ChannelsController < ApplicationController
   # DESIGN: This is designed to be passed an object containing the workspace_id
   def create
     @channel = Channel.new(channel_params)
-    if @channel.save
+    old_channel = Channel.find_by(channel_params)
+    if old_channel
+      render json: ["Channel name already exists"], status: 401
+    elsif @channel.save
       render 'api/channels/show'
     else
-      render json: ["Channel name already exists"], status: 401
+      render json: ["Other error occurred"], status: 401
     end
   end
 

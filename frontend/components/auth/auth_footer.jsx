@@ -11,7 +11,7 @@ class AuthFooter extends React.Component {
           <Link className="auth-footer-link" to="/tbd">Enterprise</Link>
           <Link className="auth-footer-link" to="/tbd">Pricing</Link>
           <Link className="auth-footer-link" to="/tbd">Support</Link>
-          <Link className="auth-footer-link" to="/tbd">Slack Guides</Link>
+          <Link className="auth-footer-link" to="/tbd">Slock Guides</Link>
           <Link className="auth-footer-link" to="/tbd">App Directory</Link>
           <Link className="auth-footer-link" to="/tbd">API</Link>
         </div>

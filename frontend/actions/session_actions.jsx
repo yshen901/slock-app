@@ -1,9 +1,9 @@
 import * as SessionAPI from '../util/session_api_util';
+import * as WorkspaceAPI from '../util/workspace_api_util';
+import { receiveErrors } from './error_actions';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
 export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
-export const RECEIVE_ERRORS = "RECEIVE_ERRORS";
-export const CLEAR_ERRORS = "CLEAR_ERRORS"
 
 // DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
 export const HOME_WORKSPACE = 'slack';
@@ -22,15 +22,6 @@ const receiveUser = currentUser => ({
 const logoutCurrentUser = () => ({
   type: LOGOUT_CURRENT_USER
 });
-
-export const receiveErrors = errors => ({
-  type: RECEIVE_ERRORS,
-  errors
-})
-
-export const clearErrors = errors => ({
-  type: CLEAR_ERRORS
-})
 
 export const signup = user => dispatch => (
   SessionAPI
@@ -56,7 +47,3 @@ export const logout = () => dispatch => (
       errors => dispatch(receiveErrors(errors))
     )
 );
-
-export const refreshErrors = () => dispatch => {
-  dispatch(clearErrors())
-}

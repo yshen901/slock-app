@@ -10,7 +10,7 @@
   font-size: 18px;
 }
 
-#user-signin form input[type="submit"]{
+#user-signin form input[type="submit"] {
   width: 400px;
   height: 50px;
 
@@ -21,6 +21,11 @@
   color: white;
   font-weight: bold;
   font-size: 20px;
+}
+
+#user-signin form input[type="submit"]:hover {
+  cursor: pointer;
+  box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.1);
 }
 
 #user-signin .auth-box-footer {
