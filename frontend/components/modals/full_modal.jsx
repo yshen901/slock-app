@@ -10,7 +10,7 @@ class FullModal extends React.Component {
 
   render() {
     return (
-      <div className={this.props.modalClass}>
+      <div className={this.props.modalClass} onClick={e => e.stopPropagation()}>
         <div className="full-modal-button" onClick={this.props.close}>&#10005;</div>
         <div className="full-modal-header">Browse Channels</div>
         <div className="full-modal-list">

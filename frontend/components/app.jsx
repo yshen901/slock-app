@@ -22,7 +22,7 @@ class App extends React.Component {
         <Route exact path="/signup" component={ UserSignupContainer }/>
         <Route exact path="/signin/:workspace_address" component={ UserSigninContainer }/>
         <ProtectedRoute exact path="/create" component={ WorkspaceForm }/>
-        <ProtectedRoute exact path="/workspace/:workspace_address/" component={ WorkspaceContainer }/>
+        <ProtectedRoute exact path="/workspace/:workspace_address/:channel_id" component={ WorkspaceContainer }/>
         <Route exact path="/" component={Homepage}/>
       </div>
     )

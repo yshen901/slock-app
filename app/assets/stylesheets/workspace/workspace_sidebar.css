@@ -110,3 +110,12 @@
   background: rgb(34, 0, 34);
   cursor: pointer;
 }
+
+.sidebar-item.selected {
+  background: #1164A3;
+  color: white;
+}
+
+.sidebar-item.selected:hover {
+  background: #1164A3;
+}

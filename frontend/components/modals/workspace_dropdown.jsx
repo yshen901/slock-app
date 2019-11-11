@@ -20,7 +20,7 @@ class WorkspaceDropdown extends React.Component {
         <div className="dropdown-workspaces">
           {workspaces.map((workspace, idx) => {
             return (
-              <div key={idx} className="dropdown-item" onClick={() => this.props.redirectTo(`/workspace/${workspace.address}`)}>
+              <div key={idx} className="dropdown-item" onClick={() => this.props.redirectTo(`/workspace/${workspace.address}/0`)}>
                 &#9824; {workspace.address}
               </div>
             )

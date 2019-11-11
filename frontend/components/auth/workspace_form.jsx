@@ -36,7 +36,7 @@ class WorkspaceForm extends React.Component {
       case "finish": //TODO1: FLASH ERRORS UPON RE-RENDER
         dispatch(postWorkspace(this.state))
           .then(
-            () => this.props.history.push(`/workspace/${this.state.address}`),
+            () => this.props.history.push(`/workspace/${this.state.address}/0`),
             (errors) => {
               this.setState({page: "address", address: "", channel: ""})
             }

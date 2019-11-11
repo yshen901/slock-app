@@ -4,12 +4,10 @@ import { withRouter } from 'react-router-dom';
 import Workspace from './workspace';
 import { logout } from '../../actions/session_actions';
 import { getWorkspace } from '../../actions/workspace_actions';
-import { objectToArray } from '../../selectors/selectors';
 
 const mapStateToProps = (state, ownProps) => ({
-  user: state.entities.users[state.session.user_id],
   workspace_address: ownProps.match.params.workspace_address,
-  channels: objectToArray(state.entities.channels)
+  channel_id: parseInt(ownProps.match.params.channel_id),
 })
 
 const mapDispatchToProps = (dispatch) => ({
