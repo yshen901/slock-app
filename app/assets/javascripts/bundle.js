@@ -2294,6 +2294,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
+
 
 
 
@@ -2304,6 +2306,7 @@ var ChannelReducer = function ChannelReducer() {
   var nextState;
 
   switch (action.type) {
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["LOGOUT_CURRENT_USER"]:
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACES"]:
       return {};
 
@@ -2372,9 +2375,10 @@ var UserReducer = function UserReducer() {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
       nextState[action.user.id] = action.user;
       return nextState;
-    // case LOGOUT_CURRENT_USER:
-    //   delete nextState[action.user.id];
-    //   return nextState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
+      delete nextState[action.user.id];
+      return nextState;
 
     default:
       return state;
@@ -2395,6 +2399,8 @@ var UserReducer = function UserReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
+
 
 
 var WorkspaceReducer = function WorkspaceReducer() {
@@ -2404,6 +2410,9 @@ var WorkspaceReducer = function WorkspaceReducer() {
   var nextState;
 
   switch (action.type) {
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT_CURRENT_USER"]:
+      return {};
+
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACES"]:
       return action.workspaces;
 
