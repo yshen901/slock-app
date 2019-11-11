@@ -161,13 +161,13 @@ var refreshErrors = function refreshErrors() {
 /*!**********************************************!*\
   !*** ./frontend/actions/session_actions.jsx ***!
   \**********************************************/
-/*! exports provided: RECEIVE_USER, LOGOUT_CURRENT_USER, HOME_WORKSPACE, signup, login, logout */
+/*! exports provided: RECEIVE_USER, LOGOUT, HOME_WORKSPACE, signup, login, logout */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USER", function() { return RECEIVE_USER; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGOUT_CURRENT_USER", function() { return LOGOUT_CURRENT_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGOUT", function() { return LOGOUT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HOME_WORKSPACE", function() { return HOME_WORKSPACE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signup", function() { return signup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
@@ -179,7 +179,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var RECEIVE_USER = 'RECEIVE_USER';
-var LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER'; // DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
+var LOGOUT = 'LOGOUT'; // DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
 
 var HOME_WORKSPACE = 'slack';
 /* NOTE: How actions (thunk and creater) work
@@ -198,7 +198,7 @@ var receiveUser = function receiveUser(currentUser) {
 
 var logoutCurrentUser = function logoutCurrentUser() {
   return {
-    type: LOGOUT_CURRENT_USER
+    type: LOGOUT
   };
 };
 
@@ -2306,7 +2306,7 @@ var ChannelReducer = function ChannelReducer() {
   var nextState;
 
   switch (action.type) {
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["LOGOUT_CURRENT_USER"]:
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["LOGOUT"]:
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACES"]:
       return {};
 
@@ -2363,22 +2363,21 @@ var EntitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 var UserReducer = function UserReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
-  var nextState = Object.assign({}, state);
 
   switch (action.type) {
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
-      nextState[action.user.id] = action.user;
-      return nextState;
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
+      return {};
 
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
-      delete nextState[action.user.id];
-      return nextState;
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
+      return _defineProperty({}, action.user.id, action.user);
 
     default:
       return state;
@@ -2410,7 +2409,7 @@ var WorkspaceReducer = function WorkspaceReducer() {
   var nextState;
 
   switch (action.type) {
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT_CURRENT_USER"]:
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT"]:
       return {};
 
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACES"]:
@@ -2474,7 +2473,7 @@ var SessionErrorsReducer = function SessionErrorsReducer() {
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_WORKSPACE"]:
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
     case _actions_error_actions__WEBPACK_IMPORTED_MODULE_1__["CLEAR_ERRORS"]:
       return [];
 
@@ -2550,7 +2549,7 @@ var SessionReducer = function SessionReducer() {
       nextState['workspace_id'] = action.workspace.id;
       return nextState;
 
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
       return DEFAULT_SESSION;
 
     default:

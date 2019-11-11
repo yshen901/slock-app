@@ -1,6 +1,6 @@
 import { 
   RECEIVE_USER,
-  LOGOUT_CURRENT_USER,
+  LOGOUT,
 } from '../../actions/session_actions';
 
 import {
@@ -16,7 +16,7 @@ const SessionErrorsReducer = (state=[], action) => {
   switch(action.type) {
     case RECEIVE_USER:
     case RECEIVE_WORKSPACE:
-    case LOGOUT_CURRENT_USER:
+    case LOGOUT:
     case CLEAR_ERRORS:
       return [];
     case RECEIVE_ERRORS:

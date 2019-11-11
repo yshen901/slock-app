@@ -1,4 +1,4 @@
-import { RECEIVE_USER, LOGOUT_CURRENT_USER } from '../actions/session_actions';
+import { RECEIVE_USER, LOGOUT } from '../actions/session_actions';
 import { RECEIVE_WORKSPACE } from '../actions/workspace_actions';
 
 let DEFAULT_SESSION = {
@@ -16,7 +16,7 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
     case RECEIVE_WORKSPACE:
       nextState['workspace_id'] = action.workspace.id;
       return nextState;
-    case LOGOUT_CURRENT_USER:
+    case LOGOUT:
       return DEFAULT_SESSION;
     default:
       return state;

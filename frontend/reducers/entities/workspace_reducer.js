@@ -1,12 +1,12 @@
 import { RECEIVE_WORKSPACE, RECEIVE_WORKSPACES } from "../../actions/workspace_actions";
-import { LOGOUT_CURRENT_USER } from "../../actions/session_actions";
+import { LOGOUT } from "../../actions/session_actions";
 
 const WorkspaceReducer = (state = {}, action) => {
   Object.freeze(state);
   let nextState;
 
   switch(action.type) {
-    case LOGOUT_CURRENT_USER:
+    case LOGOUT:
       return {};
     case RECEIVE_WORKSPACES:
       return action.workspaces;

@@ -3,7 +3,7 @@ import * as WorkspaceAPI from '../util/workspace_api_util';
 import { receiveErrors } from './error_actions';
 
 export const RECEIVE_USER = 'RECEIVE_USER';
-export const LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
+export const LOGOUT = 'LOGOUT';
 
 // DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
 export const HOME_WORKSPACE = 'slack';
@@ -20,7 +20,7 @@ const receiveUser = currentUser => ({
 });
 
 const logoutCurrentUser = () => ({
-  type: LOGOUT_CURRENT_USER
+  type: LOGOUT
 });
 
 export const signup = user => dispatch => (
