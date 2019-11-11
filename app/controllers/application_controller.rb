@@ -18,7 +18,9 @@ class ApplicationController < ActionController::Base
     @current_user = user
     
     connection = WorkspaceUser.find_by(workspace_id: workspace[:id], user_id: user.id)
-    connection.login!
+    if connection
+      connection.login!
+    end
   end
 
   # returns whether the user is logged in

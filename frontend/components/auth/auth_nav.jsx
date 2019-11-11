@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { toggleElement } from '../../util/modal_api_util';
 
 class AuthNav extends React.Component {
   right() {
@@ -9,7 +10,7 @@ class AuthNav extends React.Component {
           <Link className="auth-nav-link" to="/tbd">Product</Link>
           <Link className="auth-nav-link" to="/tbd">Pricing</Link>
           <Link className="auth-nav-link" to="/tbd">Support</Link>
-          <div id="auth-signin" onClick={(e) => {e.stopPropagation(); this.props.toggleDropdown()}}>Your Workspaces</div>
+          <div id="auth-signin" onClick={(e) => {e.stopPropagation(); toggleElement("dropdown")}}>Your Workspaces</div>
         </div>
       )
     else

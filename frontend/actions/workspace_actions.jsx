@@ -1,24 +1,27 @@
 import * as WorkspaceAPI from "../util/workspace_api_util";
 import * as ConnectionAPI from "../util/connection_api_util";
-import * as ChannelAPI from '../util/channel_api_util';
-import { arrayToObject } from '../selectors/selectors';
 import { receiveErrors } from './error_actions';
 
 export const RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";
-export const DISCONNECT_WORKSPACE = "DISCONNECT_WORKSPACE";
+export const REMOVE_WORKSPACE = "REMOVE_WORKSPACE";
 export const RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES";
 
 
-const receiveWorkspace = (workspace, channels) => ({
+const receiveWorkspace = (workspace) => ({
   type: RECEIVE_WORKSPACE,
-  workspace,
-  channels: arrayToObject(channels)
+  workspace
 });
+
+const removeWorkspace = (workspace) => ({
+  type: REMOVE_WORKSPACE,
+  workspace
+})
 
 const receiveWorkspaces = (workspaces) => ({
   type: RECEIVE_WORKSPACES,
   workspaces: workspaces
 });
+
 
 export const findWorkspace = workspace_address => dispatch => (
   WorkspaceAPI
@@ -33,11 +36,7 @@ export const getWorkspace = workspace_address => dispatch => (
   WorkspaceAPI
     .getWorkspace(workspace_address)
     .then(
-      workspace => {
-        ChannelAPI
-          .getChannels(workspace.id)
-          .then(channels => dispatch(receiveWorkspace(workspace, channels)))
-      },
+      workspace => dispatch(receiveWorkspace(workspace)),
       errors => dispatch(receiveErrors(errors))
     )
 )
@@ -55,22 +54,16 @@ export const postWorkspace = workspace => dispatch => (
   WorkspaceAPI
     .postWorkspace(workspace)
     .then(
-      workspace => {
-        ChannelAPI
-          .getChannels(workspace.id)
-          .then(channels => dispatch(receiveWorkspace(workspace, channels)))
-      }
+      workspace => dispatch(receiveWorkspace(workspace)),
+      errors => dispatch(receiveErrors(errors))
     )
 )
 
 export const logoutWorkspace = workspace_id => dispatch => (
   ConnectionAPI
     .logoutWorkspace(workspace_id)
-    .then(null, null)
-)
-
-export const loginWorkspace = workspace_id => dispatch => (
-  ConnectionAPI
-    .loginWorkspace(workspace_id)
-    .then(null, null)
+    .then(
+      workspace => dispatch(removeWorkspace(workspace)), 
+      errors => dispatch(receiveErrors(errors))
+    )
 )

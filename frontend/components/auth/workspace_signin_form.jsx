@@ -6,20 +6,17 @@ import { Link } from 'react-router-dom';
 import { findWorkspace } from '../../actions/workspace_actions';
 import { refreshErrors } from '../../actions/error_actions';
 
+import { hideElement } from '../../util/modal_api_util'; 
+
 class WorkspaceSigninForm extends React.Component {
   constructor() {
     super();
     this.state = {
       workspace_address: "",
-      listOpen: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateForm = this.updateForm.bind(this);
-
-    this.redirectTo = this.redirectTo.bind(this);
-    this.toggleDropdown = this.toggleDropdown.bind(this);
-    this.dropdownClass = this.dropdownClass.bind(this);
   }
 
 
@@ -42,24 +39,6 @@ class WorkspaceSigninForm extends React.Component {
     this.setState({ workspace_address: e.currentTarget.value });
   }
 
-  redirectTo(path) {
-    this.props.history.push(path);
-  }
-
-  toggleDropdown() {
-    if (this.state.listOpen)
-      this.setState({ listOpen: false });
-    else
-      this.setState({ listOpen: true });
-  }
-
-  dropdownClass() {
-    if (this.state.listOpen)
-      return "auth dropdown";
-    else
-      return "auth dropdown hidden";
-  }
-
   // TODO1: ERROR MESSAGES PERSIST EVEN AFTER NAVIGATING AWAY
   render() {
     let errors = getState().errors.session;
@@ -69,9 +48,9 @@ class WorkspaceSigninForm extends React.Component {
       dispatch(refreshErrors());
     }
     return (
-      <div className="auth-page" id="workspace-signin" onClick={() => this.setState({listOpen: false})}>
-        <AuthNav toggleDropdown={this.toggleDropdown}/>
-        <WorkspaceDropdown dropdownClass={this.dropdownClass} redirectTo={this.redirectTo}/>
+      <div className="auth-page" id="workspace-signin" onClick={() => hideElement("dropdown")}>
+        <AuthNav />
+        <WorkspaceDropdown dropdownClass="auth dropdown hidden" />
 
         <div className={error_class}>
           <h6>!!!</h6>

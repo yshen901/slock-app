@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+
 import { objectToArray } from '../../selectors/selectors';
 import { getWorkspaces } from '../../actions/workspace_actions';
 
@@ -15,6 +16,7 @@ class WorkspaceDropdown extends React.Component {
       dispatch(getWorkspaces());
   }
 
+  // NOTE: this.props.history IS SHARED...IF YOU WANT TO REDIRECT DON'T PASS AROUND THE REDIRECT JUST DO IT DIRECTLY HERE
   workspaceList() {
     let workspaces = objectToArray(getState().entities.workspaces);
     if (workspaces.length > 0)
@@ -22,7 +24,7 @@ class WorkspaceDropdown extends React.Component {
         <div className="dropdown-workspaces">
           {workspaces.map((workspace, idx) => {
             return (
-              <div key={idx} className="dropdown-item" onClick={() => this.props.redirectTo(`/workspace/${workspace.address}/0`)}>
+              <div key={idx} className="dropdown-item" onClick={() => this.props.history.push(`/workspace/${workspace.address}/0`)}>
                 &#9824; {workspace.address}
               </div>
             )
@@ -33,7 +35,7 @@ class WorkspaceDropdown extends React.Component {
 
   render() {
     return (
-      <div className={this.props.dropdownClass()}>
+      <div className={this.props.dropdownClass}>
         {this.workspaceList()}
         <div className="dropdown-auth-links">
           <Link className="dropdown-link" to="/signin">Sign Into Another Workspace</Link>
@@ -44,4 +46,4 @@ class WorkspaceDropdown extends React.Component {
   }
 }
 
-export default WorkspaceDropdown;
+export default withRouter(WorkspaceDropdown);

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { toggleElement } from '../../util/modal_api_util';
 
 
 class HomeNav extends React.Component {
@@ -11,7 +12,7 @@ class HomeNav extends React.Component {
     if(getState().session.workspace_id)
       return (
         <div className="right">
-          <button className="nav-button" onClick={(e) => { e.stopPropagation(); this.props.toggleDropdown() }}>
+          <button className="nav-button" onClick={(e) => { e.stopPropagation(); toggleElement("dropdown") }}>
             <div>Your Workspaces</div>
           </button>
         </div>
@@ -20,7 +21,7 @@ class HomeNav extends React.Component {
       return (
         <div className="right">
           <Link className="home-link" to="/signin">Sign In</Link>
-          <button className="nav-button" onClick={() => this.props.redirectTo('/signup')}>
+          <button className="nav-button" onClick={() => this.props.history.push('/signup')}>
             <div>Get Started</div>
           </button>
         </div>
@@ -46,4 +47,4 @@ class HomeNav extends React.Component {
   }
 }
 
-export default HomeNav
+export default withRouter(HomeNav)

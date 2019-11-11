@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+
 import AuthNav from './auth_nav';
 import AuthFooter from './auth_footer';
 import WorkspaceDropdown from '../modals/workspace_dropdown'
+import { hideElement } from '../../util/modal_api_util';
 
 class UserSigninForm extends React.Component {
   constructor(props) {
@@ -14,37 +16,49 @@ class UserSigninForm extends React.Component {
       workspace_address: this.props.workspace_address,
       email: "",
       password: "",
-      listOpen: false,
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateForm = this.updateForm.bind(this);
     this.createGreeting = this.createGreeting.bind(this);
-
-    this.redirectTo = this.redirectTo.bind(this);
-    this.toggleDropdown = this.toggleDropdown.bind(this);
-    this.dropdownClass = this.dropdownClass.bind(this);
   }
 
-  // TODO2: How to do this without double action
-  componentDidMount() {
-    this.props.findWorkspace(this.props.workspace_address)
+  checkWorkspace(address) {
+    this.props.findWorkspace(address)
       .then(
         null,
         () => this.props.history.push('/signin')
-      )
+      ) 
   }
 
-  /* NOTE: ALTERNATIVE WAY TO REDIRECT
-      CHANGING PROPS WILL TRIGGER A RE-RENDER OF THE FIRST THING IN HISTORY
-      THIS WAY AVOIDS HAVING TO PASS AROUND STUFF, AND RENDER/HANDLESUBMIT CAN BE SEPARATE
+  componentDidMount() {
+    this.checkWorkspace(this.props.workspace_address)
+  }
+
+  componentDidUpdate(oldProps) {
+    if (this.props.match.params.workspace_address !== oldProps.match.params.workspace_address)
+      this.checkWorkspace(this.props.match.params.workspace_address)
+  }
+
+  /* NOTE: REDIRECT AFTER UPDATING THE STATE TO AVOID HAVING TO DO IT IN COMPONENTDIDMOUNT 
+           DISPATCHES HERE RETURN A PAYLOAD...AKA THE ACTION...NOT THE JBUILDER RESPONSE
   */
+
+  //TODO3: MOVE THIS TO THE WORKSPACE COMPONENT, NOT HERE
   handleSubmit(e) {
     e.preventDefault();
     this.props.processForm(this.state)
       .then(
-        // () => this.props.history.push('/'),
-        () => this.props.history.push(`/workspace/${this.state.workspace_address}/0`),
+        () => 
+          this.props.getWorkspace(this.props.workspace_address)
+            .then(
+              ({workspace}) => 
+                this.props.getChannels(workspace.id)
+                  .then(
+                    ({channels}) => 
+                      this.props.history.push(`/workspace/${this.state.workspace_address}/${channels[0].id}`)
+                  )
+            ),
         () => this.setState({state: this.state})
       )
   }
@@ -58,24 +72,6 @@ class UserSigninForm extends React.Component {
     return `${this.props.formType} to ${address.join(' ')}`;
   }
 
-  redirectTo(path) {
-    this.props.history.push(path);
-  }
-
-  toggleDropdown() {
-    if (this.state.listOpen)
-      this.setState({ listOpen: false })
-    else
-      this.setState({ listOpen: true })
-  }
-
-  dropdownClass() {
-    if (this.state.listOpen)
-      return "auth dropdown"
-    else
-      return "auth dropdown hidden"
-  }
-
   render() {
     let greeting = this.createGreeting();
     let error_class = "auth-errors hidden"
@@ -84,9 +80,9 @@ class UserSigninForm extends React.Component {
       this.props.refreshErrors();
     }
     return (
-      <div className="auth-page" id='user-signin' onClick={() => this.setState({ listOpen: false })}>
-        <AuthNav toggleDropdown={this.toggleDropdown} />
-        <WorkspaceDropdown dropdownClass={this.dropdownClass} redirectTo={this.redirectTo} />
+      <div className="auth-page" id='user-signin' onClick={() => hideElement("dropdown")}>
+        <AuthNav />
+        <WorkspaceDropdown dropdownClass="auth dropdown hidden" />
 
         <div className={error_class}>
           <h6>!!!</h6>

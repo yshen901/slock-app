@@ -31,9 +31,8 @@ class SidebarDropdown extends React.Component {
   }
 
   render() {
-    let dropdownClass = `dropdown sidebar ${this.props.hidden}`;
     return (
-      <div className={dropdownClass}>
+      <div className="dropdown sidebar hidden">
         <div className="dropdown-item" onClick={this.logoutWorkspace}>
           Sign out of workspace
         </div>

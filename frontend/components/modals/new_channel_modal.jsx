@@ -1,4 +1,5 @@
 import React from 'react';
+import { toggleElement } from '../../util/modal_api_util';
 
 class NewChannelModal extends React.Component {
   constructor() {
@@ -18,6 +19,7 @@ class NewChannelModal extends React.Component {
   }
 
   // Returns either a disabled or non disabled button, depending on the state
+  // TODO4: COULD USE document.getElementById then add property, instead of returning depending on state
   button() {
     if (this.state.disabled)
       return (<button onClick={this.submitForm} disabled>Create</button>)
@@ -91,8 +93,8 @@ class NewChannelModal extends React.Component {
 
   render() {
     return (
-      <div className={this.props.hidden}>
-        <div className="part-modal-background" onClick={this.props.close}></div>
+      <div className="new-channel-modal hidden">
+        <div className="part-modal-background" onClick={() => toggleElement("new-channel-modal")}></div>
         {this.modalForm()}
       </div>
     )

@@ -15,19 +15,29 @@
 
   padding: 40px;
   box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .full-modal-button {
-  font-size: 25px;
+  font-size: 40px;
   font-weight: lighter;
   text-align: right;
   color: gray;
   
-  height: 25px;
+  height: 40px;
+  width: auto;
+  align-self: flex-end;
+
+  margin-right: 30px;
+  margin-bottom: 50px;
 }
 
 .full-modal-button:hover {
   cursor: pointer;
+  background: lightgray;
+  border-radius: 5px;
 }
 
 .full-modal-header, .full-modal-list {

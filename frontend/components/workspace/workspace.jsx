@@ -59,9 +59,7 @@ class Workspace extends React.Component {
         <WorkspaceSidebarContainer open={this.open} toggle={this.toggle}/>
         <ChannelContainer />
 
-        <SidebarDropdown 
-          hidden={this.state["sidebarDropdown"]}
-          workspace_address={this.props.workspace_address}/>
+        <SidebarDropdown />
 
         <ChannelModalContainer
           hidden={this.state["channelBrowse"]}

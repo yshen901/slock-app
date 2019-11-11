@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import HomeNav from './home_nav';
 import WorkspaceDropdown from '../modals/workspace_dropdown';
 
@@ -9,42 +9,20 @@ class Homepage extends React.Component {
 
     this.state = {
       email: "",
-      listOpen: false
     }
 
-    this.redirectTo = this.redirectTo.bind(this);
     this.changeField = this.changeField.bind(this);
-    this.toggleDropdown = this.toggleDropdown.bind(this);
-    this.dropdownClass = this.dropdownClass.bind(this);
   }
   
   changeField(e) {
     this.setState({ email: e.currentTarget.value });
   }
-  
-  redirectTo(path) {
-    this.props.history.push(path);
-  }
-  
-  toggleDropdown() {
-    if (this.state.listOpen)
-      this.setState({ listOpen: false })
-    else
-      this.setState({ listOpen: true })
-  }
-
-  dropdownClass() {
-    if (this.state.listOpen)
-      return "dropdown"
-    else
-      return "dropdown hidden"
-  }
 
   render() {
     return (
       <div id="homepage" onClick={e => this.setState({listOpen: false})}>
-        <HomeNav toggleDropdown={this.toggleDropdown} redirectTo={this.redirectTo}/>
-        <WorkspaceDropdown dropdownClass={this.dropdownClass} redirectTo={this.redirectTo}/>
+        <HomeNav />
+        <WorkspaceDropdown dropdownClass="dropdown hidden" />
 
         <div id="home-box">
           <div id="home-greeting">
@@ -55,7 +33,7 @@ class Homepage extends React.Component {
             <br/>
           </div>
 
-          <button className="home-button" onClick={(e) => {this.redirectTo('/signup')}}>Try Slock</button>
+          <button className="home-button" onClick={(e) => {this.props.history.push('/signup')}}>Try Slock</button>
 
           <div id="signin-message">
             <h6>Already using Slock?</h6>
@@ -67,4 +45,4 @@ class Homepage extends React.Component {
   }
 }
 
-export default Homepage;
+export default withRouter(Homepage);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { toggleElement } from '../../util/modal_api_util';
 
 class WorkspaceSidebar extends React.Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class WorkspaceSidebar extends React.Component {
 
     this.logout = this.logout.bind(this);
     this.channelLink = this.channelLink.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.toggleElement = this.toggleElement.bind(this);
   }
 
   logout() {
@@ -21,10 +22,10 @@ class WorkspaceSidebar extends React.Component {
     return `/workspace/${this.props.workspace_address}/${channelId}`;
   }
 
-  handleClick(type) {
+  toggleElement(className) {
     return (e) => {
       e.stopPropagation();
-      this.props.open(type);
+      toggleElement(className);
     }
   }
 
@@ -32,15 +33,15 @@ class WorkspaceSidebar extends React.Component {
     return (
       <div id="workspace-sidebar">
 
-        <div id="workspace-sidebar-nav" onClick={(e) => {e.stopPropagation(); this.props.toggle("sidebarDropdown");}}>
+        <div id="workspace-sidebar-nav" onClick={ this.toggleElement("dropdown sidebar") }>
           <h2>{this.props.workspace_address}</h2>
           <h6>&#9673; {this.props.user.email}</h6>
         </div>
 
         <div id="channels">
           <div className='sidebar-header'>
-            <div className='sidebar-header-link' onClick={this.handleClick("channelBrowse")}>Channels</div>
-            <div className='sidebar-header-button' onClick={this.handleClick("channelNew")}>+</div>
+            <div className='sidebar-header-link' onClick={ this.toggleElement("full-modal channel-modal") }>Channels</div>
+            <div className='sidebar-header-button' onClick={ this.toggleElement("new-channel-modal") }>+</div>
           </div>
           <div className="sidebar-list">
             {this.props.channels.map(

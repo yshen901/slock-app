@@ -4,7 +4,6 @@ class Api::WorkspaceUsersController < ApplicationController
     @connection = WorkspaceUser.find_by(user_id: current_user.id, workspace_id: params[:id])
     if @connection
       if workspace_user_params[:logged_in] == "true"
-        debugger
         @connection.login!
       elsif workspace_user_params[:logged_in] == "false"
         @connection.logout!
@@ -18,6 +17,6 @@ class Api::WorkspaceUsersController < ApplicationController
   private
 
   def workspace_user_params
-    params.require(:workspace_user).permit(:logged_in)
+    params.require(:workspace_user).permit(:logged_in, :user_email, :workspace_id)
   end
 end

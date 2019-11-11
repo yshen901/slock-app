@@ -1,5 +1,4 @@
-import { RECEIVE_WORKSPACE, RECEIVE_WORKSPACES } from '../../actions/workspace_actions';
-import { RECEIVE_CHANNEL } from '../../actions/channel_actions'
+import { RECEIVE_CHANNEL, RECEIVE_CHANNELS } from '../../actions/channel_actions'
 import { LOGOUT } from '../../actions/session_actions';
 
 const ChannelReducer = (state = {}, action) => {
@@ -8,9 +7,8 @@ const ChannelReducer = (state = {}, action) => {
 
   switch(action.type) {
     case LOGOUT:
-    case RECEIVE_WORKSPACES:
       return {};
-    case RECEIVE_WORKSPACE:
+    case RECEIVE_CHANNELS:
       return action.channels;
     case RECEIVE_CHANNEL:
       nextState = Object.assign({}, state);
