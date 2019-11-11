@@ -236,14 +236,16 @@ var logout = function logout() {
 /*!************************************************!*\
   !*** ./frontend/actions/workspace_actions.jsx ***!
   \************************************************/
-/*! exports provided: RECEIVE_WORKSPACE, findWorkspace, getWorkspace, postWorkspace */
+/*! exports provided: RECEIVE_WORKSPACE, RECEIVE_WORKSPACES, findWorkspace, getWorkspace, getWorkspaces, postWorkspace */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_WORKSPACE", function() { return RECEIVE_WORKSPACE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_WORKSPACES", function() { return RECEIVE_WORKSPACES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findWorkspace", function() { return findWorkspace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWorkspace", function() { return getWorkspace; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWorkspaces", function() { return getWorkspaces; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postWorkspace", function() { return postWorkspace; });
 /* harmony import */ var _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/workspace_api_util */ "./frontend/util/workspace_api_util.js");
 /* harmony import */ var _util_channel_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/channel_api_util */ "./frontend/util/channel_api_util.js");
@@ -254,12 +256,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";
+var RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES";
 
 var receiveWorkspace = function receiveWorkspace(workspace, channels) {
   return {
     type: RECEIVE_WORKSPACE,
     workspace: workspace,
     channels: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["arrayToObject"])(channels)
+  };
+};
+
+var receiveWorkspaces = function receiveWorkspaces(workspaces) {
+  return {
+    type: RECEIVE_WORKSPACES,
+    workspaces: workspaces
   };
 };
 
@@ -278,6 +288,14 @@ var getWorkspace = function getWorkspace(workspace_address) {
       });
     }, function (errors) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+    });
+  };
+}; // NOTE: Only gets workspaces of current_user
+
+var getWorkspaces = function getWorkspaces() {
+  return function (dispatch) {
+    return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["getWorkspaces"]().then(function (workspaces) {
+      return dispatch(receiveWorkspaces(workspaces));
     });
   };
 };
@@ -1864,6 +1882,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1886,6 +1905,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var WorkspaceDropdown =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1898,6 +1918,11 @@ function (_React$Component) {
   }
 
   _createClass(WorkspaceDropdown, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      if (getState().session.user_id) dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["getWorkspaces"])());
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this = this;
@@ -2279,6 +2304,9 @@ var ChannelReducer = function ChannelReducer() {
   var nextState;
 
   switch (action.type) {
+    case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACES"]:
+      return {};
+
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACE"]:
       return action.channels;
 
@@ -2376,6 +2404,9 @@ var WorkspaceReducer = function WorkspaceReducer() {
   var nextState;
 
   switch (action.type) {
+    case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACES"]:
+      return action.workspaces;
+
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACE"]:
       nextState = Object.assign({}, state);
       nextState[action.workspace.id] = action.workspace;

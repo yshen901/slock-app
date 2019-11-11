@@ -1,4 +1,4 @@
-import { RECEIVE_WORKSPACE } from '../../actions/workspace_actions';
+import { RECEIVE_WORKSPACE, RECEIVE_WORKSPACES } from '../../actions/workspace_actions';
 import { RECEIVE_CHANNEL } from '../../actions/channel_actions'
 
 const ChannelReducer = (state = {}, action) => {
@@ -6,6 +6,8 @@ const ChannelReducer = (state = {}, action) => {
   let nextState;
 
   switch(action.type) {
+    case RECEIVE_WORKSPACES:
+      return {};
     case RECEIVE_WORKSPACE:
       return action.channels;
     case RECEIVE_CHANNEL:

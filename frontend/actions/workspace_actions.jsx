@@ -4,12 +4,18 @@ import { arrayToObject } from '../selectors/selectors';
 import { receiveErrors } from './error_actions';
 
 export const RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";
+export const RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES";
 
 
 const receiveWorkspace = (workspace, channels) => ({
   type: RECEIVE_WORKSPACE,
   workspace,
   channels: arrayToObject(channels)
+});
+
+const receiveWorkspaces = (workspaces) => ({
+  type: RECEIVE_WORKSPACES,
+  workspaces: workspaces
 });
 
 export const findWorkspace = workspace_address => dispatch => (
@@ -31,6 +37,15 @@ export const getWorkspace = workspace_address => dispatch => (
           .then(channels => dispatch(receiveWorkspace(workspace, channels)))
       },
       errors => dispatch(receiveErrors(errors))
+    )
+)
+
+// NOTE: Only gets workspaces of current_user
+export const getWorkspaces = () => dispatch => (
+  WorkspaceAPI
+    .getWorkspaces()
+    .then(
+      workspaces => dispatch(receiveWorkspaces(workspaces))
     )
 )
 

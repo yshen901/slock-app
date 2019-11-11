@@ -10,8 +10,10 @@ class Api::WorkspacesController < ApplicationController
     end
   end
 
+  # TODO: MAKE THIS CUSTOM ROUTE TO MAKE THIS LESS HACKY
   def index
-    @workspaces = Workspace.all
+    @workspaces = Workspace.joins(:users).where("users.id = #{current_user.id}")
+    # @workspaces = Workspace.all
     render '/api/workspaces/index'
   end
 
