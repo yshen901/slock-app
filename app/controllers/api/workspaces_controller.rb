@@ -10,6 +10,7 @@ class Api::WorkspacesController < ApplicationController
     end
   end
 
+  
   # DESIGN: Gets all logged_in workspaces of the current_user
   # TODO: MAKE THIS CUSTOM ROUTE TO MAKE THIS LESS HACKY
   def index
@@ -30,6 +31,7 @@ class Api::WorkspacesController < ApplicationController
       render json: ["Workspace name is invalid or already taken"], status: 402
     end
   end
+
 
   private
 

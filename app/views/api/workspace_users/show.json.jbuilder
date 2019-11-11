@@ -1,0 +1,1 @@
+json.partial! '/api/workspace_users/workspace_user', connection: @connection

@@ -1,9 +1,11 @@
 import * as WorkspaceAPI from "../util/workspace_api_util";
+import * as ConnectionAPI from "../util/connection_api_util";
 import * as ChannelAPI from '../util/channel_api_util';
 import { arrayToObject } from '../selectors/selectors';
 import { receiveErrors } from './error_actions';
 
 export const RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";
+export const DISCONNECT_WORKSPACE = "DISCONNECT_WORKSPACE";
 export const RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES";
 
 
@@ -59,4 +61,16 @@ export const postWorkspace = workspace => dispatch => (
           .then(channels => dispatch(receiveWorkspace(workspace, channels)))
       }
     )
+)
+
+export const logoutWorkspace = workspace_id => dispatch => (
+  ConnectionAPI
+    .logoutWorkspace(workspace_id)
+    .then(null, null)
+)
+
+export const loginWorkspace = workspace_id => dispatch => (
+  ConnectionAPI
+    .loginWorkspace(workspace_id)
+    .then(null, null)
 )

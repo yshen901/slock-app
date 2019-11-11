@@ -5,12 +5,14 @@ Rails.application.routes.draw do
     resources :users, only: :create
     resource :session, only: [:create, :destroy] #RESOURCE  
     
-    resources :workspaces, only: [:index, :create]
+    resources :workspaces, only: [:index, :create, :update]
 
     resources :workspaces, only: :show do
       resources :channels, only: :index
     end
     resources :channels, only: [:show, :create, :destroy]
+
+    resources :workspace_users, only: :update
   end
 
   root to: "static_pages#root"

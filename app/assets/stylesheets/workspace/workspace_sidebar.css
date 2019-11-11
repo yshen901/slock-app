@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
 
-  background: rgb(49, 0, 49);
+  background: #3F0E40;
 
   position: fixed;
   top: 0;
@@ -17,21 +17,30 @@
   flex-direction: column;
 
   color: white;
-  opacity: 0.8;
 
   padding: 15px;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  margin-bottom: 8px;
   box-sizing: border-box;
 }
 
+#workspace-sidebar-nav:hover {
+  background: rgb(34, 0, 34) ;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
 #workspace-sidebar-nav h2{
-  font-size: 25px;
+  font-size: 22px;
   font-weight: bold;
   padding-bottom: 1px;
 }
 
 #workspace-sidebar-nav h6{
   font-size: 15px;
-  padding-bottom: 4px;
+  padding-bottom: 4px; 
+  opacity: 0.8;
 }
 
 #channels {
@@ -48,16 +57,22 @@
   opacity: 0.75;
   transition: 0.3s;
 
-  padding-left: 15px;
+  padding-left: 14px;
   padding-right: 15px;
+  margin-bottom: 2px;
   box-sizing: border-box;
+}
+
+.sidebar-header:hover {
+  color: white;
 }
 
 .sidebar-header-link, .sidebar-header-button {
   color: rgb(246, 236, 248);
   opacity: 0.9;
   
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: bold;
   text-decoration: none;
 
   transition: 0.1s;
@@ -72,11 +87,11 @@
   box-sizing: border-box;
 
   text-align: center;
-  font-size: 14px;
   line-height: 12px;
 }
 
 .sidebar-header-link {
+  font-size: 15px;
   line-height: 20px;
   vertical-align: middle;
 }
@@ -86,6 +101,7 @@
   border-color: white;
   opacity: 1;
   cursor: pointer;
+  transition: 0.15s;
 }
 
 .sidebar-list {
@@ -98,9 +114,9 @@
   opacity: 0.65;
   text-decoration: none;
 
-  font-size: 16px;
-  line-height: 26px;
-  vertical-align: center;
+  font-size: 15px;
+  line-height: 24px;
+  vertical-align: middle;
 
   padding-left: 15px;
   box-sizing: border-box;
@@ -109,11 +125,12 @@
 .sidebar-item:hover {
   background: rgb(34, 0, 34);
   cursor: pointer;
+  transition: 0.15s;
 }
 
 .sidebar-item.selected {
   background: #1164A3;
-  color: white;
+  opacity: 1;
 }
 
 .sidebar-item.selected:hover {

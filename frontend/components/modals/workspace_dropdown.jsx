@@ -6,6 +6,8 @@ import { getWorkspaces } from '../../actions/workspace_actions';
 class WorkspaceDropdown extends React.Component {
   constructor(props) {
     super(props);
+
+    this.workspaceList = this.workspaceList.bind(this);
   }
 
   componentDidMount() {
@@ -13,10 +15,10 @@ class WorkspaceDropdown extends React.Component {
       dispatch(getWorkspaces());
   }
 
-  render() {
+  workspaceList() {
     let workspaces = objectToArray(getState().entities.workspaces);
-    return (
-      <div className={this.props.dropdownClass()}>
+    if (workspaces.length > 0)
+      return (
         <div className="dropdown-workspaces">
           {workspaces.map((workspace, idx) => {
             return (
@@ -26,6 +28,13 @@ class WorkspaceDropdown extends React.Component {
             )
           })}
         </div>
+      )
+  }
+
+  render() {
+    return (
+      <div className={this.props.dropdownClass()}>
+        {this.workspaceList()}
         <div className="dropdown-auth-links">
           <Link className="dropdown-link" to="/signin">Sign Into Another Workspace</Link>
           <Link className="dropdown-link" to="/create">Create Workspace</Link>

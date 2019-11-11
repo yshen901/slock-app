@@ -2,23 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Root from './components/root'
 
-import {
-  signup, 
-  login, 
-  logout 
-} from './actions/session_actions';
-
-import {
-  getWorkspace,
-  postWorkspace
-} from './actions/workspace_actions';
-
-import { 
-  getChannels,
-  getChannel,
-  postChannel,
-  deleteChannel
-} from './util/channel_api_util';
+import { logoutWorkspace } from './actions/workspace_actions';
 
 import configureStore from './store/store'
 
@@ -55,18 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const loadWindowFuncs = (store) => {
-  window.signup = signup;
-  window.login = login;
-  window.logout = logout;
-
-  window.getWorkspace = getWorkspace;
-  window.postWorkspace = postWorkspace;
-
-  window.getChannel = getChannel;
-  window.getChannels = getChannels;
-  window.postChannel = postChannel;
-  window.deleteChannel = deleteChannel;
-
   window.getState = store.getState;
   window.dispatch = store.dispatch;
+
+  window.logoutWorkspace = logoutWorkspace;
 }

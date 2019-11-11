@@ -1,20 +1,48 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { objectToArray } from '../../selectors/selectors';
-import { getWorkspaces } from '../../actions/workspace_actions';
+import { withRouter } from 'react-router-dom';
+
+import { logout } from '../../actions/session_actions';
+import { logoutWorkspace } from '../../actions/workspace_actions';
 
 class SidebarDropdown extends React.Component {
   constructor(props) {
     super(props);
+
+    this.logoutUser = this.logoutUser.bind(this);
+    this.logoutWorkspace = this.logoutWorkspace.bind(this);
+  }
+
+  logoutUser(e) {
+    e.stopPropagation();
+    dispatch(logout())
+      .then(
+        () => this.props.history.push('/')
+      )
+  }
+
+  logoutWorkspace(e) {
+    e.stopPropagation();
+    dispatch(logoutWorkspace(getState().session.workspace_id))
+      .then(
+        () => {
+          this.props.history.push('/')
+        }
+      )
   }
 
   render() {
     let dropdownClass = `dropdown sidebar ${this.props.hidden}`;
     return (
       <div className={dropdownClass}>
+        <div className="dropdown-item" onClick={this.logoutWorkspace}>
+          Sign out of workspace
+        </div>
+        <div className="dropdown-item" onClick={this.logoutUser}>
+          Sign out of account
+        </div>
       </div>
     )
   }
 }
 
-export default SidebarDropdown;
+export default withRouter(SidebarDropdown);
