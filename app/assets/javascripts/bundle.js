@@ -776,7 +776,7 @@ function (_React$Component) {
       var _this2 = this;
 
       this.props.findWorkspace(address).then(null, function () {
-        return _this2.props.history.push('/signin');
+        return _this2.props.history.replace('/signin');
       });
     }
   }, {
@@ -793,6 +793,7 @@ function (_React$Component) {
              DISPATCHES HERE RETURN A PAYLOAD...AKA THE ACTION...NOT THE JBUILDER RESPONSE
     */
     //NOTE: CHAIN DISPATCH(SOMETHING).THEN(...) TO ENSURE SYNCRONOUS BEHAVIOR
+    //INTERESTING BUG: IF INFO IN THEN ISN'T A CALLBACK, IT IS RUN IMMEDIATELY RATHER THAN AFTER THE PROMISE IS DONE
 
   }, {
     key: "handleSubmit",
@@ -801,7 +802,9 @@ function (_React$Component) {
 
       e.preventDefault();
       this.props.processForm(this.state).then(function () {
-        return _this3.props.getWorkspaces().then(_this3.props.history.push("/workspace/".concat(_this3.state.workspace_address, "/0")));
+        return _this3.props.getWorkspaces().then(function () {
+          return _this3.props.history.push("/workspace/".concat(_this3.state.workspace_address, "/0"));
+        });
       }, function () {
         return _this3.setState({
           state: _this3.state
@@ -2150,7 +2153,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
-/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2186,6 +2189,7 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(WorkspaceDropdown).call(this, props));
     _this.workspaceList = _this.workspaceList.bind(_assertThisInitialized(_this));
+    _this.logoutUser = _this.logoutUser.bind(_assertThisInitialized(_this));
     return _this;
   } // NOTE: this.props.history IS SHARED...IF YOU WANT TO REDIRECT DON'T PASS AROUND THE REDIRECT JUST DO IT DIRECTLY HERE
 
@@ -2209,6 +2213,16 @@ function (_React$Component) {
       }));
     }
   }, {
+    key: "logoutUser",
+    value: function logoutUser(e) {
+      var _this3 = this;
+
+      e.stopPropagation();
+      dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["logout"])()).then(function () {
+        return _this3.props.history.push('/');
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2221,7 +2235,10 @@ function (_React$Component) {
       }, "Sign Into Another Workspace"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "dropdown-link",
         to: "/create"
-      }, "Create Workspace")));
+      }, "Create Workspace"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-link",
+        onClick: this.logoutUser
+      }, "Sign Out")));
     }
   }]);
 
@@ -2339,7 +2356,7 @@ function (_React$Component) {
         }
       }
 
-      if (!valid) this.props.history.push('/signin');
+      if (!valid) this.props.history.replace('/signin');
     } // Makes sure you don't go to an invalid channel
 
   }, {
@@ -2901,6 +2918,8 @@ var RootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.jsx");
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+
 
 
 var DEFAULT_SESSION = {
@@ -2921,6 +2940,11 @@ var SessionReducer = function SessionReducer() {
 
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_WORKSPACE"]:
       nextState['workspace_id'] = action.workspace.id;
+      return nextState;
+
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_CHANNELS"]:
+      //DESIGN: RECEIVE_CHANNELS ALSO UPDATES WORKSPACE_ID
+      nextState['workspace_id'] = action.channels[0].workspace_id;
       return nextState;
 
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_WORKSPACE"]:
@@ -3110,13 +3134,14 @@ var deleteChannel = function deleteChannel(channelId) {
 /*!**********************************************!*\
   !*** ./frontend/util/connection_api_util.js ***!
   \**********************************************/
-/*! exports provided: logoutWorkspace, loginWorkspace */
+/*! exports provided: logoutWorkspace, loginWorkspace, inviteUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logoutWorkspace", function() { return logoutWorkspace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loginWorkspace", function() { return loginWorkspace; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inviteUser", function() { return inviteUser; });
 var logoutWorkspace = function logoutWorkspace(workspace_id) {
   return $.ajax({
     method: "PATCH",
@@ -3135,6 +3160,18 @@ var loginWorkspace = function loginWorkspace(workspace_id) {
     data: {
       workspace_user: {
         logged_in: true
+      }
+    }
+  });
+};
+var inviteUser = function inviteUser(user_email, workspace_address) {
+  return $.ajax({
+    method: "POST",
+    url: "/api/workspace_users",
+    data: {
+      workspace_user: {
+        user_email: user_email,
+        workspace_address: workspace_address
       }
     }
   });

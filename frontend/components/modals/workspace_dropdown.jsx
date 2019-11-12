@@ -2,13 +2,14 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 import { objectToArray } from '../../selectors/selectors';
-import { getWorkspaces } from '../../actions/workspace_actions';
+import { logout } from '../../actions/session_actions';
 
 class WorkspaceDropdown extends React.Component {
   constructor(props) {
     super(props);
 
     this.workspaceList = this.workspaceList.bind(this);
+    this.logoutUser = this.logoutUser.bind(this);
   }
 
   // NOTE: this.props.history IS SHARED...IF YOU WANT TO REDIRECT DON'T PASS AROUND THE REDIRECT JUST DO IT DIRECTLY HERE
@@ -28,6 +29,14 @@ class WorkspaceDropdown extends React.Component {
       )
   }
 
+  logoutUser(e) {
+    e.stopPropagation();
+    dispatch(logout())
+      .then(
+        () => this.props.history.push('/')
+      )
+  }
+
   render() {
     return (
       <div className={this.props.dropdownClass}>
@@ -35,6 +44,7 @@ class WorkspaceDropdown extends React.Component {
         <div className="dropdown-auth-links">
           <Link className="dropdown-link" to="/signin">Sign Into Another Workspace</Link>
           <Link className="dropdown-link" to="/create">Create Workspace</Link>
+          <div className="dropdown-link" onClick={this.logoutUser}>Sign Out</div>
         </div>
       </div>
     )

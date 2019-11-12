@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
     resources :channels, only: [:show, :create, :destroy]
 
-    resources :workspace_users, only: :update
+    resources :workspace_users, only: [:update, :create]
   end
 
   root to: "static_pages#root"

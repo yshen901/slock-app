@@ -27,7 +27,7 @@ class UserSigninForm extends React.Component {
     this.props.findWorkspace(address)
       .then(
         null,
-        () => this.props.history.push('/signin')
+        () => this.props.history.replace('/signin')
       )
   }
 
@@ -45,13 +45,14 @@ class UserSigninForm extends React.Component {
   */
 
   //NOTE: CHAIN DISPATCH(SOMETHING).THEN(...) TO ENSURE SYNCRONOUS BEHAVIOR
+  //INTERESTING BUG: IF INFO IN THEN ISN'T A CALLBACK, IT IS RUN IMMEDIATELY RATHER THAN AFTER THE PROMISE IS DONE
   handleSubmit(e) {
     e.preventDefault();
     this.props.processForm(this.state)
       .then(
         () => this.props.getWorkspaces()
-          .then(
-            this.props.history.push(`/workspace/${this.state.workspace_address}/0`)
+          .then( 
+            () => this.props.history.push(`/workspace/${this.state.workspace_address}/0`)
           ),
         () => this.setState({state: this.state})
       )

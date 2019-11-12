@@ -42,6 +42,7 @@
 
 .dropdown-link:hover{
   color: rgb(40, 40, 216);
+  cursor: pointer;
 }
 
 .dropdown-workspaces {

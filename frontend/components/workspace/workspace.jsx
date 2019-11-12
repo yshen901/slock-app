@@ -30,8 +30,7 @@ class Workspace extends React.Component {
           )
       }
     }
-    
-    if (!valid) this.props.history.push('/signin');
+    if (!valid) this.props.history.replace('/signin');
   }
 
   // Makes sure you don't go to an invalid channel
