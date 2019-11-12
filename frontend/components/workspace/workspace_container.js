@@ -7,6 +7,7 @@ import { getWorkspace } from '../../actions/workspace_actions';
 import { getChannels } from '../../actions/channel_actions';
 
 const mapStateToProps = (state, ownProps) => ({
+  workspaces: Object.values(state.entities.workspaces),
   workspace_address: ownProps.match.params.workspace_address,
   channel_id: parseInt(ownProps.match.params.channel_id),
 })

@@ -15,17 +15,23 @@ class Workspace extends React.Component {
 
   // TODO2: This is an N+1 query, figure out a way to not run this if channels are already loaded
   componentDidMount() {
-    this.props.getWorkspace(this.props.workspace_address)
-      .then(
-        ({workspace}) => this.props.getChannels(workspace.id)
+    let { workspaces, workspace_address, channel_id, getChannels } = this.props;
+    let valid = false;
+
+    for (let i = 0; i < workspaces.length; i++) {
+      if (workspaces[i].address === workspace_address) {
+        valid = true;
+        getChannels(workspaces[i].id)
           .then(
-            ({channels}) => {
-              if (getState().entities.channels[this.props.channel_id] === undefined)
-                this.props.history.replace(`/workspace/${this.props.workspace_address}/${channels[0].id}`)
+            ({ channels }) => {
+              if (getState().entities.channels[channel_id] === undefined)
+                this.props.history.replace(`/workspace/${workspace_address}/${channels[0].id}`)
             }
-          ),
-        () => this.props.history.push('signin')
-      )
+          )
+      }
+    }
+    
+    if (!valid) this.props.history.push('/signin');
   }
 
   // Makes sure you don't go to an invalid channel

@@ -2322,15 +2322,24 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this = this;
 
-      this.props.getWorkspace(this.props.workspace_address).then(function (_ref) {
-        var workspace = _ref.workspace;
-        return _this.props.getChannels(workspace.id).then(function (_ref2) {
-          var channels = _ref2.channels;
-          if (getState().entities.channels[_this.props.channel_id] === undefined) _this.props.history.replace("/workspace/".concat(_this.props.workspace_address, "/").concat(channels[0].id));
-        });
-      }, function () {
-        return _this.props.history.push('signin');
-      });
+      var _this$props = this.props,
+          workspaces = _this$props.workspaces,
+          workspace_address = _this$props.workspace_address,
+          channel_id = _this$props.channel_id,
+          getChannels = _this$props.getChannels;
+      var valid = false;
+
+      for (var i = 0; i < workspaces.length; i++) {
+        if (workspaces[i].address === workspace_address) {
+          valid = true;
+          getChannels(workspaces[i].id).then(function (_ref) {
+            var channels = _ref.channels;
+            if (getState().entities.channels[channel_id] === undefined) _this.props.history.replace("/workspace/".concat(workspace_address, "/").concat(channels[0].id));
+          });
+        }
+      }
+
+      if (!valid) this.props.history.push('/signin');
     } // Makes sure you don't go to an invalid channel
 
   }, {
@@ -2381,6 +2390,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
+    workspaces: Object.values(state.entities.workspaces),
     workspace_address: ownProps.match.params.workspace_address,
     channel_id: parseInt(ownProps.match.params.channel_id)
   };
@@ -2782,7 +2792,6 @@ var WorkspaceReducer = function WorkspaceReducer() {
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_WORKSPACE"]:
       nextState = Object.assign({}, state);
       delete nextState[action.workspace.workspace_id];
-      debugger;
       return nextState;
 
     default:
@@ -3011,7 +3020,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   delete window.currentUser;
-  delete window.currentWorkspace;
+  delete window.currentWorkspaces;
   loadWindowFuncs(store);
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
     store: store
@@ -3167,19 +3176,16 @@ var revealElement = function revealElement(className) {
 /*!*************************************!*\
   !*** ./frontend/util/route_util.js ***!
   \*************************************/
-/*! exports provided: ProtectedRoute, WorkspaceRoute */
+/*! exports provided: ProtectedRoute */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ProtectedRoute", function() { return ProtectedRoute; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WorkspaceRoute", function() { return WorkspaceRoute; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../selectors/selectors */ "./frontend/selectors/selectors.js");
-
 
 
 
@@ -3202,38 +3208,13 @@ var Protected = function Protected(_ref) {
   });
 };
 
-var Workspace = function Workspace(_ref2) {
-  var Component = _ref2.component,
-      path = _ref2.path,
-      loggedIn = _ref2.loggedIn,
-      exact = _ref2.exact;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-    path: path,
-    exact: exact,
-    render: function render(props) {
-      debugger;
-      if (!props.loggedIn) react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
-        to: "/signin"
-      });else {}
-    }
-  });
-};
-
 var mapStateProtected = function mapStateProtected(state) {
   return {
     loggedIn: Boolean(state.session.user_id)
   };
 };
 
-var mapStateWorkspace = function mapStateWorkspace(state) {
-  return {
-    loggedIn: Boolean(state.session.user_id),
-    workspaces: state.entities.workspaces
-  };
-};
-
 var ProtectedRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateProtected, null)(Protected));
-var WorkspaceRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateWorkspace, null)(Workspace));
 
 /***/ }),
 

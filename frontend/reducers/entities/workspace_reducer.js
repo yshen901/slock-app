@@ -17,7 +17,6 @@ const WorkspaceReducer = (state = {}, action) => {
     case REMOVE_WORKSPACE:
       nextState = Object.assign({}, state);
       delete nextState[action.workspace.workspace_id];
-      debugger;
       return nextState;
     default:
       return state;

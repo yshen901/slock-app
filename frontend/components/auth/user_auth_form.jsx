@@ -28,7 +28,7 @@ class UserSigninForm extends React.Component {
       .then(
         null,
         () => this.props.history.push('/signin')
-      ) 
+      )
   }
 
   componentDidMount() {

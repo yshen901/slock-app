@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     store = configureStore();
   }
   delete window.currentUser;
-  delete window.currentWorkspace;
+  delete window.currentWorkspaces;
 
   loadWindowFuncs(store);
 
