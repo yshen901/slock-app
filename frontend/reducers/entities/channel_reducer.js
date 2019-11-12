@@ -1,6 +1,8 @@
 import { RECEIVE_CHANNEL, RECEIVE_CHANNELS } from '../../actions/channel_actions'
 import { LOGOUT } from '../../actions/session_actions';
 
+import { arrayToObject } from '../../selectors/selectors';
+
 const ChannelReducer = (state = {}, action) => {
   Object.freeze(state);
   let nextState;
@@ -9,7 +11,7 @@ const ChannelReducer = (state = {}, action) => {
     case LOGOUT:
       return {};
     case RECEIVE_CHANNELS:
-      return action.channels;
+      return arrayToObject(action.channels);
     case RECEIVE_CHANNEL:
       nextState = Object.assign({}, state);
       nextState[action.channel.id] = action.channel;

@@ -1,5 +1,5 @@
 import { RECEIVE_USER, LOGOUT } from '../actions/session_actions';
-import { RECEIVE_WORKSPACE } from '../actions/workspace_actions';
+import { RECEIVE_WORKSPACE, REMOVE_WORKSPACE } from '../actions/workspace_actions';
 
 let DEFAULT_SESSION = {
   user_id: null, 
@@ -15,6 +15,9 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
       return nextState;
     case RECEIVE_WORKSPACE:
       nextState['workspace_id'] = action.workspace.id;
+      return nextState;
+    case REMOVE_WORKSPACE:
+      nextState['workspace_id'] = null;
       return nextState;
     case LOGOUT:
       return DEFAULT_SESSION;

@@ -11,11 +11,6 @@ class WorkspaceDropdown extends React.Component {
     this.workspaceList = this.workspaceList.bind(this);
   }
 
-  componentDidMount() {
-    if (getState().session.user_id)
-      dispatch(getWorkspaces());
-  }
-
   // NOTE: this.props.history IS SHARED...IF YOU WANT TO REDIRECT DON'T PASS AROUND THE REDIRECT JUST DO IT DIRECTLY HERE
   workspaceList() {
     let workspaces = objectToArray(getState().entities.workspaces);

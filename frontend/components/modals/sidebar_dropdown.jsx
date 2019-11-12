@@ -25,7 +25,7 @@ class SidebarDropdown extends React.Component {
     dispatch(logoutWorkspace(getState().session.workspace_id))
       .then(
         () => {
-          this.props.history.push('/')
+          this.props.history.push('/');
         }
       )
   }

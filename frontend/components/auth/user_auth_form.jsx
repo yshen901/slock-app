@@ -44,21 +44,15 @@ class UserSigninForm extends React.Component {
            DISPATCHES HERE RETURN A PAYLOAD...AKA THE ACTION...NOT THE JBUILDER RESPONSE
   */
 
-  //TODO3: MOVE THIS TO THE WORKSPACE COMPONENT, NOT HERE
+  //NOTE: CHAIN DISPATCH(SOMETHING).THEN(...) TO ENSURE SYNCRONOUS BEHAVIOR
   handleSubmit(e) {
     e.preventDefault();
     this.props.processForm(this.state)
       .then(
-        () => 
-          this.props.getWorkspace(this.props.workspace_address)
-            .then(
-              ({workspace}) => 
-                this.props.getChannels(workspace.id)
-                  .then(
-                    ({channels}) => 
-                      this.props.history.push(`/workspace/${this.state.workspace_address}/${channels[0].id}`)
-                  )
-            ),
+        () => this.props.getWorkspaces()
+          .then(
+            this.props.history.push(`/workspace/${this.state.workspace_address}/0`)
+          ),
         () => this.setState({state: this.state})
       )
   }

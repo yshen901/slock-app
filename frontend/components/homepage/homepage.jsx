@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import HomeNav from './home_nav';
 import WorkspaceDropdown from '../modals/workspace_dropdown';
+import { hideElement } from '../../util/modal_api_util';
 
 class Homepage extends React.Component {
   constructor() {
@@ -20,7 +21,7 @@ class Homepage extends React.Component {
 
   render() {
     return (
-      <div id="homepage" onClick={e => this.setState({listOpen: false})}>
+      <div id="homepage" onClick={() => hideElement("dropdown")}>
         <HomeNav />
         <WorkspaceDropdown dropdownClass="dropdown hidden" />
 

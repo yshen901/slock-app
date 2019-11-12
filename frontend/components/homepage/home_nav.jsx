@@ -9,7 +9,7 @@ class HomeNav extends React.Component {
   }
 
   generateRight() {
-    if(getState().session.workspace_id)
+    if(getState().session.user_id)
       return (
         <div className="right">
           <button className="nav-button" onClick={(e) => { e.stopPropagation(); toggleElement("dropdown") }}>

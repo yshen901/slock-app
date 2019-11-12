@@ -6,6 +6,7 @@ import Homepage from './homepage/homepage';
 import UserSigninContainer from './auth/user_signin_container';
 import UserSignupContainer from './auth/user_signup_container';
 import WorkspaceSigninForm from './auth/workspace_signin_form.jsx';
+import WorkspaceTransition from './workspace/workspace_transition';
 import WorkspaceContainer from './workspace/workspace_container';
 import WorkspaceForm from './auth/workspace_form';
 
@@ -22,6 +23,7 @@ class App extends React.Component {
         <Route exact path="/signup" component={ UserSignupContainer }/>
         <Route exact path="/signin/:workspace_address" component={ UserSigninContainer }/>
         <ProtectedRoute exact path="/create" component={ WorkspaceForm }/>
+        <ProtectedRoute exact path="/workspace/:workspace_address" component={ WorkspaceTransition }/>
         <ProtectedRoute exact path="/workspace/:workspace_address/:channel_id" component={ WorkspaceContainer }/>
         <Route exact path="/" component={Homepage}/>
       </div>
