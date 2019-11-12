@@ -3,8 +3,7 @@ import { withRouter } from 'react-router-dom';
 import UserAuthForm from './user_auth_form';
 
 import { signup, HOME_WORKSPACE } from '../../actions/session_actions';
-import { findWorkspace, getWorkspace, getWorkspaces } from '../../actions/workspace_actions';
-import { getChannels } from '../../actions/channel_actions';
+import { findWorkspace, getWorkspaces } from '../../actions/workspace_actions';
 import { refreshErrors } from '../../actions/error_actions';
 
 /* TODO3: Remove need for a "default" server for signup
@@ -18,9 +17,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   processForm: (user) => dispatch(signup(user)),
-  getWorkspace: (workspace_address) => dispatch(getWorkspace(workspace_address)),
   getWorkspaces: () => dispatch(getWorkspaces()),
-  getChannels: (workspace_id) => dispatch(getChannels(workspace_id)),
   findWorkspace: (workspace_address) => dispatch(findWorkspace(workspace_address)),
   refreshErrors: () => dispatch(refreshErrors())
 });

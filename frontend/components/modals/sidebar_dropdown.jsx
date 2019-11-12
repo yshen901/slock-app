@@ -33,6 +33,9 @@ class SidebarDropdown extends React.Component {
   render() {
     return (
       <div className="dropdown sidebar hidden">
+        <div className="dropdown-item" onClick={() => this.props.history.push("/signin")}>
+          Sign into another workspace
+        </div>
         <div className="dropdown-item" onClick={this.logoutWorkspace}>
           Sign out of workspace
         </div>

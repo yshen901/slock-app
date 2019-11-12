@@ -54,6 +54,11 @@ class WorkspaceSidebar extends React.Component {
             )}
           </div>
         </div>
+
+        <div className='sidebar-button'>
+          <div className='sidebar-symbol'>&#x2b;</div>
+          <div className='sidebar-header-link' onClick={this.toggleElement("invite-user-modal")}>Add People</div>
+        </div>
       </div>
     )
   }

@@ -1,9 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import { getWorkspace } from '../../actions/workspace_actions';
-import { getChannels } from '../../actions/channel_actions';
-
 
 // TODO2: CHANGE THIS FROM A COMPONENT TO A CUSTOM ROUTE
 // NOTE : ESSENTIALLY PROVIDES A REDIRECT

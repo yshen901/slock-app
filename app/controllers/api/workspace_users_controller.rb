@@ -10,10 +10,10 @@ class Api::WorkspaceUsersController < ApplicationController
         @connection.save
         render '/api/workspace_users/show'
       else
-        render json: ["User is already in workspace"], status: 401
+        render json: ["User is already part of the workspace."], status: 401
       end
     else
-      render json: ["User doesn't exist"], status: 401
+      render json: ["User does not exist."], status: 401
     end
   end
 

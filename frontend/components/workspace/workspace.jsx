@@ -3,6 +3,7 @@ import WorkspaceSidebarContainer from "./workspace_sidebar_container"
 import ChannelContainer from '../channel/channel_container';
 import ChannelModalContainer from '../modals/channel_modal_container';
 import NewChannelModalContainer from '../modals/new_channel_modal_container';
+import InviteUserModal from '../modals/invite_user_modal';
 import SidebarDropdown from '../modals/sidebar_dropdown';
 
 import { hideElement } from '../../util/modal_api_util';
@@ -21,7 +22,7 @@ class Workspace extends React.Component {
     for (let i = 0; i < workspaces.length; i++) {
       if (workspaces[i].address === workspace_address) {
         valid = true;
-        getChannels(workspaces[i].id)
+        getChannels(workspaces[i].id) // DESIGN: GETS WORKSPACE CHANNELS AND USERS  
           .then(
             ({ channels }) => {
               if (getState().entities.channels[channel_id] === undefined)
@@ -48,6 +49,7 @@ class Workspace extends React.Component {
 
         <SidebarDropdown />
         <ChannelModalContainer />
+        <InviteUserModal />
         <NewChannelModalContainer />
       </div>
     )

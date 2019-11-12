@@ -9,9 +9,10 @@ const receiveChannel = (channel) => ({
   channel
 })
 
-const receiveChannels = (channels) => ({
+const receiveChannels = ({channels, users}) => ({
   type: RECEIVE_CHANNELS,
-  channels
+  channels,
+  users
 })
 
 export const postChannel = (channel) => (dispatch) => (
@@ -27,7 +28,7 @@ export const getChannels = (workspace_id) => (dispatch) => (
   ChannelAPI
     .getChannels(workspace_id)
     .then(
-      channels => dispatch(receiveChannels(channels)),
+      channelsInfo => dispatch(receiveChannels(channelsInfo)),
       errors => dispatch(receiveErrors(errors))
     )
 )

@@ -136,3 +136,26 @@
 .sidebar-item.selected:hover {
   background: #1164A3;
 }
+
+.sidebar-button {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  padding-top: 10px;
+  padding-left: 14px;
+  padding-right: 15px;
+  margin-bottom: 2px;
+  box-sizing: border-box;
+}
+
+.sidebar-symbol {
+  color: rgb(246, 236, 248);
+  opacity: 0.5;
+  font-weight: bold;
+  margin-right: 10px; 
+
+  line-height: 14px;
+  vertical-align: middle;
+}
+
