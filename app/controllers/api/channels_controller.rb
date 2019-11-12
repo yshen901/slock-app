@@ -20,6 +20,7 @@ class Api::ChannelsController < ApplicationController
     if old_channel
       render json: ["Channel name already exists"], status: 401
     elsif @channel.save
+      ChannelUser.create(channel_id: @channel.id, user_id: current_user.id)
       render 'api/channels/show'
     else
       render json: ["Other error occurred"], status: 401

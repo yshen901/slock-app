@@ -1,16 +1,28 @@
 import * as WorkspaceAPI from "../util/workspace_api_util";
 import * as ConnectionAPI from "../util/connection_api_util";
 import { receiveErrors } from './error_actions';
+import { arrayToObject } from "../selectors/selectors";
 
-export const RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";
-export const REMOVE_WORKSPACE = "REMOVE_WORKSPACE";
-export const RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES";
-
+export const RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";   //adds workspace to state
+export const RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES"; //adds all workspaces to state
+export const REMOVE_WORKSPACE = "REMOVE_WORKSPACE";     //removes workspace from state
+export const LOAD_WORKSPACE = "LOAD_WORKSPACE";         //adds workspace info (users, id, and current_user_channels) to state
 
 const receiveWorkspace = (workspace) => ({
   type: RECEIVE_WORKSPACE,
   workspace
 });
+
+const loadWorkspace = ({workspace, users, user_channels}) => {
+  user_channels = Object.keys(arrayToObject(user_channels))
+                        .map((id) => parseInt(id));
+  return {
+    type: LOAD_WORKSPACE,
+    workspace,
+    users,
+    user_channels
+  }
+}
 
 const removeWorkspace = (workspace) => ({
   type: REMOVE_WORKSPACE,
@@ -36,7 +48,7 @@ export const getWorkspace = workspace_address => dispatch => (
   WorkspaceAPI
     .getWorkspace(workspace_address)
     .then(
-      workspace => dispatch(receiveWorkspace(workspace)),
+      workspaceInfo => dispatch(loadWorkspace(workspaceInfo)),
       errors => dispatch(receiveErrors(errors))
     )
 )

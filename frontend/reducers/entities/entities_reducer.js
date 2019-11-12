@@ -6,7 +6,7 @@ import ChannelReducer from './channel_reducer'
 const EntitiesReducer = combineReducers({
   users: UserReducer,
   workspaces: WorkspaceReducer,
-  channels: ChannelReducer
+  channels: ChannelReducer,
 })
 
 export default EntitiesReducer;

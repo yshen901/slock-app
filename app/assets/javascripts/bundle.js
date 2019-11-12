@@ -90,21 +90,33 @@
 /*!**********************************************!*\
   !*** ./frontend/actions/channel_actions.jsx ***!
   \**********************************************/
-/*! exports provided: RECEIVE_CHANNEL, RECEIVE_CHANNELS, postChannel, getChannels */
+/*! exports provided: LOAD_CHANNEL, RECEIVE_CHANNEL, RECEIVE_CHANNELS, loadChannel, postChannel, getChannels */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_CHANNEL", function() { return LOAD_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNEL", function() { return RECEIVE_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNELS", function() { return RECEIVE_CHANNELS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadChannel", function() { return loadChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postChannel", function() { return postChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getChannels", function() { return getChannels; });
 /* harmony import */ var _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/channel_api_util */ "./frontend/util/channel_api_util.js");
 /* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../selectors/selectors */ "./frontend/selectors/selectors.js");
 
 
+
+var LOAD_CHANNEL = "LOAD_CHANNEL";
 var RECEIVE_CHANNEL = "RECEIVE_CHANNEL";
-var RECEIVE_CHANNELS = "RECEIVE_CHANNELS";
+var RECEIVE_CHANNELS = "RECEIVE_CHANNELS"; // DESIGN: SIMPLY CHANGES SESSION.CHANNEL_ID
+
+var loadChannel = function loadChannel(channel_id) {
+  return {
+    type: LOAD_CHANNEL,
+    channel_id: channel_id
+  };
+};
 
 var receiveChannel = function receiveChannel(channel) {
   return {
@@ -114,12 +126,18 @@ var receiveChannel = function receiveChannel(channel) {
 };
 
 var receiveChannels = function receiveChannels(_ref) {
-  var channels = _ref.channels,
-      users = _ref.users;
+  var channels = _ref.channels;
+
+  // converts an array {id: user_id} objects to an array of user_ids
+  for (var i = 0; i < channels.length; i++) {
+    channels[i].users = Object.keys(Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["arrayToObject"])(channels[i].users)).map(function (id) {
+      return parseInt(id);
+    });
+  }
+
   return {
     type: RECEIVE_CHANNELS,
-    channels: channels,
-    users: users
+    channels: channels
   };
 };
 
@@ -258,14 +276,15 @@ var logout = function logout() {
 /*!************************************************!*\
   !*** ./frontend/actions/workspace_actions.jsx ***!
   \************************************************/
-/*! exports provided: RECEIVE_WORKSPACE, REMOVE_WORKSPACE, RECEIVE_WORKSPACES, findWorkspace, getWorkspace, getWorkspaces, postWorkspace, logoutWorkspace */
+/*! exports provided: RECEIVE_WORKSPACE, RECEIVE_WORKSPACES, REMOVE_WORKSPACE, LOAD_WORKSPACE, findWorkspace, getWorkspace, getWorkspaces, postWorkspace, logoutWorkspace */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_WORKSPACE", function() { return RECEIVE_WORKSPACE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_WORKSPACE", function() { return REMOVE_WORKSPACE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_WORKSPACES", function() { return RECEIVE_WORKSPACES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_WORKSPACE", function() { return REMOVE_WORKSPACE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_WORKSPACE", function() { return LOAD_WORKSPACE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findWorkspace", function() { return findWorkspace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWorkspace", function() { return getWorkspace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWorkspaces", function() { return getWorkspaces; });
@@ -274,17 +293,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/workspace_api_util */ "./frontend/util/workspace_api_util.js");
 /* harmony import */ var _util_connection_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/connection_api_util */ "./frontend/util/connection_api_util.js");
 /* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../selectors/selectors */ "./frontend/selectors/selectors.js");
 
 
 
-var RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";
-var REMOVE_WORKSPACE = "REMOVE_WORKSPACE";
-var RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES";
+
+var RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE"; //adds workspace to state
+
+var RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES"; //adds all workspaces to state
+
+var REMOVE_WORKSPACE = "REMOVE_WORKSPACE"; //removes workspace from state
+
+var LOAD_WORKSPACE = "LOAD_WORKSPACE"; //adds workspace info (users, id, and current_user_channels) to state
 
 var receiveWorkspace = function receiveWorkspace(workspace) {
   return {
     type: RECEIVE_WORKSPACE,
     workspace: workspace
+  };
+};
+
+var loadWorkspace = function loadWorkspace(_ref) {
+  var workspace = _ref.workspace,
+      users = _ref.users,
+      user_channels = _ref.user_channels;
+  user_channels = Object.keys(Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["arrayToObject"])(user_channels)).map(function (id) {
+    return parseInt(id);
+  });
+  return {
+    type: LOAD_WORKSPACE,
+    workspace: workspace,
+    users: users,
+    user_channels: user_channels
   };
 };
 
@@ -311,8 +351,8 @@ var findWorkspace = function findWorkspace(workspace_address) {
 };
 var getWorkspace = function getWorkspace(workspace_address) {
   return function (dispatch) {
-    return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["getWorkspace"](workspace_address).then(function (workspace) {
-      return dispatch(receiveWorkspace(workspace));
+    return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["getWorkspace"](workspace_address).then(function (workspaceInfo) {
+      return dispatch(loadWorkspace(workspaceInfo));
     }, function (errors) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
@@ -2495,25 +2535,39 @@ function (_React$Component) {
           channel_id = _this$props.channel_id,
           getChannels = _this$props.getChannels;
       var valid = false;
+      /* NOTE: ".THEN" OF A THUNK ACTION DISPATCH TAKES IN THE ACTION*/
 
-      for (var i = 0; i < workspaces.length; i++) {
+      var _loop = function _loop(i) {
         if (workspaces[i].address === workspace_address) {
           valid = true;
-          getChannels(workspaces[i].id) // DESIGN: GETS WORKSPACE CHANNELS AND USERS  
-          .then(function (_ref) {
-            var channels = _ref.channels;
-            if (getState().entities.channels[channel_id] === undefined) _this.props.history.replace("/workspace/".concat(workspace_address, "/").concat(channels[0].id));
+
+          _this.props.getWorkspace(workspace_address) // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS
+          .then(function () {
+            _this.props.getChannels(workspaces[i].id) // DESIGN: SETS ENTITIES.CHANNELS
+            .then(function (_ref) {
+              var channels = _ref.channels;
+              if (getState().entities.channels[channel_id] === undefined) _this.props.history.replace("/workspace/".concat(workspace_address, "/").concat(channels[0].id));
+            });
           });
         }
-      }
+      };
 
-      if (!valid) this.props.history.replace('/signin');
+      for (var i = 0; i < workspaces.length; i++) {
+        _loop(i);
+      } // IF WORKSPACE ADDRESS ISN'T VALID, THEN REDIRECT TO SIGNIN PAGE
+      // OTHERWISE UPDATE STATE.SESSION.CHANNEL_USERS
+
+
+      if (!valid) this.props.history.replace('/signin');else this.props.loadChannel(channel_id);
     } // Makes sure you don't go to an invalid channel
 
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
-      if (oldProps.match.params.channel_id !== this.props.match.params.channel_id) if (getState().entities.channels[this.props.match.params.channel_id] === undefined) this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
+      if (oldProps.match.params.channel_id !== this.props.match.params.channel_id) {
+        if (getState().entities.channels[this.props.match.params.channel_id] === undefined) this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
+        else this.props.loadChannel(parseInt(this.props.match.params.channel_id));
+      }
     }
   }, {
     key: "render",
@@ -2548,6 +2602,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _workspace__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./workspace */ "./frontend/components/workspace/workspace.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
+
 
 
 
@@ -2567,8 +2623,14 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     logout: function logout() {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["logout"])());
     },
+    getWorkspace: function getWorkspace(workspace_address) {
+      return dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_5__["getWorkspace"])(workspace_address));
+    },
     getChannels: function getChannels(workspace_id) {
       return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_4__["getChannels"])(workspace_id));
+    },
+    loadChannel: function loadChannel(channel_id) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_4__["loadChannel"])(channel_id));
     }
   };
 };
@@ -2896,8 +2958,8 @@ var EntitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
-/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
-/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 
 
 
@@ -2912,13 +2974,11 @@ var UserReducer = function UserReducer() {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
       return {};
 
+    case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["LOAD_WORKSPACE"]:
+      return Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["arrayToObject"])(action.users);
+
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
       nextState[action.user.id] = action.user;
-      return nextState;
-
-    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_CHANNELS"]:
-      //DESIGN: RECEIVE_CHANNELS ALSO PULLS IN USERS
-      nextState = Object.assign({}, state, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["arrayToObject"])(action.users));
       return nextState;
 
     default:
@@ -3080,7 +3140,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var DEFAULT_SESSION = {
   user_id: null,
-  workspace_id: null
+  workspace_id: null,
+  channel_id: null,
+  user_channels: null
 };
 
 var SessionReducer = function SessionReducer() {
@@ -3094,17 +3156,19 @@ var SessionReducer = function SessionReducer() {
       nextState['user_id'] = action.user.id;
       return nextState;
 
-    case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_WORKSPACE"]:
-      nextState['workspace_id'] = action.workspace.id;
-      return nextState;
+    case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_WORKSPACE"]:
+      nextState['user_channels'] = action.user_channels;
 
-    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_CHANNELS"]:
-      //DESIGN: RECEIVE_CHANNELS ALSO UPDATES WORKSPACE_ID
-      nextState['workspace_id'] = action.channels[0].workspace_id;
+    case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_WORKSPACE"]:
+      nextState['workspace_id'] = parseInt(action.workspace.id);
       return nextState;
 
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_WORKSPACE"]:
       nextState['workspace_id'] = null;
+      return nextState;
+
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["LOAD_CHANNEL"]:
+      nextState['channel_id'] = action.channel_id;
       return nextState;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
@@ -3188,7 +3252,8 @@ document.addEventListener('DOMContentLoaded', function () {
       },
       session: {
         user_id: window.currentUser.id,
-        workspace_id: Object.keys(window.currentWorkspaces)[0]
+        workspace_id: parseInt(Object.keys(window.currentWorkspaces)[0]),
+        user_channels: []
       },
       errors: {
         session: []

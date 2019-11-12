@@ -1,6 +1,6 @@
 import { RECEIVE_USER, LOGOUT } from '../../actions/session_actions';
-import { RECEIVE_CHANNELS } from '../../actions/channel_actions';
 import { arrayToObject } from '../../selectors/selectors';
+import { LOAD_WORKSPACE } from '../../actions/workspace_actions';
 
 const UserReducer = (state = { }, action) => {
   Object.freeze(state);
@@ -9,11 +9,10 @@ const UserReducer = (state = { }, action) => {
   switch (action.type) {
     case LOGOUT:
       return {}
+    case LOAD_WORKSPACE:
+      return arrayToObject(action.users);
     case RECEIVE_USER:
       nextState[action.user.id] = action.user;
-      return nextState;
-    case RECEIVE_CHANNELS: //DESIGN: RECEIVE_CHANNELS ALSO PULLS IN USERS
-      nextState = Object.assign({}, state, arrayToObject(action.users));
       return nextState;
     default:
       return state;

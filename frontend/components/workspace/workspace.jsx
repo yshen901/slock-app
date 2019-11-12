@@ -8,7 +8,6 @@ import SidebarDropdown from '../modals/sidebar_dropdown';
 
 import { hideElement } from '../../util/modal_api_util';
 
-
 class Workspace extends React.Component {
   constructor() {
     super();
@@ -19,26 +18,41 @@ class Workspace extends React.Component {
     let { workspaces, workspace_address, channel_id, getChannels } = this.props;
     let valid = false;
 
+    /* NOTE: ".THEN" OF A THUNK ACTION DISPATCH TAKES IN THE ACTION*/
     for (let i = 0; i < workspaces.length; i++) {
       if (workspaces[i].address === workspace_address) {
         valid = true;
-        getChannels(workspaces[i].id) // DESIGN: GETS WORKSPACE CHANNELS AND USERS  
+        this.props.getWorkspace(workspace_address) // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS
           .then(
-            ({ channels }) => {
-              if (getState().entities.channels[channel_id] === undefined)
-                this.props.history.replace(`/workspace/${workspace_address}/${channels[0].id}`)
+            () => {
+              this.props.getChannels(workspaces[i].id) // DESIGN: SETS ENTITIES.CHANNELS
+                .then(
+                  ({channels}) => {
+                    if (getState().entities.channels[channel_id] === undefined)
+                      this.props.history.replace(`/workspace/${workspace_address}/${channels[0].id}`)
+                  }
+                )
             }
           )
       }
     }
-    if (!valid) this.props.history.replace('/signin');
+
+    // IF WORKSPACE ADDRESS ISN'T VALID, THEN REDIRECT TO SIGNIN PAGE
+    // OTHERWISE UPDATE STATE.SESSION.CHANNEL_USERS
+    if (!valid) 
+      this.props.history.replace('/signin');
+    else
+      this.props.loadChannel(channel_id);
   }
 
   // Makes sure you don't go to an invalid channel
   componentDidUpdate(oldProps) {
-    if (oldProps.match.params.channel_id !== this.props.match.params.channel_id)
+    if (oldProps.match.params.channel_id !== this.props.match.params.channel_id) {
       if (getState().entities.channels[this.props.match.params.channel_id] === undefined)
         this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
+      else
+        this.props.loadChannel(parseInt(this.props.match.params.channel_id));
+    }
   }
 
   render() {

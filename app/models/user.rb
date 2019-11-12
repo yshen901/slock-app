@@ -19,6 +19,17 @@ class User < ApplicationRecord
     through: :connections,
     source: :workspace
 
+  # connection to a channel
+  has_many :channel_connections,
+    foreign_key: :user_id,
+    class_name: :ChannelUser,
+    dependent: :destroy
+
+  # channels the user is in
+  has_many :channels,
+    through: :channel_connections,
+    source: :channel
+
   attr_reader :password
 
   # sets the password_digest
