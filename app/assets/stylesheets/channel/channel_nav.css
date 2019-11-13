@@ -18,8 +18,9 @@
   box-sizing: border-box;
 }
 
+/*fix css for here*/
 #channel-nav #right {
-  width: 40%;
+  width: 10%;
   height: 100%;
 
   padding: 10px;
@@ -49,5 +50,3 @@
 #channel-nav .settings-button:hover {
   cursor: pointer;
 }
-
-

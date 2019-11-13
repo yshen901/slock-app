@@ -48,11 +48,14 @@ img {
   text-decoration: none;
   color:black;
   font-size: 15px;
+
+  padding: 3px;
+  box-sizing: border-box;
 }
 
 .home-link:hover {
-  text-decoration: underline;
-  color: blue;
+  background: lightgray;
+  border-radius: 3px;
 }
 
 .auth-nav-link, #auth-signin {

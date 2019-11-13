@@ -6,9 +6,6 @@ class ChannelActionsDropdown extends React.Component {
   constructor(props) {
     super(props);
 
-    this.channel_id = this.props.match.params.channel_id;
-    this.workspace_address = this.props.match.params.workspace_address;
-
     this.joinButton = this.joinButton.bind(this);
     this.leaveChannel = this.leaveChannel.bind(this);
     this.joinChannel = this.joinChannel.bind(this);
@@ -16,14 +13,16 @@ class ChannelActionsDropdown extends React.Component {
 
   joinChannel(e) {
     e.stopPropagation();
-    dispatch(joinChannel(parseInt(this.channel_id)))
+    let { channel_id } = this.props.match.params;
+    dispatch(joinChannel(parseInt(channel_id)))
   }
 
   leaveChannel(e) {
     e.stopPropagation();
-    dispatch(leaveChannel(parseInt(this.channel_id)))
+    let { channel_id, workspace_address } = this.props.match.params;
+    dispatch(leaveChannel(parseInt(channel_id)))
       .then(
-        () => this.props.history.push(`/workspace/${this.workspace_address}`),
+        () => this.props.history.push(`/workspace/${workspace_address}`),
         null
       )
   }

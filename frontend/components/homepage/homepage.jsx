@@ -13,11 +13,26 @@ class Homepage extends React.Component {
     }
 
     this.changeField = this.changeField.bind(this);
+    // this.newUser = this.newUser.bind(this);
   }
   
   changeField(e) {
     this.setState({ email: e.currentTarget.value });
   }
+
+  // newUser() {
+  //   if(getState().session.user_id === null)
+  //     return (
+  //       <div>
+  //         <button className="home-button" onClick={(e) => { this.props.history.push('/signup') }}>Try Slock</button>
+
+  //         <div id="signin-message">
+  //           <h6>Already using Slock?</h6>
+  //           <Link to='/signin'>Sign in.</Link>
+  //         </div>
+  //       </div>
+  //     )
+  // }
 
   render() {
     return (
@@ -34,12 +49,13 @@ class Homepage extends React.Component {
             <br/>
           </div>
 
-          <button className="home-button" onClick={(e) => {this.props.history.push('/signup')}}>Try Slock</button>
+          <button className="home-button" onClick={(e) => { this.props.history.push('/signup') }}>Try Slock</button>
 
           <div id="signin-message">
             <h6>Already using Slock?</h6>
             <Link to='/signin'>Sign in.</Link>
           </div>
+
         </div>
       </div>
     )

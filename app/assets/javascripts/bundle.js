@@ -1789,7 +1789,8 @@ function (_React$Component) {
     _this.state = {
       email: ""
     };
-    _this.changeField = _this.changeField.bind(_assertThisInitialized(_this));
+    _this.changeField = _this.changeField.bind(_assertThisInitialized(_this)); // this.newUser = this.newUser.bind(this);
+
     return _this;
   }
 
@@ -1799,7 +1800,19 @@ function (_React$Component) {
       this.setState({
         email: e.currentTarget.value
       });
-    }
+    } // newUser() {
+    //   if(getState().session.user_id === null)
+    //     return (
+    //       <div>
+    //         <button className="home-button" onClick={(e) => { this.props.history.push('/signup') }}>Try Slock</button>
+    //         <div id="signin-message">
+    //           <h6>Already using Slock?</h6>
+    //           <Link to='/signin'>Sign in.</Link>
+    //         </div>
+    //       </div>
+    //     )
+    // }
+
   }, {
     key: "render",
     value: function render() {
@@ -1882,8 +1895,6 @@ function (_React$Component) {
     _classCallCheck(this, ChannelActionsDropdown);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ChannelActionsDropdown).call(this, props));
-    _this.channel_id = _this.props.match.params.channel_id;
-    _this.workspace_address = _this.props.match.params.workspace_address;
     _this.joinButton = _this.joinButton.bind(_assertThisInitialized(_this));
     _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
     _this.joinChannel = _this.joinChannel.bind(_assertThisInitialized(_this));
@@ -1894,7 +1905,8 @@ function (_React$Component) {
     key: "joinChannel",
     value: function joinChannel(e) {
       e.stopPropagation();
-      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["joinChannel"])(parseInt(this.channel_id)));
+      var channel_id = this.props.match.params.channel_id;
+      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["joinChannel"])(parseInt(channel_id)));
     }
   }, {
     key: "leaveChannel",
@@ -1902,8 +1914,11 @@ function (_React$Component) {
       var _this2 = this;
 
       e.stopPropagation();
-      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["leaveChannel"])(parseInt(this.channel_id))).then(function () {
-        return _this2.props.history.push("/workspace/".concat(_this2.workspace_address));
+      var _this$props$match$par = this.props.match.params,
+          channel_id = _this$props$match$par.channel_id,
+          workspace_address = _this$props$match$par.workspace_address;
+      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["leaveChannel"])(parseInt(channel_id))).then(function () {
+        return _this2.props.history.push("/workspace/".concat(workspace_address));
       }, null);
     }
   }, {
