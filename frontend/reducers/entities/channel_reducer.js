@@ -4,22 +4,21 @@ import {
   LEAVE_CHANNEL,
 } from '../../actions/channel_actions'
 
-import { LOAD_WORKSPACE } from '../../actions/workspace_actions';
+import { LOAD_WORKSPACE, REMOVE_WORKSPACE } from '../../actions/workspace_actions';
 import { LOGOUT } from '../../actions/session_actions';
-
-import { arrayToObject } from '../../selectors/selectors';
 
 const ChannelReducer = (state = {}, action) => {
   Object.freeze(state);
   let nextState, channel_id, user_id, channel_users;
 
   switch(action.type) {
+    case REMOVE_WORKSPACE:
     case LOGOUT:
       return {};
 
-    //EDIT THISSSS
+    //EDIT THIS
     case LOAD_WORKSPACE:
-      return arrayToObject(action.channels);
+      return action.channels;
     case RECEIVE_CHANNEL:
       nextState = Object.assign({}, state);
       nextState[action.channel.id] = action.channel;
@@ -29,19 +28,17 @@ const ChannelReducer = (state = {}, action) => {
       nextState = Object.assign({}, state);
       channel_id = action.channel_user.channel_id;
       user_id = action.channel_user.user_id;
-      channel_users = nextState[channel_id].users;
-      if (!channel_users.includes(user_id))
-        channel_users.push(user_id);
+      if (nextState[channel_id].users === undefined) nextState[channel_id].users = {}
+      nextState[channel_id].users[user_id] = { [user_id]: { id: user_id } }
       return nextState;
 
     case LEAVE_CHANNEL:
       nextState = Object.assign({}, state);
       channel_id = action.channel_user.channel_id;
       user_id = action.channel_user.user_id;
-      channel_users = nextState[channel_id].users;
-      for (let i = 0; i < channel_users.length; i++)
-        if (channel_users[i] === user_id) 
-          channel_users.splice(i, 1);
+      if (nextState[channel_id].users)
+        delete nextState[channel_id].users[user_id]
+        if (nextState[channel_id].users === undefined) nextState[channel_id].users = {}
       return nextState;
 
     default:

@@ -20,8 +20,6 @@ class InviteUserModal extends React.Component {
     this.warning = this.warning.bind(this);
   }
 
-  // Returns either a disabled or non disabled button, depending on the state
-  // TODO4: COULD USE document.getElementById then add property, instead of returning depending on state
   button() {
     if (this.state.disabled)
       return (<button onClick={this.submitForm} disabled>Create</button>)

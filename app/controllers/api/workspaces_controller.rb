@@ -1,6 +1,5 @@
 class Api::WorkspacesController < ApplicationController
   # DESIGN: workspace's show's ":id" will refer to the address rather than id
-  # TODO2: Make a custom route '/api/workspace/:address' so this is less hacky
   def show
     @workspace = Workspace.find_by_address(params[:id])
     if @workspace 
@@ -12,7 +11,6 @@ class Api::WorkspacesController < ApplicationController
 
   
   # DESIGN: Gets all logged_in workspaces of the current_user
-  # TODO: MAKE THIS CUSTOM ROUTE TO MAKE THIS LESS HACKY
   def index
     @workspaces = Workspace.joins(:users).where("users.id = #{current_user.id} AND logged_in = true")
     # @workspaces = Workspace.all
@@ -25,7 +23,8 @@ class Api::WorkspacesController < ApplicationController
       render json: ["I don't know how you did this but this is illegal"], status: 402
     elsif @workspace.save
       connection = WorkspaceUser.create(user_id: current_user.id, workspace_id: @workspace.id, logged_in: true)
-      channel = Channel.create({name: channel_params[:channel], workspace_id: @workspace.id})
+      Channel.create({name: "general", workspace_id: @workspace.id})
+      Channel.create({name: channel_params[:channel], workspace_id: @workspace.id})
       render '/api/workspaces/show'
     else
       render json: ["Workspace name is invalid or already taken"], status: 402

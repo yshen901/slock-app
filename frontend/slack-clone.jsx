@@ -20,8 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       session: {
         user_id: window.currentUser.id,
-        workspace_id: parseInt(Object.keys(window.currentWorkspaces)[0]),
-        user_channels: [],
+        user_channels: {},
       },
       errors: {
         session: []

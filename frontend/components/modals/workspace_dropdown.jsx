@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-import { objectToArray } from '../../selectors/selectors';
+import { objectToArray, workspaceTitle } from '../../selectors/selectors';
 import { logout } from '../../actions/session_actions';
 
 class WorkspaceDropdown extends React.Component {
@@ -21,7 +21,7 @@ class WorkspaceDropdown extends React.Component {
           {workspaces.map((workspace, idx) => {
             return (
               <div key={idx} className="dropdown-item" onClick={() => this.props.history.push(`/workspace/${workspace.address}/0`)}>
-                &#9824; {workspace.address}
+                &#9824; {workspaceTitle(workspace.address)}
               </div>
             )
           })}

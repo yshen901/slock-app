@@ -6,48 +6,48 @@ let DEFAULT_SESSION = {
   user_id: null, 
   workspace_id: null,
   channel_id: null,
-  user_channels: []
+  user_channels: {}
 };
 
 const SessionReducer = (state = DEFAULT_SESSION, action) => {
   Object.freeze(state);
   let nextState = Object.assign({}, state);
-  let channel_id, channel_user;
+  let channel_id;
 
   switch(action.type) {
     case RECEIVE_USER:
-      nextState['user_id'] = action.user.id;
+      nextState.user_id = action.user.id;
       return nextState;
 
     case LOAD_WORKSPACE:
-      nextState['user_channels'] = action.user_channels;
+      nextState.user_channels = action.user_channels ? action.user_channels : {} ;
     case RECEIVE_WORKSPACE:
-      nextState['workspace_id'] = parseInt(action.workspace.id);
+      nextState.workspace_id = action.workspace.id;
       return nextState;
 
     case REMOVE_WORKSPACE:
-      nextState['workspace_id'] = null;
+      nextState.workspace_id = null;
+      nextState.channel_id = null;
       return nextState;
 
     case RECEIVE_CHANNEL:
-      if (!nextState['user_channels'].includes(action.channel.id))
-        nextState['user_channels'].push(action.channel.id)
+      channel_id = action.channel.id;
+      nextState.user_channels[channel_id] = { [channel_id]: channel_id }
       return nextState;
+      
     case LOAD_CHANNEL:
-      nextState['channel_id'] = action.channel_id;
+      nextState.channel_id = action.channel_id;
       return nextState;
 
     case JOIN_CHANNEL:
       channel_id = action.channel_user.channel_id;
-      if (!nextState['user_channels'].includes(channel_id))
-        nextState['user_channels'].push(channel_id);
+      nextState.user_channels[channel_id] = { [channel_id]: channel_id};
       return nextState;
+
     case LEAVE_CHANNEL:
       channel_id = action.channel_user.channel_id;
-      let { user_channels } = nextState;
-      for (let i = 0; i < user_channels.length; i++)
-        if (user_channels[i] === channel_id)
-          user_channels.splice(i, 1)
+      delete nextState.user_channels[channel_id];
+      if (nextState.user_channels === undefined) nextState.user_channels = {}
       return nextState;
 
     case LOGOUT:

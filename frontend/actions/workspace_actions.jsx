@@ -1,7 +1,6 @@
 import * as WorkspaceAPI from "../util/workspace_api_util";
 import * as ConnectionAPI from "../util/connection_api_util";
 import { receiveErrors } from './error_actions';
-import { arrayToObject } from "../selectors/selectors";
 
 export const RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE";   //adds workspace to state
 export const RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES"; //adds all workspaces to state
@@ -13,17 +12,13 @@ const receiveWorkspace = (workspace) => ({
   workspace
 });
 
-const loadWorkspace = ({workspace, users, user_channels, channels}) => {
-  user_channels = Object.keys(arrayToObject(user_channels))
-                        .map((id) => parseInt(id));
-  return {
-    type: LOAD_WORKSPACE,
-    workspace,
-    users,
-    user_channels,
-    channels
-  }
-}
+const loadWorkspace = ({workspace, users, user_channels, channels}) => ({
+  type: LOAD_WORKSPACE,
+  workspace,
+  channels,
+  users,
+  user_channels,
+})
 
 const removeWorkspace = (workspace) => ({
   type: REMOVE_WORKSPACE,

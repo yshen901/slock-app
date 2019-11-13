@@ -54,14 +54,20 @@ class WorkspaceForm extends React.Component {
     return (e) => {
       if (e.currentTarget.value === '')
         this.setState({ [type]: e.currentTarget.value, disabled: true })
-      else
-        this.setState({ [type]: e.currentTarget.value, disabled: false })
+      else if (type === "channel") {
+        let currentVal = e.currentTarget.value.split('');
+        let lastVal = currentVal.pop();
+        lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal.toLowerCase());        
+        this.setState({ [type]: currentVal.join(''), disabled: false })
+      } else {
+        let currentVal = e.currentTarget.value.split('');
+        let lastVal = currentVal.pop();
+        lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal); 
+        this.setState({ [type]: currentVal.join(''), disabled: false })
+      }
     }
   }
 
-  // TODO2: ADD A WHO ELSE IS WORKING ON THIS PROJECT FORM
-  // NOTE: IF YOU USE AN INPUT WITHOUT A FORM, YOU WILL NEED TO SET A VALUE
-  //       OR IT WON'T REGISTER (I THINK) ... MORE RESEARCH NEEDED IF YOU HAVE TIME
   render() {
     switch(this.state.page) {
       case "address":

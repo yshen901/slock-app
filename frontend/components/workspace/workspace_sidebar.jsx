@@ -1,23 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { toggleElements, focus } from '../../util/modal_api_util';
+import { workspaceTitle } from '../../selectors/selectors'
 
 class WorkspaceSidebar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.logout = this.logout.bind(this);
     this.channelLink = this.channelLink.bind(this);
     this.toggleElements = this.toggleElements.bind(this);
-
     this.renderChannels = this.renderChannels.bind(this);
-  }
-
-  logout() {
-    this.props.logout()
-      .then(
-        () => this.props.history.push('/')
-      )
   }
 
   channelLink(channelId) {
@@ -55,28 +47,32 @@ class WorkspaceSidebar extends React.Component {
   }
 
   render() {
-    return (
-      <div id="workspace-sidebar">
+    //TODO2: FIGURE OUT A MORE ELEGANT WAY...LIKE PREVENT A RE-RENDER BEFORE THE REDIRECT AFTER LOGGING OUT
+    if (this.props.user) 
+      return (
+        <div id="workspace-sidebar">
 
-        <div id="workspace-sidebar-nav" onClick={ this.toggleElements("dropdown sidebar") }>
-          <h2>{this.props.workspace_address}</h2>
-          <h6>&#9673; {this.props.user.email}</h6>
-        </div>
-
-        <div id="channels">
-          <div className='sidebar-header'>
-            <div className='sidebar-header-link' onClick={ this.toggleElements("full-modal channel-modal") }>Channels</div>
-            <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>+</div>
+          <div id="workspace-sidebar-nav" onClick={ this.toggleElements("dropdown sidebar") }>
+            <h2>{workspaceTitle(this.props.workspace_address)}</h2>
+            <h6>&#9673; {this.props.user.email}</h6>
           </div>
-          {this.renderChannels()}
-        </div>
 
-        <div className='sidebar-button'>
-          <div className='sidebar-symbol'>&#x2b;</div>
-          <div className='sidebar-header-link' onClick={this.toggleElements("invite-user-modal", "invite-user-input")}>Add People</div>
+          <div id="channels">
+            <div className='sidebar-header'>
+              <div className='sidebar-header-link' onClick={ this.toggleElements("full-modal channel-modal") }>Channels</div>
+              <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>+</div>
+            </div>
+            {this.renderChannels()}
+          </div>
+
+          <div className='sidebar-button'>
+            <div className='sidebar-symbol'>&#x2b;</div>
+            <div className='sidebar-header-link' onClick={this.toggleElements("invite-user-modal", "invite-user-input")}>Add People</div>
+          </div>
         </div>
-      </div>
-    )
+      )
+    else
+        return <div id="workspace-sidebar"></div>
   }
 }
 

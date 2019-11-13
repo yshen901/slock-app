@@ -1,4 +1,6 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+
 import WorkspaceSidebarContainer from "./workspace_sidebar_container"
 import ChannelContainer from '../channel/channel_container';
 import ChannelModalContainer from '../modals/channel_modal_container';
@@ -13,12 +15,10 @@ class Workspace extends React.Component {
     super();
   }
 
-  // TODO2: This is an N+1 query, figure out a way to not run this if channels are already loaded
   componentDidMount() {
-    let { workspaces, workspace_address, channel_id, getChannels } = this.props;
-    let valid = false;
+    let { workspaces, workspace_address, channel_id } = this.props;
+    let valid = false
 
-    /* NOTE: ".THEN" OF A THUNK ACTION DISPATCH TAKES IN THE ACTION*/
     for (let i = 0; i < workspaces.length; i++) {
       if (workspaces[i].address === workspace_address) {
         valid = true;
@@ -27,8 +27,9 @@ class Workspace extends React.Component {
         this.props.getWorkspace(workspace_address) 
           .then(
             ({channels}) => {
-              if (getState().entities.channels[channel_id] === undefined)
-                this.props.history.replace(`/workspace/${workspace_address}/${channels[0].id}`)
+              let first_channel = Object.keys(channels)[0];
+              if (channels[channel_id] === undefined)
+                this.props.history.replace(`/workspace/${workspace_address}/${first_channel}`)
             }
           )
       }
@@ -46,7 +47,7 @@ class Workspace extends React.Component {
       if (getState().entities.channels[this.props.match.params.channel_id] === undefined)
         this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
       else
-        this.props.loadChannel(parseInt(this.props.match.params.channel_id));
+        this.props.loadChannel(this.props.match.params.channel_id);
     }
   }
 

@@ -8,9 +8,7 @@ const mapStateToProps = (state, ownProps) => ({
   modalClass: "full-modal channel-modal hidden",
 })
 
-// TODO1: CREATE AN ACTION HERE THAT AFTER CLICKING A CHANNEL WILL ADD IT TO THE LIST
-//        OF A CONNECTION'S CHANNELS. ALSO NEED TO MIGRATE THE JOINS TABLE THAT
-//        STORES A CONNECTION'S CHANNELS.
+// TODO1: CREATE AN ACTION HERE THAT AFTER CLICKING A CHANNEL WILL ROUTE TO THAT CHANNEL
 const mapDispatchToProps = (dispatch) => ({
 })
 

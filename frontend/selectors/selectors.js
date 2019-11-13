@@ -10,10 +10,9 @@ export const objectToNameArray = (object) => {
   })
 }
 
-export const arrayToObject = (array) => {
-  let object = {};
-  for (let i = 0; i < array.length; i++) {
-    object[array[i].id] = array[i];
-  }
-  return object;
+export const workspaceTitle = (address) => {
+  let words = address.split('-');
+  for (let i = 0; i < words.length; i++)
+    words[i] = words[i].slice(0, 1).toUpperCase() + words[i].slice(1)
+  return words.join(' ');
 }
