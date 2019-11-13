@@ -356,7 +356,8 @@ var receiveWorkspace = function receiveWorkspace(workspace) {
 var loadWorkspace = function loadWorkspace(_ref) {
   var workspace = _ref.workspace,
       users = _ref.users,
-      user_channels = _ref.user_channels;
+      user_channels = _ref.user_channels,
+      channels = _ref.channels;
   user_channels = Object.keys(Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["arrayToObject"])(user_channels)).map(function (id) {
     return parseInt(id);
   });
@@ -364,7 +365,8 @@ var loadWorkspace = function loadWorkspace(_ref) {
     type: LOAD_WORKSPACE,
     workspace: workspace,
     users: users,
-    user_channels: user_channels
+    user_channels: user_channels,
+    channels: channels
   };
 };
 
@@ -2713,23 +2715,15 @@ function (_React$Component) {
       var valid = false;
       /* NOTE: ".THEN" OF A THUNK ACTION DISPATCH TAKES IN THE ACTION*/
 
-      var _loop = function _loop(i) {
+      for (var i = 0; i < workspaces.length; i++) {
         if (workspaces[i].address === workspace_address) {
-          valid = true;
+          valid = true; // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS/CHANNELS
 
-          _this.props.getWorkspace(workspace_address) // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS
-          .then(function () {
-            _this.props.getChannels(workspaces[i].id) // DESIGN: SETS ENTITIES.CHANNELS
-            .then(function (_ref) {
-              var channels = _ref.channels;
-              if (getState().entities.channels[channel_id] === undefined) _this.props.history.replace("/workspace/".concat(workspace_address, "/").concat(channels[0].id));
-            });
+          this.props.getWorkspace(workspace_address).then(function (_ref) {
+            var channels = _ref.channels;
+            if (getState().entities.channels[channel_id] === undefined) _this.props.history.replace("/workspace/".concat(workspace_address, "/").concat(channels[0].id));
           });
         }
-      };
-
-      for (var i = 0; i < workspaces.length; i++) {
-        _loop(i);
       }
 
       if (!valid) this.props.history.replace('/signin');else this.props.loadChannel(channel_id);
@@ -3086,8 +3080,10 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
-/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
-/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+
 
 
 
@@ -3099,12 +3095,12 @@ var ChannelReducer = function ChannelReducer() {
   var nextState, channel_id, user_id, channel_users;
 
   switch (action.type) {
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT"]:
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["LOGOUT"]:
       return {};
     //EDIT THISSSS
 
-    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNELS"]:
-      return Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["arrayToObject"])(action.channels);
+    case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_WORKSPACE"]:
+      return Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["arrayToObject"])(action.channels);
 
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL"]:
       nextState = Object.assign({}, state);

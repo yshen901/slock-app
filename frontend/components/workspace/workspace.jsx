@@ -22,16 +22,13 @@ class Workspace extends React.Component {
     for (let i = 0; i < workspaces.length; i++) {
       if (workspaces[i].address === workspace_address) {
         valid = true;
-        this.props.getWorkspace(workspace_address) // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS
+        
+        // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS/CHANNELS
+        this.props.getWorkspace(workspace_address) 
           .then(
-            () => {
-              this.props.getChannels(workspaces[i].id) // DESIGN: SETS ENTITIES.CHANNELS
-                .then(
-                  ({channels}) => {
-                    if (getState().entities.channels[channel_id] === undefined)
-                      this.props.history.replace(`/workspace/${workspace_address}/${channels[0].id}`)
-                  }
-                )
+            ({channels}) => {
+              if (getState().entities.channels[channel_id] === undefined)
+                this.props.history.replace(`/workspace/${workspace_address}/${channels[0].id}`)
             }
           )
       }

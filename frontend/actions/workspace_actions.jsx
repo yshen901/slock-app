@@ -13,14 +13,15 @@ const receiveWorkspace = (workspace) => ({
   workspace
 });
 
-const loadWorkspace = ({workspace, users, user_channels}) => {
+const loadWorkspace = ({workspace, users, user_channels, channels}) => {
   user_channels = Object.keys(arrayToObject(user_channels))
                         .map((id) => parseInt(id));
   return {
     type: LOAD_WORKSPACE,
     workspace,
     users,
-    user_channels
+    user_channels,
+    channels
   }
 }
 

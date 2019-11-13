@@ -8,6 +8,12 @@ json.users do
   end
 end
 
+json.channels do
+  json.array! @workspace.channels do |channel|
+    json.partial! 'api/channels/channel', channel: channel
+  end
+end
+
 if current_user
   json.user_channels do
     json.array! current_user.channels.where("workspace_id = #{@workspace.id}") do |channel|

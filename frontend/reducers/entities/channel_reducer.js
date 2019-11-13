@@ -1,9 +1,10 @@
 import { 
   RECEIVE_CHANNEL, 
-  RECEIVE_CHANNELS,
   JOIN_CHANNEL,
-  LEAVE_CHANNEL
+  LEAVE_CHANNEL,
 } from '../../actions/channel_actions'
+
+import { LOAD_WORKSPACE } from '../../actions/workspace_actions';
 import { LOGOUT } from '../../actions/session_actions';
 
 import { arrayToObject } from '../../selectors/selectors';
@@ -17,7 +18,7 @@ const ChannelReducer = (state = {}, action) => {
       return {};
 
     //EDIT THISSSS
-    case RECEIVE_CHANNELS:
+    case LOAD_WORKSPACE:
       return arrayToObject(action.channels);
     case RECEIVE_CHANNEL:
       nextState = Object.assign({}, state);
