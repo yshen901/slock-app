@@ -1,5 +1,5 @@
 import { RECEIVE_USER, LOGOUT } from '../actions/session_actions';
-import { RECEIVE_WORKSPACE, REMOVE_WORKSPACE, LOAD_WORKSPACE } from '../actions/workspace_actions';
+import { REMOVE_WORKSPACE, LOAD_WORKSPACE } from '../actions/workspace_actions';
 import { LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL } from '../actions/channel_actions';
 
 let DEFAULT_SESSION = {
@@ -21,7 +21,6 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
 
     case LOAD_WORKSPACE:
       nextState.user_channels = action.user_channels ? action.user_channels : {} ;
-    case RECEIVE_WORKSPACE:
       nextState.workspace_id = action.workspace.id;
       return nextState;
 

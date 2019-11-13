@@ -94,6 +94,8 @@
   font-size: 15px;
   line-height: 20px;
   vertical-align: middle;
+
+  width: 80%;
 }
 
 .sidebar-header-link:hover, .sidebar-header-button:hover {

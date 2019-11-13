@@ -7,9 +7,12 @@ export const RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES"; //adds all workspaces to
 export const REMOVE_WORKSPACE = "REMOVE_WORKSPACE";     //removes workspace from state
 export const LOAD_WORKSPACE = "LOAD_WORKSPACE";         //adds workspace info (users, id, and current_user_channels) to state
 
-const receiveWorkspace = (workspace) => ({
+const receiveWorkspace = ({workspace, users, user_channels, channels}) => ({
   type: RECEIVE_WORKSPACE,
-  workspace
+  workspace,
+  channels,
+  users,
+  user_channels,
 });
 
 const loadWorkspace = ({workspace, users, user_channels, channels}) => ({
@@ -23,7 +26,7 @@ const loadWorkspace = ({workspace, users, user_channels, channels}) => ({
 const removeWorkspace = (workspace) => ({
   type: REMOVE_WORKSPACE,
   workspace
-})
+});
 
 const receiveWorkspaces = (workspaces) => ({
   type: RECEIVE_WORKSPACES,

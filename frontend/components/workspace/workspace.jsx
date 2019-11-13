@@ -1,9 +1,8 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 import WorkspaceSidebarContainer from "./workspace_sidebar_container"
 import ChannelContainer from '../channel/channel_container';
-import ChannelModalContainer from '../modals/channel_modal_container';
+import BrowseChannelModal from '../modals/browse_channel_modal';
 import NewChannelModalContainer from '../modals/new_channel_modal_container';
 import InviteUserModal from '../modals/invite_user_modal';
 import SidebarDropdown from '../modals/sidebar_dropdown';
@@ -47,7 +46,7 @@ class Workspace extends React.Component {
       if (getState().entities.channels[this.props.match.params.channel_id] === undefined)
         this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
       else
-        this.props.loadChannel(this.props.match.params.channel_id);
+        this.props.loadChannel(parseInt(this.props.match.params.channel_id));
     }
   }
 
@@ -58,7 +57,7 @@ class Workspace extends React.Component {
         <ChannelContainer />
 
         <SidebarDropdown />
-        <ChannelModalContainer />
+        <BrowseChannelModal />
         <InviteUserModal />
         <NewChannelModalContainer />
       </div>

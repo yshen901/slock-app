@@ -23,8 +23,13 @@ class Api::WorkspacesController < ApplicationController
       render json: ["I don't know how you did this but this is illegal"], status: 402
     elsif @workspace.save
       connection = WorkspaceUser.create(user_id: current_user.id, workspace_id: @workspace.id, logged_in: true)
-      Channel.create({name: "general", workspace_id: @workspace.id})
-      Channel.create({name: channel_params[:channel], workspace_id: @workspace.id})
+
+      general_channel = Channel.create({name: "general", workspace_id: @workspace.id})
+      custom_channel = Channel.create({name: channel_params[:channel], workspace_id: @workspace.id})
+
+      ChannelUser.create(channel_id: general_channel.id, user_id: current_user.id)
+      ChannelUser.create(channel_id: custom_channel.id, user_id: current_user.id)
+
       render '/api/workspaces/show'
     else
       render json: ["Workspace name is invalid or already taken"], status: 402

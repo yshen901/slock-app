@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
+import { hideElements } from '../../util/modal_api_util';
 
 class ChannelActionsDropdown extends React.Component {
   constructor(props) {
@@ -14,15 +15,17 @@ class ChannelActionsDropdown extends React.Component {
 
   joinChannel(e) {
     e.stopPropagation();
+    hideElements("dropdown");
     let { channel_id } = this.props.match.params;
     dispatch(joinChannel(parseInt(channel_id)))
-      .then(
-        () => this.setState(this.state)
+    .then(
+      () => this.setState(this.state)
       )
   }
 
   leaveChannel(e) {
     e.stopPropagation();
+    hideElements("dropdown");
     let { channel_id, workspace_address } = this.props.match.params;
     dispatch(leaveChannel(parseInt(channel_id)))
       .then(
