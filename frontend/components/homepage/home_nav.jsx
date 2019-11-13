@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { toggleElement } from '../../util/modal_api_util';
+import { toggleElements } from '../../util/modal_api_util';
 
 
 class HomeNav extends React.Component {
@@ -12,7 +12,7 @@ class HomeNav extends React.Component {
     if(getState().session.user_id)
       return (
         <div className="right">
-          <button className="nav-button" onClick={(e) => { e.stopPropagation(); toggleElement("dropdown") }}>
+          <button className="nav-button" onClick={(e) => { e.stopPropagation(); toggleElements("dropdown") }}>
             <div>Your Workspaces</div>
           </button>
         </div>

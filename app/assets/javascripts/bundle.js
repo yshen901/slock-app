@@ -699,7 +699,7 @@ function (_React$Component) {
         id: "auth-signin",
         onClick: function onClick(e) {
           e.stopPropagation();
-          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElement"])("dropdown");
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])("dropdown");
         }
       }, "Your Workspaces"));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "right"
@@ -884,7 +884,7 @@ function (_React$Component) {
         className: "auth-page",
         id: "user-signin",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElement"])("dropdown");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown");
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_nav__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_workspace_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
         dropdownClass: "auth dropdown hidden"
@@ -898,6 +898,7 @@ function (_React$Component) {
         onSubmit: this.handleSubmit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
+        autoFocus: true,
         onChange: this.updateForm('email'),
         placeholder: "you@example.com"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -1047,6 +1048,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1066,6 +1068,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -1095,6 +1098,11 @@ function (_React$Component) {
   }
 
   _createClass(WorkspaceForm, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["focus"])("workspace-form-input");
+    }
+  }, {
     key: "nextButton",
     value: function nextButton(type) {
       var _this2 = this;
@@ -1175,6 +1183,8 @@ function (_React$Component) {
             className: "workspace-create-form"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's the name of your company or team?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             type: "text",
+            id: "workspace-form-input",
+            autoFocus: true,
             onChange: this.updateField("address"),
             placeholder: "Ex. aA or App Academy",
             value: this.state.address
@@ -1194,6 +1204,7 @@ function (_React$Component) {
             className: "workspace-create-form"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's a project your team is working on?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             type: "text",
+            id: "workspace-form-input",
             onChange: this.updateField("channel"),
             placeholder: "Ex. Q1 Budget, User Authentication",
             value: this.state.channel
@@ -1214,7 +1225,8 @@ function (_React$Component) {
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Tada! Meet your team's first channel: #", this.state.channel), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "A channel brings together every part of your project - the people, conversations, ideas, updates, and files - so your team can move forward and get more done."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             onClick: function onClick() {
               return _this5.handleSubmit("finish");
-            }
+            },
+            id: "workspace-form-input"
           }, "See Your Channel in Slock")));
       }
     }
@@ -1335,7 +1347,7 @@ function (_React$Component) {
         className: "auth-page",
         id: "workspace-signin",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_7__["hideElement"])("dropdown");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_7__["hideElements"])("dropdown");
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_nav__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_workspace_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
         dropdownClass: "auth dropdown hidden"
@@ -1351,6 +1363,7 @@ function (_React$Component) {
         onSubmit: this.handleSubmit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
+        autoFocus: true,
         onChange: this.updateForm,
         placeholder: "your-workspace-url",
         align: "left"
@@ -1385,6 +1398,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _channel_nav_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./channel_nav_container */ "./frontend/components/channel/channel_nav_container.js");
+/* harmony import */ var _modals_channel_dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modals/channel_dropdown */ "./frontend/components/modals/channel_dropdown.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1406,6 +1420,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var Channel =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1422,7 +1437,7 @@ function (_React$Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_nav_container__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_nav_container__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_channel_dropdown__WEBPACK_IMPORTED_MODULE_2__["default"], null));
     }
   }]);
 
@@ -1476,6 +1491,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1496,15 +1512,16 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var ChannelNav =
 /*#__PURE__*/
 function (_React$Component) {
   _inherits(ChannelNav, _React$Component);
 
-  function ChannelNav() {
+  function ChannelNav(props) {
     _classCallCheck(this, ChannelNav);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ChannelNav).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(ChannelNav).call(this, props));
   }
 
   _createClass(ChannelNav, [{
@@ -1512,7 +1529,17 @@ function (_React$Component) {
     value: function render() {
       if (this.props.channel) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel-nav"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "#", this.props.channel.name));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "left"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "#", this.props.channel.name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "right"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "settings-button",
+        onClick: function onClick(e) {
+          e.stopPropagation();
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["toggleElements"])("dropdown channel-settings");
+        }
+      }, "\u2699")));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel-nav"
       });
     }
@@ -1614,7 +1641,7 @@ function (_React$Component) {
         className: "nav-button",
         onClick: function onClick(e) {
           e.stopPropagation();
-          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElement"])("dropdown");
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])("dropdown");
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Your Workspaces")));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "right"
@@ -1739,7 +1766,7 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "homepage",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElement"])("dropdown");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("dropdown");
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_home_nav__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_workspace_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
         dropdownClass: "dropdown hidden"
@@ -1764,6 +1791,73 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Homepage));
+
+/***/ }),
+
+/***/ "./frontend/components/modals/channel_dropdown.jsx":
+/*!*********************************************************!*\
+  !*** ./frontend/components/modals/channel_dropdown.jsx ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var ChannelActionsDropdown =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(ChannelActionsDropdown, _React$Component);
+
+  function ChannelActionsDropdown(props) {
+    _classCallCheck(this, ChannelActionsDropdown);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(ChannelActionsDropdown).call(this, props));
+  }
+
+  _createClass(ChannelActionsDropdown, [{
+    key: "joinChannel",
+    value: function joinChannel() {}
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown channel-settings hidden"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-item"
+      }, "Join Channel"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-item"
+      }, "Leave Channel"));
+    }
+  }]);
+
+  return ChannelActionsDropdown;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ChannelActionsDropdown));
 
 /***/ }),
 
@@ -1856,7 +1950,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal-button",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElement"])("full-modal channel-modal");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("full-modal channel-modal");
         }
       }, "\u2715"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal-header"
@@ -2006,6 +2100,7 @@ function (_React$Component) {
         className: "new-channel-form-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "User Email"), this.warning()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
+        id: "invite-user-input",
         onChange: this.updateField('name'),
         placeholder: "name@example.com",
         value: this.state.name
@@ -2019,7 +2114,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElement"])("invite-user-modal");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("invite-user-modal");
         }
       }), this.modalForm());
     }
@@ -2140,7 +2235,7 @@ function (_React$Component) {
         workspace_id: this.props.workspace_id
       };
       this.props.postChannel(channel).then(function () {
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElement"])("new-channel-modal");
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("new-channel-modal");
 
         _this3.setState({
           name: "",
@@ -2163,6 +2258,7 @@ function (_React$Component) {
         className: "new-channel-form-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Name"), this.warning()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
+        id: "new-channel-input",
         onChange: this.updateField('name'),
         placeholder: "e.g. plan budget",
         value: this.state.name
@@ -2176,7 +2272,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElement"])("new-channel-modal");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("new-channel-modal");
         }
       }), this.modalForm());
     }
@@ -2554,9 +2650,7 @@ function (_React$Component) {
 
       for (var i = 0; i < workspaces.length; i++) {
         _loop(i);
-      } // IF WORKSPACE ADDRESS ISN'T VALID, THEN REDIRECT TO SIGNIN PAGE
-      // OTHERWISE UPDATE STATE.SESSION.CHANNEL_USERS
-
+      }
 
       if (!valid) this.props.history.replace('/signin');else this.props.loadChannel(channel_id);
     } // Makes sure you don't go to an invalid channel
@@ -2575,7 +2669,7 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_7__["hideElement"])("dropdown sidebar");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_7__["hideElements"])("dropdown");
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_sidebar_container__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_6__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_channel_modal_container__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_5__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_4__["default"], null));
     }
@@ -2687,7 +2781,8 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(WorkspaceSidebar).call(this, props));
     _this.logout = _this.logout.bind(_assertThisInitialized(_this));
     _this.channelLink = _this.channelLink.bind(_assertThisInitialized(_this));
-    _this.toggleElement = _this.toggleElement.bind(_assertThisInitialized(_this));
+    _this.toggleElements = _this.toggleElements.bind(_assertThisInitialized(_this));
+    _this.renderChannels = _this.renderChannels.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2706,53 +2801,74 @@ function (_React$Component) {
       return "/workspace/".concat(this.props.workspace_address, "/").concat(channelId);
     }
   }, {
-    key: "toggleElement",
-    value: function toggleElement(className) {
+    key: "toggleElements",
+    value: function toggleElements(className, inputId) {
       return function (e) {
         e.stopPropagation();
 
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElement"])(className);
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])(className);
+
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["focus"])(inputId);
       };
+    }
+  }, {
+    key: "renderChannels",
+    value: function renderChannels() {
+      var _this3 = this;
+
+      var _this$props = this.props,
+          channels = _this$props.channels,
+          user_channels = _this$props.user_channels,
+          channel_id = _this$props.channel_id;
+
+      if (Object.keys(channels).length === 0) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "sidebar-list"
+        });
+      } else {
+        var channelList = user_channels.map(function (id) {
+          return channels[id];
+        });
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "sidebar-list"
+        }, channelList.map(function (channel, idx) {
+          if (channel.id === channel_id) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+            key: idx,
+            className: "sidebar-item selected",
+            to: _this3.channelLink(channel.id)
+          }, "# ", channel.name);else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+            key: idx,
+            className: "sidebar-item",
+            to: _this3.channelLink(channel.id)
+          }, "# ", channel.name);
+        }));
+      }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-sidebar"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-sidebar-nav",
-        onClick: this.toggleElement("dropdown sidebar")
+        onClick: this.toggleElements("dropdown sidebar")
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, this.props.workspace_address), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "\u25C9 ", this.props.user.email)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channels"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-link",
-        onClick: this.toggleElement("full-modal channel-modal")
+        onClick: this.toggleElements("full-modal channel-modal")
       }, "Channels"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-button",
-        onClick: this.toggleElement("new-channel-modal")
-      }, "+")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "sidebar-list"
-      }, this.props.channels.map(function (channel, idx) {
-        if (channel.id === _this3.props.channel_id) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-          key: idx,
-          className: "sidebar-item selected",
-          to: _this3.channelLink(channel.id)
-        }, "# ", channel.name);else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-          key: idx,
-          className: "sidebar-item",
-          to: _this3.channelLink(channel.id)
-        }, "# ", channel.name);
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.toggleElements("new-channel-modal", "new-channel-input")
+      }, "+")), this.renderChannels()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-button"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-symbol"
       }, "+"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-link",
-        onClick: this.toggleElement("invite-user-modal")
+        onClick: this.toggleElements("invite-user-modal", "invite-user-input")
       }, "Add People")));
     }
   }]);
@@ -2787,7 +2903,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     user: state.entities.users[state.session.user_id],
-    channels: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["objectToArray"])(state.entities.channels),
+    channels: state.entities.channels,
+    user_channels: state.session.user_channels,
     workspace_address: ownProps.match.params.workspace_address,
     channel_id: parseInt(ownProps.match.params.channel_id)
   };
@@ -3142,7 +3259,7 @@ var DEFAULT_SESSION = {
   user_id: null,
   workspace_id: null,
   channel_id: null,
-  user_channels: null
+  user_channels: []
 };
 
 var SessionReducer = function SessionReducer() {
@@ -3404,28 +3521,39 @@ var inviteUser = function inviteUser(user_email, workspace_address) {
 /*!*****************************************!*\
   !*** ./frontend/util/modal_api_util.js ***!
   \*****************************************/
-/*! exports provided: toggleElement, hideElement, revealElement */
+/*! exports provided: toggleElements, hideElements, revealElements, focus */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleElement", function() { return toggleElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hideElement", function() { return hideElement; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "revealElement", function() { return revealElement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleElements", function() { return toggleElements; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hideElements", function() { return hideElements; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "revealElements", function() { return revealElements; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "focus", function() { return focus; });
 /*  NOTE: USE THESE TO TOGGLE MODALS...DON'T PASS AROUND FUNCTIONS AND STATE
           getELementsByClassName("class1 class2") returns elements with all those classes
 */
-var toggleElement = function toggleElement(className) {
-  var element = document.getElementsByClassName(className)[0];
-  element.classList.toggle("hidden");
+var toggleElements = function toggleElements(className) {
+  var elements = document.getElementsByClassName(className);
+  if (elements) for (var i = 0; i < elements.length; i++) {
+    elements[i].classList.toggle("hidden");
+  }
 };
-var hideElement = function hideElement(className) {
-  var element = document.getElementsByClassName(className)[0];
-  element.classList.add("hidden");
+var hideElements = function hideElements(className) {
+  var elements = document.getElementsByClassName(className);
+  if (elements) for (var i = 0; i < elements.length; i++) {
+    elements[i].classList.add("hidden");
+  }
 };
-var revealElement = function revealElement(className) {
-  var element = document.getElementsByClassName(className)[0];
-  element.classList.remove("hidden");
+var revealElements = function revealElements(className) {
+  var elements = document.getElementsByClassName(className);
+  if (elements) for (var i = 0; i < elements.length; i++) {
+    elements[i].classList.remove("hidden");
+  }
+};
+var focus = function focus(id) {
+  var element = document.getElementById(id);
+  if (element) element.focus();
 };
 
 /***/ }),

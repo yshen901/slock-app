@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import AuthNav from './auth_nav';
 import AuthFooter from './auth_footer';
 import WorkspaceDropdown from '../modals/workspace_dropdown'
-import { hideElement } from '../../util/modal_api_util';
+import { hideElements, focus } from '../../util/modal_api_util';
 
 class UserSigninForm extends React.Component {
   constructor(props) {
@@ -75,7 +75,7 @@ class UserSigninForm extends React.Component {
       this.props.refreshErrors();
     }
     return (
-      <div className="auth-page" id='user-signin' onClick={() => hideElement("dropdown")}>
+      <div className="auth-page" id='user-signin' onClick={() => hideElements("dropdown")}>
         <AuthNav />
         <WorkspaceDropdown dropdownClass="auth dropdown hidden" />
 
@@ -90,7 +90,7 @@ class UserSigninForm extends React.Component {
             <h4>Enter your <strong>email address</strong> and <strong>password.</strong></h4>
           </div>
           <form onSubmit={this.handleSubmit}>
-            <input type="text" 
+            <input type="text" autoFocus
               onChange={this.updateForm('email')}
               placeholder="you@example.com"/>
             <input type="password"

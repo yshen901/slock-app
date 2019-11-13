@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { postWorkspace } from '../../actions/workspace_actions';
+import { focus } from '../../util/modal_api_util';
 
 class WorkspaceForm extends React.Component {
   constructor() {
@@ -18,12 +19,17 @@ class WorkspaceForm extends React.Component {
     this.nextButton = this.nextButton.bind(this);
   }
 
+  componentDidUpdate() {
+    focus("workspace-form-input");
+  }
+
   nextButton(type) {
     if (this.state.disabled)
       return (<button onClick={() => this.handleSubmit(type)} disabled>Next</button>)
     else
       return (<button onClick={() => this.handleSubmit(type)}>Next</button>)
   }
+
 
   handleSubmit(type) {
     switch(type) {
@@ -68,7 +74,7 @@ class WorkspaceForm extends React.Component {
             </div>
             <div className="workspace-create-form">
               <h1>What's the name of your company or team?</h1>
-              <input type="text" 
+              <input type="text" id="workspace-form-input" autoFocus
                     onChange={this.updateField("address")}
                     placeholder="Ex. aA or App Academy"
                     value={this.state.address}/>
@@ -86,7 +92,7 @@ class WorkspaceForm extends React.Component {
             </div>
             <div className="workspace-create-form">
               <h1>What's a project your team is working on?</h1>
-              <input type="text"
+              <input type="text" id="workspace-form-input"
                 onChange={this.updateField("channel")}
                 placeholder="Ex. Q1 Budget, User Authentication"
                 value={this.state.channel}/>
@@ -109,7 +115,7 @@ class WorkspaceForm extends React.Component {
                 conversations, ideas, updates, and files - so your team can move
                 forward and get more done.
               </h6>
-              <button onClick={() => this.handleSubmit("finish")}>See Your Channel in Slock</button>
+              <button onClick={() => this.handleSubmit("finish")} id="workspace-form-input">See Your Channel in Slock</button>
             </div>
           </div>
         )

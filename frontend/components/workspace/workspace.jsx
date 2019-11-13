@@ -6,7 +6,7 @@ import NewChannelModalContainer from '../modals/new_channel_modal_container';
 import InviteUserModal from '../modals/invite_user_modal';
 import SidebarDropdown from '../modals/sidebar_dropdown';
 
-import { hideElement } from '../../util/modal_api_util';
+import { hideElements } from '../../util/modal_api_util';
 
 class Workspace extends React.Component {
   constructor() {
@@ -37,8 +37,6 @@ class Workspace extends React.Component {
       }
     }
 
-    // IF WORKSPACE ADDRESS ISN'T VALID, THEN REDIRECT TO SIGNIN PAGE
-    // OTHERWISE UPDATE STATE.SESSION.CHANNEL_USERS
     if (!valid) 
       this.props.history.replace('/signin');
     else
@@ -57,7 +55,7 @@ class Workspace extends React.Component {
 
   render() {
     return (
-      <div id="workspace" onClick={() => hideElement("dropdown sidebar")}>
+      <div id="workspace" onClick={() => hideElements("dropdown")}>
         <WorkspaceSidebarContainer />
         <ChannelContainer />
 

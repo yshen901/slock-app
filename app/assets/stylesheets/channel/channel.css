@@ -8,3 +8,12 @@
 
   background: lightgray;
 }
+
+.dropdown.channel-settings {
+  top: 50px;
+  right: 37%;
+}
+
+.dropdown.channel-settings {
+  width: 200px;
+}

@@ -6,7 +6,7 @@ let DEFAULT_SESSION = {
   user_id: null, 
   workspace_id: null,
   channel_id: null,
-  user_channels: null
+  user_channels: []
 };
 
 const SessionReducer = (state = DEFAULT_SESSION, action) => {

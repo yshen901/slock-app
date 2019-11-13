@@ -1,5 +1,5 @@
 import React from 'react';
-import { hideElement } from '../../util/modal_api_util';
+import { hideElements } from '../../util/modal_api_util';
 
 class NewChannelModal extends React.Component {
   constructor() {
@@ -61,7 +61,7 @@ class NewChannelModal extends React.Component {
     this.props.postChannel(channel)
       .then(
         () => {
-          hideElement("new-channel-modal");
+          hideElements("new-channel-modal");
           this.setState({name: "", description: "", disabled: true, error: "none"});
         }
       )
@@ -81,7 +81,7 @@ class NewChannelModal extends React.Component {
           {this.warning()}
         </div>
         <input 
-          type="text" 
+          type="text" id="new-channel-input"
           onChange={this.updateField('name')}
           placeholder="e.g. plan budget"
           value={this.state.name}></input>
@@ -94,7 +94,7 @@ class NewChannelModal extends React.Component {
   render() {
     return (
       <div className="new-channel-modal hidden">
-        <div className="part-modal-background" onClick={() => hideElement("new-channel-modal")}></div>
+        <div className="part-modal-background" onClick={() => hideElements("new-channel-modal")}></div>
         {this.modalForm()}
       </div>
     )

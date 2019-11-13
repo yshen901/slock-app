@@ -6,14 +6,45 @@
   height: 60px;
 
   background: white;
+  display: flex;
+}
+
+#channel-nav #left {
+  width: 60%;
+  height: 100%;
 
   padding: 10px;
   padding-left: 20px;
   box-sizing: border-box;
 }
 
-#channel-nav h1 {
+#channel-nav #right {
+  width: 40%;
+  height: 100%;
+
+  padding: 10px;
+  padding-left: 20px;
+  box-sizing: border-box;
+}
+
+#channel-nav #left h1 {
   font-weight: bold;
   font-size: 18px;
   line-height: 24px;
 }
+
+#channel-nav .settings-button {
+  height: 100%;
+  width: 40px;
+
+  font-size: 30px;
+  line-height: 40px;
+  vertical-align: middle;
+  text-align: center; 
+}
+
+#channel-nav .settings-button:hover {
+  cursor: pointer;
+}
+
+

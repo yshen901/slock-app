@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { hideElement } from '../../util/modal_api_util';
+import { hideElements } from '../../util/modal_api_util';
 import { inviteUser } from '../../util/connection_api_util';
 
 class InviteUserModal extends React.Component {
@@ -70,7 +70,7 @@ class InviteUserModal extends React.Component {
           {this.warning()}
         </div>
         <input
-          type="text"
+          type="text" id="invite-user-input"
           onChange={this.updateField('name')}
           placeholder="name@example.com"
           value={this.state.name}></input>
@@ -83,7 +83,7 @@ class InviteUserModal extends React.Component {
   render() {
     return (
       <div className="invite-user-modal hidden">
-        <div className="part-modal-background" onClick={() => hideElement("invite-user-modal")}></div>
+        <div className="part-modal-background" onClick={() => hideElements("invite-user-modal")}></div>
         {this.modalForm()}
       </div>
     )

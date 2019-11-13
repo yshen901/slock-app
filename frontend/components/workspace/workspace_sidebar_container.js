@@ -7,7 +7,8 @@ import { logout } from '../../actions/session_actions';
 
 const mapStateToProps = (state, ownProps) => ({
   user: state.entities.users[state.session.user_id],
-  channels: objectToArray(state.entities.channels),
+  channels: state.entities.channels,
+  user_channels: state.session.user_channels,
 
   workspace_address: ownProps.match.params.workspace_address,
   channel_id: parseInt(ownProps.match.params.channel_id),

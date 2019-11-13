@@ -8,8 +8,10 @@ json.users do
   end
 end
 
-json.user_channels do
-  json.array! current_user.channels.where("workspace_id = #{@workspace.id}") do |channel|
-    json.id channel.id
+if current_user
+  json.user_channels do
+    json.array! current_user.channels.where("workspace_id = #{@workspace.id}") do |channel|
+      json.id channel.id
+    end
   end
 end

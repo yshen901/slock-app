@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { toggleElement } from '../../util/modal_api_util';
+import { toggleElements, focus } from '../../util/modal_api_util';
 
 class WorkspaceSidebar extends React.Component {
   constructor(props) {
@@ -8,7 +8,9 @@ class WorkspaceSidebar extends React.Component {
 
     this.logout = this.logout.bind(this);
     this.channelLink = this.channelLink.bind(this);
-    this.toggleElement = this.toggleElement.bind(this);
+    this.toggleElements = this.toggleElements.bind(this);
+
+    this.renderChannels = this.renderChannels.bind(this);
   }
 
   logout() {
@@ -22,10 +24,33 @@ class WorkspaceSidebar extends React.Component {
     return `/workspace/${this.props.workspace_address}/${channelId}`;
   }
 
-  toggleElement(className) {
+  toggleElements(className, inputId) {
     return (e) => {
       e.stopPropagation();
-      toggleElement(className);
+      toggleElements(className);
+      focus(inputId)
+    }
+  }
+
+  renderChannels() {
+    let { channels, user_channels, channel_id } = this.props;
+
+    if (Object.keys(channels).length === 0) {
+      return <div className="sidebar-list"></div>
+    } else {
+      let channelList = user_channels.map((id) => channels[id])
+      return (
+        <div className="sidebar-list">
+          {channelList.map(
+            (channel, idx) => {
+              if (channel.id === channel_id)
+                return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># {channel.name}</Link>);
+              else
+                return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># {channel.name}</Link>);
+            }
+          )}
+        </div>
+      )
     }
   }
 
@@ -33,31 +58,22 @@ class WorkspaceSidebar extends React.Component {
     return (
       <div id="workspace-sidebar">
 
-        <div id="workspace-sidebar-nav" onClick={ this.toggleElement("dropdown sidebar") }>
+        <div id="workspace-sidebar-nav" onClick={ this.toggleElements("dropdown sidebar") }>
           <h2>{this.props.workspace_address}</h2>
           <h6>&#9673; {this.props.user.email}</h6>
         </div>
 
         <div id="channels">
           <div className='sidebar-header'>
-            <div className='sidebar-header-link' onClick={ this.toggleElement("full-modal channel-modal") }>Channels</div>
-            <div className='sidebar-header-button' onClick={ this.toggleElement("new-channel-modal") }>+</div>
+            <div className='sidebar-header-link' onClick={ this.toggleElements("full-modal channel-modal") }>Channels</div>
+            <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>+</div>
           </div>
-          <div className="sidebar-list">
-            {this.props.channels.map(
-              (channel, idx) => {
-                if (channel.id === this.props.channel_id)
-                  return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># {channel.name}</Link>);
-                else
-                  return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># {channel.name}</Link>);
-              }
-            )}
-          </div>
+          {this.renderChannels()}
         </div>
 
         <div className='sidebar-button'>
           <div className='sidebar-symbol'>&#x2b;</div>
-          <div className='sidebar-header-link' onClick={this.toggleElement("invite-user-modal")}>Add People</div>
+          <div className='sidebar-header-link' onClick={this.toggleElements("invite-user-modal", "invite-user-input")}>Add People</div>
         </div>
       </div>
     )

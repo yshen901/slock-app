@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { findWorkspace } from '../../actions/workspace_actions';
 import { refreshErrors } from '../../actions/error_actions';
 
-import { hideElement } from '../../util/modal_api_util'; 
+import { hideElements } from '../../util/modal_api_util'; 
 
 class WorkspaceSigninForm extends React.Component {
   constructor() {
@@ -48,7 +48,7 @@ class WorkspaceSigninForm extends React.Component {
       dispatch(refreshErrors());
     }
     return (
-      <div className="auth-page" id="workspace-signin" onClick={() => hideElement("dropdown")}>
+      <div className="auth-page" id="workspace-signin" onClick={() => hideElements("dropdown")}>
         <AuthNav />
         <WorkspaceDropdown dropdownClass="auth dropdown hidden" />
 
@@ -67,7 +67,7 @@ class WorkspaceSigninForm extends React.Component {
           </div>
           <form onSubmit={this.handleSubmit}>
             <label>
-              <input type="text" 
+              <input type="text" autoFocus
                 onChange={this.updateForm}
                 placeholder="your-workspace-url"
                 align="left"/> .slock.com

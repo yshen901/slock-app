@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import ChannelNav from './channel_nav';
 
+
 const mapStateToProps = (state, ownProps) => ({
   workspace_address: ownProps.match.params.workspace_address,
   channel_id: parseInt(ownProps.match.params.channel_id),
