@@ -90,7 +90,7 @@
 /*!**********************************************!*\
   !*** ./frontend/actions/channel_actions.jsx ***!
   \**********************************************/
-/*! exports provided: LOAD_CHANNEL, RECEIVE_CHANNEL, RECEIVE_CHANNELS, loadChannel, postChannel, getChannels */
+/*! exports provided: LOAD_CHANNEL, RECEIVE_CHANNEL, RECEIVE_CHANNELS, JOIN_CHANNEL, LEAVE_CHANNEL, loadChannel, postChannel, getChannels, joinChannel, leaveChannel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -98,18 +98,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_CHANNEL", function() { return LOAD_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNEL", function() { return RECEIVE_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNELS", function() { return RECEIVE_CHANNELS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JOIN_CHANNEL", function() { return JOIN_CHANNEL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LEAVE_CHANNEL", function() { return LEAVE_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadChannel", function() { return loadChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postChannel", function() { return postChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getChannels", function() { return getChannels; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "joinChannel", function() { return joinChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "leaveChannel", function() { return leaveChannel; });
 /* harmony import */ var _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/channel_api_util */ "./frontend/util/channel_api_util.js");
-/* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
-/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/channel_user_api_util */ "./frontend/util/channel_user_api_util.js");
+/* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../selectors/selectors */ "./frontend/selectors/selectors.js");
+
 
 
 
 var LOAD_CHANNEL = "LOAD_CHANNEL";
 var RECEIVE_CHANNEL = "RECEIVE_CHANNEL";
-var RECEIVE_CHANNELS = "RECEIVE_CHANNELS"; // DESIGN: SIMPLY CHANGES SESSION.CHANNEL_ID
+var RECEIVE_CHANNELS = "RECEIVE_CHANNELS";
+var JOIN_CHANNEL = "JOIN_CHANNEL";
+var LEAVE_CHANNEL = "LEAVE_CHANNEL"; // DESIGN: SIMPLY CHANGES SESSION.CHANNEL_ID
 
 var loadChannel = function loadChannel(channel_id) {
   return {
@@ -130,7 +138,7 @@ var receiveChannels = function receiveChannels(_ref) {
 
   // converts an array {id: user_id} objects to an array of user_ids
   for (var i = 0; i < channels.length; i++) {
-    channels[i].users = Object.keys(Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["arrayToObject"])(channels[i].users)).map(function (id) {
+    channels[i].users = Object.keys(Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["arrayToObject"])(channels[i].users)).map(function (id) {
       return parseInt(id);
     });
   }
@@ -141,12 +149,26 @@ var receiveChannels = function receiveChannels(_ref) {
   };
 };
 
+var loginChannel = function loginChannel(channel_user) {
+  return {
+    type: JOIN_CHANNEL,
+    channel_user: channel_user
+  };
+};
+
+var logoutChannel = function logoutChannel(channel_user) {
+  return {
+    type: LEAVE_CHANNEL,
+    channel_user: channel_user
+  };
+};
+
 var postChannel = function postChannel(channel) {
   return function (dispatch) {
     return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["postChannel"](channel).then(function (channel) {
       return dispatch(receiveChannel(channel));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_1__["receiveErrors"])(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
 };
@@ -155,7 +177,25 @@ var getChannels = function getChannels(workspace_id) {
     return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["getChannels"](workspace_id).then(function (channelsInfo) {
       return dispatch(receiveChannels(channelsInfo));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_1__["receiveErrors"])(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
+    });
+  };
+};
+var joinChannel = function joinChannel(channel_id) {
+  return function (dispatch) {
+    return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["postChannelUser"](channel_id).then(function (channel_user) {
+      return dispatch(loginChannel(channel_user));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
+    });
+  };
+};
+var leaveChannel = function leaveChannel(channel_id) {
+  return function (dispatch) {
+    return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["deleteChannelUser"](channel_id).then(function (channel_user) {
+      return dispatch(logoutChannel(channel_user));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
 };
@@ -1806,6 +1846,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1827,6 +1868,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var ChannelActionsDropdown =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1838,17 +1880,38 @@ function (_React$Component) {
     _classCallCheck(this, ChannelActionsDropdown);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(ChannelActionsDropdown).call(this, props));
+    _this.channel_id = _this.props.match.params.channel_id;
+    _this.workspace_address = _this.props.match.params.workspace_address;
     _this.joinButton = _this.joinButton.bind(_assertThisInitialized(_this));
+    _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
+    _this.joinChannel = _this.joinChannel.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ChannelActionsDropdown, [{
+    key: "joinChannel",
+    value: function joinChannel(e) {
+      e.stopPropagation();
+      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["joinChannel"])(parseInt(this.channel_id)));
+    }
+  }, {
+    key: "leaveChannel",
+    value: function leaveChannel(e) {
+      var _this2 = this;
+
+      e.stopPropagation();
+      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["leaveChannel"])(parseInt(this.channel_id))).then(function () {
+        return _this2.props.history.push("/workspace/".concat(_this2.workspace_address));
+      }, null);
+    }
+  }, {
     key: "joinButton",
     value: function joinButton() {
-      var currentChannel = parseInt(this.props.match.params.channel_id);
+      var current_channel = parseInt(this.props.match.params.channel_id);
       var user_channels = getState().session.user_channels;
-      if (!user_channels.includes(currentChannel)) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown-item"
+      if (!user_channels.includes(current_channel)) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-item",
+        onClick: this.joinChannel
       }, "Join Channel");
     }
   }, {
@@ -1857,7 +1920,8 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown channel-settings hidden"
       }, this.joinButton(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown-item"
+        className: "dropdown-item",
+        onClick: this.leaveChannel
       }, "Leave Channel"));
     }
   }]);
@@ -2146,7 +2210,8 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -2166,6 +2231,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -2242,8 +2308,9 @@ function (_React$Component) {
         name: this.state.name,
         workspace_id: this.props.workspace_id
       };
-      this.props.postChannel(channel).then(function () {
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("new-channel-modal");
+      this.props.postChannel(channel).then(function (_ref) {
+        var channel = _ref.channel;
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("new-channel-modal");
 
         _this3.setState({
           name: "",
@@ -2251,6 +2318,8 @@ function (_React$Component) {
           disabled: true,
           error: "none"
         });
+
+        _this3.props.history.push("/workspace/".concat(_this3.props.workspace_address, "/").concat(channel.id));
       });
     } // form this modal will output
 
@@ -2280,7 +2349,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("new-channel-modal");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("new-channel-modal");
         }
       }), this.modalForm());
     }
@@ -2303,9 +2372,11 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _new_channel_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./new_channel_modal */ "./frontend/components/modals/new_channel_modal.jsx");
-/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
-/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _new_channel_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./new_channel_modal */ "./frontend/components/modals/new_channel_modal.jsx");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+
 
 
 
@@ -2314,19 +2385,20 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspace_id: state.session.workspace_id,
-    channels: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["objectToNameArray"])(state.entities.channels)
+    workspace_address: ownProps.match.params.workspace_address,
+    channels: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["objectToNameArray"])(state.entities.channels)
   };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     postChannel: function postChannel(channel) {
-      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["postChannel"])(channel));
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["postChannel"])(channel));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_new_channel_modal__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_new_channel_modal__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
 
@@ -3024,11 +3096,12 @@ var ChannelReducer = function ChannelReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
-  var nextState;
+  var nextState, channel_id, user_id, channel_users;
 
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT"]:
       return {};
+    //EDIT THISSSS
 
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNELS"]:
       return Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["arrayToObject"])(action.channels);
@@ -3036,6 +3109,26 @@ var ChannelReducer = function ChannelReducer() {
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL"]:
       nextState = Object.assign({}, state);
       nextState[action.channel.id] = action.channel;
+      return nextState;
+
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["JOIN_CHANNEL"]:
+      nextState = Object.assign({}, state);
+      channel_id = action.channel_user.channel_id;
+      user_id = action.channel_user.user_id;
+      channel_users = nextState[channel_id].users;
+      if (!channel_users.includes(user_id)) channel_users.push(user_id);
+      return nextState;
+
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["LEAVE_CHANNEL"]:
+      nextState = Object.assign({}, state);
+      channel_id = action.channel_user.channel_id;
+      user_id = action.channel_user.user_id;
+      channel_users = nextState[channel_id].users;
+
+      for (var i = 0; i < channel_users.length; i++) {
+        if (channel_users[i] === user_id) channel_users.splice(i, 1);
+      }
+
       return nextState;
 
     default:
@@ -3275,6 +3368,7 @@ var SessionReducer = function SessionReducer() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
   var nextState = Object.assign({}, state);
+  var channel_id, channel_user;
 
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
@@ -3292,8 +3386,27 @@ var SessionReducer = function SessionReducer() {
       nextState['workspace_id'] = null;
       return nextState;
 
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_CHANNEL"]:
+      if (!nextState['user_channels'].includes(action.channel.id)) nextState['user_channels'].push(action.channel.id);
+      return nextState;
+
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["LOAD_CHANNEL"]:
       nextState['channel_id'] = action.channel_id;
+      return nextState;
+
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["JOIN_CHANNEL"]:
+      channel_id = action.channel_user.channel_id;
+      if (!nextState['user_channels'].includes(channel_id)) nextState['user_channels'].push(channel_id);
+      return nextState;
+
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["LEAVE_CHANNEL"]:
+      channel_id = action.channel_user.channel_id;
+      var user_channels = nextState.user_channels;
+
+      for (var i = 0; i < user_channels.length; i++) {
+        if (user_channels[i] === channel_id) user_channels.splice(i, 1);
+      }
+
       return nextState;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
@@ -3471,6 +3584,42 @@ var deleteChannel = function deleteChannel(channelId) {
   return $.ajax({
     method: "DELETE",
     url: "/api/channels/".concat(channelId)
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/channel_user_api_util.js":
+/*!************************************************!*\
+  !*** ./frontend/util/channel_user_api_util.js ***!
+  \************************************************/
+/*! exports provided: postChannelUser, deleteChannelUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postChannelUser", function() { return postChannelUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannelUser", function() { return deleteChannelUser; });
+var postChannelUser = function postChannelUser(channel_id) {
+  return $.ajax({
+    method: "POST",
+    url: "/api/channel_users",
+    data: {
+      channel_user: {
+        channel_id: channel_id
+      }
+    }
+  });
+};
+var deleteChannelUser = function deleteChannelUser(channel_id) {
+  return $.ajax({
+    method: "DELETE",
+    url: "/api/channel_users/0",
+    data: {
+      channel_user: {
+        channel_id: channel_id
+      }
+    }
   });
 };
 
