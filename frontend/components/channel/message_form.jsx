@@ -16,12 +16,17 @@ class MessageForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.body !== "") {
+      let { users } = getState().entities;
+      let { user_id } = getState().session;
+
       App.cable.subscriptions.subscriptions[0].speak(
         { 
           message: { 
             body: this.state.body,
             user_id: getState().session.user_id,
-            channel_id: getState().session.channel_id
+            channel_id: getState().session.channel_id,
+            created_at: new Date().toLocaleTimeString(),
+            username: users[user_id].email.split('@')[0],
           }
         }
       );

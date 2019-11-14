@@ -1,16 +1,22 @@
 .chatroom-container {
   position: fixed;
-  top: 60px;
+  top: 65px;
   left: 220px;
+  z-index: 100;
 
   width: calc(100% - 220px);
   height: calc(100% - 60px);
+
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .message-list {
   width: 100%;
-  height: calc(100% - 85);
-  overflow: hidden;
+  height: calc(100% - 85px);
+  
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .chatroom-container form {
@@ -48,25 +54,56 @@
 }
 
 .message {
-  padding: 10px;
-  padding-left: 60px;
-  border-top: 1px solid black;
-  width: 100%;
+  width: calc(100% - 220);
+  display: flex;
+  
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  box-sizing: border-box;
+  border-top: 1px solid gray;
+}
+
+.message-user-icon {
+  margin-left: 30px;
+  margin-right: 10px;
 
   display: flex;
+  align-items: center;
+}
+
+.message-user-icon img {
+  width: 37px;
+  height: 37px;
+  border-radius: 5px;
+}
+
+.message-text {
+  display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .message-header {
   width: 100%;
   display: flex;
+  align-items: baseline;
 }
 
 .message-user {
-  font-size: 20px;
-  line-height: 20px;
-  color: gray;
+  font-size: 16px;
+  font-weight: bold;
+  height: 20px;
 }
 
-.message
+.message-time {
+  font-size: 12px;
+  height: 12px;
+  margin-left: 10px;
+}
+
+.message-body {
+  font-size: 16px;
+}
 

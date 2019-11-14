@@ -45,7 +45,7 @@ class ChannelChatRoom extends React.Component {
       {
         received: data => {
           this.setState({
-            messages: [data.message].concat(this.state.messages)
+            messages: this.state.messages.concat(data.message)
           });
         },
         speak: function(data) {
@@ -68,12 +68,17 @@ class ChannelChatRoom extends React.Component {
   render() {
     const messageList = this.state.messages.map(message => {
       return (
-        <div key={message.id} className="message">
-          <div className="message-header">
-            <div className="message-user">{message.name}</div>
-            <div className="message-time">{message.created_at}</div>
+        <div className='message'>
+          <div className="message-user-icon">
+            <img src="/images/profile_icon-min_burned.jpg"/>
           </div>
-          <div className="message-body">{message.body}</div>
+          <div key={message.id} className="message-text">
+            <div className="message-header">
+              <div className="message-user">{message.name}</div>
+              <div className="message-time">{message.created_at}</div>
+            </div>
+            <div className="message-body">{message.body}</div>
+          </div>
         </div>
       );
     });

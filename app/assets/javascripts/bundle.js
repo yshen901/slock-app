@@ -1645,7 +1645,7 @@ function (_React$Component) {
       {
         received: function received(data) {
           _this3.setState({
-            messages: [data.message].concat(_this3.state.messages)
+            messages: _this3.state.messages.concat(data.message)
           });
         },
         speak: function speak(data) {
@@ -1667,8 +1667,14 @@ function (_React$Component) {
     value: function render() {
       var messageList = this.state.messages.map(function (message) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: message.id,
           className: "message"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-user-icon"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: "/images/profile_icon-min_burned.jpg"
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: message.id,
+          className: "message-text"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-header"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1677,7 +1683,7 @@ function (_React$Component) {
           className: "message-time"
         }, message.created_at)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-body"
-        }, message.body));
+        }, message.body)));
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chatroom-container"
@@ -1898,11 +1904,15 @@ function (_React$Component) {
       e.preventDefault();
 
       if (this.state.body !== "") {
+        var users = getState().entities.users;
+        var user_id = getState().session.user_id;
         App.cable.subscriptions.subscriptions[0].speak({
           message: {
             body: this.state.body,
             user_id: getState().session.user_id,
-            channel_id: getState().session.channel_id
+            channel_id: getState().session.channel_id,
+            created_at: new Date().toLocaleTimeString(),
+            username: users[user_id].email.split('@')[0]
           }
         });
         this.setState({

@@ -5,12 +5,19 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def speak(data)
+    message_data = data['message']
     message = Message.create(
-      body: data['message']['body'], 
-      user_id: data['message']['user_id'], 
-      channel_id: data['message']['channel_id']
+      body: message_data['body'], 
+      user_id: message_data['user_id'], 
+      channel_id: message_data['channel_id']
     )
-    socket = { message: message.body }
+    socket = { 
+      message: {
+        body: message_data['body'],
+        created_at: message_data['created_at'],
+        name: message_data['username']
+        }
+      }
     ChatChannel.broadcast_to('chat_channel', socket)
   end
 
