@@ -1620,8 +1620,10 @@ function (_React$Component) {
         var messagesInfo = Object.values(messages).map(function (message) {
           //NOTE: USEFUL FOR HANDLING DATES
           var created_at;
-          var date = new Date(message.created_at);
-          if (Date.now() - Date.parse(message.created_at) > 86400000) created_at = date.toLocaleDateString();else created_at = date.toLocaleTimeString();
+          var date_now = new Date(Date());
+          var message_date = new Date(message.created_at);
+          if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
+            created_at = message_date.toLocaleDateString();else created_at = message_date.toLocaleTimeString();
           return {
             body: message.body,
             created_at: created_at,
