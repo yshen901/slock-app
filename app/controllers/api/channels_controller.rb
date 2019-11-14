@@ -27,16 +27,6 @@ class Api::ChannelsController < ApplicationController
     end
   end
 
-  def destroy
-    @channel = Channel.find_by_id(params[:id])
-    if @channel
-      @channel.destroy
-      render 'api/channels/show'
-    else
-      render json: ["Channel doesn't exist"], status: 401
-    end
-  end
-
   private
 
   def channel_params 

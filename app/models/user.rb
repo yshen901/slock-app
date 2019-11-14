@@ -30,6 +30,8 @@ class User < ApplicationRecord
     through: :channel_connections,
     source: :channel
 
+  has_many :messages
+  
   attr_reader :password
 
   # sets the password_digest

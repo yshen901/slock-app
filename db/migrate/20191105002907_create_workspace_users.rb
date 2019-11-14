@@ -8,5 +8,7 @@ class CreateWorkspaceUsers < ActiveRecord::Migration[5.2]
     end
 
     add_index :workspace_users, [:user_id, :workspace_id], unique: true
+    add_index :workspace_users, :user_id
+    add_index :workspace_users, :workspace_id
   end
 end

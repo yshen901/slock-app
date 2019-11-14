@@ -8,5 +8,6 @@ class CreateChannels < ActiveRecord::Migration[5.2]
     end
 
     add_index :channels, [:name, :workspace_id], unique: true
+    add_index :channels, :workspace_id
   end
 end

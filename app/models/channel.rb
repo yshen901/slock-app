@@ -14,4 +14,6 @@ class Channel < ApplicationRecord
   has_many :users,
     through: :channel_connections,
     source: :user
+
+  has_many :messages
 end

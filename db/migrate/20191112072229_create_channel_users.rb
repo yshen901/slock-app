@@ -8,5 +8,7 @@ class CreateChannelUsers < ActiveRecord::Migration[5.2]
     end
 
     add_index :channel_users, [:channel_id, :user_id], unique: true
+    add_index :channel_users, :channel_id
+    add_index :channel_users, :user_id
   end
 end

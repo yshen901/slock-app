@@ -5,6 +5,7 @@
 //= require_self
 //= require_tree ./channels
 
+// AC
 (function() {
   this.App || (this.App = {});
 

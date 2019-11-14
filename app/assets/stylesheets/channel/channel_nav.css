@@ -2,10 +2,11 @@
   position: relative;
   top: 0;
   left: 0;
-  width: 100%;
+  width: calc(100% - 220px);
   height: 60px;
 
   background: white;
+  border-bottom: 1px solid lightgray;
   display: flex;
 }
 

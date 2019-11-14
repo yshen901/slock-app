@@ -25,3 +25,7 @@ ChannelUser.create(user_id: 1, channel_id: 3)
 ChannelUser.create(user_id: 2, channel_id: 1)
 ChannelUser.create(user_id: 2, channel_id: 2)
 ChannelUser.create(user_id: 2, channel_id: 3)
+
+Message.create(user_id: 1, channel_id: 1, body: "message 1");
+Message.create(user_id: 1, channel_id: 1, body: "message 2");
+Message.create(user_id: 1, channel_id: 1, body: "message 3");

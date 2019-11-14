@@ -7,11 +7,15 @@ import NewChannelModalContainer from '../modals/new_channel_modal_container';
 import InviteUserModal from '../modals/invite_user_modal';
 import SidebarDropdown from '../modals/sidebar_dropdown';
 
-import { hideElements } from '../../util/modal_api_util';
+import { hideElements, focus } from '../../util/modal_api_util';
 
 class Workspace extends React.Component {
   constructor() {
     super();
+
+    this.state = {
+      loaded: false
+    }
   }
 
   componentDidMount() {
@@ -29,6 +33,7 @@ class Workspace extends React.Component {
               let first_channel = Object.keys(channels)[0];
               if (channels[channel_id] === undefined)
                 this.props.history.replace(`/workspace/${workspace_address}/${first_channel}`)
+              this.setState({loaded: true})
             }
           )
       }
@@ -37,7 +42,7 @@ class Workspace extends React.Component {
     if (!valid) 
       this.props.history.replace('/signin');
     else
-      this.props.loadChannel(channel_id);
+      this.props.loadChannel(channel_id)
   }
 
   // Makes sure you don't go to an invalid channel
@@ -46,22 +51,29 @@ class Workspace extends React.Component {
       if (getState().entities.channels[this.props.match.params.channel_id] === undefined)
         this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
       else
-        this.props.loadChannel(parseInt(this.props.match.params.channel_id));
+        this.props.loadChannel(parseInt(this.props.match.params.channel_id))
     }
   }
 
   render() {
-    return (
-      <div id="workspace" onClick={() => hideElements("dropdown")}>
-        <WorkspaceSidebarContainer />
-        <ChannelContainer />
+    if (this.state.loaded)
+      return (
+        <div id="workspace" onClick={() => hideElements("dropdown")}>
+          <WorkspaceSidebarContainer />
+          <ChannelContainer />
 
-        <SidebarDropdown />
-        <BrowseChannelModal />
-        <InviteUserModal />
-        <NewChannelModalContainer />
-      </div>
-    )
+          <SidebarDropdown />
+          <BrowseChannelModal />
+          <InviteUserModal />
+          <NewChannelModalContainer />
+        </div>
+      )
+    else
+      return(
+        <div className="loading-page">
+          <img src="/images/orb.gif"/>
+        </div>
+      )
   }
 }
 
