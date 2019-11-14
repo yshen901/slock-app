@@ -10,6 +10,33 @@ class ChannelChatRoom extends React.Component {
 
     this.state = { messages: [] }
     this.bottom = React.createRef();
+
+    this.loadMessages = this.loadMessages.bind(this);
+  }
+
+  loadMessages() {
+    let { getMessages, channel_id, users } = this.props;
+    getMessages(channel_id)
+      .then(
+        ({ messages }) => {
+          let messagesInfo = Object.values(messages).map(
+            message => { //NOTE: USEFUL FOR HANDLING DATES
+              let created_at;
+              let date = new Date(message.created_at);
+              if (Date.now() - Date.parse(message.created_at) > 86400000)
+                created_at = date.toLocaleDateString();
+              else
+                created_at = date.toLocaleTimeString();
+              return {
+                body: message.body,
+                created_at: created_at,
+                name: users[message.user_id].email.split("@")[0]
+              }
+            }
+          )
+          this.setState({ messages: messagesInfo })
+        }
+      )
   }
 
   componentDidMount() {
@@ -27,25 +54,13 @@ class ChannelChatRoom extends React.Component {
       }
     );
 
-    let {getMessages, channel_id, users} = this.props;
-    debugger
-    getMessages(channel_id)
-      .then(
-        ({messages}) => {
-          let messagesInfo = Object.values(messages).map(
-            message => {return{
-              body: message.body,
-              created_at: message.created_at.slice(0,10),
-              // email: users[message.user_id].email
-            }}
-          )
-          this.setState({ messages: messagesInfo})
-        }
-      )
+    this.loadMessages();
   }
 
   // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
-  componentDidUpdate() {
+  componentDidUpdate(oldProps) {
+    if (this.props.match.params.channel_id !== oldProps.match.params.channel_id)
+      this.loadMessages();
     if (this.bottom.current) this.bottom.current.scrollIntoView();
   }
 
@@ -54,9 +69,11 @@ class ChannelChatRoom extends React.Component {
     const messageList = this.state.messages.map(message => {
       return (
         <div key={message.id} className="message">
-          Body: {message.body}
-          <br/>
-          Time: {message.created_at}
+          <div className="message-header">
+            <div className="message-user">{message.name}</div>
+            <div className="message-time">{message.created_at}</div>
+          </div>
+          <div className="message-body">{message.body}</div>
         </div>
       );
     });

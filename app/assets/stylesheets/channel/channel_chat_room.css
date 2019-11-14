@@ -52,4 +52,21 @@
   padding-left: 60px;
   border-top: 1px solid black;
   width: 100%;
+
+  display: flex;
+  flex-direction: column;
 }
+
+.message-header {
+  width: 100%;
+  display: flex;
+}
+
+.message-user {
+  font-size: 20px;
+  line-height: 20px;
+  color: gray;
+}
+
+.message
+

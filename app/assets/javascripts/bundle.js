@@ -1575,9 +1575,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -1602,39 +1602,30 @@ function (_React$Component) {
       messages: []
     };
     _this.bottom = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    _this.loadMessages = _this.loadMessages.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ChannelChatRoom, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
+    key: "loadMessages",
+    value: function loadMessages() {
       var _this2 = this;
 
-      App.cable.subscriptions.create({
-        channel: "ChatChannel"
-      }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
-      {
-        received: function received(data) {
-          _this2.setState({
-            messages: [data.message].concat(_this2.state.messages)
-          });
-        },
-        speak: function speak(data) {
-          return this.perform('speak', data);
-        }
-      });
       var _this$props = this.props,
           getMessages = _this$props.getMessages,
           channel_id = _this$props.channel_id,
           users = _this$props.users;
-      debugger;
       getMessages(channel_id).then(function (_ref) {
         var messages = _ref.messages;
         var messagesInfo = Object.values(messages).map(function (message) {
+          //NOTE: USEFUL FOR HANDLING DATES
+          var created_at;
+          var date = new Date(message.created_at);
+          if (Date.now() - Date.parse(message.created_at) > 86400000) created_at = date.toLocaleDateString();else created_at = date.toLocaleTimeString();
           return {
             body: message.body,
-            created_at: message.created_at.slice(0, 10) // email: users[message.user_id].email
-
+            created_at: created_at,
+            name: users[message.user_id].email.split("@")[0]
           };
         });
 
@@ -1642,11 +1633,32 @@ function (_React$Component) {
           messages: messagesInfo
         });
       });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this3 = this;
+
+      App.cable.subscriptions.create({
+        channel: "ChatChannel"
+      }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
+      {
+        received: function received(data) {
+          _this3.setState({
+            messages: [data.message].concat(_this3.state.messages)
+          });
+        },
+        speak: function speak(data) {
+          return this.perform('speak', data);
+        }
+      });
+      this.loadMessages();
     } // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
 
   }, {
     key: "componentDidUpdate",
-    value: function componentDidUpdate() {
+    value: function componentDidUpdate(oldProps) {
+      if (this.props.match.params.channel_id !== oldProps.match.params.channel_id) this.loadMessages();
       if (this.bottom.current) this.bottom.current.scrollIntoView();
     } // TODO1: Group these nicely
 
@@ -1657,7 +1669,15 @@ function (_React$Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: message.id,
           className: "message"
-        }, "Body: ", message.body, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Time: ", message.created_at);
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-header"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-user"
+        }, message.name), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-time"
+        }, message.created_at)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-body"
+        }, message.body));
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chatroom-container"
