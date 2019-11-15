@@ -19,14 +19,11 @@
   color: white;
 
   padding: 15px;
-  padding-bottom: 8px;
-  padding-top: 8px;
-  margin-bottom: 8px;
   box-sizing: border-box;
 }
 
 #workspace-sidebar-nav:hover {
-  background: rgb(34, 0, 34) ;
+  background: rgb(54, 0, 54) ;
   cursor: pointer;
   transition: 0.15s;
 }
@@ -34,7 +31,7 @@
 #workspace-sidebar-nav h2{
   font-size: 22px;
   font-weight: bold;
-  padding-bottom: 1px;
+  padding-bottom: 6px;
 }
 
 #workspace-sidebar-nav h6{
@@ -54,7 +51,6 @@
   align-items: center;
 
   font-weight: bold;
-  opacity: 0.75;
   transition: 0.3s;
 
   padding-top: 20px;
@@ -68,8 +64,8 @@
   color: white;
 }
 
-.sidebar-header-link, .sidebar-header-button {
-  color: rgb(246, 236, 248);
+.sidebar-header-link, .sidebar-header-button, .sidebar-action {
+  color: rgb(236, 236, 236);
   opacity: 0.9;
   
   font-size: 14px;
@@ -91,6 +87,17 @@
   line-height: 12px;
 }
 
+#cross {
+  line-height: 14x;
+  text-align: center;
+  vertical-align: middle;
+
+  position: relative;
+  top: -0.4px;
+  left: -0.1px;
+
+}
+
 .sidebar-header-link {
   font-size: 15px;
   line-height: 20px;
@@ -99,7 +106,16 @@
   width: 80%;
 }
 
-.sidebar-header-link:hover, .sidebar-header-button:hover {
+.sidebar-action {
+  font-size: 15px;
+  line-height: 20px;
+  vertical-align: middle;
+  font-weight: normal;
+
+  width: 80%;
+}
+
+.sidebar-header-link:hover, .sidebar-header-button:hover, .sidebar-action:hover {
   color: white;
   border-color: white;
   opacity: 1;
@@ -118,7 +134,8 @@
   text-decoration: none;
 
   font-size: 15px;
-  line-height: 24px;
+  line-height: 26px;
+  padding-bottom: 2px;
   vertical-align: middle;
 
   padding-left: 15px;
@@ -145,7 +162,7 @@
   justify-content: flex-start;
   align-items: center;
 
-  padding-top: 10px;
+  padding-top: 20px;
   padding-left: 14px;
   padding-right: 15px;
   margin-bottom: 2px;

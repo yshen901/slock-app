@@ -2,6 +2,7 @@
   position: relative;
   top: 0;
   left: 0;
+  z-index: 1000;
   width: calc(100% - 220px);
   height: 60px;
 

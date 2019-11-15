@@ -11,16 +11,16 @@
 }
 
 .chat-input[type="text"] {
-  font-size: 16px;
-  line-height: 16px;
+  font-size: 15px;
+  line-height: 15px;
 
   width: 100%;
 
-  padding: 10px;
+  padding: 11px;
   padding-left: 30px;
   padding-right: 30px;
   box-sizing: border-box;
-  border: 1px solid black;
+  border: 1px solid rgb(90, 90, 90);
   border-radius: 5px;
 }
 
@@ -43,7 +43,7 @@
 }
 
 .channel-preview-panel h1 {
-  font-size: 18px;
+  font-size: 17px;
   padding-bottom: 10px;
 }
 

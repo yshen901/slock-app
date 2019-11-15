@@ -3423,15 +3423,16 @@ function (_React$Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "sidebar-list"
         }, channelList.map(function (channel, idx) {
-          if (channel.id === channel_id) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-            key: idx,
-            className: "sidebar-item selected",
-            to: _this2.channelLink(channel.id)
-          }, "# ", channel.name);else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          if (channel.id === channel_id) // TODO: SEPARATE THE 
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+              key: idx,
+              className: "sidebar-item selected",
+              to: _this2.channelLink(channel.id)
+            }, "# \xA0", channel.name);else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
             key: idx,
             className: "sidebar-item",
             to: _this2.channelLink(channel.id)
-          }, "# ", channel.name);
+          }, "# \xA0", channel.name);
         }));
       }
     }
@@ -3444,7 +3445,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-sidebar-nav",
         onClick: this.toggleElements("dropdown sidebar")
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["workspaceTitle"])(this.props.workspace_address)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "\u25C9 ", this.props.user.email)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["workspaceTitle"])(this.props.workspace_address)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "\u25C9 \xA0", this.props.user.email)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channels"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
@@ -3454,12 +3455,14 @@ function (_React$Component) {
       }, "Channels"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-button",
         onClick: this.toggleElements("new-channel-modal", "new-channel-input")
-      }, "+")), this.renderChannels()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "cross"
+      }, "+"))), this.renderChannels()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-button"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-symbol"
       }, "+"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "sidebar-header-link",
+        className: "sidebar-action",
         onClick: this.toggleElements("invite-user-modal", "invite-user-input")
       }, "Add People")));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-sidebar"

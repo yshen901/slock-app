@@ -36,9 +36,10 @@ class WorkspaceSidebar extends React.Component {
           {channelList.map(
             (channel, idx) => {
               if (channel.id === channel_id)
-                return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># {channel.name}</Link>);
+              // TODO: SEPARATE THE 
+                return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
               else
-                return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># {channel.name}</Link>);
+                return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
             }
           )}
         </div>
@@ -54,20 +55,22 @@ class WorkspaceSidebar extends React.Component {
 
           <div id="workspace-sidebar-nav" onClick={ this.toggleElements("dropdown sidebar") }>
             <h2>{workspaceTitle(this.props.workspace_address)}</h2>
-            <h6>&#9673; {this.props.user.email}</h6>
+            <h6>&#9673;	&nbsp;{this.props.user.email}</h6>
           </div>
 
           <div id="channels">
             <div className='sidebar-header'>
               <div className='sidebar-header-link' onClick={ this.toggleElements("full-modal channel-modal", "channel-search-bar") }>Channels</div>
-              <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>+</div>
+              <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>
+                <div id="cross">+</div>
+              </div>
             </div>
             {this.renderChannels()}
           </div>
 
           <div className='sidebar-button'>
             <div className='sidebar-symbol'>&#x2b;</div>
-            <div className='sidebar-header-link' onClick={this.toggleElements("invite-user-modal", "invite-user-input")}>Add People</div>
+            <div className='sidebar-action' onClick={this.toggleElements("invite-user-modal", "invite-user-input")}>Add People</div>
           </div>
         </div>
       )
