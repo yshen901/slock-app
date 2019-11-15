@@ -1908,17 +1908,21 @@ function (_React$Component) {
   }, {
     key: "star",
     value: function star() {
-      if (this.props.channel.starred) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (this.props.channel.name === "general") react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);else if (this.props.channel.starred) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "star filled hidden",
         onClick: this.starClick
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-star"
-      }));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-nav-divider"
+      }, "|"));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "star empty",
         onClick: this.starClick
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-star"
-      }));
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-nav-divider"
+      }, "|"));
     }
   }, {
     key: "leaveButton",
@@ -1945,8 +1949,6 @@ function (_React$Component) {
         }, " # ", name, " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "left-bottom"
         }, this.star(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-nav-divider"
-        }, "|"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "members"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "material-icons"
@@ -2230,22 +2232,17 @@ function (_React$Component) {
         to: "/"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/images/logo.png"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "home-link",
-        to: "/tbd"
-      }, "Why Slock?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        href: "https://github.com/yshen901/"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        "class": "fab fa-github"
+      }), " Github"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "home-link",
-        to: "/tbd"
-      }, "Solutions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "home-link",
-        to: "/tbd"
-      }, "Resources"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "home-link",
-        to: "/tbd"
-      }, "Enterprise"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "home-link",
-        to: "/tbd"
-      }, "Pricing")), this.generateRight());
+        href: "https://www.linkedin.com/in/yucishen/"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        "class": "fa fa-linkedin-square"
+      }), " LinkedIn")), this.generateRight());
     }
   }]);
 
@@ -3647,7 +3644,9 @@ function (_React$Component) {
         if (channelList[i].starred === starStatus) filteredChannels.push(channelList[i]);
       }
 
-      return filteredChannels;
+      return filteredChannels.sort(function (a, b) {
+        return a > b ? 1 : -1;
+      });
     }
   }, {
     key: "starred",

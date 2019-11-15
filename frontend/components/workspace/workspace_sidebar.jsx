@@ -35,7 +35,8 @@ class WorkspaceSidebar extends React.Component {
     let channelList = user_channels.map((id) => channels[id])
     for (let i = 0; i < channelList.length; i++)
       if (channelList[i].starred === starStatus) filteredChannels.push(channelList[i])
-    return filteredChannels;
+
+    return filteredChannels.sort((a, b) => a > b ? 1 : -1);
   }
 
   starred() {

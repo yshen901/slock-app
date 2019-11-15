@@ -21,17 +21,25 @@ class ChannelNav extends React.Component {
   }
 
   star() {
-    if (this.props.channel.starred)
+    if (this.props.channel.name === "general")
+      <div></div>
+    else if (this.props.channel.starred)
       return (
-        <div id="star filled hidden" onClick={this.starClick}>
-          <i className='fas fa-star'></i>
+        <div>
+          <div id="star filled hidden" onClick={this.starClick}>
+            <i className='fas fa-star'></i>
+          </div>
+          <div className="channel-nav-divider">|</div>
         </div>
       )
     else
       return(
-        <div id = "star empty" onClick={this.starClick}>
-          <i className='far fa-star' ></i>
-        </div >
+        <div>
+          <div id = "star empty" onClick={this.starClick}>
+            <i className='far fa-star' ></i>
+          </div >
+          <div className="channel-nav-divider">|</div>
+        </div>
       )
   }
 
@@ -50,8 +58,7 @@ class ChannelNav extends React.Component {
           <div id="left">
             <div id="left-top"> # {name} </div>
             <div id="left-bottom">
-              {this.star()}
-              <div className="channel-nav-divider">|</div> 
+              {this.star()} 
               <div id="members">
                 <i className="material-icons">person_outline</i>{ Object.keys(users).length }
               </div>
