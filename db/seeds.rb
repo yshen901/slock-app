@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Messages.destroy_all;
+Message.destroy_all;
 ChannelUser.destroy_all;
 WorkspaceUser.destroy_all;
 Channel.destroy_all;
