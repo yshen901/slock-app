@@ -5,23 +5,28 @@ import { joinChannel } from "../../actions/channel_actions";
 class MessageForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { body: "" };
+    this.state = { 
+      body: "",
+      canJoin: props.status.canJoin
+    };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.joinChannel = this.joinChannel.bind(this);
   }
 
-  update(field) {
-    return e =>
-      this.setState({ [field]: e.currentTarget.value });
+  componentDidUpdate(oldProps) {
+    if (oldProps.status.canJoin !== this.props.status.canJoin)
+      this.setState({ canJoin: this.props.status.canJoin })
   }
 
   joinChannel(e) {
-    let { channel_id } = this.props.match.params;
-    dispatch(joinChannel(parseInt(channel_id)))
-      .then(
-        () => this.setState(this.state)
-      )
+    this.props.joinChannel(e);
+    this.setState({ canJoin: false })
+  }
+
+  update(field) {
+    return e =>
+      this.setState({ [field]: e.currentTarget.value });
   }
 
   handleSubmit(e) {
@@ -46,11 +51,17 @@ class MessageForm extends React.Component {
   }
 
   render() {
-    let { user_channels } = getState().session;
     let { channels } = getState().entities;
     let { channel_id } = this.props.match.params;
 
-    if (user_channels[channel_id])
+    if (this.state.canJoin)
+      return (
+        <div className="channel-preview-panel">
+          <h1>You are viewing <strong>#{channels[channel_id].name}</strong> </h1>
+          <div className="channel-preview-button" onClick={this.joinChannel}>Join Channel</div>
+        </div>
+      )
+    else
       return (
         <form onSubmit={this.handleSubmit.bind(this)}>
           <input className="chat-input" autoFocus
@@ -61,13 +72,6 @@ class MessageForm extends React.Component {
           />
           <input type="submit" value=""/>
         </form>
-      )
-    else
-      return (
-        <div className="channel-preview-panel">
-          <h1>You are viewing <strong>#{channels[channel_id].name}</strong> </h1>
-          <div className="channel-preview-button" onClick={this.joinChannel}>Join Channel</div>
-        </div>
       )
   }
 }

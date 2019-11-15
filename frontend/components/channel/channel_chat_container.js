@@ -6,7 +6,9 @@ import { getMessages } from '../../actions/message_actions';
 
 const mapStateToProps = (state, ownProps) => ({
   channel_id: ownProps.match.params.channel_id,
-  users: state.entities.users
+  users: state.entities.users,
+  joinChannels: ownProps.joinChannels,
+  status: ownProps.status
 })
 
 const mapDispatchToProps = dispatch => ({

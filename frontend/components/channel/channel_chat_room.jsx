@@ -93,7 +93,7 @@ class ChannelChatRoom extends React.Component {
           {messageList}
           <div ref={this.bottom} />
         </div>
-        <MessageForm />
+        <MessageForm joinChannel={this.props.joinChannel} status={this.props.status}/>
       </div>
     );
   }
