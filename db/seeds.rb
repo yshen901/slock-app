@@ -6,13 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Message.destroy_all;
-ChannelUser.destroy_all;
-WorkspaceUser.destroy_all;
-Channel.destroy_all;
-Workspace.destroy_all;
-User.destroy_all;
-
 User.create(email: "morpheus@slock.com", password: "password")
 User.create(email: "neo@slock.com", password: "password")
 User.create(email: "apoc@slock.com", password: "password")
