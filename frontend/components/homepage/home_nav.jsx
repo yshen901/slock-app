@@ -33,10 +33,13 @@ class HomeNav extends React.Component {
       <div className="nav" id="home-nav">
         <div className="left">
           <Link className="logo" to="/">
-            <img src="/images/logo.png"/>
+            <img src="/images/logo.jpg"/>
           </Link>
-          <a className="home-link" href="https://github.com/yshen901/"><i class='fab fa-github'></i> Github</a>
-          <a className="home-link" href="https://www.linkedin.com/in/yucishen/"><i class="fa fa-linkedin-square"></i> LinkedIn</a>
+          <Link className="home-link" to="/tbd">Why Slock?</Link>
+          <Link className="home-link" to="/tbd">Solutions</Link>
+          <Link className="home-link" to="/tbd">Resources</Link>
+          <Link className="home-link" to="/tbd">Enterprise</Link>
+          <Link className="home-link" to="/tbd">Pricing</Link>
         </div>
         {this.generateRight()}
       </div>

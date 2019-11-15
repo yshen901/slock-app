@@ -794,7 +794,7 @@ function (_React$Component) {
         className: "logo",
         to: "/"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "/images/logo.png"
+        src: "/images/logo.jpg"
       }))), this.right());
     }
   }]);
@@ -1254,7 +1254,7 @@ function (_React$Component) {
             className: "logo",
             to: "/"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-            src: "/images/logo.png"
+            src: "/images/logo.jpg"
           }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-create-form"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's the name of your company or team?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -1275,7 +1275,7 @@ function (_React$Component) {
             className: "logo",
             to: "/"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-            src: "/images/logo.png"
+            src: "/images/logo.jpg"
           }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-create-form"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's a project your team is working on?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -1295,7 +1295,7 @@ function (_React$Component) {
             className: "logo",
             to: "/"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-            src: "/images/logo.png"
+            src: "/images/logo.jpg"
           }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-create-form"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Tada! Meet your team's first channel: #", this.state.channel), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "A channel brings together every part of your project - the people, conversations, ideas, updates, and files - so your team can move forward and get more done."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -2231,18 +2231,23 @@ function (_React$Component) {
         className: "logo",
         to: "/"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "/images/logo.png"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        src: "/images/logo.jpg"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "home-link",
-        href: "https://github.com/yshen901/"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        "class": "fab fa-github"
-      }), " Github"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        to: "/tbd"
+      }, "Why Slock?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "home-link",
-        href: "https://www.linkedin.com/in/yucishen/"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        "class": "fa fa-linkedin-square"
-      }), " LinkedIn")), this.generateRight());
+        to: "/tbd"
+      }, "Solutions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "home-link",
+        to: "/tbd"
+      }, "Resources"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "home-link",
+        to: "/tbd"
+      }, "Enterprise"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "home-link",
+        to: "/tbd"
+      }, "Pricing")), this.generateRight());
     }
   }]);
 
@@ -2346,7 +2351,7 @@ function (_React$Component) {
         id: "home-box"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "home-greeting"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Whatever work you do,"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "you can do it in Slock"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Slock gives your team the power and alignment you need to do your best work."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Whatever work you do,"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "you can do it in Slock"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Slock gives your team the power and alignment you need to do your best work.")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "home-button",
         onClick: function onClick(e) {
           _this2.props.history.push('/signup');

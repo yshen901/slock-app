@@ -30,7 +30,7 @@ class AuthNav extends React.Component {
       <div className="nav">
         <div className="left">
           <Link className="logo" to='/'>
-            <img src="/images/logo.png" />
+            <img src="/images/logo.jpg" />
           </Link>
         </div>
         {this.right()}

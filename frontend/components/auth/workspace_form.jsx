@@ -75,7 +75,7 @@ class WorkspaceForm extends React.Component {
           <div className="workspace-create">
             <div className="workspace-create-nav">
               <Link className="logo" to="/">
-                <img src="/images/logo.png" />
+                <img src="/images/logo.jpg" />
               </Link>
             </div>
             <div className="workspace-create-form">
@@ -93,7 +93,7 @@ class WorkspaceForm extends React.Component {
           <div className="workspace-create">
             <div className="workspace-create-nav">
               <Link className="logo" to="/">
-                <img src="/images/logo.png" />
+                <img src="/images/logo.jpg" />
               </Link>
             </div>
             <div className="workspace-create-form">
@@ -111,7 +111,7 @@ class WorkspaceForm extends React.Component {
           <div className="workspace-create">
             <div className="workspace-create-nav">
               <Link className="logo" to="/">
-                <img src="/images/logo.png" />
+                <img src="/images/logo.jpg" />
               </Link>
             </div>
             <div className="workspace-create-form">

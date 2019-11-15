@@ -46,7 +46,6 @@ class Homepage extends React.Component {
             <h1>you can do it in Slock</h1>
             <br/>
             <h4>Slock gives your team the power and alignment you need to do your best work.</h4>
-            <br/>
           </div>
 
           <button className="home-button" onClick={(e) => { this.props.history.push('/signup') }}>Try Slock</button>
