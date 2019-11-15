@@ -27,9 +27,15 @@ class Api::ChannelsController < ApplicationController
     end
   end
 
+  def update 
+    @channel = Channel.find_by_id(params[:id])
+    @channel.update({ description: channel_params[:description] })
+    render "api/channels/show"
+  end
+
   private
 
   def channel_params 
-    params.require(:channel).permit(:name, :workspace_id)
+    params.require(:channel).permit(:name, :workspace_id, :description)
   end
 end

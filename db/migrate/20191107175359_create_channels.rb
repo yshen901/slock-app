@@ -3,6 +3,7 @@ class CreateChannels < ActiveRecord::Migration[5.2]
     create_table :channels do |t|
       t.string :name, null: false
       t.integer :workspace_id, null: false
+      t.string :description
 
       t.timestamps
     end

@@ -8,6 +8,7 @@
   height: 100%;
   background: black;
   opacity: 0.3;
+
 }
 
 #new-channel-form {
@@ -29,6 +30,12 @@
 
   display: flex;
   flex-direction: column;
+
+  -webkit-animation: fadein 0.4s;
+  -moz-animation: fadein 0.4s;
+  -ms-animation: fadein 0.4s;
+  -o-animation: fadein 0.4s;
+  animation: fadein 0.4s;
 }
 
 #new-channel-form h1 {

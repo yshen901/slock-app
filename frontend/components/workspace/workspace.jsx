@@ -56,6 +56,11 @@ class Workspace extends React.Component {
   }
 
   render() {
+    // return (
+    //   <div className="loading-page">
+    //     <img src="/images/orb.gif" />
+    //   </div>
+    // )
     if (this.state.loaded)
       return (
         <div id="workspace" onClick={() => hideElements("dropdown")}>

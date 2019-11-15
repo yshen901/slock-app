@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2019_11_13_234427) do
   create_table "channels", force: :cascade do |t|
     t.string "name", null: false
     t.integer "workspace_id", null: false
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "workspace_id"], name: "index_channels_on_name_and_workspace_id", unique: true

@@ -74,14 +74,16 @@ class Channel extends React.Component {
   render() {
     return (
       <div id="channel">
-        <ChannelNavContainer />
+        <ChannelNavContainer 
+          leaveChannel={this.leaveChannel}
+          status={this.state}/>
         <ChannelChatContainer 
             joinChannel={this.joinChannel}
             status={this.state}/>
-        <ChannelActionsDropdown 
+        {/* <ChannelActionsDropdown 
             leaveChannel={this.leaveChannel}
             joinChannel={this.joinChannel}
-            status={this.state}/>
+            status={this.state}/> */}
       </div>
     )
   }

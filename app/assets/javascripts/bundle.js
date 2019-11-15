@@ -1581,11 +1581,10 @@ function (_React$Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_nav_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        joinChannel: this.joinChannel,
-        status: this.state
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_channel_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_nav_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
         leaveChannel: this.leaveChannel,
+        status: this.state
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         joinChannel: this.joinChannel,
         status: this.state
       }));
@@ -1852,9 +1851,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -1869,12 +1868,24 @@ function (_React$Component) {
   _inherits(ChannelNav, _React$Component);
 
   function ChannelNav(props) {
+    var _this;
+
     _classCallCheck(this, ChannelNav);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ChannelNav).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ChannelNav).call(this, props));
+    _this.leaveButton = _this.leaveButton.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(ChannelNav, [{
+    key: "leaveButton",
+    value: function leaveButton() {
+      if (this.props.status.canLeave) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-nav-button",
+        onClick: this.props.leaveChannel
+      }, "Leave Channel");
+    }
+  }, {
     key: "render",
     value: function render() {
       if (this.props.channel) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1883,13 +1894,7 @@ function (_React$Component) {
         id: "left"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "#", this.props.channel.name)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "right"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "settings-button",
-        onClick: function onClick(e) {
-          e.stopPropagation();
-          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["toggleElements"])("dropdown channel-settings");
-        }
-      }, "\u2699")));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.leaveButton()));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel-nav"
       });
     }
@@ -3262,6 +3267,11 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      // return (
+      //   <div className="loading-page">
+      //     <img src="/images/orb.gif" />
+      //   </div>
+      // )
       if (this.state.loaded) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace",
         onClick: function onClick() {
