@@ -6,7 +6,7 @@ export const RECEIVE_USER = 'RECEIVE_USER';
 export const LOGOUT = 'LOGOUT';
 
 // DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
-export const HOME_WORKSPACE = 'slack';
+export const HOME_WORKSPACE = 'slock';
 
 /* NOTE: How actions (thunk and creater) work
        1) Receives currentUser, as this action is the same regardless of signin/logout

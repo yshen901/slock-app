@@ -7,9 +7,10 @@
   height: 100%;
 }
 
+/* TODO1: MAKE THIS ALWAYS BE UNDER THE GEAR BUTTON*/
 .dropdown.channel-settings {
   top: 50px;
-  right: 37%;
+  right: 580px;
 }
 
 .dropdown.channel-settings {

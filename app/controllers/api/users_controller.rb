@@ -37,6 +37,8 @@ class Api::UsersController < ApplicationController
       )
       if @user.save
         WorkspaceUser.create(user_id: @user.id, workspace_id: workspace.id, logged_in: true)
+        channel = @user.workspaces[0].channels[0];
+        ChannelUser.create(user_id: @user.id, channel_id: channel.id);
         login!(@user, workspace)
         render '/api/users/show'
       else

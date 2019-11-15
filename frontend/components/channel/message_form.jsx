@@ -1,4 +1,6 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { joinChannel } from "../../actions/channel_actions";
 
 class MessageForm extends React.Component {
   constructor(props) {
@@ -6,11 +8,20 @@ class MessageForm extends React.Component {
     this.state = { body: "" };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.joinChannel = this.joinChannel.bind(this);
   }
 
   update(field) {
     return e =>
       this.setState({ [field]: e.currentTarget.value });
+  }
+
+  joinChannel(e) {
+    let { channel_id } = this.props.match.params;
+    dispatch(joinChannel(parseInt(channel_id)))
+      .then(
+        () => this.setState(this.state)
+      )
   }
 
   handleSubmit(e) {
@@ -35,8 +46,12 @@ class MessageForm extends React.Component {
   }
 
   render() {
-    return(
-      <div>
+    let { user_channels } = getState().session;
+    let { channels } = getState().entities;
+    let { channel_id } = this.props.match.params;
+
+    if (user_channels[channel_id])
+      return (
         <form onSubmit={this.handleSubmit.bind(this)}>
           <input className="chat-input" autoFocus
             type="text"
@@ -46,9 +61,15 @@ class MessageForm extends React.Component {
           />
           <input type="submit" value=""/>
         </form>
-      </div>
-    )
+      )
+    else
+      return (
+        <div className="channel-preview-panel">
+          <h1>You are viewing <strong>#{channels[channel_id].name}</strong> </h1>
+          <div className="channel-preview-button" onClick={this.joinChannel}>Join Channel</div>
+        </div>
+      )
   }
 }
 
-export default MessageForm;
+export default withRouter(MessageForm);

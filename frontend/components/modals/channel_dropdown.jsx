@@ -27,20 +27,24 @@ class ChannelActionsDropdown extends React.Component {
     e.stopPropagation();
     hideElements("dropdown");
     let { channel_id, workspace_address } = this.props.match.params;
-    dispatch(leaveChannel(parseInt(channel_id)))
-      .then(
-        () => {
-          this.props.history.push(`/workspace/${workspace_address}`);
-        },
-        null
-        )
-      }
+    let { channels } = getState().entities;
+    if (channels[channel_id].name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
+      dispatch(leaveChannel(parseInt(channel_id)))
+        .then(
+          () => {
+            this.props.history.push(`/workspace/${workspace_address}`);
+          },
+          null
+          )
+  }
 
   button() {
     let { channels } = getState().entities;
     let current_channel = this.props.match.params.channel_id;
     let user_channels = Object.keys(getState().session.user_channels);
-    if (!user_channels.includes(current_channel))
+    if (channels[current_channel] && channels[current_channel].name === "general") //REMOVES BUTTON
+      return
+    else if (!user_channels.includes(current_channel))
       return (
         <div className="dropdown-item" onClick={this.joinChannel}>
           Join Channel

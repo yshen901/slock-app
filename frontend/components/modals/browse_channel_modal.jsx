@@ -6,11 +6,21 @@ class BrowseChannelModal extends React.Component {
   constructor() {
     super();
 
+    this.state = {
+      search: ""
+    }
+
     this.switchForm = this.switchForm.bind(this);
     this.goToChannel = this.goToChannel.bind(this);
+    this.update = this.update.bind(this);
 
     this.myChannels = this.myChannels.bind(this);
     this.otherChannels = this.otherChannels.bind(this);
+    this.allChannels = this.allChannels.bind(this);
+  }
+
+  update(e) {
+    this.setState({search: e.currentTarget.value});
   }
 
   switchForm() {
@@ -24,37 +34,60 @@ class BrowseChannelModal extends React.Component {
     this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
   }
 
-  myChannels() {
-    let { channels } = getState().entities;
-    let user_channels = Object.keys(getState().session.user_channels);
+  allChannels(searchString) {
+    let channelsDisplay = [];
+    let myChannels = this.myChannels(searchString);
+    let otherChannels = this.otherChannels(searchString);
 
-    if (user_channels.length > 0)
-    return (
-      <div>
-        <h1 className="full-modal-section-header">Channels you belong to</h1>
-        {user_channels.map((id, idx) => {
-          return <div className="full-modal-item" key={idx} 
-                      onClick={() => this.goToChannel(id)}># {channels[id].name}</div>
-        })}
-      </div>
-    )
+    if (otherChannels.length > 0)
+      channelsDisplay.push(
+        <div>
+          <h1 className="full-modal-section-header">Channels you can join</h1>
+          {otherChannels}
+        </div>
+      )
+
+    if (myChannels.length > 0)
+      channelsDisplay.push(
+        <div>
+          <h1 className="full-modal-section-header">Channels you belong to</h1>
+          {myChannels}
+        </div>
+      )
+    
+    return channelsDisplay;
   }
 
-  otherChannels() {
+  myChannels(searchString) {
+    let { channels } = getState().entities;
+    let user_channels = Object.keys(getState().session.user_channels);
+    let displayed_channels = [];
+    
+    let channel_name;
+    for (let i = 0; i < user_channels.length; i++) {
+      channel_name = channels[user_channels[i]].name;
+      if (searchString.length === 0 || channel_name.startsWith(searchString))
+        displayed_channels.push(<div className="full-modal-item" onClick={() => this.goToChannel(user_channels[i])}># {channel_name}</div>)
+    }
+
+    return displayed_channels;
+  }
+
+  otherChannels(searchString) {
     let { channels } = getState().entities;
     let { user_channels } = getState().session;
     let other_channels = Object.keys(channels).filter((id) => !user_channels[id] )
+    let displayed_channels = [];
 
+    let channel_name;
     if (other_channels.length > 0)
-      return (
-        <div>
-          <h1 className="full-modal-section-header">Channels you can join</h1>
-          {other_channels.map((id, idx) => {
-            return <div className="full-modal-item" key={idx}
-              onClick={() => this.goToChannel(id)}># {channels[id].name}</div>
-          })}
-        </div>
-      )
+      for (let i = 0; i < other_channels.length; i++) {
+        channel_name = channels[other_channels[i]].name;
+        if (searchString.length === 0 || channel_name.startsWith(searchString))
+          displayed_channels.push(<div className="full-modal-item" onClick={() => this.goToChannel(other_channels[i])}># {channel_name}</div>)
+      }
+    
+    return displayed_channels;
   }
   
   render() {
@@ -66,9 +99,15 @@ class BrowseChannelModal extends React.Component {
             <h1 className="full-modal-header-text">Browse Channels</h1>
             <div className="full-modal-header-button" onClick={this.switchForm}>Create Channel</div>
           </div>
+          <div className="full-modal-search-bar">
+            <div className="search-icon">&#128269;</div>
+            <input type="text" id="channel-search-bar"
+              onChange={this.update}
+              value={this.state.search}
+              placeholder="Search channels"/>
+          </div>
           <div className="full-modal-list">
-            { this.otherChannels() }
-            { this.myChannels() }
+            { this.allChannels(this.state.search) }
           </div>
         </div>
       </div>

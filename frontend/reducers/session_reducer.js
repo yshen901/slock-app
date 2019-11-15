@@ -27,6 +27,7 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
     case REMOVE_WORKSPACE:
       nextState.workspace_id = null;
       nextState.channel_id = null;
+      nextState.user_channels = {};
       return nextState;
 
     case RECEIVE_CHANNEL:

@@ -11,7 +11,7 @@
 }
 
 #channel-nav #left {
-  width: 60%;
+  width: calc(100% - 400px);
   height: 100%;
 
   padding: 10px;
@@ -21,7 +21,7 @@
 
 /*fix css for here*/
 #channel-nav #right {
-  width: 10%;
+  width: 400px;
   height: 100%;
 
   padding: 10px;

@@ -267,7 +267,7 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_USER = 'RECEIVE_USER';
 var LOGOUT = 'LOGOUT'; // DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
 
-var HOME_WORKSPACE = 'slack';
+var HOME_WORKSPACE = 'slock';
 /* NOTE: How actions (thunk and creater) work
        1) Receives currentUser, as this action is the same regardless of signin/logout
              the change to the state is the same!
@@ -1619,11 +1619,15 @@ function (_React$Component) {
         var messages = _ref.messages;
         var messagesInfo = Object.values(messages).map(function (message) {
           //NOTE: USEFUL FOR HANDLING DATES
-          var created_at;
+          var created_at, len;
           var date_now = new Date(Date());
           var message_date = new Date(message.created_at);
           if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
-            created_at = message_date.toLocaleDateString();else created_at = message_date.toLocaleTimeString();
+            created_at = message_date.toLocaleDateString();else {
+            created_at = message_date.toLocaleTimeString();
+            len = created_at.length;
+            created_at = created_at.slice(0, len - 6) + created_at.slice(len - 3);
+          }
           return {
             body: message.body,
             created_at: created_at,
@@ -1667,9 +1671,10 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var messageList = this.state.messages.map(function (message) {
+      var messageList = this.state.messages.map(function (message, idx) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message"
+          className: "message",
+          key: idx
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-user-icon"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -1851,6 +1856,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1873,6 +1880,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+
 var MessageForm =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1888,6 +1897,7 @@ function (_React$Component) {
       body: ""
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.joinChannel = _this.joinChannel.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1899,6 +1909,16 @@ function (_React$Component) {
       return function (e) {
         return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
       };
+    }
+  }, {
+    key: "joinChannel",
+    value: function joinChannel(e) {
+      var _this3 = this;
+
+      var channel_id = this.props.match.params.channel_id;
+      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["joinChannel"])(parseInt(channel_id))).then(function () {
+        return _this3.setState(_this3.state);
+      });
     }
   }, {
     key: "handleSubmit",
@@ -1925,7 +1945,10 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      var user_channels = getState().session.user_channels;
+      var channels = getState().entities.channels;
+      var channel_id = this.props.match.params.channel_id;
+      if (user_channels[channel_id]) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit.bind(this)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "chat-input",
@@ -1937,14 +1960,19 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
         value: ""
-      })));
+      }));else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-preview-panel"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "You are viewing ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "#", channels[channel_id].name), " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-preview-button",
+        onClick: this.joinChannel
+      }, "Join Channel"));
     }
   }]);
 
   return MessageForm;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (MessageForm);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(MessageForm));
 
 /***/ }),
 
@@ -2217,14 +2245,26 @@ function (_React$Component) {
     _classCallCheck(this, BrowseChannelModal);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(BrowseChannelModal).call(this));
+    _this.state = {
+      search: ""
+    };
     _this.switchForm = _this.switchForm.bind(_assertThisInitialized(_this));
     _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
+    _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.myChannels = _this.myChannels.bind(_assertThisInitialized(_this));
     _this.otherChannels = _this.otherChannels.bind(_assertThisInitialized(_this));
+    _this.allChannels = _this.allChannels.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(BrowseChannelModal, [{
+    key: "update",
+    value: function update(e) {
+      this.setState({
+        search: e.currentTarget.value
+      });
+    }
+  }, {
     key: "switchForm",
     value: function switchForm() {
       Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal channel-modal");
@@ -2238,27 +2278,48 @@ function (_React$Component) {
       this.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
     }
   }, {
+    key: "allChannels",
+    value: function allChannels(searchString) {
+      var channelsDisplay = [];
+      var myChannels = this.myChannels(searchString);
+      var otherChannels = this.otherChannels(searchString);
+      if (otherChannels.length > 0) channelsDisplay.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "full-modal-section-header"
+      }, "Channels you can join"), otherChannels));
+      if (myChannels.length > 0) channelsDisplay.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "full-modal-section-header"
+      }, "Channels you belong to"), myChannels));
+      return channelsDisplay;
+    }
+  }, {
     key: "myChannels",
-    value: function myChannels() {
+    value: function myChannels(searchString) {
       var _this2 = this;
 
       var channels = getState().entities.channels;
       var user_channels = Object.keys(getState().session.user_channels);
-      if (user_channels.length > 0) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "full-modal-section-header"
-      }, "Channels you belong to"), user_channels.map(function (id, idx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var displayed_channels = [];
+      var channel_name;
+
+      var _loop = function _loop(i) {
+        channel_name = channels[user_channels[i]].name;
+        if (searchString.length === 0 || channel_name.startsWith(searchString)) displayed_channels.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "full-modal-item",
-          key: idx,
           onClick: function onClick() {
-            return _this2.goToChannel(id);
+            return _this2.goToChannel(user_channels[i]);
           }
-        }, "# ", channels[id].name);
-      }));
+        }, "# ", channel_name));
+      };
+
+      for (var i = 0; i < user_channels.length; i++) {
+        _loop(i);
+      }
+
+      return displayed_channels;
     }
   }, {
     key: "otherChannels",
-    value: function otherChannels() {
+    value: function otherChannels(searchString) {
       var _this3 = this;
 
       var channels = getState().entities.channels;
@@ -2266,17 +2327,26 @@ function (_React$Component) {
       var other_channels = Object.keys(channels).filter(function (id) {
         return !user_channels[id];
       });
-      if (other_channels.length > 0) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "full-modal-section-header"
-      }, "Channels you can join"), other_channels.map(function (id, idx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "full-modal-item",
-          key: idx,
-          onClick: function onClick() {
-            return _this3.goToChannel(id);
-          }
-        }, "# ", channels[id].name);
-      }));
+      var displayed_channels = [];
+      var channel_name;
+
+      if (other_channels.length > 0) {
+        var _loop2 = function _loop2(i) {
+          channel_name = channels[other_channels[i]].name;
+          if (searchString.length === 0 || channel_name.startsWith(searchString)) displayed_channels.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "full-modal-item",
+            onClick: function onClick() {
+              return _this3.goToChannel(other_channels[i]);
+            }
+          }, "# ", channel_name));
+        };
+
+        for (var i = 0; i < other_channels.length; i++) {
+          _loop2(i);
+        }
+      }
+
+      return displayed_channels;
     }
   }, {
     key: "render",
@@ -2301,8 +2371,18 @@ function (_React$Component) {
         className: "full-modal-header-button",
         onClick: this.switchForm
       }, "Create Channel")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "full-modal-search-bar"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "search-icon"
+      }, "\uD83D\uDD0D"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        id: "channel-search-bar",
+        onChange: this.update,
+        value: this.state.search,
+        placeholder: "Search channels"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal-list"
-      }, this.otherChannels(), this.myChannels())));
+      }, this.allChannels(this.state.search))));
     }
   }]);
 
@@ -2390,9 +2470,11 @@ function (_React$Component) {
       var _this$props$match$par = this.props.match.params,
           channel_id = _this$props$match$par.channel_id,
           workspace_address = _this$props$match$par.workspace_address;
-      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["leaveChannel"])(parseInt(channel_id))).then(function () {
-        _this3.props.history.push("/workspace/".concat(workspace_address));
-      }, null);
+      var channels = getState().entities.channels;
+      if (channels[channel_id].name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
+        dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["leaveChannel"])(parseInt(channel_id))).then(function () {
+          _this3.props.history.push("/workspace/".concat(workspace_address));
+        }, null);
     }
   }, {
     key: "button",
@@ -2400,7 +2482,8 @@ function (_React$Component) {
       var channels = getState().entities.channels;
       var current_channel = this.props.match.params.channel_id;
       var user_channels = Object.keys(getState().session.user_channels);
-      if (!user_channels.includes(current_channel)) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (channels[current_channel] && channels[current_channel].name === "general") //REMOVES BUTTON
+        return;else if (!user_channels.includes(current_channel)) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.joinChannel
       }, "Join Channel");else return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3310,7 +3393,7 @@ function (_React$Component) {
         className: "sidebar-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-link",
-        onClick: this.toggleElements("full-modal channel-modal")
+        onClick: this.toggleElements("full-modal channel-modal", "channel-search-bar")
       }, "Channels"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-button",
         onClick: this.toggleElements("new-channel-modal", "new-channel-input")
@@ -3793,6 +3876,7 @@ var SessionReducer = function SessionReducer() {
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_WORKSPACE"]:
       nextState.workspace_id = null;
       nextState.channel_id = null;
+      nextState.user_channels = {};
       return nextState;
 
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_CHANNEL"]:
@@ -36636,7 +36720,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, useHistory, useLocation, useParams, useRouteMatch, withRouter */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, useHistory, useLocation, useParams, useRouteMatch, withRouter, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

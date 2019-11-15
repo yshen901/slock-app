@@ -21,13 +21,16 @@ class ChannelChatRoom extends React.Component {
         ({ messages }) => {
           let messagesInfo = Object.values(messages).map(
             message => { //NOTE: USEFUL FOR HANDLING DATES
-              let created_at;
+              let created_at, len;
               let date_now = new Date(Date());
               let message_date = new Date(message.created_at);
               if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
                 created_at = message_date.toLocaleDateString();
-              else
+              else {
                 created_at = message_date.toLocaleTimeString();
+                len = created_at.length;
+                created_at = created_at.slice(0, len-6) + created_at.slice(len-3);
+              }
               return {
                 body: message.body,
                 created_at: created_at,
@@ -67,9 +70,9 @@ class ChannelChatRoom extends React.Component {
 
   // TODO1: Group these nicely
   render() {
-    const messageList = this.state.messages.map(message => {
+    const messageList = this.state.messages.map((message, idx) => {
       return (
-        <div className='message'>
+        <div className='message' key={idx}>
           <div className="message-user-icon">
             <img src="/images/profile_icon-min_burned.jpg"/>
           </div>

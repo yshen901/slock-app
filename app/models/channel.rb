@@ -15,5 +15,6 @@ class Channel < ApplicationRecord
     through: :channel_connections,
     source: :user
 
-  has_many :messages
+  has_many :messages,
+    dependent: :destroy
 end

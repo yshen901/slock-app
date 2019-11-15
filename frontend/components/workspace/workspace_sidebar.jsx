@@ -59,7 +59,7 @@ class WorkspaceSidebar extends React.Component {
 
           <div id="channels">
             <div className='sidebar-header'>
-              <div className='sidebar-header-link' onClick={ this.toggleElements("full-modal channel-modal") }>Channels</div>
+              <div className='sidebar-header-link' onClick={ this.toggleElements("full-modal channel-modal", "channel-search-bar") }>Channels</div>
               <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>+</div>
             </div>
             {this.renderChannels()}
