@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 import { objectToArray, workspaceTitle } from '../../selectors/selectors';
 import { logout } from '../../actions/session_actions';
+import { hideElements } from '../../util/modal_api_util';
 
 class WorkspaceDropdown extends React.Component {
   constructor(props) {
@@ -31,15 +32,18 @@ class WorkspaceDropdown extends React.Component {
 
   logoutUser(e) {
     e.stopPropagation();
+    hideElements("dropdown");
     dispatch(logout())
-      .then(
-        () => this.props.history.push('/')
-      )
+    .then(
+      () => {
+        this.props.history.push('/');
+      }
+    )
   }
 
   render() {
     return (
-      <div className={this.props.dropdownClass}>
+      <div className="dropdown hidden">
         {this.workspaceList()}
         <div className="dropdown-auth-links">
           <Link className="dropdown-link" to="/signin">Sign Into Another Workspace</Link>
