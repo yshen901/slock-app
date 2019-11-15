@@ -41,14 +41,18 @@ class NewChannelModal extends React.Component {
   // updates a field, and either enables or disables the button
   updateField(type) {
     return (e) => {
-      if (e.currentTarget.value.length > 80)
-        this.setState({ [type]: e.currentTarget.value, disabled: true, error: "long" })
-      else if (e.currentTarget.value === "")
-        this.setState({ [type]: e.currentTarget.value, disabled: true, error: "empty" })
-      else if (this.props.channels.includes(e.currentTarget.value.toLowerCase()))
-        this.setState({ [type]: e.currentTarget.value, disabled: true, error: "taken" })
+      let currentVal = e.currentTarget.value.split('');
+      let lastVal = currentVal.pop();
+      lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal.toLowerCase()); 
+
+      if (currentVal.join('').length > 80)
+        this.setState({ [type]: currentVal.join(''), disabled: true, error: "long" })
+      else if (currentVal.join('') === "")
+        this.setState({ [type]: currentVal.join(''), disabled: true, error: "empty" })
+      else if (this.props.channels.includes(currentVal.join('').toLowerCase()))
+        this.setState({ [type]: currentVal.join(''), disabled: true, error: "taken" })
       else
-        this.setState({ [type]: e.currentTarget.value, disabled: false, error: "none" })
+        this.setState({ [type]: currentVal.join(''), disabled: false, error: "none" })
     }
   }
 
@@ -94,7 +98,7 @@ class NewChannelModal extends React.Component {
   render() {
     return (
       <div className="new-channel-modal hidden">
-        <div className="part-modal-background" onClick={() => hideElements("new-channel-modal")}></div>
+        <div className="part-modal-background" onClick={ () => { hideElements("new-channel-modal"); this.setState({ name: "" }) } }></div>
         {this.modalForm()}
       </div>
     )

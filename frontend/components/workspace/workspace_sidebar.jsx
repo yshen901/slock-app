@@ -46,7 +46,7 @@ class WorkspaceSidebar extends React.Component {
       return (
         <div id="channels">
           <div className='sidebar-header'>
-            <div className='sidebar-header-link' onClick={this.toggleElements("full-modal channel-modal", "channel-search-bar")}>Starred</div>
+            <div className='sidebar-header-link'>Starred</div>
           </div>
           { starred.map((channel, idx) => {
             if (channel.id === channel_id)
@@ -74,7 +74,7 @@ class WorkspaceSidebar extends React.Component {
 
           <div id="channels">
             <div className='sidebar-header'>
-              <div className='sidebar-header-link' onClick={ this.toggleElements("full-modal channel-modal", "channel-search-bar") }>Channels</div>
+              <div className='sidebar-header-link hoverable' onClick={ this.toggleElements("full-modal channel-modal", "channel-search-bar") }>Channels</div>
               <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>
                 <i className="fas fa-plus-circle"></i>
               </div>

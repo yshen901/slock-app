@@ -19,7 +19,7 @@
 
 #homepage .left {
   width: 52%;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 
 #homepage .right {

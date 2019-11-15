@@ -26,7 +26,7 @@
 
 .left {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 
   width: 25%;
@@ -49,11 +49,14 @@ img {
   color:black;
   font-size: 15px;
 
-  padding: 3px;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
   box-sizing: border-box;
 }
 
 .home-link:hover {
+  cursor: pointer;
   background: lightgray;
   border-radius: 3px;
 }

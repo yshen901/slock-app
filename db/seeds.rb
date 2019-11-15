@@ -19,7 +19,7 @@ WorkspaceUser.create(user_id: 3, workspace_id: 1)
 WorkspaceUser.create(user_id: 4, workspace_id: 1)
 WorkspaceUser.create(user_id: 5, workspace_id: 1)
 
-Channel.create(name: "general", workspace_id: 1, description: "For general discussions and conversations", starred: true)
+Channel.create(name: "general", workspace_id: 1, description: "For general discussions and conversations", starred: false)
 ChannelUser.create(user_id: 1, channel_id: 1)
 ChannelUser.create(user_id: 2, channel_id: 1)
 ChannelUser.create(user_id: 3, channel_id: 1)

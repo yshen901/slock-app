@@ -42,6 +42,10 @@ class SidebarDropdown extends React.Component {
         <div className="dropdown-item" onClick={this.logoutUser}>
           Sign out of account
         </div>
+        <div className="horizontal-divider"></div>
+        <div className="dropdown-item" onClick={() => this.props.history.push("/")}>
+          Back to Home
+        </div>
       </div>
     )
   }

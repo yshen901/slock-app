@@ -59,3 +59,7 @@ strong {
   margin-top: -400px;
   margin-left: -400px;
 }
+
+.horizontal-divider {
+  border: 1px solid lightgray;
+}

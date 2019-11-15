@@ -93,14 +93,14 @@ class BrowseChannelModal extends React.Component {
   render() {
     return (
       <div className="full-modal channel-modal hidden" onClick={e => e.stopPropagation()}>
-        <div className="full-modal-button" onClick={ () => hideElements("full-modal channel-modal") }>&#10005;</div>
+        <div className="full-modal-button" onClick={ () => { hideElements("full-modal channel-modal"); this.setState({ search: "" }); } }>&#10005;</div>
         <div className="full-modal-content">
           <div className="full-modal-header">
             <h1 className="full-modal-header-text">Browse Channels</h1>
             <div className="full-modal-header-button" onClick={this.switchForm}>Create Channel</div>
           </div>
           <div className="full-modal-search-bar">
-            <i className='fas fa-search search-icon'></i>
+            <i className='fas fa-search search-icon'></i> 
             <input type="text" id="channel-search-bar"
               onChange={this.update}
               value={this.state.search}

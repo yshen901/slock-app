@@ -35,11 +35,8 @@ class HomeNav extends React.Component {
           <Link className="logo" to="/">
             <img src="/images/logo.jpg"/>
           </Link>
-          <Link className="home-link" to="/tbd">Why Slock?</Link>
-          <Link className="home-link" to="/tbd">Solutions</Link>
-          <Link className="home-link" to="/tbd">Resources</Link>
-          <Link className="home-link" to="/tbd">Enterprise</Link>
-          <Link className="home-link" to="/tbd">Pricing</Link>
+          <a className="home-link" to="https://github.com/yshen901"><i className='fab fa-github'></i> Github</a>
+          <a className="home-link" to="https://www.linkedin.com/in/yucishen/"><i className="fa fa-linkedin-square"></i> Linkedin</a>
         </div>
         {this.generateRight()}
       </div>

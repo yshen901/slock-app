@@ -116,7 +116,7 @@
   width: 80%;
 }
 
-.sidebar-header-link:hover, .sidebar-header-button:hover, .sidebar-action:hover {
+.sidebar-header-link.hoverable:hover, .sidebar-header-button:hover, .sidebar-action:hover {
   color: white;
   border-color: white;
   opacity: 1;

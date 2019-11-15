@@ -81,7 +81,7 @@ class InviteUserModal extends React.Component {
   render() {
     return (
       <div className="invite-user-modal hidden">
-        <div className="part-modal-background" onClick={() => hideElements("invite-user-modal")}></div>
+        <div className="part-modal-background" onClick={() => { hideElements("invite-user-modal"); this.setState({ name: "" }) } }></div>
         {this.modalForm()}
       </div>
     )

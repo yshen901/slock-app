@@ -2232,22 +2232,17 @@ function (_React$Component) {
         to: "/"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/images/logo.jpg"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "home-link",
-        to: "/tbd"
-      }, "Why Slock?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "https://github.com/yshen901"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fab fa-github"
+      }), " Github"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "home-link",
-        to: "/tbd"
-      }, "Solutions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "home-link",
-        to: "/tbd"
-      }, "Resources"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "home-link",
-        to: "/tbd"
-      }, "Enterprise"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "home-link",
-        to: "/tbd"
-      }, "Pricing")), this.generateRight());
+        to: "https://www.linkedin.com/in/yucishen/"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-linkedin-square"
+      }), " Linkedin")), this.generateRight());
     }
   }]);
 
@@ -2523,6 +2518,8 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal channel-modal hidden",
         onClick: function onClick(e) {
@@ -2531,7 +2528,11 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal-button",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal channel-modal");
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal channel-modal");
+
+          _this4.setState({
+            search: ""
+          });
         }
       }, "\u2715"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal-content"
@@ -2927,12 +2928,18 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "invite-user-modal hidden"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("invite-user-modal");
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("invite-user-modal");
+
+          _this4.setState({
+            name: ""
+          });
         }
       }), this.modalForm());
     }
@@ -3037,7 +3044,10 @@ function (_React$Component) {
       return function (e) {
         var _this2$setState, _this2$setState2, _this2$setState3, _this2$setState4;
 
-        if (e.currentTarget.value.length > 80) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "long"), _this2$setState));else if (e.currentTarget.value === "") _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", true), _defineProperty(_this2$setState2, "error", "empty"), _this2$setState2));else if (_this2.props.channels.includes(e.currentTarget.value.toLowerCase())) _this2.setState((_this2$setState3 = {}, _defineProperty(_this2$setState3, type, e.currentTarget.value), _defineProperty(_this2$setState3, "disabled", true), _defineProperty(_this2$setState3, "error", "taken"), _this2$setState3));else _this2.setState((_this2$setState4 = {}, _defineProperty(_this2$setState4, type, e.currentTarget.value), _defineProperty(_this2$setState4, "disabled", false), _defineProperty(_this2$setState4, "error", "none"), _this2$setState4));
+        var currentVal = e.currentTarget.value.split('');
+        var lastVal = currentVal.pop();
+        lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal.toLowerCase());
+        if (currentVal.join('').length > 80) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, currentVal.join('')), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "long"), _this2$setState));else if (currentVal.join('') === "") _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, currentVal.join('')), _defineProperty(_this2$setState2, "disabled", true), _defineProperty(_this2$setState2, "error", "empty"), _this2$setState2));else if (_this2.props.channels.includes(currentVal.join('').toLowerCase())) _this2.setState((_this2$setState3 = {}, _defineProperty(_this2$setState3, type, currentVal.join('')), _defineProperty(_this2$setState3, "disabled", true), _defineProperty(_this2$setState3, "error", "taken"), _this2$setState3));else _this2.setState((_this2$setState4 = {}, _defineProperty(_this2$setState4, type, currentVal.join('')), _defineProperty(_this2$setState4, "disabled", false), _defineProperty(_this2$setState4, "error", "none"), _this2$setState4));
       };
     } // submits the information, and creates something
 
@@ -3087,12 +3097,18 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "new-channel-modal hidden"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("new-channel-modal");
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("new-channel-modal");
+
+          _this4.setState({
+            name: ""
+          });
         }
       }), this.modalForm());
     }
@@ -3236,7 +3252,14 @@ function (_React$Component) {
       }, "Sign out of workspace"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.logoutUser
-      }, "Sign out of account"));
+      }, "Sign out of account"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "horizontal-divider"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-item",
+        onClick: function onClick() {
+          return _this4.props.history.push("/");
+        }
+      }, "Back to Home"));
     }
   }]);
 
@@ -3665,8 +3688,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "sidebar-header-link",
-        onClick: this.toggleElements("full-modal channel-modal", "channel-search-bar")
+        className: "sidebar-header-link"
       }, "Starred")), starred.map(function (channel, idx) {
         if (channel.id === channel_id) // TODO: SEPARATE THE 
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -3698,7 +3720,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "sidebar-header-link",
+        className: "sidebar-header-link hoverable",
         onClick: this.toggleElements("full-modal channel-modal", "channel-search-bar")
       }, "Channels"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-button",
