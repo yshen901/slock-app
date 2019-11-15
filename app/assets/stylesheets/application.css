@@ -34,14 +34,20 @@ strong {
 
 .loading-page {
   background: black;
-  opacity: 0.2;
+  opacity: 0.3;
 
   width: 100vw;
   height: 100vh;
+
+  -webkit-animation: fadein-opaque 2s;
+  -moz-animation: fadein-opaque 2s;
+  -ms-animation: fadein-opaque 2s;
+  -o-animation: fadein-opaque 2s;
+  animation: fadein-opaque 2s;
 }
 
 .loading-page img {
-  opacity: 0.5;
+  opacity: 0.3;
 
   position: absolute;
   top: 50%;

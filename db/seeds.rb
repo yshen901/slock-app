@@ -14,9 +14,9 @@ Workspace.create(address: 'slock')
 WorkspaceUser.create(user_id: 1, workspace_id: 1)
 WorkspaceUser.create(user_id: 2, workspace_id: 1)
 
-Channel.create(name: "general", workspace_id: 1)
-Channel.create(name: "customer-support", workspace_id: 1)
-Channel.create(name: "information", workspace_id: 1)
+Channel.create(name: "general", workspace_id: 1, description: "This is the homepage", starred: true)
+Channel.create(name: "customer-support", workspace_id: 1, description: "Please let us know if you need help", starred: false)
+Channel.create(name: "information", workspace_id: 1, description: "For any questions you might have for me", starred: false)
 
 ChannelUser.create(user_id: 1, channel_id: 1)
 ChannelUser.create(user_id: 1, channel_id: 2)

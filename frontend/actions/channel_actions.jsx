@@ -54,3 +54,12 @@ export const leaveChannel = (channel_id) => (dispatch) => (
       errors => dispatch(receiveErrors(errors))
     )
 )
+
+export const updateChannel = (channel) => (dispatch) => (
+  ChannelAPI
+    .updateChannel(channel)
+    .then(
+      channel => dispatch(receiveChannel(channel)),
+      errors => dispatch(receiveErrors(errors))
+    )
+)

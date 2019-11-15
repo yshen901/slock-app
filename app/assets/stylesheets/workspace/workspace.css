@@ -1,9 +1,21 @@
 #workspace {
   width: 100vw;
   height: 100vh;
+
+  -webkit-animation: fadein 0.4s;
+  -moz-animation: fadein 0.4s;
+  -ms-animation: fadein 0.4s;
+  -o-animation: fadein 0.4s;
+  animation: fadein 0.4s;
 }
 
 #channel-chat {
   width: 100vw;
   height: 100vh;
+
+    -webkit-animation: fadein 0.4s;
+  -moz-animation: fadein 0.4s;
+  -ms-animation: fadein 0.4s;
+  -o-animation: fadein 0.4s;
+  animation: fadein 0.4s;
 }

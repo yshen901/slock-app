@@ -5,6 +5,7 @@ import ChannelContainer from '../channel/channel_container';
 import BrowseChannelModal from '../modals/browse_channel_modal';
 import NewChannelModalContainer from '../modals/new_channel_modal_container';
 import InviteUserModal from '../modals/invite_user_modal';
+import EditChannelTopicModal from '../modals/edit_channel_topic_modal';
 import SidebarDropdown from '../modals/sidebar_dropdown';
 
 import { hideElements, focus } from '../../util/modal_api_util';
@@ -56,11 +57,6 @@ class Workspace extends React.Component {
   }
 
   render() {
-    // return (
-    //   <div className="loading-page">
-    //     <img src="/images/orb.gif" />
-    //   </div>
-    // )
     if (this.state.loaded)
       return (
         <div id="workspace" onClick={() => hideElements("dropdown")}>
@@ -71,6 +67,7 @@ class Workspace extends React.Component {
           <BrowseChannelModal />
           <InviteUserModal />
           <NewChannelModalContainer />
+          <EditChannelTopicModal />
         </div>
       )
     else

@@ -1,3 +1,4 @@
+/* FADE IN ANIMATION FOR SOLIDS */
 @keyframes fadein {
   from { opacity: 0.6; }
   to { opacity: 1; }
@@ -13,18 +14,35 @@
   to { opacity: 1; }
 }
 
+/* FADE IN ANIMATION FOR OPAQUE */
+@keyframes fadein-opaque {
+  from { opacity: 0; }
+  to { opacity: 0.3; }
+}
+
+@-moz-keyframes fadein-opaque {
+  from { opacity: 0; }
+  to { opacity: 0.3; }
+}
+
+@-webkit-keyframes fadein-opaque {
+  from { opacity: 0; }
+  to { opacity: 0.3; }
+}
+
+
+/* SLIDE UP ANIMATION */
 @keyframes slide-up {
-  from { margin-top: 20%; opacity: 0 }
+  from { margin-top: 1%; opacity: 0.3 }
   to { margin-top: 0%; opacity: 1 }
 }
 
 @-moz-keyframes slide-up {
-  from { margin-top: 20%; opacity: 0}
+  from { margin-top: 1%; opacity: 0.3}
   to { margin-top: 0%; opacity: 1 }
 }
 
 @-webkit-keyframes slide-up {
-  from { margin-top: 20%; opacity: 0}
+  from { margin-top: 1%; opacity: 0.3}
   to { margin-top: 0%; opacity: 1 }
-  }
 }

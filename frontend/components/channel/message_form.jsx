@@ -54,7 +54,7 @@ class MessageForm extends React.Component {
     let { channels } = getState().entities;
     let { channel_id } = this.props.match.params;
 
-    if (this.state.canJoin)
+    if (this.state.canJoin && channels[channel_id])
       return (
         <div className="channel-preview-panel">
           <h1>You are viewing <strong>#{channels[channel_id].name}</strong> </h1>

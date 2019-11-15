@@ -1,5 +1,6 @@
 class Channel < ApplicationRecord
   validates :name, :workspace_id, presence: true
+  validates :starred, inclusion: { in: [ true, false ] }
 
   # the workspace the channel belongs to
   belongs_to :workspace

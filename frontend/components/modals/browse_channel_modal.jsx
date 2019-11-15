@@ -100,7 +100,7 @@ class BrowseChannelModal extends React.Component {
             <div className="full-modal-header-button" onClick={this.switchForm}>Create Channel</div>
           </div>
           <div className="full-modal-search-bar">
-            <div className="search-icon">&#128269;</div>
+            <i className='fas fa-search search-icon'></i>
             <input type="text" id="channel-search-bar"
               onChange={this.update}
               value={this.state.search}

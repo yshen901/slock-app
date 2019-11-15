@@ -15,10 +15,14 @@
   width: calc(100% - 400px);
   height: 100%;
 
-  padding: 10px;
+  padding: 8px;
+  padding-right: 10px;
   padding-left: 20px;
   box-sizing: border-box;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 /*fix css for here*/
@@ -35,10 +39,80 @@
   align-items: flex-end;
 }
 
-#channel-nav #left h1 {
+#channel-nav #left #left-top {
   font-weight: bold;
   font-size: 18px;
   line-height: 24px;
+  vertical-align: middle;
+}
+
+#channel-nav #left #left-bottom {
+  height: 18px;
+  color: rgb(100, 100, 100);
+
+  display: flex;
+  justify-content: flex-start;
+}
+
+.channel-nav-divider {
+  font-size: 18px;
+  color:rgb(150, 149, 149);
+
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+}
+
+#channel-nav #star, #channel-nav #members, #channel-nav #topic {
+  cursor: pointer; 
+  font-size: 13px;
+  line-height: 18px;
+  border: 1px solid white;
+  vertical-align: middle;
+}
+
+.fa-star {
+  vertical-align: middle;
+  font-size: 13px;
+}
+
+.fas.fa-star {
+  color: rgb(242,199,68);
+}
+
+.far.fa-star {
+  color: rgb(100, 100, 100);
+}
+
+.fa-star:hover {
+  cursor: pointer;
+}
+
+#members .material-icons {
+  font-size: 18px;
+  vertical-align: middle;
+  padding-bottom: 3px;
+}
+
+#channel-nav #members:hover {
+  color: rgb(43, 108, 161)
+}
+
+#channel-nav #topic {
+  padding-left: 3px;
+  padding-right: 3px;
+  box-sizing: border-box;
+}
+
+#topic .fa-pen {
+  padding-top: 4px;
+  font-size: 10px;
+}
+
+#channel-nav #topic:hover {
+  cursor: pointer;
+  border: 1px solid gray;
+  border-radius: 4px;
 }
 
 #channel-nav .settings-button {

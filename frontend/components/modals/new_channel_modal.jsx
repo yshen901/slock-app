@@ -21,7 +21,7 @@ class NewChannelModal extends React.Component {
 
   button() {
     if (this.state.disabled)
-      return (<button onClick={this.submitForm} disabled>Create</button>)
+      return (<button disabled>Create</button>)
     else
       return (<button onClick={this.submitForm}>Create</button>)
   }

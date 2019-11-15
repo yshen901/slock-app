@@ -9,7 +9,9 @@ class WorkspaceSidebar extends React.Component {
 
     this.channelLink = this.channelLink.bind(this);
     this.toggleElements = this.toggleElements.bind(this);
-    this.renderChannels = this.renderChannels.bind(this);
+
+    this.starred = this.starred.bind(this);
+    this.getChannels = this.getChannels.bind(this);
   }
 
   channelLink(channelId) {
@@ -24,48 +26,66 @@ class WorkspaceSidebar extends React.Component {
     }
   }
 
-  renderChannels() {
+  getChannels(starStatus) {
     let { channels, user_channels, channel_id } = this.props;
 
-    if (Object.keys(channels).length === 0) {
-      return <div className="sidebar-list"></div>
-    } else {
-      let channelList = user_channels.map((id) => channels[id])
+    if (Object.keys(channels).length === 0) return []
+    
+    let filteredChannels = [];
+    let channelList = user_channels.map((id) => channels[id])
+    for (let i = 0; i < channelList.length; i++)
+      if (channelList[i].starred === starStatus) filteredChannels.push(channelList[i])
+    return filteredChannels;
+  }
+
+  starred() {
+    let starred = this.getChannels(true);
+    let { channel_id } = this.props.match.params;
+    if (starred.length > 0) 
       return (
-        <div className="sidebar-list">
-          {channelList.map(
-            (channel, idx) => {
-              if (channel.id === channel_id)
+        <div id="channels">
+          <div className='sidebar-header'>
+            <div className='sidebar-header-link' onClick={this.toggleElements("full-modal channel-modal", "channel-search-bar")}>Starred</div>
+          </div>
+          { starred.map((channel, idx) => {
+            if (channel.id === channel_id)
               // TODO: SEPARATE THE 
-                return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
-              else
-                return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
-            }
-          )}
+              return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
+            else
+              return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
+          })}
         </div>
       )
-    }
   }
 
   render() {
-    //TODO2: FIGURE OUT A MORE ELEGANT WAY...LIKE PREVENT A RE-RENDER BEFORE THE REDIRECT AFTER LOGGING OUT
+    let { channel_id } = this.props.match.params;
+
     if (this.props.user) 
       return (
         <div id="workspace-sidebar">
-
           <div id="workspace-sidebar-nav" onClick={ this.toggleElements("dropdown sidebar") }>
-            <h2>{workspaceTitle(this.props.workspace_address)}</h2>
-            <h6>&#9673;	&nbsp;{this.props.user.email}</h6>
+            <h2>{workspaceTitle(this.props.workspace_address)} <i className="fa fa-chevron-down"> </i></h2>
+            <h6>{this.props.user.email}</h6>
           </div>
+
+          { this.starred() }
 
           <div id="channels">
             <div className='sidebar-header'>
               <div className='sidebar-header-link' onClick={ this.toggleElements("full-modal channel-modal", "channel-search-bar") }>Channels</div>
               <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>
-                <div id="cross">+</div>
+                <i className="fas fa-plus-circle"></i>
               </div>
             </div>
-            {this.renderChannels()}
+            <div className="sidebar-list">
+              {this.getChannels(false).map((channel, idx) => {
+                if (channel.id === channel_id)
+                  return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
+                else
+                  return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);               
+              })}
+            </div>
           </div>
 
           <div className='sidebar-button'>
@@ -74,7 +94,7 @@ class WorkspaceSidebar extends React.Component {
           </div>
         </div>
       )
-    else
+      else 
         return <div id="workspace-sidebar"></div>
   }
 }

@@ -113,6 +113,7 @@
   width: 100%;
   overflow-wrap: break-word;
 
+  padding-bottom: 3px;
   box-sizing: border-box;
 }
 

@@ -13,11 +13,11 @@
   width: 100vw;
   height: 100vh;
 
-  -webkit-animation: fadein 0.4s;
-  -moz-animation: fadein 0.4s;
-  -ms-animation: fadein 0.4s;
-  -o-animation: fadein 0.4s;
-  animation: fadein 0.4s;
+  -webkit-animation: fadein 0.15s;
+  -moz-animation: fadein 0.15s;
+  -ms-animation: fadein 0.15s;
+  -o-animation: fadein 0.15s;
+  animation: fadein 0.15s;
 }
 
 .full-modal-button {

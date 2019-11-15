@@ -42,7 +42,7 @@ class Channel extends React.Component {
       dispatch(leaveChannel(parseInt(channel_id)))
         .then(
           () => {
-            this.props.history.push(`/workspace/${workspace_address}`);
+            this.props.history.push(`/workspace/${workspace_address}/0`);
             this.setState({ joined: false });
           },
           null
