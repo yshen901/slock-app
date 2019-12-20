@@ -1962,7 +1962,7 @@ function (_React$Component) {
           }
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fas fa-pen"
-        }), "\xA0 ", description ? description : "Add a topic"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ", description ? description : "Add a topic", " ")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "right"
         }, this.leaveButton()));
       } else {
@@ -3045,9 +3045,10 @@ function (_React$Component) {
         var _this2$setState, _this2$setState2, _this2$setState3, _this2$setState4;
 
         var currentVal = e.currentTarget.value.split('');
-        var lastVal = currentVal.pop();
-        lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal.toLowerCase());
-        if (currentVal.join('').length > 80) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, currentVal.join('')), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "long"), _this2$setState));else if (currentVal.join('') === "") _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, currentVal.join('')), _defineProperty(_this2$setState2, "disabled", true), _defineProperty(_this2$setState2, "error", "empty"), _this2$setState2));else if (_this2.props.channels.includes(currentVal.join('').toLowerCase())) _this2.setState((_this2$setState3 = {}, _defineProperty(_this2$setState3, type, currentVal.join('')), _defineProperty(_this2$setState3, "disabled", true), _defineProperty(_this2$setState3, "error", "taken"), _this2$setState3));else _this2.setState((_this2$setState4 = {}, _defineProperty(_this2$setState4, type, currentVal.join('')), _defineProperty(_this2$setState4, "disabled", false), _defineProperty(_this2$setState4, "error", "none"), _this2$setState4));
+        currentVal = currentVal.map(function (ele) {
+          return ele === " " ? '-' : ele.toLowerCase();
+        });
+        if (currentVal.length > 80) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, currentVal.join('')), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "long"), _this2$setState));else if (currentVal.length === 0) _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, currentVal.join('')), _defineProperty(_this2$setState2, "disabled", true), _defineProperty(_this2$setState2, "error", "empty"), _this2$setState2));else if (_this2.props.channels.includes(currentVal.join(''))) _this2.setState((_this2$setState3 = {}, _defineProperty(_this2$setState3, type, currentVal.join('')), _defineProperty(_this2$setState3, "disabled", true), _defineProperty(_this2$setState3, "error", "taken"), _this2$setState3));else _this2.setState((_this2$setState4 = {}, _defineProperty(_this2$setState4, type, currentVal.join('')), _defineProperty(_this2$setState4, "disabled", false), _defineProperty(_this2$setState4, "error", "none"), _this2$setState4));
       };
     } // submits the information, and creates something
 
@@ -37075,7 +37076,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, useHistory, useLocation, useParams, useRouteMatch, withRouter */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, useHistory, useLocation, useParams, useRouteMatch, withRouter, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

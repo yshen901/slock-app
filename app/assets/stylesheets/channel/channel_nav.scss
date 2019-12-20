@@ -99,14 +99,28 @@
 }
 
 #channel-nav #topic {
-  padding-left: 3px;
-  padding-right: 3px;
-  box-sizing: border-box;
-}
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
 
-#topic .fa-pen {
-  padding-top: 4px;
-  font-size: 10px;
+  padding: 0 4px;
+  box-sizing: border-box;
+
+  div {
+    height: 18px;
+    width: auto;
+
+    line-height: 18px;
+    font-size: 12px;
+    // vertical-align: middle;
+    box-sizing: border-box;
+  }
+
+  .fa-pen {
+    font-size: 10px;
+    padding-right: 4px;
+  }
 }
 
 #channel-nav #topic:hover {

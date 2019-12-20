@@ -64,7 +64,8 @@ class ChannelNav extends React.Component {
               </div>
               <div className="channel-nav-divider">|</div> 
               <div id="topic" onClick={e => {e.stopPropagation(); toggleElements("edit-channel-topic-modal", "channel-topic-input");}}>
-                <i className='fas fas fa-pen'></i>&nbsp; { description ? description : "Add a topic" }
+                <i className='fas fas fa-pen'></i>
+                <div> { description ? description : "Add a topic" } </div>
               </div>
             </div>
           </div>

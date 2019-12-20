@@ -42,17 +42,16 @@ class NewChannelModal extends React.Component {
   updateField(type) {
     return (e) => {
       let currentVal = e.currentTarget.value.split('');
-      let lastVal = currentVal.pop();
-      lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal.toLowerCase()); 
+      currentVal = currentVal.map((ele) => ele === " " ? '-' : ele.toLowerCase());
 
-      if (currentVal.join('').length > 80)
-        this.setState({ [type]: currentVal.join(''), disabled: true, error: "long" })
-      else if (currentVal.join('') === "")
-        this.setState({ [type]: currentVal.join(''), disabled: true, error: "empty" })
-      else if (this.props.channels.includes(currentVal.join('').toLowerCase()))
-        this.setState({ [type]: currentVal.join(''), disabled: true, error: "taken" })
+      if (currentVal.length > 80)
+        this.setState({ [type]: currentVal.join(''), disabled: true, error: "long" });
+      else if (currentVal.length === 0)
+        this.setState({ [type]: currentVal.join(''), disabled: true, error: "empty" });
+      else if (this.props.channels.includes(currentVal.join('')))
+        this.setState({ [type]: currentVal.join(''), disabled: true, error: "taken" }); 
       else
-        this.setState({ [type]: currentVal.join(''), disabled: false, error: "none" })
+        this.setState({ [type]: currentVal.join(''), disabled: false, error: "none" });
     }
   }
 
