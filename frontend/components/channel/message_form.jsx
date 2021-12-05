@@ -42,7 +42,6 @@ class MessageForm extends React.Component {
             user_id: getState().session.user_id,
             channel_id: getState().session.channel_id,
             created_at: new Date().toLocaleTimeString(),
-            username: users[user_id].email.split('@')[0],
           }
         }
       );

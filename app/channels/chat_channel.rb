@@ -15,7 +15,7 @@ class ChatChannel < ApplicationCable::Channel
       message: {
         body: message_data['body'],
         created_at: message_data['created_at'],
-        name: message_data['username'] # Might be inefficient - do we really need to pass these up?
+        user_id: message_data['user_id'] # Might be inefficient - do we really need to pass these up?
         }
       }
     ChatChannel.broadcast_to('chat_channel', socket)

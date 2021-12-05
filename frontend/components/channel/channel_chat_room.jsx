@@ -26,7 +26,7 @@ class ChannelChatRoom extends React.Component {
               let created_at, len;
               let date_now = new Date(Date());
               let message_date = new Date(message.created_at);
-              let name = users[message.user_id].email.split("@")[0];
+              let username = users[message.user_id].email.split("@")[0];
               let photo_url = users[message.user_id].photo_url;
               if (!photo_url)
                 photo_url = DEFAULT_PHOTO_URL;
@@ -42,7 +42,7 @@ class ChannelChatRoom extends React.Component {
               return {
                 body: message.body,
                 created_at,
-                name,
+                username,
                 photo_url,
               }
             }
@@ -57,8 +57,16 @@ class ChannelChatRoom extends React.Component {
       { channel: "ChatChannel" }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
       {
         received: data => {
+          let { message } = data;     //extract the data
+          let { user_id } = message;
+
+          message.username = this.props.users[user_id].email.split("@")[0];
+          message.photo_url = this.props.users[user_id].photo_url;
+          if (!message.photo_url)
+            message.photo_url = DEFAULT_PHOTO_URL;
+
           this.setState({
-            messages: this.state.messages.concat(data.message)
+            messages: this.state.messages.concat(message)
           });
         },
         speak: function(data) {
@@ -87,7 +95,7 @@ class ChannelChatRoom extends React.Component {
           </div>
           <div key={message.id} className="message-text">
             <div className="message-header">
-              <div className="message-user">{message.name}</div>
+              <div className="message-user">{message.username}</div>
               <div className="message-time">{message.created_at}</div>
             </div>
             <div className="message-body">{message.body}</div>

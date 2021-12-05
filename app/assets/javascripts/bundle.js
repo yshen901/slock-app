@@ -1750,7 +1750,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           var created_at, len;
           var date_now = new Date(Date());
           var message_date = new Date(message.created_at);
-          var name = users[message.user_id].email.split("@")[0];
+          var username = users[message.user_id].email.split("@")[0];
           var photo_url = users[message.user_id].photo_url;
           if (!photo_url) photo_url = DEFAULT_PHOTO_URL;
           if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
@@ -1762,7 +1762,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           return {
             body: message.body,
             created_at: created_at,
-            name: name,
+            username: username,
             photo_url: photo_url
           };
         });
@@ -1782,8 +1782,15 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
       {
         received: function received(data) {
+          var message = data.message; //extract the data
+
+          var user_id = message.user_id;
+          message.username = _this3.props.users[user_id].email.split("@")[0];
+          message.photo_url = _this3.props.users[user_id].photo_url;
+          if (!message.photo_url) message.photo_url = DEFAULT_PHOTO_URL;
+
           _this3.setState({
-            messages: _this3.state.messages.concat(data.message)
+            messages: _this3.state.messages.concat(message)
           });
         },
         speak: function speak(data) {
@@ -1818,7 +1825,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           className: "message-header"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-user"
-        }, message.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, message.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-time"
         }, message.created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-body"
@@ -2151,8 +2158,7 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
             body: this.state.body,
             user_id: getState().session.user_id,
             channel_id: getState().session.channel_id,
-            created_at: new Date().toLocaleTimeString(),
-            username: users[user_id].email.split('@')[0]
+            created_at: new Date().toLocaleTimeString()
           }
         });
         this.setState({
