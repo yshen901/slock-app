@@ -18,7 +18,7 @@ class EditProfileModal extends React.Component {
           <div className="photo">
             <h2>Profile Photo</h2>
             <div className="img-container">
-              <img src="" alt=""/>
+              <img src={this.props.user.photo_url} alt=""/>
             </div>
             <button>Upload Photo</button>
           </div>

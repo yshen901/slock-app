@@ -53,19 +53,22 @@
 
     .photo {
       width: 30%;
-      margin-left: 3%;
+      margin-left: 2.9%;
 
       display: flex;
       flex-direction: column;
 
       .img-container {
-        width: 100%;
-        height: 0;
-        padding-top: 100%;
-
-        background: black;
-        border: none;
+        width: 90%;
+        padding: 5%;
+        background: gray;
         border-radius: 5px;
+
+        img {
+          width: 100%;
+          height: auto;
+          border-radius: 5px;
+        }
       }
 
       button {
