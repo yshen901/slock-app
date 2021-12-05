@@ -4,6 +4,37 @@ import { hideElements } from "../../util/modal_api_util";
 class EditProfileModal extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      imageUrl: "",
+      imageFile: null
+    };
+
+    this.readFile = this.readFile.bind(this);
+  }
+
+  readFile(e) {
+    const reader = new FileReader();
+    const file = e.currentTarget.files[0];
+
+    reader.onloadend = () => {
+      this.setState({ imageUrl: reader.result, imageFile: file });
+      
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+    else {
+      this.setState({ imageUrl: "", imageFile: null});  
+    }
+  }
+
+  photoUrl() {
+    if (this.state.imageFile)
+      return this.state.imageUrl;
+    else
+      return this.props.user.photo_url;
   }
 
   modalForm() {
@@ -18,9 +49,11 @@ class EditProfileModal extends React.Component {
           <div className="photo">
             <h2>Profile Photo</h2>
             <div className="img-container">
-              <img src={this.props.user.photo_url} alt=""/>
+              <img src={this.photoUrl()} alt=""/>
             </div>
-            <button>Upload Photo</button>
+            <input 
+              type="file" 
+              onChange={this.readFile}/>
           </div>
         </div>
       </div>

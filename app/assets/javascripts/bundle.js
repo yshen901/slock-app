@@ -2914,12 +2914,49 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(EditProfileModal);
 
   function EditProfileModal(props) {
+    var _this;
+
     _classCallCheck(this, EditProfileModal);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.state = {
+      imageUrl: "",
+      imageFile: null
+    };
+    _this.readFile = _this.readFile.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(EditProfileModal, [{
+    key: "readFile",
+    value: function readFile(e) {
+      var _this2 = this;
+
+      var reader = new FileReader();
+      var file = e.currentTarget.files[0];
+
+      reader.onloadend = function () {
+        _this2.setState({
+          imageUrl: reader.result,
+          imageFile: file
+        });
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);
+      } else {
+        this.setState({
+          imageUrl: "",
+          imageFile: null
+        });
+      }
+    }
+  }, {
+    key: "photoUrl",
+    value: function photoUrl() {
+      if (this.state.imageFile) return this.state.imageUrl;else return this.props.user.photo_url;
+    }
+  }, {
     key: "modalForm",
     value: function modalForm() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2935,9 +2972,12 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Profile Photo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "img-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: this.props.user.photo_url,
+        src: this.photoUrl(),
         alt: ""
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, "Upload Photo"))));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "file",
+        onChange: this.readFile
+      }))));
     }
   }, {
     key: "render",
