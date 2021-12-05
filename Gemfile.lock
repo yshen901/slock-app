@@ -227,7 +227,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  activestorage (~> 5.2, >= 5.2.1)
   annotate
   aws-sdk-s3
   bcrypt
