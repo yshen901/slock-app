@@ -94,5 +94,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.middleware.use ChatActionCable  
-  config.web_socket_server_url = "wss://sleck.herokuapp.com/"
+  config.web_socket_server_url = "wss://slock-app.herokuapp.com/"
+
+  config.application_storage.service = :amazon_prod
 end

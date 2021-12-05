@@ -31,6 +31,9 @@ class User < ApplicationRecord
     source: :channel
 
   has_many :messages
+
+  #AWS Photo
+  has_one_attached :photo
   
   attr_reader :password
 
