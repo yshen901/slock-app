@@ -41,7 +41,7 @@ class BrowseChannelModal extends React.Component {
 
     if (otherChannels.length > 0)
       channelsDisplay.push(
-        <div>
+        <div key={0}>
           <h1 className="full-modal-section-header">Channels you can join</h1>
           {otherChannels}
         </div>
@@ -49,7 +49,7 @@ class BrowseChannelModal extends React.Component {
 
     if (myChannels.length > 0)
       channelsDisplay.push(
-        <div>
+        <div key={1}>
           <h1 className="full-modal-section-header">Channels you belong to</h1>
           {myChannels}
         </div>
@@ -67,7 +67,7 @@ class BrowseChannelModal extends React.Component {
     for (let i = 0; i < user_channels.length; i++) {
       channel_name = channels[user_channels[i]].name;
       if (searchString.length === 0 || channel_name.startsWith(searchString))
-        displayed_channels.push(<div className="full-modal-item" onClick={() => this.goToChannel(user_channels[i])}># {channel_name}</div>)
+        displayed_channels.push(<div className="full-modal-item" key={i} onClick={() => this.goToChannel(user_channels[i])}># {channel_name}</div>)
     }
 
     return displayed_channels;
@@ -84,7 +84,7 @@ class BrowseChannelModal extends React.Component {
       for (let i = 0; i < other_channels.length; i++) {
         channel_name = channels[other_channels[i]].name;
         if (searchString.length === 0 || channel_name.startsWith(searchString))
-          displayed_channels.push(<div className="full-modal-item" onClick={() => this.goToChannel(other_channels[i])}># {channel_name}</div>)
+          displayed_channels.push(<div className="full-modal-item" key={i+2000} onClick={() => this.goToChannel(other_channels[i])}># {channel_name}</div>)
       }
     
     return displayed_channels;
