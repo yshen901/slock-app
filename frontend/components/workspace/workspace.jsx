@@ -7,6 +7,7 @@ import NewChannelModalContainer from '../modals/new_channel_modal_container';
 import InviteUserModal from '../modals/invite_user_modal';
 import EditChannelTopicModal from '../modals/edit_channel_topic_modal';
 import SidebarDropdown from '../modals/sidebar_dropdown';
+import EditProfileModalContainer from "../modals/edit_profile_modal_container";
 
 import { hideElements, focus } from '../../util/modal_api_util';
 
@@ -68,6 +69,7 @@ class Workspace extends React.Component {
           <InviteUserModal />
           <NewChannelModalContainer />
           <EditChannelTopicModal />
+          <EditProfileModalContainer />
         </div>
       )
     else

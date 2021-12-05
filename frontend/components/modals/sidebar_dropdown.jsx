@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import { logout } from '../../actions/session_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
+import { toggleElements } from '../../util/modal_api_util';
 
 class SidebarDropdown extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class SidebarDropdown extends React.Component {
 
     this.logoutUser = this.logoutUser.bind(this);
     this.logoutWorkspace = this.logoutWorkspace.bind(this);
+    this.toggleElement = this.toggleElement.bind(this);
   }
 
   logoutUser(e) {
@@ -30,9 +32,20 @@ class SidebarDropdown extends React.Component {
       )
   }
 
+  toggleElement(className) {
+    return (e) => {
+      e.stopPropagation();
+      toggleElements(className);
+      toggleElements("dropdown sidebar")
+    };
+  }
+
   render() {
     return (
       <div className="dropdown sidebar hidden">
+        <div className="dropdown-item" onClick={this.toggleElement("edit-profile-modal")}>
+          Edit Profile
+        </div>
         <div className="dropdown-item" onClick={() => this.props.history.push("/signin")}>
           Sign into another workspace
         </div>
