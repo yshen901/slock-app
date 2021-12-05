@@ -1712,7 +1712,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
- // #AC
+
+var DEFAULT_PHOTO_URL = '/images/profile_icon-min_burned.jpg'; // #AC
 
 var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelChatRoom, _React$Component);
@@ -1749,6 +1750,9 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           var created_at, len;
           var date_now = new Date(Date());
           var message_date = new Date(message.created_at);
+          var name = users[message.user_id].email.split("@")[0];
+          var photo_url = users[message.user_id].photo_url;
+          if (!photo_url) photo_url = DEFAULT_PHOTO_URL;
           if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
             created_at = message_date.toLocaleDateString();else {
             created_at = message_date.toLocaleTimeString();
@@ -1758,7 +1762,8 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           return {
             body: message.body,
             created_at: created_at,
-            name: users[message.user_id].email.split("@")[0]
+            name: name,
+            photo_url: photo_url
           };
         });
 
@@ -1805,7 +1810,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-user-icon"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: "/images/profile_icon-min_burned.jpg"
+          src: message.photo_url
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: message.id,
           className: "message-text"

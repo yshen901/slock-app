@@ -3,6 +3,8 @@ import { withRouter } from 'react-router-dom';
 
 import MessageForm from './message_form';
 
+const DEFAULT_PHOTO_URL = '/images/profile_icon-min_burned.jpg';
+
 // #AC
 class ChannelChatRoom extends React.Component {
   constructor(props) {
@@ -24,6 +26,11 @@ class ChannelChatRoom extends React.Component {
               let created_at, len;
               let date_now = new Date(Date());
               let message_date = new Date(message.created_at);
+              let name = users[message.user_id].email.split("@")[0];
+              let photo_url = users[message.user_id].photo_url;
+              if (!photo_url)
+                photo_url = DEFAULT_PHOTO_URL;
+
               if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
                 created_at = message_date.toLocaleDateString();
               else {
@@ -31,10 +38,12 @@ class ChannelChatRoom extends React.Component {
                 len = created_at.length;
                 created_at = created_at.slice(0, len-6) + created_at.slice(len-3);
               }
+
               return {
                 body: message.body,
-                created_at: created_at,
-                name: users[message.user_id].email.split("@")[0]
+                created_at,
+                name,
+                photo_url,
               }
             }
           )
@@ -74,7 +83,7 @@ class ChannelChatRoom extends React.Component {
       return (
         <div className='message' key={idx}>
           <div className="message-user-icon">
-            <img src="/images/profile_icon-min_burned.jpg"/>
+            <img src={message.photo_url}/>
           </div>
           <div key={message.id} className="message-text">
             <div className="message-header">
