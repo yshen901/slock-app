@@ -96,5 +96,5 @@ Rails.application.configure do
   config.middleware.use ChatActionCable  
   config.web_socket_server_url = "wss://slock-app.herokuapp.com/"
 
-  config.application_storage.service = :amazon_prod
+  config.active_storage.service = :amazon_prod
 end
