@@ -6,6 +6,8 @@ import AuthFooter from './auth_footer';
 import WorkspaceDropdown from '../modals/workspace_dropdown'
 import { hideElements, focus } from '../../util/modal_api_util';
 
+import {DEMO_WORKSPACE} from "../../actions/session_actions";
+
 class UserSigninForm extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +23,7 @@ class UserSigninForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateForm = this.updateForm.bind(this);
     this.createGreeting = this.createGreeting.bind(this);
+    this.demoAction = this.demoAction.bind(this);
   }
 
   checkWorkspace(address) {
@@ -46,8 +49,7 @@ class UserSigninForm extends React.Component {
 
   //NOTE: CHAIN DISPATCH(SOMETHING).THEN(...) TO ENSURE SYNCRONOUS BEHAVIOR
   //INTERESTING BUG: IF INFO IN THEN ISN'T A CALLBACK, IT IS RUN IMMEDIATELY RATHER THAN AFTER THE PROMISE IS DONE
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit() {
     this.props.processForm(this.state)
       .then(
         () => this.props.getWorkspaces()
@@ -65,6 +67,39 @@ class UserSigninForm extends React.Component {
   createGreeting() {
     let address = this.state.workspace_address.split('-');
     return `${this.props.formType} to ${address.join(' ')}`;
+  }
+
+  // Can only be triggered by demoButton
+  demoAction(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let demoEmail = "demoUser@slock.com";
+    let demoPassword = "demoPassword";
+
+    for (let i = 0; i < demoEmail.length; i++)
+      setTimeout(() => {
+        this.setState({email: this.state.email + demoEmail[i]})
+      }, i*50);
+
+    for (let i = 0; i < demoPassword.length; i++)
+      setTimeout(() => {
+        this.setState({password: this.state.password + demoPassword[i]})
+      }, i*50 + demoEmail.length * 50);
+
+    setTimeout(() => {
+      this.handleSubmit();
+    }, (demoEmail.length + demoPassword.length) * 50);
+  }
+
+  // Only shows for the demo workspace
+  demoButton() {
+    if (this.state.workspace_address !== DEMO_WORKSPACE)
+      return "";
+    else
+      return (
+        <button onClick={this.demoAction}>Demo Login</button>
+      )
   }
 
   render() {
@@ -93,17 +128,20 @@ class UserSigninForm extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <input type="text" autoFocus
               onChange={this.updateForm('email')}
-              placeholder="you@example.com"/>
+              placeholder="you@example.com"
+              value={this.state.email}/>
             <input type="password"
               onChange={this.updateForm('password')}
-              placeholder="password" />
+              placeholder="password" 
+              value={this.state.password}/>
+            {this.demoButton()}
             <input type="submit" value={this.props.formType}/>
           </form>
-          <h4 className="auth-box-footer">
+          {/* <h4 className="auth-box-footer">
             <Link to='/tbd' className='auth-form-link'>Forgot your password?</Link>
             &bull;
             <Link to='/tbd' className='auth-form-link'>Forgot which email you used?</Link>
-          </h4>
+          </h4> */}
         </div>
         <AuthFooter />
       </div>

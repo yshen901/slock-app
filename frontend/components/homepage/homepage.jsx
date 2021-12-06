@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import HomeNav from './home_nav';
 import WorkspaceDropdown from '../modals/workspace_dropdown';
 import { hideElements } from '../../util/modal_api_util';
+import { DEMO_WORKSPACE } from '../../actions/session_actions';
 
 class Homepage extends React.Component {
   constructor() {
@@ -35,7 +36,7 @@ class Homepage extends React.Component {
   // }
 
   render() {
-    let tryButton, signInLink;
+    let tryButton, signInLink, demoButton;
 
     if (getState().session.user_id) {
       signInLink = (
@@ -48,6 +49,10 @@ class Homepage extends React.Component {
     else {
       tryButton = (
         <button className="home-button" onClick={(e) => { this.props.history.push('/signup') }}>Try Slock</button>
+      );
+      
+      demoButton = (
+        <button className="home-button" onClick={(e) => { this.props.history.push(`/signin`) }}>Demo Login</button>
       );
 
       signInLink = (
@@ -71,8 +76,8 @@ class Homepage extends React.Component {
             <h4>Slock gives your team the power and alignment you need to do your best work.</h4>
           </div>
 
-          { tryButton }
-          { signInLink }
+          { demoButton }
+          {/* { signInLink } */}
 
         </div>
       </div>

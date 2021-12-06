@@ -7,6 +7,7 @@ import { findWorkspace } from '../../actions/workspace_actions';
 import { refreshErrors } from '../../actions/error_actions';
 
 import { hideElements } from '../../util/modal_api_util'; 
+import { DEMO_WORKSPACE } from '../../actions/session_actions';
 
 class WorkspaceSigninForm extends React.Component {
   constructor() {
@@ -17,6 +18,7 @@ class WorkspaceSigninForm extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateForm = this.updateForm.bind(this);
+    this.demoAction = this.demoAction.bind(this);
   }
 
 
@@ -26,8 +28,7 @@ class WorkspaceSigninForm extends React.Component {
       2) Use window.location.reload() to reload the page - this clears the state.
       3) For this case, you don't need to re-direct at all...just force a re-render
   */
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit() {
     dispatch(findWorkspace(this.state.workspace_address))
       .then(
         () => this.props.history.push(`/signin/${ this.state.workspace_address }`),
@@ -37,6 +38,30 @@ class WorkspaceSigninForm extends React.Component {
 
   updateForm(e) {
     this.setState({ workspace_address: e.currentTarget.value });
+  }
+
+  // Can only be triggered by demoButton
+  demoAction(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let demoWorkspaceAddress = DEMO_WORKSPACE;
+
+    for (let i = 0; i < demoWorkspaceAddress.length; i++)
+      setTimeout(() => {
+        this.setState({workspace_address: this.state.workspace_address + demoWorkspaceAddress[i]})
+      }, i*50);
+
+    setTimeout(() => {
+      this.handleSubmit();
+    }, demoWorkspaceAddress.length * 50);
+  }
+
+  // Only shows for the demo workspace
+  demoButton() {
+    return (
+      <button onClick={this.demoAction}>Demo Login</button>
+    )
   }
 
   render() {
@@ -69,14 +94,16 @@ class WorkspaceSigninForm extends React.Component {
               <input type="text" autoFocus
                 onChange={this.updateForm}
                 placeholder="your-workspace-url"
-                align="left"/> .slock.com
+                align="left"
+                value={this.state.workspace_address}/> .slock.com
             </label>
+            {this.demoButton()}
             <input type="submit" value={'Continue '}/>
           </form>
-          <h4 className="auth-box-footer">
+          {/* <h4 className="auth-box-footer">
             Don't know your workspace URL? 
             <Link to='/tbd' className='auth-form-link'>Find your workspace</Link>
-          </h4>
+          </h4> */}
         </div>
 
         <AuthFooter />
