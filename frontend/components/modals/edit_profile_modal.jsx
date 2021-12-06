@@ -10,35 +10,53 @@ class EditProfileModal extends React.Component {
       imageFile: null
     };
 
+    this.resetState = this.setState.bind(this);
     this.readFile = this.readFile.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
-  handleUpload(imageUrl, file) {
+  // Fires backend to update the user's attached photo
+  handleUpload(e) {
+    e.stopPropagation();
+    let { imageFile } = this.state;
+
+    // Necessary for uploading files
     let userForm = new FormData();
-    userForm.append('user[photo]', file);
     userForm.append('id', this.props.user.id)
 
-    this.props.updateUser(userForm)
-      .then((user) => {
-        this.setState({ imageUrl, file });
-      });
+    if (imageFile) {
+      userForm.append('user[photo]', imageFile); // Nested!
+      this.props.updateUser(userForm)
+        .then(() => {
+          this.handleCancel();
+        });
+    } 
+    else {
+      this.handleCancel();
+    }
   }
 
+  // Resets state and hides modal
+  handleCancel() {
+    this.setState({imageUrl: "", imageFile: null});
+    hideElements("edit-profile-modal");
+  }
+
+  // Reads in the elements using FileReader, and set state when successful
   readFile(e) {
     const reader = new FileReader();
     const file = e.currentTarget.files[0];
 
+    // Triggers when a file is done
     reader.onloadend = () => {
-      this.handleUpload(reader.result, file);
+      this.setState({ imageUrl: reader.result, imageFile: file });
     };
 
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-    else {
-      this.setState({ imageUrl: "", imageFile: null});  
-    }
+    if (file) 
+      reader.readAsDataURL(file); // Triggers load
+    else
+      this.setState({ imageUrl: "", imageFile: file })
   }
 
   photoUrl() {
@@ -64,8 +82,15 @@ class EditProfileModal extends React.Component {
             </div>
             <input 
               type="file" 
+              id="selected-file"
+              style={{display: "none"}}
               onChange={this.readFile}/>
+            <input type="button" value="Upload File" onClick={() => document.getElementById('selected-file').click()} />
           </div>
+        </div>
+        <div className="form-buttons">
+          <button onClick={this.handleCancel}>Cancel</button>
+          <button className="green-button" onClick={this.handleUpload}>Save</button>
         </div>
       </div>
     )

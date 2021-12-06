@@ -51,7 +51,6 @@ class Api::UsersController < ApplicationController
   def update
     @user = User.find_by(id: params[:id])
 
-    debugger;
     if (@user) 
       @user.photo.attach(user_params[:photo]);
       if @user.save

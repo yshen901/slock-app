@@ -2951,46 +2951,66 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       imageUrl: "",
       imageFile: null
     };
+    _this.resetState = _this.setState.bind(_assertThisInitialized(_this));
     _this.readFile = _this.readFile.bind(_assertThisInitialized(_this));
     _this.handleUpload = _this.handleUpload.bind(_assertThisInitialized(_this));
+    _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // Fires backend to update the user's attached photo
+
 
   _createClass(EditProfileModal, [{
     key: "handleUpload",
-    value: function handleUpload(imageUrl, file) {
+    value: function handleUpload(e) {
       var _this2 = this;
 
+      e.stopPropagation();
+      var imageFile = this.state.imageFile; // Necessary for uploading files
+
       var userForm = new FormData();
-      userForm.append('user[photo]', file);
       userForm.append('id', this.props.user.id);
-      this.props.updateUser(userForm).then(function (user) {
-        _this2.setState({
-          imageUrl: imageUrl,
-          file: file
+
+      if (imageFile) {
+        userForm.append('user[photo]', imageFile); // Nested!
+
+        this.props.updateUser(userForm).then(function () {
+          _this2.handleCancel();
         });
+      } else {
+        this.handleCancel();
+      }
+    } // Resets state and hides modal
+
+  }, {
+    key: "handleCancel",
+    value: function handleCancel() {
+      this.setState({
+        imageUrl: "",
+        imageFile: null
       });
-    }
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("edit-profile-modal");
+    } // Reads in the elements using FileReader, and set state when successful
+
   }, {
     key: "readFile",
     value: function readFile(e) {
       var _this3 = this;
 
       var reader = new FileReader();
-      var file = e.currentTarget.files[0];
+      var file = e.currentTarget.files[0]; // Triggers when a file is done
 
       reader.onloadend = function () {
-        _this3.handleUpload(reader.result, file);
+        _this3.setState({
+          imageUrl: reader.result,
+          imageFile: file
+        });
       };
 
-      if (file) {
-        reader.readAsDataURL(file);
-      } else {
-        this.setState({
+      if (file) reader.readAsDataURL(file); // Triggers load
+      else this.setState({
           imageUrl: "",
-          imageFile: null
+          imageFile: file
         });
-      }
     }
   }, {
     key: "photoUrl",
@@ -3017,8 +3037,25 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         alt: ""
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "file",
+        id: "selected-file",
+        style: {
+          display: "none"
+        },
         onChange: this.readFile
-      }))));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "button",
+        value: "Upload File",
+        onClick: function onClick() {
+          return document.getElementById('selected-file').click();
+        }
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleCancel
+      }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "green-button",
+        onClick: this.handleUpload
+      }, "Save")));
     }
   }, {
     key: "render",

@@ -71,7 +71,7 @@
         }
       }
 
-      button {
+      input {
         width: 100%;
         height: auto;
         margin-top: 10px;
@@ -88,11 +88,56 @@
         vertical-align: middle;
       }
 
-      button:hover {
+      input:hover {
         transition: 0.15s;
         cursor: pointer;
         background: rgb(245, 245, 245);
       }
+    }
+  }
+
+  .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+
+    button {
+      width: 84px;
+      height: 38px;
+    
+      background:white;
+      border: 1px rgb(180, 180, 180) solid;
+      border-radius: 5px;
+    
+      color: black;
+      font-weight: bold;
+      font-size: 14px;
+    
+      margin-top: 5px;
+    
+      justify-self: end;
+      align-self: flex-end;
+    
+      transition: 0.15s;
+    }
+    
+    button:hover {
+      transition: 0.15s;
+      cursor: pointer;
+      background: rgb(245, 245, 245);
+    }
+
+    .green-button {
+      background: #007a5a;
+      border: none;
+      color: white;
+
+      margin-left: 10px;
+    }
+
+    .green-button:hover {
+      background: #008f69;
+      box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
     }
   }
 }
