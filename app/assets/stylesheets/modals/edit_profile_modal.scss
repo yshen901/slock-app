@@ -139,5 +139,25 @@
       background: #008f69;
       box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
     }
+
+    .green-button:disabled {
+      cursor: default;
+      background: gray;
+    
+      box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
+    }
+  }
+
+  .form-errors {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    margin-top: 10px;
+
+    color: red;
+    font-size: 14px;
+    line-height: 16px;
+    vertical-align: middle;
   }
 }

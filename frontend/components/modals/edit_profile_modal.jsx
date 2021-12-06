@@ -7,7 +7,8 @@ class EditProfileModal extends React.Component {
 
     this.state = {
       imageUrl: "",
-      imageFile: null
+      imageFile: null,
+      errors: []
     };
 
     this.resetState = this.setState.bind(this);
@@ -39,7 +40,7 @@ class EditProfileModal extends React.Component {
 
   // Resets state and hides modal
   handleCancel() {
-    this.setState({imageUrl: "", imageFile: null});
+    this.setState({imageUrl: "", imageFile: null, errors: []});
     hideElements("edit-profile-modal");
   }
 
@@ -50,13 +51,16 @@ class EditProfileModal extends React.Component {
 
     // Triggers when a file is done
     reader.onloadend = () => {
-      this.setState({ imageUrl: reader.result, imageFile: file });
+      if (file.type === "image/jpeg" || file.type === "image/png") 
+        this.setState({ imageUrl: reader.result, imageFile: file, errors: [] });
+      else
+        this.setState({ errors: ["Invalid file format: files must be jpg or png.", ...this.state.errors]})
     };
 
     if (file) 
       reader.readAsDataURL(file); // Triggers load
     else
-      this.setState({ imageUrl: "", imageFile: file })
+      this.setState({ imageUrl: "", imageFile: null })
   }
 
   photoUrl() {
@@ -64,6 +68,13 @@ class EditProfileModal extends React.Component {
       return this.state.imageUrl;
     else
       return this.props.user.photo_url;
+  }
+
+  submitButton() {
+    if (this.state.errors.length == 0)
+      return <button className="green-button" onClick={this.handleUpload}>Save</button>
+    else
+      return <button className="green-button" disabled onClick={this.handleUpload}>Save</button>
   }
 
   modalForm() {
@@ -90,7 +101,12 @@ class EditProfileModal extends React.Component {
         </div>
         <div className="form-buttons">
           <button onClick={this.handleCancel}>Cancel</button>
-          <button className="green-button" onClick={this.handleUpload}>Save</button>
+          { this.submitButton() }
+        </div>
+        <div className="form-errors">
+          { this.state.errors.map((error, idx) => (
+            <div key={idx}>{error}</div>
+          ))}
         </div>
       </div>
     )
