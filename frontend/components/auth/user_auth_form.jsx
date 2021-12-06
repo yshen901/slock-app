@@ -74,6 +74,7 @@ class UserSigninForm extends React.Component {
       error_class = "auth-errors";
       this.props.refreshErrors();
     }
+
     return (
       <div className="auth-page" id='user-signin' onClick={() => hideElements("dropdown")}>
         <AuthNav />

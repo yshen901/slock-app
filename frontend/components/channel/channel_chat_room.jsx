@@ -91,8 +91,6 @@ class ChannelChatRoom extends React.Component {
   // TODO1: Group these nicely
   render() {
     const messageList = this.state.messages.map((message, idx) => {
-      if (message.user_id == 10)
-        debugger;
       return (
         <div className='message' key={idx}>
           <div className="message-user-icon">

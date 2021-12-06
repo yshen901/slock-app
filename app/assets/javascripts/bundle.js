@@ -1828,7 +1828,6 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var messageList = this.state.messages.map(function (message, idx) {
-        if (message.user_id == 10) debugger;
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message",
           key: idx
