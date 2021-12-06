@@ -69,17 +69,24 @@
 }
 
 .message-user-icon {
+  width: 37px;
+  height: 37px;
+  overflow: hidden;
+
   margin-left: 5px;
   margin-right: 10px;
 
+  border-radius: 5px;
+
   display: flex;
   align-items: center;
-}
+  justify-content: center;
 
-.message-user-icon img {
-  width: 37px;
-  height: 37px;
-  border-radius: 5px;
+  img {
+    height: 37px;
+    width: auto;
+    object-fit: cover;
+  }
 }
 
 .message-text {

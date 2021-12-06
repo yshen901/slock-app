@@ -31,6 +31,12 @@
     padding-bottom: 10px;
   }
 
+  .form-note {
+    font-size: 12px;
+    font-style: italic;
+    color: gray;
+  }
+
   .form-content {
     display: flex;
 
@@ -157,6 +163,7 @@
 
     color: red;
     font-size: 14px;
+    font-style: italic;
     line-height: 16px;
     vertical-align: middle;
   }

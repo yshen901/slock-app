@@ -1741,7 +1741,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var DEFAULT_PHOTO_URL = '/images/profile/default.jpg'; // #AC
+var DEFAULT_PHOTO_URL = '/images/profile_icon-min_burned.jpg'; // #AC
 
 var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelChatRoom, _React$Component);
@@ -1775,7 +1775,6 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         var messages = _ref.messages;
         var messagesInfo = Object.values(messages).map(function (message) {
           //NOTE: USEFUL FOR HANDLING DATES
-          if (!users[message.user_id]) debugger;
           var created_at, len;
           var date_now = new Date(Date());
           var message_date = new Date(message.created_at);

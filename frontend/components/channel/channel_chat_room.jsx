@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import MessageForm from './message_form';
 
-const DEFAULT_PHOTO_URL = '/images/profile/default.jpg';
+const DEFAULT_PHOTO_URL = '/images/profile_icon-min_burned.jpg';
 
 // #AC
 class ChannelChatRoom extends React.Component {
@@ -23,8 +23,6 @@ class ChannelChatRoom extends React.Component {
         ({ messages }) => {
           let messagesInfo = Object.values(messages).map(
             message => { //NOTE: USEFUL FOR HANDLING DATES
-              if(!users[message.user_id])
-                debugger;
               let created_at, len;
               let date_now = new Date(Date());
               let message_date = new Date(message.created_at);
