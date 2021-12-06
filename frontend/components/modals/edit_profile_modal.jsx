@@ -69,7 +69,7 @@ class EditProfileModal extends React.Component {
     else if (this.props.user.photo_url)
       return this.props.user.photo_url;
     else 
-      return "/images/profile_icon.jpg";
+      return "/images/profile/default.jpg";
   }
 
   submitButton() {
