@@ -257,7 +257,7 @@ var getMessages = function getMessages(channel_id) {
 /*!**********************************************!*\
   !*** ./frontend/actions/session_actions.jsx ***!
   \**********************************************/
-/*! exports provided: RECEIVE_USER, LOGOUT, HOME_WORKSPACE, signup, login, logout */
+/*! exports provided: RECEIVE_USER, LOGOUT, HOME_WORKSPACE, receiveUser, logoutCurrentUser, signup, login, logout */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -265,6 +265,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_USER", function() { return RECEIVE_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGOUT", function() { return LOGOUT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HOME_WORKSPACE", function() { return HOME_WORKSPACE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveUser", function() { return receiveUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logoutCurrentUser", function() { return logoutCurrentUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signup", function() { return signup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
@@ -291,13 +293,11 @@ var receiveUser = function receiveUser(currentUser) {
     user: currentUser
   };
 };
-
 var logoutCurrentUser = function logoutCurrentUser() {
   return {
     type: LOGOUT
   };
 };
-
 var signup = function signup(user) {
   return function (dispatch) {
     return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__["signup"](user).then(function (user) {
@@ -320,6 +320,34 @@ var logout = function logout() {
   return function (dispatch) {
     return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__["logout"]().then(function () {
       return dispatch(logoutCurrentUser());
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
+    });
+  };
+};
+
+/***/ }),
+
+/***/ "./frontend/actions/user_actions.jsx":
+/*!*******************************************!*\
+  !*** ./frontend/actions/user_actions.jsx ***!
+  \*******************************************/
+/*! exports provided: updateUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUser", function() { return updateUser; });
+/* harmony import */ var _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/user_api_util */ "./frontend/util/user_api_util.js");
+/* harmony import */ var _session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session_actions */ "./frontend/actions/session_actions.jsx");
+/* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
+
+
+
+var updateUser = function updateUser(formData) {
+  return function (dispatch) {
+    return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["updateUser"](formData).then(function (user) {
+      return dispatch(Object(_session_actions__WEBPACK_IMPORTED_MODULE_1__["receiveUser"])(user));
     }, function (errors) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
@@ -2924,22 +2952,35 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       imageFile: null
     };
     _this.readFile = _this.readFile.bind(_assertThisInitialized(_this));
+    _this.handleUpload = _this.handleUpload.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(EditProfileModal, [{
+    key: "handleUpload",
+    value: function handleUpload(imageUrl, file) {
+      var _this2 = this;
+
+      var userForm = new FormData();
+      userForm.append('user[photo]', file);
+      userForm.append('id', this.props.user.id);
+      this.props.updateUser(userForm).then(function (user) {
+        _this2.setState({
+          imageUrl: imageUrl,
+          file: file
+        });
+      });
+    }
+  }, {
     key: "readFile",
     value: function readFile(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       var reader = new FileReader();
       var file = e.currentTarget.files[0];
 
       reader.onloadend = function () {
-        _this2.setState({
-          imageUrl: reader.result,
-          imageFile: file
-        });
+        _this3.handleUpload(reader.result, file);
       };
 
       if (file) {
@@ -3012,6 +3053,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _edit_profile_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit_profile_modal */ "./frontend/components/modals/edit_profile_modal.jsx");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.jsx");
+
 
 
 
@@ -3024,7 +3067,11 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    updateUser: function updateUser(user) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["updateUser"])(user));
+    }
+  };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_edit_profile_modal__WEBPACK_IMPORTED_MODULE_2__["default"])));
@@ -4941,6 +4988,28 @@ var logout = function logout() {
   return $.ajax({
     method: "DELETE",
     url: "/api/session"
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/user_api_util.js":
+/*!****************************************!*\
+  !*** ./frontend/util/user_api_util.js ***!
+  \****************************************/
+/*! exports provided: updateUser */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUser", function() { return updateUser; });
+var updateUser = function updateUser(formData) {
+  return $.ajax({
+    method: "PATCH",
+    url: "/api/users/".concat(formData.get("id")),
+    data: formData,
+    contentType: false,
+    processData: false
   });
 };
 

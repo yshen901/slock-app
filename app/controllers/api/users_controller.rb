@@ -47,9 +47,25 @@ class Api::UsersController < ApplicationController
     end
   end
 
-  private
+  # Only for updating photo, and later name
+  def update
+    @user = User.find_by(id: params[:id])
 
+    debugger;
+    if (@user) 
+      @user.photo.attach(user_params[:photo]);
+      if @user.save
+        render :show
+      else
+        render json: @user.errors.full_messages, status: 401
+      end
+    else
+      render json: ["User not found!"], status: 400
+    end
+  end
+
+  private
   def user_params 
-    params.require(:user).permit(:email, :password, :workspace_address)
+    params.require(:user).permit(:email, :password, :workspace_address, :photo)
   end
 end

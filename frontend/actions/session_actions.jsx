@@ -14,12 +14,12 @@ export const HOME_WORKSPACE = 'slock';
        2) This action after dispatched will go through each reducer, so an action
              like this can actually affect both session and user! 
 */
-const receiveUser = currentUser => ({
+export const receiveUser = currentUser => ({
   type: RECEIVE_USER,
   user: currentUser
 });
 
-const logoutCurrentUser = () => ({
+export const logoutCurrentUser = () => ({
   type: LOGOUT
 });
 

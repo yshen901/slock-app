@@ -11,6 +11,18 @@ class EditProfileModal extends React.Component {
     };
 
     this.readFile = this.readFile.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
+  }
+
+  handleUpload(imageUrl, file) {
+    let userForm = new FormData();
+    userForm.append('user[photo]', file);
+    userForm.append('id', this.props.user.id)
+
+    this.props.updateUser(userForm)
+      .then((user) => {
+        this.setState({ imageUrl, file });
+      });
   }
 
   readFile(e) {
@@ -18,8 +30,7 @@ class EditProfileModal extends React.Component {
     const file = e.currentTarget.files[0];
 
     reader.onloadend = () => {
-      this.setState({ imageUrl: reader.result, imageFile: file });
-      
+      this.handleUpload(reader.result, file);
     };
 
     if (file) {
