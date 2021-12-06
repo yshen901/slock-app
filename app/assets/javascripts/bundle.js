@@ -794,12 +794,22 @@ var AuthNav = /*#__PURE__*/function (_React$Component) {
           e.stopPropagation();
           Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])("dropdown");
         }
-      }, "Your Workspaces"));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "right"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        id: "auth-signin",
-        to: "/signin"
-      }, "Sign In"));
+      }, "Your Workspaces"));else {
+        var link = '/signin';
+        var linkName = "Sign In";
+
+        if (window.location.hash === '#/signin') {
+          link = '/signup';
+          linkName = "Sign Up";
+        }
+
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "right"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          id: "auth-signin",
+          to: link
+        }, linkName));
+      }
     }
   }, {
     key: "render",
@@ -3742,7 +3752,10 @@ var WorkspaceDropdown = /*#__PURE__*/function (_React$Component) {
         className: "dropdown hidden"
       }, this.workspaceList(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-auth-links"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "dropdown-link",
+        to: "/signin"
+      }, "Sign Into Another Workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-link",
         onClick: this.logoutUser
       }, "Sign Out")));

@@ -13,7 +13,13 @@ class AuthNav extends React.Component {
           <div id="auth-signin" onClick={(e) => {e.stopPropagation(); toggleElements("dropdown")}}>Your Workspaces</div>
         </div>
       )
-    else
+    else {
+      let link = '/signin';
+      let linkName = "Sign In"
+      if (window.location.hash === '#/signin') {
+        link = '/signup'
+        linkName = "Sign Up"
+      }
       return (
         <div className="right">
           {/* <Link className="auth-nav-link" to="/tbd">Product</Link>
@@ -21,9 +27,11 @@ class AuthNav extends React.Component {
           <Link className="auth-nav-link" to="/tbd">Support</Link>
           <Link className="auth-nav-link" to="/tbd">Create a new workspace</Link>
           <Link className="auth-nav-link" to="/tbd">Find your workspace</Link> */}
-          <Link id="auth-signin" to='/signin'>Sign In</Link>
+          <Link id="auth-signin" to={link}>{linkName}</Link>
         </div> 
       )
+    }
+    
   }
   render() {
     return (
