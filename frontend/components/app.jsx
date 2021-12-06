@@ -25,7 +25,7 @@ class App extends React.Component {
         <ProtectedRoute exact path="/create" component={ WorkspaceForm }/>
         <ProtectedRoute exact path="/workspace/:workspace_address" component={ WorkspaceTransition }/>
         <ProtectedRoute exact path="/workspace/:workspace_address/:channel_id" component={ WorkspaceContainer }/>
-        <Route exact path="/" component={Homepage}/>
+        <Route exact path="/" render={() => <Homepage></Homepage>}/>
       </div>
     )
   }

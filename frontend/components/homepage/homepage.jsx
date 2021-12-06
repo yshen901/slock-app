@@ -35,6 +35,29 @@ class Homepage extends React.Component {
   // }
 
   render() {
+    let tryButton, signInLink;
+
+    if (getState().session.user_id) {
+      signInLink = (
+        <div id='signed-in-message'>
+          <h6><strong>Already signed in!</strong></h6>
+          <h6>Click Your Workspaces to select your workspace!</h6>
+        </div>
+      )
+    }
+    else {
+      tryButton = (
+        <button className="home-button" onClick={(e) => { this.props.history.push('/signup') }}>Try Slock</button>
+      );
+
+      signInLink = (
+        <div id="signin-message">
+          <h6>Already using Slock?</h6>
+          <Link to='/signin'>Sign in.</Link>
+        </div>
+      );
+    }
+
     return (
       <div id="homepage" onClick={() => hideElements("dropdown")}>
         <HomeNav />
@@ -48,12 +71,8 @@ class Homepage extends React.Component {
             <h4>Slock gives your team the power and alignment you need to do your best work.</h4>
           </div>
 
-          <button className="home-button" onClick={(e) => { this.props.history.push('/signup') }}>Try Slock</button>
-
-          <div id="signin-message">
-            <h6>Already using Slock?</h6>
-            <Link to='/signin'>Sign in.</Link>
-          </div>
+          { tryButton }
+          { signInLink }
 
         </div>
       </div>
