@@ -1729,7 +1729,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var DEFAULT_PHOTO_URL = '/images/profile_icon-min_burned.jpg'; // #AC
+var DEFAULT_PHOTO_URL = '/images/profile/default.jpg'; // #AC
 
 var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelChatRoom, _React$Component);
@@ -1747,6 +1747,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
     };
     _this.bottom = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.loadMessages = _this.loadMessages.bind(_assertThisInitialized(_this));
+    _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1789,26 +1790,26 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "receiveACData",
+    value: function receiveACData(data) {
+      var message = data.message; //extract the data
+
+      var user_id = message.user_id;
+      message.username = this.props.users[user_id].email.split("@")[0];
+      message.photo_url = this.props.users[user_id].photo_url;
+      if (!message.photo_url) message.photo_url = DEFAULT_PHOTO_URL;
+      this.setState({
+        messages: this.state.messages.concat(message)
+      });
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      var _this3 = this;
-
       App.cable.subscriptions.create({
         channel: "ChatChannel"
       }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
       {
-        received: function received(data) {
-          var message = data.message; //extract the data
-
-          var user_id = message.user_id;
-          message.username = _this3.props.users[user_id].email.split("@")[0];
-          message.photo_url = _this3.props.users[user_id].photo_url;
-          if (!message.photo_url) message.photo_url = DEFAULT_PHOTO_URL;
-
-          _this3.setState({
-            messages: _this3.state.messages.concat(message)
-          });
-        },
+        received: this.receiveACData,
         speak: function speak(data) {
           return this.perform('speak', data);
         }
@@ -1827,6 +1828,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var messageList = this.state.messages.map(function (message, idx) {
+        if (message.user_id == 10) debugger;
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message",
           key: idx

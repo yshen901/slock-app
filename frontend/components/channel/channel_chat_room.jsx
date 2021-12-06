@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import MessageForm from './message_form';
 
-const DEFAULT_PHOTO_URL = '/images/profile_icon-min_burned.jpg';
+const DEFAULT_PHOTO_URL = '/images/profile/default.jpg';
 
 // #AC
 class ChannelChatRoom extends React.Component {
@@ -14,6 +14,7 @@ class ChannelChatRoom extends React.Component {
     this.bottom = React.createRef();
 
     this.loadMessages = this.loadMessages.bind(this);
+    this.receiveACData = this.receiveACData.bind(this);
   }
 
   loadMessages() {
@@ -52,23 +53,25 @@ class ChannelChatRoom extends React.Component {
       )
   }
 
+  receiveACData(data) {
+    let { message } = data;     //extract the data
+    let { user_id } = message;
+
+    message.username = this.props.users[user_id].email.split("@")[0];
+    message.photo_url = this.props.users[user_id].photo_url;
+    if (!message.photo_url)
+      message.photo_url = DEFAULT_PHOTO_URL;
+
+    this.setState({
+      messages: this.state.messages.concat(message)
+    });
+  }
+
   componentDidMount() {
     App.cable.subscriptions.create(
       { channel: "ChatChannel" }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
       {
-        received: data => {
-          let { message } = data;     //extract the data
-          let { user_id } = message;
-
-          message.username = this.props.users[user_id].email.split("@")[0];
-          message.photo_url = this.props.users[user_id].photo_url;
-          if (!message.photo_url)
-            message.photo_url = DEFAULT_PHOTO_URL;
-
-          this.setState({
-            messages: this.state.messages.concat(message)
-          });
-        },
+        received: this.receiveACData,
         speak: function(data) {
           return this.perform('speak', data);
         }
@@ -88,6 +91,8 @@ class ChannelChatRoom extends React.Component {
   // TODO1: Group these nicely
   render() {
     const messageList = this.state.messages.map((message, idx) => {
+      if (message.user_id == 10)
+        debugger;
       return (
         <div className='message' key={idx}>
           <div className="message-user-icon">
