@@ -66,8 +66,10 @@ class EditProfileModal extends React.Component {
   photoUrl() {
     if (this.state.imageFile)
       return this.state.imageUrl;
-    else
+    else if (this.props.user.photo_url)
       return this.props.user.photo_url;
+    else 
+      return "/images/profile_icon.jpg";
   }
 
   submitButton() {
@@ -114,7 +116,7 @@ class EditProfileModal extends React.Component {
 
   render() {
     return (
-      <div className="edit-profile-modal">
+      <div className="edit-profile-modal hidden">
         <div className="part-modal-background" onClick={() => hideElements("edit-profile-modal")}></div>
         { this.modalForm() }
       </div>

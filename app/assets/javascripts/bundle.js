@@ -3032,7 +3032,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "photoUrl",
     value: function photoUrl() {
-      if (this.state.imageFile) return this.state.imageUrl;else return this.props.user.photo_url;
+      if (this.state.imageFile) return this.state.imageUrl;else if (this.props.user.photo_url) return this.props.user.photo_url;else return "/images/profile_icon.jpg";
     }
   }, {
     key: "submitButton",
@@ -3093,7 +3093,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "edit-profile-modal"
+        className: "edit-profile-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
