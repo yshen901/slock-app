@@ -77,7 +77,11 @@ class Homepage extends React.Component {
           </div>
 
           { demoButton }
+<<<<<<< HEAD
           {/* { signInLink } */}
+=======
+          { signInLink }
+>>>>>>> 5391527b985733759e919a960a52a3ce61054021
 
         </div>
       </div>
