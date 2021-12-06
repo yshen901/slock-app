@@ -46,8 +46,8 @@ class WorkspaceDropdown extends React.Component {
       <div className="dropdown hidden">
         {this.workspaceList()}
         <div className="dropdown-auth-links">
-          <Link className="dropdown-link" to="/signin">Sign Into Another Workspace</Link>
-          <Link className="dropdown-link" to="/create">Create Workspace</Link>
+          {/* <Link className="dropdown-link" to="/signin">Sign Into Another Workspace</Link>
+          <Link className="dropdown-link" to="/create">Create Workspace</Link> */}
           <div className="dropdown-link" onClick={this.logoutUser}>Sign Out</div>
         </div>
       </div>
