@@ -1,0 +1,47 @@
+#workspace-signin form input {
+  width: 184px;
+  height: 30px;
+  margin-bottom: 15px;
+
+  border-radius: 5px;
+  border: 1px solid gray;
+
+  font-size: 18px;
+}
+
+#workspace-signin form {
+  input[type="submit"], button {
+    width: 297px;
+    height: 50px;
+
+    margin-bottom: 15px;
+
+    background: #007a5a;
+    border: none;
+    border-radius: 5px;
+    
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  
+  input[type="submit"]:hover, button:hover {
+    cursor: pointer;
+    box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.1);
+  }
+
+  button {
+    background: #640064;
+  }
+
+  button:hover {
+    background: rgb(75, 1, 75)
+  }
+}
+
+#workspace-signin form input[type="text"]{
+  text-align: right;
+  padding: 8px;
+}
+
+

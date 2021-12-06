@@ -1,0 +1,54 @@
+#user-signin form input {
+  width: 382px;
+  height: 30px;
+  margin-bottom: 15px;
+
+  border-radius: 5px;
+  border: 1px solid black;
+
+  padding: 8px;
+  font-size: 18px;
+}
+
+#user-signin form {
+  input[type="submit"], button {
+    width: 400px;
+    height: 50px;
+
+    margin-bottom: 15px;  
+
+    background: #007a5a;
+    border: none;
+    border-radius: 5px;
+
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  input[type="submit"]:hover, button:hover {
+    cursor: pointer;
+    box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.1);
+  }
+
+  button {
+    background: #640064;
+  }
+
+  button:hover {
+    background: rgb(75, 1, 75)
+  }
+}
+
+#user-signin .auth-box-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+#user-signin .auth-form-link {
+  font-weight: normal;
+  padding: 5px;
+}
+

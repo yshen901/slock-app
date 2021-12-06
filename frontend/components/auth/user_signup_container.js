@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import UserAuthForm from './user_auth_form';
 
-import { signup, HOME_WORKSPACE } from '../../actions/session_actions';
+import { signup, DEMO_WORKSPACE } from '../../actions/session_actions';
 import { findWorkspace, getWorkspaces } from '../../actions/workspace_actions';
 import { refreshErrors } from '../../actions/error_actions';
 
@@ -11,7 +11,7 @@ import { refreshErrors } from '../../actions/error_actions';
 */
 const mapStateToProps = (state) => ({
   formType: "Sign Up",
-  workspace_address: HOME_WORKSPACE,
+  workspace_address: DEMO_WORKSPACE,
   error_message: "User already exists, please try again",
 });
 

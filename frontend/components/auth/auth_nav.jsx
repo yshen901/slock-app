@@ -13,10 +13,10 @@ class AuthNav extends React.Component {
           <div id="auth-signin" onClick={(e) => {e.stopPropagation(); toggleElements("dropdown")}}>Your Workspaces</div>
         </div>
       )
-    else {
+    else {  // Returns either signin or signup button depending on the page
       let link = '/signin';
       let linkName = "Sign In"
-      if (window.location.hash === '#/signin') {
+      if (window.location.href.indexOf('signin') >= 0) {
         link = '/signup'
         linkName = "Sign Up"
       }

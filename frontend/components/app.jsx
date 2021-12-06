@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { ProtectedRoute, WorkspaceRoute } from '../util/route_util';
+import { ProtectedRoute, AuthRoute } from '../util/route_util';
 
 import Homepage from './homepage/homepage';
 import UserSigninContainer from './auth/user_signin_container';
@@ -19,9 +19,9 @@ class App extends React.Component {
   render() {
     return (
       <div id="app-component">
-        <Route exact path="/signin" component={ WorkspaceSigninForm }/>
-        <Route exact path="/signup" component={ UserSignupContainer }/>
-        <Route exact path="/signin/:workspace_address" component={ UserSigninContainer }/>
+        <AuthRoute exact path="/signin" component={ WorkspaceSigninForm }/>
+        <AuthRoute exact path="/signup" component={ UserSignupContainer }/>
+        <AuthRoute exact path="/signin/:workspace_address" component={ UserSigninContainer }/>
         <ProtectedRoute exact path="/create" component={ WorkspaceForm }/>
         <ProtectedRoute exact path="/workspace/:workspace_address" component={ WorkspaceTransition }/>
         <ProtectedRoute exact path="/workspace/:workspace_address/:channel_id" component={ WorkspaceContainer }/>
