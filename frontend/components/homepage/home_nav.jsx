@@ -20,7 +20,7 @@ class HomeNav extends React.Component {
     else
       return (
         <div className="right">
-          <Link className="home-link" to="/signin">Sign In</Link>
+          <Link className="home-link no-hightlight" to="/signin">Sign In</Link>
           <button className="nav-button" onClick={() => this.props.history.push('/signup')}>
             <div>Get Started</div>
           </button>
@@ -35,8 +35,8 @@ class HomeNav extends React.Component {
           <Link className="logo" to="/">
             <img src="/images/logo.jpg"/>
           </Link>
-          <a className="home-link" to="https://github.com/yshen901"><i className='fab fa-github'></i> Github</a>
-          <a className="home-link" to="https://www.linkedin.com/in/yucishen/"><i className="fa fa-linkedin-square"></i> Linkedin</a>
+          <a className="home-link no-highlight" to="https://github.com/yshen901" onClick={() => window.open("https://github.com/yshen901")}><i className='fab fa-github'></i> Github</a>
+          <a className="home-link no-highlight" to="https://www.linkedin.com/in/yucishen/" onClick={() => window.open("https://www.linkedin.com/in/yucishen/")}><i className="fa fa-linkedin-square"></i> Linkedin</a>
         </div>
         {this.generateRight()}
       </div>

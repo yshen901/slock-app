@@ -22,6 +22,10 @@ strong {
   display: none;
 }
 
+.no-highlight {
+  user-select: none;
+}
+
 .green { color: green }
 .blue { color: rgb(33, 33, 245) }
 .pink { color: rgb(255, 70, 255) }

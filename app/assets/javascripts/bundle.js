@@ -2293,7 +2293,7 @@ var HomeNav = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Your Workspaces")));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "home-link",
+        className: "home-link no-hightlight",
         to: "/signin"
       }, "Sign In"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "nav-button",
@@ -2316,13 +2316,19 @@ var HomeNav = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/images/logo.jpg"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "home-link",
-        to: "https://github.com/yshen901"
+        className: "home-link no-highlight",
+        to: "https://github.com/yshen901",
+        onClick: function onClick() {
+          return window.open("https://github.com/yshen901");
+        }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fab fa-github"
       }), " Github"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        className: "home-link",
-        to: "https://www.linkedin.com/in/yucishen/"
+        className: "home-link no-highlight",
+        to: "https://www.linkedin.com/in/yucishen/",
+        onClick: function onClick() {
+          return window.open("https://www.linkedin.com/in/yucishen/");
+        }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-linkedin-square"
       }), " Linkedin")), this.generateRight());
