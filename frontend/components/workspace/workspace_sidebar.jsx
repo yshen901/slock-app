@@ -28,7 +28,7 @@ class WorkspaceSidebar extends React.Component {
 
   getDmChannelName(channel) {
     let { user, users } = this.props;
-    let ids = channel.name.split("-").map((id) => parseInt(id));
+    let ids = Object.keys(channel.users);
 
     if (ids[0] === user.id)
       return users[ids[1]].email

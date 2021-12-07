@@ -6,6 +6,7 @@ json.starred channel.starred
 json.dm_channel channel.dm_channel  
 
 # handles things differently depending on what the channel is
+# returns channels users to make it easier to display channel name
 json.users({})
 if channel.dm_channel
   json.users do

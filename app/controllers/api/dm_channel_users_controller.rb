@@ -8,7 +8,6 @@ class Api::DmChannelUsersController < ApplicationController
         (user_1_id = #{dm_channel_user_params[:user_2_id]} AND user_2_id = #{dm_channel_user_params[:user_1_id]})
       "
     ).first;
-    debugger;
 
     # ASSUMPTION: Channel is already made and has been passed up
     # If connection is found, reactivate the right index
@@ -27,6 +26,9 @@ class Api::DmChannelUsersController < ApplicationController
       end
     else
       @dm_channel_user = DmChannelUser.new(dm_channel_user_params)
+      @channel = Channel.new(
+        
+      )
       if @dm_channel_user.save
         render :show
       else

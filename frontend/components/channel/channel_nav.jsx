@@ -11,10 +11,9 @@ class ChannelNav extends React.Component {
     this.starClick = this.starClick.bind(this);
   }
 
-  getDmChannelName(channel) {
-    let { user, users } = this.props;
-    debugger;
-    let ids = channel.name.split("-").map((id) => parseInt(id));
+  getDmChannelName() {
+    let { user, users, channel } = this.props;
+    let ids = Object.keys(channel.users);
 
     if (ids[0] === user.id)
       return users[ids[1]].email
@@ -77,7 +76,7 @@ class ChannelNav extends React.Component {
     else
       return (
         <div id="left">
-          <div id="left-top"> {this.getDmChannelName(this.props.channel)} </div>
+          <div id="left-top"> {this.getDmChannelName()} </div>
           <div id="left-bottom">
             <div id="topic" onClick={e => {e.stopPropagation(); toggleElements("edit-channel-topic-modal", "channel-topic-input");}}>
               <i className='fas fas fa-pen'></i>

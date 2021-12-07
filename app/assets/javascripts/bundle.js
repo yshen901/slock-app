@@ -2047,14 +2047,12 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
 
   _createClass(ChannelNav, [{
     key: "getDmChannelName",
-    value: function getDmChannelName(channel) {
+    value: function getDmChannelName() {
       var _this$props = this.props,
           user = _this$props.user,
-          users = _this$props.users;
-      debugger;
-      var ids = channel.name.split("-").map(function (id) {
-        return parseInt(id);
-      });
+          users = _this$props.users,
+          channel = _this$props.channel;
+      var ids = Object.keys(channel.users);
       if (ids[0] === user.id) return users[ids[1]].email;
       return users[ids[0]].email;
     }
@@ -2124,7 +2122,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
         id: "left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "left-top"
-      }, " ", this.getDmChannelName(this.props.channel), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, " ", this.getDmChannelName(), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "left-bottom"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "topic",
@@ -4373,9 +4371,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       var _this$props = this.props,
           user = _this$props.user,
           users = _this$props.users;
-      var ids = channel.name.split("-").map(function (id) {
-        return parseInt(id);
-      });
+      var ids = Object.keys(channel.users);
       if (ids[0] === user.id) return users[ids[1]].email;
       return users[ids[0]].email;
     }
