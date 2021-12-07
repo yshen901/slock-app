@@ -6,7 +6,9 @@ class Api::WorkspacesController < ApplicationController
       .includes(channels: [:users, :dm_user_1, :dm_user_2]) # for channel partial later
       .find_by_address(params[:id])
     if @workspace 
-      @current_user = User.includes(:dm_channels_1, :dm_channels_2, :channels).find(current_user.id) # for channel id parsing
+      if logged_in?
+        @current_user = User.includes(:dm_channels_1, :dm_channels_2, :channels).find(current_user.id) # for channel id parsing
+      end
       render '/api/workspaces/show'
     else
       render json: ["Workspace does not exist"], status: 402
