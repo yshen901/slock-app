@@ -134,9 +134,9 @@ class UserSigninForm extends React.Component {
               onChange={this.updateForm('password')}
               placeholder="password" 
               value={this.state.password}/>
-            {this.demoButton()}
             <input type="submit" value={this.props.formType}/>
           </form>
+          {this.demoButton()}
           {/* <h4 className="auth-box-footer">
             <Link to='/tbd' className='auth-form-link'>Forgot your password?</Link>
             &bull;

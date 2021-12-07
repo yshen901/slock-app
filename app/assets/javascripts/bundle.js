@@ -1049,10 +1049,10 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
         onChange: this.updateForm('password'),
         placeholder: "password",
         value: this.state.password
-      }), this.demoButton(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
         value: this.props.formType
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_footer__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+      })), this.demoButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_footer__WEBPACK_IMPORTED_MODULE_3__["default"], null));
     }
   }]);
 
@@ -1478,6 +1478,7 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
     value: function handleSubmit() {
       var _this2 = this;
 
+      debugger;
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_5__["findWorkspace"])(this.state.workspace_address)).then(function () {
         return _this2.props.history.push("/signin/".concat(_this2.state.workspace_address));
       }, function () {
@@ -1563,10 +1564,10 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
         placeholder: "your-workspace-url",
         align: "left",
         value: this.state.workspace_address
-      }), " .slock.com"), this.demoButton(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }), " .slock.com"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
         value: 'Continue '
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_footer__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+      }), this.demoButton())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_footer__WEBPACK_IMPORTED_MODULE_2__["default"], null));
     }
   }]);
 

@@ -29,6 +29,7 @@ class WorkspaceSigninForm extends React.Component {
       3) For this case, you don't need to re-direct at all...just force a re-render
   */
   handleSubmit() {
+    debugger;
     dispatch(findWorkspace(this.state.workspace_address))
       .then(
         () => this.props.history.push(`/signin/${ this.state.workspace_address }`),
@@ -97,8 +98,8 @@ class WorkspaceSigninForm extends React.Component {
                 align="left"
                 value={this.state.workspace_address}/> .slock.com
             </label>
-            {this.demoButton()}
             <input type="submit" value={'Continue '}/>
+            {this.demoButton()}
           </form>
           {/* <h4 className="auth-box-footer">
             Don't know your workspace URL? 
