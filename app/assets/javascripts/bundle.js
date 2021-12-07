@@ -4154,12 +4154,25 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
+    key: "getDmChannelName",
+    value: function getDmChannelName(channel) {
+      var _this$props = this.props,
+          user = _this$props.user,
+          users = _this$props.users;
+      var ids = channel.name.split("-").map(function (id) {
+        return parseInt(id);
+      });
+      if (ids[0] === user.id) return users[ids[1]].email;
+      return users[ids[0]].email;
+    }
+  }, {
     key: "getChannels",
     value: function getChannels(starStatus) {
-      var _this$props = this.props,
-          channels = _this$props.channels,
-          user_channels = _this$props.user_channels,
-          channel_id = _this$props.channel_id;
+      var dmStatus = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var _this$props2 = this.props,
+          channels = _this$props2.channels,
+          user_channels = _this$props2.user_channels,
+          channel_id = _this$props2.channel_id;
       if (Object.keys(channels).length === 0) return [];
       var filteredChannels = [];
       var channelList = user_channels.map(function (id) {
@@ -4167,7 +4180,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       });
 
       for (var i = 0; i < channelList.length; i++) {
-        if (channelList[i].starred === starStatus) filteredChannels.push(channelList[i]);
+        if (channelList[i].starred === starStatus && channelList[i].dm_channel == dmStatus) filteredChannels.push(channelList[i]);
       }
 
       return filteredChannels.sort(function (a, b) {
@@ -4238,6 +4251,30 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
           to: _this3.channelLink(channel.id)
         }, "# \xA0", channel.name);
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "channels"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-header-link hoverable",
+        onClick: this.toggleElements("full-modal channel-modal", "channel-search-bar")
+      }, "Direct Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-header-button",
+        onClick: this.toggleElements("new-channel-modal", "new-channel-input")
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-plus-circle"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-list"
+      }, this.getChannels(false, true).map(function (channel, idx) {
+        if (channel.id === channel_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          key: idx,
+          className: "sidebar-item selected",
+          to: _this3.channelLink(channel.id)
+        }, "# \xA0", _this3.getDmChannelName(channel));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          key: idx,
+          className: "sidebar-item",
+          to: _this3.channelLink(channel.id)
+        }, "# \xA0", _this3.getDmChannelName(channel));
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-button"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-symbol"
@@ -4280,6 +4317,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     user: state.entities.users[state.session.user_id],
+    users: state.entities.users,
     channels: state.entities.channels,
     user_channels: Object.keys(state.session.user_channels),
     workspace_address: ownProps.match.params.workspace_address,

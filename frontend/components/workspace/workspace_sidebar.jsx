@@ -26,15 +26,26 @@ class WorkspaceSidebar extends React.Component {
     }
   }
 
-  getChannels(starStatus) {
+  getDmChannelName(channel) {
+    let { user, users } = this.props;
+    let ids = channel.name.split("-").map((id) => parseInt(id));
+
+    if (ids[0] === user.id)
+      return users[ids[1]].email
+    return users[ids[0]].email
+  }
+
+  getChannels(starStatus, dmStatus=false) {
     let { channels, user_channels, channel_id } = this.props;
 
     if (Object.keys(channels).length === 0) return []
     
     let filteredChannels = [];
     let channelList = user_channels.map((id) => channels[id])
-    for (let i = 0; i < channelList.length; i++)
-      if (channelList[i].starred === starStatus) filteredChannels.push(channelList[i])
+    for (let i = 0; i < channelList.length; i++) {
+      if (channelList[i].starred === starStatus && channelList[i].dm_channel == dmStatus) 
+        filteredChannels.push(channelList[i])
+    }
 
     return filteredChannels.sort((a, b) => a > b ? 1 : -1);
   }
@@ -85,6 +96,23 @@ class WorkspaceSidebar extends React.Component {
                   return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
                 else
                   return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);               
+              })}
+            </div>
+          </div>
+
+          <div id="channels">
+            <div className='sidebar-header'>
+              <div className='sidebar-header-link hoverable' onClick={ this.toggleElements("full-modal channel-modal", "channel-search-bar") }>Direct Messages</div>
+              <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>
+                <i className="fas fa-plus-circle"></i>
+              </div>
+            </div>
+            <div className="sidebar-list">
+              {this.getChannels(false, true).map((channel, idx) => {
+                if (channel.id === channel_id)
+                  return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># &nbsp;{this.getDmChannelName(channel)}</Link>);
+                else
+                  return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># &nbsp;{this.getDmChannelName(channel)}</Link>);               
               })}
             </div>
           </div>

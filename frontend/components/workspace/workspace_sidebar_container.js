@@ -7,6 +7,7 @@ import { logout } from '../../actions/session_actions';
 
 const mapStateToProps = (state, ownProps) => ({
   user: state.entities.users[state.session.user_id],
+  users: state.entities.users,
   channels: state.entities.channels,
   user_channels: Object.keys(state.session.user_channels),
 
