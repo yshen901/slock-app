@@ -2046,6 +2046,19 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(ChannelNav, [{
+    key: "getDmChannelName",
+    value: function getDmChannelName(channel) {
+      var _this$props = this.props,
+          user = _this$props.user,
+          users = _this$props.users;
+      debugger;
+      var ids = channel.name.split("-").map(function (id) {
+        return parseInt(id);
+      });
+      if (ids[0] === user.id) return users[ids[1]].email;
+      return users[ids[0]].email;
+    }
+  }, {
     key: "starClick",
     value: function starClick(e) {
       var _this2 = this;
@@ -2062,7 +2075,8 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "star",
     value: function star() {
-      if (this.props.channel.name === "general") /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);else if (this.props.channel.starred) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var channel = this.props.channel;
+      if (channel.name === "general" || channel.dm_channel) /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);else if (this.props.channel.starred) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "star filled hidden",
         onClick: this.starClick
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -2079,44 +2093,72 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
       }, "|"));
     }
   }, {
+    key: "left",
+    value: function left() {
+      var _this$props$channel = this.props.channel,
+          name = _this$props$channel.name,
+          description = _this$props$channel.description,
+          users = _this$props$channel.users,
+          dm_channel = _this$props$channel.dm_channel;
+      if (!dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "left"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "left-top"
+      }, " # ", name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "left-bottom"
+      }, this.star(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "members"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "material-icons"
+      }, "person_outline"), Object.keys(users).length), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-nav-divider"
+      }, "|"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "topic",
+        onClick: function onClick(e) {
+          e.stopPropagation();
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["toggleElements"])("edit-channel-topic-modal", "channel-topic-input");
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fas fa-pen"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ", description ? description : "Add a topic", " "))));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "left"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "left-top"
+      }, " ", this.getDmChannelName(this.props.channel), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "left-bottom"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "topic",
+        onClick: function onClick(e) {
+          e.stopPropagation();
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["toggleElements"])("edit-channel-topic-modal", "channel-topic-input");
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fas fa-pen"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ", description ? description : "Add a note", " "))));
+    }
+  }, {
     key: "leaveButton",
-    value: function leaveButton() {
-      if (this.props.status.canLeave) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-nav-button",
-        onClick: this.props.leaveChannel
-      }, "Leave Channel");
+    value: function leaveButton(message) {
+      if (this.props.status.canLeave) {
+        if (!this.props.channel.dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-nav-button",
+          onClick: this.props.leaveChannel
+        }, "Leave Channel"); // else
+        //   return (
+        //     <div className="channel-nav-button" onClick={this.props.leaveDmChannel}>Leave Chat</div>
+        //
+      }
     }
   }, {
     key: "render",
     value: function render() {
       if (this.props.channel) {
-        var _this$props$channel = this.props.channel,
-            name = _this$props$channel.name,
-            description = _this$props$channel.description,
-            users = _this$props$channel.users;
+        var _this$props$channel2 = this.props.channel,
+            name = _this$props$channel2.name,
+            description = _this$props$channel2.description;
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "channel-nav"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "left"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "left-top"
-        }, " # ", name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "left-bottom"
-        }, this.star(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "members"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-          className: "material-icons"
-        }, "person_outline"), Object.keys(users).length), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-nav-divider"
-        }, "|"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "topic",
-          onClick: function onClick(e) {
-            e.stopPropagation();
-            Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["toggleElements"])("edit-channel-topic-modal", "channel-topic-input");
-          }
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-          className: "fas fas fa-pen"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ", description ? description : "Add a topic", " ")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, this.left(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "right"
         }, this.leaveButton()));
       } else {
@@ -2154,7 +2196,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspace_address: ownProps.match.params.workspace_address,
     channel_id: parseInt(ownProps.match.params.channel_id),
-    channel: state.entities.channels[ownProps.match.params.channel_id]
+    channel: state.entities.channels[ownProps.match.params.channel_id],
+    user: state.entities.users[state.session.user_id],
+    users: state.entities.users
   };
 };
 
@@ -2662,12 +2706,15 @@ var BrowseChannelModal = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       var channels = getState().entities.channels;
-      var user_channels = Object.keys(getState().session.user_channels);
-      var displayed_channels = [];
+      var user_channels = getState().session.user_channels;
+      var my_channels = Object.keys(user_channels).filter(function (id) {
+        return !channels[id].dm_channel;
+      });
       var channel_name;
+      var displayed_channels = [];
 
       var _loop = function _loop(i) {
-        channel_name = channels[user_channels[i]].name;
+        channel_name = channels[my_channels[i]].name;
         if (searchString.length === 0 || channel_name.startsWith(searchString)) displayed_channels.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "full-modal-item",
           key: i,
@@ -2677,7 +2724,7 @@ var BrowseChannelModal = /*#__PURE__*/function (_React$Component) {
         }, "# ", channel_name));
       };
 
-      for (var i = 0; i < user_channels.length; i++) {
+      for (var i = 0; i < my_channels.length; i++) {
         _loop(i);
       }
 
@@ -2691,10 +2738,10 @@ var BrowseChannelModal = /*#__PURE__*/function (_React$Component) {
       var channels = getState().entities.channels;
       var user_channels = getState().session.user_channels;
       var other_channels = Object.keys(channels).filter(function (id) {
-        return !user_channels[id];
+        return !user_channels[id] && !channels[id].dm_channel;
       });
-      var displayed_channels = [];
       var channel_name;
+      var displayed_channels = [];
 
       if (other_channels.length > 0) {
         var _loop2 = function _loop2(i) {
@@ -4256,7 +4303,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         className: "sidebar-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-link hoverable",
-        onClick: this.toggleElements("full-modal channel-modal", "channel-search-bar")
+        onClick: this.toggleElements("full-modal channel-modal")
       }, "Direct Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-button",
         onClick: this.toggleElements("new-channel-modal", "new-channel-input")

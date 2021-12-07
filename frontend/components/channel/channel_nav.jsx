@@ -11,6 +11,16 @@ class ChannelNav extends React.Component {
     this.starClick = this.starClick.bind(this);
   }
 
+  getDmChannelName(channel) {
+    let { user, users } = this.props;
+    debugger;
+    let ids = channel.name.split("-").map((id) => parseInt(id));
+
+    if (ids[0] === user.id)
+      return users[ids[1]].email
+    return users[ids[0]].email
+  }
+
   starClick(e) {
     let { channel } = this.props;
     // debugger;
@@ -21,7 +31,8 @@ class ChannelNav extends React.Component {
   }
 
   star() {
-    if (this.props.channel.name === "general")
+    let {channel} = this.props
+    if (channel.name === "general" || channel.dm_channel)
       <div></div>
     else if (this.props.channel.starred)
       return (
@@ -43,32 +54,59 @@ class ChannelNav extends React.Component {
       )
   }
 
-  leaveButton() {
-    if (this.props.status.canLeave)
+  left() {
+    let {name, description, users, dm_channel} = this.props.channel
+
+    if (!dm_channel) 
       return (
-        <div className="channel-nav-button" onClick={this.props.leaveChannel}>Leave Channel</div>
+        <div id="left">
+          <div id="left-top"> # {name} </div>
+          <div id="left-bottom">
+            {this.star()} 
+            <div id="members">
+              <i className="material-icons">person_outline</i>{ Object.keys(users).length }
+            </div>
+            <div className="channel-nav-divider">|</div> 
+            <div id="topic" onClick={e => {e.stopPropagation(); toggleElements("edit-channel-topic-modal", "channel-topic-input");}}>
+              <i className='fas fas fa-pen'></i>
+              <div> { description ? description : "Add a topic" } </div>
+            </div>
+          </div>
+        </div>
       )
+    else
+      return (
+        <div id="left">
+          <div id="left-top"> {this.getDmChannelName(this.props.channel)} </div>
+          <div id="left-bottom">
+            <div id="topic" onClick={e => {e.stopPropagation(); toggleElements("edit-channel-topic-modal", "channel-topic-input");}}>
+              <i className='fas fas fa-pen'></i>
+              <div> { description ? description : "Add a note" } </div>
+            </div>
+          </div>
+        </div>
+      )
+  }
+
+  leaveButton(message) {
+    if (this.props.status.canLeave) {
+      if (!this.props.channel.dm_channel)
+        return (
+          <div className="channel-nav-button" onClick={this.props.leaveChannel}>Leave Channel</div>
+        )
+      // else
+      //   return (
+      //     <div className="channel-nav-button" onClick={this.props.leaveDmChannel}>Leave Chat</div>
+      //
+    }
   }
 
   render() {
     if (this.props.channel) {
-      let { name, description, users } = this.props.channel;
+      let { name, description } = this.props.channel;
       return (
         <div id="channel-nav">
-          <div id="left">
-            <div id="left-top"> # {name} </div>
-            <div id="left-bottom">
-              {this.star()} 
-              <div id="members">
-                <i className="material-icons">person_outline</i>{ Object.keys(users).length }
-              </div>
-              <div className="channel-nav-divider">|</div> 
-              <div id="topic" onClick={e => {e.stopPropagation(); toggleElements("edit-channel-topic-modal", "channel-topic-input");}}>
-                <i className='fas fas fa-pen'></i>
-                <div> { description ? description : "Add a topic" } </div>
-              </div>
-            </div>
-          </div>
+          { this.left() }
           <div id="right">
             {/* <div className="settings-button" onClick={(e) => {e.stopPropagation(); toggleElements("dropdown channel-settings")}}>&#9881;</div> */}
             {this.leaveButton()}

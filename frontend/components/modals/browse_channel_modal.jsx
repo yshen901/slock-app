@@ -60,12 +60,13 @@ class BrowseChannelModal extends React.Component {
 
   myChannels(searchString) {
     let { channels } = getState().entities;
-    let user_channels = Object.keys(getState().session.user_channels);
-    let displayed_channels = [];
-    
+    let { user_channels } = getState().session;
+    let my_channels = Object.keys(user_channels).filter((id) => !channels[id].dm_channel);
+
     let channel_name;
-    for (let i = 0; i < user_channels.length; i++) {
-      channel_name = channels[user_channels[i]].name;
+    let displayed_channels = [];
+    for (let i = 0; i < my_channels.length; i++) {
+      channel_name = channels[my_channels[i]].name;
       if (searchString.length === 0 || channel_name.startsWith(searchString))
         displayed_channels.push(<div className="full-modal-item" key={i} onClick={() => this.goToChannel(user_channels[i])}># {channel_name}</div>)
     }
@@ -76,10 +77,10 @@ class BrowseChannelModal extends React.Component {
   otherChannels(searchString) {
     let { channels } = getState().entities;
     let { user_channels } = getState().session;
-    let other_channels = Object.keys(channels).filter((id) => !user_channels[id] )
-    let displayed_channels = [];
-
+    let other_channels = Object.keys(channels).filter((id) => !user_channels[id] && !channels[id].dm_channel )
+    
     let channel_name;
+    let displayed_channels = [];
     if (other_channels.length > 0)
       for (let i = 0; i < other_channels.length; i++) {
         channel_name = channels[other_channels[i]].name;
