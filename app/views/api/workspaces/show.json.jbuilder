@@ -3,6 +3,7 @@ if logged_in?
     json.partial! '/api/workspaces/workspace', workspace: @workspace
   end
 
+  json.users({})
   json.users do
     @workspace.users.each do |user|
       json.set! user.id do
@@ -17,6 +18,7 @@ if logged_in?
   user_dm_channel_ids = @current_user.dm_channels_1.map { |channel| channel.id }
   user_dm_channel_ids.concat(@current_user.dm_channels_2.map { |channel| channel.id })
 
+  json.user_channels({})
   json.user_channels do
     user_channel_ids.each do |channel_id|
       json.set! channel_id do
@@ -31,6 +33,7 @@ if logged_in?
     end
   end
 
+  json.channels({})
   json.channels do
     @workspace.channels.each do |channel|
       unless channel.dm_channel
