@@ -65,11 +65,11 @@ class BrowseChannelModal extends React.Component {
 
     let channel_name;
     let displayed_channels = [];
-    for (let i = 0; i < my_channels.length; i++) {
-      channel_name = channels[my_channels[i]].name;
-      if (searchString.length === 0 || channel_name.startsWith(searchString))
-        displayed_channels.push(<div className="full-modal-item" key={i} onClick={() => this.goToChannel(user_channels[i])}># {channel_name}</div>)
-    }
+      for (let i = 0; i < my_channels.length; i++) {
+        channel_name = channels[my_channels[i]].name;
+        if (searchString.length === 0 || channel_name.startsWith(searchString))
+          displayed_channels.push(<div className="full-modal-item" key={i} onClick={() => this.goToChannel(user_channels[i])}># {channel_name}</div>)
+      }
 
     return displayed_channels;
   }
@@ -102,7 +102,7 @@ class BrowseChannelModal extends React.Component {
           </div>
           <div className="full-modal-search-bar">
             <i className='fas fa-search search-icon'></i> 
-            <input type="text" id="channel-search-bar"
+            <input type="text" className="channel-search-bar"
               onChange={this.update}
               value={this.state.search}
               placeholder="Search channels"/>
