@@ -1,8 +1,12 @@
 class Api::WorkspacesController < ApplicationController
   # DESIGN: workspace's show's ":id" will refer to the address rather than id
+  #         use N+1 queries with includes
   def show
-    @workspace = Workspace.find_by_address(params[:id])
+    @workspace = Workspace
+      .includes(:channels)
+      .find_by_address(params[:id])
     if @workspace 
+      @current_user = User.includes(:dm_channels_1, :dm_channels_2, :channels).find(current_user.id)
       render '/api/workspaces/show'
     else
       render json: ["Workspace does not exist"], status: 402

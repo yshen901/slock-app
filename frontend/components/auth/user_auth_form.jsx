@@ -77,6 +77,8 @@ class UserSigninForm extends React.Component {
     let demoEmail = "demoUser@slock.com";
     let demoPassword = "demoPassword";
 
+    this.setState({ email: "", password: ""});
+    
     for (let i = 0; i < demoEmail.length; i++)
       setTimeout(() => {
         this.setState({email: this.state.email + demoEmail[i]})

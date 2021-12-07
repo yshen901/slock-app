@@ -29,13 +29,16 @@ class Api::ChannelsController < ApplicationController
 
   def update 
     @channel = Channel.find_by_id(params[:id])
-    @channel.update(channel_params)
-    render "api/channels/show"
+    if @channel.update(channel_params)
+      render "api/channels/show"
+    else
+      render @channel.errors.full_messages, status: 401
+    end
   end
 
   private
 
   def channel_params 
-    params.require(:channel).permit(:name, :workspace_id, :description, :starred)
+    params.require(:channel).permit(:name, :workspace_id, :description, :starred, :dm_channel)
   end
 end

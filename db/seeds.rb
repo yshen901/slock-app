@@ -135,3 +135,5 @@ Message.create(
   body: "You carry the fate of us all little one. If this is indeed the will of the Council, then Gondor will see it done."
 )
 
+channel_7 = Channel.create(name: "aragorn@slock.com-gandalf@slock.com", workspace_id: demo_workspace.id, description: "", dm_channel: true)
+dm_channel = DmChannelUser.create(user_1_id: demo_user.id, user_2_id: gandalf.id, channel_id: channel_7.id);

@@ -30,6 +30,26 @@ class User < ApplicationRecord
     through: :channel_connections,
     source: :channel
 
+  # connection to dm channel
+  has_many :dm_channel_connections_1,
+    foreign_key: :user_1_id,
+    class_name: :DmChannelUser,
+    dependent: :destroy
+
+  has_many :dm_channel_connections_2,
+    foreign_key: :user_2_id,
+    class_name: :DmChannelUser,
+    dependent: :destroy
+
+  # dm channels the user is in
+  has_many :dm_channels_1,
+    through: :dm_channel_connections_1,
+    source: :channel
+
+  has_many :dm_channels_2,
+    through: :dm_channel_connections_2,
+    source: :channel
+
   has_many :messages
 
   #AWS Photo

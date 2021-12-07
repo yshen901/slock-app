@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_05_044714) do
+ActiveRecord::Schema.define(version: 2021_12_07_082621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,8 +54,23 @@ ActiveRecord::Schema.define(version: 2021_12_05_044714) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "channel_type", default: "channel"
-    t.index ["name", "workspace_id"], name: "index_channels_on_name_and_workspace_id", unique: true
+    t.boolean "dm_channel", default: false
+    t.index ["name", "workspace_id", "dm_channel"], name: "index_channels_on_name_and_workspace_id_and_dm_channel", unique: true
     t.index ["workspace_id"], name: "index_channels_on_workspace_id"
+  end
+
+  create_table "dm_channel_users", force: :cascade do |t|
+    t.integer "channel_id", null: false
+    t.integer "user_1_id", null: false
+    t.integer "user_2_id", null: false
+    t.boolean "active_1", default: true
+    t.boolean "active_2", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["channel_id"], name: "index_dm_channel_users_on_channel_id", unique: true
+    t.index ["user_1_id", "user_2_id"], name: "index_dm_channel_users_on_user_1_id_and_user_2_id", unique: true
+    t.index ["user_1_id"], name: "index_dm_channel_users_on_user_1_id"
+    t.index ["user_2_id"], name: "index_dm_channel_users_on_user_2_id"
   end
 
   create_table "messages", force: :cascade do |t|

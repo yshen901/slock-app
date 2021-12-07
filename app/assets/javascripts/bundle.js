@@ -392,7 +392,9 @@ var receiveWorkspace = function receiveWorkspace(_ref) {
   var workspace = _ref.workspace,
       users = _ref.users,
       user_channels = _ref.user_channels,
-      channels = _ref.channels;
+      channels = _ref.channels,
+      user_dm_channels = _ref.user_dm_channels,
+      dm_channels = _ref.dm_channels;
   return {
     type: RECEIVE_WORKSPACE,
     workspace: workspace,
@@ -406,13 +408,17 @@ var loadWorkspace = function loadWorkspace(_ref2) {
   var workspace = _ref2.workspace,
       users = _ref2.users,
       user_channels = _ref2.user_channels,
-      channels = _ref2.channels;
+      channels = _ref2.channels,
+      user_dm_channels = _ref2.user_dm_channels,
+      dm_channels = _ref2.dm_channels;
   return {
     type: LOAD_WORKSPACE,
     workspace: workspace,
-    channels: channels,
     users: users,
-    user_channels: user_channels
+    channels: channels,
+    user_channels: user_channels,
+    dm_channels: dm_channels,
+    user_dm_channels: user_dm_channels
   };
 };
 
@@ -974,6 +980,10 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
       e.stopPropagation();
       var demoEmail = "demoUser@slock.com";
       var demoPassword = "demoPassword";
+      this.setState({
+        email: "",
+        password: ""
+      });
 
       var _loop = function _loop(i) {
         setTimeout(function () {
@@ -1478,7 +1488,6 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
     value: function handleSubmit() {
       var _this2 = this;
 
-      debugger;
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_5__["findWorkspace"])(this.state.workspace_address)).then(function () {
         return _this2.props.history.push("/signin/".concat(_this2.state.workspace_address));
       }, function () {
@@ -1503,6 +1512,9 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
       e.preventDefault();
       e.stopPropagation();
       var demoWorkspaceAddress = _actions_session_actions__WEBPACK_IMPORTED_MODULE_8__["DEMO_WORKSPACE"];
+      this.setState({
+        workspace_address: ""
+      });
 
       var _loop = function _loop(i) {
         setTimeout(function () {
