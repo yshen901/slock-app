@@ -47,6 +47,8 @@
 
 .channel-preview-panel h1 {
   font-size: 17px;
+  line-height: 18px;
+  vertical-align: top;
   padding-right: 10px;
   justify-self: flex-start;
 }

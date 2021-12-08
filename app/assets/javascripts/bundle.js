@@ -4581,7 +4581,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         onClick: this.toggleElements("full-modal dm-channel-modal")
       }, "Direct Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-button",
-        onClick: this.toggleElements("new-channel-modal", "new-channel-input")
+        onClick: this.toggleElements("full-modal dm-channel-modal")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-plus-circle"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

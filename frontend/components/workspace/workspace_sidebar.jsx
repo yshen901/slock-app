@@ -103,7 +103,7 @@ class WorkspaceSidebar extends React.Component {
           <div id="channels">
             <div className='sidebar-header'>
               <div className='sidebar-header-link hoverable' onClick={ this.toggleElements("full-modal dm-channel-modal") }>Direct Messages</div>
-              <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>
+              <div className='sidebar-header-button' onClick={ this.toggleElements("full-modal dm-channel-modal") }>
                 <i className="fas fa-plus-circle"></i>
               </div>
             </div>
