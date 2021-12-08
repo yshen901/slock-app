@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { toggleElements, focus } from '../../util/modal_api_util';
+import { toggleElements, focus, hideElements } from '../../util/modal_api_util';
 import { workspaceTitle } from '../../selectors/selectors'
 
 class WorkspaceSidebar extends React.Component {
@@ -23,6 +23,11 @@ class WorkspaceSidebar extends React.Component {
       e.stopPropagation();
       toggleElements(className);
       focus(inputId)
+
+      // Hides all dropdown elements once another modal is toggled
+      if (!className.includes("dropdown")) {
+        hideElements("dropdown");
+      }
     }
   }
 

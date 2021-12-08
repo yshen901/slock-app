@@ -1,5 +1,5 @@
 import React from 'react';
-import { toggleElements } from '../../util/modal_api_util';
+import { toggleElements, hideElements, focus } from '../../util/modal_api_util';
 import { updateChannel } from '../../actions/channel_actions';
 
 class ChannelNav extends React.Component {
@@ -9,6 +9,7 @@ class ChannelNav extends React.Component {
     this.leaveButton = this.leaveButton.bind(this);
     this.star = this.star.bind(this);
     this.starClick = this.starClick.bind(this);
+    this.toggleElements = this.toggleElements.bind(this);
   }
 
   getDmChannelName() {
@@ -52,6 +53,19 @@ class ChannelNav extends React.Component {
       )
   }
 
+  toggleElements(className, inputId) {
+    return (e) => {
+      e.stopPropagation();
+      toggleElements(className);
+      focus(inputId)
+
+      // Hides all dropdown elements once another modal is toggled
+      if (!className.includes("dropdown")) {
+        hideElements("dropdown");
+      }
+    }
+  }
+
   left() {
     let {name, description, users, dm_channel} = this.props.channel
 
@@ -65,7 +79,7 @@ class ChannelNav extends React.Component {
               <i className="material-icons">person_outline</i>{ Object.keys(users).length }
             </div>
             <div className="channel-nav-divider">|</div> 
-            <div id="topic" onClick={e => {e.stopPropagation(); toggleElements("edit-channel-topic-modal", "channel-topic-input");}}>
+            <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
               <i className='fas fas fa-pen'></i>
               <div> { description ? description : "Add a topic" } </div>
             </div>
@@ -77,7 +91,7 @@ class ChannelNav extends React.Component {
         <div id="left">
           <div id="left-top"> {this.getDmChannelName()} </div>
           <div id="left-bottom">
-            <div id="topic" onClick={e => {e.stopPropagation(); toggleElements("edit-channel-topic-modal", "channel-topic-input");}}>
+            <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
               <i className='fas fas fa-pen'></i>
               <div> { description ? description : "Add a note" } </div>
             </div>

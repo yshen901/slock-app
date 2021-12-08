@@ -2119,6 +2119,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
     _this.leaveButton = _this.leaveButton.bind(_assertThisInitialized(_this));
     _this.star = _this.star.bind(_assertThisInitialized(_this));
     _this.starClick = _this.starClick.bind(_assertThisInitialized(_this));
+    _this.toggleElements = _this.toggleElements.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2167,6 +2168,21 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
       }, "|"));
     }
   }, {
+    key: "toggleElements",
+    value: function toggleElements(className, inputId) {
+      return function (e) {
+        e.stopPropagation();
+
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["toggleElements"])(className);
+
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["focus"])(inputId); // Hides all dropdown elements once another modal is toggled
+
+        if (!className.includes("dropdown")) {
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("dropdown");
+        }
+      };
+    }
+  }, {
     key: "left",
     value: function left() {
       var _this$props$channel = this.props.channel,
@@ -2188,10 +2204,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
         className: "channel-nav-divider"
       }, "|"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "topic",
-        onClick: function onClick(e) {
-          e.stopPropagation();
-          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["toggleElements"])("edit-channel-topic-modal", "channel-topic-input");
-        }
+        onClick: this.toggleElements("edit-channel-topic-modal", "channel-topic-input")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fas fa-pen"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ", description ? description : "Add a topic", " "))));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2202,10 +2215,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
         id: "left-bottom"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "topic",
-        onClick: function onClick(e) {
-          e.stopPropagation();
-          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["toggleElements"])("edit-channel-topic-modal", "channel-topic-input");
-        }
+        onClick: this.toggleElements("edit-channel-topic-modal", "channel-topic-input")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fas fa-pen"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ", description ? description : "Add a note", " "))));
@@ -4482,7 +4492,11 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
 
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])(className);
 
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["focus"])(inputId);
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["focus"])(inputId); // Hides all dropdown elements once another modal is toggled
+
+        if (!className.includes("dropdown")) {
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("dropdown");
+        }
       };
     }
   }, {
