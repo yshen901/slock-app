@@ -42,7 +42,7 @@ channel_4 = Channel.create(name: "test-channel-1", workspace_id: demo_workspace.
 channel_5 = Channel.create(name: "test-channel-2", workspace_id: demo_workspace.id, description: "Test Channel 2")
 channel_6 = Channel.create(name: "test-channel-3", workspace_id: demo_workspace.id, description: "Test Channel 3")
 
-dm_channel = Channel.create(name: "#{demo_user.id}-#{my_user.id}", workspace_id: demo_workspace.id)
+dm_channel = Channel.create(name: "#{demo_user.id}-#{my_user.id}", workspace_id: demo_workspace.id, dm_channel: true)
 dm_channel_user = DmChannelUser.create(user_1_id: demo_user.id, user_2_id: my_user.id, channel_id: dm_channel.id);
 
 User.all.each do |user|

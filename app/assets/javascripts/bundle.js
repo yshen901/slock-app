@@ -2841,7 +2841,7 @@ var BrowseChannelModal = /*#__PURE__*/function (_React$Component) {
         className: "channel-search-bar",
         onChange: this.update,
         value: this.state.search,
-        placeholder: "Search channels"
+        placeholder: "i.e. channel-name"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal-list"
       }, this.allChannels(this.state.search))));
@@ -2993,7 +2993,7 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
       var _this4 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal dm-channel-modal",
+        className: "full-modal dm-channel-modal hidden",
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
@@ -3021,7 +3021,7 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
         className: "channel-search-bar",
         onChange: this.update,
         value: this.state.search,
-        placeholder: "shen.yuci1@gmail.com"
+        placeholder: "i.e. shen.yuci1@gmail.com"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal-list"
       }, this.allUsers(this.state.search))));

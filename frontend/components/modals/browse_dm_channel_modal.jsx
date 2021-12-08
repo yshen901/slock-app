@@ -75,7 +75,7 @@ class BrowseDmChannelModal extends React.Component {
   
   render() {
     return (
-      <div className="full-modal dm-channel-modal" onClick={e => e.stopPropagation()}>
+      <div className="full-modal dm-channel-modal hidden" onClick={e => e.stopPropagation()}>
         <div className="full-modal-button" onClick={ () => { hideElements("full-modal dm-channel-modal"); this.setState({ search: "" }); } }>&#10005;</div>
         <div className="full-modal-content">
           <div className="full-modal-header">
@@ -86,7 +86,7 @@ class BrowseDmChannelModal extends React.Component {
             <input type="text" className="channel-search-bar"
               onChange={this.update}
               value={this.state.search}
-              placeholder="shen.yuci1@gmail.com"/>
+              placeholder="i.e. shen.yuci1@gmail.com"/>
           </div>
           <div className="full-modal-list">
             { this.allUsers(this.state.search) }

@@ -105,7 +105,7 @@ class BrowseChannelModal extends React.Component {
             <input type="text" className="channel-search-bar"
               onChange={this.update}
               value={this.state.search}
-              placeholder="Search channels"/>
+              placeholder="i.e. channel-name"/>
           </div>
           <div className="full-modal-list">
             { this.allChannels(this.state.search) }
