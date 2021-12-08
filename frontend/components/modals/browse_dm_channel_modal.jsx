@@ -83,7 +83,7 @@ class BrowseDmChannelModal extends React.Component {
           </div>
           <div className="full-modal-search-bar">
             <i className='fas fa-search search-icon'></i> 
-            <input type="text" className="channel-search-bar"
+            <input type="text" id="dm-channel-search-bar"
               onChange={this.update}
               value={this.state.search}
               placeholder="i.e. shen.yuci1@gmail.com"/>

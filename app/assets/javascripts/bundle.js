@@ -2888,7 +2888,7 @@ var BrowseChannelModal = /*#__PURE__*/function (_React$Component) {
         className: "fas fa-search search-icon"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        className: "channel-search-bar",
+        id: "channel-search-bar",
         onChange: this.update,
         value: this.state.search,
         placeholder: "i.e. channel-name"
@@ -3071,7 +3071,7 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
         className: "fas fa-search search-icon"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        className: "channel-search-bar",
+        id: "dm-channel-search-bar",
         onChange: this.update,
         value: this.state.search,
         placeholder: "i.e. shen.yuci1@gmail.com"
@@ -4578,7 +4578,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         className: "sidebar-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-link hoverable",
-        onClick: this.toggleElements("full-modal dm-channel-modal")
+        onClick: this.toggleElements("full-modal dm-channel-modal", 'dm-channel-search-bar')
       }, "Direct Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-button",
         onClick: this.toggleElements("full-modal dm-channel-modal")
