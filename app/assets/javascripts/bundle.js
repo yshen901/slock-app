@@ -90,7 +90,7 @@
 /*!**********************************************!*\
   !*** ./frontend/actions/channel_actions.jsx ***!
   \**********************************************/
-/*! exports provided: LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL, loadChannel, postChannel, joinChannel, leaveChannel, updateChannel, startDmChannel, leaveDmChannel */
+/*! exports provided: LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL, loadChannel, postChannel, joinChannel, leaveChannel, updateChannel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -104,13 +104,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "joinChannel", function() { return joinChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "leaveChannel", function() { return leaveChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannel", function() { return updateChannel; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startDmChannel", function() { return startDmChannel; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "leaveDmChannel", function() { return leaveDmChannel; });
 /* harmony import */ var _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/channel_api_util */ "./frontend/util/channel_api_util.js");
 /* harmony import */ var _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/channel_user_api_util */ "./frontend/util/channel_user_api_util.js");
-/* harmony import */ var _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/dm_channel_user_util */ "./frontend/util/dm_channel_user_util.js");
-/* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
-
+/* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
 
 
 
@@ -152,7 +148,7 @@ var postChannel = function postChannel(channel) {
     return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["postChannel"](channel).then(function (channel) {
       return dispatch(receiveChannel(channel));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
 };
@@ -161,7 +157,7 @@ var joinChannel = function joinChannel(channel_id) {
     return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["postChannelUser"](channel_id).then(function (channel_user) {
       return dispatch(loginChannel(channel_user));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
 };
@@ -170,7 +166,7 @@ var leaveChannel = function leaveChannel(channel_id) {
     return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["deleteChannelUser"](channel_id).then(function (channel_user) {
       return dispatch(logoutChannel(channel_user));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
 };
@@ -179,25 +175,60 @@ var updateChannel = function updateChannel(channel) {
     return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["updateChannel"](channel).then(function (channel) {
       return dispatch(receiveChannel(channel));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
 };
+
+/***/ }),
+
+/***/ "./frontend/actions/dm_channel_actions.jsx":
+/*!*************************************************!*\
+  !*** ./frontend/actions/dm_channel_actions.jsx ***!
+  \*************************************************/
+/*! exports provided: JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL, startDmChannel, endDmChannel */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JOIN_DM_CHANNEL", function() { return JOIN_DM_CHANNEL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LEAVE_DM_CHANNEL", function() { return LEAVE_DM_CHANNEL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startDmChannel", function() { return startDmChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endDmChannel", function() { return endDmChannel; });
+/* harmony import */ var _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/dm_channel_user_util */ "./frontend/util/dm_channel_user_util.js");
+
+var JOIN_DM_CHANNEL = "JOIN_DM_CHANNEL";
+var LEAVE_DM_CHANNEL = "LEAVE_DM_CHANNEL";
+
+var joinDmChannel = function joinDmChannel(dmChannelUser) {
+  return {
+    type: JOIN_DM_CHANNEL,
+    dmChannelUser: dmChannelUser
+  };
+};
+
+var leaveDmChannel = function leaveDmChannel(dmChannelUser) {
+  return {
+    type: LEAVE_DM_CHANNEL,
+    dmChannelUser: dmChannelUser
+  };
+};
+
 var startDmChannel = function startDmChannel(channelInfo) {
   return function (dispatch) {
-    return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"](channelInfo).then(function (channel) {
-      return dispatch(loginChannel(channel));
+    return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["startDmChannel"](channelInfo).then(function (dmChannelUser) {
+      return dispatch(joinDmChannel(dmChannelUser));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+      return dispatch(receiveErrors(errors));
     });
   };
 };
-var leaveDmChannel = function leaveDmChannel(channelInfo) {
+var endDmChannel = function endDmChannel(channelInfo) {
   return function (dispatch) {
-    return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_2__["leaveDmChannel"](channelInfo).then(function (channel) {
-      return dispatch(logoutChannel(channel));
+    return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["endDmChannel"](channelInfo).then(function (dmChannelUser) {
+      return dispatch(leaveDmChannel(dmChannelUser));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+      return dispatch(receiveErrors(errors));
     });
   };
 };
@@ -1629,6 +1660,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_channel_dropdown__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modals/channel_dropdown */ "./frontend/components/modals/channel_dropdown.jsx");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1650,6 +1682,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -1721,7 +1754,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           user_id: user.id,
           active: false
         };
-        dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["leaveDmChannel"])(channelInfo)).then(function () {
+        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_7__["endDmChannel"])(channelInfo)).then(function () {
           (function () {
             _this2.props.history.push("/workspace/".concat(workspace_address, "/0"));
 
@@ -1892,6 +1925,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           getMessages = _this$props.getMessages,
           channel_id = _this$props.channel_id,
           users = _this$props.users;
+      debugger;
       getMessages(channel_id).then(function (_ref) {
         var messages = _ref.messages;
         var messagesInfo = Object.values(messages).map(function (message) {
@@ -2097,7 +2131,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
           users = _this$props.users,
           channel = _this$props.channel;
       var ids = Object.keys(channel.users);
-      if (ids[0] === user.id) return users[ids[1]].email;
+      if (ids[0] == user.id) return users[ids[1]].email;
       return users[ids[0]].email;
     }
   }, {
@@ -2868,7 +2902,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
-/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2929,16 +2963,19 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
     value: function createDmChannel(userIds, workspaceId) {
       var _this2 = this;
 
-      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["startDmChannel"])({
+      dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["startDmChannel"])({
         user_1_id: userIds[0],
         user_2_id: userIds[1],
         workspace_id: workspaceId
-      })).then(function (channel) {
+      })).then(function (_ref) {
+        var dmChannelUser = _ref.dmChannelUser;
+
+        // REMEMBER THE THING PASSED BACK IS ACTION
+        _this2.goToChannel(dmChannelUser.channel_id);
+
         _this2.setState({
           search: ""
         });
-
-        _this2.goToChannel(channel.id);
       });
     }
   }, {
@@ -4431,7 +4468,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
           user = _this$props.user,
           users = _this$props.users;
       var ids = Object.keys(channel.users);
-      if (ids[0] === user.id) return users[ids[1]].email;
+      if (ids[0] == user.id) return users[ids[1]].email;
       return users[ids[0]].email;
     }
   }, {
@@ -4696,7 +4733,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -4738,6 +4777,19 @@ var ChannelReducer = function ChannelReducer() {
       user_id = action.channel_user.user_id;
       if (nextState[channel_id].users) delete nextState[channel_id].users[user_id];
       if (nextState[channel_id].users === undefined) nextState[channel_id].users = {};
+      return nextState;
+    // same as ReceiveChannel since we don't need to change users
+
+    case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["JOIN_DM_CHANNEL"]:
+      debugger;
+      nextState = Object.assign({}, state);
+      nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
+      return nextState;
+    // Not needed, since we don't need to edit channel
+
+    case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["LEAVE_DM_CHANNEL"]:
+      nextState = Object.assign({}, state);
+      nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;
 
     default:
@@ -4995,7 +5047,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.jsx");
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -5048,6 +5102,20 @@ var SessionReducer = function SessionReducer() {
       channel_id = action.channel_user.channel_id;
       delete nextState.user_channels[channel_id];
       if (nextState.user_channels === undefined) nextState.user_channels = {};
+      return nextState;
+    // Same as join channel, we just add it to the list
+
+    case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["JOIN_DM_CHANNEL"]:
+      channel_id = action.dmChannelUser.channel.id;
+      nextState.user_channels[channel_id] = _defineProperty({}, channel_id, channel_id);
+      return nextState;
+    // Same as leave channel, we just add it to the list
+
+    case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["LEAVE_DM_CHANNEL"]:
+      channel_id = action.dmChannelUser.channel.id;
+      delete nextState.user_channels[channel_id];
+      if (nextState.user_channels === undefined) nextState.user_channels = {}; // in case that was the last channel
+
       return nextState;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
@@ -5328,13 +5396,13 @@ var inviteUser = function inviteUser(user_email, workspace_address) {
 /*!***********************************************!*\
   !*** ./frontend/util/dm_channel_user_util.js ***!
   \***********************************************/
-/*! exports provided: startDmChannel, leaveDmChannel, createTestData, disableTestData */
+/*! exports provided: startDmChannel, endDmChannel, createTestData, disableTestData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startDmChannel", function() { return startDmChannel; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "leaveDmChannel", function() { return leaveDmChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endDmChannel", function() { return endDmChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTestData", function() { return createTestData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "disableTestData", function() { return disableTestData; });
 // Pass workspace_id, user_1_id, user_2_id
@@ -5350,7 +5418,7 @@ var startDmChannel = function startDmChannel(dm_channel_user) {
 }; // Disables the channel using the channel_id, user_id, and active
 // Which user is toggled is determined in controller
 
-var leaveDmChannel = function leaveDmChannel(dm_channel_user) {
+var endDmChannel = function endDmChannel(dm_channel_user) {
   return $.ajax({
     method: "PATCH",
     url: "/api/dm_channel_users/".concat(dm_channel_user.channel_id),

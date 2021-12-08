@@ -1,6 +1,7 @@
 import { RECEIVE_USER, LOGOUT } from '../actions/session_actions';
 import { REMOVE_WORKSPACE, LOAD_WORKSPACE } from '../actions/workspace_actions';
 import { LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL } from '../actions/channel_actions';
+import { JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../actions/dm_channel_actions';
 
 let DEFAULT_SESSION = {
   user_id: null, 
@@ -48,6 +49,19 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
       channel_id = action.channel_user.channel_id;
       delete nextState.user_channels[channel_id];
       if (nextState.user_channels === undefined) nextState.user_channels = {}
+      return nextState;
+
+    // Same as join channel, we just add it to the list
+    case JOIN_DM_CHANNEL:
+      channel_id = action.dmChannelUser.channel.id;
+      nextState.user_channels[channel_id] = { [channel_id]: channel_id};
+      return nextState;
+    
+    // Same as leave channel, we just add it to the list
+    case LEAVE_DM_CHANNEL:
+      channel_id = action.dmChannelUser.channel.id;
+      delete nextState.user_channels[channel_id];
+      if (nextState.user_channels === undefined) nextState.user_channels = {} // in case that was the last channel
       return nextState;
 
     case LOGOUT:

@@ -1,7 +1,7 @@
 class Api::DmChannelUsersController < ApplicationController
   def create
     # Find the connection using the user_ids
-    @dm_channel_user = DmChannelUser.where(
+    @dm_channel_user = DmChannelUser.includes(:channel).where(
       "
         (user_1_id = #{dm_channel_user_params[:user_1_id]} AND user_2_id = #{dm_channel_user_params[:user_2_id]})
         OR
@@ -47,7 +47,7 @@ class Api::DmChannelUsersController < ApplicationController
   # Will disable the current_user's active link to the channel
   # TODO: Not really update, more like a specialized leaveDM method
   def update
-    @dm_channel_user = DmChannelUser.find_by(channel_id: dm_channel_user_params[:channel_id])
+    @dm_channel_user = DmChannelUser.includes(:channel).find_by(channel_id: dm_channel_user_params[:channel_id])
 
     update_active = {};
     if current_user.id == @dm_channel_user.user_1_id

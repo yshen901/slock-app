@@ -6,6 +6,7 @@ import {
 
 import { LOAD_WORKSPACE, REMOVE_WORKSPACE } from '../../actions/workspace_actions';
 import { LOGOUT } from '../../actions/session_actions';
+import { JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../../actions/dm_channel_actions';
 
 const ChannelReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -39,6 +40,19 @@ const ChannelReducer = (state = {}, action) => {
       if (nextState[channel_id].users)
         delete nextState[channel_id].users[user_id]
         if (nextState[channel_id].users === undefined) nextState[channel_id].users = {}
+      return nextState;
+
+    // same as ReceiveChannel since we don't need to change users
+    case JOIN_DM_CHANNEL: 
+      debugger;
+      nextState = Object.assign({}, state);
+      nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
+      return nextState;
+
+    // Not needed, since we don't need to edit channel
+    case LEAVE_DM_CHANNEL: 
+      nextState = Object.assign({}, state);
+      nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;
 
     default:

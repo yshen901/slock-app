@@ -5,7 +5,8 @@ import ChannelChatContainer from './channel_chat_container';
 import ChannelActionsDropdown from '../modals/channel_dropdown';
 
 import { hideElements } from '../../util/modal_api_util';
-import { joinChannel, leaveChannel, startDmChannel, leaveDmChannel } from '../../actions/channel_actions';
+import { joinChannel, leaveChannel } from '../../actions/channel_actions';
+import { endDmChannel } from "../../actions/dm_channel_actions";
 
 class Channel extends React.Component {
   constructor(props) {
@@ -56,14 +57,14 @@ class Channel extends React.Component {
         user_id: user.id,
         active: false
       }
-      dispatch(leaveDmChannel(channelInfo))
+      dispatch(endDmChannel(channelInfo))
         .then(
           () => {
             () => {
               this.props.history.push(`/workspace/${workspace_address}/0`);
               this.setState({ joined: false });
             },
-            null 
+            null
           }
         )
     }

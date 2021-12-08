@@ -15,7 +15,7 @@ class ChannelNav extends React.Component {
     let { user, users, channel } = this.props;
     let ids = Object.keys(channel.users);
 
-    if (ids[0] === user.id)
+    if (ids[0] == user.id)
       return users[ids[1]].email
     return users[ids[0]].email
   }

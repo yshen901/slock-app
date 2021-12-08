@@ -10,7 +10,7 @@ export const startDmChannel = (dm_channel_user) => {
 
 // Disables the channel using the channel_id, user_id, and active
 // Which user is toggled is determined in controller
-export const leaveDmChannel = (dm_channel_user) => {
+export const endDmChannel = (dm_channel_user) => {
   return $.ajax({
     method: "PATCH",
     url: `/api/dm_channel_users/${dm_channel_user.channel_id}`,

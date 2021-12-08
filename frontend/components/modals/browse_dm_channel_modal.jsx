@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { hideElements, revealElements } from '../../util/modal_api_util';
-import { startDmChannel } from "../../actions/channel_actions";
+import { startDmChannel } from "../../actions/dm_channel_actions";
 
 class BrowseDmChannelModal extends React.Component {
   constructor() {
@@ -27,9 +27,9 @@ class BrowseDmChannelModal extends React.Component {
       user_1_id: userIds[0], 
       user_2_id: userIds[1],
       workspace_id: workspaceId
-    })).then((channel) => {
+    })).then(({dmChannelUser}) => {  // REMEMBER THE THING PASSED BACK IS ACTION
+      this.goToChannel(dmChannelUser.channel_id);
       this.setState({search: ""});
-      this.goToChannel(channel.id);
     });
   }
 
