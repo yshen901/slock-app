@@ -37,12 +37,20 @@ class Api::DmChannelUsersController < ApplicationController
     end
   end
 
-  # Will disable the current_user's active link
+  # Will disable the current_user's active link to the channel
+  # TODO: Not really update, more like a specialized leaveDM method
   def update
     @dm_channel_user = DmChannelUser.find_by(channel_id: dm_channel_user_params[:channel_id])
-    if @dm_channel_user
 
-      if @dm_channel_user.update(dm_channel_user_params)
+    update_active = {};
+    if current_user.id == @dm_channel_user.user_1_id
+      update_active[:active_1] = false
+    elsif current_user.id == @dm_channel.user.user_2_id
+      update_active[:active_2] = false
+    end
+
+    if @dm_channel_user
+      if @dm_channel_user.update(update_active)
         render :show
       else
         render json: ["DM chatroom toggle failed"], status: 401

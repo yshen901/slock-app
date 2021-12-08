@@ -1,5 +1,6 @@
 import * as ChannelAPI from '../util/channel_api_util';
 import * as ChannelUserAPI from '../util/channel_user_api_util';
+import * as DmChannelUserAPI from "../util/dm_channel_user_util";
 import { receiveErrors } from './error_actions';
 
 export const LOAD_CHANNEL = "LOAD_CHANNEL";
@@ -60,6 +61,24 @@ export const updateChannel = (channel) => (dispatch) => (
     .updateChannel(channel)
     .then(
       channel => dispatch(receiveChannel(channel)),
+      errors => dispatch(receiveErrors(errors))
+    )
+)
+
+export const startDmChannel = (channelInfo) => dispatch => (
+  DmChannelUserAPI
+    .startDmChannel(channelInfo)
+    .then(
+      channel => dispatch(loginChannel(channel)),
+      errors => dispatch(receiveErrors(errors))
+    )
+)
+
+export const leaveDmChannel = (channelInfo) => dispatch => (
+  DmChannelUserAPI
+    .leaveDmChannel(channelInfo)
+    .then(
+      channel => dispatch(logoutChannel(channel)),
       errors => dispatch(receiveErrors(errors))
     )
 )

@@ -5,7 +5,7 @@ import ChannelChatContainer from './channel_chat_container';
 import ChannelActionsDropdown from '../modals/channel_dropdown';
 
 import { hideElements } from '../../util/modal_api_util';
-import { joinChannel, leaveChannel } from '../../actions/channel_actions';
+import { joinChannel, leaveChannel, startDmChannel, leaveDmChannel } from '../../actions/channel_actions';
 
 class Channel extends React.Component {
   constructor(props) {
@@ -38,7 +38,7 @@ class Channel extends React.Component {
     e.stopPropagation();
     hideElements("dropdown");
 
-    let { channel, channel_id, workspace_address } = this.props;
+    let { channel, channel_id, workspace_address, user } = this.props;
     if (!channel.dm_channel) {
       if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
         dispatch(leaveChannel(parseInt(channel_id)))
@@ -51,7 +51,21 @@ class Channel extends React.Component {
           )
     }
     else {
-      debugger
+      let channelInfo = { // sends current user's info
+        channel_id, 
+        user_id: user.id,
+        active: false
+      }
+      dispatch(leaveDmChannel(channelInfo))
+        .then(
+          () => {
+            () => {
+              this.props.history.push(`/workspace/${workspace_address}/0`);
+              this.setState({ joined: false });
+            },
+            null 
+          }
+        )
     }
   }
 
