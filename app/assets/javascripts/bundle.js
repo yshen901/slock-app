@@ -1115,7 +1115,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
         value: this.props.formType
-      })), this.demoButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_footer__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+      })), this.demoButton()));
     }
   }]);
 
@@ -1632,7 +1632,7 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
       }), " .slock.com"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
         value: 'Continue '
-      }), this.demoButton())), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_footer__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+      }), this.demoButton())));
     }
   }]);
 

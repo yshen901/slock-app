@@ -108,7 +108,7 @@ class WorkspaceSigninForm extends React.Component {
           </h4> */}
         </div>
 
-        <AuthFooter />
+        {/* <AuthFooter /> */}
       </div>
     )
   }

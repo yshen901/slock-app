@@ -145,7 +145,7 @@ class UserSigninForm extends React.Component {
             <Link to='/tbd' className='auth-form-link'>Forgot which email you used?</Link>
           </h4> */}
         </div>
-        <AuthFooter />
+        {/* <AuthFooter /> */}
       </div>
     )
   }
