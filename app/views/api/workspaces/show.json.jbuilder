@@ -14,10 +14,20 @@ if logged_in?
 
   # NOTE: HOW TO RETURN AN OBJECT INSTEAD OF AN ARRAY
 
-  user_channel_ids = @current_user.channels.map { |channel| channel.id }
-  user_dm_channel_ids = @current_user.dm_channels_1.map { |channel| channel.id }
-  user_dm_channel_ids.concat(@current_user.dm_channels_2.map { |channel| channel.id })
+  # Pull out all user channel information - channels, dm_channels, and active_dm_channels
+  user_channel_ids = @current_user.channel_connections.map { |connection| connection.channel_id }
+  user_dm_channel_ids_all = []
+  user_dm_channel_ids_active = []
+  @current_user.dm_channel_connections_1.each do |connection|
+    user_dm_channel_ids_all << connection.channel_id
+    user_dm_channel_ids_active << connection.channel_id if connection.active_1
+  end
+  @current_user.dm_channel_connections_2.each do |connection|
+    user_dm_channel_ids_all << connection.channel_id
+    user_dm_channel_ids_active << connection.channel_id if connection.active_2
+  end
 
+  debugger;
   json.user_channels({})
   json.user_channels do
     user_channel_ids.each do |channel_id|
@@ -26,7 +36,7 @@ if logged_in?
       end
     end
 
-    user_dm_channel_ids.each do |channel_id|
+    user_dm_channel_ids_active.each do |channel_id|
       json.set! channel_id do
         json.id channel_id
       end
@@ -44,7 +54,7 @@ if logged_in?
     end
 
     @workspace.channels.each do |channel|
-      if channel.dm_channel && user_dm_channel_ids.include?(channel.id)
+      if channel.dm_channel && user_dm_channel_ids_all.include?(channel.id)
         json.set! channel.id do
           json.partial! 'api/channels/channel', channel: channel
         end

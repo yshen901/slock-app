@@ -7,7 +7,7 @@ class Api::WorkspacesController < ApplicationController
       .find_by_address(params[:id])
     if @workspace 
       if logged_in?
-        @current_user = User.includes(:dm_channels_1, :dm_channels_2, :channels).find(current_user.id) # for channel id parsing
+        @current_user = User.includes(:dm_channel_connections_1, :dm_channel_connections_2, :channel_connections).find(current_user.id) # for channel id parsing
       end
       render '/api/workspaces/show'
     else
