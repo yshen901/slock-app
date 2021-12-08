@@ -25,7 +25,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --watch --mode=development"
+    "start-dev": "webpack --watch --mode=development",
+    "start-prod": "webpack --watch --mode=production"
   },
   "repository": {
     "type": "git",
