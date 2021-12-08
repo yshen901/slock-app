@@ -19,7 +19,6 @@ class ChannelChatRoom extends React.Component {
 
   loadMessages() {
     let { getMessages, channel_id, users } = this.props;
-    debugger;
     getMessages(channel_id)
       .then(
         ({ messages }) => {

@@ -44,7 +44,6 @@ const ChannelReducer = (state = {}, action) => {
 
     // same as ReceiveChannel since we don't need to change users
     case JOIN_DM_CHANNEL: 
-      debugger;
       nextState = Object.assign({}, state);
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;

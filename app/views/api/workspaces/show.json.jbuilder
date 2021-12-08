@@ -26,8 +26,7 @@ if logged_in?
     user_dm_channel_ids_all << connection.channel_id
     user_dm_channel_ids_active << connection.channel_id if connection.active_2
   end
-
-  debugger;
+  
   json.user_channels({})
   json.user_channels do
     user_channel_ids.each do |channel_id|

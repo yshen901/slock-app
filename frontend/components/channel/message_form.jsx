@@ -49,17 +49,37 @@ class MessageForm extends React.Component {
     }
   }
 
+  getDmChannelName(channel) {
+    let { currentUserId } = getState().session.user_id;
+    let { users } = getState().entities;
+    let ids = Object.keys(channel.users);
+
+    debugger;
+    if (ids[0] == currentUserId)
+      return users[ids[1]].email
+    return users[ids[0]].email
+  }
+
   render() {
     let { channels } = getState().entities;
-    let { channel_id } = this.props.match.params;
+    let { channel_id } = this.props.match.params;    
 
-    if (this.state.canJoin && channels[channel_id])
-      return (
-        <div className="channel-preview-panel">
-          <h1>You are viewing <strong>#{channels[channel_id].name}</strong> </h1>
-          <div className="channel-preview-button" onClick={this.joinChannel}>Join Channel</div>
-        </div>
-      )
+    if (this.state.canJoin && channels[channel_id]) {
+      if (channels[channel_id].dm_channel)
+        return (
+          <div className="channel-preview-panel">
+            <h1>You are viewing your chat with <strong>{this.getDmChannelName(channels[channel_id])}</strong> </h1>
+            <div className="channel-preview-button" onClick={this.joinChannel}>Start Messaging</div>
+          </div>
+        )
+      else
+        return (
+          <div className="channel-preview-panel">
+            <h1>You are viewing <strong>#{channels[channel_id].name}</strong> </h1>
+            <div className="channel-preview-button" onClick={this.joinChannel}>Join Channel</div>
+          </div>
+        )
+    }
     else
       return (
         <form onSubmit={this.handleSubmit.bind(this)}>

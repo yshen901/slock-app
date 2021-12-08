@@ -1925,7 +1925,6 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           getMessages = _this$props.getMessages,
           channel_id = _this$props.channel_id,
           users = _this$props.users;
-      debugger;
       getMessages(channel_id).then(function (_ref) {
         var messages = _ref.messages;
         var messagesInfo = Object.values(messages).map(function (message) {
@@ -2139,8 +2138,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
     value: function starClick(e) {
       var _this2 = this;
 
-      var channel = this.props.channel; // debugger;
-
+      var channel = this.props.channel;
       dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["updateChannel"])({
         starred: !channel.starred,
         id: channel.id
@@ -2393,16 +2391,34 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "getDmChannelName",
+    value: function getDmChannelName(channel) {
+      var currentUserId = getState().session.user_id.currentUserId;
+      var users = getState().entities.users;
+      var ids = Object.keys(channel.users);
+      debugger;
+      if (ids[0] == currentUserId) return users[ids[1]].email;
+      return users[ids[0]].email;
+    }
+  }, {
     key: "render",
     value: function render() {
       var channels = getState().entities.channels;
       var channel_id = this.props.match.params.channel_id;
-      if (this.state.canJoin && channels[channel_id]) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-preview-panel"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "You are viewing ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "#", channels[channel_id].name), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-preview-button",
-        onClick: this.joinChannel
-      }, "Join Channel"));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+
+      if (this.state.canJoin && channels[channel_id]) {
+        if (channels[channel_id].dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-preview-panel"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "You are viewing your chat with ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, this.getDmChannelName(channels[channel_id])), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-preview-button",
+          onClick: this.joinChannel
+        }, "Start Messaging"));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-preview-panel"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "You are viewing ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "#", channels[channel_id].name), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-preview-button",
+          onClick: this.joinChannel
+        }, "Join Channel"));
+      } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit.bind(this)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "chat-input",
@@ -4781,7 +4797,6 @@ var ChannelReducer = function ChannelReducer() {
     // same as ReceiveChannel since we don't need to change users
 
     case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["JOIN_DM_CHANNEL"]:
-      debugger;
       nextState = Object.assign({}, state);
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;

@@ -22,7 +22,6 @@ class ChannelNav extends React.Component {
 
   starClick(e) {
     let { channel } = this.props;
-    // debugger;
     dispatch(updateChannel({ starred: !channel.starred, id: channel.id }))
       .then(
         () => this.setState(this.state)
