@@ -21,6 +21,13 @@ class EditChannelTopicModal extends React.Component {
     this.warning = this.warning.bind(this);
   }
 
+  componentDidUpdate(oldProps) {
+    debugger;
+    let {channel_id} = this.props.match.params;
+    if (channel_id !== oldProps.match.params.channel_id)
+      this.setState({topic: getState().entities.channels[channel_id].description})
+  }
+
   button() {
     if (this.state.disabled)
       return (<button disabled>Set Topic</button>)
