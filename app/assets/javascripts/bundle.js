@@ -1668,7 +1668,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         canJoin: this.canJoin(),
         canLeave: this.canLeave()
       });
-    }
+    } // Acts differently depending on channel type
+
   }, {
     key: "leaveChannel",
     value: function leaveChannel(e) {
@@ -1680,14 +1681,19 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           channel = _this$props.channel,
           channel_id = _this$props.channel_id,
           workspace_address = _this$props.workspace_address;
-      if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
-        dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["leaveChannel"])(parseInt(channel_id))).then(function () {
-          _this2.props.history.push("/workspace/".concat(workspace_address, "/0"));
 
-          _this2.setState({
-            joined: false
-          });
-        }, null);
+      if (!channel.dm_channel) {
+        if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
+          dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["leaveChannel"])(parseInt(channel_id))).then(function () {
+            _this2.props.history.push("/workspace/".concat(workspace_address, "/0"));
+
+            _this2.setState({
+              joined: false
+            });
+          }, null);
+      } else {
+        debugger;
+      }
     }
   }, {
     key: "joinChannel",
@@ -2136,15 +2142,15 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "leaveButton",
-    value: function leaveButton(message) {
+    value: function leaveButton() {
       if (this.props.status.canLeave) {
         if (!this.props.channel.dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-nav-button",
           onClick: this.props.leaveChannel
-        }, "Leave Channel"); // else
-        //   return (
-        //     <div className="channel-nav-button" onClick={this.props.leaveDmChannel}>Leave Chat</div>
-        //
+        }, "Leave Channel");else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-nav-button",
+          onClick: this.props.leaveChannel
+        }, "Leave Chat");
       }
     }
   }, {

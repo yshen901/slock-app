@@ -87,16 +87,16 @@ class ChannelNav extends React.Component {
       )
   }
 
-  leaveButton(message) {
+  leaveButton() {
     if (this.props.status.canLeave) {
       if (!this.props.channel.dm_channel)
         return (
           <div className="channel-nav-button" onClick={this.props.leaveChannel}>Leave Channel</div>
         )
-      // else
-      //   return (
-      //     <div className="channel-nav-button" onClick={this.props.leaveDmChannel}>Leave Chat</div>
-      //
+      else
+        return (
+          <div className="channel-nav-button" onClick={this.props.leaveChannel}>Leave Chat</div>
+        )
     }
   }
 

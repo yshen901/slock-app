@@ -33,20 +33,26 @@ class Channel extends React.Component {
       })
   }
 
+  // Acts differently depending on channel type
   leaveChannel(e) {
     e.stopPropagation();
     hideElements("dropdown");
 
     let { channel, channel_id, workspace_address } = this.props;
-    if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
-      dispatch(leaveChannel(parseInt(channel_id)))
-        .then(
-          () => {
-            this.props.history.push(`/workspace/${workspace_address}/0`);
-            this.setState({ joined: false });
-          },
-          null
-        )    
+    if (!channel.dm_channel) {
+      if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
+        dispatch(leaveChannel(parseInt(channel_id)))
+          .then(
+            () => {
+              this.props.history.push(`/workspace/${workspace_address}/0`);
+              this.setState({ joined: false });
+            },
+            null
+          )
+    }
+    else {
+      debugger
+    }
   }
 
   joinChannel(e) {

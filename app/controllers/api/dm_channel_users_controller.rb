@@ -25,10 +25,10 @@ class Api::DmChannelUsersController < ApplicationController
         render json: ["DM chatroom reactivation failed"]
       end
     else
-      @dm_channel_user = DmChannelUser.new(dm_channel_user_params)
       @channel = Channel.new(
-        
+
       )
+      @dm_channel_user = DmChannelUser.new(dm_channel_user_params)
       if @dm_channel_user.save
         render :show
       else
@@ -41,6 +41,7 @@ class Api::DmChannelUsersController < ApplicationController
   def update
     @dm_channel_user = DmChannelUser.find_by(channel_id: dm_channel_user_params[:channel_id])
     if @dm_channel_user
+
       if @dm_channel_user.update(dm_channel_user_params)
         render :show
       else
