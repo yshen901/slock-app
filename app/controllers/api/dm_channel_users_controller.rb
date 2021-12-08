@@ -24,14 +24,12 @@ class Api::DmChannelUsersController < ApplicationController
         render json: ["DM chatroom reactivation failed"]
       end
     else
-      debugger;
       @channel = Channel.new(
         workspace_id: dm_channel_user_params[:workspace_id],
         name: "#{dm_channel_user_params[:user_1_id]}-#{dm_channel_user_params[:user_2_id]}",
         dm_channel: true
       )
       if @channel.save 
-        debugger
         @dm_channel_user = DmChannelUser.new(dm_channel_user_params.except(:workspace_id)) #remove unecessary ids
         @dm_channel_user.channel_id = @channel.id
 

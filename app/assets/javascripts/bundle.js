@@ -2927,28 +2927,31 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "createDmChannel",
     value: function createDmChannel(userIds, workspaceId) {
-      debugger;
+      var _this2 = this;
+
       dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["startDmChannel"])({
         user_1_id: userIds[0],
         user_2_id: userIds[1],
         workspace_id: workspaceId
       })).then(function (channel) {
-        debugger;
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal dm-channel-modal");
-        goToChannel(channel.id);
+        _this2.setState({
+          search: ""
+        });
+
+        _this2.goToChannel(channel.id);
       });
     }
   }, {
     key: "goToChannel",
     value: function goToChannel(channel_id) {
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal channel-modal");
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal dm-channel-modal");
       var workspace_address = this.props.match.params.workspace_address;
       this.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
     }
   }, {
     key: "allUsers",
     value: function allUsers() {
-      var _this2 = this;
+      var _this3 = this;
 
       var channelsDisplay = [];
       var users = getState().entities.users;
@@ -2962,12 +2965,12 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
         var _loop = function _loop(i) {
           user = usersArray[i];
 
-          if (user.id != currentUserId && user.email.startsWith(_this2.state.search)) {
+          if (user.id != currentUserId && user.email.startsWith(_this3.state.search)) {
             channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "full-modal-item",
               key: i,
               onClick: function onClick() {
-                return _this2.createDmChannel([currentUserId, usersArray[i].id], workspaceId);
+                return _this3.createDmChannel([currentUserId, usersArray[i].id], workspaceId);
               }
             }, "# ", user.email));
           }
@@ -2987,7 +2990,7 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal dm-channel-modal",
@@ -2999,7 +3002,7 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick() {
           Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal dm-channel-modal");
 
-          _this3.setState({
+          _this4.setState({
             search: ""
           });
         }
@@ -3018,7 +3021,7 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
         className: "channel-search-bar",
         onChange: this.update,
         value: this.state.search,
-        placeholder: "Search channels"
+        placeholder: "shen.yuci1@gmail.com"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal-list"
       }, this.allUsers(this.state.search))));

@@ -23,20 +23,18 @@ class BrowseDmChannelModal extends React.Component {
   }
 
   createDmChannel(userIds, workspaceId) {
-    debugger;
     dispatch(startDmChannel({
       user_1_id: userIds[0], 
       user_2_id: userIds[1],
       workspace_id: workspaceId
     })).then((channel) => {
-      debugger;
-      hideElements("full-modal dm-channel-modal");
-      goToChannel(channel.id)
+      this.setState({search: ""});
+      this.goToChannel(channel.id);
     });
   }
 
   goToChannel(channel_id) {
-    hideElements("full-modal channel-modal")
+    hideElements("full-modal dm-channel-modal")
     let workspace_address = this.props.match.params.workspace_address;
     this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
   }
@@ -88,7 +86,7 @@ class BrowseDmChannelModal extends React.Component {
             <input type="text" className="channel-search-bar"
               onChange={this.update}
               value={this.state.search}
-              placeholder="Search channels"/>
+              placeholder="shen.yuci1@gmail.com"/>
           </div>
           <div className="full-modal-list">
             { this.allUsers(this.state.search) }
