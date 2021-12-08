@@ -22,7 +22,6 @@ class EditChannelTopicModal extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-    debugger;
     let {channel_id} = this.props.match.params;
     if (channel_id !== oldProps.match.params.channel_id)
       this.setState({topic: getState().entities.channels[channel_id].description})

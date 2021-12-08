@@ -8,8 +8,8 @@
   border-bottom: none;
 
   box-sizing: border-box;
-  padding-left: 16%;
-  padding-right: 16%;
+  padding-left: 12%;
+  padding-right: 12%;
 }
 
 #homepage .left, #homepage .right {
@@ -18,12 +18,13 @@
 }
 
 #homepage .left {
-  width: 52%;
+  width: 600px;
   justify-content: flex-start;
 }
 
 #homepage .right {
   width: 18%;
+  min-width: 200px;
   justify-content: space-evenly;
 }
 
@@ -42,14 +43,22 @@
 }
 
 #home-greeting h1 {
+  min-width: 650px;
+
   font-size: 60px;
   font-weight: bold;
+
+  text-align: center;
 }
 
 #home-greeting h4 {
+  min-width: 800px;
+
   font-size: 20px;
   margin: 10px;
   padding-bottom: 20px;
+
+  text-align: center
 }
 
 .home-button, .nav-button {

@@ -3240,7 +3240,6 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
   _createClass(EditChannelTopicModal, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
-      debugger;
       var channel_id = this.props.match.params.channel_id;
       if (channel_id !== oldProps.match.params.channel_id) this.setState({
         topic: getState().entities.channels[channel_id].description
