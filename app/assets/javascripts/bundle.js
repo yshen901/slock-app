@@ -2868,6 +2868,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2894,6 +2895,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
   _inherits(BrowseDmChannelModal, _React$Component);
 
@@ -2908,7 +2910,7 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       search: ""
     };
-    _this.switchForm = _this.switchForm.bind(_assertThisInitialized(_this));
+    _this.createDmChannel = _this.createDmChannel.bind(_assertThisInitialized(_this));
     _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.allUsers = _this.allUsers.bind(_assertThisInitialized(_this));
@@ -2923,10 +2925,18 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "switchForm",
-    value: function switchForm() {
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal channel-modal");
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["revealElements"])("new-channel-modal");
+    key: "createDmChannel",
+    value: function createDmChannel(userIds, workspaceId) {
+      debugger;
+      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["startDmChannel"])({
+        user_1_id: userIds[0],
+        user_2_id: userIds[1],
+        workspace_id: workspaceId
+      })).then(function (channel) {
+        debugger;
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal dm-channel-modal");
+        goToChannel(channel.id);
+      });
     }
   }, {
     key: "goToChannel",
@@ -2942,6 +2952,8 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
 
       var channelsDisplay = [];
       var users = getState().entities.users;
+      var currentUserId = getState().session.user_id;
+      var workspaceId = getState().session.workspace_id;
       var usersArray = Object.values(users); // Only display users once someone has started to search
 
       if (this.state.search.length > 0) {
@@ -2949,13 +2961,16 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
 
         var _loop = function _loop(i) {
           user = usersArray[i];
-          if (user.email.startsWith(_this2.state.search)) channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "full-modal-item",
-            key: i,
-            onClick: function onClick() {
-              return _this2.goToChannel(user_channels[i]);
-            }
-          }, "# ", user.email));
+
+          if (user.id != currentUserId && user.email.startsWith(_this2.state.search)) {
+            channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "full-modal-item",
+              key: i,
+              onClick: function onClick() {
+                return _this2.createDmChannel([currentUserId, usersArray[i].id], workspaceId);
+              }
+            }, "# ", user.email));
+          }
         };
 
         for (var i = 0; i < usersArray.length; i++) {
@@ -2975,7 +2990,7 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal dm-channel-modal hidden",
+        className: "full-modal dm-channel-modal",
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
@@ -2994,10 +3009,7 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
         className: "full-modal-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "full-modal-header-text"
-      }, "Search Users"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-header-button",
-        onClick: this.switchForm
-      }, "Start Direct Message")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Search Users")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "full-modal-search-bar"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-search search-icon"
@@ -5322,7 +5334,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "leaveDmChannel", function() { return leaveDmChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTestData", function() { return createTestData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "disableTestData", function() { return disableTestData; });
-// Pass to this the workspace_id as well as the user_1_id and user_2_ids
+// Pass workspace_id, user_1_id, user_2_id
 // This workspace id will be used to make a new channel should one not be found
 var startDmChannel = function startDmChannel(dm_channel_user) {
   return $.ajax({

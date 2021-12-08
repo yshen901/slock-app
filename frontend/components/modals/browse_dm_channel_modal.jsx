@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { hideElements, revealElements } from '../../util/modal_api_util';
+import { startDmChannel } from "../../actions/channel_actions";
 
 class BrowseDmChannelModal extends React.Component {
   constructor() {
@@ -10,7 +11,7 @@ class BrowseDmChannelModal extends React.Component {
       search: ""
     }
 
-    this.switchForm = this.switchForm.bind(this);
+    this.createDmChannel = this.createDmChannel.bind(this);
     this.goToChannel = this.goToChannel.bind(this);
     this.update = this.update.bind(this);
 
@@ -21,9 +22,17 @@ class BrowseDmChannelModal extends React.Component {
     this.setState({search: e.currentTarget.value});
   }
 
-  switchForm() {
-    hideElements("full-modal channel-modal");
-    revealElements("new-channel-modal");
+  createDmChannel(userIds, workspaceId) {
+    debugger;
+    dispatch(startDmChannel({
+      user_1_id: userIds[0], 
+      user_2_id: userIds[1],
+      workspace_id: workspaceId
+    })).then((channel) => {
+      debugger;
+      hideElements("full-modal dm-channel-modal");
+      goToChannel(channel.id)
+    });
   }
 
   goToChannel(channel_id) {
@@ -35,19 +44,26 @@ class BrowseDmChannelModal extends React.Component {
   allUsers() {
     let channelsDisplay = [];
     let users = getState().entities.users;
+    let currentUserId = getState().session.user_id;
+    let workspaceId = getState().session.workspace_id;
+
     let usersArray = Object.values(users);
 
+    
     // Only display users once someone has started to search
     if (this.state.search.length > 0) {
       let user;
       for (let i = 0; i < usersArray.length; i++) {
         user = usersArray[i];
-        if (user.email.startsWith(this.state.search))
+        if (user.id != currentUserId && user.email.startsWith(this.state.search)) {
           channelsDisplay.push(
-            <div className="full-modal-item" key={i} onClick={() => this.goToChannel(user_channels[i])}>
+            <div 
+              className="full-modal-item" key={i} 
+              onClick={() => this.createDmChannel([currentUserId, usersArray[i].id], workspaceId)}>
               # {user.email}
             </div>
           )
+        }
       }
     }
 
@@ -61,12 +77,11 @@ class BrowseDmChannelModal extends React.Component {
   
   render() {
     return (
-      <div className="full-modal dm-channel-modal hidden" onClick={e => e.stopPropagation()}>
+      <div className="full-modal dm-channel-modal" onClick={e => e.stopPropagation()}>
         <div className="full-modal-button" onClick={ () => { hideElements("full-modal dm-channel-modal"); this.setState({ search: "" }); } }>&#10005;</div>
         <div className="full-modal-content">
           <div className="full-modal-header">
             <h1 className="full-modal-header-text">Search Users</h1>
-            <div className="full-modal-header-button" onClick={this.switchForm}>Start Direct Message</div>
           </div>
           <div className="full-modal-search-bar">
             <i className='fas fa-search search-icon'></i> 

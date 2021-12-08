@@ -1,6 +1,6 @@
 class Api::DmChannelUsersController < ApplicationController
   def create
-    # Find the connection if you can
+    # Find the connection using the user_ids
     @dm_channel_user = DmChannelUser.where(
       "
         (user_1_id = #{dm_channel_user_params[:user_1_id]} AND user_2_id = #{dm_channel_user_params[:user_2_id]})
@@ -9,9 +9,8 @@ class Api::DmChannelUsersController < ApplicationController
       "
     ).first;
 
-    # ASSUMPTION: Channel is already made and has been passed up
-    # If connection is found, reactivate the right index
-    # If connection isn't found, make a new one
+    # If connection is found, reactivate the right user
+    # If connection isn't found, make the connection and the channel
     if @dm_channel_user
       if @dm_channel_user.user_1_id == current_user.id
         updated = @dm_channel_user.update(active_1: true)
@@ -25,14 +24,24 @@ class Api::DmChannelUsersController < ApplicationController
         render json: ["DM chatroom reactivation failed"]
       end
     else
+      debugger;
       @channel = Channel.new(
-
+        workspace_id: dm_channel_user_params[:workspace_id],
+        name: "#{dm_channel_user_params[:user_1_id]}-#{dm_channel_user_params[:user_2_id]}",
+        dm_channel: true
       )
-      @dm_channel_user = DmChannelUser.new(dm_channel_user_params)
-      if @dm_channel_user.save
-        render :show
+      if @channel.save 
+        debugger
+        @dm_channel_user = DmChannelUser.new(dm_channel_user_params.except(:workspace_id)) #remove unecessary ids
+        @dm_channel_user.channel_id = @channel.id
+
+        if @dm_channel_user.save
+          render :show
+        else
+          render json: ["Failed to create link to DMChannel."]
+        end
       else
-        render json: ["DM chatroom creation failed"]
+        render json: ["Failed to create DMChannel."]
       end
     end
   end
@@ -63,7 +72,7 @@ class Api::DmChannelUsersController < ApplicationController
   private
   def dm_channel_user_params
     params.require(:dm_channel_user).permit(
-      :channel_id,
+      :channel_id, :workspace_id,
       :user_1_id, :active_1,
       :user_2_id, :active_2
     )

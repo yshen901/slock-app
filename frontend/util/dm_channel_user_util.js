@@ -1,4 +1,4 @@
-// Pass to this the workspace_id as well as the user_1_id and user_2_ids
+// Pass workspace_id, user_1_id, user_2_id
 // This workspace id will be used to make a new channel should one not be found
 export const startDmChannel = (dm_channel_user) => {
   return $.ajax({
