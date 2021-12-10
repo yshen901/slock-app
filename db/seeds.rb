@@ -52,6 +52,10 @@ User.all.each do |user|
   ChannelUser.create(user_id: user.id, channel_id: channel_3.id)
 end
 
+# To test multiple workspaces
+test_workspace = Workspace.create(address: "test")
+WorkspaceUser.create(user_id: demo_user.id, workspace_id: test_workspace.id)
+
 Message.create(
   user_id: boromir.id, 
   channel_id: channel_1.id, 

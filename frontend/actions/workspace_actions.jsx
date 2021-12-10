@@ -7,7 +7,7 @@ export const RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES"; //adds all workspaces to
 export const REMOVE_WORKSPACE = "REMOVE_WORKSPACE";     //removes workspace from state
 export const LOAD_WORKSPACE = "LOAD_WORKSPACE";         //adds workspace info (users, id, and current_user_channels) to state
 
-const receiveWorkspace = ({workspace, users, user_channels, channels, user_dm_channels, dm_channels}) => ({
+const receiveWorkspace = ({workspace, users, user_channels, channels}) => ({
   type: RECEIVE_WORKSPACE,
   workspace,
   channels,
@@ -45,6 +45,17 @@ export const findWorkspace = workspace_address => dispatch => (
     )
 )
 
+// Gets workspaces of current user, only outputs id and address for each
+export const getWorkspaces = () => dispatch => (
+  WorkspaceAPI
+    .getWorkspaces()
+    .then(
+      workspaces => dispatch(receiveWorkspaces(workspaces)),
+      errors => dispatch(receiveErrors(errors))
+    )
+)
+
+// Uses address to get all of the information about a workspace
 export const getWorkspace = workspace_address => dispatch => (
   WorkspaceAPI
     .getWorkspace(workspace_address)
@@ -54,15 +65,7 @@ export const getWorkspace = workspace_address => dispatch => (
     )
 )
 
-// NOTE: Only gets workspaces of current_user
-export const getWorkspaces = () => dispatch => (
-  WorkspaceAPI
-    .getWorkspaces()
-    .then(
-      workspaces => dispatch(receiveWorkspaces(workspaces))
-    )
-)
-
+// After creating workspaces, load the workspace  as well
 export const postWorkspace = workspace => dispatch => (
   WorkspaceAPI
     .postWorkspace(workspace)
@@ -72,6 +75,8 @@ export const postWorkspace = workspace => dispatch => (
     )
 )
 
+// Logs out of a single workspace by setting connection logged_in flag to false
+// Then removes it from state
 export const logoutWorkspace = workspace_id => dispatch => (
   ConnectionAPI
     .logoutWorkspace(workspace_id)

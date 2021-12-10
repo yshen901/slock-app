@@ -413,7 +413,7 @@ var updateUser = function updateUser(formData) {
 /*!************************************************!*\
   !*** ./frontend/actions/workspace_actions.jsx ***!
   \************************************************/
-/*! exports provided: RECEIVE_WORKSPACE, RECEIVE_WORKSPACES, REMOVE_WORKSPACE, LOAD_WORKSPACE, findWorkspace, getWorkspace, getWorkspaces, postWorkspace, logoutWorkspace */
+/*! exports provided: RECEIVE_WORKSPACE, RECEIVE_WORKSPACES, REMOVE_WORKSPACE, LOAD_WORKSPACE, findWorkspace, getWorkspaces, getWorkspace, postWorkspace, logoutWorkspace */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -423,8 +423,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_WORKSPACE", function() { return REMOVE_WORKSPACE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_WORKSPACE", function() { return LOAD_WORKSPACE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findWorkspace", function() { return findWorkspace; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWorkspace", function() { return getWorkspace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWorkspaces", function() { return getWorkspaces; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWorkspace", function() { return getWorkspace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postWorkspace", function() { return postWorkspace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logoutWorkspace", function() { return logoutWorkspace; });
 /* harmony import */ var _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/workspace_api_util */ "./frontend/util/workspace_api_util.js");
@@ -445,9 +445,7 @@ var receiveWorkspace = function receiveWorkspace(_ref) {
   var workspace = _ref.workspace,
       users = _ref.users,
       user_channels = _ref.user_channels,
-      channels = _ref.channels,
-      user_dm_channels = _ref.user_dm_channels,
-      dm_channels = _ref.dm_channels;
+      channels = _ref.channels;
   return {
     type: RECEIVE_WORKSPACE,
     workspace: workspace,
@@ -495,7 +493,18 @@ var findWorkspace = function findWorkspace(workspace_address) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-};
+}; // Gets workspaces of current user, only outputs id and address for each
+
+var getWorkspaces = function getWorkspaces() {
+  return function (dispatch) {
+    return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["getWorkspaces"]().then(function (workspaces) {
+      return dispatch(receiveWorkspaces(workspaces));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
+    });
+  };
+}; // Uses address to get all of the information about a workspace
+
 var getWorkspace = function getWorkspace(workspace_address) {
   return function (dispatch) {
     return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["getWorkspace"](workspace_address).then(function (workspaceInfo) {
@@ -504,15 +513,8 @@ var getWorkspace = function getWorkspace(workspace_address) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-}; // NOTE: Only gets workspaces of current_user
+}; // After creating workspaces, load the workspace  as well
 
-var getWorkspaces = function getWorkspaces() {
-  return function (dispatch) {
-    return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["getWorkspaces"]().then(function (workspaces) {
-      return dispatch(receiveWorkspaces(workspaces));
-    });
-  };
-};
 var postWorkspace = function postWorkspace(workspace) {
   return function (dispatch) {
     return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["postWorkspace"](workspace).then(function (workspace) {
@@ -521,7 +523,9 @@ var postWorkspace = function postWorkspace(workspace) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-};
+}; // Logs out of a single workspace by setting connection logged_in flag to false
+// Then removes it from state
+
 var logoutWorkspace = function logoutWorkspace(workspace_id) {
   return function (dispatch) {
     return _util_connection_api_util__WEBPACK_IMPORTED_MODULE_1__["logoutWorkspace"](workspace_id).then(function (workspace) {

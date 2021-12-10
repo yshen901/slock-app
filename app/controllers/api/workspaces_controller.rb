@@ -25,15 +25,17 @@ class Api::WorkspacesController < ApplicationController
 
   def create 
     @workspace = Workspace.new(workspace_params)
-    if !current_user
+    if !logged_in?
       render json: ["I don't know how you did this but this is illegal"], status: 402
     elsif @workspace.save
       connection = WorkspaceUser.create(user_id: current_user.id, workspace_id: @workspace.id, logged_in: true)
 
       general_channel = Channel.create({name: "general", workspace_id: @workspace.id})
+      random_channel = Channel.create({name: "random", workspace_id: @workspace.id})
       custom_channel = Channel.create({name: channel_params[:channel], workspace_id: @workspace.id})
 
       ChannelUser.create(channel_id: general_channel.id, user_id: current_user.id)
+      ChannelUser.create(channel_id: random_channel.id, user_id: current_user.id)
       ChannelUser.create(channel_id: custom_channel.id, user_id: current_user.id)
 
       render '/api/workspaces/show'
