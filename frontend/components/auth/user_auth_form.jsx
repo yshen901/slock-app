@@ -34,6 +34,7 @@ class UserSigninForm extends React.Component {
       )
   }
 
+  // Only check workspace when looking at signin form
   componentDidMount() {
     if (this.props.formType === 'Sign in')
       this.checkWorkspace(this.props.workspace_address)
