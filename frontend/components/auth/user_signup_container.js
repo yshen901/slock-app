@@ -10,7 +10,7 @@ import { refreshErrors } from '../../actions/error_actions';
          ... more research into how slack actually works is required
 */
 const mapStateToProps = (state) => ({
-  formType: "Sign Up",
+  formType: "Sign up",
   workspace_address: DEMO_WORKSPACE,
   error_message: "User already exists, please try again",
 });

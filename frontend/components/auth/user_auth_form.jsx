@@ -66,7 +66,7 @@ class UserSigninForm extends React.Component {
 
   createGreeting() {
     let address = this.state.workspace_address.split('-');
-    return `${this.props.formType} to ${address.join(' ')}`;
+    return `${this.props.formType} to ${address.join(' ')}.slock.com`;
   }
 
   // Can only be triggered by demoButton
@@ -130,7 +130,7 @@ class UserSigninForm extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <input type="text" autoFocus
               onChange={this.updateForm('email')}
-              placeholder="you@example.com"
+              placeholder="name@work-email.com"
               value={this.state.email}/>
             <input type="password"
               onChange={this.updateForm('password')}

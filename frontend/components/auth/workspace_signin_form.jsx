@@ -95,7 +95,7 @@ class WorkspaceSigninForm extends React.Component {
             <label>
               <input type="text" autoFocus
                 onChange={this.updateForm}
-                placeholder="your-workspace-url"
+                placeholder="your-workspace"
                 align="left"
                 value={this.state.workspace_address}/> .slock.com
             </label>

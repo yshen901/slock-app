@@ -1027,7 +1027,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
     key: "createGreeting",
     value: function createGreeting() {
       var address = this.state.workspace_address.split('-');
-      return "".concat(this.props.formType, " to ").concat(address.join(' '));
+      return "".concat(this.props.formType, " to ").concat(address.join(' '), ".slock.com");
     } // Can only be triggered by demoButton
 
   }, {
@@ -1111,7 +1111,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
         type: "text",
         autoFocus: true,
         onChange: this.updateForm('email'),
-        placeholder: "you@example.com",
+        placeholder: "name@work-email.com",
         value: this.state.email
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "password",
@@ -1159,7 +1159,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    formType: "Sign In",
+    formType: "Sign in",
     workspace_address: ownProps.match.params.workspace_address,
     error_message: "Sorry, you entered an incorrect email address or password."
   };
@@ -1213,7 +1213,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    formType: "Sign Up",
+    formType: "Sign up",
     workspace_address: _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["DEMO_WORKSPACE"],
     error_message: "User already exists, please try again"
   };
@@ -1632,7 +1632,7 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
         type: "text",
         autoFocus: true,
         onChange: this.updateForm,
-        placeholder: "your-workspace-url",
+        placeholder: "your-workspace",
         align: "left",
         value: this.state.workspace_address
       }), " .slock.com"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {

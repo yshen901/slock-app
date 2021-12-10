@@ -10,7 +10,7 @@ import { refreshErrors } from '../../actions/error_actions';
             ...must use withRouter to be able to access
 */
 const mapStateToProps = (state, ownProps) => ({
-  formType: "Sign In",
+  formType: "Sign in",
   workspace_address: ownProps.match.params.workspace_address,
   error_message: "Sorry, you entered an incorrect email address or password.",
 });
