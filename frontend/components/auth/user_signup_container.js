@@ -11,8 +11,9 @@ import { refreshErrors } from '../../actions/error_actions';
 */
 const mapStateToProps = (state) => ({
   formType: "Sign up",
-  workspace_address: DEMO_WORKSPACE,
   error_message: "User already exists, please try again",
+  // workspace_address: DEMO_WORKSPACE, // to disable demo button for signup
+  workspace_address: ""
 });
 
 const mapDispatchToProps = (dispatch) => ({

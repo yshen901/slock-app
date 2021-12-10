@@ -1223,8 +1223,9 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state) {
   return {
     formType: "Sign up",
-    workspace_address: _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["DEMO_WORKSPACE"],
-    error_message: "User already exists, please try again"
+    error_message: "User already exists, please try again",
+    // workspace_address: DEMO_WORKSPACE, // to disable demo button for signup
+    workspace_address: ""
   };
 };
 
