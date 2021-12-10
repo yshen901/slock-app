@@ -34,9 +34,9 @@ class Api::WorkspacesController < ApplicationController
       random_channel = Channel.create({name: "random", workspace_id: @workspace.id})
       custom_channel = Channel.create({name: channel_params[:channel], workspace_id: @workspace.id})
 
-      ChannelUser.create(channel_id: general_channel.id, user_id: current_user.id)
-      ChannelUser.create(channel_id: random_channel.id, user_id: current_user.id)
-      ChannelUser.create(channel_id: custom_channel.id, user_id: current_user.id)
+      ChannelUser.create(channel_id: general_channel.id, user_id: current_user.id, workspace_id: @workspace.id)
+      ChannelUser.create(channel_id: random_channel.id, user_id: current_user.id, workspace_id: @workspace.id)
+      ChannelUser.create(channel_id: custom_channel.id, user_id: current_user.id, workspace_id: @workspace.id)
 
       render '/api/workspaces/show'
     else
