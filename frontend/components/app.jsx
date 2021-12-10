@@ -19,9 +19,9 @@ class App extends React.Component {
   render() {
     return (
       <div id="app-component">
-        <AuthRoute exact path="/signin" component={ WorkspaceSigninForm }/>
+        <Route exact path="/signin" component={ WorkspaceSigninForm }/>
         <AuthRoute exact path="/signup" component={ UserSignupContainer }/>
-        <AuthRoute exact path="/signin/:workspace_address" component={ UserSigninContainer }/>
+        <Route exact path="/signin/:workspace_address" component={ UserSigninContainer }/>
         <ProtectedRoute exact path="/create" component={ WorkspaceForm }/>
         <ProtectedRoute exact path="/workspace/:workspace_address" component={ WorkspaceTransition }/>
         <ProtectedRoute exact path="/workspace/:workspace_address/:channel_id" component={ WorkspaceContainer }/>
