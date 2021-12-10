@@ -68,7 +68,7 @@ class BrowseChannelModal extends React.Component {
       for (let i = 0; i < my_channels.length; i++) {
         channel_name = channels[my_channels[i]].name;
         if (searchString.length === 0 || channel_name.startsWith(searchString))
-          displayed_channels.push(<div className="full-modal-item" key={i} onClick={() => this.goToChannel(user_channels[i])}># {channel_name}</div>)
+          displayed_channels.push(<div className="full-modal-item" key={i} onClick={() => this.goToChannel(my_channels[i])}># {channel_name}</div>)
       }
 
     return displayed_channels;

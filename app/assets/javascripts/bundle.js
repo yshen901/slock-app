@@ -2831,7 +2831,7 @@ var BrowseChannelModal = /*#__PURE__*/function (_React$Component) {
           className: "full-modal-item",
           key: i,
           onClick: function onClick() {
-            return _this2.goToChannel(user_channels[i]);
+            return _this2.goToChannel(my_channels[i]);
           }
         }, "# ", channel_name));
       };
@@ -3243,6 +3243,7 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, EditChannelTopicModal);
 
     _this = _super.call(this, props);
+    debugger;
     var description = getState().entities.channels[props.match.params.channel_id].description;
     _this.state = {
       topic: description ? description : "",
@@ -3261,9 +3262,13 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       var channel_id = this.props.match.params.channel_id;
-      if (channel_id !== oldProps.match.params.channel_id) this.setState({
-        topic: getState().entities.channels[channel_id].description
-      });
+
+      if (channel_id !== oldProps.match.params.channel_id) {
+        debugger;
+        this.setState({
+          topic: getState().entities.channels[channel_id].description
+        });
+      }
     }
   }, {
     key: "button",
