@@ -1,7 +1,7 @@
 class Api::UsersController < ApplicationController
   def create
-    # find the user and the workspace
-    @user = User.find_by_credentials(
+    # find the user and the workspace...N+1 call
+    @user = User.includes(:workspaces).find_by_credentials(
       user_params[:email],
       user_params[:password]
     )
@@ -37,8 +37,14 @@ class Api::UsersController < ApplicationController
       )
       if @user.save
         WorkspaceUser.create(user_id: @user.id, workspace_id: workspace.id, logged_in: true)
-        channel = @user.workspaces[0].channels[0];
-        ChannelUser.create(user_id: @user.id, channel_id: channel.id);
+
+        # Logs into first two channels, general and random, which are undeletable
+        2.times do |idx|
+          channel = @user.workspaces[0].channels[idx];
+          ChannelUser.create(user_id: @user.id, channel_id: channel.id);
+        end
+
+        @new_workspace = workspace
         login!(@user, workspace)
         render '/api/users/show'
       else

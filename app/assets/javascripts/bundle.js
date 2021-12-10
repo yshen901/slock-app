@@ -1004,10 +1004,16 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
     value: function handleSubmit() {
       var _this3 = this;
 
+      // this.props.processForm(this.state)
+      //   .then(
+      //     () => this.props.getWorkspaces()
+      //       .then( 
+      //         () => this.props.history.push(`/workspace/${this.state.workspace_address}/0`)
+      //       ),
+      //     () => this.setState({state: this.state})
+      //   )
       this.props.processForm(this.state).then(function () {
-        return _this3.props.getWorkspaces().then(function () {
-          return _this3.props.history.push("/workspace/".concat(_this3.state.workspace_address, "/0"));
-        });
+        return _this3.props.history.push("/workspace/".concat(_this3.state.workspace_address, "/0"));
       }, function () {
         return _this3.setState({
           state: _this3.state
@@ -4978,6 +4984,9 @@ var WorkspaceReducer = function WorkspaceReducer() {
 
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACES"]:
       return action.workspaces;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_USER"]:
+      return action.user.workspaces;
 
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACE"]:
       nextState = Object.assign({}, state);

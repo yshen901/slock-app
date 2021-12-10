@@ -1,5 +1,5 @@
 import { RECEIVE_WORKSPACE, RECEIVE_WORKSPACES, REMOVE_WORKSPACE } from "../../actions/workspace_actions";
-import { LOGOUT } from "../../actions/session_actions";
+import { LOGOUT, RECEIVE_USER } from "../../actions/session_actions";
 
 const WorkspaceReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -10,6 +10,8 @@ const WorkspaceReducer = (state = {}, action) => {
       return {};
     case RECEIVE_WORKSPACES:
       return action.workspaces;
+    case RECEIVE_USER:
+      return action.user.workspaces;
     case RECEIVE_WORKSPACE:
       nextState = Object.assign({}, state);
       nextState[action.workspace.id] = action.workspace;

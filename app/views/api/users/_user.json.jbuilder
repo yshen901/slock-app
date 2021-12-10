@@ -6,3 +6,5 @@ json.email user.email
 if user.photo.attached?
   json.photo_url user.photo.service_url 
 end
+
+
