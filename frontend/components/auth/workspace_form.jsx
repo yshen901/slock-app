@@ -17,6 +17,7 @@ class WorkspaceForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateField = this.updateField.bind(this);
     this.nextButton = this.nextButton.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
   componentDidUpdate() {
@@ -25,16 +26,24 @@ class WorkspaceForm extends React.Component {
 
   nextButton(type) {
     if (this.state.disabled)
-      return (<button onClick={() => this.handleSubmit(type)} disabled>Next</button>)
+      return (<button onClick={() => this.handleSubmit(type)} disabled>Next</button>);
     else
-      return (<button onClick={() => this.handleSubmit(type)}>Next</button>)
+      return (<button onClick={() => this.handleSubmit(type)}>Next</button>);
   }
 
+  // Listens for enter key to submit
+  handleKeyPress(type) {
+    return (e) => {
+      if (e.key === 'Enter' && !this.state.disabled) {
+        this.handleSubmit(type);
+      }
+    };
+  }
 
   handleSubmit(type) {
     switch(type) {
       case "address":
-        this.setState({page: "channel"})
+        this.setState({page: "channel", disabled: true})
         break;
       case "channel":
         this.setState({ page: "finish" })
@@ -72,7 +81,7 @@ class WorkspaceForm extends React.Component {
     switch(this.state.page) {
       case "address":
         return (
-          <div className="workspace-create">
+          <div className="workspace-create" onKeyPress={this.handleKeyPress("address")}>
             <div className="workspace-create-nav">
               <Link className="logo" to="/">
                 <img src="/images/logo.jpg" />
@@ -90,7 +99,7 @@ class WorkspaceForm extends React.Component {
         )
       case "channel":
         return (
-          <div className="workspace-create">
+          <div className="workspace-create" onKeyPress={this.handleKeyPress("channel")}>
             <div className="workspace-create-nav">
               <Link className="logo" to="/">
                 <img src="/images/logo.jpg" />
@@ -108,7 +117,7 @@ class WorkspaceForm extends React.Component {
         )
       case "finish":
         return (
-          <div className="workspace-create">
+          <div className="workspace-create" onKeyPress={this.handleKeyPress("finish")}>
             <div className="workspace-create-nav">
               <Link className="logo" to="/">
                 <img src="/images/logo.jpg" />

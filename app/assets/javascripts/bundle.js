@@ -872,6 +872,9 @@ var AuthNav = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "right"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          className: "auth-nav-link",
+          to: "/tbd"
+        }, "Create a new workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           id: "auth-signin",
           to: link
         }, linkName));
@@ -1309,6 +1312,7 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.updateField = _this.updateField.bind(_assertThisInitialized(_this));
     _this.nextButton = _this.nextButton.bind(_assertThisInitialized(_this));
+    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1332,16 +1336,29 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
           return _this2.handleSubmit(type);
         }
       }, "Next");
+    } // Listens for enter key to submit
+
+  }, {
+    key: "handleKeyPress",
+    value: function handleKeyPress(type) {
+      var _this3 = this;
+
+      return function (e) {
+        if (e.key === 'Enter' && !_this3.state.disabled) {
+          _this3.handleSubmit(type);
+        }
+      };
     }
   }, {
     key: "handleSubmit",
     value: function handleSubmit(type) {
-      var _this3 = this;
+      var _this4 = this;
 
       switch (type) {
         case "address":
           this.setState({
-            page: "channel"
+            page: "channel",
+            disabled: true
           });
           break;
 
@@ -1355,9 +1372,9 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
           //TODO1: FLASH ERRORS UPON RE-RENDER
           dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["postWorkspace"])(this.state)).then(function (_ref) {
             var workspace = _ref.workspace;
-            return _this3.props.history.push("/workspace/".concat(workspace.address));
+            return _this4.props.history.push("/workspace/".concat(workspace.address));
           }, function (errors) {
-            _this3.setState({
+            _this4.setState({
               page: "address",
               address: "",
               channel: ""
@@ -1368,21 +1385,21 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "updateField",
     value: function updateField(type) {
-      var _this4 = this;
+      var _this5 = this;
 
       return function (e) {
-        var _this4$setState;
+        var _this5$setState;
 
-        if (e.currentTarget.value === '') _this4.setState((_this4$setState = {}, _defineProperty(_this4$setState, type, e.currentTarget.value), _defineProperty(_this4$setState, "disabled", true), _this4$setState));else if (type === "channel") {
-          var _this4$setState2;
+        if (e.currentTarget.value === '') _this5.setState((_this5$setState = {}, _defineProperty(_this5$setState, type, e.currentTarget.value), _defineProperty(_this5$setState, "disabled", true), _this5$setState));else if (type === "channel") {
+          var _this5$setState2;
 
           var currentVal = e.currentTarget.value.split('');
           var lastVal = currentVal.pop();
           lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal.toLowerCase());
 
-          _this4.setState((_this4$setState2 = {}, _defineProperty(_this4$setState2, type, currentVal.join('')), _defineProperty(_this4$setState2, "disabled", false), _this4$setState2));
+          _this5.setState((_this5$setState2 = {}, _defineProperty(_this5$setState2, type, currentVal.join('')), _defineProperty(_this5$setState2, "disabled", false), _this5$setState2));
         } else {
-          var _this4$setState3;
+          var _this5$setState3;
 
           var _currentVal = e.currentTarget.value.split('');
 
@@ -1390,19 +1407,20 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
 
           _lastVal === ' ' ? _currentVal.push('-') : _currentVal.push(_lastVal);
 
-          _this4.setState((_this4$setState3 = {}, _defineProperty(_this4$setState3, type, _currentVal.join('')), _defineProperty(_this4$setState3, "disabled", false), _this4$setState3));
+          _this5.setState((_this5$setState3 = {}, _defineProperty(_this5$setState3, type, _currentVal.join('')), _defineProperty(_this5$setState3, "disabled", false), _this5$setState3));
         }
       };
     }
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       switch (this.state.page) {
         case "address":
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "workspace-create"
+            className: "workspace-create",
+            onKeyPress: this.handleKeyPress("address")
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-create-nav"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -1423,7 +1441,8 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
 
         case "channel":
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "workspace-create"
+            className: "workspace-create",
+            onKeyPress: this.handleKeyPress("channel")
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-create-nav"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -1443,7 +1462,8 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
 
         case "finish":
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "workspace-create"
+            className: "workspace-create",
+            onKeyPress: this.handleKeyPress("finish")
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-create-nav"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -1455,7 +1475,7 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
             className: "workspace-create-form"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Tada! Meet your team's first channel: #", this.state.channel), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "A channel brings together every part of your project - the people, conversations, ideas, updates, and files - so your team can move forward and get more done."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             onClick: function onClick() {
-              return _this5.handleSubmit("finish");
+              return _this6.handleSubmit("finish");
             },
             id: "workspace-form-input"
           }, "See Your Channel in Slock")));
@@ -4087,12 +4107,17 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
       }, "Edit Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: function onClick() {
+          return _this4.props.history.push("/create");
+        }
+      }, "Create a new workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-item",
+        onClick: function onClick() {
           return _this4.props.history.push("/signin");
         }
       }, "Sign into another workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.logoutWorkspace
-      }, "Sign out of workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Sign out of ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("em", null, this.props.match.params.workspace_address)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.logoutUser
       }, "Sign out of account"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4210,6 +4235,9 @@ var WorkspaceDropdown = /*#__PURE__*/function (_React$Component) {
       }, this.workspaceList(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-auth-links"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "dropdown-link",
+        to: "/create"
+      }, "Create Workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "dropdown-link",
         to: "/signin"
       }, "Sign Into Another Workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

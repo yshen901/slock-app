@@ -46,11 +46,14 @@ class SidebarDropdown extends React.Component {
         <div className="dropdown-item" onClick={this.toggleElement("edit-profile-modal")}>
           Edit Profile
         </div>
+        <div className="dropdown-item" onClick={() => this.props.history.push("/create")}>
+          Create a new workspace
+        </div>
         <div className="dropdown-item" onClick={() => this.props.history.push("/signin")}>
           Sign into another workspace
         </div>
         <div className="dropdown-item" onClick={this.logoutWorkspace}>
-          Sign out of workspace
+          Sign out of <em>{this.props.match.params.workspace_address}</em>
         </div>
         <div className="dropdown-item" onClick={this.logoutUser}>
           Sign out of account

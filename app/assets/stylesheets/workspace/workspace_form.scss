@@ -53,30 +53,32 @@
   font-size: 18px;
 }
 
-.workspace-create-form button {
-  width: 420px;
-  height: 50px;
+.workspace-create-form {
+  button, input[type=submit] {
+    width: 420px;
+    height: 50px;
 
-  background: #007a5a;
-  border: none;
-  border-radius: 5px;
+    background: #007a5a;
+    border: none;
+    border-radius: 5px;
 
-  color: white;
-  font-weight: bold;
-  font-size: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
 
-  transition: 0.15s;
-}
+    transition: 0.15s;
+  }
 
-.workspace-create-form button:hover {
-  cursor: pointer;
-  background: #008f69;
-  box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
-}
+  button:hover, input[type=submit]:hover {
+    cursor: pointer;
+    background: #008f69;
+    box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
+  }
 
-.workspace-create-form button:disabled {
-  cursor: default;
-  background: grey;
-
-  box-shadow: none;
+  button:disabled, input[type=submit]:disabled {
+    cursor: default;
+    background: grey;
+  
+    box-shadow: none;
+  }
 }
