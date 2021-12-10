@@ -37,9 +37,10 @@ export const postChannel = (channel) => (dispatch) => (
     )
 )
 
-export const joinChannel = (channel_id) => (dispatch) => (
+// passes up channel_id and workspace_id
+export const joinChannel = (data) => (dispatch) => (
   ChannelUserAPI
-    .postChannelUser(channel_id)
+    .postChannelUser(data)
     .then(
       channel_user => dispatch(loginChannel(channel_user)),
       errors => dispatch(receiveErrors(errors))

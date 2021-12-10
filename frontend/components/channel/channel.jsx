@@ -74,7 +74,8 @@ class Channel extends React.Component {
     e.stopPropagation();
     hideElements("dropdown");
     let { channel_id } = this.props;
-    dispatch(joinChannel(parseInt(channel_id)))
+    let { workspace_id } = this.props.channel;
+    dispatch(joinChannel({channel_id, workspace_id}))
       .then(
         () => this.setState({ joined: true })
       )

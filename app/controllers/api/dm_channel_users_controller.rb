@@ -30,7 +30,7 @@ class Api::DmChannelUsersController < ApplicationController
         dm_channel: true
       )
       if @channel.save 
-        @dm_channel_user = DmChannelUser.new(dm_channel_user_params.except(:workspace_id)) #remove unecessary ids
+        @dm_channel_user = DmChannelUser.new(dm_channel_user_params)
         @dm_channel_user.channel_id = @channel.id
 
         if @dm_channel_user.save

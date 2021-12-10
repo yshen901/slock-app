@@ -151,10 +151,11 @@ var postChannel = function postChannel(channel) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-};
-var joinChannel = function joinChannel(channel_id) {
+}; // passes up channel_id and workspace_id
+
+var joinChannel = function joinChannel(data) {
   return function (dispatch) {
-    return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["postChannelUser"](channel_id).then(function (channel_user) {
+    return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["postChannelUser"](data).then(function (channel_user) {
       return dispatch(loginChannel(channel_user));
     }, function (errors) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
@@ -453,7 +454,8 @@ var receiveWorkspace = function receiveWorkspace(_ref) {
     users: users,
     user_channels: user_channels
   };
-};
+}; // Loads workspace info into other slices
+
 
 var loadWorkspace = function loadWorkspace(_ref2) {
   var workspace = _ref2.workspace,
@@ -493,7 +495,7 @@ var findWorkspace = function findWorkspace(workspace_address) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-}; // Gets workspaces of current user, only outputs id and address for each
+}; // Gets workspaces of current user into workspaces slice
 
 var getWorkspaces = function getWorkspaces() {
   return function (dispatch) {
@@ -503,7 +505,7 @@ var getWorkspaces = function getWorkspaces() {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-}; // Uses address to get all of the information about a workspace
+}; // Loads workspace's info into other entities slices
 
 var getWorkspace = function getWorkspace(workspace_address) {
   return function (dispatch) {
@@ -1777,7 +1779,11 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       e.stopPropagation();
       Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown");
       var channel_id = this.props.channel_id;
-      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["joinChannel"])(parseInt(channel_id))).then(function () {
+      var workspace_id = this.props.channel.workspace_id;
+      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["joinChannel"])({
+        channel_id: channel_id,
+        workspace_id: workspace_id
+      })).then(function () {
         return _this3.setState({
           joined: true
         });
@@ -2409,8 +2415,8 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
     value: function getDmChannelName(channel) {
       var currentUserId = getState().session.user_id.currentUserId;
       var users = getState().entities.users;
-      var ids = Object.keys(channel.users);
-      debugger;
+      var ids = Object.keys(channel.users); // debugger;
+
       if (ids[0] == currentUserId) return users[ids[1]].email;
       return users[ids[0]].email;
     }
@@ -4528,6 +4534,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       });
 
       for (var i = 0; i < channelList.length; i++) {
+        // debugger;
         if (channelList[i].starred === starStatus && channelList[i].dm_channel == dmStatus) filteredChannels.push(channelList[i]);
       }
 
@@ -5361,15 +5368,12 @@ var updateChannel = function updateChannel(channel) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postChannelUser", function() { return postChannelUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannelUser", function() { return deleteChannelUser; });
-var postChannelUser = function postChannelUser(channel_id) {
+// data has channel_id and workspace_id
+var postChannelUser = function postChannelUser(data) {
   return $.ajax({
     method: "POST",
     url: "/api/channel_users",
-    data: {
-      channel_user: {
-        channel_id: channel_id
-      }
-    }
+    data: data
   });
 };
 var deleteChannelUser = function deleteChannelUser(channel_id) {

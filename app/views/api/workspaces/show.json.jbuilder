@@ -15,16 +15,25 @@ if logged_in?
   # NOTE: HOW TO RETURN AN OBJECT INSTEAD OF AN ARRAY
 
   # Pull out all user channel information - channels, dm_channels, and active_dm_channels
-  user_channel_ids = @current_user.channel_connections.map { |connection| connection.channel_id }
+  # Remember to sort and only select current workspace channels!
+  user_channel_ids = []
+  @current_user.channel_connections.each do |connection|
+    user_channel_ids << connection.channel_id if connection.workspace_id == @workspace.id
+  end
+
   user_dm_channel_ids_all = []
   user_dm_channel_ids_active = []
   @current_user.dm_channel_connections_1.each do |connection|
-    user_dm_channel_ids_all << connection.channel_id
-    user_dm_channel_ids_active << connection.channel_id if connection.active_1
+    if connection.workspace_id == @workspace.id
+      user_dm_channel_ids_all << connection.channel_id
+      user_dm_channel_ids_active << connection.channel_id if connection.active_1
+    end
   end
   @current_user.dm_channel_connections_2.each do |connection|
-    user_dm_channel_ids_all << connection.channel_id
-    user_dm_channel_ids_active << connection.channel_id if connection.active_2
+    if connection.workspace_id == @workspace.id
+      user_dm_channel_ids_all << connection.channel_id
+      user_dm_channel_ids_active << connection.channel_id if connection.active_1
+    end
   end
   
   json.user_channels({})

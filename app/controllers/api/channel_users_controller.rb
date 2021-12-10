@@ -10,7 +10,8 @@ class Api::ChannelUsersController < ApplicationController
     else
       @channel_user = ChannelUser.new(
         user_id: current_user.id,
-        channel_id: channel_user_params[:channel_id]
+        channel_id: channel_user_params[:channel_id],
+        workspace_id: channel_user_params[:workspace_id]
       )
       if @channel_user.save
         render 'api/channel_users/show'
@@ -37,6 +38,6 @@ class Api::ChannelUsersController < ApplicationController
   private
 
   def channel_user_params
-    params.require(:channel_user).permit(:channel_id)
+    params.require(:channel_user).permit(:channel_id, :workspace_id)
   end
 end

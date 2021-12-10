@@ -15,6 +15,7 @@ const receiveWorkspace = ({workspace, users, user_channels, channels}) => ({
   user_channels,
 });
 
+// Loads workspace info into other slices
 const loadWorkspace = ({workspace, users, user_channels, channels, user_dm_channels, dm_channels}) => ({
   type: LOAD_WORKSPACE,
   workspace,
@@ -35,7 +36,6 @@ const receiveWorkspaces = (workspaces) => ({
   workspaces: workspaces
 });
 
-
 export const findWorkspace = workspace_address => dispatch => (
   WorkspaceAPI
     .getWorkspace(workspace_address)
@@ -45,7 +45,7 @@ export const findWorkspace = workspace_address => dispatch => (
     )
 )
 
-// Gets workspaces of current user, only outputs id and address for each
+// Gets workspaces of current user into workspaces slice
 export const getWorkspaces = () => dispatch => (
   WorkspaceAPI
     .getWorkspaces()
@@ -55,7 +55,7 @@ export const getWorkspaces = () => dispatch => (
     )
 )
 
-// Uses address to get all of the information about a workspace
+// Loads workspace's info into other entities slices
 export const getWorkspace = workspace_address => dispatch => (
   WorkspaceAPI
     .getWorkspace(workspace_address)

@@ -35,6 +35,8 @@ demo_user = User.create(email: "demoUser@slock.com", password: "demoPassword")
 my_user = User.create(email: "shen.yuci1@gmail.com", password: "zunera")
 
 demo_workspace = Workspace.create(address: 'DemoWorkspace')
+general_channel = Channel.create({name: "general", workspace_id: demo_workspace.id})
+random_channel = Channel.create({name: "random", workspace_id: demo_workspace.id})
 channel_1 = Channel.create(name: "council-of-elrond", workspace_id: demo_workspace.id, description: "What to do about the One Ring", starred: false)
 channel_2 = Channel.create(name: "customer-support", workspace_id: demo_workspace.id, description: "For when you need help", starred: false)
 channel_3 = Channel.create(name: "information", workspace_id: demo_workspace.id, description: "For any questions you might have for me", starred: false)
@@ -43,18 +45,24 @@ channel_5 = Channel.create(name: "test-channel-2", workspace_id: demo_workspace.
 channel_6 = Channel.create(name: "test-channel-3", workspace_id: demo_workspace.id, description: "Test Channel 3")
 
 dm_channel = Channel.create(name: "#{demo_user.id}-#{my_user.id}", workspace_id: demo_workspace.id, dm_channel: true)
-dm_channel_user = DmChannelUser.create(user_1_id: demo_user.id, user_2_id: my_user.id, channel_id: dm_channel.id);
+dm_channel_user = DmChannelUser.create(user_1_id: demo_user.id, user_2_id: my_user.id, channel_id: dm_channel.id, workspace_id: demo_workspace.id);
 
 User.all.each do |user|
   WorkspaceUser.create(user_id: user.id, workspace_id: demo_workspace.id)
-  ChannelUser.create(user_id: user.id, channel_id: channel_1.id)
-  ChannelUser.create(user_id: user.id, channel_id: channel_2.id)
-  ChannelUser.create(user_id: user.id, channel_id: channel_3.id)
+  ChannelUser.create(user_id: user.id, channel_id: channel_1.id, workspace_id: demo_workspace.id)
+  ChannelUser.create(user_id: user.id, channel_id: channel_2.id, workspace_id: demo_workspace.id)
+  ChannelUser.create(user_id: user.id, channel_id: channel_3.id, workspace_id: demo_workspace.id)
+  ChannelUser.create(channel_id: general_channel.id, user_id: user.id, workspace_id: demo_workspace.id)
+  ChannelUser.create(channel_id: random_channel.id, user_id: user.id, workspace_id: demo_workspace.id)
 end
 
-# To test multiple workspaces
+# Dummy workspace to test multiple workspace
 test_workspace = Workspace.create(address: "test")
+general_channel = Channel.create({name: "general", workspace_id: test_workspace.id})
+random_channel = Channel.create({name: "random", workspace_id: test_workspace.id})
 WorkspaceUser.create(user_id: demo_user.id, workspace_id: test_workspace.id)
+ChannelUser.create(channel_id: general_channel.id, user_id: demo_user.id, workspace_id: test_workspace.id)
+ChannelUser.create(channel_id: random_channel.id, user_id: demo_user.id, workspace_id: test_workspace.id)
 
 Message.create(
   user_id: boromir.id, 
