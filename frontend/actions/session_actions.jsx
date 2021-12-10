@@ -25,7 +25,7 @@ export const logoutCurrentUser = () => ({
 
 export const signup = user => dispatch => (
   SessionAPI
-    .signup(user)
+    .signup(user) 
     .then(
       user => dispatch(receiveUser(user)),
       errors => dispatch(receiveErrors(errors))

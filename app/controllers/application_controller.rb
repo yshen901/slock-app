@@ -13,13 +13,16 @@ class ApplicationController < ActionController::Base
   end
 
   # logs in the user
-  def login!(user, workspace)
+  def login!(user, workspace=nil)
     session[:session_token] = user.reset_session_token
     @current_user = user
     
-    connection = WorkspaceUser.find_by(workspace_id: workspace[:id], user_id: user.id)
-    if connection
-      connection.login!
+    # If we're logging into a workspace
+    if workspace
+      connection = WorkspaceUser.find_by(workspace_id: workspace[:id], user_id: user.id)
+      if connection
+        connection.login!
+      end
     end
   end
 

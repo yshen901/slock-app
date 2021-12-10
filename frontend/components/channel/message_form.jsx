@@ -53,7 +53,6 @@ class MessageForm extends React.Component {
     let { users } = getState().entities;
     let ids = Object.keys(channel.users);
 
-    // debugger;
     if (ids[0] == currentUserId)
       return users[ids[1]].email
     return users[ids[0]].email

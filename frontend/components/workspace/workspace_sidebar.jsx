@@ -48,7 +48,6 @@ class WorkspaceSidebar extends React.Component {
     let filteredChannels = [];
     let channelList = user_channels.map((id) => channels[id])
     for (let i = 0; i < channelList.length; i++) {
-      // debugger;
       if (channelList[i].starred === starStatus && channelList[i].dm_channel == dmStatus) 
         filteredChannels.push(channelList[i])
     }

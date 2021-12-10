@@ -989,7 +989,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.checkWorkspace(this.props.workspace_address);
+      if (this.props.formType === 'Sign in') this.checkWorkspace(this.props.workspace_address);
     }
   }, {
     key: "componentDidUpdate",
@@ -1016,7 +1016,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
       //     () => this.setState({state: this.state})
       //   )
       this.props.processForm(this.state).then(function () {
-        return _this3.props.history.push("/workspace/".concat(_this3.state.workspace_address, "/0"));
+        if (_this3.props.formType === 'Sign in') _this3.props.history.push("/workspace/".concat(_this3.state.workspace_address, "/0"));else _this3.props.history.push("/");
       }, function () {
         return _this3.setState({
           state: _this3.state
@@ -2442,8 +2442,7 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
     value: function getDmChannelName(channel) {
       var currentUserId = getState().session.user_id.currentUserId;
       var users = getState().entities.users;
-      var ids = Object.keys(channel.users); // debugger;
-
+      var ids = Object.keys(channel.users);
       if (ids[0] == currentUserId) return users[ids[1]].email;
       return users[ids[0]].email;
     }
@@ -4572,7 +4571,6 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       });
 
       for (var i = 0; i < channelList.length; i++) {
-        // debugger;
         if (channelList[i].starred === starStatus && channelList[i].dm_channel == dmStatus) filteredChannels.push(channelList[i]);
       }
 

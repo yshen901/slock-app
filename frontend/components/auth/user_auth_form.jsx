@@ -35,7 +35,8 @@ class UserSigninForm extends React.Component {
   }
 
   componentDidMount() {
-    this.checkWorkspace(this.props.workspace_address)
+    if (this.props.formType === 'Sign in')
+      this.checkWorkspace(this.props.workspace_address)
   }
 
   componentDidUpdate(oldProps) {
@@ -60,7 +61,12 @@ class UserSigninForm extends React.Component {
     //   )
     this.props.processForm(this.state)
       .then( 
-        () => this.props.history.push(`/workspace/${this.state.workspace_address}/0`),
+        () => {
+          if (this.props.formType === 'Sign in')
+            this.props.history.push(`/workspace/${this.state.workspace_address}/0`)
+          else
+            this.props.history.push("/")
+        },
         () => this.setState({state: this.state})
       );
   }
