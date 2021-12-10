@@ -24,18 +24,29 @@ class Homepage extends React.Component {
 
   workspaceList() {
     let workspaces = objectToArray(getState().entities.workspaces);
-    return workspaces.map((workspace, key) => (
-      <div className="workspace">
-        <div className="workspace-details">
-          <div className="workspace-address">{workspace.address}</div>
-          <div className="workspace-users">X users</div>
+
+    if (workspaces.length > 0) {
+      return workspaces.map((workspace, key) => (
+        <div className="workspace" key={key}>
+          <div className="workspace-details">
+            <div className="workspace-address">{workspace.address}</div>
+            <div className="workspace-users">X users</div>
+          </div>
+          <button 
+            className="home-button" 
+            onClick={() => this.props.history.push(`/workspace/${workspace.address}/0`)}
+          >Launch Slock</button>
         </div>
-        <button 
-          className="home-button" 
-          onClick={() => this.props.history.push(`/workspace/${workspace.address}/0`)}
-        >Launch Slock</button>
-      </div>
-    ))
+      ))
+    }
+    else {
+      return [
+        <div className="workspace">
+          <div id="no-workspace-notice">You are not logged into any workspaces!</div>
+        </div>
+      ]
+    }
+    
   }
 
   render() {
@@ -43,6 +54,7 @@ class Homepage extends React.Component {
 
     // When user is signed in, display workspaces and create/join buttons
     if (user_id) { 
+      let user = getState().entities.users[user_id]
       return (
         <div id="homepage" onClick={() => hideElements("dropdown")}>
           <HomeNav />
@@ -51,15 +63,15 @@ class Homepage extends React.Component {
           <div id="home-box">
             <div id="home-greeting">
               <h1>Welcome back</h1>
-              <h4>What are you working on today?</h4>
+              <div id="home-buttons">
+                <Link className="home-nav-link" to="/create">Create a new workspace</Link>
+                <Link className="home-nav-link" to="/signin">Sign into another workspace</Link>
+              </div>
             </div>
 
             <div id="home-workspaces">
+              <h4>Workspaces for {user.email}</h4>
               {this.workspaceList()}
-            </div>
-            <div id="home-buttons">
-              <button className="home-button" onClick={(e) => { this.props.history.push(`/create`) }}>Create a workspace</button>
-              <button className="home-button" onClick={(e) => { this.props.history.push(`/signin`) }}>Sign in to another workspace</button>
             </div>
           </div>
         </div>

@@ -2682,22 +2682,32 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       var workspaces = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_6__["objectToArray"])(getState().entities.workspaces);
-      return workspaces.map(function (workspace, key) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+
+      if (workspaces.length > 0) {
+        return workspaces.map(function (workspace, key) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "workspace",
+            key: key
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "workspace-details"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "workspace-address"
+          }, workspace.address), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "workspace-users"
+          }, "X users")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            className: "home-button",
+            onClick: function onClick() {
+              return _this2.props.history.push("/workspace/".concat(workspace.address, "/0"));
+            }
+          }, "Launch Slock"));
+        });
+      } else {
+        return [/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "workspace"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "workspace-details"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "workspace-address"
-        }, workspace.address), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "workspace-users"
-        }, "X users")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "home-button",
-          onClick: function onClick() {
-            return _this2.props.history.push("/workspace/".concat(workspace.address, "/0"));
-          }
-        }, "Launch Slock"));
-      });
+          id: "no-workspace-notice"
+        }, "You are not logged into any workspaces!"))];
+      }
     }
   }, {
     key: "render",
@@ -2707,6 +2717,7 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
       var user_id = getState().session.user_id; // When user is signed in, display workspaces and create/join buttons
 
       if (user_id) {
+        var user = getState().entities.users[user_id];
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "homepage",
           onClick: function onClick() {
@@ -2718,21 +2729,17 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
           id: "home-box"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "home-greeting"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome back"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "What are you working on today?")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "home-workspaces"
-        }, this.workspaceList()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Welcome back"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "home-buttons"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "home-button",
-          onClick: function onClick(e) {
-            _this3.props.history.push("/create");
-          }
-        }, "Create a workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "home-button",
-          onClick: function onClick(e) {
-            _this3.props.history.push("/signin");
-          }
-        }, "Sign in to another workspace"))));
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          className: "home-nav-link",
+          to: "/create"
+        }, "Create a new workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          className: "home-nav-link",
+          to: "/signin"
+        }, "Sign into another workspace"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "home-workspaces"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Workspaces for ", user.email), this.workspaceList())));
       } // When user isn't signed in, display try now button
       else {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4262,10 +4269,10 @@ var WorkspaceDropdown = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "dropdown-link",
         to: "/create"
-      }, "Create Workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, "Create a new workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "dropdown-link",
         to: "/signin"
-      }, "Sign Into Another Workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Sign into another workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-link",
         onClick: this.logoutUser
       }, "Sign Out")));
