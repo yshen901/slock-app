@@ -21,7 +21,6 @@ class MessageForm extends React.Component {
 
   joinChannel(e) {
     this.props.joinChannel(e);
-    this.setState({ canJoin: false })
   }
 
   update(field) {

@@ -21,8 +21,9 @@ class Channel extends React.Component {
     this.joinChannel = this.joinChannel.bind(this);
   }
 
+  // Ignore transition channel
   componentDidUpdate(oldProps) {
-    if (oldProps.channel_id !== this.props.channel_id)
+    if (this.props.channel_id != "0" && oldProps.channel_id !== this.props.channel_id)
       this.setState({
         canJoin: this.canJoin(),
         canLeave: this.canLeave()

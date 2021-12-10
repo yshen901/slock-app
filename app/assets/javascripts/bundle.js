@@ -1716,12 +1716,13 @@ var Channel = /*#__PURE__*/function (_React$Component) {
     _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
     _this.joinChannel = _this.joinChannel.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // Ignore transition channel
+
 
   _createClass(Channel, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
-      if (oldProps.channel_id !== this.props.channel_id) this.setState({
+      if (this.props.channel_id != "0" && oldProps.channel_id !== this.props.channel_id) this.setState({
         canJoin: this.canJoin(),
         canLeave: this.canLeave()
       });
@@ -1991,11 +1992,13 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       });
       this.loadMessages();
     } // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
+    // Only trigger for non-transitional channels (channel_id != 0)
 
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
-      if (this.props.match.params.channel_id !== oldProps.match.params.channel_id) this.loadMessages();
+      var channel_id = this.props.match.params.channel_id;
+      if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) this.loadMessages();
       if (this.bottom.current) this.bottom.current.scrollIntoView();
     } // TODO1: Group these nicely
 
@@ -2376,9 +2379,6 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
     key: "joinChannel",
     value: function joinChannel(e) {
       this.props.joinChannel(e);
-      this.setState({
-        canJoin: false
-      });
     }
   }, {
     key: "update",
@@ -3243,7 +3243,6 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, EditChannelTopicModal);
 
     _this = _super.call(this, props);
-    debugger;
     var description = getState().entities.channels[props.match.params.channel_id].description;
     _this.state = {
       topic: description ? description : "",
@@ -3261,10 +3260,9 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
   _createClass(EditChannelTopicModal, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
-      var channel_id = this.props.match.params.channel_id;
+      var channel_id = this.props.match.params.channel_id; // Ignore changes during channel transition
 
-      if (channel_id !== oldProps.match.params.channel_id) {
-        debugger;
+      if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
         this.setState({
           topic: getState().entities.channels[channel_id].description
         });
@@ -5101,7 +5099,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+/* harmony import */ var _actions_error_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions/error_actions */ "./frontend/actions/error_actions.jsx");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -5374,11 +5374,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postChannelUser", function() { return postChannelUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannelUser", function() { return deleteChannelUser; });
 // data has channel_id and workspace_id
-var postChannelUser = function postChannelUser(data) {
+var postChannelUser = function postChannelUser(channel_user) {
   return $.ajax({
     method: "POST",
     url: "/api/channel_users",
-    data: data
+    data: {
+      channel_user: channel_user
+    }
   });
 };
 var deleteChannelUser = function deleteChannelUser(channel_id) {

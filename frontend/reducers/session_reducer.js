@@ -2,6 +2,7 @@ import { RECEIVE_USER, LOGOUT } from '../actions/session_actions';
 import { REMOVE_WORKSPACE, LOAD_WORKSPACE } from '../actions/workspace_actions';
 import { LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL } from '../actions/channel_actions';
 import { JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../actions/dm_channel_actions';
+import { RECEIVE_ERRORS } from '../actions/error_actions';
 
 let DEFAULT_SESSION = {
   user_id: null, 

@@ -82,8 +82,10 @@ class ChannelChatRoom extends React.Component {
   }
 
   // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
+  // Only trigger for non-transitional channels (channel_id != 0)
   componentDidUpdate(oldProps) {
-    if (this.props.match.params.channel_id !== oldProps.match.params.channel_id)
+    let {channel_id} = this.props.match.params;
+    if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id)
       this.loadMessages();
     if (this.bottom.current) this.bottom.current.scrollIntoView();
   }

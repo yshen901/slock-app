@@ -1,9 +1,9 @@
 // data has channel_id and workspace_id
-export const postChannelUser = (data) => (
+export const postChannelUser = (channel_user) => (
   $.ajax({
     method: "POST",
     url: "/api/channel_users",
-    data
+    data: {channel_user}
   })
 )
 
