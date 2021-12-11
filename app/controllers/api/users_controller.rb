@@ -57,7 +57,7 @@ class Api::UsersController < ApplicationController
 
   # NEW USER SIGNUP WHERE IT WILL JUST CREATE A USER
   def create
-    @user = User.find_by(email: user_params[:email])
+    @user = User.includes(:workspaces: [:connections]).find_by(email: user_params[:email])
     if @user
       render json: ["User already exists"]
     else
@@ -67,7 +67,6 @@ class Api::UsersController < ApplicationController
       )
       if @user.save
         login!(@user)
-        debugger;
         render '/api/users/show'
       else
         render json: @users.errors.full_messages, status: 401
@@ -77,7 +76,7 @@ class Api::UsersController < ApplicationController
 
   # Only for updating photo, and later name
   def update
-    @user = User.includes(:workspaces).find_by(id: params[:id])
+    @user = User.includes(workspaces: [:connections]).find_by(id: params[:id])
 
     if (@user) 
       @user.photo.attach(user_params[:photo]);

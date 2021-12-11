@@ -469,9 +469,7 @@ var loadWorkspace = function loadWorkspace(_ref2) {
     workspace: workspace,
     users: users,
     channels: channels,
-    user_channels: user_channels,
-    dm_channels: dm_channels,
-    user_dm_channels: user_dm_channels
+    user_channels: user_channels
   };
 };
 

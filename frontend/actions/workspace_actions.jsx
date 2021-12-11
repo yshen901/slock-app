@@ -22,8 +22,6 @@ const loadWorkspace = ({workspace, users, user_channels, channels, user_dm_chann
   users,
   channels,
   user_channels,
-  dm_channels,
-  user_dm_channels
 })
 
 const removeWorkspace = (workspace) => ({

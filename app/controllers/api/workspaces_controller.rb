@@ -3,7 +3,7 @@ class Api::WorkspacesController < ApplicationController
   #         use N+1 queries with includes
   def show
     @workspace = Workspace
-      .includes(:users, channels: [:users, :dm_user_1, :dm_user_2]) # for channel partial later
+      .includes(:connections, channels: [:users, :dm_user_1, :dm_user_2]) # for channel partial later
       .find_by_address(params[:id])
     if @workspace 
       if logged_in?
@@ -18,7 +18,7 @@ class Api::WorkspacesController < ApplicationController
   
   # DESIGN: Gets all logged_in workspaces of the current_user
   def index
-    @workspaces = Workspace.includes(:users).joins(:users).where("users.id = #{current_user.id} AND logged_in = true")
+    @workspaces = Workspace.includes(:connections).joins(:users).where("users.id = #{current_user.id} AND logged_in = true")
     # @workspaces = Workspace.all
     render '/api/workspaces/index'
   end
@@ -28,7 +28,7 @@ class Api::WorkspacesController < ApplicationController
     if !logged_in?
       render json: ["I don't know how you did this but this is illegal"], status: 402
     elsif @workspace.save
-      connection = WorkspaceUser.create(user_id: current_user.id, workspace_id: @workspace.id, logged_in: true)
+      @connection = WorkspaceUser.create(user_id: current_user.id, workspace_id: @workspace.id, logged_in: true)
 
       general_channel = Channel.create({name: "general", workspace_id: @workspace.id})
       random_channel = Channel.create({name: "random", workspace_id: @workspace.id})
