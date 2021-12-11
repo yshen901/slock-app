@@ -13,6 +13,7 @@ const WorkspaceReducer = (state = {}, action) => {
       return action.workspaces;
     case RECEIVE_USER:
       return action.user.workspaces;
+    case LOAD_WORKSPACE: 
     case RECEIVE_WORKSPACE:
       nextState = Object.assign({}, state);
       nextState[action.workspace.id] = action.workspace;
@@ -23,16 +24,15 @@ const WorkspaceReducer = (state = {}, action) => {
       if (nextState === undefined) nextState = {};
       return nextState;
     case UPDATE_OTHER_USER_WORKSPACE_STATUS:
-      let { user_id, logged_in } = action.userData;
+      let { user_id, logged_in, workspace_id } = action.userData;
       nextState = Object.assign({}, state);
-
       // Update workspace user login information
-      if (nextState.users[user_id].logged_in != logged_in) {
-        nextState.users[user_id].logged_in = logged_in;
+      if (nextState[workspace_id].users[user_id].logged_in != logged_in) {
+        nextState[workspace_id].users[user_id].logged_in = logged_in;
         if (logged_in)
-          nextState.num_logged_in_users += 1;
+          nextState[workspace_id].num_logged_in_users += 1;
         else
-          nextState.num_logged_in_users -= 1;
+          nextState[workspace_id].num_logged_in_users -= 1;
       }
       return nextState;
     default:

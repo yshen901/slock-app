@@ -12,6 +12,7 @@ class LoginChannel < ApplicationCable::Channel
         workspace_data: {
           user_id: workspace_data['user_id'],
           logged_in: workspace_data['logged_in'],
+          workspace_id: workspace_data['workspace_id']
         }
       }
     elsif channel_data 

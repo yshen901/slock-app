@@ -1787,13 +1787,10 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           workspace_address = _this$props.workspace_address,
           user = _this$props.user;
       var user_id = user.id;
-      debugger;
 
       if (!channel.dm_channel) {
         if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
           dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["leaveChannel"])(parseInt(channel_id))).then(function () {
-            debugger;
-
             _this2.props.loginACChannel.speak({
               channel_data: {
                 login: false,
@@ -1836,13 +1833,10 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var channel_id = this.props.channel_id;
       var workspace_id = this.props.channel.workspace_id;
       var user_id = this.props.user.id;
-      debugger;
       dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["joinChannel"])({
         channel_id: channel_id,
         workspace_id: workspace_id
       })).then(function () {
-        debugger;
-
         _this3.props.loginACChannel.speak({
           channel_data: {
             login: true,
@@ -4188,11 +4182,15 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       e.stopPropagation();
-      dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["logoutWorkspace"])(getState().session.workspace_id)).then(function () {
+      var _getState$session = getState().session,
+          workspace_id = _getState$session.workspace_id,
+          user_id = _getState$session.user_id;
+      dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["logoutWorkspace"])(workspace_id)).then(function () {
         _this3.props.loginACChannel.speak({
           workspace_data: {
-            user_id: getState().session.user_id,
-            logged_in: false
+            user_id: user_id,
+            logged_in: false,
+            workspace_id: workspace_id
           }
         });
 
@@ -4465,7 +4463,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this);
     _this.state = {
-      loaded: false
+      loaded: false,
+      channelFlag: 0,
+      workspaceFlag: 0
     };
     _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
     return _this;
@@ -4520,9 +4520,13 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           channel_data = _ref2.channel_data;
 
       if (workspace_data) {
-        if (workspace_data.user_id != this.props.user_id) this.props.updateOtherUserWorkspaceStatus(workspace_data);
+        if (workspace_data.user_id != this.props.user_id) {
+          this.props.updateOtherUserWorkspaceStatus(workspace_data);
+        }
       } else if (channel_data) {
-        if (channel_data.user_id != this.props.user_id) this.props.updateOtherUserChannelStatus(channel_data);
+        if (channel_data.user_id != this.props.user_id) {
+          this.props.updateOtherUserChannelStatus(channel_data);
+        }
       }
     } // Makes sure you don't go to an invalid channel
 
@@ -4542,11 +4546,16 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick() {
           return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_10__["hideElements"])("dropdown");
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_sidebar_container__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        loginACChannel: this.loginACChannel
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_sidebar_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        workspaceFlag: this.state.workspaceFlag
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        loginACChannel: this.loginACChannel,
+        channelFlag: this.state.channelFlag
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_8__["default"], {
         loginACChannel: this.loginACChannel
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_4__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_9__["default"], null));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        workspaceFlag: this.state.workspaceFlag
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_9__["default"], null));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "loading-page"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/images/orb.gif"
@@ -5130,7 +5139,9 @@ var MessageReducer = function MessageReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
-/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.jsx");
+/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
+
 
 
 
@@ -5145,7 +5156,7 @@ var UserReducer = function UserReducer() {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
       return {};
 
-    case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_WORKSPACE"]:
+    case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["LOAD_WORKSPACE"]:
       nextState = Object.assign({}, action.users); // add user login information from workspace
 
       var userIds = Object.keys(nextState);
@@ -5158,6 +5169,16 @@ var UserReducer = function UserReducer() {
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
       nextState[action.user.id] = action.user;
+      return nextState;
+
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_OTHER_USER_WORKSPACE_STATUS"]:
+      var _action$userData = action.userData,
+          user_id = _action$userData.user_id,
+          logged_in = _action$userData.logged_in,
+          workspace_id = _action$userData.workspace_id;
+      nextState = Object.assign({}, state); // Update workspace user login information
+
+      nextState[user_id].logged_in = logged_in;
       return nextState;
 
     default:
@@ -5201,6 +5222,7 @@ var WorkspaceReducer = function WorkspaceReducer() {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_USER"]:
       return action.user.workspaces;
 
+    case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["LOAD_WORKSPACE"]:
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACE"]:
       nextState = Object.assign({}, state);
       nextState[action.workspace.id] = action.workspace;
@@ -5215,12 +5237,13 @@ var WorkspaceReducer = function WorkspaceReducer() {
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["UPDATE_OTHER_USER_WORKSPACE_STATUS"]:
       var _action$userData = action.userData,
           user_id = _action$userData.user_id,
-          logged_in = _action$userData.logged_in;
+          logged_in = _action$userData.logged_in,
+          workspace_id = _action$userData.workspace_id;
       nextState = Object.assign({}, state); // Update workspace user login information
 
-      if (nextState.users[user_id].logged_in != logged_in) {
-        nextState.users[user_id].logged_in = logged_in;
-        if (logged_in) nextState.num_logged_in_users += 1;else nextState.num_logged_in_users -= 1;
+      if (nextState[workspace_id].users[user_id].logged_in != logged_in) {
+        nextState[workspace_id].users[user_id].logged_in = logged_in;
+        if (logged_in) nextState[workspace_id].num_logged_in_users += 1;else nextState[workspace_id].num_logged_in_users -= 1;
       }
 
       return nextState;

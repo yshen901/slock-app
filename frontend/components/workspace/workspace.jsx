@@ -17,7 +17,9 @@ class Workspace extends React.Component {
     super();
 
     this.state = {
-      loaded: false
+      loaded: false,
+      channelFlag: 0,
+      workspaceFlag: 0,
     }
 
     this.receiveACData = this.receiveACData.bind(this);
@@ -68,12 +70,14 @@ class Workspace extends React.Component {
   // Ignores your own data
   receiveACData({ workspace_data, channel_data }) {
     if (workspace_data) {
-        if (workspace_data.user_id != this.props.user_id)
+        if (workspace_data.user_id != this.props.user_id) {
           this.props.updateOtherUserWorkspaceStatus(workspace_data);
+        }
     }
     else if (channel_data) {
-      if (channel_data.user_id != this.props.user_id) 
+      if (channel_data.user_id != this.props.user_id) {
         this.props.updateOtherUserChannelStatus(channel_data);
+      }
     }
   }
 
@@ -91,12 +95,17 @@ class Workspace extends React.Component {
     if (this.state.loaded)
       return (
         <div id="workspace" onClick={() => hideElements("dropdown")}>
-          <WorkspaceSidebarContainer />
-          <ChannelContainer loginACChannel={this.loginACChannel}/>
+          <WorkspaceSidebarContainer workspaceFlag={this.state.workspaceFlag}/>
+          <ChannelContainer 
+            loginACChannel={this.loginACChannel}
+            channelFlag={this.state.channelFlag}
+          />
 
           <SidebarDropdown loginACChannel={this.loginACChannel}/>
           <BrowseChannelModal />
-          <BrowseDmChannelModal />
+          <BrowseDmChannelModal 
+            workspaceFlag={this.state.workspaceFlag}
+          />
           <InviteUserModal />
           <NewChannelModalContainer />
           <EditChannelTopicModal />

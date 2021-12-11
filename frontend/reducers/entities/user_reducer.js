@@ -1,4 +1,5 @@
 import { RECEIVE_USER, LOGOUT } from '../../actions/session_actions';
+import { UPDATE_OTHER_USER_WORKSPACE_STATUS } from '../../actions/user_actions';
 import { LOAD_WORKSPACE } from '../../actions/workspace_actions';
 
 const UserReducer = (state = { }, action) => {
@@ -17,6 +18,12 @@ const UserReducer = (state = { }, action) => {
       return nextState;
     case RECEIVE_USER:
       nextState[action.user.id] = action.user;
+      return nextState;
+    case UPDATE_OTHER_USER_WORKSPACE_STATUS:
+      let { user_id, logged_in, workspace_id } = action.userData;
+      nextState = Object.assign({}, state);
+      // Update workspace user login information
+      nextState[user_id].logged_in = logged_in;
       return nextState;
     default:
       return state;
