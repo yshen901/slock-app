@@ -18,11 +18,21 @@ if channel.dm_channel
     end
   end
 else
+  users = @single_user ? [@single_user] : channel.users
   json.users do
-    channel.users.each do |user|
+    users.each do |user|
       json.set! user.id do
         json.id user.id
       end
+    end
+  end
+end
+
+json.messages({})
+if @no_messages
+  channel.messages.each do |message|
+    json.set! message.id do
+      json.partial! '/api/messages/message', message: message
     end
   end
 end
