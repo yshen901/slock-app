@@ -4417,7 +4417,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         }
       }
 
-      if (!valid) this.props.history.replace('/signin');else this.props.loadChannel(channel_id);
+      if (!valid) this.props.history.replace('/signin');else if (channel_id != "0") this.props.loadChannel(channel_id);
     } // Makes sure you don't go to an invalid channel
 
   }, {

@@ -44,7 +44,7 @@ class Workspace extends React.Component {
 
     if (!valid) 
       this.props.history.replace('/signin');
-    else
+    else if (channel_id != "0")
       this.props.loadChannel(channel_id)
   }
 
