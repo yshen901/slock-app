@@ -30,7 +30,7 @@ class Homepage extends React.Component {
         <div className="workspace" key={key}>
           <div className="workspace-details">
             <div className="workspace-address">{workspace.address}</div>
-            <div className="workspace-users">X users</div>
+            <div className="workspace-users">{workspace.num_users} members</div>
           </div>
           <button 
             className="home-button" 
@@ -71,7 +71,9 @@ class Homepage extends React.Component {
 
             <div id="home-workspaces">
               <h4>Workspaces for {user.email}</h4>
-              {this.workspaceList()}
+              <div id="home-workspaces-list">
+                {this.workspaceList()}
+              </div>
             </div>
           </div>
         </div>

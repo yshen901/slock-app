@@ -2694,7 +2694,7 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
             className: "workspace-address"
           }, workspace.address), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-users"
-          }, "X users")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          }, workspace.num_users, " members")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             className: "home-button",
             onClick: function onClick() {
               return _this2.props.history.push("/workspace/".concat(workspace.address, "/0"));
@@ -2739,7 +2739,9 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
           to: "/signin"
         }, "Sign into another workspace"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "home-workspaces"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Workspaces for ", user.email), this.workspaceList())));
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Workspaces for ", user.email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "home-workspaces-list"
+        }, this.workspaceList()))));
       } // When user isn't signed in, display try now button
       else {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

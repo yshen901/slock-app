@@ -10,6 +10,7 @@ class Api::SessionsController < ApplicationController
       )
       if @user
         login!(@user, workspace)
+        debugger;
         render 'api/users/show'
       else
         render json: ["Email/Password combination doesn't exist on this workspace"], status: 401
