@@ -2,6 +2,7 @@ class Channel < ApplicationRecord
   validates :name, :workspace_id, presence: true
   validates :starred, inclusion: { in: [ true, false ] }
   validates :dm_channel, inclusion: { in: [ true, false ]}
+  before_save :check_defaults
 
   # the workspace the channel belongs to
   belongs_to :workspace
@@ -38,5 +39,9 @@ class Channel < ApplicationRecord
 
   def dm_users
     dm_user_1.merge(dm_user_2)
+  end
+
+  def check_defaults
+    self.description ||= ""
   end
 end

@@ -1,15 +1,23 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :current_workspaces, :logged_in?
 
-  # finds the currently logged in user
+  # Called once by root to bootstrap current_workspaces
   def current_user
     return nil unless session[:session_token]
+
+    # AVOID N+1 BY INCLUDING CONNECTIONS
+    # @current_user ||= User.includes(workspaces: [:connections]).find_by_session_token(session[:session_token])
     @current_user ||= User.find_by_session_token(session[:session_token])
   end
 
+
+  # Called once by root to bootstrap current_workspaces
   def current_workspaces
     return nil unless session[:session_token]
-    @current_workspaces ||= Workspace.joins(:users).where("logged_in = true AND users.id = #{current_user.id}");
+
+    # AVOID N+1 BY INCLUDING CONNECTIONS
+    # @current_workspaces ||= Workspace.joins(:users).where("logged_in = true AND users.id = #{current_user.id}");
+    @current_workspaces ||= Workspace.includes(:connections).joins(:users).where("logged_in = true AND users.id = #{current_user.id}");
   end
 
   # logs in the user

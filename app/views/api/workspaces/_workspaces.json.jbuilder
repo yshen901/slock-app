@@ -1,7 +1,6 @@
 workspaces.each do |workspace|
   json.set! workspace.id do
     json.extract! workspace, :id, :address
-    
     if @connection 
       json.num_users workspace.connections.length + 1
     else
