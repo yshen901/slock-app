@@ -16,9 +16,22 @@ class ChannelNav extends React.Component {
     let { user, users, channel } = this.props;
     let ids = Object.keys(channel.users);
 
-    if (ids[0] == user.id)
-      return users[ids[1]].email
-    return users[ids[0]].email
+    let userId = ids[0]
+    if (ids[0] == user.id) 
+      userId = ids[1]
+
+    let icon = <i className="fas fa-circle inactive-circle"></i>
+    if (users[userId].logged_in)
+      icon = <i className="fas fa-circle active-circle-dark"></i>
+
+    return (
+      <div className="channel-name">
+        {icon} 
+        <div>
+          {users[userId].email}
+        </div>
+      </div>
+    )
   }
 
   starClick(e) {
@@ -35,21 +48,15 @@ class ChannelNav extends React.Component {
       <div></div>
     else if (this.props.channel.starred)
       return (
-        <div>
-          <div id="star filled hidden" onClick={this.starClick}>
-            <i className='fas fa-star'></i>
-          </div>
-          <div className="channel-nav-divider">|</div>
+        <div id="star filled hidden" onClick={this.starClick}>
+          <i className='fas fa-star'></i>
         </div>
       )
     else
       return(
-        <div>
-          <div id = "star empty" onClick={this.starClick}>
-            <i className='far fa-star' ></i>
-          </div >
-          <div className="channel-nav-divider">|</div>
-        </div>
+        <div id = "star empty" onClick={this.starClick}>
+          <i className='far fa-star' ></i>
+        </div >
       )
   }
 
@@ -75,8 +82,12 @@ class ChannelNav extends React.Component {
           <div id="left-top"> # {name} </div>
           <div id="left-bottom">
             {this.star()} 
+            <div className="channel-nav-divider">|</div>
             <div id="members">
-              <i className="material-icons">person_outline</i>{ Object.keys(users).length }
+              <i className="material-icons">person_outline</i>
+              <div>
+                { Object.keys(users).length }
+              </div>
             </div>
             <div className="channel-nav-divider">|</div> 
             <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>

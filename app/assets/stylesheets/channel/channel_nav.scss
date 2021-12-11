@@ -9,50 +9,127 @@
   background: white;
   border-bottom: 1px solid lightgray;
   display: flex;
-}
 
-#channel-nav #left {
-  width: calc(100% - 400px);
-  min-width: 400px;
-  height: 100%;
+  .fa-star {
+    vertical-align: middle;
+    font-size: 13px;
+  }
+  
+  #star, #channel-nav #members, #channel-nav #topic {
+    cursor: pointer; 
+    font-size: 13px;
+    line-height: 18px;
+    border: 1px solid white;
+    vertical-align: middle;
+  }
 
-  padding: 8px;
-  padding-right: 10px;
-  padding-left: 20px;
-  box-sizing: border-box;
+  #left {
+    width: calc(100% - 400px);
+    min-width: 400px;
+    height: 100%;
+  
+    padding: 8px;
+    padding-right: 10px;
+    padding-left: 20px;
+    box-sizing: border-box;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
+    #left-top {
+      .channel-name {
+        display: flex;
+        align-items: baseline;
+        font-size: 15px;
 
-/*fix css for here*/
-#channel-nav #right {
-  width: 400px;
-  height: 100%;
+        div {
+          font-weight: bold;
+          font-size: 18px;
+          line-height: 24px;
+          vertical-align: baseline;
 
-  padding: 10px;
-  padding-left: 20px;
-  box-sizing: border-box;
+          padding-left: 3px;
+        }
+      }
+    }
 
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-}
+    #left-bottom {
+      height: 18px;
+      color: rgb(100, 100, 100);
+    
+      display: flex;
+      justify-content: flex-start;
 
-#channel-nav #left #left-top {
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 24px;
-  vertical-align: middle;
-}
+      user-select: none;
+      
+      #members {
+        display: flex;
 
-#channel-nav #left #left-bottom {
-  height: 18px;
-  color: rgb(100, 100, 100);
+        .material-icons {
+          font-size: 18px;
+          vertical-align: middle;
+        }
 
-  display: flex;
-  justify-content: flex-start;
+        div {
+          font-size: 16px;
+          line-height: 18px;
+          vertical-align: bottom;
+        }
+      }
+
+      #members:hover {
+        cursor: pointer;
+        color: rgb(43, 108, 161)
+      }
+
+      #topic {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+      
+        padding: 0 4px;
+        box-sizing: border-box;
+      
+        div {
+          height: 18px;
+          width: auto;
+      
+          line-height: 18px;
+          font-size: 12px;
+          // vertical-align: middle;
+          box-sizing: border-box;
+        }
+      
+        .fa-pen {
+          font-size: 10px;
+          padding-right: 4px;
+        }
+      }
+
+      #topic:hover {
+        cursor: pointer;
+        border: 1px solid gray;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  #right {
+    width: 400px;
+    height: 100%;
+  
+    padding: 10px;
+    padding-left: 20px;
+    box-sizing: border-box;
+  
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    user-select: none;
+  }
 }
 
 .channel-nav-divider {
@@ -64,71 +141,8 @@
   text-align: center;
 }
 
-#channel-nav #star, #channel-nav #members, #channel-nav #topic {
-  cursor: pointer; 
-  font-size: 13px;
-  line-height: 18px;
-  border: 1px solid white;
-  vertical-align: middle;
-}
 
-.fa-star {
-  vertical-align: middle;
-  font-size: 13px;
-}
 
-.fas.fa-star {
-  color: rgb(242,199,68);
-}
-
-.far.fa-star {
-  color: rgb(100, 100, 100);
-}
-
-.fa-star:hover {
-  cursor: pointer;
-}
-
-#members .material-icons {
-  font-size: 18px;
-  vertical-align: middle;
-  padding-bottom: 3px;
-}
-
-#channel-nav #members:hover {
-  color: rgb(43, 108, 161)
-}
-
-#channel-nav #topic {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-
-  padding: 0 4px;
-  box-sizing: border-box;
-
-  div {
-    height: 18px;
-    width: auto;
-
-    line-height: 18px;
-    font-size: 12px;
-    // vertical-align: middle;
-    box-sizing: border-box;
-  }
-
-  .fa-pen {
-    font-size: 10px;
-    padding-right: 4px;
-  }
-}
-
-#channel-nav #topic:hover {
-  cursor: pointer;
-  border: 1px solid gray;
-  border-radius: 4px;
-}
 
 #channel-nav .settings-button {
   height: 100%;

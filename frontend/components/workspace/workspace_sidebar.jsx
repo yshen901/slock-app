@@ -35,9 +35,22 @@ class WorkspaceSidebar extends React.Component {
     let { user, users } = this.props;
     let ids = Object.keys(channel.users);
 
-    if (ids[0] == user.id)
-      return users[ids[1]].email
-    return users[ids[0]].email
+    let userId = ids[0]
+    if (ids[0] == user.id) 
+      userId = ids[1]
+
+    let icon = <i className="fas fa-circle inactive-circle"></i>
+    if (users[userId].logged_in)
+      icon = <i className="fas fa-circle active-circle-light"></i>
+
+    return (
+      <div className="channel-name">
+        {icon} 
+        <div>
+          {users[userId].email}
+        </div>
+      </div>
+    )
   }
 
   getChannels(starStatus, dmStatus=false) {
@@ -115,9 +128,9 @@ class WorkspaceSidebar extends React.Component {
             <div className="sidebar-list">
               {this.getChannels(false, true).map((channel, idx) => {
                 if (channel.id === channel_id)
-                  return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># &nbsp;{this.getDmChannelName(channel)}</Link>);
+                  return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}>{this.getDmChannelName(channel)}</Link>);
                 else
-                  return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># &nbsp;{this.getDmChannelName(channel)}</Link>);               
+                  return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}>{this.getDmChannelName(channel)}</Link>);               
               })}
             </div>
           </div>

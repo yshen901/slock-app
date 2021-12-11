@@ -1,4 +1,4 @@
-import { RECEIVE_WORKSPACE, RECEIVE_WORKSPACES, REMOVE_WORKSPACE } from "../../actions/workspace_actions";
+import { LOAD_WORKSPACE, RECEIVE_WORKSPACE, RECEIVE_WORKSPACES, REMOVE_WORKSPACE } from "../../actions/workspace_actions";
 import { LOGOUT, RECEIVE_USER } from "../../actions/session_actions";
 
 const WorkspaceReducer = (state = {}, action) => {

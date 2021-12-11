@@ -461,9 +461,7 @@ var loadWorkspace = function loadWorkspace(_ref2) {
   var workspace = _ref2.workspace,
       users = _ref2.users,
       user_channels = _ref2.user_channels,
-      channels = _ref2.channels,
-      user_dm_channels = _ref2.user_dm_channels,
-      dm_channels = _ref2.dm_channels;
+      channels = _ref2.channels;
   return {
     type: LOAD_WORKSPACE,
     workspace: workspace,
@@ -2170,8 +2168,17 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
           users = _this$props.users,
           channel = _this$props.channel;
       var ids = Object.keys(channel.users);
-      if (ids[0] == user.id) return users[ids[1]].email;
-      return users[ids[0]].email;
+      var userId = ids[0];
+      if (ids[0] == user.id) userId = ids[1];
+      var icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-circle inactive-circle"
+      });
+      if (users[userId].logged_in) icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-circle active-circle-dark"
+      });
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name"
+      }, icon, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, users[userId].email));
     }
   }, {
     key: "starClick",
@@ -2190,21 +2197,17 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
     key: "star",
     value: function star() {
       var channel = this.props.channel;
-      if (channel.name === "general" || channel.dm_channel) /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);else if (this.props.channel.starred) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (channel.name === "general" || channel.dm_channel) /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);else if (this.props.channel.starred) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "star filled hidden",
         onClick: this.starClick
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-star"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-nav-divider"
-      }, "|"));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "star empty",
         onClick: this.starClick
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-star"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-nav-divider"
-      }, "|"));
+      }));
     }
   }, {
     key: "toggleElements",
@@ -2236,10 +2239,12 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
       }, " # ", name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "left-bottom"
       }, this.star(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-nav-divider"
+      }, "|"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "members"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "material-icons"
-      }, "person_outline"), Object.keys(users).length), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "person_outline"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object.keys(users).length)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-nav-divider"
       }, "|"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "topic",
@@ -2316,12 +2321,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
+  var _ownProps$match$param = ownProps.match.params,
+      channel_id = _ownProps$match$param.channel_id,
+      workspace_address = _ownProps$match$param.workspace_address;
+  var _state$entities = state.entities,
+      users = _state$entities.users,
+      channels = _state$entities.channels;
+  var user_id = state.session.user_id;
   return {
-    workspace_address: ownProps.match.params.workspace_address,
-    channel_id: parseInt(ownProps.match.params.channel_id),
-    channel: state.entities.channels[ownProps.match.params.channel_id],
-    user: state.entities.users[state.session.user_id],
-    users: state.entities.users
+    channel_id: parseInt(channel_id),
+    channel: channels[parseInt(channel_id)],
+    user: users[user_id],
+    users: users,
+    workspace_address: workspace_address
   };
 };
 
@@ -4585,8 +4597,17 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
           user = _this$props.user,
           users = _this$props.users;
       var ids = Object.keys(channel.users);
-      if (ids[0] == user.id) return users[ids[1]].email;
-      return users[ids[0]].email;
+      var userId = ids[0];
+      if (ids[0] == user.id) userId = ids[1];
+      var icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-circle inactive-circle"
+      });
+      if (users[userId].logged_in) icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-circle active-circle-light"
+      });
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name"
+      }, icon, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, users[userId].email));
     }
   }, {
     key: "getChannels",
@@ -4692,11 +4713,11 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
           key: idx,
           className: "sidebar-item selected",
           to: _this3.channelLink(channel.id)
-        }, "# \xA0", _this3.getDmChannelName(channel));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        }, _this3.getDmChannelName(channel));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: "sidebar-item",
           to: _this3.channelLink(channel.id)
-        }, "# \xA0", _this3.getDmChannelName(channel));
+        }, _this3.getDmChannelName(channel));
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-button"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5002,7 +5023,15 @@ var UserReducer = function UserReducer() {
       return {};
 
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_WORKSPACE"]:
-      return action.users;
+      nextState = Object.assign({}, action.users); // add user login information from workspace
+
+      var userIds = Object.keys(nextState);
+
+      for (var i = 0; i < userIds.length; i++) {
+        nextState[userIds[i]].logged_in = action.workspace.users[userIds[i]].logged_in;
+      }
+
+      return nextState;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
       nextState[action.user.id] = action.user;

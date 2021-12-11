@@ -46,3 +46,18 @@
   from { margin-top: 1%; opacity: 0.3}
   to { margin-top: 0%; opacity: 1 }
 }
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}

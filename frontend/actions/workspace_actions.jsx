@@ -16,7 +16,7 @@ const receiveWorkspace = ({workspace, users, user_channels, channels}) => ({
 });
 
 // Loads workspace info into other slices
-const loadWorkspace = ({workspace, users, user_channels, channels, user_dm_channels, dm_channels}) => ({
+const loadWorkspace = ({workspace, users, user_channels, channels}) => ({
   type: LOAD_WORKSPACE,
   workspace,
   users,

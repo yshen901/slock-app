@@ -47,8 +47,19 @@ channel_6 = Channel.create(name: "test-channel-3", workspace_id: demo_workspace.
 dm_channel = Channel.create(name: "#{demo_user.id}-#{my_user.id}", workspace_id: demo_workspace.id, dm_channel: true)
 dm_channel_user = DmChannelUser.create(user_1_id: demo_user.id, user_2_id: my_user.id, channel_id: dm_channel.id, workspace_id: demo_workspace.id);
 
+dm_channel = Channel.create(name: "#{demo_user.id}-#{gandalf.id}", workspace_id: demo_workspace.id, dm_channel: true)
+dm_channel_user = DmChannelUser.create(user_1_id: demo_user.id, user_2_id: gandalf.id, channel_id: dm_channel.id, workspace_id: demo_workspace.id);
+
+dm_channel = Channel.create(name: "#{demo_user.id}-#{frodo.id}", workspace_id: demo_workspace.id, dm_channel: true)
+dm_channel_user = DmChannelUser.create(user_1_id: demo_user.id, user_2_id: frodo.id, channel_id: dm_channel.id, workspace_id: demo_workspace.id);
+
 User.all.each do |user|
-  WorkspaceUser.create(user_id: user.id, workspace_id: demo_workspace.id)
+  logged_in = false
+  if user == my_user || user == frodo || user == aragorn
+    logged_in = true
+  end
+  
+  WorkspaceUser.create(user_id: user.id, workspace_id: demo_workspace.id, logged_in: logged_in)
   ChannelUser.create(user_id: user.id, channel_id: channel_1.id, workspace_id: demo_workspace.id)
   ChannelUser.create(user_id: user.id, channel_id: channel_2.id, workspace_id: demo_workspace.id)
   ChannelUser.create(user_id: user.id, channel_id: channel_3.id, workspace_id: demo_workspace.id)

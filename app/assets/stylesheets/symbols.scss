@@ -1,0 +1,27 @@
+// For starred/unstarred symbol
+.fas.fa-star {
+  color: rgb(242,199,68);
+}
+
+.far.fa-star {
+  color: rgb(100, 100, 100);
+}
+
+.fa-star:hover {
+  cursor: pointer;
+}
+
+
+// For user activity circle color
+.active-circle-light {
+  color: rgb(0, 255, 0);
+}
+
+.active-circle-dark {
+  color: rgb(48,162,76);
+}
+
+.inactive-circle {
+  color: lightgray;
+}
+
