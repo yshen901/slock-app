@@ -68,7 +68,7 @@ class Workspace extends React.Component {
   // Ignores your own data
   receiveACData({ workspace_data, channel_data }) {
     if (workspace_data) {
-        if (workspace_data.user_id != this.props.user_id) {
+        if (workspace_data.user_id != this.props.user_id)
           this.props.updateOtherUserWorkspaceStatus(workspace_data);
     }
     else if (channel_data) {
