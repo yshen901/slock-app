@@ -103,6 +103,21 @@
 
   font-size: 15px;
   padding: 15px;
+
+  .channel-name {
+    display: flex;
+    align-items: baseline;
+    font-size: 15px;
+
+    div {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 24px;
+      vertical-align: baseline;
+
+      padding-left: 3px;
+    }
+  }
 }
 
 .full-modal-item:hover {

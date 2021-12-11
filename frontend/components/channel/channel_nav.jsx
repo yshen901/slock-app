@@ -34,6 +34,16 @@ class ChannelNav extends React.Component {
     )
   }
 
+  getChannelName(name) {
+    return (
+      <div className="channel-name">
+        <div>
+          #&nbsp;{name}
+        </div>
+      </div>
+    )
+  }
+
   starClick(e) {
     let { channel } = this.props;
     dispatch(updateChannel({ starred: !channel.starred, id: channel.id }))
@@ -79,7 +89,7 @@ class ChannelNav extends React.Component {
     if (!dm_channel) 
       return (
         <div id="left">
-          <div id="left-top"> # {name} </div>
+          <div id="left-top">{this.getChannelName(name)}</div>
           <div id="left-bottom">
             {this.star()} 
             <div className="channel-nav-divider">|</div>

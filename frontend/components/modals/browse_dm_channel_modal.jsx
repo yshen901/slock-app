@@ -39,6 +39,21 @@ class BrowseDmChannelModal extends React.Component {
     this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
   }
 
+  getUserInfo(user) {
+    let icon = <i className="fas fa-circle inactive-circle"></i>
+    if (user.logged_in)
+      icon = <i className="fas fa-circle active-circle-dark"></i>
+
+    return (
+      <div className="channel-name">
+        {icon} 
+        <div>
+          {user.email}
+        </div>
+      </div>
+    )
+  }
+
   allUsers() {
     let channelsDisplay = [];
     let users = getState().entities.users;
@@ -58,7 +73,7 @@ class BrowseDmChannelModal extends React.Component {
             <div 
               className="full-modal-item" key={i} 
               onClick={() => this.createDmChannel([currentUserId, usersArray[i].id], workspaceId)}>
-              # {user.email}
+              {this.getUserInfo(user)}
             </div>
           )
         }

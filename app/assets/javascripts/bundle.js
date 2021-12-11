@@ -2181,6 +2181,13 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
       }, icon, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, users[userId].email));
     }
   }, {
+    key: "getChannelName",
+    value: function getChannelName(name) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "#\xA0", name));
+    }
+  }, {
     key: "starClick",
     value: function starClick(e) {
       var _this2 = this;
@@ -2236,7 +2243,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
         id: "left"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "left-top"
-      }, " # ", name, " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.getChannelName(name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "left-bottom"
       }, this.star(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-nav-divider"
@@ -3092,6 +3099,19 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
       this.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
     }
   }, {
+    key: "getUserInfo",
+    value: function getUserInfo(user) {
+      var icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-circle inactive-circle"
+      });
+      if (user.logged_in) icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-circle active-circle-dark"
+      });
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name"
+      }, icon, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, user.email));
+    }
+  }, {
     key: "allUsers",
     value: function allUsers() {
       var _this3 = this;
@@ -3115,7 +3135,7 @@ var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
               onClick: function onClick() {
                 return _this3.createDmChannel([currentUserId, usersArray[i].id], workspaceId);
               }
-            }, "# ", user.email));
+            }, _this3.getUserInfo(user)));
           }
         };
 
