@@ -34,8 +34,8 @@ class MessageForm extends React.Component {
       let { users } = getState().entities;
       let { user_id } = getState().session;
 
-      App.cable.subscriptions.subscriptions[0].speak(
-        { 
+      this.props.messageACChannel.speak(
+        {
           message: { 
             body: this.state.body,
             user_id: getState().session.user_id,

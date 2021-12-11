@@ -27,6 +27,14 @@ class SidebarDropdown extends React.Component {
     dispatch(logoutWorkspace(getState().session.workspace_id))
     .then(
       () => {
+        this.props.loginACChannel.speak(
+          {
+            workspace_data: {
+              user_id: getState().session.user_id,
+              logged_in: false
+            }
+          }
+        )
         this.props.history.push('/');
         }
       )

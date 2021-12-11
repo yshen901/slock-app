@@ -41,11 +41,24 @@ class Channel extends React.Component {
     hideElements("dropdown");
 
     let { channel, channel_id, workspace_address, user } = this.props;
+    let user_id = user.id;
+
+    debugger;
     if (!channel.dm_channel) {
       if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
         dispatch(leaveChannel(parseInt(channel_id)))
           .then(
             () => {
+              debugger;
+              this.props.loginACChannel.speak(
+                {
+                  channel_data: {
+                    login: false,
+                    user_id,
+                    channel_id
+                  }
+                }
+              );
               this.props.history.push(`/workspace/${workspace_address}/0`);
               this.setState({ joined: false });
             },
@@ -76,9 +89,24 @@ class Channel extends React.Component {
     hideElements("dropdown");
     let { channel_id } = this.props;
     let { workspace_id } = this.props.channel;
+    let user_id = this.props.user.id;
+
+    debugger;
     dispatch(joinChannel({channel_id, workspace_id}))
       .then(
-        () => this.setState({ joined: true })
+        () => {
+          debugger;
+          this.props.loginACChannel.speak(
+            {
+              channel_data: {
+                login: true,
+                user_id,
+                channel_id
+              }
+            }
+          );
+          this.setState({ joined: true });
+        }
       )
   }
 

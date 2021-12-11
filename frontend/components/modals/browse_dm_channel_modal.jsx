@@ -64,7 +64,7 @@ class BrowseDmChannelModal extends React.Component {
 
     
     // Only display users once someone has started to search
-    if (this.state.search.length > 0) {
+    // if (this.state.search.length > 0) {
       let user;
       for (let i = 0; i < usersArray.length; i++) {
         user = usersArray[i];
@@ -78,7 +78,7 @@ class BrowseDmChannelModal extends React.Component {
           )
         }
       }
-    }
+    // }
 
     return (
       <div key={0}>

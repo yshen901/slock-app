@@ -10,7 +10,10 @@ class ChannelChatRoom extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { messages: [] }
+    this.state = { 
+      messages: []
+    };
+
     this.bottom = React.createRef();
 
     this.loadMessages = this.loadMessages.bind(this);
@@ -68,7 +71,7 @@ class ChannelChatRoom extends React.Component {
   }
 
   componentDidMount() {
-    App.cable.subscriptions.create(
+    this.messageACChannel = App.cable.subscriptions.create(
       { channel: "ChatChannel" }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
       {
         received: this.receiveACData,
@@ -77,7 +80,6 @@ class ChannelChatRoom extends React.Component {
         }
       }
     );
-
     this.loadMessages();
   }
 
@@ -115,7 +117,7 @@ class ChannelChatRoom extends React.Component {
           {messageList}
           <div ref={this.bottom} />
         </div>
-        <MessageForm joinChannel={this.props.joinChannel} status={this.props.status}/>
+        <MessageForm messageACChannel={this.messageACChannel} joinChannel={this.props.joinChannel} status={this.props.status}/>
       </div>
     );
   }

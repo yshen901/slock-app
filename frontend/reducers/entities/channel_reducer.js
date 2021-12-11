@@ -7,6 +7,7 @@ import {
 import { LOAD_WORKSPACE, REMOVE_WORKSPACE } from '../../actions/workspace_actions';
 import { LOGOUT } from '../../actions/session_actions';
 import { JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../../actions/dm_channel_actions';
+import { UPDATE_OTHER_USER_CHANNEL_STATUS } from '../../actions/user_actions';
 
 const ChannelReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -54,6 +55,15 @@ const ChannelReducer = (state = {}, action) => {
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;
 
+    // Update the channel's user list depending on whether its a login or logout action
+    case UPDATE_OTHER_USER_CHANNEL_STATUS:
+      let {user_id, channel_id, login} = action.userData
+      nextState = Object.assign({}, state);
+      if (login)
+        nextState[channel_id].users[user_id] = { id: user_id };
+      else
+        delete nextState[channel_id].users[user_id];
+      return nextState;
     default:
       return state
   }

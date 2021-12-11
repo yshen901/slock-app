@@ -19,6 +19,8 @@ class Workspace extends React.Component {
     this.state = {
       loaded: false
     }
+
+    this.receiveACData = this.receiveACData.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +48,33 @@ class Workspace extends React.Component {
       this.props.history.replace('/signin');
     else if (channel_id != "0")
       this.props.loadChannel(channel_id)
+
+
+    // Listens for login for workspace and channel
+    // workspace_data : { user_id, logged_in }
+    // channel_data   : { user_id, channel_id, action }
+    this.loginACChannel = App.cable.subscriptions.create(
+      { channel: "LoginChannel" },
+      {
+        received: this.receiveACData,
+        speak: function(data) {
+          return this.perform("speak", data)
+        }
+      }
+    )
+  }
+
+  // Receives data sent from other users' workspace and channel join/leave actions
+  // Ignores your own data
+  receiveACData({ workspace_data, channel_data }) {
+    if (workspace_data.user_id != this.props.user_id) {
+      if (workspace_data) {
+        this.props.updateOtherUserWorkspaceStatus(workspace_data);
+      }
+      else if (channel_data) {
+        this.props.updateOtherUserChannelStatus(channel_data);
+      }
+    }
   }
 
   // Makes sure you don't go to an invalid channel
@@ -63,9 +92,9 @@ class Workspace extends React.Component {
       return (
         <div id="workspace" onClick={() => hideElements("dropdown")}>
           <WorkspaceSidebarContainer />
-          <ChannelContainer />
+          <ChannelContainer loginACChannel={this.loginACChannel}/>
 
-          <SidebarDropdown />
+          <SidebarDropdown loginACChannel={this.loginACChannel}/>
           <BrowseChannelModal />
           <BrowseDmChannelModal />
           <InviteUserModal />
