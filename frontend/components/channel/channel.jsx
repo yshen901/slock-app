@@ -57,7 +57,7 @@ class Channel extends React.Component {
                   }
                 }
               );
-              this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
+              // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
               this.setState({ joined: false });
             },
             null
@@ -73,7 +73,7 @@ class Channel extends React.Component {
         .then(
           () => {
             () => {
-              this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
+              // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
               this.setState({ joined: false });
             },
             null
