@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     end
 
     resources :workspace_users, only: [:update, :create]
-    resources :channel_users, only: [:create, :destroy]
+    resources :channel_users, only: [:create, :destroy, :update]
 
     resources :dm_channel_users, only: [:create, :update]
   end

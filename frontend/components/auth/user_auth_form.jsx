@@ -60,7 +60,8 @@ class UserSigninForm extends React.Component {
     //       ),
     //     () => this.setState({state: this.state})
     //   )
-    e.preventDefault();
+    if (e)
+      e.preventDefault();
     this.props.processForm(this.state)
       .then( 
         () => {

@@ -29,7 +29,8 @@ class WorkspaceSigninForm extends React.Component {
       3) For this case, you don't need to re-direct at all...just force a re-render
   */
   handleSubmit(e) {
-    e.preventDefault();
+    if (e)
+      e.preventDefault();
     dispatch(findWorkspace(this.state.workspace_address))
       .then(
         () => this.props.history.push(`/signin/${ this.state.workspace_address }`),

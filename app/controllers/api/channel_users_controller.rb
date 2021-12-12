@@ -35,9 +35,26 @@ class Api::ChannelUsersController < ApplicationController
     end
   end
 
+  def update
+    @channel_user = ChannelUser.find_by(
+      user_id: current_user.id,
+      channel_id: channel_user_params[:channel_id]
+    )
+
+    if @channel_user
+      if @channel_user.update(channel_user_params)
+        render 'api/channel_users/show'
+      else
+        render json: ["Channel update failed!"]
+      end
+    else
+      render json: ["User is not in the channel!"]
+    end
+  end
+
   private
 
   def channel_user_params
-    params.require(:channel_user).permit(:channel_id, :workspace_id)
+    params.require(:channel_user).permit(:channel_id, :workspace_id, :starred)
   end
 end

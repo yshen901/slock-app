@@ -1,6 +1,6 @@
 class Channel < ApplicationRecord
   validates :name, :workspace_id, presence: true
-  validates :starred, inclusion: { in: [ true, false ] }
+  # validates :starred, inclusion: { in: [ true, false ] }
   validates :dm_channel, inclusion: { in: [ true, false ]}
   before_save :check_defaults
 

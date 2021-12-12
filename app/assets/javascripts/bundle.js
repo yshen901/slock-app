@@ -1030,7 +1030,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
       //       ),
       //     () => this.setState({state: this.state})
       //   )
-      e.preventDefault();
+      if (e) e.preventDefault();
       this.props.processForm(this.state).then(function () {
         if (_this3.props.formType === 'Sign in') _this3.props.history.push("/workspace/".concat(_this3.state.workspace_address, "/0"));else _this3.props.history.push("/");
       }, function () {
@@ -1590,7 +1590,7 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
     value: function handleSubmit(e) {
       var _this2 = this;
 
-      e.preventDefault();
+      if (e) e.preventDefault();
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_5__["findWorkspace"])(this.state.workspace_address)).then(function () {
         return _this2.props.history.push("/signin/".concat(_this2.state.workspace_address));
       }, function () {
