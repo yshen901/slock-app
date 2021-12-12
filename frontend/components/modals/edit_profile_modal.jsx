@@ -8,40 +8,74 @@ class EditProfileModal extends React.Component {
     this.state = {
       imageUrl: "",
       imageFile: null,
-      errors: []
+      errors: [],
+      full_name: "",
+      display_name: "",
+      what_i_do: "",
+      phone_number: ""
     };
 
     this.resetState = this.setState.bind(this);
     this.readFile = this.readFile.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    let { full_name, display_name, what_i_do, phone_number } = this.props.user;
+    this.setState({
+      full_name, 
+      display_name,
+      what_i_do,
+      phone_number
+    });
   }
 
   // Fires backend to update the user's attached photo
   handleUpload(e) {
     e.stopPropagation();
-    let { imageFile } = this.state;
+    let { imageFile, full_name, display_name, what_i_do, phone_number } = this.state;
 
     // Necessary for uploading files
     let userForm = new FormData();
     userForm.append('id', this.props.user.id)
 
-    if (imageFile) {
+    if (imageFile)
       userForm.append('user[photo]', imageFile); // Nested!
-      this.props.updateUser(userForm)
-        .then(() => {
-          this.handleCancel();
-        });
-    } 
-    else {
+    userForm.append('user[full_name]', full_name); // Nested!
+    userForm.append('user[display_name]', display_name); // Nested!
+    userForm.append('user[what_i_do]', what_i_do); // Nested!
+    userForm.append('user[phone_number]', phone_number); // Nested!
+
+    this.props.updateUser(userForm)
+    .then(() => {
       this.handleCancel();
-    }
+    });
   }
 
   // Resets state and hides modal
   handleCancel() {
     this.setState({imageUrl: "", imageFile: null, errors: []});
     hideElements("edit-profile-modal");
+  }
+
+  // Updates the field
+  // Special case for phone number where it will insert dashes at the right places
+  handleChange(type) {
+    return (e) => {
+      if (type != "phone_number")
+        this.setState({
+          [type]: e.currentTarget.value
+        });
+      else {
+        let number = e.currentTarget.value;
+        number = number.split("").filter((char) => parseInt(char)).join("");
+        this.setState({
+          [type]: number.slice(0, 10)
+        });
+      }
+    }
   }
 
   // Reads in the elements using FileReader, and set state when successful
@@ -85,8 +119,14 @@ class EditProfileModal extends React.Component {
         <h1>Edit your profile</h1>
         <div className="form-content">
           <div className="info">
-            <h2>Name</h2>
-            <input type="text"/>
+            <h2>Full Name</h2>
+            <input type="text" value={this.state.full_name} onChange={this.handleChange("full_name")}/>
+            <h2>Display Name</h2>
+            <input type="text" value={this.state.display_name} onChange={this.handleChange("display_name")}/>
+            <h2>Phone Number</h2>
+            <input type="text" value={this.state.phone_number} onChange={this.handleChange("phone_number")}/>
+            <h2>What I Do</h2>
+            <input type="text" value={this.state.what_i_do} onChange={this.handleChange("what_i_do")}/>
           </div>
           <div className="photo">
             <h2>Profile Photo</h2>

@@ -33,7 +33,6 @@ aragorn.photo.attach({io: file, filename: "aragorn.jpg"})
 demo_user = User.create(email: "demoUser@slock.com", password: "demoPassword")
 
 my_user = User.create(email: "shen.yuci1@gmail.com", password: "zunera")
-
 demo_workspace = Workspace.create(address: 'DemoWorkspace')
 general_channel = Channel.create({name: "general", workspace_id: demo_workspace.id})
 random_channel = Channel.create({name: "random", workspace_id: demo_workspace.id})

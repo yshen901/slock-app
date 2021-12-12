@@ -1,12 +1,15 @@
 class User < ApplicationRecord
-  before_validation :ensure_session_token
-
+  
   # TODO1: VALIDATION THAT REQUIRES EMAIL TO HAVE AN @
   validates :email, :password_digest, :session_token, presence: true
+  # validates :full_name, :display_name, :phone_number, :what_i_do, presence: true
   validates :email, :session_token, uniqueness: true
-
+  
   # MUST HAVE ALLOW_NIL OR IT WILL ALWAYS FAIL VALIDATION
   validates :password, length: { minimum: 6 }, allow_nil: true 
+  
+  before_validation :ensure_defaults
+  before_validation :ensure_session_token
 
   # joins connection to a workspace, contains logged_in info
   has_many :connections,
@@ -84,5 +87,12 @@ class User < ApplicationRecord
   def self.find_by_credentials(email, password)
     user = User.find_by_email(email)
     user && user.is_password?(password) ? user : nil
+  end
+
+  def ensure_defaults 
+    self.full_name ||= ""
+    self.display_name ||= ""
+    self.phone_number ||= ""
+    self.what_i_do ||= ""
   end
 end

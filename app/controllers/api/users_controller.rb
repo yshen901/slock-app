@@ -81,7 +81,11 @@ class Api::UsersController < ApplicationController
     if (@user) 
       @user.photo.attach(user_params[:photo]);
       if @user.save
-        render :show
+        if @user.update(user_params.except(:photo))
+          render :show
+        else
+          render json: @user.errors.full_messages, status: 401
+        end
       else
         render json: @user.errors.full_messages, status: 401
       end
@@ -92,6 +96,6 @@ class Api::UsersController < ApplicationController
 
   private
   def user_params 
-    params.require(:user).permit(:email, :password, :photo)
+    params.require(:user).permit(:email, :password, :photo, :full_name, :display_name, :what_i_do, :phone_number)
   end
 end
