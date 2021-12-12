@@ -1727,7 +1727,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _channel_nav_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channel_nav_container */ "./frontend/components/channel/channel_nav_container.js");
 /* harmony import */ var _channel_chat_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_chat_container */ "./frontend/components/channel/channel_chat_container.js");
 /* harmony import */ var _modals_channel_dropdown__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modals/channel_dropdown */ "./frontend/components/modals/channel_dropdown.jsx");
-/* harmony import */ var _channel_video_room__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./channel_video_room */ "./frontend/components/channel/channel_video_room.jsx");
+/* harmony import */ var _channel_video_chat_room__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./channel_video_chat_room */ "./frontend/components/channel/channel_video_chat_room.jsx");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
@@ -1907,7 +1907,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderRoom",
     value: function renderRoom() {
-      if (this.state.inVideoCall) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_video_room__WEBPACK_IMPORTED_MODULE_5__["default"], null);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      if (this.state.inVideoCall) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_video_chat_room__WEBPACK_IMPORTED_MODULE_5__["default"], null);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         joinChannel: this.joinChannel,
         status: this.state
       });
@@ -2457,10 +2457,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/channel/channel_video_room.jsx":
-/*!************************************************************!*\
-  !*** ./frontend/components/channel/channel_video_room.jsx ***!
-  \************************************************************/
+/***/ "./frontend/components/channel/channel_video_chat_room.jsx":
+/*!*****************************************************************!*\
+  !*** ./frontend/components/channel/channel_video_chat_room.jsx ***!
+  \*****************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2469,8 +2469,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var react_new_window__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-new-window */ "./node_modules/react-new-window/umd/react-new-window.js");
-/* harmony import */ var react_new_window__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_new_window__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_webcam__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-webcam */ "./node_modules/react-webcam/dist/react-webcam.js");
+/* harmony import */ var react_webcam__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_webcam__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2497,30 +2497,74 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var ChannelVideoRoom = /*#__PURE__*/function (_React$Component) {
-  _inherits(ChannelVideoRoom, _React$Component);
+var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
+  _inherits(ChannelVideoChatRoom, _React$Component);
 
-  var _super = _createSuper(ChannelVideoRoom);
+  var _super = _createSuper(ChannelVideoChatRoom);
 
-  function ChannelVideoRoom(props) {
-    _classCallCheck(this, ChannelVideoRoom);
+  function ChannelVideoChatRoom(props) {
+    var _this;
 
-    return _super.call(this, props);
-  }
+    _classCallCheck(this, ChannelVideoChatRoom);
 
-  _createClass(ChannelVideoRoom, [{
+    _this = _super.call(this, props);
+    _this.state = {
+      audio: true
+    };
+    _this.toggleAudio = _this.toggleAudio.bind(_assertThisInitialized(_this));
+    return _this;
+  } // Called when the component is rendered (video call starts)
+
+
+  _createClass(ChannelVideoChatRoom, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      debugger;
+    } // Called when the component is unrendered (video call ends)
+
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      debugger;
+    }
+  }, {
+    key: "toggleAudio",
+    value: function toggleAudio() {
+      this.setState({
+        audio: !this.state.audio
+      });
+    }
+  }, {
+    key: "audioButton",
+    value: function audioButton() {
+      var action = "Unmute";
+      if (this.state.audio) action = "Mute";
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "video-chatroom-setting",
+        onClick: this.toggleAudio
+      }, action);
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "chatroom-container"
-      });
+        className: "video-chatroom-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_webcam__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        videoConstraints: {
+          width: 1280,
+          height: 720
+        },
+        audio: this.state.audio
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "video-chatroom-settings"
+      }, this.audioButton()));
     }
   }]);
 
-  return ChannelVideoRoom;
+  return ChannelVideoChatRoom;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ChannelVideoRoom));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ChannelVideoChatRoom));
 
 /***/ }),
 
@@ -37905,34 +37949,6 @@ if (false) {} else {
 
 /***/ }),
 
-/***/ "./node_modules/react-new-window/umd/react-new-window.js":
-/*!***************************************************************!*\
-  !*** ./node_modules/react-new-window/umd/react-new-window.js ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-!function(e,t){ true?module.exports=t(__webpack_require__(/*! react */ "./node_modules/react/index.js"),__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js")):undefined}(this,(function(e,t){"use strict";function n(e){return e&&"object"==typeof e&&"default"in e?e:{default:e}}var o=n(e),r=n(t);function i(e,t){for(var n=0;n<t.length;n++){var o=t[n];o.enumerable=o.enumerable||!1,o.configurable=!0,"value"in o&&(o.writable=!0),Object.defineProperty(e,o.key,o)}}function c(e,t){return c=Object.setPrototypeOf||function(e,t){return e.__proto__=t,e},c(e,t)}function u(e){return u="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},u(e)}function s(e,t){if(t&&("object"===u(t)||"function"==typeof t))return t;if(void 0!==t)throw new TypeError("Derived constructors may only return object or undefined");return function(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}(e)}function a(e){return a=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)},a(e)}var l={exports:{}},f={};
-/** @license React v16.8.6
-   * react-is.production.min.js
-   *
-   * Copyright (c) Facebook, Inc. and its affiliates.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   */
-Object.defineProperty(f,"__esModule",{value:!0});var d="function"==typeof Symbol&&Symbol.for,p=d?Symbol.for("react.element"):60103,y=d?Symbol.for("react.portal"):60106,h=d?Symbol.for("react.fragment"):60107,w=d?Symbol.for("react.strict_mode"):60108,m=d?Symbol.for("react.profiler"):60114,b=d?Symbol.for("react.provider"):60109,v=d?Symbol.for("react.context"):60110,O=d?Symbol.for("react.async_mode"):60111,g=d?Symbol.for("react.concurrent_mode"):60111,S=d?Symbol.for("react.forward_ref"):60112,j=d?Symbol.for("react.suspense"):60113,E=d?Symbol.for("react.memo"):60115,C=d?Symbol.for("react.lazy"):60116;function P(e){if("object"==typeof e&&null!==e){var t=e.$$typeof;switch(t){case p:switch(e=e.type){case O:case g:case h:case m:case w:case j:return e;default:switch(e=e&&e.$$typeof){case v:case S:case b:return e;default:return t}}case C:case E:case y:return t}}}function R(e){return P(e)===g}f.typeOf=P,f.AsyncMode=O,f.ConcurrentMode=g,f.ContextConsumer=v,f.ContextProvider=b,f.Element=p,f.ForwardRef=S,f.Fragment=h,f.Lazy=C,f.Memo=E,f.Portal=y,f.Profiler=m,f.StrictMode=w,f.Suspense=j,f.isValidElementType=function(e){return"string"==typeof e||"function"==typeof e||e===h||e===g||e===m||e===w||e===j||"object"==typeof e&&null!==e&&(e.$$typeof===C||e.$$typeof===E||e.$$typeof===b||e.$$typeof===v||e.$$typeof===S)},f.isAsyncMode=function(e){return R(e)||P(e)===O},f.isConcurrentMode=R,f.isContextConsumer=function(e){return P(e)===v},f.isContextProvider=function(e){return P(e)===b},f.isElement=function(e){return"object"==typeof e&&null!==e&&e.$$typeof===p},f.isForwardRef=function(e){return P(e)===S},f.isFragment=function(e){return P(e)===h},f.isLazy=function(e){return P(e)===C},f.isMemo=function(e){return P(e)===E},f.isPortal=function(e){return P(e)===y},f.isProfiler=function(e){return P(e)===m},f.isStrictMode=function(e){return P(e)===w},f.isSuspense=function(e){return P(e)===j};
-/*
-  object-assign
-  (c) Sindre Sorhus
-  @license MIT
-  */
-Object.getOwnPropertySymbols,Object.prototype.hasOwnProperty,Object.prototype.propertyIsEnumerable;!function(){try{if(!Object.assign)return!1;var e=new String("abc");if(e[5]="de","5"===Object.getOwnPropertyNames(e)[0])return!1;for(var t={},n=0;n<10;n++)t["_"+String.fromCharCode(n)]=n;var o=Object.getOwnPropertyNames(t).map((function(e){return t[e]}));if("0123456789"!==o.join(""))return!1;var r={};return"abcdefghijklmnopqrst".split("").forEach((function(e){r[e]=e})),"abcdefghijklmnopqrst"===Object.keys(Object.assign({},r)).join("")}catch(e){return!1}}()||Object.assign;Function.call.bind(Object.prototype.hasOwnProperty);function _(){}function T(){}T.resetWarningCache=_;l.exports=function(){function e(e,t,n,o,r,i){if("SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED"!==i){var c=new Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");throw c.name="Invariant Violation",c}}function t(){return e}e.isRequired=e;var n={array:e,bool:e,func:e,number:e,object:e,string:e,symbol:e,any:e,arrayOf:t,element:e,elementType:e,instanceOf:t,node:e,objectOf:t,oneOf:t,oneOfType:t,shape:t,exact:t,checkPropTypes:T,resetWarningCache:_};return n.PropTypes=n,n}();var k=l.exports;function x(e){var t=function(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Boolean.prototype.valueOf.call(Reflect.construct(Boolean,[],(function(){}))),!0}catch(e){return!1}}();return function(){var n,o=a(e);if(t){var r=a(this).constructor;n=Reflect.construct(o,arguments,r)}else n=o.apply(this,arguments);return s(this,n)}}var $,M,U,I=function(e){!function(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),t&&c(e,t)}(s,e);var t,n,o,u=x(s);function s(e){var t;return function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,s),(t=u.call(this,e)).container=null,t.window=null,t.windowCheckerInterval=null,t.released=!1,t.state={mounted:!1},t}return t=s,(n=[{key:"render",value:function(){return this.state.mounted?r.default.createPortal(this.props.children,this.container):null}},{key:"componentDidMount",value:function(){this.openChild(),this.setState({mounted:!0})}},{key:"openChild",value:function(){var e,t=this,n=this.props,o=n.url,r=n.title,i=n.name,c=n.features,u=n.onBlock,s=n.onOpen,a=n.center;if("string"!=typeof a||void 0!==c.width&&void 0!==c.height){if("parent"===a)c.left=window.top.outerWidth/2+window.top.screenX-c.width/2,c.top=window.top.outerHeight/2+window.top.screenY-c.height/2;else if("screen"===a){var l=void 0!==window.screenLeft?window.screenLeft:window.screen.left,f=void 0!==window.screenTop?window.screenTop:window.screen.top,d=window.innerWidth?window.innerWidth:document.documentElement.clientWidth?document.documentElement.clientWidth:window.screen.width,p=window.innerHeight?window.innerHeight:document.documentElement.clientHeight?document.documentElement.clientHeight:window.screen.height;c.left=d/2-c.width/2+l,c.top=p/2-c.height/2+f}}else console.warn("width and height window features must be present when a center prop is provided");if(this.window=window.open(o,i,(e=c,Object.keys(e).reduce((function(t,n){var o=e[n];return"boolean"==typeof o?t.push("".concat(n,"=").concat(o?"yes":"no")):t.push("".concat(n,"=").concat(o)),t}),[]).join(","))),this.container=this.window.document.createElement("div"),this.windowCheckerInterval=setInterval((function(){t.window&&!t.window.closed||t.release()}),50),this.window){if(this.window.document.title=r,this.container=this.window.document.getElementById("new-window-container"),null===this.container)this.container=this.window.document.createElement("div"),this.container.setAttribute("id","new-window-container"),this.window.document.body.appendChild(this.container);else{var y=this.window.document.getElementById("new-window-container-static");this.window.document.body.removeChild(y)}this.props.copyStyles&&setTimeout((function(){return e=document,n=t.window.document,o=n.createDocumentFragment(),Array.from(e.styleSheets).forEach((function(e){var t;try{t=e.cssRules}catch(e){console.error(e)}if(t){var r=[];Array.from(e.cssRules).forEach((function(e){var t=e.type;if(t!==CSSRule.UNKNOWN_RULE){var n="";n=t===CSSRule.KEYFRAMES_RULE?function(e){var t=["@keyframes",e.name,"{"];return Array.from(e.cssRules).forEach((function(e){t.push(e.keyText,"{",e.style.cssText,"}")})),t.push("}"),t.join(" ")}(e):[CSSRule.IMPORT_RULE,CSSRule.FONT_FACE_RULE].includes(t)?function(e){return e.cssText.split("url(").map((function(e){return"/"===e[1]?"".concat(e.slice(0,1)).concat(window.location.origin).concat(e.slice(1)):e})).join("url(")}(e):e.cssText,r.push(n)}}));var i=n.createElement("style");i.textContent=r.join("\n"),o.appendChild(i)}else if(e.href){var c=n.createElement("link");c.rel="stylesheet",c.href=e.href,o.appendChild(c)}})),void n.head.appendChild(o);var e,n,o}),0),"function"==typeof s&&s(this.window),this.window.addEventListener("beforeunload",(function(){return t.release()}))}else"function"==typeof u?u(null):console.warn("A new window could not be opened. Maybe it was blocked.")}},{key:"componentWillUnmount",value:function(){if(this.window)if(this.props.closeOnUnmount)this.window.close();else if(this.props.children){var e=this.container.cloneNode(!0);e.setAttribute("id","new-window-container-static"),this.window.document.body.appendChild(e)}}},{key:"release",value:function(){if(!this.released){this.released=!0,clearInterval(this.windowCheckerInterval);var e=this.props.onUnload;"function"==typeof e&&e(null)}}}])&&i(t.prototype,n),o&&i(t,o),s}(o.default.PureComponent);return U={url:"",name:"",title:"",features:{width:"600px",height:"640px"},onBlock:null,onOpen:null,onUnload:null,center:"parent",copyStyles:!0,closeOnUnmount:!0},(M="defaultProps")in($=I)?Object.defineProperty($,M,{value:U,enumerable:!0,configurable:!0,writable:!0}):$[M]=U,I.propTypes={children:k.node,url:k.string,name:k.string,title:k.string,features:k.object,onUnload:k.func,onBlock:k.func,onOpen:k.func,center:k.oneOf(["parent","screen"]),copyStyles:k.bool,closeOnUnmount:k.bool},I}));
-//# sourceMappingURL=react-new-window.js.map
-
-
-/***/ }),
-
 /***/ "./node_modules/react-redux/es/components/Context.js":
 /*!***********************************************************!*\
   !*** ./node_modules/react-redux/es/components/Context.js ***!
@@ -40774,6 +40790,444 @@ if (true) {
 
 //# sourceMappingURL=react-router.js.map
 
+
+/***/ }),
+
+/***/ "./node_modules/react-webcam/dist/react-webcam.js":
+/*!********************************************************!*\
+  !*** ./node_modules/react-webcam/dist/react-webcam.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+	else {}
+})(this, function(__WEBPACK_EXTERNAL_MODULE_react__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/react-webcam.tsx");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/react-webcam.tsx":
+/*!******************************!*\
+  !*** ./src/react-webcam.tsx ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __rest = (undefined && undefined.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+
+// polyfill based on https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+(function polyfillGetUserMedia() {
+    if (typeof window === 'undefined') {
+        return;
+    }
+    // Older browsers might not implement mediaDevices at all, so we set an empty object first
+    if (navigator.mediaDevices === undefined) {
+        navigator.mediaDevices = {};
+    }
+    // Some browsers partially implement mediaDevices. We can't just assign an object
+    // with getUserMedia as it would overwrite existing properties.
+    // Here, we will just add the getUserMedia property if it's missing.
+    if (navigator.mediaDevices.getUserMedia === undefined) {
+        navigator.mediaDevices.getUserMedia = function (constraints) {
+            // First get ahold of the legacy getUserMedia, if present
+            var getUserMedia = navigator.getUserMedia ||
+                navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia ||
+                navigator.msGetUserMedia;
+            // Some browsers just don't implement it - return a rejected promise with an error
+            // to keep a consistent interface
+            if (!getUserMedia) {
+                return Promise.reject(new Error("getUserMedia is not implemented in this browser"));
+            }
+            // Otherwise, wrap the call to the old navigator.getUserMedia with a Promise
+            return new Promise(function (resolve, reject) {
+                getUserMedia.call(navigator, constraints, resolve, reject);
+            });
+        };
+    }
+})();
+function hasGetUserMedia() {
+    return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+}
+var Webcam = /** @class */ (function (_super) {
+    __extends(Webcam, _super);
+    function Webcam(props) {
+        var _this = _super.call(this, props) || this;
+        _this.canvas = null;
+        _this.ctx = null;
+        _this.unmounted = false;
+        _this.state = {
+            hasUserMedia: false
+        };
+        return _this;
+    }
+    Webcam.prototype.componentDidMount = function () {
+        var _a = this, state = _a.state, props = _a.props;
+        if (!hasGetUserMedia()) {
+            props.onUserMediaError("getUserMedia not supported");
+            return;
+        }
+        if (!state.hasUserMedia) {
+            this.requestUserMedia();
+        }
+    };
+    Webcam.prototype.componentDidUpdate = function (nextProps) {
+        var props = this.props;
+        if (!hasGetUserMedia()) {
+            props.onUserMediaError("getUserMedia not supported");
+            return;
+        }
+        var audioConstraintsChanged = JSON.stringify(nextProps.audioConstraints) !==
+            JSON.stringify(props.audioConstraints);
+        var videoConstraintsChanged = JSON.stringify(nextProps.videoConstraints) !==
+            JSON.stringify(props.videoConstraints);
+        var minScreenshotWidthChanged = nextProps.minScreenshotWidth !== props.minScreenshotWidth;
+        var minScreenshotHeightChanged = nextProps.minScreenshotHeight !== props.minScreenshotHeight;
+        if (videoConstraintsChanged ||
+            minScreenshotWidthChanged ||
+            minScreenshotHeightChanged) {
+            this.canvas = null;
+            this.ctx = null;
+        }
+        if (audioConstraintsChanged || videoConstraintsChanged) {
+            this.stopAndCleanup();
+            this.requestUserMedia();
+        }
+    };
+    Webcam.prototype.componentWillUnmount = function () {
+        this.unmounted = true;
+        this.stopAndCleanup();
+    };
+    Webcam.stopMediaStream = function (stream) {
+        if (stream) {
+            if (stream.getVideoTracks && stream.getAudioTracks) {
+                stream.getVideoTracks().map(function (track) {
+                    stream.removeTrack(track);
+                    track.stop();
+                });
+                stream.getAudioTracks().map(function (track) {
+                    stream.removeTrack(track);
+                    track.stop();
+                });
+            }
+            else {
+                stream.stop();
+            }
+        }
+    };
+    Webcam.prototype.stopAndCleanup = function () {
+        var state = this.state;
+        if (state.hasUserMedia) {
+            Webcam.stopMediaStream(this.stream);
+            if (state.src) {
+                window.URL.revokeObjectURL(state.src);
+            }
+        }
+    };
+    Webcam.prototype.getScreenshot = function (screenshotDimensions) {
+        var _a = this, state = _a.state, props = _a.props;
+        if (!state.hasUserMedia)
+            return null;
+        var canvas = this.getCanvas(screenshotDimensions);
+        return (canvas &&
+            canvas.toDataURL(props.screenshotFormat, props.screenshotQuality));
+    };
+    Webcam.prototype.getCanvas = function (screenshotDimensions) {
+        var _a = this, state = _a.state, props = _a.props;
+        if (!this.video) {
+            return null;
+        }
+        if (!state.hasUserMedia || !this.video.videoHeight)
+            return null;
+        if (!this.ctx) {
+            var canvasWidth = this.video.videoWidth;
+            var canvasHeight = this.video.videoHeight;
+            if (!this.props.forceScreenshotSourceSize) {
+                var aspectRatio = canvasWidth / canvasHeight;
+                canvasWidth = props.minScreenshotWidth || this.video.clientWidth;
+                canvasHeight = canvasWidth / aspectRatio;
+                if (props.minScreenshotHeight &&
+                    canvasHeight < props.minScreenshotHeight) {
+                    canvasHeight = props.minScreenshotHeight;
+                    canvasWidth = canvasHeight * aspectRatio;
+                }
+            }
+            this.canvas = document.createElement("canvas");
+            this.canvas.width = (screenshotDimensions === null || screenshotDimensions === void 0 ? void 0 : screenshotDimensions.width) || canvasWidth;
+            this.canvas.height = (screenshotDimensions === null || screenshotDimensions === void 0 ? void 0 : screenshotDimensions.height) || canvasHeight;
+            this.ctx = this.canvas.getContext("2d");
+        }
+        var _b = this, ctx = _b.ctx, canvas = _b.canvas;
+        if (ctx && canvas) {
+            // mirror the screenshot
+            if (props.mirrored) {
+                ctx.translate(canvas.width, 0);
+                ctx.scale(-1, 1);
+            }
+            ctx.imageSmoothingEnabled = props.imageSmoothing;
+            ctx.drawImage(this.video, 0, 0, (screenshotDimensions === null || screenshotDimensions === void 0 ? void 0 : screenshotDimensions.width) || canvas.width, (screenshotDimensions === null || screenshotDimensions === void 0 ? void 0 : screenshotDimensions.height) || canvas.height);
+            // invert mirroring
+            if (props.mirrored) {
+                ctx.scale(-1, 1);
+                ctx.translate(-canvas.width, 0);
+            }
+        }
+        return canvas;
+    };
+    Webcam.prototype.requestUserMedia = function () {
+        var _this = this;
+        var props = this.props;
+        var sourceSelected = function (audioConstraints, videoConstraints) {
+            var constraints = {
+                video: typeof videoConstraints !== "undefined" ? videoConstraints : true
+            };
+            if (props.audio) {
+                constraints.audio =
+                    typeof audioConstraints !== "undefined" ? audioConstraints : true;
+            }
+            navigator.mediaDevices
+                .getUserMedia(constraints)
+                .then(function (stream) {
+                if (_this.unmounted) {
+                    Webcam.stopMediaStream(stream);
+                }
+                else {
+                    _this.handleUserMedia(null, stream);
+                }
+            })
+                .catch(function (e) {
+                _this.handleUserMedia(e);
+            });
+        };
+        if ("mediaDevices" in navigator) {
+            sourceSelected(props.audioConstraints, props.videoConstraints);
+        }
+        else {
+            var optionalSource_1 = function (id) { return ({ optional: [{ sourceId: id }] }); };
+            var constraintToSourceId_1 = function (constraint) {
+                var deviceId = constraint.deviceId;
+                if (typeof deviceId === "string") {
+                    return deviceId;
+                }
+                if (Array.isArray(deviceId) && deviceId.length > 0) {
+                    return deviceId[0];
+                }
+                if (typeof deviceId === "object" && deviceId.ideal) {
+                    return deviceId.ideal;
+                }
+                return null;
+            };
+            // @ts-ignore: deprecated api
+            MediaStreamTrack.getSources(function (sources) {
+                var audioSource = null;
+                var videoSource = null;
+                sources.forEach(function (source) {
+                    if (source.kind === "audio") {
+                        audioSource = source.id;
+                    }
+                    else if (source.kind === "video") {
+                        videoSource = source.id;
+                    }
+                });
+                var audioSourceId = constraintToSourceId_1(props.audioConstraints);
+                if (audioSourceId) {
+                    audioSource = audioSourceId;
+                }
+                var videoSourceId = constraintToSourceId_1(props.videoConstraints);
+                if (videoSourceId) {
+                    videoSource = videoSourceId;
+                }
+                sourceSelected(optionalSource_1(audioSource), optionalSource_1(videoSource));
+            });
+        }
+    };
+    Webcam.prototype.handleUserMedia = function (err, stream) {
+        var props = this.props;
+        if (err || !stream) {
+            this.setState({ hasUserMedia: false });
+            props.onUserMediaError(err);
+            return;
+        }
+        this.stream = stream;
+        try {
+            if (this.video) {
+                this.video.srcObject = stream;
+            }
+            this.setState({ hasUserMedia: true });
+        }
+        catch (error) {
+            this.setState({
+                hasUserMedia: true,
+                src: window.URL.createObjectURL(stream)
+            });
+        }
+        props.onUserMedia(stream);
+    };
+    Webcam.prototype.render = function () {
+        var _this = this;
+        var _a = this, state = _a.state, props = _a.props;
+        var audio = props.audio, forceScreenshotSourceSize = props.forceScreenshotSourceSize, onUserMedia = props.onUserMedia, onUserMediaError = props.onUserMediaError, screenshotFormat = props.screenshotFormat, screenshotQuality = props.screenshotQuality, minScreenshotWidth = props.minScreenshotWidth, minScreenshotHeight = props.minScreenshotHeight, audioConstraints = props.audioConstraints, videoConstraints = props.videoConstraints, imageSmoothing = props.imageSmoothing, mirrored = props.mirrored, _b = props.style, style = _b === void 0 ? {} : _b, rest = __rest(props, ["audio", "forceScreenshotSourceSize", "onUserMedia", "onUserMediaError", "screenshotFormat", "screenshotQuality", "minScreenshotWidth", "minScreenshotHeight", "audioConstraints", "videoConstraints", "imageSmoothing", "mirrored", "style"]);
+        var videoStyle = mirrored ? __assign(__assign({}, style), { transform: (style.transform || "") + " scaleX(-1)" }) : style;
+        return (react__WEBPACK_IMPORTED_MODULE_0__["createElement"]("video", __assign({ autoPlay: true, src: state.src, muted: !audio, playsInline: true, ref: function (ref) {
+                _this.video = ref;
+            }, style: videoStyle }, rest)));
+    };
+    Webcam.defaultProps = {
+        audio: false,
+        forceScreenshotSourceSize: false,
+        imageSmoothing: true,
+        mirrored: false,
+        onUserMedia: function () { return undefined; },
+        onUserMediaError: function () { return undefined; },
+        screenshotFormat: "image/webp",
+        screenshotQuality: 0.92,
+    };
+    return Webcam;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]));
+/* harmony default export */ __webpack_exports__["default"] = (Webcam);
+
+
+/***/ }),
+
+/***/ "react":
+/*!**************************************************************************************!*\
+  !*** external {"root":"React","commonjs2":"react","commonjs":"react","amd":"react"} ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_react__;
+
+/***/ })
+
+/******/ })["default"];
+});
+//# sourceMappingURL=react-webcam.js.map
 
 /***/ }),
 

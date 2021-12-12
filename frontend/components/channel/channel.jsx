@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import ChannelNavContainer from './channel_nav_container';
 import ChannelChatContainer from './channel_chat_container';
 import ChannelActionsDropdown from '../modals/channel_dropdown';
-import ChannelVideoRoom from './channel_video_room';
+import ChannelVideoChatRoom from './channel_video_chat_room';
 
 import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
@@ -135,7 +135,7 @@ class Channel extends React.Component {
   renderRoom() {
     if (this.state.inVideoCall) 
       return (
-        <ChannelVideoRoom/>
+        <ChannelVideoChatRoom/>
       )
     else
       return (

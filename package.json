@@ -12,6 +12,7 @@
     "react-new-window": "^0.2.1",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
+    "react-webcam": "^6.0.0",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
