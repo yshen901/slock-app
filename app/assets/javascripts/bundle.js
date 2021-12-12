@@ -1799,7 +1799,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
               }
             });
 
-            _this2.props.history.push("/workspace/".concat(workspace_address, "/0"));
+            _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(_this2.props.generalChannelId));
 
             _this2.setState({
               joined: false
@@ -1814,7 +1814,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         };
         dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_7__["endDmChannel"])(channelInfo)).then(function () {
           (function () {
-            _this2.props.history.push("/workspace/".concat(workspace_address, "/0"));
+            _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(_this2.props.generalChannelId));
 
             _this2.setState({
               joined: false
@@ -2133,7 +2133,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     workspace_address: ownProps.match.params.workspace_address,
     channel_id: parseInt(ownProps.match.params.channel_id),
     channel: state.entities.channels[ownProps.match.params.channel_id],
-    user: state.entities.users[state.session.user_id]
+    user: state.entities.users[state.session.user_id],
+    generalChannelId: Object.keys(state.entities.channels)[0]
   };
 };
 
