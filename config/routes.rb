@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
     resources :dm_channel_users, only: [:create, :update]
   end
+  resources :calls, only: [:create]
 
   root to: "static_pages#root"
   mount ActionCable.server, at: '/cable' #AC

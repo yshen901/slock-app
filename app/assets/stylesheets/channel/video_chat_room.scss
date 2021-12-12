@@ -8,14 +8,32 @@
   left: 220px;
   z-index: 100;
 
+  padding-top: 5%;
+
   width: calc(100% - 220px);
   height: calc(100% - 30px);
+
+  .video-chatroom-videos {  
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: auto;
+
+    #remote-video-container, #local-video-container {
+      width: 45%;
+      height: 100%;
+    }
+  }
 
   .video-chatroom-settings {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
+    height: 20%;
 
     .video-chatroom-setting {
       color: gray;

@@ -135,7 +135,8 @@ class Channel extends React.Component {
   renderRoom() {
     if (this.state.inVideoCall) 
       return (
-        <ChannelVideoChatRoom/>
+        <ChannelVideoChatRoom
+          endVideoCall={this.endVideoCall}/>
       )
     else
       return (

@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :current_workspaces, :logged_in?
-  protect_from_forgery unless: -> { request.format.json? }
+  protect_from_forgery unless: -> { true }
 
   # Called once by root to bootstrap current_workspaces
   def current_user
