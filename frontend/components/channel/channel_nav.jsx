@@ -1,6 +1,5 @@
 import React from 'react';
 import { toggleElements, hideElements, focus } from '../../util/modal_api_util';
-import { updateChannel } from '../../actions/channel_actions';
 
 class ChannelNav extends React.Component {
   constructor(props) {
@@ -46,7 +45,7 @@ class ChannelNav extends React.Component {
 
   starClick(e) {
     let { channel } = this.props;
-    dispatch(updateChannel({ starred: !channel.starred, id: channel.id }))
+    this.props.updateChannelUser({ starred: !channel.starred, channel_id: channel.id })
       .then(
         () => this.setState(this.state)
       )

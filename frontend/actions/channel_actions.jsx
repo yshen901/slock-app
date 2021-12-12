@@ -6,6 +6,7 @@ export const LOAD_CHANNEL = "LOAD_CHANNEL";
 export const RECEIVE_CHANNEL = "RECEIVE_CHANNEL";
 export const JOIN_CHANNEL = "JOIN_CHANNEL";
 export const LEAVE_CHANNEL = "LEAVE_CHANNEL";
+export const RECEIVE_CHANNEL_USER = "RECEIVE_CHANNEL_USER";
 
 // DESIGN: SIMPLY CHANGES SESSION.CHANNEL_ID
 export const loadChannel = (channel_id) => ({
@@ -25,6 +26,11 @@ const loginChannel = (channel_user) => ({
 
 const logoutChannel = (channel_user) => ({
   type: LEAVE_CHANNEL,
+  channel_user
+})
+
+const receiveChannelUser = (channel_user) => ({
+  type: RECEIVE_CHANNEL_USER,
   channel_user
 })
 
@@ -61,6 +67,15 @@ export const updateChannel = (channel) => (dispatch) => (
     .updateChannel(channel)
     .then(
       channel => dispatch(receiveChannel(channel)),
+      errors => dispatch(receiveErrors(errors))
+    )
+)
+
+export const updateChannelUser = (channel_user) => (dispatch) => (
+  ChannelUserAPI
+    .updateChannelUser(channel_user)
+    .then(
+      channel_user => dispatch(receiveChannelUser(channel_user)),
       errors => dispatch(receiveErrors(errors))
     )
 )

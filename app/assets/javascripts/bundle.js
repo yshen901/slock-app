@@ -90,7 +90,7 @@
 /*!**********************************************!*\
   !*** ./frontend/actions/channel_actions.jsx ***!
   \**********************************************/
-/*! exports provided: LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL, loadChannel, postChannel, joinChannel, leaveChannel, updateChannel */
+/*! exports provided: LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL, RECEIVE_CHANNEL_USER, loadChannel, postChannel, joinChannel, leaveChannel, updateChannel, updateChannelUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -99,11 +99,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNEL", function() { return RECEIVE_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JOIN_CHANNEL", function() { return JOIN_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LEAVE_CHANNEL", function() { return LEAVE_CHANNEL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CHANNEL_USER", function() { return RECEIVE_CHANNEL_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loadChannel", function() { return loadChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postChannel", function() { return postChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "joinChannel", function() { return joinChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "leaveChannel", function() { return leaveChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannel", function() { return updateChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannelUser", function() { return updateChannelUser; });
 /* harmony import */ var _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/channel_api_util */ "./frontend/util/channel_api_util.js");
 /* harmony import */ var _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/channel_user_api_util */ "./frontend/util/channel_user_api_util.js");
 /* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
@@ -113,7 +115,8 @@ __webpack_require__.r(__webpack_exports__);
 var LOAD_CHANNEL = "LOAD_CHANNEL";
 var RECEIVE_CHANNEL = "RECEIVE_CHANNEL";
 var JOIN_CHANNEL = "JOIN_CHANNEL";
-var LEAVE_CHANNEL = "LEAVE_CHANNEL"; // DESIGN: SIMPLY CHANGES SESSION.CHANNEL_ID
+var LEAVE_CHANNEL = "LEAVE_CHANNEL";
+var RECEIVE_CHANNEL_USER = "RECEIVE_CHANNEL_USER"; // DESIGN: SIMPLY CHANGES SESSION.CHANNEL_ID
 
 var loadChannel = function loadChannel(channel_id) {
   return {
@@ -139,6 +142,13 @@ var loginChannel = function loginChannel(channel_user) {
 var logoutChannel = function logoutChannel(channel_user) {
   return {
     type: LEAVE_CHANNEL,
+    channel_user: channel_user
+  };
+};
+
+var receiveChannelUser = function receiveChannelUser(channel_user) {
+  return {
+    type: RECEIVE_CHANNEL_USER,
     channel_user: channel_user
   };
 };
@@ -175,6 +185,15 @@ var updateChannel = function updateChannel(channel) {
   return function (dispatch) {
     return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["updateChannel"](channel).then(function (channel) {
       return dispatch(receiveChannel(channel));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
+    });
+  };
+};
+var updateChannelUser = function updateChannelUser(channel_user) {
+  return function (dispatch) {
+    return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["updateChannelUser"](channel_user).then(function (channel_user) {
+      return dispatch(receiveChannelUser(channel_user));
     }, function (errors) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
@@ -2158,7 +2177,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
-/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2180,7 +2198,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 
 
 
@@ -2236,10 +2253,10 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       var channel = this.props.channel;
-      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["updateChannel"])({
+      this.props.updateChannelUser({
         starred: !channel.starred,
-        id: channel.id
-      })).then(function () {
+        channel_id: channel.id
+      }).then(function () {
         return _this2.setState(_this2.state);
       });
     }
@@ -2366,6 +2383,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _channel_nav__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channel_nav */ "./frontend/components/channel/channel_nav.jsx");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+
 
 
 
@@ -2388,7 +2407,11 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    updateChannelUser: function updateChannelUser(channel_user) {
+      return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["updateChannelUser"])(channel_user));
+    }
+  };
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_channel_nav__WEBPACK_IMPORTED_MODULE_2__["default"])));
@@ -5056,6 +5079,14 @@ var ChannelReducer = function ChannelReducer() {
       if (nextState[_channel_id].users) delete nextState[_channel_id].users[_user_id];
       if (nextState[_channel_id].users === undefined) nextState[_channel_id].users = {};
       return nextState;
+    // primarily pull out starred information, can add more later
+
+    case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL_USER"]:
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
+      _channel_id = action.channel_user.channel_id;
+      debugger;
+      nextState[_channel_id].starred = action.channel_user.starred;
+      return nextState;
     // same as ReceiveChannel since we don't need to change users
 
     case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["JOIN_DM_CHANNEL"]:
@@ -5651,13 +5682,14 @@ var updateChannel = function updateChannel(channel) {
 /*!************************************************!*\
   !*** ./frontend/util/channel_user_api_util.js ***!
   \************************************************/
-/*! exports provided: postChannelUser, deleteChannelUser */
+/*! exports provided: postChannelUser, deleteChannelUser, updateChannelUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postChannelUser", function() { return postChannelUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannelUser", function() { return deleteChannelUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannelUser", function() { return updateChannelUser; });
 // data has channel_id and workspace_id
 var postChannelUser = function postChannelUser(channel_user) {
   return $.ajax({
@@ -5667,7 +5699,9 @@ var postChannelUser = function postChannelUser(channel_user) {
       channel_user: channel_user
     }
   });
-};
+}; // Find using channel_id and current_user.id in rails
+// params id is 0 as a placeholder
+
 var deleteChannelUser = function deleteChannelUser(channel_id) {
   return $.ajax({
     method: "DELETE",
@@ -5676,6 +5710,17 @@ var deleteChannelUser = function deleteChannelUser(channel_id) {
       channel_user: {
         channel_id: channel_id
       }
+    }
+  });
+}; // Find using channel_id and current_user.id in rails
+// params id is 0 as a placeholder
+
+var updateChannelUser = function updateChannelUser(channel_user) {
+  return $.ajax({
+    method: "PATCH",
+    url: "/api/channel_users/0",
+    data: {
+      channel_user: channel_user
     }
   });
 };
