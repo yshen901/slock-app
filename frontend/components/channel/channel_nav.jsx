@@ -5,42 +5,9 @@ class ChannelNav extends React.Component {
   constructor(props) {
     super(props);
 
-    this.leaveButton = this.leaveButton.bind(this);
     this.star = this.star.bind(this);
     this.starClick = this.starClick.bind(this);
     this.toggleElements = this.toggleElements.bind(this);
-  }
-
-  getDmChannelName() {
-    let { user, users, channel } = this.props;
-    let ids = Object.keys(channel.users);
-
-    let userId = ids[0]
-    if (ids[0] == user.id) 
-      userId = ids[1]
-
-    let icon = <i className="fas fa-circle inactive-circle"></i>
-    if (users[userId].logged_in)
-      icon = <i className="fas fa-circle active-circle-dark"></i>
-
-    return (
-      <div className="channel-name">
-        {icon} 
-        <div>
-          {users[userId].email}
-        </div>
-      </div>
-    )
-  }
-
-  getChannelName(name) {
-    return (
-      <div className="channel-name">
-        <div>
-          #&nbsp;{name}
-        </div>
-      </div>
-    )
   }
 
   starClick(e) {
@@ -82,13 +49,48 @@ class ChannelNav extends React.Component {
     }
   }
 
+  getChannelName() {
+    let { user, users, channel } = this.props;
+
+    if (channel.dm_channel) {
+      let ids = Object.keys(channel.users);
+
+      let userId = ids[0]
+      if (ids[0] == user.id) 
+        userId = ids[1]
+
+      let icon = <i className="fas fa-circle inactive-circle"></i>
+      if (users[userId].logged_in)
+        icon = <i className="fas fa-circle active-circle-dark"></i>
+
+      return (
+        <div className="channel-name">
+          {icon} 
+          <div>
+            {users[userId].email}
+          </div>
+        </div>
+      )
+    }
+    else {
+      return (
+        <div className="channel-name">
+          <div>
+            #&nbsp;{channel.name}
+          </div>
+        </div>
+      )
+    }
+  }
+
   left() {
-    let {name, description, users, dm_channel} = this.props.channel
+    let { channel } = this.props;
+    let { name, description, users, dm_channel } = channel;
 
     if (!dm_channel) 
       return (
         <div id="left">
-          <div id="left-top">{this.getChannelName(name)}</div>
+          <div id="left-top">{this.getChannelName()}</div>
           <div id="left-bottom">
             {this.star()} 
             <div className="channel-nav-divider">|</div>
@@ -109,7 +111,7 @@ class ChannelNav extends React.Component {
     else
       return (
         <div id="left">
-          <div id="left-top"> {this.getDmChannelName()} </div>
+          <div id="left-top"> {this.getChannelName()} </div>
           <div id="left-bottom">
             <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
               <i className='fas fas fa-pen'></i>
@@ -120,29 +122,45 @@ class ChannelNav extends React.Component {
       )
   }
 
-  leaveButton() {
+  right() {
+    let leaveButton, videoCallButton, action, actioText;
     if (this.props.status.canLeave) {
-      if (!this.props.channel.dm_channel)
-        return (
+      if (!this.props.channel.dm_channel) {
+        leaveButton = (
           <div className="channel-nav-button" onClick={this.props.leaveChannel}>Leave Channel</div>
-        )
-      else
-        return (
+        );
+        videoCallButton = "";
+      }
+      else {
+        leaveButton = (
           <div className="channel-nav-button" onClick={this.props.leaveChannel}>Leave Chat</div>
-        )
+        );
+
+        if (this.props.inVideoCall)
+          videoCallButton = (
+            <div className="channel-nav-button" onClick={this.props.endVideoCall}>End Video Call</div>
+          );       
+        else
+          videoCallButton = (
+            <div className="channel-nav-button" onClick={this.props.startVideoCall}>Start Video Call</div>
+          );
+      }
     }
+
+    return (
+      <div className="right">
+        {videoCallButton}
+        {leaveButton}
+      </div>
+    )
   }
 
   render() {
     if (this.props.channel) {
-      let { name, description } = this.props.channel;
       return (
         <div id="channel-nav">
           { this.left() }
-          <div id="right">
-            {/* <div className="settings-button" onClick={(e) => {e.stopPropagation(); toggleElements("dropdown channel-settings")}}>&#9881;</div> */}
-            {this.leaveButton()}
-          </div>
+          { this.right() }
         </div>
       )
     } else {

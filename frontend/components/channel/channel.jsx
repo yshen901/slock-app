@@ -1,8 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+
 import ChannelNavContainer from './channel_nav_container';
 import ChannelChatContainer from './channel_chat_container';
 import ChannelActionsDropdown from '../modals/channel_dropdown';
+import ChannelVideoRoom from './channel_video_room';
 
 import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
@@ -14,11 +16,15 @@ class Channel extends React.Component {
     
     this.state = {
       canJoin: this.canJoin(),
-      canLeave: this.canLeave()
+      canLeave: this.canLeave(),
+      inVideoCall: false,
     }
 
     this.leaveChannel = this.leaveChannel.bind(this);
     this.joinChannel = this.joinChannel.bind(this);
+
+    this.startVideoCall = this.startVideoCall.bind(this);
+    this.endVideoCall = this.endVideoCall.bind(this);
   }
 
   // Ignore transition channel
@@ -118,15 +124,37 @@ class Channel extends React.Component {
     return user_channels[channel_id] === undefined
   }
 
+  startVideoCall() {
+    this.setState({inVideoCall: true});
+  }
+
+  endVideoCall() {
+    this.setState({inVideoCall: false});
+  }
+
+  renderRoom() {
+    if (this.state.inVideoCall) 
+      return (
+        <ChannelVideoRoom/>
+      )
+    else
+      return (
+        <ChannelChatContainer 
+            joinChannel={this.joinChannel}
+            status={this.state}/>
+      )
+  }
+
   render() {
     return (
       <div id="channel">
         <ChannelNavContainer 
           leaveChannel={this.leaveChannel}
-          status={this.state}/>
-        <ChannelChatContainer 
-            joinChannel={this.joinChannel}
-            status={this.state}/>
+          status={this.state}
+          startVideoCall={this.startVideoCall}
+          endVideoCall={this.endVideoCall}
+          inVideoCall={this.state.inVideoCall}/>
+        {this.renderRoom()}
         {/* <ChannelActionsDropdown 
             leaveChannel={this.leaveChannel}
             joinChannel={this.joinChannel}
