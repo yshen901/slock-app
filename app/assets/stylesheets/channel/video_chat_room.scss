@@ -23,8 +23,16 @@
     height: auto;
 
     #remote-video-container, #local-video-container {
-      width: 45%;
+      width: 40%;
       height: 100%;
+
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #remote-video-container {
+      padding-right: 10px;
     }
   }
 
@@ -33,12 +41,12 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 20%;
+    height: 10%;
 
     .video-chatroom-setting {
       color: gray;
-      font-size: 15px;
-      line-height: 22px;
+      font-size: 18px;
+      line-height: 25px;
       vertical-align: text-top;
     
       border-top: 1px solid white;

@@ -2545,15 +2545,15 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
             return this.perform('speak', data);
           },
           received: function received(data) {
+            if (data.from == "".concat(getState().session.user_id)) return;
             console.log("RECEIVED: ", data);
-            if (data.from === getState().session.user_id) return;
 
             switch (data.type) {
               case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["JOIN_CALL"]:
                 return _this2.join(data);
 
               case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"]:
-                if (data.to !== getState().session.user_id) return;
+                if (data.to != "".concat(getState().session.user_id)) return;
                 return _this2.exchange(data);
 
               case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"]:
@@ -2620,12 +2620,20 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
       };
 
       pc.ontrack = function (e) {
-        var remoteVid = document.createElement("video");
-        remoteVid.id = "remoteVideoContainer+".concat(userId);
-        remoteVid.autoplay = "autoplay";
-        remoteVid.srcObject = e.streams[0];
+        if (!_this3.appended) {
+          var remoteVid = document.createElement("video");
+          remoteVid.id = "remote-video-instance container-".concat(userId);
+          remoteVid.autoplay = "autoplay";
+          remoteVid.srcObject = e.streams[0];
 
-        _this3.remoteVideoContainer.appendChild(remoteVid);
+          _this3.remoteVideoContainer.appendChild(remoteVid);
+
+          _this3.appended = true;
+
+          _this3.setState({
+            joined: true
+          });
+        }
       };
 
       pc.oniceconnectionstatechange = function (e) {
@@ -2698,6 +2706,8 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
         type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"],
         from: getState().session.user_id
       });
+      this.props.endVideoCall();
+      this.appended = false;
     }
   }, {
     key: "removeUser",
@@ -2706,6 +2716,7 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
       video && video.remove();
       var peers = this.pcPeers;
       delete peers[data.from];
+      this.remoteVideoContainer.innerHTML = "";
     } // Changes the stream's audio
 
   }, {

@@ -40,13 +40,13 @@ class ChannelVideoChatRoom extends React.Component {
               return this.perform('speak', data);
             },
             received: data => {
+              if (data.from == `${getState().session.user_id}`) return;
               console.log("RECEIVED: ", data);
-              if (data.from === getState().session.user_id) return;
               switch(data.type){
                 case JOIN_CALL:
                   return this.join(data);
                 case EXCHANGE:
-                  if (data.to !== getState().session.user_id) return;
+                  if (data.to != `${getState().session.user_id}`) return;
                   return this.exchange(data);
                 case LEAVE_CALL:
                   return this.removeUser(data);
@@ -98,11 +98,15 @@ class ChannelVideoChatRoom extends React.Component {
         })
     };
     pc.ontrack = (e) => {
-        const remoteVid = document.createElement("video");
-        remoteVid.id = `remoteVideoContainer+${userId}`;
-        remoteVid.autoplay = "autoplay";
-        remoteVid.srcObject = e.streams[0];
-        this.remoteVideoContainer.appendChild(remoteVid);
+        if (!this.appended) {
+          const remoteVid = document.createElement("video");
+          remoteVid.id = `remote-video-instance container-${userId}`;
+          remoteVid.autoplay = "autoplay";
+          remoteVid.srcObject = e.streams[0];
+          this.remoteVideoContainer.appendChild(remoteVid);
+          this.appended = true;
+          this.setState({joined: true})
+        }
     }; 
     pc.oniceconnectionstatechange = (e) => {
         if (pc.iceConnectionState === 'disconnected'){
@@ -158,13 +162,17 @@ class ChannelVideoChatRoom extends React.Component {
     App.cable.subscriptions.subscriptions = [];
     this.remoteVideoContainer.innerHTML = "";
     this.callACChannel.speak({ type: LEAVE_CALL, from: getState().session.user_id });    
+
+    this.props.endVideoCall();
+    this.appended = false;
   }
 
   removeUser(data){
       let video = document.getElementById(`remoteVideoContainer+${data.from}`);
       video && video.remove();
-      let peers = this.pcPeers
-      delete peers[data.from]    
+      let peers = this.pcPeers;
+      delete peers[data.from];
+      this.remoteVideoContainer.innerHTML="";
   }
 
   // Changes the stream's audio
