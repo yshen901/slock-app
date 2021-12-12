@@ -5033,12 +5033,12 @@ var ChannelReducer = function ChannelReducer() {
       return action.channels;
 
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL"]:
-      nextState = Object.assign({}, state);
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       nextState[action.channel.id] = action.channel;
       return nextState;
 
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["JOIN_CHANNEL"]:
-      nextState = Object.assign({}, state);
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       _channel_id = action.channel_user.channel_id;
       _user_id = action.channel_user.user_id;
       if (nextState[_channel_id].users === undefined) nextState[_channel_id].users = {};
@@ -5048,7 +5048,7 @@ var ChannelReducer = function ChannelReducer() {
       return nextState;
 
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["LEAVE_CHANNEL"]:
-      nextState = Object.assign({}, state);
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       _channel_id = action.channel_user.channel_id;
       _user_id = action.channel_user.user_id;
       if (nextState[_channel_id].users) delete nextState[_channel_id].users[_user_id];
@@ -5057,13 +5057,13 @@ var ChannelReducer = function ChannelReducer() {
     // same as ReceiveChannel since we don't need to change users
 
     case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["JOIN_DM_CHANNEL"]:
-      nextState = Object.assign({}, state);
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;
     // Not needed, since we don't need to edit channel
 
     case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["LEAVE_DM_CHANNEL"]:
-      nextState = Object.assign({}, state);
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;
     // Update the channel's user list depending on whether its a login or logout action
@@ -5221,6 +5221,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.jsx");
+/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/cloneDeep */ "./node_modules/lodash/cloneDeep.js");
+/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -5243,12 +5246,12 @@ var WorkspaceReducer = function WorkspaceReducer() {
 
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["LOAD_WORKSPACE"]:
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACE"]:
-      nextState = Object.assign({}, state);
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(state);
       nextState[action.workspace.id] = action.workspace;
       return nextState;
 
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_WORKSPACE"]:
-      nextState = Object.assign({}, state);
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(state);
       delete nextState[action.workspace.workspace_id];
       if (nextState === undefined) nextState = {};
       return nextState;
@@ -5258,7 +5261,7 @@ var WorkspaceReducer = function WorkspaceReducer() {
           user_id = _action$userData.user_id,
           logged_in = _action$userData.logged_in,
           workspace_id = _action$userData.workspace_id;
-      nextState = Object.assign({}, state); // Update workspace user login information
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(state); // Update workspace user login information
 
       if (nextState[workspace_id].users[user_id].logged_in != logged_in) {
         nextState[workspace_id].users[user_id].logged_in = logged_in;
@@ -5377,7 +5380,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 /* harmony import */ var _actions_error_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions/error_actions */ "./frontend/actions/error_actions.jsx");
+/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/cloneDeep */ "./node_modules/lodash/cloneDeep.js");
+/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -5395,7 +5401,7 @@ var SessionReducer = function SessionReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_SESSION;
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
-  var nextState = Object.assign({}, state);
+  var nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
   var channel_id;
 
   switch (action.type) {

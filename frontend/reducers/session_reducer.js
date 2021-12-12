@@ -3,6 +3,7 @@ import { REMOVE_WORKSPACE, LOAD_WORKSPACE } from '../actions/workspace_actions';
 import { LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL } from '../actions/channel_actions';
 import { JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../actions/dm_channel_actions';
 import { RECEIVE_ERRORS } from '../actions/error_actions';
+import cloneDeep from "lodash/cloneDeep"
 
 let DEFAULT_SESSION = {
   user_id: null, 
@@ -13,7 +14,7 @@ let DEFAULT_SESSION = {
 
 const SessionReducer = (state = DEFAULT_SESSION, action) => {
   Object.freeze(state);
-  let nextState = Object.assign({}, state);
+  let nextState = cloneDeep(state);
   let channel_id;
 
   switch(action.type) {

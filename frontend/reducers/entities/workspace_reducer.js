@@ -1,6 +1,7 @@
 import { LOAD_WORKSPACE, RECEIVE_WORKSPACE, RECEIVE_WORKSPACES, REMOVE_WORKSPACE } from "../../actions/workspace_actions";
 import { LOGOUT, RECEIVE_USER } from "../../actions/session_actions";
 import { UPDATE_OTHER_USER_WORKSPACE_STATUS } from "../../actions/user_actions";
+import cloneDeep from "lodash/cloneDeep"
 
 const WorkspaceReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -15,17 +16,17 @@ const WorkspaceReducer = (state = {}, action) => {
       return action.user.workspaces;
     case LOAD_WORKSPACE: 
     case RECEIVE_WORKSPACE:
-      nextState = Object.assign({}, state);
+      nextState = cloneDeep(state);
       nextState[action.workspace.id] = action.workspace;
       return nextState;
     case REMOVE_WORKSPACE:
-      nextState = Object.assign({}, state);
+      nextState = cloneDeep(state);
       delete nextState[action.workspace.workspace_id];
       if (nextState === undefined) nextState = {};
       return nextState;
     case UPDATE_OTHER_USER_WORKSPACE_STATUS:
       let { user_id, logged_in, workspace_id } = action.userData;
-      nextState = Object.assign({}, state);
+      nextState = cloneDeep(state);
       // Update workspace user login information
       if (nextState[workspace_id].users[user_id].logged_in != logged_in) {
         nextState[workspace_id].users[user_id].logged_in = logged_in;

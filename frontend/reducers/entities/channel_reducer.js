@@ -8,7 +8,7 @@ import { LOAD_WORKSPACE, REMOVE_WORKSPACE } from '../../actions/workspace_action
 import { LOGOUT } from '../../actions/session_actions';
 import { JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../../actions/dm_channel_actions';
 import { UPDATE_OTHER_USER_CHANNEL_STATUS } from '../../actions/user_actions';
-import cloneDeep  from "lodash/cloneDeep";
+import cloneDeep from "lodash/cloneDeep";
 
 
 const ChannelReducer = (state = {}, action) => {
@@ -24,12 +24,12 @@ const ChannelReducer = (state = {}, action) => {
     case LOAD_WORKSPACE:
       return action.channels;
     case RECEIVE_CHANNEL:
-      nextState = Object.assign({}, state);
+      nextState = cloneDeep(state);
       nextState[action.channel.id] = action.channel;
       return nextState;
 
     case JOIN_CHANNEL:
-      nextState = Object.assign({}, state);
+      nextState = cloneDeep(state);
       channel_id = action.channel_user.channel_id;
       user_id = action.channel_user.user_id;
       if (nextState[channel_id].users === undefined) nextState[channel_id].users = {}
@@ -37,7 +37,7 @@ const ChannelReducer = (state = {}, action) => {
       return nextState;
 
     case LEAVE_CHANNEL:
-      nextState = Object.assign({}, state);
+      nextState = cloneDeep(state);
       channel_id = action.channel_user.channel_id;
       user_id = action.channel_user.user_id;
       if (nextState[channel_id].users)
@@ -47,13 +47,13 @@ const ChannelReducer = (state = {}, action) => {
 
     // same as ReceiveChannel since we don't need to change users
     case JOIN_DM_CHANNEL: 
-      nextState = Object.assign({}, state);
+      nextState = cloneDeep(state);
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;
 
     // Not needed, since we don't need to edit channel
     case LEAVE_DM_CHANNEL: 
-      nextState = Object.assign({}, state);
+      nextState = cloneDeep(state);
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;
 
