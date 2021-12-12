@@ -21,36 +21,12 @@ class Workspace extends React.Component {
       channelFlag: 0,
       workspaceFlag: 0,
     }
-
     this.receiveACData = this.receiveACData.bind(this);
   }
 
   componentDidMount() {
     let { workspaces, workspace_address, channel_id } = this.props;
     let valid = false
-
-    for (let i = 0; i < workspaces.length; i++) {
-      if (workspaces[i].address === workspace_address) {
-        valid = true;
-        
-        // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS/CHANNELS
-        this.props.getWorkspace(workspace_address) 
-          .then(
-            ({channels}) => {
-              let first_channel = Object.keys(channels)[0];
-              if (channels[channel_id] === undefined)
-                this.props.history.replace(`/workspace/${workspace_address}/${first_channel}`)
-              this.setState({loaded: true})
-            }
-          )
-      }
-    }
-
-    if (!valid) 
-      this.props.history.replace('/signin');
-    else if (channel_id != "0")
-      this.props.loadChannel(channel_id)
-
 
     // Listens for login for workspace and channel
     // workspace_data : { user_id, logged_in }
@@ -64,6 +40,37 @@ class Workspace extends React.Component {
         }
       }
     )
+
+    for (let i = 0; i < workspaces.length; i++) {
+      if (workspaces[i].address === workspace_address) {
+        valid = true;
+        
+        // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS/CHANNELS
+        this.props.getWorkspace(workspace_address) 
+          .then(
+            ({channels, workspace}) => {
+              let first_channel = Object.keys(channels)[0];  // goes to first channel if url is invalid
+              if (channels[channel_id] === undefined)
+                this.props.history.replace(`/workspace/${workspace_address}/${first_channel}`)
+
+              this.loginACChannel.speak({ // announces login through ActionCable
+                workspace_data: {
+                  user_id: this.props.user_id,
+                  workspace_id: workspace.id,
+                  logged_in: true
+                }
+              })
+
+              this.setState({loaded: true})
+            }
+          )
+      }
+    }
+
+    if (!valid) 
+      this.props.history.replace('/signin');
+    else if (channel_id != "0")
+      this.props.loadChannel(channel_id)
   }
 
   // Receives data sent from other users' workspace and channel join/leave actions

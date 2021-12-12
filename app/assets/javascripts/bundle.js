@@ -2030,13 +2030,18 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
     value: function receiveACData(data) {
       var message = data.message; //extract the data
 
-      var user_id = message.user_id;
-      message.username = this.props.users[user_id].email.split("@")[0];
-      message.photo_url = this.props.users[user_id].photo_url;
-      if (!message.photo_url) message.photo_url = DEFAULT_PHOTO_URL;
-      this.setState({
-        messages: this.state.messages.concat(message)
-      });
+      var user_id = message.user_id,
+          channel_id = message.channel_id;
+      debugger;
+
+      if (channel_id == this.props.channel_id) {
+        message.username = this.props.users[user_id].email.split("@")[0];
+        message.photo_url = this.props.users[user_id].photo_url;
+        if (!message.photo_url) message.photo_url = DEFAULT_PHOTO_URL;
+        this.setState({
+          messages: this.state.messages.concat(message)
+        });
+      }
     }
   }, {
     key: "componentDidMount",
@@ -4480,25 +4485,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           workspaces = _this$props.workspaces,
           workspace_address = _this$props.workspace_address,
           channel_id = _this$props.channel_id;
-      var valid = false;
-
-      for (var i = 0; i < workspaces.length; i++) {
-        if (workspaces[i].address === workspace_address) {
-          valid = true; // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS/CHANNELS
-
-          this.props.getWorkspace(workspace_address).then(function (_ref) {
-            var channels = _ref.channels;
-            var first_channel = Object.keys(channels)[0];
-            if (channels[channel_id] === undefined) _this2.props.history.replace("/workspace/".concat(workspace_address, "/").concat(first_channel));
-
-            _this2.setState({
-              loaded: true
-            });
-          });
-        }
-      }
-
-      if (!valid) this.props.history.replace('/signin');else if (channel_id != "0") this.props.loadChannel(channel_id); // Listens for login for workspace and channel
+      var valid = false; // Listens for login for workspace and channel
       // workspace_data : { user_id, logged_in }
       // channel_data   : { user_id, channel_id, action }
 
@@ -4510,6 +4497,35 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           return this.perform("speak", data);
         }
       });
+
+      for (var i = 0; i < workspaces.length; i++) {
+        if (workspaces[i].address === workspace_address) {
+          valid = true; // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS/CHANNELS
+
+          this.props.getWorkspace(workspace_address).then(function (_ref) {
+            var channels = _ref.channels,
+                workspace = _ref.workspace;
+            var first_channel = Object.keys(channels)[0]; // goes to first channel if url is invalid
+
+            if (channels[channel_id] === undefined) _this2.props.history.replace("/workspace/".concat(workspace_address, "/").concat(first_channel));
+
+            _this2.loginACChannel.speak({
+              // announces login through ActionCable
+              workspace_data: {
+                user_id: _this2.props.user_id,
+                workspace_id: workspace.id,
+                logged_in: true
+              }
+            });
+
+            _this2.setState({
+              loaded: true
+            });
+          });
+        }
+      }
+
+      if (!valid) this.props.history.replace('/signin');else if (channel_id != "0") this.props.loadChannel(channel_id);
     } // Receives data sent from other users' workspace and channel join/leave actions
     // Ignores your own data
 

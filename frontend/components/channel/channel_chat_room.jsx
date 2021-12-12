@@ -58,16 +58,19 @@ class ChannelChatRoom extends React.Component {
 
   receiveACData(data) {
     let { message } = data;     //extract the data
-    let { user_id } = message;
+    let { user_id, channel_id } = message;
 
-    message.username = this.props.users[user_id].email.split("@")[0];
-    message.photo_url = this.props.users[user_id].photo_url;
-    if (!message.photo_url)
-      message.photo_url = DEFAULT_PHOTO_URL;
+    debugger;
+    if (channel_id == this.props.channel_id) {
+      message.username = this.props.users[user_id].email.split("@")[0];
+      message.photo_url = this.props.users[user_id].photo_url;
+      if (!message.photo_url)
+        message.photo_url = DEFAULT_PHOTO_URL;
 
-    this.setState({
-      messages: this.state.messages.concat(message)
-    });
+      this.setState({
+        messages: this.state.messages.concat(message)
+      });
+    }
   }
 
   componentDidMount() {
