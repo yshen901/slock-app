@@ -51,7 +51,7 @@ class UserSigninForm extends React.Component {
 
   //NOTE: CHAIN DISPATCH(SOMETHING).THEN(...) TO ENSURE SYNCRONOUS BEHAVIOR
   //INTERESTING BUG: IF INFO IN THEN ISN'T A CALLBACK, IT IS RUN IMMEDIATELY RATHER THAN AFTER THE PROMISE IS DONE
-  handleSubmit() {
+  handleSubmit(e) {
     // this.props.processForm(this.state)
     //   .then(
     //     () => this.props.getWorkspaces()
@@ -60,6 +60,7 @@ class UserSigninForm extends React.Component {
     //       ),
     //     () => this.setState({state: this.state})
     //   )
+    e.preventDefault();
     this.props.processForm(this.state)
       .then( 
         () => {

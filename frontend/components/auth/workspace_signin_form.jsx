@@ -28,7 +28,8 @@ class WorkspaceSigninForm extends React.Component {
       2) Use window.location.reload() to reload the page - this clears the state.
       3) For this case, you don't need to re-direct at all...just force a re-render
   */
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     dispatch(findWorkspace(this.state.workspace_address))
       .then(
         () => this.props.history.push(`/signin/${ this.state.workspace_address }`),
