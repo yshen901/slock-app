@@ -2078,7 +2078,6 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
 
       var user_id = message.user_id,
           channel_id = message.channel_id;
-      debugger;
 
       if (channel_id == this.props.channel_id) {
         message.username = this.props.users[user_id].email.split("@")[0];
@@ -2263,7 +2262,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
     key: "star",
     value: function star() {
       var channel = this.props.channel;
-      if (channel.name === "general" || channel.dm_channel) /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);else if (this.props.channel.starred) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (channel.name === "general" || channel.dm_channel) return null;else if (this.props.channel.starred) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "star filled hidden",
         onClick: this.starClick
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -2332,8 +2331,6 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
       }, this.getChannelName()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "left-bottom"
       }, this.star(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-nav-divider"
-      }, "|"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "members"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "material-icons"

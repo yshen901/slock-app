@@ -60,7 +60,6 @@ class ChannelChatRoom extends React.Component {
     let { message } = data;     //extract the data
     let { user_id, channel_id } = message;
 
-    debugger;
     if (channel_id == this.props.channel_id) {
       message.username = this.props.users[user_id].email.split("@")[0];
       message.photo_url = this.props.users[user_id].photo_url;

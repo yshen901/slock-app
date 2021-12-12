@@ -41,8 +41,6 @@ class Api::ChannelUsersController < ApplicationController
       channel_id: channel_user_params[:channel_id]
     )
 
-    debugger;
-
     if @channel_user
       if @channel_user.update(channel_user_params)
         render 'api/channel_users/show'

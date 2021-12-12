@@ -21,7 +21,7 @@ class ChannelNav extends React.Component {
   star() {
     let {channel} = this.props
     if (channel.name === "general" || channel.dm_channel)
-      <div></div>
+      return null
     else if (this.props.channel.starred)
       return (
         <div id="star filled hidden" onClick={this.starClick}>
@@ -93,7 +93,6 @@ class ChannelNav extends React.Component {
           <div id="left-top">{this.getChannelName()}</div>
           <div id="left-bottom">
             {this.star()} 
-            <div className="channel-nav-divider">|</div>
             <div id="members">
               <i className="material-icons">person_outline</i>
               <div>
