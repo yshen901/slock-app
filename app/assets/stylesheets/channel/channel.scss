@@ -1,31 +1,31 @@
 #channel {
-  position: fixed;
-  top: 0;
-  left: 220px;
-
-  width: 100%;
   height: 100%;
-}
-
-.channel-info {
-  position: fixed;
-  top: 60px;
-  left: 220px;
-  z-index: 100;
-
+  flex: 1;
   display: flex;
 
-  width: calc(100% - 220px);
-  height: calc(100% - 30px);
+  border-top: 1px solid lightgray;
 
-  .chatroom-container {
-    height: 100%;
+  #channel-main {
     flex: 1;
-  }
-
-  .channel-profile-sidebar {
     height: 100%;
-    width: 300px;
+    display: flex;
+    flex-direction: column;
+
+    #channel-nav {
+      height: 60px;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .chatroom-container {
+      height: 100%;
+      flex: 1;
+    }    
+  }
+  .channel-profile-sidebar {
+    width: 348px;
+    height: 100%;
+    border: 1px solid lightgray;
   }
 }
 

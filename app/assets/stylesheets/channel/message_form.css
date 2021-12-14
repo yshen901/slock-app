@@ -1,39 +1,6 @@
-.chatroom-container form {
-  position: fixed;
-  bottom: 0px;
-  left: 220px;
-  
-  width: calc(100% - 220px);
 
-  padding: 20px;  
-  padding-bottom: 25px;
-  padding-top: 10px;
-  box-sizing: border-box;
-}
 
-.chat-input[type="text"] {
-  font-size: 15px;
-  line-height: 15px;
-
-  width: 100%;
-
-  padding: 11px;
-  padding-left: 30px;
-  padding-right: 30px;
-  box-sizing: border-box;
-  border: 1px solid rgb(90, 90, 90);
-  border-radius: 5px;
-}
-
-.chatroom-container input[type="text"]:focus {
-  outline: none;
-}
-
-.chatroom-container input[type="submit"] {
-  display: none;
-}
-
-.channel-preview-panel {
+/* .channel-preview-panel {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -70,5 +37,5 @@
 .channel-preview-button:hover {
   cursor: pointer;
   background: #008f69;
-}
+} */
 

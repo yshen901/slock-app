@@ -101,22 +101,25 @@ class Workspace extends React.Component {
   render() {
     if (this.state.loaded)
       return (
-        <div id="workspace" onClick={() => hideElements("dropdown")}>
-          <WorkspaceSidebarContainer workspaceFlag={this.state.workspaceFlag}/>
-          <ChannelContainer 
-            loginACChannel={this.loginACChannel}
-            channelFlag={this.state.channelFlag}
-          />
+        <div id="workspace-container" onClick={() => hideElements("dropdown")}>
+          <div id="workspace-top-bar"></div>
+          <div id="workspace">
+            <WorkspaceSidebarContainer workspaceFlag={this.state.workspaceFlag}/>
+            <ChannelContainer 
+              loginACChannel={this.loginACChannel}
+              channelFlag={this.state.channelFlag}
+            />
 
-          <SidebarDropdown loginACChannel={this.loginACChannel}/>
-          <BrowseChannelModal />
-          <BrowseDmChannelModal 
-            workspaceFlag={this.state.workspaceFlag}
-          />
-          <InviteUserModal />
-          <NewChannelModalContainer />
-          <EditChannelTopicModal />
-          <EditProfileModalContainer />
+            <SidebarDropdown loginACChannel={this.loginACChannel}/>
+            <BrowseChannelModal />
+            <BrowseDmChannelModal 
+              workspaceFlag={this.state.workspaceFlag}
+            />
+            <InviteUserModal />
+            <NewChannelModalContainer />
+            <EditChannelTopicModal />
+            <EditProfileModalContainer />
+          </div>
         </div>
       )
     else

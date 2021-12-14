@@ -20,6 +20,15 @@ class ChannelChatRoom extends React.Component {
     this.receiveACData = this.receiveACData.bind(this);
   }
 
+  profileName(user) {
+    if (user.display_name != "")
+      return user.display_name;
+    else if (user.full_name != "")
+      return user.full_name;
+    else
+      return user.email.split("@")[0];
+  }
+
   loadMessages() {
     let { getMessages, channel_id, users } = this.props;
     getMessages(channel_id)
@@ -30,7 +39,7 @@ class ChannelChatRoom extends React.Component {
               let created_at, len;
               let date_now = new Date(Date());
               let message_date = new Date(message.created_at);
-              let username = users[message.user_id].email.split("@")[0];
+              let username = this.profileName(users[message.user_id]);
               let photo_url = users[message.user_id].photo_url;
               if (!photo_url)
                 photo_url = DEFAULT_PHOTO_URL;
@@ -62,7 +71,7 @@ class ChannelChatRoom extends React.Component {
     let { user_id, channel_id } = message;
 
     if (channel_id == this.props.channel_id) {
-      message.username = this.props.users[user_id].email.split("@")[0];
+      message.username = this.profileName(this.props.users[user_id]);
       message.photo_url = this.props.users[user_id].photo_url;
       if (!message.photo_url)
         message.photo_url = DEFAULT_PHOTO_URL;

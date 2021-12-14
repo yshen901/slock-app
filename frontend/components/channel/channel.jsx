@@ -9,6 +9,7 @@ import ChannelProfileSidebar from "./channel_profile_sidebar";
 import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
 import { endDmChannel } from "../../actions/dm_channel_actions";
+import { times } from 'lodash';
 
 class Channel extends React.Component {
   constructor(props) {
@@ -148,7 +149,6 @@ class Channel extends React.Component {
         <ChannelChatContainer 
             joinChannel={this.joinChannel}
             status={this.state}
-            hideUser={this.hideUser}
             showUser={this.showUser}/>
       )
   }
@@ -165,7 +165,9 @@ class Channel extends React.Component {
   renderProfile() {
     if (this.state.shownUserId != 0)
       return (
-        <ChannelProfileSidebar></ChannelProfileSidebar>
+        <ChannelProfileSidebar
+          userId={this.state.shownUserId}
+          hideUser={this.hideUser}/>
       )
   }
 

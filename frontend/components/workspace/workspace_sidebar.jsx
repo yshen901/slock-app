@@ -96,7 +96,7 @@ class WorkspaceSidebar extends React.Component {
         <div id="workspace-sidebar">
           <div id="workspace-sidebar-nav" onClick={ this.toggleElements("dropdown sidebar") }>
             <h2>{workspaceTitle(this.props.workspace_address)} <i className="fa fa-chevron-down"> </i></h2>
-            <h6>{this.props.user.email}</h6>
+            {/* <h6>{this.props.user.email}</h6> */}
           </div>
 
           { this.starred() }
@@ -110,7 +110,7 @@ class WorkspaceSidebar extends React.Component {
             </div>
             <div className="sidebar-list">
               {this.getChannels(false).map((channel, idx) => {
-                if (channel.id === channel_id)
+                if (channel.id == channel_id)
                   return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
                 else
                   return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);               
@@ -127,7 +127,7 @@ class WorkspaceSidebar extends React.Component {
             </div>
             <div className="sidebar-list">
               {this.getChannels(false, true).map((channel, idx) => {
-                if (channel.id === channel_id)
+                if (channel.id == channel_id)
                   return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}>{this.getDmChannelName(channel)}</Link>);
                 else
                   return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}>{this.getDmChannelName(channel)}</Link>);               

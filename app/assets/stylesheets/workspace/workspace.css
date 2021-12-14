@@ -1,12 +1,29 @@
-#workspace {
+#workspace-container {
   width: 100vw;
   height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#workspace-top-bar {
+  width: 100%;
+  height: 38px;
+
+  background-color: #350D36;
+}
+
+#workspace {
+  width: 100%;
+  height: calc(100% - 38px);
 
   -webkit-animation: fadein 0.4s;
   -moz-animation: fadein 0.4s;
   -ms-animation: fadein 0.4s;
   -o-animation: fadein 0.4s;
   animation: fadein 0.4s;
+
+  display: flex;
 }
 
 #channel-chat {

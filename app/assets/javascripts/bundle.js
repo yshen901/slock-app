@@ -1731,6 +1731,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_9__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1752,6 +1754,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -1916,7 +1919,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       });else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         joinChannel: this.joinChannel,
         status: this.state,
-        hideUser: this.hideUser,
         showUser: this.showUser
       });
     } // handles profile sidebar of channel
@@ -1938,7 +1940,10 @@ var Channel = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderProfile",
     value: function renderProfile() {
-      if (this.state.shownUserId != 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_5__["default"], null);
+      if (this.state.shownUserId != 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        userId: this.state.shownUserId,
+        hideUser: this.hideUser
+      });
     }
   }, {
     key: "render",
@@ -2064,6 +2069,11 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(ChannelChatRoom, [{
+    key: "profileName",
+    value: function profileName(user) {
+      if (user.display_name != "") return user.display_name;else if (user.full_name != "") return user.full_name;else return user.email.split("@")[0];
+    }
+  }, {
     key: "loadMessages",
     value: function loadMessages() {
       var _this2 = this;
@@ -2079,7 +2089,9 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           var created_at, len;
           var date_now = new Date(Date());
           var message_date = new Date(message.created_at);
-          var username = users[message.user_id].email.split("@")[0];
+
+          var username = _this2.profileName(users[message.user_id]);
+
           var photo_url = users[message.user_id].photo_url;
           if (!photo_url) photo_url = DEFAULT_PHOTO_URL;
           if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
@@ -2111,7 +2123,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           channel_id = message.channel_id;
 
       if (channel_id == this.props.channel_id) {
-        message.username = this.props.users[user_id].email.split("@")[0];
+        message.username = this.profileName(this.props.users[user_id]);
         message.photo_url = this.props.users[user_id].photo_url;
         if (!message.photo_url) message.photo_url = DEFAULT_PHOTO_URL;
         this.setState({
@@ -2542,11 +2554,106 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(ProfileSidebar, [{
+    key: "profileName",
+    value: function profileName(user) {
+      var name;
+      if (user.full_name != "") name = user.full_name;else if (user.display_name != "") name = user.display_name;else name = user.email;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, name);
+    }
+  }, {
+    key: "activity",
+    value: function activity(user) {
+      if (user.logged_in) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-circle active-circle-dark"
+      });
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-circle inactive-circle"
+      });
+    }
+  }, {
+    key: "phoneNumber",
+    value: function phoneNumber(user) {
+      if (user.phone_number) {
+        var phoneNum = user.phone_number.slice(0, 3) + "-" + user.phone_number.slice(3, 6) + user.phone_number.slice(6, 10);
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "profile-sidebar-section"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "profile-sidebar-section-name"
+        }, "Phone Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "profile-sidebar-section-content"
+        }, phoneNum));
+      }
+    }
+  }, {
+    key: "displayName",
+    value: function displayName(user) {
+      if (user.display_name) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "profile-sidebar-section"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "profile-sidebar-section-name"
+        }, "Display Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "profile-sidebar-section-content"
+        }, user.display_name));
+      }
+    }
+  }, {
+    key: "email",
+    value: function email(user) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-section"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-section-name"
+      }, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-section-content"
+      }, user.email));
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this$props = this.props,
+          hideUser = _this$props.hideUser,
+          userId = _this$props.userId;
+      var user = getState().entities.users[userId];
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-profile-sidebar"
-      });
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-title"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: hideUser
+      }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "profile-sidebar-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "profile-sidebar-picture"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: user.photo_url
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "profile-sidebar-overview"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "profile-sidebar-name"
+      }, this.activity(user), this.profileName(user)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "profile-sidebar-occupation"
+      }, user.what_i_do)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "profile-sidebar-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-button"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-comment-dots"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-description"
+      }, "Message")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-button"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-phone-alt"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-description"
+      }, "Call"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "profile-sidebar-sections"
+      }, this.displayName(user), this.email(user), this.phoneNumber(user))));
     }
   }]);
 
@@ -5040,10 +5147,14 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       if (this.state.loaded) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "workspace",
+        id: "workspace-container",
         onClick: function onClick() {
           return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_10__["hideElements"])("dropdown");
         }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "workspace-top-bar"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "workspace"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_sidebar_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
         workspaceFlag: this.state.workspaceFlag
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -5053,7 +5164,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         loginACChannel: this.loginACChannel
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
         workspaceFlag: this.state.workspaceFlag
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_9__["default"], null));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "loading-page"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/images/orb.gif"
@@ -5286,7 +5397,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         onClick: this.toggleElements("dropdown sidebar")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["workspaceTitle"])(this.props.workspace_address), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-chevron-down"
-      }, " ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, this.props.user.email)), this.starred(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, " "))), this.starred(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channels"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
@@ -5301,7 +5412,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-list"
       }, this.getChannels(false).map(function (channel, idx) {
-        if (channel.id === channel_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        if (channel.id == channel_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: "sidebar-item selected",
           to: _this3.channelLink(channel.id)
@@ -5325,7 +5436,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-list"
       }, this.getChannels(false, true).map(function (channel, idx) {
-        if (channel.id === channel_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        if (channel.id == channel_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: "sidebar-item selected",
           to: _this3.channelLink(channel.id)
