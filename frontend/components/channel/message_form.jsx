@@ -11,16 +11,11 @@ class MessageForm extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.joinChannel = this.joinChannel.bind(this);
   }
 
   componentDidUpdate(oldProps) {
     if (oldProps.status.canJoin !== this.props.status.canJoin)
       this.setState({ canJoin: this.props.status.canJoin })
-  }
-
-  joinChannel(e) {
-    this.props.joinChannel(e);
   }
 
   update(field) {
@@ -67,14 +62,14 @@ class MessageForm extends React.Component {
         return (
           <div className="channel-preview-panel">
             <h1>You are viewing your chat with <strong>{this.getDmChannelName(channels[channel_id])}</strong> </h1>
-            <div className="channel-preview-button" onClick={this.joinChannel}>Start Messaging</div>
+            <div className="channel-preview-button" onClick={this.props.joinChannel}>Start Messaging</div>
           </div>
         )
       else
         return (
           <div className="channel-preview-panel">
             <h1>You are viewing <strong>#{channels[channel_id].name}</strong> </h1>
-            <div className="channel-preview-button" onClick={this.joinChannel}>Join Channel</div>
+            <div className="channel-preview-button" onClick={this.props.joinChannel}>Join Channel</div>
           </div>
         )
     }

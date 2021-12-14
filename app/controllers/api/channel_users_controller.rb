@@ -4,9 +4,7 @@ class Api::ChannelUsersController < ApplicationController
       user_id: current_user.id,
       channel_id: channel_user_params[:channel_id]
     )
-
-    debugger;
-
+    
     if @channel_user
       render json: ["User is already in the channel"], status: 401
     else

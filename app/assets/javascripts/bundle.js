@@ -3099,7 +3099,6 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
       canJoin: props.status.canJoin
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    _this.joinChannel = _this.joinChannel.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -3109,11 +3108,6 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
       if (oldProps.status.canJoin !== this.props.status.canJoin) this.setState({
         canJoin: this.props.status.canJoin
       });
-    }
-  }, {
-    key: "joinChannel",
-    value: function joinChannel(e) {
-      this.props.joinChannel(e);
     }
   }, {
     key: "update",
@@ -3165,12 +3159,12 @@ var MessageForm = /*#__PURE__*/function (_React$Component) {
           className: "channel-preview-panel"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "You are viewing your chat with ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, this.getDmChannelName(channels[channel_id])), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-preview-button",
-          onClick: this.joinChannel
+          onClick: this.props.joinChannel
         }, "Start Messaging"));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-preview-panel"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "You are viewing ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "#", channels[channel_id].name), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-preview-button",
-          onClick: this.joinChannel
+          onClick: this.props.joinChannel
         }, "Join Channel"));
       } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit.bind(this)
