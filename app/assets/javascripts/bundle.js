@@ -1731,8 +1731,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_9__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1754,7 +1752,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 
 
 
@@ -2517,6 +2514,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2542,18 +2540,42 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
   _inherits(ProfileSidebar, _React$Component);
 
   var _super = _createSuper(ProfileSidebar);
 
   function ProfileSidebar(props) {
+    var _this;
+
     _classCallCheck(this, ProfileSidebar);
 
-    return _super.call(this, props);
-  }
+    _this = _super.call(this, props);
+    _this.startChat = _this.startChat.bind(_assertThisInitialized(_this));
+    return _this;
+  } // BUTTON ACTIONS
+
 
   _createClass(ProfileSidebar, [{
+    key: "startChat",
+    value: function startChat() {
+      var _this2 = this;
+
+      dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"])({
+        user_1_id: getState().session.user_id,
+        user_2_id: this.props.userId,
+        workspace_id: getState().session.workspace_id
+      })).then(function (_ref) {
+        var dmChannelUser = _ref.dmChannelUser;
+        var channel_id = dmChannelUser.channel_id;
+        var workspace_address = _this2.props.match.params.workspace_address;
+
+        _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
+      });
+    } // RENDER HELPER FUNCTIONS
+
+  }, {
     key: "profileName",
     value: function profileName(user) {
       var name;
@@ -2636,7 +2658,8 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
       }, user.what_i_do)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-buttons"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "profile-sidebar-button"
+        className: "profile-sidebar-button",
+        onClick: this.startChat
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "button-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {

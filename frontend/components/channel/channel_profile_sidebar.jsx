@@ -1,11 +1,30 @@
 import React from 'react';
 import { withRouter } from 'react-router';
+import { startDmChannel } from "../../actions/dm_channel_actions";
 
 class ProfileSidebar extends React.Component {
   constructor(props) {
     super(props);
+
+    this.startChat = this.startChat.bind(this);
   }
 
+  // BUTTON ACTIONS
+  startChat() {
+    dispatch(startDmChannel({
+      user_1_id: getState().session.user_id,
+      user_2_id: this.props.userId,
+      workspace_id: getState().session.workspace_id
+    })).then(
+      ({dmChannelUser}) => {
+        let {channel_id} = dmChannelUser;
+        let {workspace_address} = this.props.match.params;
+        this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+      }
+    )
+  }
+
+  // RENDER HELPER FUNCTIONS
   profileName(user) {
     let name;
     if (user.full_name != "")
@@ -80,7 +99,7 @@ class ProfileSidebar extends React.Component {
             <div id="profile-sidebar-occupation">{user.what_i_do}</div>
           </div>
           <div id="profile-sidebar-buttons">
-          <div className="profile-sidebar-button">
+            <div className="profile-sidebar-button" onClick={this.startChat}>
               <div className="button-icon">
                 <i className="fas fa-comment-dots"></i>
               </div>

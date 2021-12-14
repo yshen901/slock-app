@@ -9,7 +9,6 @@ import ChannelProfileSidebar from "./channel_profile_sidebar";
 import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
 import { endDmChannel } from "../../actions/dm_channel_actions";
-import { times } from 'lodash';
 
 class Channel extends React.Component {
   constructor(props) {
