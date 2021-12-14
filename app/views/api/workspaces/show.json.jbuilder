@@ -32,7 +32,7 @@ if logged_in?
   @current_user.dm_channel_connections_2.each do |connection|
     if connection.workspace_id == @workspace.id
       user_dm_channel_ids_all << connection.channel_id
-      user_dm_channel_ids_active << connection.channel_id if connection.active_1
+      user_dm_channel_ids_active << connection.channel_id if connection.active_2
     end
   end
   

@@ -2164,6 +2164,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       } else {
         // joins the dm channel if not already in it
         if (activate_dm_channel) {
+          debugger;
           this.props.startDmChannel({
             user_1_id: this.props.current_user_id,
             user_2_id: user_id,
