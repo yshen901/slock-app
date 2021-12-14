@@ -16,7 +16,7 @@ class ChatChannel < ApplicationCable::Channel
 
     # If the message's channel is a dm_channel and one user is inactive
     if channel.dm_channel 
-      connection = channel.dm_channel_connections
+      connection = channel.dm_channel_connection
       activate_dm_channel = !(connection.active_1 && connection.active_2)
     end
 

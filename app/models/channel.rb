@@ -24,17 +24,17 @@ class Channel < ApplicationRecord
   
   
   # connection
-  has_one :dm_channel_connections,
+  has_one :dm_channel_connection,
     foreign_key: :channel_id,
     class_name: :DmChannelUser,
     dependent: :destroy
 
   # dm users in the channel
   has_one :dm_user_1,
-    through: :dm_channel_connections,
+    through: :dm_channel_connection,
     source: :user_1
   has_one :dm_user_2,
-    through: :dm_channel_connections,
+    through: :dm_channel_connection,
     source: :user_2
 
   def dm_users
