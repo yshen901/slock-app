@@ -206,7 +206,7 @@ var updateChannelUser = function updateChannelUser(channel_user) {
 /*!*************************************************!*\
   !*** ./frontend/actions/dm_channel_actions.jsx ***!
   \*************************************************/
-/*! exports provided: JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL, startDmChannel, endDmChannel */
+/*! exports provided: JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL, startDmChannel, endDmChannel, restartDmChannel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -215,6 +215,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LEAVE_DM_CHANNEL", function() { return LEAVE_DM_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startDmChannel", function() { return startDmChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endDmChannel", function() { return endDmChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartDmChannel", function() { return restartDmChannel; });
 /* harmony import */ var _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/dm_channel_user_util */ "./frontend/util/dm_channel_user_util.js");
 
 var JOIN_DM_CHANNEL = "JOIN_DM_CHANNEL";
@@ -247,6 +248,16 @@ var endDmChannel = function endDmChannel(channelInfo) {
   return function (dispatch) {
     return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["endDmChannel"](channelInfo).then(function (dmChannelUser) {
       return dispatch(leaveDmChannel(dmChannelUser));
+    }, function (errors) {
+      return dispatch(receiveErrors(errors));
+    });
+  };
+}; // Join dmChannel that has already been created
+
+var restartDmChannel = function restartDmChannel(channelInfo) {
+  return function (dispatch) {
+    return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["endDmChannel"](channelInfo).then(function (dmChannelUser) {
+      return dispatch(joinDmChannel(dmChannelUser));
     }, function (errors) {
       return dispatch(receiveErrors(errors));
     });
@@ -1813,7 +1824,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var _this$props = this.props,
           channel = _this$props.channel,
           channel_id = _this$props.channel_id,
-          workspace_address = _this$props.workspace_address,
           user = _this$props.user;
       var user_id = user.id;
 
@@ -1830,7 +1840,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
 
 
             _this2.setState({
-              joined: false
+              canJoin: true,
+              canLeave: false
             });
           }, null);
       } else {
@@ -1844,7 +1855,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           (function () {
             // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
             _this2.setState({
-              joined: false
+              canJoin: true,
+              canLeave: false
             });
           }), null;
         });
@@ -1857,25 +1869,40 @@ var Channel = /*#__PURE__*/function (_React$Component) {
 
       e.stopPropagation();
       Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__["hideElements"])("dropdown");
-      var channel_id = this.props.channel_id;
+      var channel = this.props.channel;
       var workspace_id = this.props.channel.workspace_id;
       var user_id = this.props.user.id;
-      dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_7__["joinChannel"])({
-        channel_id: channel_id,
-        workspace_id: workspace_id
-      })).then(function () {
-        _this3.props.loginACChannel.speak({
-          channel_data: {
-            login: true,
-            user_id: user_id,
-            channel_id: channel_id
-          }
-        });
 
-        _this3.setState({
-          joined: true
+      if (channel.dm_channel) {
+        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_8__["restartDmChannel"])({
+          user_id: user_id,
+          channel_id: channel.id,
+          active: true
+        })).then(function () {
+          _this3.setState({
+            canJoin: false,
+            canLeave: true
+          });
         });
-      });
+      } else {
+        dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_7__["joinChannel"])({
+          channel_id: channel.id,
+          workspace_id: workspace_id
+        })).then(function () {
+          _this3.props.loginACChannel.speak({
+            channel_data: {
+              login: true,
+              user_id: user_id,
+              channel_id: channel.id
+            }
+          });
+
+          _this3.setState({
+            canJoin: false,
+            canLeave: true
+          });
+        });
+      }
     }
   }, {
     key: "canLeave",
@@ -2243,8 +2270,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     workspace_address: ownProps.match.params.workspace_address,
     channel_id: parseInt(ownProps.match.params.channel_id),
     channel: state.entities.channels[ownProps.match.params.channel_id],
-    user: state.entities.users[state.session.user_id] // generalChannelId: Object.keys(state.entities.channels)[0]
-
+    user: state.entities.users[state.session.user_id]
   };
 };
 

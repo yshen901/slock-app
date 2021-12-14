@@ -8,7 +8,7 @@ import ChannelProfileSidebar from "./channel_profile_sidebar";
 
 import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
-import { endDmChannel } from "../../actions/dm_channel_actions";
+import { restartDmChannel, endDmChannel } from "../../actions/dm_channel_actions";
 
 class Channel extends React.Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class Channel extends React.Component {
       canJoin: this.canJoin(),
       canLeave: this.canLeave(),
       inVideoCall: false,
-      shownUserId: 0
+      shownUserId: 0,
     }
 
     this.leaveChannel = this.leaveChannel.bind(this);
@@ -50,7 +50,7 @@ class Channel extends React.Component {
     e.stopPropagation();
     hideElements("dropdown");
 
-    let { channel, channel_id, workspace_address, user } = this.props;
+    let { channel, channel_id, user } = this.props;
     let user_id = user.id;
 
     if (!channel.dm_channel) {
@@ -68,7 +68,7 @@ class Channel extends React.Component {
                 }
               );
               // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
-              this.setState({ joined: false });
+              this.setState({ canJoin: true, canLeave: false });
             },
             null
           )
@@ -84,7 +84,7 @@ class Channel extends React.Component {
           () => {
             () => {
               // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
-              this.setState({ joined: false });
+              this.setState({ canJoin: true, canLeave: false });
             },
             null
           }
@@ -95,25 +95,38 @@ class Channel extends React.Component {
   joinChannel(e) {
     e.stopPropagation();
     hideElements("dropdown");
-    let { channel_id } = this.props;
+    let { channel } = this.props;
     let { workspace_id } = this.props.channel;
     let user_id = this.props.user.id;
 
-    dispatch(joinChannel({channel_id, workspace_id}))
-      .then(
+    if (channel.dm_channel) {
+      dispatch(restartDmChannel({
+        user_id,
+        channel_id: channel.id,
+        active: true
+      })).then(
         () => {
-          this.props.loginACChannel.speak(
-            {
-              channel_data: {
-                login: true,
-                user_id,
-                channel_id
-              }
-            }
-          );
-          this.setState({ joined: true });
+          this.setState({ canJoin: false, canLeave: true })
         }
-      )
+      );
+    }
+    else {
+      dispatch(joinChannel({channel_id: channel.id, workspace_id}))
+        .then(
+          () => {
+            this.props.loginACChannel.speak(
+              {
+                channel_data: {
+                  login: true,
+                  user_id,
+                  channel_id: channel.id
+                }
+              }
+            );
+            this.setState({ canJoin: false, canLeave: true });
+          }
+        )
+    }
   }
 
   canLeave() {

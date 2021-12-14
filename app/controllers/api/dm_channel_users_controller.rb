@@ -58,9 +58,9 @@ class Api::DmChannelUsersController < ApplicationController
 
     update_active = {};
     if current_user.id == @dm_channel_user.user_1_id
-      update_active[:active_1] = false
+      update_active[:active_1] = dm_channel_user_params[:active]
     elsif current_user.id == @dm_channel.user.user_2_id
-      update_active[:active_2] = false
+      update_active[:active_2] = dm_channel_user_params[:active]
     end
 
     if @dm_channel_user
@@ -79,7 +79,8 @@ class Api::DmChannelUsersController < ApplicationController
     params.require(:dm_channel_user).permit(
       :channel_id, :workspace_id,
       :user_1_id, :active_1,
-      :user_2_id, :active_2
+      :user_2_id, :active_2,
+      :active
     )
   end
 end

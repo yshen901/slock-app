@@ -30,3 +30,13 @@ export const endDmChannel = (channelInfo) => dispatch => (
       errors => dispatch(receiveErrors(errors))
     )
 );
+
+// Join dmChannel that has already been created
+export const restartDmChannel = (channelInfo) => dispatch => (
+  DmChannelUserAPI
+    .endDmChannel(channelInfo)
+    .then(
+      dmChannelUser => dispatch(joinDmChannel(dmChannelUser)),
+      errors => dispatch(receiveErrors(errors))
+    )
+);
