@@ -48,6 +48,7 @@ class ChannelChatRoom extends React.Component {
                 created_at,
                 username,
                 photo_url,
+                user_id: message.user_id
               }
             }
           )
@@ -100,11 +101,11 @@ class ChannelChatRoom extends React.Component {
       return (
         <div className='message' key={idx}>
           <div className="message-user-icon">
-            <img src={message.photo_url}/>
+            <img src={message.photo_url} onClick={() => this.props.showUser(message.user_id)}/>
           </div>
           <div key={message.id} className="message-text">
             <div className="message-header">
-              <div className="message-user">{message.username}</div>
+              <div className="message-user" onClick={() => this.props.showUser(message.user_id)}>{message.username}</div>
               <div className="message-time">{message.created_at}</div>
             </div>
             <div className="message-body">{message.body}</div>

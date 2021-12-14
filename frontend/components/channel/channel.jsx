@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 
 import ChannelNavContainer from './channel_nav_container';
 import ChannelChatContainer from './channel_chat_container';
-import ChannelActionsDropdown from '../modals/channel_dropdown';
 import ChannelVideoChatRoom from './channel_video_chat_room';
+import ChannelProfileSidebar from "./channel_profile_sidebar";
 
 import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
@@ -18,6 +18,7 @@ class Channel extends React.Component {
       canJoin: this.canJoin(),
       canLeave: this.canLeave(),
       inVideoCall: false,
+      shownUserId: 0
     }
 
     this.leaveChannel = this.leaveChannel.bind(this);
@@ -25,6 +26,9 @@ class Channel extends React.Component {
 
     this.startVideoCall = this.startVideoCall.bind(this);
     this.endVideoCall = this.endVideoCall.bind(this);
+
+    this.showUser = this.showUser.bind(this);
+    this.hideUser = this.hideUser.bind(this);
   }
 
   // Ignore transition channel
@@ -124,6 +128,7 @@ class Channel extends React.Component {
     return user_channels[channel_id] === undefined
   }
 
+  // Handles video call logic and video room
   startVideoCall() {
     this.setState({inVideoCall: true});
   }
@@ -142,24 +147,41 @@ class Channel extends React.Component {
       return (
         <ChannelChatContainer 
             joinChannel={this.joinChannel}
-            status={this.state}/>
+            status={this.state}
+            hideUser={this.hideUser}
+            showUser={this.showUser}/>
+      )
+  }
+
+  // handles profile sidebar of channel
+  showUser(userId) {
+    this.setState({shownUserId: userId});
+  }
+
+  hideUser() {
+    this.setState({shownUserId: 0});
+  }
+
+  renderProfile() {
+    if (this.state.shownUserId != 0)
+      return (
+        <ChannelProfileSidebar></ChannelProfileSidebar>
       )
   }
 
   render() {
     return (
       <div id="channel">
-        <ChannelNavContainer 
-          leaveChannel={this.leaveChannel}
-          status={this.state}
-          startVideoCall={this.startVideoCall}
-          endVideoCall={this.endVideoCall}
-          inVideoCall={this.state.inVideoCall}/>
-        {this.renderRoom()}
-        {/* <ChannelActionsDropdown 
+        <div id="channel-main">
+          <ChannelNavContainer 
             leaveChannel={this.leaveChannel}
-            joinChannel={this.joinChannel}
-            status={this.state}/> */}
+            status={this.state}
+            startVideoCall={this.startVideoCall}
+            endVideoCall={this.endVideoCall}
+            inVideoCall={this.state.inVideoCall}/>
+          {this.renderRoom()}
+        </div>
+        { this.renderProfile() }
       </div>
     )
   }

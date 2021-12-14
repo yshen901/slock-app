@@ -1,0 +1,40 @@
+#channel {
+  position: fixed;
+  top: 0;
+  left: 220px;
+
+  width: 100%;
+  height: 100%;
+}
+
+.channel-info {
+  position: fixed;
+  top: 60px;
+  left: 220px;
+  z-index: 100;
+
+  display: flex;
+
+  width: calc(100% - 220px);
+  height: calc(100% - 30px);
+
+  .chatroom-container {
+    height: 100%;
+    flex: 1;
+  }
+
+  .channel-profile-sidebar {
+    height: 100%;
+    width: 300px;
+  }
+}
+
+/* TODO1: MAKE THIS ALWAYS BE UNDER THE GEAR BUTTON*/
+.dropdown.channel-settings {
+  top: 50px;
+  right: 580px;
+}
+
+.dropdown.channel-settings {
+  width: 200px;
+}

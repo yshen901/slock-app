@@ -87,6 +87,11 @@
     width: auto;
     object-fit: cover;
   }
+
+  img:hover {
+    transition: 0.3s;
+    cursor: pointer;
+  }
 }
 
 .message-text {
@@ -105,6 +110,12 @@
   font-size: 16px;
   font-weight: bold;
   height: 20px;
+}
+
+.message-user:hover {
+  transition: 0.3s;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .message-time {
