@@ -68,8 +68,9 @@ class ChannelChatRoom extends React.Component {
 
   receiveACData(data) {
     let { message } = data;     //extract the data
-    let { user_id, channel_id } = message;
+    let { user_id, channel_id, activate_dm_channel } = message;
 
+    // loads the message if its to the current channel
     if (channel_id == this.props.channel_id) {
       message.username = this.profileName(this.props.users[user_id]);
       message.photo_url = this.props.users[user_id].photo_url;
@@ -79,6 +80,16 @@ class ChannelChatRoom extends React.Component {
       this.setState({
         messages: this.state.messages.concat(message)
       });
+    }
+    else {
+      // joins the dm channel if not already in it
+      if (activate_dm_channel) {
+        this.props.startDmChannel({
+          user_1_id: this.props.current_user_id,
+          user_2_id: user_id,
+          workspace_id: this.props.workspace_id
+        })
+      }
     }
   }
 

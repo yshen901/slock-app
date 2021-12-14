@@ -1979,6 +1979,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _channel_chat_room__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channel_chat_room */ "./frontend/components/channel/channel_chat_room.jsx");
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+
 
 
 
@@ -1989,7 +1991,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     channel_id: ownProps.match.params.channel_id,
     users: state.entities.users,
     joinChannels: ownProps.joinChannels,
-    status: ownProps.status
+    status: ownProps.status,
+    current_user_id: state.session.user_id,
+    workspace_id: state.session.workspace_id
   };
 };
 
@@ -1997,6 +2001,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getMessages: function getMessages(channel_id) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["getMessages"])(channel_id));
+    },
+    startDmChannel: function startDmChannel(dmChannel) {
+      return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_4__["startDmChannel"])(dmChannel));
     }
   };
 };
@@ -2117,7 +2124,8 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       var message = data.message; //extract the data
 
       var user_id = message.user_id,
-          channel_id = message.channel_id;
+          channel_id = message.channel_id,
+          activate_dm_channel = message.activate_dm_channel; // loads the message if its to the current channel
 
       if (channel_id == this.props.channel_id) {
         message.username = this.profileName(this.props.users[user_id]);
@@ -2126,6 +2134,15 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         this.setState({
           messages: this.state.messages.concat(message)
         });
+      } else {
+        // joins the dm channel if not already in it
+        if (activate_dm_channel) {
+          this.props.startDmChannel({
+            user_1_id: this.props.current_user_id,
+            user_2_id: user_id,
+            workspace_id: this.props.workspace_id
+          });
+        }
       }
     }
   }, {

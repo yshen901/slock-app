@@ -6,29 +6,39 @@ class ChatChannel < ApplicationCable::Channel
 
   def speak(data)
     message_data = data['message']
-    message = Message.new(
+    message = Message.create(
       body: message_data['body'], 
       user_id: message_data['user_id'], 
       channel_id: message_data['channel_id']
     )
 
-    if message.save 
-      channel = message.channel
+    channel = message.channel
 
-      # If the message's channel is a dm_channel, send up activate_dm_channel to tell the app to activate it
-      activate_dm_channel = channel.dm_channel && channel.active_1 && channel.active_2
-
-      socket = { 
-        message: {
-          body: message_data['body'],
-          created_at: message_data['created_at'],
-          user_id: message_data['user_id'],
-          channel_id: message_data['channel_id'],
-          activate_dm_channel: activate_dm_channel
-        }
-      }
-      ChatChannel.broadcast_to('chat_channel', socket)
+    # If the message's channel is a dm_channel and one user is inactive
+    if channel.dm_channel 
+      connection = channel.dm_channel_connections
+      activate_dm_channel = !(connection.active_1 && connection.active_2)
     end
+
+    # Activate the link behind the scenes
+    if activate_dm_channel 
+      DmChannelUser.find_by(channel_id: message.channel_id).update(
+        active_1: true,
+        active_2: true
+      )
+    end
+
+    # Passes up activate_dm_channel to tell the app to fire startDmChannel, which loads the channel
+    socket = { 
+      message: {
+        body: message_data['body'],
+        created_at: message_data['created_at'],
+        user_id: message_data['user_id'],
+        channel_id: message_data['channel_id'],
+        # activate_dm_channel: activate_dm_channel
+      }
+    }
+    ChatChannel.broadcast_to('chat_channel', socket)
   end
 
   def unsubscribed

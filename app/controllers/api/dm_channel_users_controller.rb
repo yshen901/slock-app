@@ -33,6 +33,13 @@ class Api::DmChannelUsersController < ApplicationController
         @dm_channel_user = DmChannelUser.new(dm_channel_user_params)
         @dm_channel_user.channel_id = @channel.id
 
+        # Sets the active link of the current user, aka the channel starter, to true
+        if (@dm_channel_user.user_1_id == current_user.id)
+          @dm_channel_user.active_1 = true
+        else
+          @dm_channel_user.active_2 = true
+        end
+
         if @dm_channel_user.save
           render :show
         else
