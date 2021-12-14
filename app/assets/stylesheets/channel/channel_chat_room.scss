@@ -45,12 +45,11 @@
   .channel-preview-panel {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
   
-    padding-left: calc(50% - 166px);
     box-sizing: border-box;
   
-    height: 70px;
+    height: 81px;
     background: rgb(240, 240, 240);
 
     h1 {
