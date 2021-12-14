@@ -1924,6 +1924,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "startVideoCall",
     value: function startVideoCall() {
+      window.open(this.props.location.href);
       this.setState({
         inVideoCall: true
       });
@@ -2745,7 +2746,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
+/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
+/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2770,6 +2772,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
  // import Webcam from 'react-webcam';
 
 
@@ -2788,7 +2791,9 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       audio: false,
       video: true,
-      joined: false
+      localJoined: false,
+      remoteJoined: false,
+      loaded: false
     };
     _this.pcPeers = {};
     _this.toggleAudio = _this.toggleAudio.bind(_assertThisInitialized(_this));
@@ -2805,43 +2810,55 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      this.remoteVideoContainer = document.getElementById("remote-video-container");
-      navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: true
-      }).then(function (stream) {
-        _this2.localStream = stream;
-        document.getElementById("local-video-container").srcObject = stream;
-        _this2.callACChannel = App.cable.subscriptions.create( // subscribe to call actioncable channel
-        {
-          channel: "CallChannel"
-        }, {
-          speak: function speak(data) {
-            return this.perform('speak', data);
-          },
-          received: function received(data) {
-            if (data.from == "".concat(getState().session.user_id)) return;
-            console.log("RECEIVED: ", data);
+      dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["getWorkspace"])(this.props.match.params.workspace_address)).then(function () {
+        _this2.remoteVideoContainer = document.getElementById("remote-video-container");
+        navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true
+        }).then(function (stream) {
+          _this2.localStream = stream;
+          _this2.audioStream = stream.getAudioTracks()[0];
+          _this2.videoStream = stream.getVideoTracks()[0];
+          document.getElementById("local-video-container").srcObject = stream;
+          debugger;
+          _this2.callACChannel = App.cable.subscriptions.create( // subscribe to call actioncable channel
+          {
+            channel: "CallChannel"
+          }, {
+            speak: function speak(data) {
+              return this.perform('speak', data);
+            },
+            received: function received(data) {
+              if (data.from == getState().session.user_id) return;
+              console.log("RECEIVED: ", data);
 
-            switch (data.type) {
-              case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["JOIN_CALL"]:
-                return _this2.join(data);
+              switch (data.type) {
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["JOIN_CALL"]:
+                  return _this2.join(data);
 
-              case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"]:
-                if (data.to != "".concat(getState().session.user_id)) return;
-                return _this2.exchange(data);
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"]:
+                  if (data.to != "".concat(getState().session.user_id)) return;
+                  return _this2.exchange(data);
 
-              case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"]:
-                return _this2.removeUser(data);
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["LEAVE_CALL"]:
+                  return _this2.removeUser(data);
 
-              default:
-                return;
+                default:
+                  return;
+              }
             }
-          }
+          });
+
+          _this2.joinCall();
+        })["catch"](function (error) {
+          console.log(error);
         });
-      })["catch"](function (error) {
-        console.log(error);
       });
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.leaveCall();
     }
   }, {
     key: "join",
@@ -2852,11 +2869,12 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
     key: "joinCall",
     value: function joinCall(e) {
       this.callACChannel.speak({
-        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["JOIN_CALL"],
+        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["JOIN_CALL"],
         from: getState().session.user_id
       });
       this.setState({
-        joined: true
+        localJoined: true,
+        loaded: true
       });
     }
   }, {
@@ -2864,7 +2882,7 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
     value: function createPC(userId, offerBool) {
       var _this3 = this;
 
-      var pc = new RTCPeerConnection(_util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["ice"]);
+      var pc = new RTCPeerConnection(_util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["ice"]);
       this.pcPeers[userId] = pc;
       this.localStream.getTracks().forEach(function (track) {
         return pc.addTrack(track, _this3.localStream);
@@ -2875,7 +2893,7 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
           pc.setLocalDescription(offer).then(function () {
             setTimeout(function () {
               _this3.callACChannel.speak({
-                type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
+                type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"],
                 from: getState().session.user_id,
                 to: userId,
                 sdp: JSON.stringify(pc.localDescription)
@@ -2887,7 +2905,7 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
 
       pc.onicecandidate = function (e) {
         _this3.callACChannel.speak({
-          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
+          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"],
           from: getState().session.user_id,
           to: userId,
           sdp: JSON.stringify(e.candidate)
@@ -2906,7 +2924,7 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
           _this3.appended = true;
 
           _this3.setState({
-            joined: true
+            remoteJoined: true
           });
         }
       };
@@ -2914,7 +2932,7 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
       pc.oniceconnectionstatechange = function (e) {
         if (pc.iceConnectionState === 'disconnected') {
           _this3.callACChannel.speak({
-            type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"],
+            type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["LEAVE_CALL"],
             from: userId
           });
         }
@@ -2949,7 +2967,7 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
               pc.createAnswer().then(function (answer) {
                 pc.setLocalDescription(answer).then(function () {
                   _this4.callACChannel.speak({
-                    type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
+                    type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"],
                     from: getState().session.user_id,
                     to: data.from,
                     sdp: JSON.stringify(pc.localDescription)
@@ -2978,7 +2996,7 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
       App.cable.subscriptions.subscriptions = [];
       this.remoteVideoContainer.innerHTML = "";
       this.callACChannel.speak({
-        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"],
+        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["LEAVE_CALL"],
         from: getState().session.user_id
       });
       this.props.endVideoCall();
@@ -2992,13 +3010,17 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
       var peers = this.pcPeers;
       delete peers[data.from];
       this.remoteVideoContainer.innerHTML = "";
-    } // Changes the stream's audio
+      this.setState({
+        remoteJoined: false
+      });
+    } // Changes the audio stream by toggled enabled tag
 
   }, {
     key: "toggleAudio",
     value: function toggleAudio() {
+      this.audioStream.enabled = !this.audioStream.enabled;
       this.setState({
-        audio: !this.state.audio
+        audio: this.audioStream.enabled
       });
     }
   }, {
@@ -3010,12 +3032,14 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
         className: "video-chatroom-setting",
         onClick: this.toggleAudio
       }, action);
-    }
+    } // Changes the video stream by toggled enabled tag
+
   }, {
     key: "toggleVideo",
     value: function toggleVideo() {
+      this.videoStream.enabled = !this.videoStream.enabled;
       this.setState({
-        video: !this.state.video
+        video: this.videoStream.enabled
       });
     }
   }, {
@@ -3027,14 +3051,15 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
         className: "video-chatroom-setting",
         onClick: this.toggleVideo
       }, action);
-    }
+    } // Adds a leave/join call button to the video chat interface
+
   }, {
     key: "callButton",
     value: function callButton() {
       var actionName = "Join Call";
       var action = this.joinCall;
 
-      if (this.state.joined) {
+      if (this.state.localJoined) {
         actionName = "Leave Call";
         action = this.leaveCall;
       }
@@ -3043,20 +3068,54 @@ var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
         className: "video-chatroom-setting",
         onClick: action
       }, actionName);
+    } // selects the correct username
+
+  }, {
+    key: "getUserName",
+    value: function getUserName(user) {
+      if (user.display_name) return user.display_name;else if (user.full_name) return user.full_name;else return user.email;
+    } // only renders once remote is connected
+
+  }, {
+    key: "remoteVideo",
+    value: function remoteVideo(remoteUser) {
+      if (this.state.remoteJoined) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        id: "remote-video"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        id: "remote-video-container"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "video-tag"
+      }, this.getUserName(remoteUser)));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        id: "remote-video hidden"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        id: "remote-video-container"
+      }));
     }
   }, {
     key: "render",
     value: function render() {
+      // After getUserMedia callback finishes, setState will toggle loaded and render the full videochat
+      var user_id = getState().session.user_id;
+      var channel_id = this.props.match.params.channel_id;
+      var _getState$entities = getState().entities,
+          users = _getState$entities.users,
+          channels = _getState$entities.channels;
+      var channelUserIds = Object.keys(channels[channel_id].users);
+      var localUser = users[user_id];
+      var remoteUser = users[channelUserIds[0]];
+      if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "video-chatroom-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "video-chatroom-videos"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        id: "remote-video-container"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("video", {
+      }, this.remoteVideo(remoteUser), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        id: "local-video"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("video", {
         id: "local-video-container",
         autoPlay: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "video-tag"
+      }, this.getUserName(localUser)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "video-chatroom-settings"
       }, this.videoButton(), this.audioButton(), this.callButton()));
     }
