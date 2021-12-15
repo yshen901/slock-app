@@ -309,16 +309,10 @@ class ChannelVideoChatRoomExternal extends React.Component {
   // Adds a leave/join call button to the video chat interface
   // Right now only leave call makes sense...join is tied to other buttons
   callButton() {
-    let actionName = <i className="fas fa-phone-slash"></i>;
-    let action = this.joinCall;
-    if (this.state.localJoined) {
-      actionName = "Leave Call";
-      action = () => {
-        debugger;
-        this.leaveCall();
-        window.close();
-      };
-    }
+    let action = () => {
+      this.leaveCall();
+      window.close();
+    };
     return (
       <div className="video-chatroom-setting" onClick={action}><i className="fas fa-phone-slash"></i></div>
     )

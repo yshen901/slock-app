@@ -3283,22 +3283,11 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     value: function callButton() {
       var _this6 = this;
 
-      var actionName = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-phone-slash"
-      });
-      var action = this.joinCall;
+      var action = function action() {
+        _this6.leaveCall();
 
-      if (this.state.localJoined) {
-        actionName = "Leave Call";
-
-        action = function action() {
-          debugger;
-
-          _this6.leaveCall();
-
-          window.close();
-        };
-      }
+        window.close();
+      };
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "video-chatroom-setting",
