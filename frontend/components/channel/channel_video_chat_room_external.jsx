@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { getWorkspace } from '../../actions/workspace_actions';
 
 // import Webcam from 'react-webcam';
-import { broadcastChannel, JOIN_CALL, LEAVE_CALL, EXCHANGE, ice } from '../../util/call_api_util';
+import { broadcastChannel, JOIN_CALL, LEAVE_CALL, EXCHANGE, REJECT_CALL, ice } from '../../util/call_api_util';
 import { hideElements, revealElements } from '../../util/modal_api_util';
 
 class ChannelVideoChatRoomExternal extends React.Component {
@@ -15,6 +15,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
       video: true,
       localJoined: false,
       remoteJoined: false,
+      callCancelled: false,
       loaded: false
     }
 
@@ -24,6 +25,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     this.toggleVideo = this.toggleVideo.bind(this);
     this.joinCall = this.joinCall.bind(this);
     this.leaveCall = this.leaveCall.bind(this);
+    this.cancelCall = this.cancelCall.bind(this);
   }
 
   // Called when the component is rendered
@@ -42,6 +44,9 @@ class ChannelVideoChatRoomExternal extends React.Component {
           if (!user_channels.includes(channel_id) || !channels[channel_id].dm_channel)
             this.props.history.push(`/workspace/${workspace_address}/0`)
 
+          // Set loaded to true once workspace loaded
+          this.setState({ loaded: true });
+
           // Get user media and setup action cable
           this.remoteVideoContainer = document.getElementById("remote-video-container");
           navigator.mediaDevices.getUserMedia({audio: this.state.audio, video: this.state.video, echoCancellation: true})
@@ -59,16 +64,23 @@ class ChannelVideoChatRoomExternal extends React.Component {
                     return this.perform('speak', data);
                   },
                   received: data => {
-                    if (data.from == getState().session.user_id) return;
+                    let { user_id } = getState().session;
+                    let { channel_id } = this.props.match.params;
+
+                    if (data.from == user_id) return;
                     console.log("RECEIVED: ", data);
                     switch(data.type){
                       case JOIN_CALL:
                         return this.join(data);
                       case EXCHANGE:
-                        if (data.to != `${getState().session.user_id}`) return;
+                        if (data.to != `${user_id}`) return;
                         return this.exchange(data);
                       case LEAVE_CALL:
                         return this.removeUser(data);
+                      case REJECT_CALL:
+                        if (data.target_user_id == user_id && data.channel_id == channel_id)
+                          this.cancelCall();
+                        return;
                       default:
                         return;
                     }
@@ -82,8 +94,10 @@ class ChannelVideoChatRoomExternal extends React.Component {
   // Only needs to be unmounted if loading has finished
   componentWillUnmount() {
     window.removeEventListener("beforeunload", this.leaveCall);
-    if (this.loaded) 
+    if (this.state.loaded) {
       this.leaveCall();
+      window.close();
+    }
   }
 
   // Triggered when another user joins
@@ -113,12 +127,12 @@ class ChannelVideoChatRoomExternal extends React.Component {
     let i = 0;
     let callLoop = () => {
       setTimeout(() => {
-        this.callACChannel.speak(joinCallData);
-        i++;
-        if (i < 30 && !(this.state.remoteJoined)) {
+        if (i < 60 && !this.state.remoteJoined && !this.state.callCancelled) {
+          this.callACChannel.speak(joinCallData);
+          i++;
           callLoop();
         }
-      }, 1000)
+      }, 500)
     }
     callLoop();
   }
@@ -217,7 +231,11 @@ class ChannelVideoChatRoomExternal extends React.Component {
     this.callACChannel.speak({ type: LEAVE_CALL, from: getState().session.user_id });    
 
     this.appended = false;
-    window.close();
+  }
+
+  cancelCall() {
+    this.leaveCall();
+    this.setState({ callCancelled: true});
   }
 
   removeUser(data){
@@ -268,7 +286,10 @@ class ChannelVideoChatRoomExternal extends React.Component {
     let action = this.joinCall;
     if (this.state.localJoined) {
       actionName = "Leave Call";
-      action = this.leaveCall;
+      action = () => {
+        this.leaveCall;
+        window.close();
+      };
     }
     return (
       <div className="video-chatroom-setting" onClick={action}><i className="fas fa-phone-slash"></i></div>
@@ -304,8 +325,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
   }
 
   render() {    
-    // After getUserMedia callback finishes, setState will toggle loaded and render the full videochat
-    
+    // Empty scaffold before workspace loads
     if (!this.state.loaded) {
       return (
         <div className="video-chatroom-container">
@@ -313,6 +333,29 @@ class ChannelVideoChatRoomExternal extends React.Component {
             { this.remoteVideo() }
             <div id="local-video">
               <video id="local-video-container" autoPlay></video>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    let {user_id} = getState().session;
+    let {channel_id} = this.props.match.params;
+    let {users, channels} = getState().entities;
+    let channelUserIds = Object.keys(channels[channel_id].users);
+
+    let localUser = users[user_id];
+    let remoteUser = users[channelUserIds[0]];
+    if (user_id == channelUserIds[0])
+      remoteUser = users[channelUserIds[1]];
+
+
+    if (this.state.callCancelled) {
+      return (
+        <div className="video-chatroom-container">
+          <div id="call-cancelled-notice-container">
+            <div id="call-cancelled-notice">
+              {this.getUserName(remoteUser)} did not pick up.
             </div>
           </div>
         </div>
@@ -329,7 +372,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
               <video id="local-video-container" autoPlay></video>
             </div>
           </div>
-          <div className="video-chatroom-settings hidden">
+          <div className="video-chatroom-settings">
             {this.videoButton()}
             {this.audioButton()}
             {this.callButton()}
@@ -338,16 +381,6 @@ class ChannelVideoChatRoomExternal extends React.Component {
       )
     }
     else {
-      let {user_id} = getState().session;
-      let {channel_id} = this.props.match.params;
-      let {users, channels} = getState().entities;
-      let channelUserIds = Object.keys(channels[channel_id].users);
-  
-      let localUser = users[user_id];
-      let remoteUser = users[channelUserIds[0]];
-      if (user_id == channelUserIds[0])
-        remoteUser = users[channelUserIds[1]];
-
       return (
         <div className="video-chatroom-container"
           onMouseOver={() => revealElements("video-chatroom-settings")}

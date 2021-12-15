@@ -8,7 +8,7 @@ import ChannelProfileSidebar from "./channel_profile_sidebar";
 import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
 import { restartDmChannel, endDmChannel } from "../../actions/dm_channel_actions";
-import { JOIN_CALL, LEAVE_CALL } from '../../util/call_api_util';
+import { JOIN_CALL, LEAVE_CALL, REJECT_CALL } from '../../util/call_api_util';
 
 class Channel extends React.Component {
   constructor(props) {
@@ -255,8 +255,16 @@ class Channel extends React.Component {
     this.setState({incomingCall: null});
   }
 
+  // Sends a reject call action to the caller, and removes the modal
   rejectCall(callData) {
-    debugger;
+    let { from, target_user_id, channel_id } = callData;
+    this.callACChannel.speak({
+      type: REJECT_CALL,
+      from: target_user_id,
+      target_user_id: from,
+      channel_id
+    });
+    this.setState({ incomingCall: null });
   }
 
   render() {

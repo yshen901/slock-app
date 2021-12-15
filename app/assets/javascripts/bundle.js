@@ -2071,11 +2071,23 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       this.setState({
         incomingCall: null
       });
-    }
+    } // Sends a reject call action to the caller, and removes the modal
+
   }, {
     key: "rejectCall",
     value: function rejectCall(callData) {
-      debugger;
+      var from = callData.from,
+          target_user_id = callData.target_user_id,
+          channel_id = callData.channel_id;
+      this.callACChannel.speak({
+        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_8__["REJECT_CALL"],
+        from: target_user_id,
+        target_user_id: from,
+        channel_id: channel_id
+      });
+      this.setState({
+        incomingCall: null
+      });
     }
   }, {
     key: "render",
@@ -2908,6 +2920,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       video: true,
       localJoined: false,
       remoteJoined: false,
+      callCancelled: false,
       loaded: false
     };
     _this.pcPeers = {};
@@ -2915,6 +2928,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     _this.toggleVideo = _this.toggleVideo.bind(_assertThisInitialized(_this));
     _this.joinCall = _this.joinCall.bind(_assertThisInitialized(_this));
     _this.leaveCall = _this.leaveCall.bind(_assertThisInitialized(_this));
+    _this.cancelCall = _this.cancelCall.bind(_assertThisInitialized(_this));
     return _this;
   } // Called when the component is rendered
   // Instead of webcam, this directly uses navigator to place media into container
@@ -2935,7 +2949,12 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         var _this2$props$match$pa = _this2.props.match.params,
             channel_id = _this2$props$match$pa.channel_id,
             workspace_address = _this2$props$match$pa.workspace_address;
-        if (!user_channels.includes(channel_id) || !channels[channel_id].dm_channel) _this2.props.history.push("/workspace/".concat(workspace_address, "/0")); // Get user media and setup action cable
+        if (!user_channels.includes(channel_id) || !channels[channel_id].dm_channel) _this2.props.history.push("/workspace/".concat(workspace_address, "/0")); // Set loaded to true once workspace loaded
+
+        _this2.setState({
+          loaded: true
+        }); // Get user media and setup action cable
+
 
         _this2.remoteVideoContainer = document.getElementById("remote-video-container");
         navigator.mediaDevices.getUserMedia({
@@ -2958,7 +2977,9 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
               return this.perform('speak', data);
             },
             received: function received(data) {
-              if (data.from == getState().session.user_id) return;
+              var user_id = getState().session.user_id;
+              var channel_id = _this2.props.match.params.channel_id;
+              if (data.from == user_id) return;
               console.log("RECEIVED: ", data);
 
               switch (data.type) {
@@ -2966,11 +2987,15 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
                   return _this2.join(data);
 
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"]:
-                  if (data.to != "".concat(getState().session.user_id)) return;
+                  if (data.to != "".concat(user_id)) return;
                   return _this2.exchange(data);
 
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"]:
                   return _this2.removeUser(data);
+
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["REJECT_CALL"]:
+                  if (data.target_user_id == user_id && data.channel_id == channel_id) _this2.cancelCall();
+                  return;
 
                 default:
                   return;
@@ -2987,7 +3012,11 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       window.removeEventListener("beforeunload", this.leaveCall);
-      if (this.loaded) this.leaveCall();
+
+      if (this.state.loaded) {
+        this.leaveCall();
+        window.close();
+      }
     } // Triggered when another user joins
 
   }, {
@@ -3018,14 +3047,13 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
 
       var callLoop = function callLoop() {
         setTimeout(function () {
-          _this3.callACChannel.speak(joinCallData);
+          if (i < 60 && !_this3.state.remoteJoined && !_this3.state.callCancelled) {
+            _this3.callACChannel.speak(joinCallData);
 
-          i++;
-
-          if (i < 30 && !_this3.state.remoteJoined) {
+            i++;
             callLoop();
           }
-        }, 1000);
+        }, 500);
       };
 
       callLoop();
@@ -3153,7 +3181,14 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         from: getState().session.user_id
       });
       this.appended = false;
-      window.close();
+    }
+  }, {
+    key: "cancelCall",
+    value: function cancelCall() {
+      this.leaveCall();
+      this.setState({
+        callCancelled: true
+      });
     }
   }, {
     key: "removeUser",
@@ -3218,6 +3253,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "callButton",
     value: function callButton() {
+      var _this6 = this;
+
       var actionName = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-phone-slash"
       });
@@ -3225,7 +3262,11 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
 
       if (this.state.localJoined) {
         actionName = "Leave Call";
-        action = this.leaveCall;
+
+        action = function action() {
+          _this6.leaveCall;
+          window.close();
+        };
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3261,7 +3302,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      // After getUserMedia callback finishes, setState will toggle loaded and render the full videochat
+      // Empty scaffold before workspace loads
       if (!this.state.loaded) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-container"
@@ -3273,6 +3314,26 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           id: "local-video-container",
           autoPlay: true
         }))));
+      }
+
+      var user_id = getState().session.user_id;
+      var channel_id = this.props.match.params.channel_id;
+      var _getState$entities = getState().entities,
+          users = _getState$entities.users,
+          channels = _getState$entities.channels;
+      var channelUserIds = Object.keys(channels[channel_id].users);
+      var localUser = users[user_id];
+      var remoteUser = users[channelUserIds[0]];
+      if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
+
+      if (this.state.callCancelled) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "video-chatroom-container"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "call-cancelled-notice-container"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "call-cancelled-notice"
+        }, this.getUserName(remoteUser), " did not pick up.")));
       } else if (!this.state.remoteJoined) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-container",
@@ -3290,18 +3351,9 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           id: "local-video-container",
           autoPlay: true
         }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "video-chatroom-settings hidden"
+          className: "video-chatroom-settings"
         }, this.videoButton(), this.audioButton(), this.callButton()));
       } else {
-        var user_id = getState().session.user_id;
-        var channel_id = this.props.match.params.channel_id;
-        var _getState$entities = getState().entities,
-            users = _getState$entities.users,
-            channels = _getState$entities.channels;
-        var channelUserIds = Object.keys(channels[channel_id].users);
-        var localUser = users[user_id];
-        var remoteUser = users[channelUserIds[0]];
-        if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-container",
           onMouseOver: function onMouseOver() {
@@ -6521,7 +6573,7 @@ var configureStore = function configureStore() {
 /*!****************************************!*\
   !*** ./frontend/util/call_api_util.js ***!
   \****************************************/
-/*! exports provided: JOIN_CALL, EXCHANGE, LEAVE_CALL, ice, broadcastData */
+/*! exports provided: JOIN_CALL, EXCHANGE, LEAVE_CALL, REJECT_CALL, ice, broadcastData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6529,11 +6581,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JOIN_CALL", function() { return JOIN_CALL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EXCHANGE", function() { return EXCHANGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LEAVE_CALL", function() { return LEAVE_CALL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REJECT_CALL", function() { return REJECT_CALL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ice", function() { return ice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "broadcastData", function() { return broadcastData; });
 var JOIN_CALL = "JOIN_CALL";
 var EXCHANGE = "EXCHANGE";
-var LEAVE_CALL = "LEAVE_CALL"; // Public stun server you can ping to get your information
+var LEAVE_CALL = "LEAVE_CALL";
+var REJECT_CALL = "REJECT_CALL"; // Public stun server you can ping to get your information
 
 var ice = {
   iceServers: [{

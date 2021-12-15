@@ -12,6 +12,23 @@
   height: 100%;
 
   background: black;
+  
+  #call-cancelled-notice-container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #call-cancelled-notice {
+      color: white;
+
+      font-size: 18px;
+      line-height: 20px;
+      vertical-align: center;
+    }
+  }
 
   .video-tag {
     position: fixed;
