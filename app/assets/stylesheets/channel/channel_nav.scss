@@ -2,6 +2,7 @@
   background: white;
   border-bottom: 1px solid lightgray;
   display: flex;
+  justify-content: space-between;
 
   .fa-star {
     vertical-align: middle;
@@ -21,7 +22,7 @@
 
   #left {
     width: calc(100% - 400px);
-    min-width: 400px;
+    min-width: 300px;
     height: 100%;
   
     padding: 8px;
@@ -117,8 +118,8 @@
     }
   }
 
-  #right {
-    width: 400px;
+  .right {
+    min-width: 200px;
     height: 100%;
   
     padding: 10px;
@@ -127,7 +128,7 @@
   
     display: flex;
     justify-content: flex-end;
-    align-items: flex-end;
+    align-items: center;
 
     user-select: none;
   }
@@ -167,6 +168,7 @@
   font-size: 15px;
   line-height: 22px;
   vertical-align: text-top;
+  text-align: center;
 
   border-top: 1px solid white;
   border-bottom: 1px solid white;

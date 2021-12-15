@@ -2031,13 +2031,27 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       this.setState({
         shownUserId: 0
       });
+    }
+  }, {
+    key: "getUserName",
+    value: function getUserName(user) {
+      if (user.display_name) return user.display_name;else if (user.full_name) return user.full_name;else return user.email;
     } // handles incoming video call pings (pings have type, user_id, and channel_id)
 
   }, {
     key: "renderVideoCallPing",
     value: function renderVideoCallPing() {
       var incomingCall = this.state.incomingCall;
-      if (incomingCall) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (!incomingCall) return;
+      var channel_id = incomingCall.channel_id;
+      var _this$props4 = this.props,
+          channels = _this$props4.channels,
+          users = _this$props4.users,
+          user_id = _this$props4.user_id;
+      var channelUserIds = Object.keys(channels[channel_id].users);
+      var remoteUser = users[channelUserIds[0]];
+      if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "video-ping-modal",
         onClick: this.rejectCall(incomingCall)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2046,7 +2060,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         id: "video-ping-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "video-ping-header"
-      }, "INSERT wants to video chat"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.getUserName(remoteUser), " wants to video chat"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "video-ping-buttons"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "video-ping-button-accept",
@@ -2400,8 +2414,10 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspace_address: ownProps.match.params.workspace_address,
-    channel_id: parseInt(ownProps.match.params.channel_id),
+    channels: state.entities.channels,
     channel: state.entities.channels[ownProps.match.params.channel_id],
+    channel_id: parseInt(ownProps.match.params.channel_id),
+    users: state.entities.users,
     user: state.entities.users[state.session.user_id],
     user_channel_ids: Object.keys(state.session.user_channels)
   };

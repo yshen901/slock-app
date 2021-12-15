@@ -232,22 +232,40 @@ class Channel extends React.Component {
     this.setState({shownUserId: 0});
   }
 
+  getUserName(user) {
+    if (user.display_name)
+      return user.display_name;
+    else if (user.full_name)
+      return user.full_name;
+    else
+      return user.email;
+  }
+
   // handles incoming video call pings (pings have type, user_id, and channel_id)
   renderVideoCallPing() {
     let {incomingCall} = this.state;
-    if (incomingCall)
-      return (
-        <div id="video-ping-modal" onClick={this.rejectCall(incomingCall)}>
-          <div id="video-ping-modal-background"></div>
-          <div id="video-ping-content">
-            <div id="video-ping-header">INSERT wants to video chat</div>
-            <div id="video-ping-buttons">
-              <div id="video-ping-button-accept" onClick={this.pickupCall(incomingCall)}>Pick Up</div>
-              <div id="video-ping-button-decline" onClick={this.rejectCall(incomingCall)}>Decline</div>
-            </div>
+    if (!incomingCall) return;
+
+    let {channel_id} = incomingCall;
+    let {channels, users, user_id} = this.props;
+
+    let channelUserIds = Object.keys(channels[channel_id].users);
+    let remoteUser = users[channelUserIds[0]];
+    if (user_id == channelUserIds[0])
+      remoteUser = users[channelUserIds[1]];
+
+    return (
+      <div id="video-ping-modal" onClick={this.rejectCall(incomingCall)}>
+        <div id="video-ping-modal-background"></div>
+        <div id="video-ping-content">
+          <div id="video-ping-header">{this.getUserName(remoteUser)} wants to video chat</div>
+          <div id="video-ping-buttons">
+            <div id="video-ping-button-accept" onClick={this.pickupCall(incomingCall)}>Pick Up</div>
+            <div id="video-ping-button-decline" onClick={this.rejectCall(incomingCall)}>Decline</div>
           </div>
         </div>
-      )
+      </div>
+    )
   }
 
   // Builds the link using callData, then starts video call
