@@ -3,12 +3,12 @@ import { withRouter } from 'react-router-dom';
 
 import ChannelNavContainer from './channel_nav_container';
 import ChannelChatContainer from './channel_chat_container';
-// import ChannelVideoChatRoom from './channel_video_chat_room';
 import ChannelProfileSidebar from "./channel_profile_sidebar";
 
 import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
 import { restartDmChannel, endDmChannel } from "../../actions/dm_channel_actions";
+import { JOIN_CALL } from '../../util/call_api_util';
 
 class Channel extends React.Component {
   constructor(props) {
@@ -19,25 +19,44 @@ class Channel extends React.Component {
       canLeave: this.canLeave(),
       inVideoCall: false,
       shownUserId: 0,
+      incomingCall: null // contains incoming call information
     }
 
     this.leaveChannel = this.leaveChannel.bind(this);
     this.joinChannel = this.joinChannel.bind(this);
 
     this.startVideoCall = this.startVideoCall.bind(this);
-    // this.endVideoCall = this.endVideoCall.bind(this);
+    this.pickupCall = this.pickupCall.bind(this);
+    this.rejectCall = this.rejectCall.bind(this);
 
     this.showUser = this.showUser.bind(this);
     this.hideUser = this.hideUser.bind(this);
   }
 
+  // Begins listening for videocall pings
   componentDidMount() {
+    let {user, user_channel_ids} = this.props;
+
     this.callACChannel = App.cable.subscriptions.create(
       { channel: "CallChannel" },
       {
-        connected: () => {debugger},
         received: (data) => {
-          
+          debugger;
+          let { from, channel_id, type, target_user_id } = data;
+          // rejects all unrelated pings
+          if (from == user.id || target_user_id != user.id || type != JOIN_CALL) return; 
+
+          // restarts dm channel if necessary, then process the incoming call data
+          if (user_channel_ids.includes(channel_id))
+            this.setState({ incomingCall: data })
+          else
+            this.props.restartDmChannel({
+              channel_id,
+              user_id: user.id,
+              active: true
+            }).then(
+              () => this.setState({ incomingCall: data })
+            )
         },
         speak: function(data) {
           return this.perform("speak", data);
@@ -60,7 +79,7 @@ class Channel extends React.Component {
       })
   }
 
-  // Acts differently depending on channel type
+  // Leaves channel - different logic for dm channel and general channel
   leaveChannel(e) {
     e.stopPropagation();
     hideElements("dropdown");
@@ -107,6 +126,7 @@ class Channel extends React.Component {
     }
   }
 
+  // Joins channel - different logic for dm channel and general channel
   joinChannel(e) {
     e.stopPropagation();
     hideElements("dropdown");
@@ -144,6 +164,7 @@ class Channel extends React.Component {
     }
   }
 
+  // Determines whether a user can join/leave a certain channel
   canLeave() {
     let { user_channels } = getState().session;
     let { channel, channel_id } = this.props;
@@ -170,19 +191,7 @@ class Channel extends React.Component {
     this.setState({ inVideoCall: true });
   }
 
-  // Deprecated
-  // endVideoCall() {
-  //   debugger;
-  //   this.setState({ inVideoCall: false });
-  // }
-
   renderRoom() {
-    // if (this.state.inVideoCall) 
-    //   return (
-    //     <ChannelVideoChatRoom
-    //       endVideoCall={this.endVideoCall}/>
-    //   )
-    // else
       return (
         <ChannelChatContainer 
             joinChannel={this.joinChannel}
@@ -191,7 +200,17 @@ class Channel extends React.Component {
       )
   }
 
+
   // handles profile sidebar of channel
+  renderProfile() {
+    if (this.state.shownUserId != 0)
+      return (
+        <ChannelProfileSidebar
+          userId={this.state.shownUserId}
+          hideUser={this.hideUser}/>
+      )
+  }
+
   showUser(userId) {
     this.setState({shownUserId: userId});
   }
@@ -200,13 +219,26 @@ class Channel extends React.Component {
     this.setState({shownUserId: 0});
   }
 
-  renderProfile() {
-    if (this.state.shownUserId != 0)
+  // handles incoming video call pings (pings have type, user_id, and channel_id)
+  renderVideoCallPing() {
+    let {incomingCall} = this.state;
+    if (this.state.incomingCall)
       return (
-        <ChannelProfileSidebar
-          userId={this.state.shownUserId}
-          hideUser={this.hideUser}/>
+        <div className="video-call-ping-modal">
+          <div className="video-ping-buttons">
+            <div className="video-ping-button" onClick={() => this.pickupCall(incomingCall)}>Pick Up</div>
+            <div className="video-ping-button" onClick={() => this.rejectCall(incomingCall)}>Reject</div>
+          </div>
+        </div>
       )
+  }
+
+  pickupCall(callData) {
+    debugger;
+  }
+
+  rejectCall(callData) {
+    debugger;
   }
 
   render() {
@@ -222,6 +254,7 @@ class Channel extends React.Component {
           {this.renderRoom()}
         </div>
         { this.renderProfile() }
+        { this.renderVideoCallPing() }
       </div>
     )
   }

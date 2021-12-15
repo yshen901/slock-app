@@ -87,10 +87,22 @@ class ChannelVideoChatRoomExternal extends React.Component {
   }
 
   // Triggered to join call on local side (start broadcasting)
+  // Also includes channel_id and target_user_id to arrange ping
   joinCall(e) {
+    let { user_id } = getState().session;
+    let { channel_id } = this.props.match.params;
+    let { channels } = getState().entities;
+    let channel_users = Object.keys(channels[channel_id].users);
+    
+    let target_user_id = channel_users[0];
+    if (channel_users[0] == user_id)
+      target_user_id = channel_users[1];
+
     this.callACChannel.speak({
       type: JOIN_CALL,
-      from: getState().session.user_id
+      from: getState().session.user_id,
+      channel_id,
+      target_user_id
     });
     this.setState({localJoined: true, loaded: true});
   }
