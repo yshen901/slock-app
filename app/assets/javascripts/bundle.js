@@ -1743,11 +1743,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _channel_nav_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channel_nav_container */ "./frontend/components/channel/channel_nav_container.js");
 /* harmony import */ var _channel_chat_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_chat_container */ "./frontend/components/channel/channel_chat_container.js");
-/* harmony import */ var _channel_video_chat_room__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./channel_video_chat_room */ "./frontend/components/channel/channel_video_chat_room.jsx");
-/* harmony import */ var _channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./channel_profile_sidebar */ "./frontend/components/channel/channel_profile_sidebar.jsx");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
-/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
-/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+/* harmony import */ var _channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./channel_profile_sidebar */ "./frontend/components/channel/channel_profile_sidebar.jsx");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1773,7 +1772,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
+ // import ChannelVideoChatRoom from './channel_video_chat_room';
 
 
 
@@ -1799,8 +1798,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
     };
     _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
     _this.joinChannel = _this.joinChannel.bind(_assertThisInitialized(_this));
-    _this.startVideoCall = _this.startVideoCall.bind(_assertThisInitialized(_this));
-    _this.endVideoCall = _this.endVideoCall.bind(_assertThisInitialized(_this));
+    _this.startVideoCall = _this.startVideoCall.bind(_assertThisInitialized(_this)); // this.endVideoCall = this.endVideoCall.bind(this);
+
     _this.showUser = _this.showUser.bind(_assertThisInitialized(_this));
     _this.hideUser = _this.hideUser.bind(_assertThisInitialized(_this));
     return _this;
@@ -1826,7 +1825,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       e.stopPropagation();
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__["hideElements"])("dropdown");
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown");
       var _this$props = this.props,
           channel = _this$props.channel,
           channel_id = _this$props.channel_id,
@@ -1835,7 +1834,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
 
       if (!channel.dm_channel) {
         if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
-          dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_7__["leaveChannel"])(parseInt(channel_id))).then(function () {
+          dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["leaveChannel"])(parseInt(channel_id))).then(function () {
             _this2.props.loginACChannel.speak({
               channel_data: {
                 login: false,
@@ -1857,7 +1856,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           user_id: user.id,
           active: false
         };
-        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_8__["endDmChannel"])(channelInfo)).then(function () {
+        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_7__["endDmChannel"])(channelInfo)).then(function () {
           (function () {
             // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
             _this2.setState({
@@ -1874,13 +1873,13 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       e.stopPropagation();
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__["hideElements"])("dropdown");
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown");
       var channel = this.props.channel;
       var workspace_id = this.props.channel.workspace_id;
       var user_id = this.props.user.id;
 
       if (channel.dm_channel) {
-        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_8__["restartDmChannel"])({
+        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_7__["restartDmChannel"])({
           user_id: user_id,
           channel_id: channel.id,
           active: true
@@ -1891,7 +1890,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           });
         });
       } else {
-        dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_7__["joinChannel"])({
+        dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["joinChannel"])({
           channel_id: channel.id,
           workspace_id: workspace_id
         })).then(function () {
@@ -1925,26 +1924,36 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var user_channels = getState().session.user_channels;
       var channel_id = this.props.channel_id;
       return user_channels[channel_id] === undefined;
-    } // Handles video call logic and video room
+    } // Creates a popup of a video call
 
   }, {
     key: "startVideoCall",
     value: function startVideoCall() {
-      window.open(window.location.href + "/video_call"); // this.setState({inVideoCall: true});
-    }
-  }, {
-    key: "endVideoCall",
-    value: function endVideoCall() {
+      var windowLink = window.location.href;
+      if (windowLink[windowLink.length - 1] == "/") // two possibilities
+        windowLink += "video_call";else windowLink += "/video_call";
+      var windowName = "Slock call";
+      var windowFeatures = "popup, width=1280, height=561";
+      window.open(windowLink, windowName, windowFeatures);
       this.setState({
-        inVideoCall: false
+        inVideoCall: true
       });
-    }
+    } // Deprecated
+    // endVideoCall() {
+    //   debugger;
+    //   this.setState({ inVideoCall: false });
+    // }
+
   }, {
     key: "renderRoom",
     value: function renderRoom() {
-      if (this.state.inVideoCall) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_video_chat_room__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        endVideoCall: this.endVideoCall
-      });else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      // if (this.state.inVideoCall) 
+      //   return (
+      //     <ChannelVideoChatRoom
+      //       endVideoCall={this.endVideoCall}/>
+      //   )
+      // else
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         joinChannel: this.joinChannel,
         status: this.state,
         showUser: this.showUser
@@ -1968,7 +1977,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderProfile",
     value: function renderProfile() {
-      if (this.state.shownUserId != 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      if (this.state.shownUserId != 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_4__["default"], {
         userId: this.state.shownUserId,
         hideUser: this.hideUser
       });
@@ -1983,8 +1992,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_nav_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
         leaveChannel: this.leaveChannel,
         status: this.state,
-        startVideoCall: this.startVideoCall,
-        endVideoCall: this.endVideoCall,
+        startVideoCall: this.startVideoCall // endVideoCall={this.endVideoCall}
+        ,
         inVideoCall: this.state.inVideoCall
       }), this.renderRoom()), this.renderProfile());
     }
@@ -2466,11 +2475,13 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
           leaveButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "channel-nav-button",
             onClick: this.props.leaveChannel
-          }, "Leave Chat");
-          if (this.props.inVideoCall) videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "channel-nav-button",
-            onClick: this.props.endVideoCall
-          }, "End Video Call");else videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, "Leave Chat"); // if (this.props.inVideoCall)
+          //   videoCallButton = (
+          //     <div className="channel-nav-button" onClick={this.props.endVideoCall}>End Video Call</div>
+          //   );       
+          // else
+
+          videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "channel-nav-button",
             onClick: this.props.startVideoCall
           }, "Start Video Call");
@@ -2735,398 +2746,6 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/channel/channel_video_chat_room.jsx":
-/*!*****************************************************************!*\
-  !*** ./frontend/components/channel/channel_video_chat_room.jsx ***!
-  \*****************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
-/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-
- // import Webcam from 'react-webcam';
-
-
-
-var ChannelVideoChatRoom = /*#__PURE__*/function (_React$Component) {
-  _inherits(ChannelVideoChatRoom, _React$Component);
-
-  var _super = _createSuper(ChannelVideoChatRoom);
-
-  function ChannelVideoChatRoom(props) {
-    var _this;
-
-    _classCallCheck(this, ChannelVideoChatRoom);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      audio: true,
-      video: true,
-      localJoined: false,
-      remoteJoined: false,
-      loaded: false
-    };
-    _this.pcPeers = {};
-    _this.toggleAudio = _this.toggleAudio.bind(_assertThisInitialized(_this));
-    _this.toggleVideo = _this.toggleVideo.bind(_assertThisInitialized(_this));
-    _this.joinCall = _this.joinCall.bind(_assertThisInitialized(_this));
-    _this.leaveCall = _this.leaveCall.bind(_assertThisInitialized(_this));
-    return _this;
-  } // Called when the component is rendered
-  // Instead of webcam, this directly uses navigator to place media into container
-
-
-  _createClass(ChannelVideoChatRoom, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["getWorkspace"])(this.props.match.params.workspace_address)).then(function () {
-        _this2.remoteVideoContainer = document.getElementById("remote-video-container");
-        navigator.mediaDevices.getUserMedia({
-          audio: _this2.state.audio,
-          video: _this2.state.video
-        }).then(function (stream) {
-          _this2.localStream = stream;
-          _this2.audioStream = stream.getAudioTracks()[0];
-          _this2.videoStream = stream.getVideoTracks()[0];
-          document.getElementById("local-video-container").srcObject = stream;
-          _this2.callACChannel = App.cable.subscriptions.create( // subscribe to call actioncable channel
-          {
-            channel: "CallChannel"
-          }, {
-            speak: function speak(data) {
-              return this.perform('speak', data);
-            },
-            received: function received(data) {
-              if (data.from == getState().session.user_id) return;
-              console.log("RECEIVED: ", data);
-
-              switch (data.type) {
-                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["JOIN_CALL"]:
-                  return _this2.join(data);
-
-                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"]:
-                  if (data.to != "".concat(getState().session.user_id)) return;
-                  return _this2.exchange(data);
-
-                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"]:
-                  return _this2.removeUser(data);
-
-                default:
-                  return;
-              }
-            }
-          });
-
-          _this2.joinCall();
-        })["catch"](function (error) {
-          console.log(error);
-        });
-      });
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this.leaveCall();
-    }
-  }, {
-    key: "join",
-    value: function join(data) {
-      this.createPC(data.from, true);
-    }
-  }, {
-    key: "joinCall",
-    value: function joinCall(e) {
-      this.callACChannel.speak({
-        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["JOIN_CALL"],
-        from: getState().session.user_id
-      });
-      this.setState({
-        localJoined: true,
-        loaded: true
-      });
-    }
-  }, {
-    key: "createPC",
-    value: function createPC(userId, offerBool) {
-      var _this3 = this;
-
-      var pc = new RTCPeerConnection(_util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["ice"]);
-      this.pcPeers[userId] = pc;
-      this.localStream.getTracks().forEach(function (track) {
-        return pc.addTrack(track, _this3.localStream);
-      });
-
-      if (offerBool) {
-        pc.createOffer().then(function (offer) {
-          pc.setLocalDescription(offer).then(function () {
-            setTimeout(function () {
-              _this3.callACChannel.speak({
-                type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
-                from: getState().session.user_id,
-                to: userId,
-                sdp: JSON.stringify(pc.localDescription)
-              });
-            }, 0);
-          });
-        });
-      }
-
-      pc.onicecandidate = function (e) {
-        _this3.callACChannel.speak({
-          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
-          from: getState().session.user_id,
-          to: userId,
-          sdp: JSON.stringify(e.candidate)
-        });
-      };
-
-      pc.ontrack = function (e) {
-        if (!_this3.appended) {
-          var remoteVid = document.createElement("video");
-          remoteVid.id = "remote-video-instance container-".concat(userId);
-          remoteVid.autoplay = "autoplay";
-          remoteVid.srcObject = e.streams[0];
-
-          _this3.remoteVideoContainer.appendChild(remoteVid);
-
-          _this3.appended = true;
-
-          _this3.setState({
-            remoteJoined: true
-          });
-        }
-      };
-
-      pc.oniceconnectionstatechange = function (e) {
-        if (pc.iceConnectionState === 'disconnected') {
-          _this3.callACChannel.speak({
-            type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"],
-            from: userId
-          });
-        }
-      };
-
-      return pc;
-    }
-  }, {
-    key: "exchange",
-    value: function exchange(data) {
-      var _this4 = this;
-
-      var pc;
-
-      if (this.pcPeers[data.from]) {
-        pc = this.pcPeers[data.from];
-      } else {
-        pc = this.createPC(data.from, false);
-      }
-
-      if (data.candidate) {
-        var candidate = JSON.parse(data.candidate);
-        pc.addIceCandidate(new RTCIceCandidate(candidate));
-      }
-
-      if (data.sdp) {
-        var sdp = JSON.parse(data.sdp);
-
-        if (sdp && !sdp.candidate) {
-          pc.setRemoteDescription(sdp).then(function () {
-            if (sdp.type === 'offer') {
-              pc.createAnswer().then(function (answer) {
-                pc.setLocalDescription(answer).then(function () {
-                  _this4.callACChannel.speak({
-                    type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
-                    from: getState().session.user_id,
-                    to: data.from,
-                    sdp: JSON.stringify(pc.localDescription)
-                  });
-                });
-              });
-            }
-          });
-        }
-      }
-    }
-  }, {
-    key: "leaveCall",
-    value: function leaveCall(e) {
-      var pcKeys = Object.keys(this.pcPeers);
-
-      for (var i = 0; i < pcKeys.length; i++) {
-        this.pcPeers[pcKeys[i]].close();
-      }
-
-      this.pcPeers = {};
-      this.localStream.getTracks().forEach(function (track) {
-        track.stop();
-      });
-      this.localStream.srcObject = null;
-      App.cable.subscriptions.subscriptions = [];
-      this.remoteVideoContainer.innerHTML = "";
-      this.callACChannel.speak({
-        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"],
-        from: getState().session.user_id
-      });
-      this.props.endVideoCall();
-      this.appended = false;
-    }
-  }, {
-    key: "removeUser",
-    value: function removeUser(data) {
-      var video = document.getElementById("remoteVideoContainer+".concat(data.from));
-      video && video.remove();
-      var peers = this.pcPeers;
-      delete peers[data.from];
-      this.remoteVideoContainer.innerHTML = "";
-      this.setState({
-        remoteJoined: false
-      });
-    } // Changes the audio stream by toggled enabled tag
-
-  }, {
-    key: "toggleAudio",
-    value: function toggleAudio() {
-      this.audioStream.enabled = !this.audioStream.enabled;
-      this.setState({
-        audio: !this.state.audio
-      });
-    }
-  }, {
-    key: "audioButton",
-    value: function audioButton() {
-      var action = "Unmute";
-      if (this.state.audio) action = "Mute";
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-chatroom-setting",
-        onClick: this.toggleAudio
-      }, action);
-    } // Changes the video stream by toggled enabled tag
-
-  }, {
-    key: "toggleVideo",
-    value: function toggleVideo() {
-      this.videoStream.enabled = !this.videoStream.enabled;
-      this.setState({
-        video: this.videoStream.enabled
-      });
-    }
-  }, {
-    key: "videoButton",
-    value: function videoButton() {
-      var action = "Unblock Camera";
-      if (this.state.video) action = "Block Camera";
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-chatroom-setting",
-        onClick: this.toggleVideo
-      }, action);
-    } // Adds a leave/join call button to the video chat interface
-
-  }, {
-    key: "callButton",
-    value: function callButton() {
-      var actionName = "Join Call";
-      var action = this.joinCall;
-
-      if (this.state.localJoined) {
-        actionName = "Leave Call";
-        action = this.leaveCall;
-      }
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-chatroom-setting",
-        onClick: action
-      }, actionName);
-    } // selects the correct username
-
-  }, {
-    key: "getUserName",
-    value: function getUserName(user) {
-      if (user.display_name) return user.display_name;else if (user.full_name) return user.full_name;else return user.email;
-    } // only renders once remote is connected
-
-  }, {
-    key: "remoteVideo",
-    value: function remoteVideo(remoteUser) {
-      if (this.state.remoteJoined) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "remote-video"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "remote-video-container"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-tag"
-      }, this.getUserName(remoteUser)));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "remote-video hidden"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "remote-video-container"
-      }));
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      // After getUserMedia callback finishes, setState will toggle loaded and render the full videochat
-      var user_id = getState().session.user_id;
-      var channel_id = this.props.match.params.channel_id;
-      var _getState$entities = getState().entities,
-          users = _getState$entities.users,
-          channels = _getState$entities.channels;
-      var channelUserIds = Object.keys(channels[channel_id].users);
-      var localUser = users[user_id];
-      var remoteUser = users[channelUserIds[0]];
-      if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-chatroom-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-chatroom-videos"
-      }, this.remoteVideo(remoteUser), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "local-video"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
-        id: "local-video-container",
-        autoPlay: true
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-tag"
-      }, this.getUserName(localUser)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-chatroom-settings"
-      }, this.videoButton(), this.audioButton(), this.callButton()));
-    }
-  }]);
-
-  return ChannelVideoChatRoom;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ChannelVideoChatRoom));
-
-/***/ }),
-
 /***/ "./frontend/components/channel/channel_video_chat_room_external.jsx":
 /*!**************************************************************************!*\
   !*** ./frontend/components/channel/channel_video_chat_room_external.jsx ***!
@@ -3202,23 +2821,32 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["getWorkspace"])(this.props.match.params.workspace_address)).then(function () {
+      dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["getWorkspace"])(this.props.match.params.workspace_address)).then(function (_ref) {
+        var channels = _ref.channels;
+        // Prevents illegal access to video call rooms
+        var user_channels = Object.keys(getState().session.user_channels);
+        var _this2$props$match$pa = _this2.props.match.params,
+            channel_id = _this2$props$match$pa.channel_id,
+            workspace_address = _this2$props$match$pa.workspace_address;
+        if (!user_channels.includes(channel_id) || !channels[channel_id].dm_channel) _this2.props.history.push("/workspace/".concat(workspace_address, "/0")); // Get user media and setup action cable
+
         _this2.remoteVideoContainer = document.getElementById("remote-video-container");
         navigator.mediaDevices.getUserMedia({
           audio: _this2.state.audio,
-          video: _this2.state.video
+          video: _this2.state.video,
+          echoCancellation: true
         }).then(function (stream) {
           _this2.localStream = stream;
           _this2.audioStream = stream.getAudioTracks()[0];
           _this2.videoStream = stream.getVideoTracks()[0];
           document.getElementById("local-video-container").srcObject = stream;
-          _this2.callACChannel = App.cable.subscriptions.create( // subscribe to call actioncable channel
-          {
+          _this2.callACChannel = App.cable.subscriptions.create({
             channel: "CallChannel"
           }, {
             connected: function connected() {
               _this2.joinCall();
             },
+            // called after create finishes to ensure synchronity
             speak: function speak(data) {
               return this.perform('speak', data);
             },
@@ -3246,21 +2874,23 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           console.log(error);
         });
       });
-    }
+    } // Only needs to be unmounted if loading has finished
+
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this.leaveCall();
-    }
+      if (this.loaded) this.leaveCall();
+    } // Triggered when another user joins
+
   }, {
     key: "join",
     value: function join(data) {
       this.createPC(data.from, true);
-    }
+    } // Triggered to join call on local side (start broadcasting)
+
   }, {
     key: "joinCall",
     value: function joinCall(e) {
-      debugger;
       this.callACChannel.speak({
         type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["JOIN_CALL"],
         from: getState().session.user_id
@@ -3392,8 +3022,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"],
         from: getState().session.user_id
       });
-      this.props.endVideoCall();
       this.appended = false;
+      window.close();
     }
   }, {
     key: "removeUser",
@@ -3519,9 +3149,9 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
           id: "local-video-container",
           autoPlay: true
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-tag"
-        }, this.getUserName(localUser)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, this.getUserName(localUser)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-settings"
         }, this.videoButton(), this.audioButton(), this.callButton()));
       }

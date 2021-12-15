@@ -135,14 +135,14 @@ class ChannelNav extends React.Component {
           <div className="channel-nav-button" onClick={this.props.leaveChannel}>Leave Chat</div>
         );
 
-        if (this.props.inVideoCall)
-          videoCallButton = (
-            <div className="channel-nav-button" onClick={this.props.endVideoCall}>End Video Call</div>
-          );       
-        else
-          videoCallButton = (
-            <div className="channel-nav-button" onClick={this.props.startVideoCall}>Start Video Call</div>
-          );
+        // if (this.props.inVideoCall)
+        //   videoCallButton = (
+        //     <div className="channel-nav-button" onClick={this.props.endVideoCall}>End Video Call</div>
+        //   );       
+        // else
+        videoCallButton = (
+          <div className="channel-nav-button" onClick={this.props.startVideoCall}>Start Video Call</div>
+        );
       }
     }
 

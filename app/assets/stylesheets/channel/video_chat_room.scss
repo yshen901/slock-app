@@ -4,14 +4,22 @@
   align-items: center;
 
   position: fixed;
-  top: 60px;
-  left: 220px;
+  top: 0px;
+  left: 0px;
   z-index: 100;
 
-  padding-top: 5%;
+  width: 100%;
+  height: 100%;
 
-  width: calc(100% - 220px);
-  height: calc(100% - 30px);
+  .video-tag {
+    position: fixed;
+    top: 0px;
+
+    color: #1D1C1DB3;
+    font-size: 18px;
+    line-height: 24px;
+    vertical-align: center;
+  }
 
   .video-chatroom-videos {  
     display: flex;
@@ -20,10 +28,10 @@
     justify-content: center;
 
     width: 100%;
-    height: auto;
+    height: 100%;
 
     #remote-video, #local-video {
-      width: 40%;
+      width: 50%;
       height: 100%;
 
       display: flex;
@@ -32,31 +40,22 @@
       align-items: center;
       overflow: hidden;
 
-      .video-tag {
-        color: #1D1C1DB3;
-        font-size: 18px;
-        line-height: 24px;
-        vertical-align: center;
-      }
-
-      #remote-video-container, #local-video-container {
+      #remote-video-container, #local-video-container, video {
         width: 100%;
         flex: 1;
         display: flex;
       }
     }
-
-    #remote-video {
-      padding-right: 10px;
-    }
   }
 
   .video-chatroom-settings {
+    position: fixed;
+    bottom: 0px;
+
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 10%;
 
     .video-chatroom-setting {
       color: gray;

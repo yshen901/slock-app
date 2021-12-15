@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import ChannelNavContainer from './channel_nav_container';
 import ChannelChatContainer from './channel_chat_container';
-import ChannelVideoChatRoom from './channel_video_chat_room';
+// import ChannelVideoChatRoom from './channel_video_chat_room';
 import ChannelProfileSidebar from "./channel_profile_sidebar";
 
 import { hideElements } from '../../util/modal_api_util';
@@ -25,7 +25,7 @@ class Channel extends React.Component {
     this.joinChannel = this.joinChannel.bind(this);
 
     this.startVideoCall = this.startVideoCall.bind(this);
-    this.endVideoCall = this.endVideoCall.bind(this);
+    // this.endVideoCall = this.endVideoCall.bind(this);
 
     this.showUser = this.showUser.bind(this);
     this.hideUser = this.hideUser.bind(this);
@@ -141,23 +141,33 @@ class Channel extends React.Component {
     return user_channels[channel_id] === undefined
   }
 
-  // Handles video call logic and video room
+  // Creates a popup of a video call
   startVideoCall() {
-    window.open(window.location.href+"/video_call")
-    // this.setState({inVideoCall: true});
+    let windowLink = window.location.href;
+    if (windowLink[windowLink.length - 1] == "/") // two possibilities
+      windowLink += "video_call";
+    else
+      windowLink += "/video_call";
+
+    let windowName = "Slock call";
+    let windowFeatures = "popup, width=1280, height=561";
+    window.open(windowLink, windowName, windowFeatures)
+    this.setState({ inVideoCall: true });
   }
 
-  endVideoCall() {
-    this.setState({inVideoCall: false});
-  }
+  // Deprecated
+  // endVideoCall() {
+  //   debugger;
+  //   this.setState({ inVideoCall: false });
+  // }
 
   renderRoom() {
-    if (this.state.inVideoCall) 
-      return (
-        <ChannelVideoChatRoom
-          endVideoCall={this.endVideoCall}/>
-      )
-    else
+    // if (this.state.inVideoCall) 
+    //   return (
+    //     <ChannelVideoChatRoom
+    //       endVideoCall={this.endVideoCall}/>
+    //   )
+    // else
       return (
         <ChannelChatContainer 
             joinChannel={this.joinChannel}
@@ -192,7 +202,7 @@ class Channel extends React.Component {
             leaveChannel={this.leaveChannel}
             status={this.state}
             startVideoCall={this.startVideoCall}
-            endVideoCall={this.endVideoCall}
+            // endVideoCall={this.endVideoCall}
             inVideoCall={this.state.inVideoCall}/>
           {this.renderRoom()}
         </div>

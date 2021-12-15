@@ -30,19 +30,26 @@ class ChannelVideoChatRoomExternal extends React.Component {
   componentDidMount() {
     dispatch(getWorkspace(this.props.match.params.workspace_address))
       .then(
-        () => {
+        ({channels}) => {
+          // Prevents illegal access to video call rooms
+          let user_channels = Object.keys(getState().session.user_channels);
+          let {channel_id, workspace_address} = this.props.match.params;
+          if (!user_channels.includes(channel_id) || !channels[channel_id].dm_channel)
+            this.props.history.push(`/workspace/${workspace_address}/0`)
+
+          // Get user media and setup action cable
           this.remoteVideoContainer = document.getElementById("remote-video-container");
-          navigator.mediaDevices.getUserMedia({audio: this.state.audio, video: this.state.video})
+          navigator.mediaDevices.getUserMedia({audio: this.state.audio, video: this.state.video, echoCancellation: true})
           .then(stream => {
               this.localStream = stream;
               this.audioStream = stream.getAudioTracks()[0];
               this.videoStream = stream.getVideoTracks()[0];
               document.getElementById("local-video-container").srcObject = stream;
     
-              this.callACChannel = App.cable.subscriptions.create( // subscribe to call actioncable channel
+              this.callACChannel = App.cable.subscriptions.create(
                 { channel: "CallChannel" },
                 { 
-                  connected: () => {this.joinCall()},
+                  connected: () => {this.joinCall()},   // called after create finishes to ensure synchronity
                   speak: function(data) {
                     return this.perform('speak', data);
                   },
@@ -67,16 +74,19 @@ class ChannelVideoChatRoomExternal extends React.Component {
       );
   }
 
+  // Only needs to be unmounted if loading has finished
   componentWillUnmount() {
-    this.leaveCall();
+    if (this.loaded)
+      this.leaveCall();
   }
 
+  // Triggered when another user joins
   join(data) {
     this.createPC(data.from, true)
   }
 
+  // Triggered to join call on local side (start broadcasting)
   joinCall(e) {
-    debugger;
     this.callACChannel.speak({
       type: JOIN_CALL,
       from: getState().session.user_id
@@ -177,8 +187,8 @@ class ChannelVideoChatRoomExternal extends React.Component {
     this.remoteVideoContainer.innerHTML = "";
     this.callACChannel.speak({ type: LEAVE_CALL, from: getState().session.user_id });    
 
-    this.props.endVideoCall();
     this.appended = false;
+    window.close();
   }
 
   removeUser(data){
@@ -295,9 +305,9 @@ class ChannelVideoChatRoomExternal extends React.Component {
             {this.remoteVideo(remoteUser)}
             <div id="local-video">
               <video id="local-video-container" autoPlay></video>
-              <div className="video-tag">{this.getUserName(localUser)}</div>
             </div>
           </div>
+          <div className="video-tag">{this.getUserName(localUser)}</div>
           <div className="video-chatroom-settings">
             {this.videoButton()}
             {this.audioButton()}

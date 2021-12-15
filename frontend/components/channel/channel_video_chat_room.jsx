@@ -5,6 +5,7 @@ import { getWorkspace } from '../../actions/workspace_actions';
 // import Webcam from 'react-webcam';
 import { broadcastChannel, JOIN_CALL, LEAVE_CALL, EXCHANGE, ice } from '../../util/call_api_util';
 
+// DEPRECATED VERSION OF CHANNEL_VIDEO_CHAT WHERE THE VIDEO OVERLAPS THE CHANNEL CHATROOM
 class ChannelVideoChatRoom extends React.Component {
   constructor(props) {
     super(props);
