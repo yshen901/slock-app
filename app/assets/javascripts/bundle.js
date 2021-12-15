@@ -2920,7 +2920,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       video: true,
       localJoined: false,
       remoteJoined: false,
-      callCancelled: false,
+      callRejected: false,
+      callEnded: false,
       loaded: false
     };
     _this.pcPeers = {};
@@ -2991,7 +2992,9 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
                   return _this2.exchange(data);
 
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"]:
-                  return _this2.removeUser(data);
+                  _this2.endCall();
+
+                // return this.removeUser(data); // no need to remove user if we only have one
 
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["REJECT_CALL"]:
                   if (data.target_user_id == user_id && data.channel_id == channel_id) _this2.cancelCall();
@@ -3047,7 +3050,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
 
       var callLoop = function callLoop() {
         setTimeout(function () {
-          if (i < 60 && !_this3.state.remoteJoined && !_this3.state.callCancelled) {
+          if (i < 60 && !_this3.state.remoteJoined && !_this3.state.callRejected) {
             _this3.callACChannel.speak(joinCallData);
 
             i++;
@@ -3181,13 +3184,23 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         from: getState().session.user_id
       });
       this.appended = false;
-    }
+    } // When other user ends call
+
+  }, {
+    key: "endCall",
+    value: function endCall() {
+      this.leaveCall();
+      this.setState({
+        callEnded: true
+      });
+    } // When other user doesn't pick up
+
   }, {
     key: "cancelCall",
     value: function cancelCall() {
       this.leaveCall();
       this.setState({
-        callCancelled: true
+        callRejected: true
       });
     }
   }, {
@@ -3264,7 +3277,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         actionName = "Leave Call";
 
         action = function action() {
-          _this6.leaveCall;
+          _this6.leaveCall();
+
           window.close();
         };
       }
@@ -3326,14 +3340,16 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       var remoteUser = users[channelUserIds[0]];
       if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
 
-      if (this.state.callCancelled) {
+      if (this.state.callRejected || this.state.callEnded) {
+        var message = "Call Ended";
+        if (this.state.callRejected) message = "".concat(this.getUserName(remoteUser), " did not pick up");
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-container"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "call-cancelled-notice-container"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "call-cancelled-notice"
-        }, this.getUserName(remoteUser), " did not pick up.")));
+        }, message)));
       } else if (!this.state.remoteJoined) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-container",

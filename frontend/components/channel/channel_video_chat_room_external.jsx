@@ -15,7 +15,8 @@ class ChannelVideoChatRoomExternal extends React.Component {
       video: true,
       localJoined: false,
       remoteJoined: false,
-      callCancelled: false,
+      callRejected: false,
+      callEnded: false,
       loaded: false
     }
 
@@ -76,7 +77,8 @@ class ChannelVideoChatRoomExternal extends React.Component {
                         if (data.to != `${user_id}`) return;
                         return this.exchange(data);
                       case LEAVE_CALL:
-                        return this.removeUser(data);
+                        this.endCall();
+                        // return this.removeUser(data); // no need to remove user if we only have one
                       case REJECT_CALL:
                         if (data.target_user_id == user_id && data.channel_id == channel_id)
                           this.cancelCall();
@@ -127,7 +129,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     let i = 0;
     let callLoop = () => {
       setTimeout(() => {
-        if (i < 60 && !this.state.remoteJoined && !this.state.callCancelled) {
+        if (i < 60 && !this.state.remoteJoined && !this.state.callRejected) {
           this.callACChannel.speak(joinCallData);
           i++;
           callLoop();
@@ -233,9 +235,16 @@ class ChannelVideoChatRoomExternal extends React.Component {
     this.appended = false;
   }
 
+  // When other user ends call
+  endCall() {
+    this.leaveCall();
+    this.setState({ callEnded: true });
+  }
+
+  // When other user doesn't pick up
   cancelCall() {
     this.leaveCall();
-    this.setState({ callCancelled: true});
+    this.setState({ callRejected: true});
   }
 
   removeUser(data){
@@ -287,7 +296,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     if (this.state.localJoined) {
       actionName = "Leave Call";
       action = () => {
-        this.leaveCall;
+        this.leaveCall();
         window.close();
       };
     }
@@ -350,12 +359,15 @@ class ChannelVideoChatRoomExternal extends React.Component {
       remoteUser = users[channelUserIds[1]];
 
 
-    if (this.state.callCancelled) {
+    if (this.state.callRejected || this.state.callEnded) {
+      let message = "Call Ended";
+      if (this.state.callRejected) 
+        message = `${this.getUserName(remoteUser)} did not pick up`;
       return (
         <div className="video-chatroom-container">
           <div id="call-cancelled-notice-container">
             <div id="call-cancelled-notice">
-              {this.getUserName(remoteUser)} did not pick up.
+              {message}
             </div>
           </div>
         </div>
