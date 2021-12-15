@@ -1803,10 +1803,25 @@ var Channel = /*#__PURE__*/function (_React$Component) {
     _this.showUser = _this.showUser.bind(_assertThisInitialized(_this));
     _this.hideUser = _this.hideUser.bind(_assertThisInitialized(_this));
     return _this;
-  } // Ignore transition channel
-
+  }
 
   _createClass(Channel, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.callACChannel = App.cable.subscriptions.create({
+        channel: "CallChannel"
+      }, {
+        connected: function connected() {
+          debugger;
+        },
+        received: function received(data) {},
+        speak: function speak(data) {
+          return this.perform("speak", data);
+        }
+      });
+    } // Ignore transition channel
+
+  }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       if (this.props.channel_id != "0" && oldProps.channel_id !== this.props.channel_id) this.setState({

@@ -31,6 +31,21 @@ class Channel extends React.Component {
     this.hideUser = this.hideUser.bind(this);
   }
 
+  componentDidMount() {
+    this.callACChannel = App.cable.subscriptions.create(
+      { channel: "CallChannel" },
+      {
+        connected: () => {debugger},
+        received: (data) => {
+          
+        },
+        speak: function(data) {
+          return this.perform("speak", data);
+        }
+      }
+    )
+  }
+
   // Ignore transition channel
   componentDidUpdate(oldProps) {
     if (this.props.channel_id != "0" && oldProps.channel_id !== this.props.channel_id)
