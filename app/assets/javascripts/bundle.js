@@ -3000,39 +3000,52 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "joinCall",
     value: function joinCall(e) {
+      var _this3 = this;
+
       var user_id = getState().session.user_id;
       var channel_id = this.props.match.params.channel_id;
       var channels = getState().entities.channels;
       var channel_users = Object.keys(channels[channel_id].users);
       var target_user_id = channel_users[0];
       if (channel_users[0] == user_id) target_user_id = channel_users[1];
-      this.callACChannel.speak({
+      var joinCallData = {
         type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["JOIN_CALL"],
         from: getState().session.user_id,
         channel_id: channel_id,
         target_user_id: target_user_id
-      });
-      this.setState({
-        localJoined: true,
-        loaded: true
-      });
+      };
+      var i = 0;
+
+      var callLoop = function callLoop() {
+        setTimeout(function () {
+          _this3.callACChannel.speak(joinCallData);
+
+          i++;
+
+          if (i < 30 && !_this3.state.remoteJoined) {
+            callLoop();
+          }
+        }, 1000);
+      };
+
+      callLoop();
     }
   }, {
     key: "createPC",
     value: function createPC(userId, offerBool) {
-      var _this3 = this;
+      var _this4 = this;
 
       var pc = new RTCPeerConnection(_util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["ice"]);
       this.pcPeers[userId] = pc;
       this.localStream.getTracks().forEach(function (track) {
-        return pc.addTrack(track, _this3.localStream);
+        return pc.addTrack(track, _this4.localStream);
       });
 
       if (offerBool) {
         pc.createOffer().then(function (offer) {
           pc.setLocalDescription(offer).then(function () {
             setTimeout(function () {
-              _this3.callACChannel.speak({
+              _this4.callACChannel.speak({
                 type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
                 from: getState().session.user_id,
                 to: userId,
@@ -3044,7 +3057,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       }
 
       pc.onicecandidate = function (e) {
-        _this3.callACChannel.speak({
+        _this4.callACChannel.speak({
           type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
           from: getState().session.user_id,
           to: userId,
@@ -3053,17 +3066,17 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       };
 
       pc.ontrack = function (e) {
-        if (!_this3.appended) {
+        if (!_this4.appended) {
           var remoteVid = document.createElement("video");
           remoteVid.id = "remote-video-instance container-".concat(userId);
           remoteVid.autoplay = "autoplay";
           remoteVid.srcObject = e.streams[0];
 
-          _this3.remoteVideoContainer.appendChild(remoteVid);
+          _this4.remoteVideoContainer.appendChild(remoteVid);
 
-          _this3.appended = true;
+          _this4.appended = true;
 
-          _this3.setState({
+          _this4.setState({
             remoteJoined: true
           });
         }
@@ -3071,7 +3084,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
 
       pc.oniceconnectionstatechange = function (e) {
         if (pc.iceConnectionState === 'disconnected') {
-          _this3.callACChannel.speak({
+          _this4.callACChannel.speak({
             type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"],
             from: userId
           });
@@ -3083,7 +3096,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "exchange",
     value: function exchange(data) {
-      var _this4 = this;
+      var _this5 = this;
 
       var pc;
 
@@ -3106,7 +3119,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
             if (sdp.type === 'offer') {
               pc.createAnswer().then(function (answer) {
                 pc.setLocalDescription(answer).then(function () {
-                  _this4.callACChannel.speak({
+                  _this5.callACChannel.speak({
                     type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
                     from: getState().session.user_id,
                     to: data.from,

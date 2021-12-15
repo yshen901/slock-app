@@ -103,13 +103,24 @@ class ChannelVideoChatRoomExternal extends React.Component {
     if (channel_users[0] == user_id)
       target_user_id = channel_users[1];
 
-    this.callACChannel.speak({
+    let joinCallData = {
       type: JOIN_CALL,
       from: getState().session.user_id,
       channel_id,
       target_user_id
-    });
-    this.setState({localJoined: true, loaded: true});
+    };
+
+    let i = 0;
+    let callLoop = () => {
+      setTimeout(() => {
+        this.callACChannel.speak(joinCallData);
+        i++;
+        if (i < 30 && !(this.state.remoteJoined)) {
+          callLoop();
+        }
+      }, 1000)
+    }
+    callLoop();
   }
 
   createPC(userId, offerBool){
