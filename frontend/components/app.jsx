@@ -9,6 +9,7 @@ import WorkspaceSigninForm from './auth/workspace_signin_form.jsx';
 import WorkspaceTransition from './workspace/workspace_transition';
 import WorkspaceContainer from './workspace/workspace_container';
 import WorkspaceForm from './auth/workspace_form';
+import ChannelVideoChatRoomExternal from "./channel/channel_video_chat_room_external";
 
 
 class App extends React.Component {
@@ -25,6 +26,7 @@ class App extends React.Component {
         <ProtectedRoute exact path="/create" component={ WorkspaceForm }/>
         <ProtectedRoute exact path="/workspace/:workspace_address" component={ WorkspaceTransition }/>
         <ProtectedRoute exact path="/workspace/:workspace_address/:channel_id" component={ WorkspaceContainer }/>
+        <ProtectedRoute exact path="/workspace/:workspace_address/:channel_id/video_call" component={ ChannelVideoChatRoomExternal }/>
         <Route exact path="/" render={() => <Homepage></Homepage>}/>
       </div>
     )

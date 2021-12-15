@@ -143,8 +143,8 @@ class Channel extends React.Component {
 
   // Handles video call logic and video room
   startVideoCall() {
-    window.open(this.props.location.href)
-    this.setState({inVideoCall: true});
+    window.open(window.location.href+"/video_call")
+    // this.setState({inVideoCall: true});
   }
 
   endVideoCall() {

@@ -5,7 +5,7 @@ import { getWorkspace } from '../../actions/workspace_actions';
 // import Webcam from 'react-webcam';
 import { broadcastChannel, JOIN_CALL, LEAVE_CALL, EXCHANGE, ice } from '../../util/call_api_util';
 
-class ChannelVideoChatRoom extends React.Component {
+class ChannelVideoChatRoomExternal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -42,6 +42,7 @@ class ChannelVideoChatRoom extends React.Component {
               this.callACChannel = App.cable.subscriptions.create( // subscribe to call actioncable channel
                 { channel: "CallChannel" },
                 { 
+                  connected: () => {this.joinCall()},
                   speak: function(data) {
                     return this.perform('speak', data);
                   },
@@ -61,7 +62,6 @@ class ChannelVideoChatRoom extends React.Component {
                     }
                   }
                 });
-              this.joinCall();
           }).catch(error => { console.log(error)});
         }
       );
@@ -76,6 +76,7 @@ class ChannelVideoChatRoom extends React.Component {
   }
 
   joinCall(e) {
+    debugger;
     this.callACChannel.speak({
       type: JOIN_CALL,
       from: getState().session.user_id
@@ -191,14 +192,15 @@ class ChannelVideoChatRoom extends React.Component {
 
   // Changes the audio stream by toggled enabled tag
   toggleAudio() {
+    debugger;
     this.audioStream.enabled = !this.audioStream.enabled;
-    this.setState({audio: !this.state.audio});
+    this.setState({audio: this.audioStream.enabled});
   }
 
   audioButton() {
     let action = "Unmute";
     if (this.state.audio)
-      action = "Mute";  
+      action = "Mute";
     
     return (
       <div className="video-chatroom-setting" onClick={this.toggleAudio}>{action}</div>
@@ -263,33 +265,48 @@ class ChannelVideoChatRoom extends React.Component {
 
   render() {    
     // After getUserMedia callback finishes, setState will toggle loaded and render the full videochat
-    let {user_id} = getState().session;
-    let {channel_id} = this.props.match.params;
-    let {users, channels} = getState().entities;
-    let channelUserIds = Object.keys(channels[channel_id].users);
-
-    let localUser = users[user_id];
-    let remoteUser = users[channelUserIds[0]];
-    if (user_id == channelUserIds[0])
-      remoteUser = users[channelUserIds[1]];
-
-    return (
-      <div className="video-chatroom-container">
-        <div className="video-chatroom-videos">
-          {this.remoteVideo(remoteUser)}
-          <div id="local-video">
-            <video id="local-video-container" autoPlay></video>
-            <div className="video-tag">{this.getUserName(localUser)}</div>
+    
+    if (!this.state.loaded) {
+      return (
+        <div className="video-chatroom-container">
+          <div className="video-chatroom-videos">
+            { this.remoteVideo() }
+            <div id="local-video">
+              <video id="local-video-container" autoPlay></video>
+            </div>
           </div>
         </div>
-        <div className="video-chatroom-settings">
-          {this.videoButton()}
-          {this.audioButton()}
-          {this.callButton()}
+      )
+    }
+    else {
+      let {user_id} = getState().session;
+      let {channel_id} = this.props.match.params;
+      let {users, channels} = getState().entities;
+      let channelUserIds = Object.keys(channels[channel_id].users);
+  
+      let localUser = users[user_id];
+      let remoteUser = users[channelUserIds[0]];
+      if (user_id == channelUserIds[0])
+        remoteUser = users[channelUserIds[1]];
+  
+      return (
+        <div className="video-chatroom-container">
+          <div className="video-chatroom-videos">
+            {this.remoteVideo(remoteUser)}
+            <div id="local-video">
+              <video id="local-video-container" autoPlay></video>
+              <div className="video-tag">{this.getUserName(localUser)}</div>
+            </div>
+          </div>
+          <div className="video-chatroom-settings">
+            {this.videoButton()}
+            {this.audioButton()}
+            {this.callButton()}
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
 
-export default withRouter(ChannelVideoChatRoom);
+export default withRouter(ChannelVideoChatRoomExternal);
