@@ -1825,21 +1825,30 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           var from = data.from,
               channel_id = data.channel_id,
               type = data.type,
-              target_user_id = data.target_user_id; // rejects all unrelated pings
+              target_user_id = data.target_user_id; // JOIN_CALL  : if the ping is for current user and user isn't busy -> activate modal and channel
+          // LEAVE_CALL : if ping is from current user                        -> set inVideoCall to false
 
-          if (from == user.id || target_user_id != user.id || type != _util_call_api_util__WEBPACK_IMPORTED_MODULE_8__["JOIN_CALL"]) return; // restarts dm channel if necessary, then process the incoming call data
-
-          if (user_channel_ids.includes(channel_id)) _this2.setState({
-            incomingCall: data
-          });else _this2.props.restartDmChannel({
-            channel_id: channel_id,
-            user_id: user.id,
-            active: true
-          }).then(function () {
-            return _this2.setState({
-              incomingCall: data
+          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_8__["JOIN_CALL"] && target_user_id == user.id && !_this2.state.inVideoCall) {
+            if (user_channel_ids.includes(channel_id)) {
+              _this2.setState({
+                incomingCall: data
+              });
+            } else {
+              _this2.props.restartDmChannel({
+                channel_id: channel_id,
+                user_id: user.id,
+                active: true
+              }).then(function () {
+                return _this2.setState({
+                  incomingCall: data
+                });
+              });
+            }
+          } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_8__["LEAVE_CALL"] && from == user.id) {
+            _this2.setState({
+              inVideoCall: false
             });
-          });
+          }
         },
         speak: function speak(data) {
           return this.perform("speak", data);
@@ -2050,11 +2059,18 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           return _this5.rejectCall(incomingCall);
         }
       }, "Decline"))));
-    }
+    } // Builds the link using callData, then starts video call
+
   }, {
     key: "pickupCall",
     value: function pickupCall(callData) {
-      debugger;
+      var workspace_address = this.props.match.params.workspace_address;
+      var channel_id = callData.channel_id;
+      var windowLink = window.location.origin + "/#/workspace/".concat(workspace_address, "/").concat(channel_id, "/video_call");
+      this.startVideoCall(windowLink);
+      this.setState({
+        incomingCall: null
+      });
     }
   }, {
     key: "rejectCall",
@@ -2071,8 +2087,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_nav_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
         leaveChannel: this.leaveChannel,
         status: this.state,
-        startVideoCall: this.startVideoCall // endVideoCall={this.endVideoCall}
-        ,
+        startVideoCall: this.startVideoCall,
         inVideoCall: this.state.inVideoCall
       }), this.renderRoom()), this.renderProfile(), this.renderVideoCallPing());
     }
@@ -2563,13 +2578,10 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
           leaveButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "channel-nav-button",
             onClick: this.props.leaveChannel
-          }, "Leave Chat"); // if (this.props.inVideoCall)
-          //   videoCallButton = (
-          //     <div className="channel-nav-button" onClick={this.props.endVideoCall}>End Video Call</div>
-          //   );       
-          // else
-
-          videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, "Leave Chat");
+          if (this.props.inVideoCall) videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "channel-nav-button"
+          }, " In Video Call ");else videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "channel-nav-button",
             onClick: function onClick() {
               return _this3.props.startVideoCall();
@@ -2913,6 +2925,9 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      // establish cleanup behavior if the window is closed 
+      window.addEventListener("beforeunload", this.leaveCall); // load workspace
+
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["getWorkspace"])(this.props.match.params.workspace_address)).then(function (_ref) {
         var channels = _ref.channels;
         // Prevents illegal access to video call rooms
@@ -2971,6 +2986,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
+      window.removeEventListener("beforeunload", this.leaveCall);
       if (this.loaded) this.leaveCall();
     } // Triggered when another user joins
 

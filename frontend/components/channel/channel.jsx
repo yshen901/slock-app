@@ -8,7 +8,7 @@ import ChannelProfileSidebar from "./channel_profile_sidebar";
 import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
 import { restartDmChannel, endDmChannel } from "../../actions/dm_channel_actions";
-import { JOIN_CALL } from '../../util/call_api_util';
+import { JOIN_CALL, LEAVE_CALL } from '../../util/call_api_util';
 
 class Channel extends React.Component {
   constructor(props) {
@@ -42,20 +42,26 @@ class Channel extends React.Component {
       {
         received: (data) => {
           let { from, channel_id, type, target_user_id } = data;
-          // rejects all unrelated pings
-          if (from == user.id || target_user_id != user.id || type != JOIN_CALL) return; 
 
-          // restarts dm channel if necessary, then process the incoming call data
-          if (user_channel_ids.includes(channel_id))
-            this.setState({ incomingCall: data })
-          else
-            this.props.restartDmChannel({
-              channel_id,
-              user_id: user.id,
-              active: true
-            }).then(
-              () => this.setState({ incomingCall: data })
-            )
+          // JOIN_CALL  : if the ping is for current user and user isn't busy -> activate modal and channel
+          // LEAVE_CALL : if ping is from current user                        -> set inVideoCall to false
+          if (type == JOIN_CALL && target_user_id == user.id && !this.state.inVideoCall) {
+            if (user_channel_ids.includes(channel_id)) {
+              this.setState({ incomingCall: data })
+            }
+            else {
+              this.props.restartDmChannel({
+                channel_id,
+                user_id: user.id,
+                active: true
+              }).then(
+                () => this.setState({ incomingCall: data })
+              )
+            }
+          }
+          else if (type == LEAVE_CALL && from == user.id) {
+            this.setState({ inVideoCall: false });
+          }
         },
         speak: function(data) {
           return this.perform("speak", data);
@@ -239,8 +245,14 @@ class Channel extends React.Component {
       )
   }
 
+  // Builds the link using callData, then starts video call
   pickupCall(callData) {
-    debugger;
+    let { workspace_address } = this.props.match.params;
+    let { channel_id } = callData;
+
+    let windowLink = window.location.origin + `/#/workspace/${workspace_address}/${channel_id}/video_call`;
+    this.startVideoCall(windowLink);
+    this.setState({incomingCall: null});
   }
 
   rejectCall(callData) {
@@ -255,7 +267,6 @@ class Channel extends React.Component {
             leaveChannel={this.leaveChannel}
             status={this.state}
             startVideoCall={this.startVideoCall}
-            // endVideoCall={this.endVideoCall}
             inVideoCall={this.state.inVideoCall}/>
           {this.renderRoom()}
         </div>

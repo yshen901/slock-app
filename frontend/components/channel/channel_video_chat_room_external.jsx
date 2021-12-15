@@ -29,6 +29,10 @@ class ChannelVideoChatRoomExternal extends React.Component {
   // Called when the component is rendered
   // Instead of webcam, this directly uses navigator to place media into container
   componentDidMount() {
+    // establish cleanup behavior if the window is closed 
+    window.addEventListener("beforeunload", this.leaveCall);
+
+    // load workspace
     dispatch(getWorkspace(this.props.match.params.workspace_address))
       .then(
         ({channels}) => {
@@ -77,7 +81,8 @@ class ChannelVideoChatRoomExternal extends React.Component {
 
   // Only needs to be unmounted if loading has finished
   componentWillUnmount() {
-    if (this.loaded)
+    window.removeEventListener("beforeunload", this.leaveCall);
+    if (this.loaded) 
       this.leaveCall();
   }
 
