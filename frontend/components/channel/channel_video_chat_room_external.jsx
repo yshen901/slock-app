@@ -136,12 +136,16 @@ class ChannelVideoChatRoomExternal extends React.Component {
     };
 
     let i = 0;
+    let times = 60;
     let callLoop = () => {
       setTimeout(() => {
-        if (i < 60 && !this.state.remoteJoined && !this.state.callRejected) {
+        if (i < times && !this.state.remoteJoined && !this.state.callRejected) {
           this.callACChannel.speak(joinCallData);
           i++;
           callLoop();
+        }
+        else if (i == times) {   // When the callee times out
+          this.cancelCall();
         }
       }, 500)
     }
@@ -197,7 +201,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     }; 
     pc.oniceconnectionstatechange = (e) => {
         if (pc.iceConnectionState === 'disconnected'){
-            this.callACChannel.speak({ type: LEAVE_CALL, from: userId });
+            this.callACChannel.speak({ type: LEAVE_CALL, from: userId, channel_id: this.props.match.params.channel_id });
         }
     };
     return pc;   
@@ -248,7 +252,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     this.localStream.srcObject = null;
     App.cable.subscriptions.subscriptions = [];
     this.remoteVideoContainer.innerHTML = "";
-    this.callACChannel.speak({ type: LEAVE_CALL, from: getState().session.user_id });    
+    this.callACChannel.speak({ type: LEAVE_CALL, from: getState().session.user_id, channel_id: this.props.match.params.channel_id });    
 
     this.appended = false;
   }
