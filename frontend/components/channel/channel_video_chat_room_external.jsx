@@ -4,6 +4,7 @@ import { getWorkspace } from '../../actions/workspace_actions';
 
 // import Webcam from 'react-webcam';
 import { broadcastChannel, JOIN_CALL, LEAVE_CALL, EXCHANGE, ice } from '../../util/call_api_util';
+import { hideElements, revealElements } from '../../util/modal_api_util';
 
 class ChannelVideoChatRoomExternal extends React.Component {
   constructor(props) {
@@ -202,15 +203,14 @@ class ChannelVideoChatRoomExternal extends React.Component {
 
   // Changes the audio stream by toggled enabled tag
   toggleAudio() {
-    debugger;
     this.audioStream.enabled = !this.audioStream.enabled;
     this.setState({audio: this.audioStream.enabled});
   }
 
   audioButton() {
-    let action = "Unmute";
+    let action = <i className="fas fa-microphone-slash"></i>;
     if (this.state.audio)
-      action = "Mute";
+      action = <i className="fas fa-microphone"></i>;
     
     return (
       <div className="video-chatroom-setting" onClick={this.toggleAudio}>{action}</div>
@@ -224,9 +224,9 @@ class ChannelVideoChatRoomExternal extends React.Component {
   }
 
   videoButton() {
-    let action = "Unblock Camera";
+    let action = <i className="fas fa-video-slash"></i>;
     if (this.state.video)
-      action = "Block Camera";
+      action = <i className="fas fa-video"></i>;
     
     return (
       <div className="video-chatroom-setting" onClick={this.toggleVideo}>{action}</div>
@@ -234,15 +234,16 @@ class ChannelVideoChatRoomExternal extends React.Component {
   }
   
   // Adds a leave/join call button to the video chat interface
+  // Right now only leave call makes sense...join is tied to other buttons
   callButton() {
-    let actionName = "Join Call";
+    let actionName = <i className="fas fa-phone-slash"></i>;
     let action = this.joinCall;
     if (this.state.localJoined) {
       actionName = "Leave Call";
       action = this.leaveCall;
     }
     return (
-      <div className="video-chatroom-setting" onClick={action}>{actionName}</div>
+      <div className="video-chatroom-setting" onClick={action}><i className="fas fa-phone-slash"></i></div>
     )
   }
 
@@ -256,7 +257,8 @@ class ChannelVideoChatRoomExternal extends React.Component {
       return user.email;
   }
 
-  // only renders once remote is connected
+  // Must always render otherwise there will be nowhere to mount the remote video to
+  // Name is blank until remoteJoined
   remoteVideo(remoteUser) {
     if (this.state.remoteJoined)
       return (
@@ -288,6 +290,25 @@ class ChannelVideoChatRoomExternal extends React.Component {
         </div>
       )
     }
+    else if (!this.state.remoteJoined) {
+      return (
+        <div className="video-chatroom-container"
+          onMouseOver={() => revealElements("video-chatroom-settings")}
+          onMouseLeave={() => hideElements("video-chatroom-settings")}>
+          <div className="video-chatroom-videos">
+            { this.remoteVideo() }
+            <div id="local-video">
+              <video id="local-video-container" autoPlay></video>
+            </div>
+          </div>
+          <div className="video-chatroom-settings hidden">
+            {this.videoButton()}
+            {this.audioButton()}
+            {this.callButton()}
+          </div>
+        </div>
+      )
+    }
     else {
       let {user_id} = getState().session;
       let {channel_id} = this.props.match.params;
@@ -298,17 +319,18 @@ class ChannelVideoChatRoomExternal extends React.Component {
       let remoteUser = users[channelUserIds[0]];
       if (user_id == channelUserIds[0])
         remoteUser = users[channelUserIds[1]];
-  
+
       return (
-        <div className="video-chatroom-container">
+        <div className="video-chatroom-container"
+          onMouseOver={() => revealElements("video-chatroom-settings")}
+          onMouseLeave={() => hideElements("video-chatroom-settings")}>
           <div className="video-chatroom-videos">
             {this.remoteVideo(remoteUser)}
-            <div id="local-video">
+            <div id="local-video-minimized">
               <video id="local-video-container" autoPlay></video>
             </div>
           </div>
-          <div className="video-tag">{this.getUserName(localUser)}</div>
-          <div className="video-chatroom-settings">
+          <div className="video-chatroom-settings hidden">
             {this.videoButton()}
             {this.audioButton()}
             {this.callButton()}

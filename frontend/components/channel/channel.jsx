@@ -150,7 +150,7 @@ class Channel extends React.Component {
       windowLink += "/video_call";
 
     let windowName = "Slock call";
-    let windowFeatures = "popup, width=1280, height=561";
+    let windowFeatures = "popup, width=640, height=480";
     window.open(windowLink, windowName, windowFeatures)
     this.setState({ inVideoCall: true });
   }

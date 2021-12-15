@@ -1933,7 +1933,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       if (windowLink[windowLink.length - 1] == "/") // two possibilities
         windowLink += "video_call";else windowLink += "/video_call";
       var windowName = "Slock call";
-      var windowFeatures = "popup, width=1280, height=561";
+      var windowFeatures = "popup, width=640, height=480";
       window.open(windowLink, windowName, windowFeatures);
       this.setState({
         inVideoCall: true
@@ -2760,6 +2760,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2785,6 +2786,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
  // import Webcam from 'react-webcam';
+
 
 
 
@@ -3041,7 +3043,6 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleAudio",
     value: function toggleAudio() {
-      debugger;
       this.audioStream.enabled = !this.audioStream.enabled;
       this.setState({
         audio: this.audioStream.enabled
@@ -3050,8 +3051,12 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "audioButton",
     value: function audioButton() {
-      var action = "Unmute";
-      if (this.state.audio) action = "Mute";
+      var action = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-microphone-slash"
+      });
+      if (this.state.audio) action = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-microphone"
+      });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "video-chatroom-setting",
         onClick: this.toggleAudio
@@ -3069,18 +3074,25 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "videoButton",
     value: function videoButton() {
-      var action = "Unblock Camera";
-      if (this.state.video) action = "Block Camera";
+      var action = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-video-slash"
+      });
+      if (this.state.video) action = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-video"
+      });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "video-chatroom-setting",
         onClick: this.toggleVideo
       }, action);
     } // Adds a leave/join call button to the video chat interface
+    // Right now only leave call makes sense...join is tied to other buttons
 
   }, {
     key: "callButton",
     value: function callButton() {
-      var actionName = "Join Call";
+      var actionName = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-phone-slash"
+      });
       var action = this.joinCall;
 
       if (this.state.localJoined) {
@@ -3091,14 +3103,17 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "video-chatroom-setting",
         onClick: action
-      }, actionName);
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-phone-slash"
+      }));
     } // selects the correct username
 
   }, {
     key: "getUserName",
     value: function getUserName(user) {
       if (user.display_name) return user.display_name;else if (user.full_name) return user.full_name;else return user.email;
-    } // only renders once remote is connected
+    } // Must always render otherwise there will be nowhere to mount the remote video to
+    // Name is blank until remoteJoined
 
   }, {
     key: "remoteVideo",
@@ -3130,6 +3145,25 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           id: "local-video-container",
           autoPlay: true
         }))));
+      } else if (!this.state.remoteJoined) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "video-chatroom-container",
+          onMouseOver: function onMouseOver() {
+            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["revealElements"])("video-chatroom-settings");
+          },
+          onMouseLeave: function onMouseLeave() {
+            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("video-chatroom-settings");
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "video-chatroom-videos"
+        }, this.remoteVideo(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "local-video"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
+          id: "local-video-container",
+          autoPlay: true
+        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "video-chatroom-settings hidden"
+        }, this.videoButton(), this.audioButton(), this.callButton()));
       } else {
         var user_id = getState().session.user_id;
         var channel_id = this.props.match.params.channel_id;
@@ -3141,18 +3175,22 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         var remoteUser = users[channelUserIds[0]];
         if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "video-chatroom-container"
+          className: "video-chatroom-container",
+          onMouseOver: function onMouseOver() {
+            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["revealElements"])("video-chatroom-settings");
+          },
+          onMouseLeave: function onMouseLeave() {
+            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("video-chatroom-settings");
+          }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-videos"
         }, this.remoteVideo(remoteUser), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "local-video"
+          id: "local-video-minimized"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("video", {
           id: "local-video-container",
           autoPlay: true
         }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "video-tag"
-        }, this.getUserName(localUser)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "video-chatroom-settings"
+          className: "video-chatroom-settings hidden"
         }, this.videoButton(), this.audioButton(), this.callButton()));
       }
     }
