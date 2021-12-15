@@ -64,7 +64,7 @@ class Channel extends React.Component {
           else if (type == LEAVE_CALL) {
             if (from == user.id)
               this.setState({ inVideoCall: false });
-            else if (this.state.incomingCall.channel_id == channel_id)
+            else if (this.state.incomingCall && this.state.incomingCall.channel_id == channel_id)
               this.setState({ incomingCall: null });
           }
         },
@@ -264,6 +264,9 @@ class Channel extends React.Component {
             <div id="video-ping-button-decline" onClick={this.rejectCall(incomingCall)}>Decline</div>
           </div>
         </div>
+        <audio autoPlay>
+          <source src="/soundtracks/phone-ringing.mp3" type="audio/mp3"/>
+        </audio>
       </div>
     )
   }

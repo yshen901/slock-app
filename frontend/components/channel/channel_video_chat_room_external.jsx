@@ -406,6 +406,9 @@ class ChannelVideoChatRoomExternal extends React.Component {
             {this.audioButton()}
             {this.callButton()}
           </div>
+          <audio autoPlay>
+            <source src="/soundtracks/phone-calling.mp3" type="audio/mp3"/>
+          </audio>
         </div>
       )
     }

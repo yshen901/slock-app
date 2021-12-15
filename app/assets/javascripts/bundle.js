@@ -1849,7 +1849,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_8__["LEAVE_CALL"]) {
             if (from == user.id) _this2.setState({
               inVideoCall: false
-            });else if (_this2.state.incomingCall.channel_id == channel_id) _this2.setState({
+            });else if (_this2.state.incomingCall && _this2.state.incomingCall.channel_id == channel_id) _this2.setState({
               incomingCall: null
             });
           }
@@ -2068,7 +2068,12 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       }, "Pick Up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "video-ping-button-decline",
         onClick: this.rejectCall(incomingCall)
-      }, "Decline"))));
+      }, "Decline"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
+        autoPlay: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("source", {
+        src: "/soundtracks/phone-ringing.mp3",
+        type: "audio/mp3"
+      })));
     } // Builds the link using callData, then starts video call
 
   }, {
@@ -3404,7 +3409,12 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           autoPlay: true
         }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-settings"
-        }, this.videoButton(), this.audioButton(), this.callButton()));
+        }, this.videoButton(), this.audioButton(), this.callButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
+          autoPlay: true
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("source", {
+          src: "/soundtracks/phone-calling.mp3",
+          type: "audio/mp3"
+        })));
       } else {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-container",
