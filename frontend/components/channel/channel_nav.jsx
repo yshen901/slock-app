@@ -141,7 +141,7 @@ class ChannelNav extends React.Component {
         //   );       
         // else
         videoCallButton = (
-          <div className="channel-nav-button" onClick={this.props.startVideoCall}>Start Video Call</div>
+          <div className="channel-nav-button" onClick={() => this.props.startVideoCall()}>Start Video Call</div>
         );
       }
     }

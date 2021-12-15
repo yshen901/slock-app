@@ -41,7 +41,6 @@ class Channel extends React.Component {
       { channel: "CallChannel" },
       {
         received: (data) => {
-          debugger;
           let { from, channel_id, type, target_user_id } = data;
           // rejects all unrelated pings
           if (from == user.id || target_user_id != user.id || type != JOIN_CALL) return; 
@@ -178,12 +177,15 @@ class Channel extends React.Component {
   }
 
   // Creates a popup of a video call
-  startVideoCall() {
-    let windowLink = window.location.href;
-    if (windowLink[windowLink.length - 1] == "/") // two possibilities
-      windowLink += "video_call";
-    else
-      windowLink += "/video_call";
+  startVideoCall(link) {
+    let windowLink = link;
+    if (!windowLink) {
+      windowLink = window.location.href;
+      if (windowLink[windowLink.length - 1] == "/") // two possibilities
+        windowLink += "video_call";
+      else
+        windowLink += "/video_call";
+    }
 
     let windowName = "Slock call";
     let windowFeatures = "popup, width=640, height=480";
@@ -222,12 +224,16 @@ class Channel extends React.Component {
   // handles incoming video call pings (pings have type, user_id, and channel_id)
   renderVideoCallPing() {
     let {incomingCall} = this.state;
-    if (this.state.incomingCall)
+    if (incomingCall)
       return (
-        <div className="video-call-ping-modal">
-          <div className="video-ping-buttons">
-            <div className="video-ping-button" onClick={() => this.pickupCall(incomingCall)}>Pick Up</div>
-            <div className="video-ping-button" onClick={() => this.rejectCall(incomingCall)}>Reject</div>
+        <div id="video-ping-modal" onClick={() => this.rejectCall(incomingCall)}>
+          <div id="video-ping-modal-background"></div>
+          <div id="video-ping-content">
+            <div id="video-ping-header">INSERT wants to video chat</div>
+            <div id="video-ping-buttons">
+              <div id="video-ping-button-accept" onClick={() => this.pickupCall(incomingCall)}>Pick Up</div>
+              <div id="video-ping-button-decline" onClick={() => this.rejectCall(incomingCall)}>Decline</div>
+            </div>
           </div>
         </div>
       )

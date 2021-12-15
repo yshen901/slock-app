@@ -1822,7 +1822,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         channel: "CallChannel"
       }, {
         received: function received(data) {
-          debugger;
           var from = data.from,
               channel_id = data.channel_id,
               type = data.type,
@@ -1972,10 +1971,15 @@ var Channel = /*#__PURE__*/function (_React$Component) {
 
   }, {
     key: "startVideoCall",
-    value: function startVideoCall() {
-      var windowLink = window.location.href;
-      if (windowLink[windowLink.length - 1] == "/") // two possibilities
-        windowLink += "video_call";else windowLink += "/video_call";
+    value: function startVideoCall(link) {
+      var windowLink = link;
+
+      if (!windowLink) {
+        windowLink = window.location.href;
+        if (windowLink[windowLink.length - 1] == "/") // two possibilities
+          windowLink += "video_call";else windowLink += "/video_call";
+      }
+
       var windowName = "Slock call";
       var windowFeatures = "popup, width=640, height=480";
       window.open(windowLink, windowName, windowFeatures);
@@ -2022,21 +2026,30 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var _this5 = this;
 
       var incomingCall = this.state.incomingCall;
-      if (this.state.incomingCall) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-call-ping-modal"
+      if (incomingCall) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-modal",
+        onClick: function onClick() {
+          return _this5.rejectCall(incomingCall);
+        }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-ping-buttons"
+        id: "video-ping-modal-background"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-ping-button",
+        id: "video-ping-header"
+      }, "INSERT wants to video chat"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-button-accept",
         onClick: function onClick() {
           return _this5.pickupCall(incomingCall);
         }
       }, "Pick Up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "video-ping-button",
+        id: "video-ping-button-decline",
         onClick: function onClick() {
           return _this5.rejectCall(incomingCall);
         }
-      }, "Reject")));
+      }, "Decline"))));
     }
   }, {
     key: "pickupCall",
@@ -2535,6 +2548,8 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "right",
     value: function right() {
+      var _this3 = this;
+
       var leaveButton, videoCallButton, action, actioText;
 
       if (this.props.status.canLeave) {
@@ -2556,7 +2571,9 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
 
           videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "channel-nav-button",
-            onClick: this.props.startVideoCall
+            onClick: function onClick() {
+              return _this3.props.startVideoCall();
+            }
           }, "Start Video Call");
         }
       }

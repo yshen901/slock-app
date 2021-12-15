@@ -1,0 +1,69 @@
+#video-ping-modal {
+  #video-ping-modal-background {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 3;
+  
+    width: 100vw;
+    height: 100vh;
+  
+    background: black;
+    opacity: 0.3;
+  }
+
+  #video-ping-content {
+    position: fixed;
+    top: 30vh;
+    left: calc(50vw - 150px);
+    z-index: 4;
+
+    height: 100px;
+    width: 300px;
+
+    border: 1px solid black;
+    border-radius: 5px;
+    background: white;
+    opacity: 1;
+
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    #video-ping-buttons {
+      display: flex;
+      flex-direction: row;
+
+      #video-ping-button-accept, #video-ping-button-decline {
+        border-radius: 5px;
+        font-size: 18px;
+        line-height: 18px;
+        vertical-align: center;
+        text-align: center;
+
+        padding: 6px;
+        box-sizing: border-box;
+        margin: 6px;
+
+        background-color: green;
+      }
+
+      #video-ping-button-accept:hover {
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: darkgreen;
+      }
+
+      #video-ping-button-decline {
+        background-color: red;
+      }
+
+      #video-ping-button-decline:hover {
+        transition: 0.3s;
+        cursor: pointer;
+        background-color: darkred;
+      }
+    }
+  }
+}
