@@ -237,8 +237,8 @@ class Channel extends React.Component {
           <div id="video-ping-content">
             <div id="video-ping-header">INSERT wants to video chat</div>
             <div id="video-ping-buttons">
-              <div id="video-ping-button-accept" onClick={() => this.pickupCall(incomingCall)}>Pick Up</div>
-              <div id="video-ping-button-decline" onClick={() => this.rejectCall(incomingCall)}>Decline</div>
+              <div id="video-ping-button-accept" onClick={(e) => this.pickupCall(e, incomingCall)}>Pick Up</div>
+              <div id="video-ping-button-decline" onClick={(e) => this.rejectCall(e, incomingCall)}>Decline</div>
             </div>
           </div>
         </div>
@@ -246,17 +246,21 @@ class Channel extends React.Component {
   }
 
   // Builds the link using callData, then starts video call
-  pickupCall(callData) {
+  pickupCall(e, callData) {
+    e.stopPropagation();
+
     let { workspace_address } = this.props.match.params;
     let { channel_id } = callData;
 
-    let windowLink = window.location.origin + `/#/workspace/${workspace_address}/${channel_id}/video_call`;
+    let windowLink = window.location.origin + `/#/workspace/${workspace_address}/${channel_id}/video_call?pickup`;
     this.startVideoCall(windowLink);
     this.setState({incomingCall: null});
   }
 
   // Sends a reject call action to the caller, and removes the modal
-  rejectCall(callData) {
+  rejectCall(e, callData) {
+    e.stopPropagation();
+    
     let { from, target_user_id, channel_id } = callData;
     this.callACChannel.speak({
       type: REJECT_CALL,

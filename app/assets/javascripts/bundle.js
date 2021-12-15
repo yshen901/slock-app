@@ -2050,23 +2050,24 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         id: "video-ping-buttons"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "video-ping-button-accept",
-        onClick: function onClick() {
-          return _this5.pickupCall(incomingCall);
+        onClick: function onClick(e) {
+          return _this5.pickupCall(e, incomingCall);
         }
       }, "Pick Up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "video-ping-button-decline",
-        onClick: function onClick() {
-          return _this5.rejectCall(incomingCall);
+        onClick: function onClick(e) {
+          return _this5.rejectCall(e, incomingCall);
         }
       }, "Decline"))));
     } // Builds the link using callData, then starts video call
 
   }, {
     key: "pickupCall",
-    value: function pickupCall(callData) {
+    value: function pickupCall(e, callData) {
+      e.stopPropagation();
       var workspace_address = this.props.match.params.workspace_address;
       var channel_id = callData.channel_id;
-      var windowLink = window.location.origin + "/#/workspace/".concat(workspace_address, "/").concat(channel_id, "/video_call");
+      var windowLink = window.location.origin + "/#/workspace/".concat(workspace_address, "/").concat(channel_id, "/video_call?pickup");
       this.startVideoCall(windowLink);
       this.setState({
         incomingCall: null
@@ -2075,7 +2076,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
 
   }, {
     key: "rejectCall",
-    value: function rejectCall(callData) {
+    value: function rejectCall(e, callData) {
+      e.stopPropagation();
       var from = callData.from,
           target_user_id = callData.target_user_id,
           channel_id = callData.channel_id;
@@ -2970,10 +2972,11 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           _this2.callACChannel = App.cable.subscriptions.create({
             channel: "CallChannel"
           }, {
-            connected: function connected() {
-              _this2.joinCall();
-            },
             // called after create finishes to ensure synchronity
+            // either joins or picks up call depending on query string
+            connected: function connected() {
+              if (_this2.props.location.search == "?pickup") _this2.pickupCall();else _this2.joinCall();
+            },
             speak: function speak(data) {
               return this.perform('speak', data);
             },
@@ -2984,6 +2987,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
               console.log("RECEIVED: ", data);
 
               switch (data.type) {
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["PICKUP_CALL"]:
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["JOIN_CALL"]:
                   return _this2.join(data);
 
@@ -2997,6 +3001,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
                 // return this.removeUser(data); // no need to remove user if we only have one
 
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["REJECT_CALL"]:
+                  debugger;
                   if (data.target_user_id == user_id && data.channel_id == channel_id) _this2.cancelCall();
                   return;
 
@@ -3060,6 +3065,16 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       };
 
       callLoop();
+    } // No need to constantly fire when picking up
+
+  }, {
+    key: "pickupCall",
+    value: function pickupCall(e) {
+      var pickupCallData = {
+        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["PICKUP_CALL"],
+        from: getState().session.user_id
+      };
+      this.callACChannel.speak(pickupCallData);
     }
   }, {
     key: "createPC",
@@ -3277,6 +3292,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         actionName = "Leave Call";
 
         action = function action() {
+          debugger;
+
           _this6.leaveCall();
 
           window.close();
@@ -6589,7 +6606,7 @@ var configureStore = function configureStore() {
 /*!****************************************!*\
   !*** ./frontend/util/call_api_util.js ***!
   \****************************************/
-/*! exports provided: JOIN_CALL, EXCHANGE, LEAVE_CALL, REJECT_CALL, ice, broadcastData */
+/*! exports provided: JOIN_CALL, EXCHANGE, LEAVE_CALL, REJECT_CALL, PICKUP_CALL, ice, broadcastData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -6598,12 +6615,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EXCHANGE", function() { return EXCHANGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LEAVE_CALL", function() { return LEAVE_CALL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REJECT_CALL", function() { return REJECT_CALL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PICKUP_CALL", function() { return PICKUP_CALL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ice", function() { return ice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "broadcastData", function() { return broadcastData; });
 var JOIN_CALL = "JOIN_CALL";
 var EXCHANGE = "EXCHANGE";
 var LEAVE_CALL = "LEAVE_CALL";
-var REJECT_CALL = "REJECT_CALL"; // Public stun server you can ping to get your information
+var REJECT_CALL = "REJECT_CALL";
+var PICKUP_CALL = "PICKUP_CALL"; // Public stun server you can ping to get your information
 
 var ice = {
   iceServers: [{

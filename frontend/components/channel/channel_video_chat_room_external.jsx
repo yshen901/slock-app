@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { getWorkspace } from '../../actions/workspace_actions';
 
 // import Webcam from 'react-webcam';
-import { broadcastChannel, JOIN_CALL, LEAVE_CALL, EXCHANGE, REJECT_CALL, ice } from '../../util/call_api_util';
+import { broadcastChannel, JOIN_CALL, LEAVE_CALL, EXCHANGE, REJECT_CALL, ice, PICKUP_CALL } from '../../util/call_api_util';
 import { hideElements, revealElements } from '../../util/modal_api_util';
 
 class ChannelVideoChatRoomExternal extends React.Component {
@@ -60,7 +60,14 @@ class ChannelVideoChatRoomExternal extends React.Component {
               this.callACChannel = App.cable.subscriptions.create(
                 { channel: "CallChannel" },
                 { 
-                  connected: () => {this.joinCall()},   // called after create finishes to ensure synchronity
+                  // called after create finishes to ensure synchronity
+                  // either joins or picks up call depending on query string
+                  connected: () => { 
+                    if (this.props.location.search == "?pickup")
+                      this.pickupCall();
+                    else
+                      this.joinCall()
+                  },   
                   speak: function(data) {
                     return this.perform('speak', data);
                   },
@@ -71,6 +78,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
                     if (data.from == user_id) return;
                     console.log("RECEIVED: ", data);
                     switch(data.type){
+                      case PICKUP_CALL:
                       case JOIN_CALL:
                         return this.join(data);
                       case EXCHANGE:
@@ -80,6 +88,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
                         this.endCall();
                         // return this.removeUser(data); // no need to remove user if we only have one
                       case REJECT_CALL:
+                        debugger;
                         if (data.target_user_id == user_id && data.channel_id == channel_id)
                           this.cancelCall();
                         return;
@@ -137,6 +146,15 @@ class ChannelVideoChatRoomExternal extends React.Component {
       }, 500)
     }
     callLoop();
+  }
+
+  // No need to constantly fire when picking up
+  pickupCall(e) {
+    let pickupCallData = {
+      type: PICKUP_CALL,
+      from: getState().session.user_id,
+    }
+    this.callACChannel.speak(pickupCallData);
   }
 
   createPC(userId, offerBool){
@@ -296,6 +314,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     if (this.state.localJoined) {
       actionName = "Leave Call";
       action = () => {
+        debugger;
         this.leaveCall();
         window.close();
       };

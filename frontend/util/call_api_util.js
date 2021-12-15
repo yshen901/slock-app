@@ -2,6 +2,8 @@ export const JOIN_CALL = "JOIN_CALL";
 export const EXCHANGE = "EXCHANGE";
 export const LEAVE_CALL = "LEAVE_CALL";
 export const REJECT_CALL = "REJECT_CALL";
+export const PICKUP_CALL = "PICKUP_CALL";
+
 
 // Public stun server you can ping to get your information
 export const ice = { iceServers: [
