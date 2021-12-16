@@ -6654,14 +6654,14 @@ var REJECT_CALL = "REJECT_CALL";
 var PICKUP_CALL = "PICKUP_CALL"; // Public stun server you can ping to get your information
 
 var ice = {
-  iceServers: [{
-    urls: "stun:stun2.l.google.com:19302"
-  } // {
-  //   urls: "turn:52.8.11.126:3478",
-  //   credential: "slockPass",
-  //   username: "slock" 
-  // }
-  ]
+  iceServers: [// { 
+  //    urls: "stun:stun2.l.google.com:19302" 
+  // },
+  {
+    urls: "turn:52.8.11.126:3478",
+    credential: "slockPass",
+    username: "slock"
+  }]
 }; // Sends data to the calls controller, similar to AJAX
 
 var broadcastData = function broadcastData(data) {
