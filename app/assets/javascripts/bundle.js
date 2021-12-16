@@ -1847,8 +1847,9 @@ var Channel = /*#__PURE__*/function (_React$Component) {
               });
             }
           } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_8__["LEAVE_CALL"]) {
+            // detects if user or caller ends call
             if (from == user.id) _this2.setState({
-              inVideoCall: false
+              inVideoCall: null
             });else if (_this2.state.incomingCall && _this2.state.incomingCall.channel_id == channel_id) _this2.setState({
               incomingCall: null
             });
@@ -3026,8 +3027,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
                   return _this2.exchange(data);
 
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"]:
-                  _this2.endCall();
-
+                  return _this2.endCall();
                 // return this.removeUser(data); // no need to remove user if we only have one
 
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["REJECT_CALL"]:
@@ -6651,8 +6651,6 @@ var PICKUP_CALL = "PICKUP_CALL"; // Public stun server you can ping to get your 
 
 var ice = {
   iceServers: [{
-    urls: "stun:stun2.l.google.com:19302"
-  }, {
     urls: "turn:52.8.11.126:3478",
     credential: "slockPass",
     username: "slock"

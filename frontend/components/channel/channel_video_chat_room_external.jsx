@@ -86,7 +86,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
                         if (data.to != `${user_id}`) return;
                         return this.exchange(data);
                       case LEAVE_CALL:
-                        this.endCall();
+                        return this.endCall();
                         // return this.removeUser(data); // no need to remove user if we only have one
                       case REJECT_CALL:
                         debugger;
