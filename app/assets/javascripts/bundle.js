@@ -3013,7 +3013,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
               var user_id = getState().session.user_id;
               var channel_id = _this2.props.match.params.channel_id;
               if (data.from == user_id) return;
-              console.log("RECEIVED: ", data);
+              console.log("RECEIVED: ", data.type);
 
               switch (data.type) {
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["PICKUP_CALL"]:
