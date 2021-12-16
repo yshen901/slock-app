@@ -77,6 +77,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
 
                     if (data.from == user_id) return;
                     console.log("RECEIVED: ", data.type);
+                    console.log(data);
                     switch(data.type){
                       case PICKUP_CALL:
                       case JOIN_CALL:

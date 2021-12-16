@@ -1826,8 +1826,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           var from = data.from,
               channel_id = data.channel_id,
               type = data.type,
-              target_user_id = data.target_user_id;
-          return; // JOIN_CALL  : if the ping is for current user and user isn't busy   -> activate modal and channel
+              target_user_id = data.target_user_id; // JOIN_CALL  : if the ping is for current user and user isn't busy   -> activate modal and channel
           // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
           //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
 
@@ -2131,7 +2130,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         status: this.state,
         startVideoCall: this.startVideoCall,
         inVideoCall: this.state.inVideoCall
-      }), this.renderRoom()), this.renderProfile());
+      }), this.renderRoom()), this.renderProfile(), this.renderVideoCallPing());
     }
   }]);
 
@@ -3015,6 +3014,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
               var channel_id = _this2.props.match.params.channel_id;
               if (data.from == user_id) return;
               console.log("RECEIVED: ", data.type);
+              console.log(data);
 
               switch (data.type) {
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["PICKUP_CALL"]:
@@ -6655,10 +6655,7 @@ var REJECT_CALL = "REJECT_CALL";
 var PICKUP_CALL = "PICKUP_CALL"; // Public stun server you can ping to get your information
 
 var ice = {
-  iceServers: [// { 
-  //    urls: "stun:stun2.l.google.com:19302" 
-  // },
-  {
+  iceServers: [{
     urls: "turn:52.8.11.126:3478",
     credential: "slockPass",
     username: "slock"
