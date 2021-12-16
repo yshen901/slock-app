@@ -12,7 +12,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
 
     this.state = {
       audio: true,
-      video: false,
+      video: true,
       localJoined: false,
       remoteJoined: false,
       callRejected: false,

@@ -2948,7 +2948,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       audio: true,
-      video: false,
+      video: true,
       localJoined: false,
       remoteJoined: false,
       callRejected: false,
