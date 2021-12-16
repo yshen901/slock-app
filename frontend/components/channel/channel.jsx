@@ -313,7 +313,7 @@ class Channel extends React.Component {
           {this.renderRoom()}
         </div>
         { this.renderProfile() }
-        { this.renderVideoCallPing() }
+        {/* { this.renderVideoCallPing() } */}
       </div>
     )
   }

@@ -2130,7 +2130,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         status: this.state,
         startVideoCall: this.startVideoCall,
         inVideoCall: this.state.inVideoCall
-      }), this.renderRoom()), this.renderProfile(), this.renderVideoCallPing());
+      }), this.renderRoom()), this.renderProfile());
     }
   }]);
 
