@@ -15,7 +15,7 @@ export const ice = { iceServers: [
     credential: "slockPass",
     username: "slock" 
   }
-]};
+]}; 
 
 // Sends data to the calls controller, similar to AJAX
 export const broadcastData = data => {
