@@ -44,6 +44,7 @@ class Channel extends React.Component {
         received: (data) => {
           let { from, channel_id, type, target_user_id } = data;
 
+          return;
           // JOIN_CALL  : if the ping is for current user and user isn't busy   -> activate modal and channel
           // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
           //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping

@@ -1826,7 +1826,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           var from = data.from,
               channel_id = data.channel_id,
               type = data.type,
-              target_user_id = data.target_user_id; // JOIN_CALL  : if the ping is for current user and user isn't busy   -> activate modal and channel
+              target_user_id = data.target_user_id;
+          return; // JOIN_CALL  : if the ping is for current user and user isn't busy   -> activate modal and channel
           // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
           //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
 
