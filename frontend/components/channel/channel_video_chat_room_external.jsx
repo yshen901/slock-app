@@ -12,7 +12,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
 
     this.state = {
       audio: true,
-      video: true,
+      video: false,
       localJoined: false,
       remoteJoined: false,
       callRejected: false,
@@ -136,21 +136,23 @@ class ChannelVideoChatRoomExternal extends React.Component {
       target_user_id
     };
 
-    let i = 0;
-    let times = 60;
-    let callLoop = () => {
-      setTimeout(() => {
-        if (i < times && !this.state.remoteJoined && !this.state.callRejected) {
-          this.callACChannel.speak(joinCallData);
-          i++;
-          callLoop();
-        }
-        else if (i == times) {   // When the callee times out
-          this.cancelCall();
-        }
-      }, 500)
-    }
-    callLoop();
+    this.callACChannel.speak(joinCallData);
+
+    // let i = 0;
+    // let times = 60;
+    // let callLoop = () => {
+    //   setTimeout(() => {
+    //     if (i < times && !this.state.remoteJoined && !this.state.callRejected) {
+    //       this.callACChannel.speak(joinCallData);
+    //       i++;
+    //       callLoop();
+    //     }
+    //     else if (i == times) {   // When the callee times out
+    //       this.cancelCall();
+    //     }
+    //   }, 500)
+    // }
+    // callLoop();
   }
 
   // No need to constantly fire when picking up
