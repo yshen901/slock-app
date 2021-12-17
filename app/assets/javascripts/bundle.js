@@ -3120,6 +3120,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         pc.createOffer().then(function (offer) {
           pc.setLocalDescription(offer).then(function () {
             setTimeout(function () {
+              debugger;
+
               _this3.callACChannel.speak({
                 type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
                 from: getState().session.user_id,
@@ -3132,6 +3134,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       }
 
       pc.onicecandidate = function (e) {
+        debugger;
+
         _this3.callACChannel.speak({
           type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
           from: getState().session.user_id,
@@ -3141,6 +3145,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       };
 
       pc.ontrack = function (e) {
+        debugger;
+
         if (!_this3.appended) {
           var remoteVid = document.createElement("video");
           remoteVid.id = "remote-video-instance container-".concat(userId);
@@ -6651,10 +6657,11 @@ var PICKUP_CALL = "PICKUP_CALL"; // Public stun server you can ping to get your 
 
 var ice = {
   iceServers: [{
-    urls: "turn:52.8.11.126:3478",
+    urls: "turn:52.8.11.126:3478?transport=tcp",
     credential: "slockPass",
     username: "slock"
-  }]
+  }],
+  iceTransportPolicy: "relay"
 }; // Sends data to the calls controller, similar to AJAX
 
 var broadcastData = function broadcastData(data) {

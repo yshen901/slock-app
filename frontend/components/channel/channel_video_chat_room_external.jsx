@@ -173,6 +173,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
       pc.createOffer().then(offer => {
         pc.setLocalDescription(offer).then(() => {
          setTimeout( () => {
+          debugger;
           this.callACChannel.speak({
             type: EXCHANGE,
             from: getState().session.user_id,
@@ -184,6 +185,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
       });
      }
     pc.onicecandidate = (e) => {
+      debugger;
         this.callACChannel.speak({
             type: EXCHANGE,
             from: getState().session.user_id,
@@ -192,6 +194,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
         })
     };
     pc.ontrack = (e) => {
+      debugger;
         if (!this.appended) {
           const remoteVid = document.createElement("video");
           remoteVid.id = `remote-video-instance container-${userId}`;
