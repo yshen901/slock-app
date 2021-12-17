@@ -257,7 +257,7 @@ class Channel extends React.Component {
     return (
       <div id="video-ping-modal" onClick={this.rejectCall(incomingCall)}>
         <div id="video-ping-modal-background"></div>
-        <div id="video-ping-content">
+        <div id="video-ping-content" onClick={(e) => e.stopPropagation()}>
           <div id="video-ping-header">{this.getUserName(remoteUser)} wants to video chat</div>
           <div id="video-ping-buttons">
             <div id="video-ping-button-accept" onClick={this.pickupCall(incomingCall)}>Pick Up</div>

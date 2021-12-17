@@ -2058,7 +2058,10 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "video-ping-modal-background"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "video-ping-content"
+        id: "video-ping-content",
+        onClick: function onClick(e) {
+          return e.stopPropagation();
+        }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "video-ping-header"
       }, this.getUserName(remoteUser), " wants to video chat"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3120,8 +3123,6 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         pc.createOffer().then(function (offer) {
           pc.setLocalDescription(offer).then(function () {
             setTimeout(function () {
-              debugger;
-
               _this3.callACChannel.speak({
                 type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
                 from: getState().session.user_id,
@@ -3134,8 +3135,6 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       }
 
       pc.onicecandidate = function (e) {
-        debugger;
-
         _this3.callACChannel.speak({
           type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
           from: getState().session.user_id,
@@ -6657,11 +6656,11 @@ var PICKUP_CALL = "PICKUP_CALL"; // Public stun server you can ping to get your 
 
 var ice = {
   iceServers: [{
-    urls: "turn:52.8.11.126:3478?transport=tcp",
+    urls: "turn:52.8.11.126:3478",
     credential: "slockPass",
     username: "slock"
-  }],
-  iceTransportPolicy: "relay"
+  }] // iceTransportPolicy: "relay"
+
 }; // Sends data to the calls controller, similar to AJAX
 
 var broadcastData = function broadcastData(data) {

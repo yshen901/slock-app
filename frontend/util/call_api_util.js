@@ -8,12 +8,12 @@ export const PICKUP_CALL = "PICKUP_CALL";
 export const ice = {
   iceServers: [
     {
-      urls: "turn:52.8.11.126:3478?transport=tcp",
+      urls: "turn:52.8.11.126:3478",
       credential: "slockPass",
       username: "slock" 
     }
   ],
-  iceTransportPolicy: "relay"
+  // iceTransportPolicy: "relay"
 }; 
 
 // Sends data to the calls controller, similar to AJAX
