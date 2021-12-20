@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { hideElements } from '../../util/modal_api_util';
 import { updateChannel } from '../../actions/channel_actions';
+import channel from '../channel/channel';
 
 class EditChannelTopicModal extends React.Component {
   constructor(props) {
@@ -24,9 +25,10 @@ class EditChannelTopicModal extends React.Component {
   componentDidUpdate(oldProps) {
     let {channel_id} = this.props.match.params;
 
-    // Ignore changes during channel transition
+    // Ignore changes during channel transition, and ignore invalid channels
     if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
-      this.setState({topic: getState().entities.channels[channel_id].description})
+      if (getState().entities.channels[channel_id])
+        this.setState({topic: getState().entities.channels[channel_id].description})
     }
   }
 

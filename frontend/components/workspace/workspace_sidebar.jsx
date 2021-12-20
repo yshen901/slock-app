@@ -25,6 +25,7 @@ class WorkspaceSidebar extends React.Component {
 
       hideElements("dropdown"); 
       toggleElements(className);
+      focus(inputId);
     }
   }
 
@@ -129,7 +130,7 @@ class WorkspaceSidebar extends React.Component {
           <div id="channels">
             <div className='sidebar-header'>
               <div className='sidebar-header-link hoverable' onClick={ this.toggleElements("full-modal dm-channel-modal", 'dm-channel-search-bar') }>Direct Messages</div>
-              <div className='sidebar-header-button' onClick={ this.toggleElements("full-modal dm-channel-modal") }>
+              <div className='sidebar-header-button' onClick={ this.toggleElements("full-modal dm-channel-modal", 'dm-channel-search-bar') }>
                 <i className="fas fa-plus-circle"></i>
               </div>
             </div>

@@ -4155,6 +4155,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _channel_channel__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../channel/channel */ "./frontend/components/channel/channel.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -4178,6 +4179,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -4212,10 +4214,10 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
   _createClass(EditChannelTopicModal, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
-      var channel_id = this.props.match.params.channel_id; // Ignore changes during channel transition
+      var channel_id = this.props.match.params.channel_id; // Ignore changes during channel transition, and ignore invalid channels
 
       if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
-        this.setState({
+        if (getState().entities.channels[channel_id]) this.setState({
           topic: getState().entities.channels[channel_id].description
         });
       }
@@ -5741,8 +5743,11 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       if (oldProps.match.params.channel_id !== this.props.match.params.channel_id) {
-        if (getState().entities.channels[this.props.match.params.channel_id] === undefined) this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
-        else this.props.loadChannel(parseInt(this.props.match.params.channel_id));
+        debugger;
+
+        if (getState().entities.channels[this.props.match.params.channel_id] === undefined) {
+          this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
+        } else this.props.loadChannel(parseInt(this.props.match.params.channel_id));
       }
     } // handles profile sidebar of channel
 
@@ -5956,6 +5961,8 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("dropdown");
 
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])(className);
+
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["focus"])(inputId);
       };
     }
   }, {
@@ -6079,7 +6086,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         onClick: this.toggleElements("full-modal dm-channel-modal", 'dm-channel-search-bar')
       }, "Direct Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-button",
-        onClick: this.toggleElements("full-modal dm-channel-modal")
+        onClick: this.toggleElements("full-modal dm-channel-modal", 'dm-channel-search-bar')
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-plus-circle"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
