@@ -122,7 +122,7 @@ class ChannelNav extends React.Component {
   }
 
   right() {
-    let leaveButton, videoCallButton, action, actioText;
+    let leaveButton, videoCallButton, action, actionText;
     if (this.props.status.canLeave) {
       if (!this.props.channel.dm_channel) {
         leaveButton = (
@@ -140,9 +140,9 @@ class ChannelNav extends React.Component {
             <div className="channel-nav-button"> In Video Call </div>
           );       
         else
-        videoCallButton = (
-          <div className="channel-nav-button" onClick={() => this.props.startVideoCall()}>Start Video Call</div>
-        );
+          videoCallButton = (
+            <div className="channel-nav-button" onClick={() => this.props.startVideoCall()}>Start Video Call</div>
+          );
       }
     }
 

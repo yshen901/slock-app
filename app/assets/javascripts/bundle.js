@@ -1767,7 +1767,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
-/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1798,7 +1797,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
 var Channel = /*#__PURE__*/function (_React$Component) {
   _inherits(Channel, _React$Component);
 
@@ -1812,72 +1810,15 @@ var Channel = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       canJoin: _this.canJoin(),
-      canLeave: _this.canLeave(),
-      inVideoCall: false,
-      incomingCall: null // contains incoming call information
-
+      canLeave: _this.canLeave()
     };
     _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
     _this.joinChannel = _this.joinChannel.bind(_assertThisInitialized(_this));
-    _this.startVideoCall = _this.startVideoCall.bind(_assertThisInitialized(_this));
-    _this.pickupCall = _this.pickupCall.bind(_assertThisInitialized(_this));
-    _this.rejectCall = _this.rejectCall.bind(_assertThisInitialized(_this));
     return _this;
-  } // Begins listening for videocall pings
+  } // Ignore transition channel
 
 
   _createClass(Channel, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      var _this$props = this.props,
-          user = _this$props.user,
-          user_channel_ids = _this$props.user_channel_ids;
-      var current_channel_id = this.props.channel_id;
-      this.callACChannel = App.cable.subscriptions.create({
-        channel: "CallChannel"
-      }, {
-        received: function received(data) {
-          var from = data.from,
-              channel_id = data.channel_id,
-              type = data.type,
-              target_user_id = data.target_user_id; // JOIN_CALL  : if the ping is for current user and user isn't busy   -> activate modal and channel
-          // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
-          //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
-
-          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_7__["JOIN_CALL"] && target_user_id == user.id && !_this2.state.inVideoCall) {
-            if (user_channel_ids.includes(channel_id)) {
-              _this2.setState({
-                incomingCall: data
-              });
-            } else {
-              _this2.props.restartDmChannel({
-                channel_id: channel_id,
-                user_id: user.id,
-                active: true
-              }).then(function () {
-                return _this2.setState({
-                  incomingCall: data
-                });
-              });
-            }
-          } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_7__["LEAVE_CALL"]) {
-            // detects if user or caller ends call
-            if (from == user.id) _this2.setState({
-              inVideoCall: null
-            });else if (_this2.state.incomingCall && _this2.state.incomingCall.channel_id == channel_id) _this2.setState({
-              incomingCall: null
-            });
-          }
-        },
-        speak: function speak(data) {
-          return this.perform("speak", data);
-        }
-      });
-    } // Ignore transition channel
-
-  }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       if (this.props.channel_id != "0" && oldProps.channel_id !== this.props.channel_id) this.setState({
@@ -1893,20 +1834,20 @@ var Channel = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "leaveChannel",
     value: function leaveChannel(e) {
-      var _this3 = this;
+      var _this2 = this;
 
       e.stopPropagation();
       Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("dropdown");
-      var _this$props2 = this.props,
-          channel = _this$props2.channel,
-          channel_id = _this$props2.channel_id,
-          user = _this$props2.user;
+      var _this$props = this.props,
+          channel = _this$props.channel,
+          channel_id = _this$props.channel_id,
+          user = _this$props.user;
       var user_id = user.id;
 
       if (!channel.dm_channel) {
         if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
           dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_5__["leaveChannel"])(parseInt(channel_id))).then(function () {
-            _this3.props.loginACChannel.speak({
+            _this2.props.loginACChannel.speak({
               channel_data: {
                 login: false,
                 user_id: user_id,
@@ -1915,7 +1856,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
             }); // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
 
 
-            _this3.setState({
+            _this2.setState({
               canJoin: true,
               canLeave: false
             });
@@ -1930,7 +1871,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_6__["endDmChannel"])(channelInfo)).then(function () {
           (function () {
             // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
-            _this3.setState({
+            _this2.setState({
               canJoin: true,
               canLeave: false
             });
@@ -1942,7 +1883,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "joinChannel",
     value: function joinChannel(e) {
-      var _this4 = this;
+      var _this3 = this;
 
       e.stopPropagation();
       Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("dropdown");
@@ -1956,7 +1897,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           channel_id: channel.id,
           active: true
         })).then(function () {
-          _this4.setState({
+          _this3.setState({
             canJoin: false,
             canLeave: true
           });
@@ -1966,7 +1907,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           channel_id: channel.id,
           workspace_id: workspace_id
         })).then(function () {
-          _this4.props.loginACChannel.speak({
+          _this3.props.loginACChannel.speak({
             channel_data: {
               login: true,
               user_id: user_id,
@@ -1974,7 +1915,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
             }
           });
 
-          _this4.setState({
+          _this3.setState({
             canJoin: false,
             canLeave: true
           });
@@ -1986,9 +1927,9 @@ var Channel = /*#__PURE__*/function (_React$Component) {
     key: "canLeave",
     value: function canLeave() {
       var user_channels = getState().session.user_channels;
-      var _this$props3 = this.props,
-          channel = _this$props3.channel,
-          channel_id = _this$props3.channel_id;
+      var _this$props2 = this.props,
+          channel = _this$props2.channel,
+          channel_id = _this$props2.channel_id;
       return user_channels[channel_id] !== undefined && channel.name != "general";
     }
   }, {
@@ -1997,114 +1938,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var user_channels = getState().session.user_channels;
       var channel_id = this.props.channel_id;
       return user_channels[channel_id] === undefined;
-    } // Creates a popup of a video call
-
-  }, {
-    key: "startVideoCall",
-    value: function startVideoCall(link) {
-      var windowLink = link;
-
-      if (!windowLink) {
-        windowLink = window.location.href;
-        if (windowLink[windowLink.length - 1] == "/") // two possibilities
-          windowLink += "video_call";else windowLink += "/video_call";
-      }
-
-      var windowName = "Slock call";
-      var windowFeatures = "popup, width=640, height=480";
-      window.open(windowLink, windowName, windowFeatures);
-      this.setState({
-        inVideoCall: true
-      });
-    }
-  }, {
-    key: "getUserName",
-    value: function getUserName(user) {
-      if (user.display_name) return user.display_name;else if (user.full_name) return user.full_name;else return user.email;
-    } // handles incoming video call pings (pings have type, user_id, and channel_id)
-
-  }, {
-    key: "renderVideoCallPing",
-    value: function renderVideoCallPing() {
-      var incomingCall = this.state.incomingCall;
-      if (!incomingCall) return;
-      var channel_id = incomingCall.channel_id;
-      var _this$props4 = this.props,
-          channels = _this$props4.channels,
-          users = _this$props4.users,
-          user_id = _this$props4.user_id;
-      var channelUserIds = Object.keys(channels[channel_id].users);
-      var remoteUser = users[channelUserIds[0]];
-      if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "video-ping-modal",
-        onClick: this.rejectCall(incomingCall)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "video-ping-modal-background"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "video-ping-content",
-        onClick: function onClick(e) {
-          return e.stopPropagation();
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "video-ping-header"
-      }, this.getUserName(remoteUser), " wants to video chat"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "video-ping-buttons"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "video-ping-button-accept",
-        onClick: this.pickupCall(incomingCall)
-      }, "Pick Up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "video-ping-button-decline",
-        onClick: this.rejectCall(incomingCall)
-      }, "Decline"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
-        autoPlay: true
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("source", {
-        src: "/soundtracks/phone-ringing.mp3",
-        type: "audio/mp3"
-      })));
-    } // Builds the link using callData, then starts video call
-
-  }, {
-    key: "pickupCall",
-    value: function pickupCall(callData) {
-      var _this5 = this;
-
-      return function (e) {
-        e.stopPropagation();
-        var workspace_address = _this5.props.match.params.workspace_address;
-        var channel_id = callData.channel_id;
-        var windowLink = window.location.origin + "/#/workspace/".concat(workspace_address, "/").concat(channel_id, "/video_call?pickup");
-
-        _this5.startVideoCall(windowLink);
-
-        _this5.setState({
-          incomingCall: null
-        });
-      };
-    } // Sends a reject call action to the caller, and removes the modal
-
-  }, {
-    key: "rejectCall",
-    value: function rejectCall(callData) {
-      var _this6 = this;
-
-      return function (e) {
-        e.stopPropagation();
-        var from = callData.from,
-            target_user_id = callData.target_user_id,
-            channel_id = callData.channel_id;
-
-        _this6.callACChannel.speak({
-          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_7__["REJECT_CALL"],
-          from: target_user_id,
-          target_user_id: from,
-          channel_id: channel_id
-        });
-
-        _this6.setState({
-          incomingCall: null
-        });
-      };
     }
   }, {
     key: "render",
@@ -2114,13 +1947,13 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_nav_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
         leaveChannel: this.leaveChannel,
         status: this.state,
-        startVideoCall: this.startVideoCall,
-        inVideoCall: this.state.inVideoCall
+        startVideoCall: this.props.startVideoCall,
+        inVideoCall: this.props.inVideoCall
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         joinChannel: this.joinChannel,
         status: this.state,
         showUser: this.props.showUser
-      }), this.renderVideoCallPing());
+      }));
     }
   }]);
 
@@ -2409,12 +2242,8 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspace_address: ownProps.match.params.workspace_address,
-    channels: state.entities.channels,
     channel: state.entities.channels[ownProps.match.params.channel_id],
-    channel_id: parseInt(ownProps.match.params.channel_id),
-    users: state.entities.users,
-    user: state.entities.users[state.session.user_id],
-    user_channel_ids: Object.keys(state.session.user_channels)
+    channel_id: parseInt(ownProps.match.params.channel_id)
   };
 };
 
@@ -2598,7 +2427,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
     value: function right() {
       var _this3 = this;
 
-      var leaveButton, videoCallButton, action, actioText;
+      var leaveButton, videoCallButton, action, actionText;
 
       if (this.props.status.canLeave) {
         if (!this.props.channel.dm_channel) {
@@ -5561,7 +5390,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modals/edit_profile_modal_container */ "./frontend/components/modals/edit_profile_modal_container.jsx");
 /* harmony import */ var _modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../modals/sidebar_dropdown */ "./frontend/components/modals/sidebar_dropdown.jsx");
 /* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modals/profile-dropdown */ "./frontend/components/modals/profile-dropdown.jsx");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
+/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5599,6 +5429,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
  // Dropdowns
 
 
+ // Utilities and constants
+
 
 
 
@@ -5617,11 +5449,17 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       loaded: false,
       channelFlag: 0,
       workspaceFlag: 0,
-      shownUserId: 0
+      shownUserId: 0,
+      inVideoCall: false,
+      incomingCall: null // contains incoming call information
+
     };
-    _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
+    _this.receiveLoginACData = _this.receiveLoginACData.bind(_assertThisInitialized(_this));
     _this.showUser = _this.showUser.bind(_assertThisInitialized(_this));
     _this.hideUser = _this.hideUser.bind(_assertThisInitialized(_this));
+    _this.startVideoCall = _this.startVideoCall.bind(_assertThisInitialized(_this));
+    _this.pickupCall = _this.pickupCall.bind(_assertThisInitialized(_this));
+    _this.rejectCall = _this.rejectCall.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -5641,7 +5479,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       this.loginACChannel = App.cable.subscriptions.create({
         channel: "LoginChannel"
       }, {
-        received: this.receiveACData,
+        received: this.receiveLoginACData,
         speak: function speak(data) {
           return this.perform("speak", data);
         }
@@ -5667,6 +5505,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
               }
             });
 
+            _this2.setupCallACChannel();
+
             _this2.setState({
               loaded: true
             });
@@ -5675,12 +5515,171 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       }
 
       if (!valid) this.props.history.replace('/signin');else if (channel_id != "0") this.props.loadChannel(channel_id);
+    } // Begins listening for videocall pings
+
+  }, {
+    key: "setupCallACChannel",
+    value: function setupCallACChannel() {
+      var _this3 = this;
+
+      var _this$props2 = this.props,
+          user = _this$props2.user,
+          user_channel_ids = _this$props2.user_channel_ids;
+      this.callACChannel = App.cable.subscriptions.create({
+        channel: "CallChannel"
+      }, {
+        received: function received(data) {
+          var from = data.from,
+              channel_id = data.channel_id,
+              type = data.type,
+              target_user_id = data.target_user_id; // JOIN_CALL  : if the ping is for current user and user isn't busy   -> activate modal and channel
+          // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
+          //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
+
+          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_13__["JOIN_CALL"] && target_user_id == user.id && !_this3.state.inVideoCall) {
+            if (user_channel_ids.includes(channel_id)) {
+              _this3.setState({
+                incomingCall: data
+              });
+            } else {
+              _this3.props.restartDmChannel({
+                channel_id: channel_id,
+                user_id: user.id,
+                active: true
+              }).then(function () {
+                return _this3.setState({
+                  incomingCall: data
+                });
+              });
+            }
+          } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_13__["LEAVE_CALL"]) {
+            // detects if user or caller ends call
+            debugger;
+            if (from == user.id) _this3.setState({
+              inVideoCall: null
+            });else if (_this3.state.incomingCall && _this3.state.incomingCall.channel_id == channel_id) _this3.setState({
+              incomingCall: null
+            });
+          }
+        },
+        speak: function speak(data) {
+          return this.perform("speak", data);
+        }
+      });
+    } // Creates a popup of a video call
+
+  }, {
+    key: "startVideoCall",
+    value: function startVideoCall(link) {
+      var windowLink = link;
+
+      if (!windowLink) {
+        windowLink = window.location.href;
+        if (windowLink[windowLink.length - 1] == "/") // two possibilities
+          windowLink += "video_call";else windowLink += "/video_call";
+      }
+
+      var windowName = "Slock call";
+      var windowFeatures = "popup, width=640, height=480";
+      window.open(windowLink, windowName, windowFeatures);
+      this.setState({
+        inVideoCall: true
+      });
+    }
+  }, {
+    key: "getUserName",
+    value: function getUserName(user) {
+      if (user.display_name) return user.display_name;else if (user.full_name) return user.full_name;else return user.email;
+    } // handles incoming video call pings (pings have type, user_id, and channel_id)
+
+  }, {
+    key: "renderVideoCallPing",
+    value: function renderVideoCallPing() {
+      var incomingCall = this.state.incomingCall;
+      if (!incomingCall) return;
+      var channel_id = incomingCall.channel_id;
+      var _this$props3 = this.props,
+          channels = _this$props3.channels,
+          users = _this$props3.users,
+          user_id = _this$props3.user_id;
+      var channelUserIds = Object.keys(channels[channel_id].users);
+      var remoteUser = users[channelUserIds[0]];
+      if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-modal",
+        onClick: this.rejectCall(incomingCall)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-modal-background"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-content",
+        onClick: function onClick(e) {
+          return e.stopPropagation();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-header"
+      }, this.getUserName(remoteUser), " wants to video chat"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-button-accept",
+        onClick: this.pickupCall(incomingCall)
+      }, "Pick Up"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "video-ping-button-decline",
+        onClick: this.rejectCall(incomingCall)
+      }, "Decline"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("audio", {
+        autoPlay: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("source", {
+        src: "/soundtracks/phone-ringing.mp3",
+        type: "audio/mp3"
+      })));
+    } // Builds the link using callData, then starts video call
+
+  }, {
+    key: "pickupCall",
+    value: function pickupCall(callData) {
+      var _this4 = this;
+
+      return function (e) {
+        e.stopPropagation();
+        var workspace_address = _this4.props.match.params.workspace_address;
+        var channel_id = callData.channel_id;
+        var windowLink = window.location.origin + "/#/workspace/".concat(workspace_address, "/").concat(channel_id, "/video_call?pickup");
+
+        _this4.startVideoCall(windowLink);
+
+        _this4.setState({
+          incomingCall: null
+        });
+      };
+    } // Sends a reject call action to the caller, and removes the modal
+
+  }, {
+    key: "rejectCall",
+    value: function rejectCall(callData) {
+      var _this5 = this;
+
+      return function (e) {
+        e.stopPropagation();
+        var from = callData.from,
+            target_user_id = callData.target_user_id,
+            channel_id = callData.channel_id;
+
+        _this5.callACChannel.speak({
+          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_13__["REJECT_CALL"],
+          from: target_user_id,
+          target_user_id: from,
+          channel_id: channel_id
+        });
+
+        _this5.setState({
+          incomingCall: null
+        });
+      };
     } // Receives data sent from other users' workspace and channel join/leave actions
     // Ignores your own data
 
   }, {
-    key: "receiveACData",
-    value: function receiveACData(_ref2) {
+    key: "receiveLoginACData",
+    value: function receiveLoginACData(_ref2) {
       var workspace_data = _ref2.workspace_data,
           channel_data = _ref2.channel_data;
 
@@ -5734,13 +5733,13 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/images/orb.gif"
       }));
-      var _this$props2 = this.props,
-          user_id = _this$props2.user_id,
-          users = _this$props2.users;
+      var _this$props4 = this.props,
+          user_id = _this$props4.user_id,
+          users = _this$props4.users;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-container",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_13__["hideElements"])("dropdown");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_14__["hideElements"])("dropdown");
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_topbar__WEBPACK_IMPORTED_MODULE_1__["default"], {
         photo_url: users[user_id].photo_url
@@ -5753,8 +5752,10 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         loginACChannel: this.loginACChannel,
         channelFlag: this.state.channelFlag,
-        showUser: this.showUser
-      }), this.renderProfile()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__["default"], {
+        showUser: this.showUser,
+        startVideoCall: this.startVideoCall,
+        inVideoCall: this.state.inVideoCall
+      }), this.renderProfile(), this.renderVideoCallPing()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__["default"], {
         loginACChannel: this.loginACChannel
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_12__["default"], {
         loginACChannel: this.loginACChannel
@@ -5802,8 +5803,11 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     workspaces: Object.values(state.entities.workspaces),
     workspace_address: ownProps.match.params.workspace_address,
     channel_id: parseInt(ownProps.match.params.channel_id),
+    channels: state.entities.channels,
+    user: state.entities.users[state.session.user_id],
     users: state.entities.users,
-    user_id: state.session.user_id
+    user_id: state.session.user_id,
+    user_channel_ids: Object.keys(state.session.user_channels)
   };
 };
 

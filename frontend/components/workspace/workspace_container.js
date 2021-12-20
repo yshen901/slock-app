@@ -12,8 +12,11 @@ const mapStateToProps = (state, ownProps) => ({
   workspaces: Object.values(state.entities.workspaces),
   workspace_address: ownProps.match.params.workspace_address,
   channel_id: parseInt(ownProps.match.params.channel_id),
+  channels: state.entities.channels,
+  user: state.entities.users[state.session.user_id],
   users: state.entities.users,
-  user_id: state.session.user_id
+  user_id: state.session.user_id,
+  user_channel_ids: Object.keys(state.session.user_channels),
 })
 
 const mapDispatchToProps = (dispatch) => ({
