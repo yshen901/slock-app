@@ -12,6 +12,7 @@ const mapStateToProps = (state, ownProps) => ({
   workspaces: Object.values(state.entities.workspaces),
   workspace_address: ownProps.match.params.workspace_address,
   channel_id: parseInt(ownProps.match.params.channel_id),
+  users: state.entities.users,
   user_id: state.session.user_id
 })
 

@@ -6,7 +6,7 @@ import { logoutWorkspace } from '../../actions/workspace_actions';
 import { workspaceTitle } from '../../selectors/selectors';
 import { toggleElements } from '../../util/modal_api_util';
 
-class SidebarDropdown extends React.Component {
+class ProfileDropdown extends React.Component {
   constructor(props) {
     super(props);
 
@@ -47,32 +47,23 @@ class SidebarDropdown extends React.Component {
     return (e) => {
       e.stopPropagation();
       toggleElements(className);
-      toggleElements("dropdown sidebar")
+      toggleElements("dropdown profile")
     };
   }
 
   render() {
     return (
-      <div className="dropdown sidebar hidden">
-        <div className="dropdown-item" onClick={() => this.props.history.push("/create")}>
-          Create a new workspace
-        </div>
-        <div className="dropdown-item" onClick={() => this.props.history.push("/signin")}>
-          Sign into another workspace
-        </div>
-        <div className="dropdown-item" onClick={this.logoutWorkspace}>
-          Sign out of <em>{workspaceTitle(this.props.match.params.workspace_address)}</em>
-        </div>
-        <div className="dropdown-item" onClick={this.logoutUser}>
-          Sign out of account
+      <div className="dropdown profile hidden">
+        <div className="dropdown-item" onClick={this.toggleElement("edit-profile-modal")}>
+          Edit Profile
         </div>
         <div className="horizontal-divider"></div>
-        <div className="dropdown-item" onClick={() => this.props.history.push("/")}>
-          Back to Home
+        <div className="dropdown-item" onClick={this.logoutWorkspace}>
+          Sign out of <em>{workspaceTitle(this.props.match.params.workspace_address)}</em>
         </div>
       </div>
     )
   }
 }
 
-export default withRouter(SidebarDropdown);
+export default withRouter(ProfileDropdown);

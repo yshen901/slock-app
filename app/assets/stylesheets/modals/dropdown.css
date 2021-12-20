@@ -11,8 +11,8 @@
   box-sizing: border-box;
   background: white;
   border-radius: 5px;
-  border-top: 1px solid #ebeaeb;
-  box-shadow: 0 0.5rem 2rem rgba(0,0,0,.1);
+  border: 1px solid lightgray;
+  box-shadow: 0 0.5rem 2rem rgba(0,0,0,.2);
 
   -webkit-animation: fadein 0.3s;
   -moz-animation: fadein 0.3s;
@@ -24,6 +24,18 @@
 .auth.dropdown {
   top: 80px;
   right: 1%;
+}
+
+.sidebar.dropdown{
+  position: absolute;
+  top: 95px;
+  left: 20px;
+}
+
+.profile.dropdown {
+  position: absolute;
+  top: 38px;
+  right: 16px;
 }
 
 .dropdown-workspaces {

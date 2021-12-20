@@ -10,7 +10,36 @@
   width: 100%;
   height: 38px;
 
+  display: flex;
+  justify-content: flex-end;
+
   background-color: #350D36;
+
+  #user-photo {
+    width: 28px;
+    height: 28px;
+    overflow: hidden;
+  
+    margin: 5px;
+    margin-right: 16px;
+  
+    border-radius: 5px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    img {
+      height: 28px;
+      width: auto;
+      object-fit: cover;
+    }
+  
+    img:hover {
+      transition: 0.3s;
+      cursor: pointer;
+    }
+  }
 }
 
 #workspace {

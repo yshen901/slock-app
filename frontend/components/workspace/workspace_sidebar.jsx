@@ -18,16 +18,13 @@ class WorkspaceSidebar extends React.Component {
     return `/workspace/${this.props.workspace_address}/${channelId}`;
   }
 
+  // hide all other dropdowns, then activate this one
   toggleElements(className, inputId) {
     return (e) => {
       e.stopPropagation();
-      toggleElements(className);
-      focus(inputId)
 
-      // Hides all dropdown elements once another modal is toggled
-      if (!className.includes("dropdown")) {
-        hideElements("dropdown");
-      }
+      hideElements("dropdown"); 
+      toggleElements(className);
     }
   }
 
