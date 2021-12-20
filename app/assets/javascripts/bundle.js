@@ -171,10 +171,14 @@ var joinChannel = function joinChannel(data) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-};
+}; // Instead of deleting channel_user, make active false
+
 var leaveChannel = function leaveChannel(channel_id) {
   return function (dispatch) {
-    return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["deleteChannelUser"](channel_id).then(function (channel_user) {
+    return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["updateChannelUser"]({
+      channel_id: channel_id,
+      active: false
+    }).then(function (channel_user) {
       return dispatch(logoutChannel(channel_user));
     }, function (errors) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
@@ -6741,6 +6745,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteChannelUser", function() { return deleteChannelUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateChannelUser", function() { return updateChannelUser; });
 // data has channel_id and workspace_id
+// creates or activates the channel connection
 var postChannelUser = function postChannelUser(channel_user) {
   return $.ajax({
     method: "POST",
@@ -6751,6 +6756,7 @@ var postChannelUser = function postChannelUser(channel_user) {
   });
 }; // Find using channel_id and current_user.id in rails
 // params id is 0 as a placeholder
+// deprecated
 
 var deleteChannelUser = function deleteChannelUser(channel_id) {
   return $.ajax({

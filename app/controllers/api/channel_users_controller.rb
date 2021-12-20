@@ -10,7 +10,7 @@ class Api::ChannelUsersController < ApplicationController
       if @channel_user.active
         render json: ["User is already in the channel"], status: 401
       else
-        @channel_user.update(active: channel_user_params[:active])
+        @channel_user.update(active: true)
         render :show
       end
     else

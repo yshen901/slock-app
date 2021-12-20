@@ -17,8 +17,12 @@ if logged_in?
   # Pull out all user channel information - channels, dm_channels, and active_dm_channels
   # Remember to sort and only select current workspace channels!
   user_channel_ids = []
+  user_channel_ids_active = []
   @current_user.channel_connections.each do |connection|
-    user_channel_ids << connection.channel_id if connection.workspace_id == @workspace.id
+    if connection.workspace_id == @workspace.id
+      user_channel_ids << connection.channel_id
+      user_channel_ids_active << connection.channel_id if connection.active
+    end
   end
 
   user_dm_channel_ids_all = []
@@ -36,9 +40,10 @@ if logged_in?
     end
   end
   
+
   json.user_channels({})
   json.user_channels do
-    user_channel_ids.each do |channel_id|
+    user_channel_ids_active.each do |channel_id|
       json.set! channel_id do
         json.id channel_id
       end
