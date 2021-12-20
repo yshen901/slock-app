@@ -28,6 +28,47 @@ class ChannelChatRoom extends React.Component {
       return user.email.split("@")[0];
   }
 
+  // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
+  getMessageTimestamp(message, seconds=false) {
+    let new_created_at, len, hour;
+    let { created_at } = message;
+    let message_date = new Date(created_at);
+
+    // Not a datetime string - results from AC
+    if (message_date == "Invalid Date") {
+      new_created_at = this.processTime(created_at, seconds);
+    }
+    else {
+      // Remove date information in lieu of date separators
+      // let date_now = new Date(Date());
+      // if (date_now.toDateString() !== message_date.toDateString()) 
+      //   new_created_at = message_date.toLocaleDateString();
+      // else 
+        new_created_at = this.processTime(message_date.toLocaleTimeString(), seconds);
+    }
+      
+    return new_created_at;
+  }
+
+  processTime(timeString, seconds) {
+    let len = timeString.length;
+    let status = timeString.slice(len - 2);
+    let timeData = timeString.split(" ")[0].split(":");
+
+    let timeDiff = status == "PM" ? 12 : 0;
+    
+    if (seconds)
+      return `${parseInt(timeData[0]) + timeDiff}:${timeData[1]}:${timeData[2]}`
+    return `${parseInt(timeData[0]) + timeDiff}:${timeData[1]}`
+  }
+
+  groupMessages(message, prevMessage) {
+    if (message.user_id == prevMessage.user_id)
+      if (message.created_at.slice(0, 2) == prevMessage.created_at.slice(0, 2))
+        return true;
+    return false;
+  }
+
   loadMessages() {
     let { getMessages, channel_id, users } = this.props;
     getMessages(channel_id)
@@ -35,19 +76,9 @@ class ChannelChatRoom extends React.Component {
         ({ messages }) => {
           let messagesInfo = Object.values(messages).map(
             message => { //NOTE: USEFUL FOR HANDLING DATES
-              let created_at, len;
-              let date_now = new Date(Date());
-              let message_date = new Date(message.created_at);
               let username = this.profileName(users[message.user_id]);
               let photo_url = photoUrl(users[message.user_id]);
-
-              if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
-                created_at = message_date.toLocaleDateString();
-              else {
-                created_at = message_date.toLocaleTimeString();
-                len = created_at.length;
-                created_at = created_at.slice(0, len-6) + created_at.slice(len-3);
-              }
+              let created_at = this.getMessageTimestamp(message);
 
               return {
                 body: message.body,
@@ -71,6 +102,7 @@ class ChannelChatRoom extends React.Component {
     if (channel_id == this.props.channel_id) {
       message.username = this.profileName(this.props.users[user_id]);
       message.photo_url = photoUrl(this.props.users[user_id]);
+      message.created_at = this.processTime(message.created_at);
 
       this.setState({
         messages: this.state.messages.concat(message)
@@ -110,23 +142,33 @@ class ChannelChatRoom extends React.Component {
     if (this.bottom.current) this.bottom.current.scrollIntoView();
   }
 
-  // TODO1: Group these nicely
   render() {
+    // Groups messages based on user
     const messageList = this.state.messages.map((message, idx) => {
-      return (
-        <div className='message' key={idx}>
-          <div className="message-user-icon">
-            <img src={message.photo_url} onClick={() => this.props.showUser(message.user_id)}/>
-          </div>
-          <div key={message.id} className="message-text">
-            <div className="message-header">
-              <div className="message-user" onClick={() => this.props.showUser(message.user_id)}>{message.username}</div>
-              <div className="message-time">{message.created_at}</div>
+      if (idx != 0 && this.groupMessages(message, this.state.messages[idx-1]))
+        return (
+          <div className='message' key={idx}>
+            <div className="message-time-tag">{message.created_at}</div>
+            <div key={message.id} className="message-text">
+              <div className="message-body">{message.body}</div>
             </div>
-            <div className="message-body">{message.body}</div>
           </div>
-        </div>
-      );
+        )
+      else
+        return (
+          <div className='message' key={idx}>
+            <div className="message-user-icon">
+              <img src={message.photo_url} onClick={() => this.props.showUser(message.user_id)}/>
+            </div>
+            <div key={message.id} className="message-text">
+              <div className="message-header">
+                <div className="message-user" onClick={() => this.props.showUser(message.user_id)}>{message.username}</div>
+                <div className="message-time">{message.created_at}</div>
+              </div>
+              <div className="message-body">{message.body}</div>
+            </div>
+          </div>
+        );
     });
 
     return (

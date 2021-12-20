@@ -2075,6 +2075,44 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
     key: "profileName",
     value: function profileName(user) {
       if (user.display_name != "") return user.display_name;else if (user.full_name != "") return user.full_name;else return user.email.split("@")[0];
+    } // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
+
+  }, {
+    key: "getMessageTimestamp",
+    value: function getMessageTimestamp(message) {
+      var seconds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var new_created_at, len, hour;
+      var created_at = message.created_at;
+      var message_date = new Date(created_at); // Not a datetime string - results from AC
+
+      if (message_date == "Invalid Date") {
+        new_created_at = this.processTime(created_at, seconds);
+      } else {
+        // Remove date information in lieu of date separators
+        // let date_now = new Date(Date());
+        // if (date_now.toDateString() !== message_date.toDateString()) 
+        //   new_created_at = message_date.toLocaleDateString();
+        // else 
+        new_created_at = this.processTime(message_date.toLocaleTimeString(), seconds);
+      }
+
+      return new_created_at;
+    }
+  }, {
+    key: "processTime",
+    value: function processTime(timeString, seconds) {
+      var len = timeString.length;
+      var status = timeString.slice(len - 2);
+      var timeData = timeString.split(" ")[0].split(":");
+      var timeDiff = status == "PM" ? 12 : 0;
+      if (seconds) return "".concat(parseInt(timeData[0]) + timeDiff, ":").concat(timeData[1], ":").concat(timeData[2]);
+      return "".concat(parseInt(timeData[0]) + timeDiff, ":").concat(timeData[1]);
+    }
+  }, {
+    key: "groupMessages",
+    value: function groupMessages(message, prevMessage) {
+      if (message.user_id == prevMessage.user_id) if (message.created_at.slice(0, 2) == prevMessage.created_at.slice(0, 2)) return true;
+      return false;
     }
   }, {
     key: "loadMessages",
@@ -2089,19 +2127,12 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         var messages = _ref.messages;
         var messagesInfo = Object.values(messages).map(function (message) {
           //NOTE: USEFUL FOR HANDLING DATES
-          var created_at, len;
-          var date_now = new Date(Date());
-          var message_date = new Date(message.created_at);
-
           var username = _this2.profileName(users[message.user_id]);
 
           var photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
-          if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
-            created_at = message_date.toLocaleDateString();else {
-            created_at = message_date.toLocaleTimeString();
-            len = created_at.length;
-            created_at = created_at.slice(0, len - 6) + created_at.slice(len - 3);
-          }
+
+          var created_at = _this2.getMessageTimestamp(message);
+
           return {
             body: message.body,
             created_at: created_at,
@@ -2128,6 +2159,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       if (channel_id == this.props.channel_id) {
         message.username = this.profileName(this.props.users[user_id]);
         message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.users[user_id]);
+        message.created_at = this.processTime(message.created_at);
         this.setState({
           messages: this.state.messages.concat(message)
         });
@@ -2164,15 +2196,25 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       var channel_id = this.props.match.params.channel_id;
       if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) this.loadMessages();
       if (this.bottom.current) this.bottom.current.scrollIntoView();
-    } // TODO1: Group these nicely
-
+    }
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
+      // Groups messages based on user
       var messageList = this.state.messages.map(function (message, idx) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        if (idx != 0 && _this3.groupMessages(message, _this3.state.messages[idx - 1])) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message",
+          key: idx
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-time-tag"
+        }, message.created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: message.id,
+          className: "message-text"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-body"
+        }, message.body)));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message",
           key: idx
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
