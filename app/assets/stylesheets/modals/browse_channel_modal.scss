@@ -114,8 +114,43 @@
       font-size: 18px;
       line-height: 24px;
       vertical-align: baseline;
+    }
 
-      padding-left: 3px;
+    .browse-modal-user-icon {
+      position: relative;
+      overflow: visible;
+      margin-right: 8px;
+
+      .browse-modal-user-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 32px;
+        width: 32px;
+
+        overflow: hidden;
+        border-radius: 5px;
+
+        img {
+          height: 32px;
+          width: auto;
+          object-fit: cover;
+        }
+      }
+
+      i {
+        position: absolute;
+        bottom: -3px;
+        right: -5px;
+        font-size: 10px;
+
+        background: white;
+
+        border: 2px solid white;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
     }
   }
 }

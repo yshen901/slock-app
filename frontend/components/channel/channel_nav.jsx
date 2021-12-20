@@ -1,4 +1,5 @@
 import React from 'react';
+import { photoUrl } from '../../selectors/selectors';
 import { toggleElements, hideElements, focus } from '../../util/modal_api_util';
 
 class ChannelNav extends React.Component {
@@ -63,10 +64,17 @@ class ChannelNav extends React.Component {
       if (users[userId].logged_in)
         icon = <i className="fas fa-circle active-circle-dark"></i>
 
+      let profileImage = <div className="channel-nav-user-image">
+        <img src={photoUrl(users[userId])}/>
+      </div>
+
       return (
-        <div className="channel-name">
-          {icon} 
-          <div>
+        <div className="channel-info">
+          <div className="channel-nav-user-icon">
+            {profileImage}
+            {icon}
+          </div>
+          <div className="channel-name">
             {users[userId].email}
           </div>
         </div>
@@ -74,8 +82,8 @@ class ChannelNav extends React.Component {
     }
     else {
       return (
-        <div className="channel-name">
-          <div>
+        <div className="channel-info">
+          <div className="channel-name">
             #&nbsp;{channel.name}
           </div>
         </div>
@@ -111,12 +119,12 @@ class ChannelNav extends React.Component {
       return (
         <div id="left">
           <div id="left-top"> {this.getChannelName()} </div>
-          <div id="left-bottom">
+          {/* <div id="left-bottom">
             <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
               <i className='fas fas fa-pen'></i>
               <div> { description ? description : "Add a note" } </div>
             </div>
-          </div>
+          </div> */}
         </div>
       )
   }

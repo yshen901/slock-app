@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { hideElements, revealElements } from '../../util/modal_api_util';
 import { startDmChannel } from "../../actions/dm_channel_actions";
+import { photoUrl } from '../../selectors/selectors';
 
 class BrowseDmChannelModal extends React.Component {
   constructor() {
@@ -44,9 +45,16 @@ class BrowseDmChannelModal extends React.Component {
     if (user.logged_in)
       icon = <i className="fas fa-circle active-circle-dark"></i>
 
+    let profileImage = <div className="browse-modal-user-image">
+      <img src={photoUrl(user)}/>
+    </div>
+
     return (
       <div className="channel-name">
-        {icon} 
+        <div className="browse-modal-user-icon">
+          {profileImage}
+          {icon} 
+        </div>
         <div>
           {user.email}
         </div>
