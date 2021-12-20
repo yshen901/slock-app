@@ -2064,7 +2064,8 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       messagesList: [],
-      messagesData: []
+      messagesData: [],
+      currentDate: new Date(Date()).toLocaleDateString()
     };
     _this.bottom = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.loadMessages = _this.loadMessages.bind(_assertThisInitialized(_this));
@@ -2099,9 +2100,9 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "getMessageDate",
     value: function getMessageDate(message) {
-      var currentDate = new Date(Date());
+      var currentDate = this.state.currentDate;
       var messageDate = new Date(message.created_at);
-      if (messageDate == "Invalid Date") return currentDate.toLocaleDateString();
+      if (messageDate == "Invalid Date") currentDate;
       return messageDate.toLocaleDateString();
     }
   }, {
@@ -2115,17 +2116,31 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
     value: function processNewMessage(messagesData, messagesList, i) {
       var _this2 = this;
 
-      i = i ? i : messagesData.length - 1;
+      i = i != null ? i : messagesData.length - 1;
       var _messagesData$i = messagesData[i],
           created_at = _messagesData$i.created_at,
+          created_date = _messagesData$i.created_date,
           body = _messagesData$i.body,
           user_id = _messagesData$i.user_id,
           username = _messagesData$i.username,
           photo_url = _messagesData$i.photo_url,
           id = _messagesData$i.id;
+
+      if (i == 0 || created_date !== messagesData[i - 1].created_date) {
+        var date = created_date;
+        debugger;
+        if (date == this.state.currentDate) date = "Today";
+        messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "day-divider"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "day-divider-line"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "day-divider-date"
+        }, date)));
+      }
+
       if (i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1])) messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message",
-        key: id
+        className: "message"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-time-tag"
       }, created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2133,8 +2148,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-body"
       }, body))));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message",
-        key: id
+        className: "message"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -2171,8 +2185,8 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         // update message data
         var messagesData = Object.values(messages).map(function (message) {
           message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
-          message.created_at = _this3.getMessageTimestamp(message);
           message.created_date = _this3.getMessageDate(message);
+          message.created_at = _this3.getMessageTimestamp(message);
           message.username = _this3.profileName(users[message.user_id]);
           return message;
         }); // popualate messagesList
@@ -2201,8 +2215,8 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       if (channel_id == this.props.channel_id) {
         message.username = this.profileName(this.props.users[user_id]);
         message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.users[user_id]);
-        message.created_at = this.processTime(message.created_at);
         message.created_date = this.getMessageDate(message);
+        message.created_at = this.processTime(message.created_at);
         var messagesData = this.state.messagesData.concat(message);
         var messagesList = this.state.messagesList;
         this.processNewMessage(messagesData, messagesList);
@@ -2251,14 +2265,10 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         className: "chatroom-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list"
-      }, this.state.messagesList.map(function (message, idx) {
-        return (
-          /*#__PURE__*/
-          // solves persistent duplicate key error
-          react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            key: idx
-          }, message)
-        );
+      }, this.state.messagesList.map(function (item, idx) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: idx
+        }, item);
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         ref: this.bottom
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_form__WEBPACK_IMPORTED_MODULE_3__["default"], {

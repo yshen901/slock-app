@@ -11,7 +11,8 @@ class ChannelChatRoom extends React.Component {
 
     this.state = { 
       messagesList: [],
-      messagesData: []
+      messagesData: [],
+      currentDate: (new Date(Date())).toLocaleDateString()
     };
 
     this.bottom = React.createRef();
@@ -51,11 +52,11 @@ class ChannelChatRoom extends React.Component {
   }
 
   getMessageDate(message) {
-    let currentDate = new Date(Date());
+    let { currentDate } = this.state;
     let messageDate = new Date(message.created_at);
     
     if (messageDate == "Invalid Date")
-      return currentDate.toLocaleDateString();
+      currentDate;
     return messageDate.toLocaleDateString();
   }
 
@@ -67,12 +68,25 @@ class ChannelChatRoom extends React.Component {
   }
 
   processNewMessage(messagesData, messagesList, i) {
-    i = i ? i : messagesData.length - 1;
-    let { created_at, body, user_id, username, photo_url, id} = messagesData[i];
+    i = i != null ? i : messagesData.length - 1;
+    let { created_at, created_date, body, user_id, username, photo_url, id} = messagesData[i];
+
+    if (i == 0 || created_date !== messagesData[i-1].created_date) {
+      let date = created_date;
+      debugger;
+      if (date == this.state.currentDate)
+        date = "Today";
+      messagesList.push(
+        <div className="day-divider">
+          <div className="day-divider-line"></div>
+          <div className="day-divider-date">{date}</div>
+        </div>
+      )        
+    }
 
     if (i != 0 && this.groupMessages(messagesData[i], messagesData[i-1]))
       messagesList.push(
-        <div className='message' key={id}>
+        <div className='message'>
           <div className="message-time-tag">{created_at}</div>
           <div className="message-text">
             <div className="message-body">{body}</div>
@@ -81,7 +95,7 @@ class ChannelChatRoom extends React.Component {
       )
     else
       messagesList.push(
-        <div className='message' key={id}>
+        <div className='message'>
           <div className="message-user-icon">
             <img src={photo_url} onClick={() => this.props.showUser(user_id)}/>
           </div>
@@ -104,8 +118,8 @@ class ChannelChatRoom extends React.Component {
           // update message data
           let messagesData = Object.values(messages).map((message) => {
             message.photo_url = photoUrl(users[message.user_id]);
-            message.created_at = this.getMessageTimestamp(message);
             message.created_date = this.getMessageDate(message);
+            message.created_at = this.getMessageTimestamp(message);
             message.username = this.profileName(users[message.user_id]);
             return message;
           });
@@ -128,8 +142,8 @@ class ChannelChatRoom extends React.Component {
     if (channel_id == this.props.channel_id) {
       message.username = this.profileName(this.props.users[user_id]);
       message.photo_url = photoUrl(this.props.users[user_id]);
-      message.created_at = this.processTime(message.created_at);
       message.created_date = this.getMessageDate(message);
+      message.created_at = this.processTime(message.created_at);
 
       let messagesData = this.state.messagesData.concat(message);
       let messagesList = this.state.messagesList;
@@ -178,9 +192,9 @@ class ChannelChatRoom extends React.Component {
     return (
       <div className="chatroom-container">
         <div className="message-list">
-          {this.state.messagesList.map((message, idx) =>  // solves persistent duplicate key error
+          {this.state.messagesList.map((item, idx) => 
             <div key={idx}>
-              {message}
+              {item}
             </div>
           )}
           <div ref={this.bottom} />
