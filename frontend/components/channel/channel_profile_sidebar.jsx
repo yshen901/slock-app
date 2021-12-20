@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { startDmChannel } from "../../actions/dm_channel_actions";
+import { photoUrl } from '../../selectors/selectors';
 
 class ProfileSidebar extends React.Component {
   constructor(props) {
@@ -89,7 +90,7 @@ class ProfileSidebar extends React.Component {
         </div>
         <div id="profile-sidebar-content">
           <div id="profile-sidebar-picture">
-            <img src={user.photo_url}/>
+            <img src={photoUrl(user)}/>
           </div>
           <div id="profile-sidebar-overview">
             <div id="profile-sidebar-name">

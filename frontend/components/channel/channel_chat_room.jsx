@@ -1,9 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { photoUrl } from '../../selectors/selectors';
 
 import MessageForm from './message_form';
-
-const DEFAULT_PHOTO_URL = '/images/profile/default.png';
 
 // #AC
 class ChannelChatRoom extends React.Component {
@@ -40,9 +39,7 @@ class ChannelChatRoom extends React.Component {
               let date_now = new Date(Date());
               let message_date = new Date(message.created_at);
               let username = this.profileName(users[message.user_id]);
-              let photo_url = users[message.user_id].photo_url;
-              if (!photo_url)
-                photo_url = DEFAULT_PHOTO_URL;
+              let photo_url = photoUrl(users[message.user_id]);
 
               if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
                 created_at = message_date.toLocaleDateString();
@@ -73,9 +70,7 @@ class ChannelChatRoom extends React.Component {
     // loads the message if its to the current channel
     if (channel_id == this.props.channel_id) {
       message.username = this.profileName(this.props.users[user_id]);
-      message.photo_url = this.props.users[user_id].photo_url;
-      if (!message.photo_url)
-        message.photo_url = DEFAULT_PHOTO_URL;
+      message.photo_url = photoUrl(this.props.users[user_id]);
 
       this.setState({
         messages: this.state.messages.concat(message)
@@ -84,7 +79,6 @@ class ChannelChatRoom extends React.Component {
     else {
       // joins the dm channel if not already in it
       if (activate_dm_channel) {
-        debugger;
         this.props.startDmChannel({
           user_1_id: this.props.current_user_id,
           user_2_id: user_id,

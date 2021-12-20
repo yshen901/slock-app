@@ -1,5 +1,6 @@
 import React from "react";
 import { hideElements } from "../../util/modal_api_util";
+import { photoUrl } from "../../selectors/selectors";
 
 class EditProfileModal extends React.Component {
   constructor(props) {
@@ -100,10 +101,8 @@ class EditProfileModal extends React.Component {
   photoUrl() {
     if (this.state.imageFile)
       return this.state.imageUrl;
-    else if (this.props.user.photo_url)
-      return this.props.user.photo_url;
-    else 
-      return "/images/profile/default.png";
+    else
+      return photoUrl(this.props.user);
   }
 
   submitButton() {

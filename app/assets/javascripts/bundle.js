@@ -2022,7 +2022,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _message_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./message_form */ "./frontend/components/channel/message_form.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _message_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./message_form */ "./frontend/components/channel/message_form.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2048,7 +2049,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var DEFAULT_PHOTO_URL = '/images/profile/default.png'; // #AC
+ // #AC
 
 var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelChatRoom, _React$Component);
@@ -2094,8 +2095,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
 
           var username = _this2.profileName(users[message.user_id]);
 
-          var photo_url = users[message.user_id].photo_url;
-          if (!photo_url) photo_url = DEFAULT_PHOTO_URL;
+          var photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
           if (date_now.toDateString() !== message_date.toDateString()) // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
             created_at = message_date.toLocaleDateString();else {
             created_at = message_date.toLocaleTimeString();
@@ -2127,15 +2127,13 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
 
       if (channel_id == this.props.channel_id) {
         message.username = this.profileName(this.props.users[user_id]);
-        message.photo_url = this.props.users[user_id].photo_url;
-        if (!message.photo_url) message.photo_url = DEFAULT_PHOTO_URL;
+        message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.users[user_id]);
         this.setState({
           messages: this.state.messages.concat(message)
         });
       } else {
         // joins the dm channel if not already in it
         if (activate_dm_channel) {
-          debugger;
           this.props.startDmChannel({
             user_1_id: this.props.current_user_id,
             user_2_id: user_id,
@@ -2206,7 +2204,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         className: "message-list"
       }, messageList, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         ref: this.bottom
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_form__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_form__WEBPACK_IMPORTED_MODULE_3__["default"], {
         messageACChannel: this.messageACChannel,
         joinChannel: this.props.joinChannel,
         status: this.props.status
@@ -2538,6 +2536,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2559,6 +2558,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -2671,7 +2671,7 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-picture"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: user.photo_url
+        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(user)
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-overview"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4279,6 +4279,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -4314,6 +4315,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -4448,7 +4450,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "photoUrl",
     value: function photoUrl() {
-      if (this.state.imageFile) return this.state.imageUrl;else if (this.props.user.photo_url) return this.props.user.photo_url;else return "/images/profile/default.png";
+      if (this.state.imageFile) return this.state.imageUrl;else return Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.user);
     }
   }, {
     key: "submitButton",
@@ -5742,7 +5744,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_14__["hideElements"])("dropdown");
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_topbar__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        photo_url: users[user_id].photo_url
+        user: users[user_id]
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_sidebar_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
@@ -6113,7 +6115,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6139,7 +6142,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var DEFAULT_PHOTO_URL = '/images/profile/default.png';
+
 
 var WorkspaceTopbar = /*#__PURE__*/function (_React$Component) {
   _inherits(WorkspaceTopbar, _React$Component);
@@ -6150,22 +6153,17 @@ var WorkspaceTopbar = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, WorkspaceTopbar);
 
     return _super.call(this, props);
-  }
+  } // hide all other dropdowns, then activate this one
+
 
   _createClass(WorkspaceTopbar, [{
-    key: "photoUrl",
-    value: function photoUrl() {
-      if (this.props.photo_url) return this.props.photo_url;else return DEFAULT_PHOTO_URL;
-    } // hide all other dropdowns, then activate this one
-
-  }, {
     key: "toggleElements",
     value: function toggleElements(className, inputId) {
       return function (e) {
         e.stopPropagation();
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("dropdown");
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("dropdown");
 
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])(className);
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["toggleElements"])(className);
       };
     }
   }, {
@@ -6176,7 +6174,7 @@ var WorkspaceTopbar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "user-photo"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: this.photoUrl(),
+        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.user),
         onClick: this.toggleElements("dropdown profile")
       })));
     }
@@ -6753,14 +6751,17 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: objectToArray, objectToNameArray, workspaceTitle */
+/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEFAULT_PHOTO_URL", function() { return DEFAULT_PHOTO_URL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "objectToArray", function() { return objectToArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "objectToNameArray", function() { return objectToNameArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "workspaceTitle", function() { return workspaceTitle; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "photoUrl", function() { return photoUrl; });
+var DEFAULT_PHOTO_URL = '/images/profile/default.png';
 var objectToArray = function objectToArray(object) {
   return Object.keys(object).map(function (key) {
     return object[key];
@@ -6779,6 +6780,11 @@ var workspaceTitle = function workspaceTitle(address) {
   }
 
   return words.join(' ');
+}; // Returns default photo if user is non-existant or doesn't have profile photo
+
+var photoUrl = function photoUrl(user) {
+  if (!user || !user.photo_url) return DEFAULT_PHOTO_URL;
+  return user.photo_url;
 };
 
 /***/ }),
