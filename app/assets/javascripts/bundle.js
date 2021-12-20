@@ -2063,7 +2063,8 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      messages: []
+      messagesList: [],
+      messagesData: []
     };
     _this.bottom = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.loadMessages = _this.loadMessages.bind(_assertThisInitialized(_this));
@@ -2115,9 +2116,56 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       return false;
     }
   }, {
+    key: "processNewMessage",
+    value: function processNewMessage(messagesData, i) {
+      var _this2 = this;
+
+      var _messagesData$i = messagesData[i],
+          created_at = _messagesData$i.created_at,
+          body = _messagesData$i.body,
+          user_id = _messagesData$i.user_id,
+          username = _messagesData$i.username,
+          photo_url = _messagesData$i.photo_url;
+      if (i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1])) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message",
+        key: i
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-time-tag"
+      }, created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        key: i,
+        className: "message-text"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-body"
+      }, body)));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message",
+        key: i
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-user-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: photo_url,
+        onClick: function onClick() {
+          return _this2.props.showUser(user_id);
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        key: i,
+        className: "message-text"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-user",
+        onClick: function onClick() {
+          return _this2.props.showUser(user_id);
+        }
+      }, username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-time"
+      }, created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-body"
+      }, body)));
+    }
+  }, {
     key: "loadMessages",
     value: function loadMessages() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$props = this.props,
           getMessages = _this$props.getMessages,
@@ -2125,25 +2173,22 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           users = _this$props.users;
       getMessages(channel_id).then(function (_ref) {
         var messages = _ref.messages;
-        var messagesInfo = Object.values(messages).map(function (message) {
-          //NOTE: USEFUL FOR HANDLING DATES
-          var username = _this2.profileName(users[message.user_id]);
-
-          var photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
-
-          var created_at = _this2.getMessageTimestamp(message);
-
-          return {
-            body: message.body,
-            created_at: created_at,
-            username: username,
-            photo_url: photo_url,
-            user_id: message.user_id
-          };
+        // update message data
+        var messagesData = Object.values(messages).map(function (message) {
+          message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
+          message.created_at = _this3.getMessageTimestamp(message);
+          message.username = _this3.profileName(users[message.user_id]);
+          return message;
         });
+        var messagesList = [];
 
-        _this2.setState({
-          messages: messagesInfo
+        for (var i = 0; i < messagesData.length; i++) {
+          messagesList.push(_this3.processNewMessage(messagesData, i));
+        }
+
+        _this3.setState({
+          messagesList: messagesList,
+          messagesData: messagesData
         });
       });
     }
@@ -2161,7 +2206,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.users[user_id]);
         message.created_at = this.processTime(message.created_at);
         this.setState({
-          messages: this.state.messages.concat(message)
+          newMessages: this.state.newMessages.concat(message)
         });
       } else {
         // joins the dm channel if not already in it
@@ -2200,51 +2245,11 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
-      // Groups messages based on user
-      var messageList = this.state.messages.map(function (message, idx) {
-        if (idx != 0 && _this3.groupMessages(message, _this3.state.messages[idx - 1])) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message",
-          key: idx
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-time-tag"
-        }, message.created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: message.id,
-          className: "message-text"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-body"
-        }, message.body)));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message",
-          key: idx
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-user-icon"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: message.photo_url,
-          onClick: function onClick() {
-            return _this3.props.showUser(message.user_id);
-          }
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: message.id,
-          className: "message-text"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-header"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-user",
-          onClick: function onClick() {
-            return _this3.props.showUser(message.user_id);
-          }
-        }, message.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-time"
-        }, message.created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-body"
-        }, message.body)));
-      });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chatroom-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list"
-      }, messageList, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.messagesList, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         ref: this.bottom
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_form__WEBPACK_IMPORTED_MODULE_3__["default"], {
         messageACChannel: this.messageACChannel,

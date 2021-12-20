@@ -10,7 +10,8 @@ class ChannelChatRoom extends React.Component {
     super(props);
 
     this.state = { 
-      messages: []
+      messagesList: [],
+      messagesData: []
     };
 
     this.bottom = React.createRef();
@@ -69,27 +70,53 @@ class ChannelChatRoom extends React.Component {
     return false;
   }
 
+  processNewMessage(messagesData, i) {
+    let { created_at, body, user_id, username, photo_url } = messagesData[i];
+
+    if (i != 0 && this.groupMessages(messagesData[i], messagesData[i-1]))
+      return (
+        <div className='message' key={i}>
+          <div className="message-time-tag">{created_at}</div>
+          <div key={i} className="message-text">
+            <div className="message-body">{body}</div>
+          </div>
+        </div>
+      )
+    else
+      return (
+        <div className='message' key={i}>
+          <div className="message-user-icon">
+            <img src={photo_url} onClick={() => this.props.showUser(user_id)}/>
+          </div>
+          <div key={i} className="message-text">
+            <div className="message-header">
+              <div className="message-user" onClick={() => this.props.showUser(user_id)}>{username}</div>
+              <div className="message-time">{created_at}</div>
+            </div>
+            <div className="message-body">{body}</div>
+          </div>
+        </div>
+      );
+  }
+
   loadMessages() {
     let { getMessages, channel_id, users } = this.props;
     getMessages(channel_id)
       .then(
         ({ messages }) => {
-          let messagesInfo = Object.values(messages).map(
-            message => { //NOTE: USEFUL FOR HANDLING DATES
-              let username = this.profileName(users[message.user_id]);
-              let photo_url = photoUrl(users[message.user_id]);
-              let created_at = this.getMessageTimestamp(message);
+          // update message data
+          let messagesData = Object.values(messages).map((message) => {
+            message.photo_url = photoUrl(users[message.user_id]);
+            message.created_at = this.getMessageTimestamp(message);
+            message.username = this.profileName(users[message.user_id]);
+            return message;
+          });
 
-              return {
-                body: message.body,
-                created_at,
-                username,
-                photo_url,
-                user_id: message.user_id
-              }
-            }
-          )
-          this.setState({ messages: messagesInfo })
+          let messagesList = [];
+          for (let i = 0; i < messagesData.length; i++) {
+            messagesList.push(this.processNewMessage(messagesData, i));
+          }
+          this.setState({ messagesList, messagesData })
         }
       )
   }
@@ -105,7 +132,7 @@ class ChannelChatRoom extends React.Component {
       message.created_at = this.processTime(message.created_at);
 
       this.setState({
-        messages: this.state.messages.concat(message)
+        newMessages: this.state.newMessages.concat(message)
       });
     }
     else {
@@ -143,38 +170,10 @@ class ChannelChatRoom extends React.Component {
   }
 
   render() {
-    // Groups messages based on user
-    const messageList = this.state.messages.map((message, idx) => {
-      if (idx != 0 && this.groupMessages(message, this.state.messages[idx-1]))
-        return (
-          <div className='message' key={idx}>
-            <div className="message-time-tag">{message.created_at}</div>
-            <div key={message.id} className="message-text">
-              <div className="message-body">{message.body}</div>
-            </div>
-          </div>
-        )
-      else
-        return (
-          <div className='message' key={idx}>
-            <div className="message-user-icon">
-              <img src={message.photo_url} onClick={() => this.props.showUser(message.user_id)}/>
-            </div>
-            <div key={message.id} className="message-text">
-              <div className="message-header">
-                <div className="message-user" onClick={() => this.props.showUser(message.user_id)}>{message.username}</div>
-                <div className="message-time">{message.created_at}</div>
-              </div>
-              <div className="message-body">{message.body}</div>
-            </div>
-          </div>
-        );
-    });
-
     return (
       <div className="chatroom-container">
         <div className="message-list">
-          {messageList}
+          {this.state.messagesList}
           <div ref={this.bottom} />
         </div>
         <MessageForm messageACChannel={this.messageACChannel} joinChannel={this.props.joinChannel} status={this.props.status}/>
