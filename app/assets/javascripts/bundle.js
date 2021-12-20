@@ -5958,9 +5958,18 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       if (users[userId].logged_in) icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-circle active-circle-light"
       });
+      var profileImage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "workspace-sidebar-user-image"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(users[userId])
+      }));
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dm-channel-info"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "workspace-sidebar-user-icon"
+      }, profileImage, icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-name"
-      }, icon, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, users[userId].email));
+      }, users[userId].email));
     }
   }, {
     key: "getChannels",
@@ -6038,15 +6047,14 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-list"
       }, this.getChannels(false).map(function (channel, idx) {
-        if (channel.id == channel_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        var channelClassName = channel.id == channel_id ? "sidebar-item selected" : "sidebar-item";
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
-          className: "sidebar-item selected",
+          className: channelClassName,
           to: _this3.channelLink(channel.id)
-        }, "# \xA0", channel.name);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-          key: idx,
-          className: "sidebar-item",
-          to: _this3.channelLink(channel.id)
-        }, "# \xA0", channel.name);
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-name"
+        }, "# \xA0", channel.name));
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channels"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6062,13 +6070,10 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-list"
       }, this.getChannels(false, true).map(function (channel, idx) {
-        if (channel.id == channel_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        var channelClassName = channel.id == channel_id ? "sidebar-item selected" : "sidebar-item";
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
-          className: "sidebar-item selected",
-          to: _this3.channelLink(channel.id)
-        }, _this3.getDmChannelName(channel));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-          key: idx,
-          className: "sidebar-item",
+          className: channelClassName,
           to: _this3.channelLink(channel.id)
         }, _this3.getDmChannelName(channel));
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { toggleElements, focus, hideElements } from '../../util/modal_api_util';
-import { workspaceTitle } from '../../selectors/selectors'
+import { photoUrl, workspaceTitle } from '../../selectors/selectors'
 
 class WorkspaceSidebar extends React.Component {
   constructor(props) {
@@ -40,10 +40,17 @@ class WorkspaceSidebar extends React.Component {
     if (users[userId].logged_in)
       icon = <i className="fas fa-circle active-circle-light"></i>
 
+    let profileImage = <div className="workspace-sidebar-user-image">
+      <img src={photoUrl(users[userId])}/>
+    </div>
+
     return (
-      <div className="channel-name">
-        {icon} 
-        <div>
+      <div className="dm-channel-info">
+        <div className="workspace-sidebar-user-icon">
+          {profileImage}
+          {icon}
+        </div>
+        <div className="channel-name">
           {users[userId].email}
         </div>
       </div>
@@ -107,10 +114,14 @@ class WorkspaceSidebar extends React.Component {
             </div>
             <div className="sidebar-list">
               {this.getChannels(false).map((channel, idx) => {
-                if (channel.id == channel_id)
-                  return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
-                else
-                  return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);               
+                let channelClassName = channel.id == channel_id ? "sidebar-item selected" : "sidebar-item";
+                return (
+                  <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
+                    <div className="channel-name">
+                      # &nbsp;{channel.name}
+                    </div>
+                  </Link>
+                );
               })}
             </div>
           </div>
@@ -124,10 +135,12 @@ class WorkspaceSidebar extends React.Component {
             </div>
             <div className="sidebar-list">
               {this.getChannels(false, true).map((channel, idx) => {
-                if (channel.id == channel_id)
-                  return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}>{this.getDmChannelName(channel)}</Link>);
-                else
-                  return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}>{this.getDmChannelName(channel)}</Link>);               
+                let channelClassName = channel.id == channel_id ? "sidebar-item selected" : "sidebar-item";
+                return (
+                  <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
+                    {this.getDmChannelName(channel)}
+                  </Link>
+                );
               })}
             </div>
           </div>
