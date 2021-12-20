@@ -13,7 +13,7 @@ export const ice = {
       username: "slock" 
     }
   ],
-  // iceTransportPolicy: "relay"
+  iceTransportPolicy: "relay"
 }; 
 
 // Sends data to the calls controller, similar to AJAX

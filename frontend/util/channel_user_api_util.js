@@ -1,4 +1,5 @@
 // data has channel_id and workspace_id
+// creates or activates the channel connection
 export const postChannelUser = (channel_user) => (
   $.ajax({
     method: "POST",
@@ -9,6 +10,7 @@ export const postChannelUser = (channel_user) => (
 
 // Find using channel_id and current_user.id in rails
 // params id is 0 as a placeholder
+// deprecated
 export const deleteChannelUser = (channel_id) => (
   $.ajax({
     method: "DELETE",

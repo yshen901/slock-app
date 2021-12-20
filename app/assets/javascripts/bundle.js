@@ -6659,8 +6659,8 @@ var ice = {
     urls: "turn:52.8.11.126:3478",
     credential: "slockPass",
     username: "slock"
-  }] // iceTransportPolicy: "relay"
-
+  }],
+  iceTransportPolicy: "relay"
 }; // Sends data to the calls controller, similar to AJAX
 
 var broadcastData = function broadcastData(data) {

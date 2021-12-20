@@ -53,9 +53,13 @@ export const joinChannel = (data) => (dispatch) => (
     )
 )
 
+// Instead of deleting channel_user, make active false
 export const leaveChannel = (channel_id) => (dispatch) => (
   ChannelUserAPI
-    .deleteChannelUser(channel_id)
+    .updateChannelUser({
+      channel_id,
+      active: false
+    })
     .then(
       channel_user => dispatch(logoutChannel(channel_user)),
       errors => dispatch(receiveErrors(errors))

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_14_120627) do
+ActiveRecord::Schema.define(version: 2021_12_20_013006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2021_12_14_120627) do
     t.datetime "updated_at", null: false
     t.integer "workspace_id", null: false
     t.boolean "starred", default: false
+    t.boolean "active", default: true
     t.index ["channel_id", "user_id"], name: "index_channel_users_on_channel_id_and_user_id", unique: true
     t.index ["channel_id"], name: "index_channel_users_on_channel_id"
     t.index ["user_id"], name: "index_channel_users_on_user_id"

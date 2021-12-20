@@ -5,8 +5,14 @@ class Api::ChannelUsersController < ApplicationController
       channel_id: channel_user_params[:channel_id]
     )
     
+    # Activate channel_user if its already existing
     if @channel_user
-      render json: ["User is already in the channel"], status: 401
+      if @channel_user.active
+        render json: ["User is already in the channel"], status: 401
+      else
+        @channel_user.update(active: channel_user_params[:active])
+        render :show
+      end
     else
       @channel_user = ChannelUser.new(
         user_id: current_user.id,
@@ -21,6 +27,7 @@ class Api::ChannelUsersController < ApplicationController
     end
   end
 
+  # deprecated
   def destroy 
     @channel_user = ChannelUser.find_by(
       user_id: current_user.id,
@@ -55,6 +62,6 @@ class Api::ChannelUsersController < ApplicationController
   private
 
   def channel_user_params
-    params.require(:channel_user).permit(:channel_id, :workspace_id, :starred)
+    params.require(:channel_user).permit(:channel_id, :workspace_id, :starred, :active)
   end
 end
