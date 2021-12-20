@@ -2082,22 +2082,9 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
     key: "getMessageTimestamp",
     value: function getMessageTimestamp(message) {
       var seconds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var new_created_at, len, hour;
-      var created_at = message.created_at;
-      var message_date = new Date(created_at); // Not a datetime string - results from AC
-
-      if (message_date == "Invalid Date") {
-        new_created_at = this.processTime(created_at, seconds);
-      } else {
-        // Remove date information in lieu of date separators
-        // let date_now = new Date(Date());
-        // if (date_now.toDateString() !== message_date.toDateString()) 
-        //   new_created_at = message_date.toLocaleDateString();
-        // else 
-        new_created_at = this.processTime(message_date.toLocaleTimeString(), seconds);
-      }
-
-      return new_created_at;
+      var message_time = new Date(message.created_at);
+      if (message_time == "Invalid Date") message_time = message.created_at;
+      return this.processTime(message_time.toLocaleTimeString(), seconds);
     }
   }, {
     key: "processTime",
@@ -2110,6 +2097,14 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
       return "".concat(parseInt(timeData[0]) + timeDiff, ":").concat(timeData[1]);
     }
   }, {
+    key: "getMessageDate",
+    value: function getMessageDate(message) {
+      var currentDate = new Date(Date());
+      var messageDate = new Date(message.created_at);
+      if (messageDate == "Invalid Date") return currentDate.toLocaleDateString();
+      return messageDate.toLocaleDateString();
+    }
+  }, {
     key: "groupMessages",
     value: function groupMessages(message, prevMessage) {
       if (message.user_id == prevMessage.user_id) if (message.created_at.slice(0, 2) == prevMessage.created_at.slice(0, 2)) return true;
@@ -2117,28 +2112,29 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "processNewMessage",
-    value: function processNewMessage(messagesData, i) {
+    value: function processNewMessage(messagesData, messagesList, i) {
       var _this2 = this;
 
+      i = i ? i : messagesData.length - 1;
       var _messagesData$i = messagesData[i],
           created_at = _messagesData$i.created_at,
           body = _messagesData$i.body,
           user_id = _messagesData$i.user_id,
           username = _messagesData$i.username,
-          photo_url = _messagesData$i.photo_url;
-      if (i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1])) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          photo_url = _messagesData$i.photo_url,
+          id = _messagesData$i.id;
+      if (i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1])) messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message",
-        key: i
+        key: id
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-time-tag"
       }, created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: i,
         className: "message-text"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-body"
-      }, body)));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, body))));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message",
-        key: i
+        key: id
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -2147,7 +2143,6 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
           return _this2.props.showUser(user_id);
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: i,
         className: "message-text"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-header"
@@ -2160,7 +2155,7 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         className: "message-time"
       }, created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-body"
-      }, body)));
+      }, body))));
     }
   }, {
     key: "loadMessages",
@@ -2177,13 +2172,15 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         var messagesData = Object.values(messages).map(function (message) {
           message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
           message.created_at = _this3.getMessageTimestamp(message);
+          message.created_date = _this3.getMessageDate(message);
           message.username = _this3.profileName(users[message.user_id]);
           return message;
-        });
+        }); // popualate messagesList
+
         var messagesList = [];
 
         for (var i = 0; i < messagesData.length; i++) {
-          messagesList.push(_this3.processNewMessage(messagesData, i));
+          _this3.processNewMessage(messagesData, messagesList, i);
         }
 
         _this3.setState({
@@ -2205,8 +2202,13 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         message.username = this.profileName(this.props.users[user_id]);
         message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.users[user_id]);
         message.created_at = this.processTime(message.created_at);
+        message.created_date = this.getMessageDate(message);
+        var messagesData = this.state.messagesData.concat(message);
+        var messagesList = this.state.messagesList;
+        this.processNewMessage(messagesData, messagesList);
         this.setState({
-          newMessages: this.state.newMessages.concat(message)
+          messagesData: messagesData,
+          messagesList: messagesList
         });
       } else {
         // joins the dm channel if not already in it
@@ -2249,7 +2251,15 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
         className: "chatroom-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list"
-      }, this.state.messagesList, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.messagesList.map(function (message, idx) {
+        return (
+          /*#__PURE__*/
+          // solves persistent duplicate key error
+          react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            key: idx
+          }, message)
+        );
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         ref: this.bottom
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_message_form__WEBPACK_IMPORTED_MODULE_3__["default"], {
         messageACChannel: this.messageACChannel,

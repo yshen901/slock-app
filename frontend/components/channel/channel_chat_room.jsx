@@ -31,24 +31,11 @@ class ChannelChatRoom extends React.Component {
 
   // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
   getMessageTimestamp(message, seconds=false) {
-    let new_created_at, len, hour;
-    let { created_at } = message;
-    let message_date = new Date(created_at);
+    let message_time = new Date(message.created_at);
+    if (message_time == "Invalid Date") 
+      message_time = message.created_at;
 
-    // Not a datetime string - results from AC
-    if (message_date == "Invalid Date") {
-      new_created_at = this.processTime(created_at, seconds);
-    }
-    else {
-      // Remove date information in lieu of date separators
-      // let date_now = new Date(Date());
-      // if (date_now.toDateString() !== message_date.toDateString()) 
-      //   new_created_at = message_date.toLocaleDateString();
-      // else 
-        new_created_at = this.processTime(message_date.toLocaleTimeString(), seconds);
-    }
-      
-    return new_created_at;
+    return this.processTime(message_time.toLocaleTimeString(), seconds);
   }
 
   processTime(timeString, seconds) {
@@ -63,6 +50,15 @@ class ChannelChatRoom extends React.Component {
     return `${parseInt(timeData[0]) + timeDiff}:${timeData[1]}`
   }
 
+  getMessageDate(message) {
+    let currentDate = new Date(Date());
+    let messageDate = new Date(message.created_at);
+    
+    if (messageDate == "Invalid Date")
+      return currentDate.toLocaleDateString();
+    return messageDate.toLocaleDateString();
+  }
+
   groupMessages(message, prevMessage) {
     if (message.user_id == prevMessage.user_id)
       if (message.created_at.slice(0, 2) == prevMessage.created_at.slice(0, 2))
@@ -70,25 +66,26 @@ class ChannelChatRoom extends React.Component {
     return false;
   }
 
-  processNewMessage(messagesData, i) {
-    let { created_at, body, user_id, username, photo_url } = messagesData[i];
+  processNewMessage(messagesData, messagesList, i) {
+    i = i ? i : messagesData.length - 1;
+    let { created_at, body, user_id, username, photo_url, id} = messagesData[i];
 
     if (i != 0 && this.groupMessages(messagesData[i], messagesData[i-1]))
-      return (
-        <div className='message' key={i}>
+      messagesList.push(
+        <div className='message' key={id}>
           <div className="message-time-tag">{created_at}</div>
-          <div key={i} className="message-text">
+          <div className="message-text">
             <div className="message-body">{body}</div>
           </div>
         </div>
       )
     else
-      return (
-        <div className='message' key={i}>
+      messagesList.push(
+        <div className='message' key={id}>
           <div className="message-user-icon">
             <img src={photo_url} onClick={() => this.props.showUser(user_id)}/>
           </div>
-          <div key={i} className="message-text">
+          <div className="message-text">
             <div className="message-header">
               <div className="message-user" onClick={() => this.props.showUser(user_id)}>{username}</div>
               <div className="message-time">{created_at}</div>
@@ -108,14 +105,16 @@ class ChannelChatRoom extends React.Component {
           let messagesData = Object.values(messages).map((message) => {
             message.photo_url = photoUrl(users[message.user_id]);
             message.created_at = this.getMessageTimestamp(message);
+            message.created_date = this.getMessageDate(message);
             message.username = this.profileName(users[message.user_id]);
             return message;
           });
 
+          // popualate messagesList
           let messagesList = [];
-          for (let i = 0; i < messagesData.length; i++) {
-            messagesList.push(this.processNewMessage(messagesData, i));
-          }
+          for (let i = 0; i < messagesData.length; i++)
+            this.processNewMessage(messagesData, messagesList, i);
+
           this.setState({ messagesList, messagesData })
         }
       )
@@ -130,9 +129,15 @@ class ChannelChatRoom extends React.Component {
       message.username = this.profileName(this.props.users[user_id]);
       message.photo_url = photoUrl(this.props.users[user_id]);
       message.created_at = this.processTime(message.created_at);
+      message.created_date = this.getMessageDate(message);
+
+      let messagesData = this.state.messagesData.concat(message);
+      let messagesList = this.state.messagesList;
+      this.processNewMessage(messagesData, messagesList);
 
       this.setState({
-        newMessages: this.state.newMessages.concat(message)
+        messagesData,
+        messagesList
       });
     }
     else {
@@ -173,7 +178,11 @@ class ChannelChatRoom extends React.Component {
     return (
       <div className="chatroom-container">
         <div className="message-list">
-          {this.state.messagesList}
+          {this.state.messagesList.map((message, idx) =>  // solves persistent duplicate key error
+            <div key={idx}>
+              {message}
+            </div>
+          )}
           <div ref={this.bottom} />
         </div>
         <MessageForm messageACChannel={this.messageACChannel} joinChannel={this.props.joinChannel} status={this.props.status}/>
