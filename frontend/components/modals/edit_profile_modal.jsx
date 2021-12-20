@@ -88,7 +88,7 @@ class EditProfileModal extends React.Component {
       if (file.type === "image/jpeg" || file.type === "image/png") 
         this.setState({ imageUrl: reader.result, imageFile: file, errors: [] });
       else
-        this.setState({ errors: ["Invalid file format: files must be jpg or png.", ...this.state.errors]})
+        this.setState({ errors: ["Invalid file format: profile photos must be jpg or png.", ...this.state.errors]})
     };
 
     if (file) 
@@ -107,10 +107,10 @@ class EditProfileModal extends React.Component {
   }
 
   submitButton() {
-    if (this.state.errors.length == 0)
+    // if (this.state.errors.length != 0)
+    //   return <button className="green-button" disabled onClick={this.handleUpload}>Save</button>
+    // else
       return <button className="green-button" onClick={this.handleUpload}>Save</button>
-    else
-      return <button className="green-button" disabled onClick={this.handleUpload}>Save</button>
   }
 
   modalForm() {

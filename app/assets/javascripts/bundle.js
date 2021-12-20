@@ -4624,7 +4624,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
           imageFile: file,
           errors: []
         });else _this4.setState({
-          errors: ["Invalid file format: files must be jpg or png."].concat(_toConsumableArray(_this4.state.errors))
+          errors: ["Invalid file format: profile photos must be jpg or png."].concat(_toConsumableArray(_this4.state.errors))
         });
       };
 
@@ -4642,12 +4642,11 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "submitButton",
     value: function submitButton() {
-      if (this.state.errors.length == 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      // if (this.state.errors.length != 0)
+      //   return <button className="green-button" disabled onClick={this.handleUpload}>Save</button>
+      // else
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "green-button",
-        onClick: this.handleUpload
-      }, "Save");else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "green-button",
-        disabled: true,
         onClick: this.handleUpload
       }, "Save");
     }

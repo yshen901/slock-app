@@ -79,7 +79,7 @@ class Api::UsersController < ApplicationController
     @user = User.includes(workspaces: [:connections]).find_by(id: params[:id])
 
     if (@user) 
-      @user.photo.attach(user_params[:photo]);
+      @user.photo.attach(user_params[:photo]) if user_params[:photo]
       if @user.save
         if @user.update(user_params.except(:photo))
           render :show
