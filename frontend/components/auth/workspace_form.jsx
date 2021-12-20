@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { postWorkspace, getWorkspace } from '../../actions/workspace_actions';
 import { focus } from '../../util/modal_api_util';
+import { findWorkspace } from '../../actions/workspace_actions';
 
 class WorkspaceForm extends React.Component {
   constructor() {
@@ -11,6 +12,9 @@ class WorkspaceForm extends React.Component {
       page: "address",
       address: "",
       channel: "", 
+      errors: {
+        address: "",
+      },
       disabled: true
     }
 
@@ -43,7 +47,11 @@ class WorkspaceForm extends React.Component {
   handleSubmit(type) {
     switch(type) {
       case "address":
-        this.setState({page: "channel", disabled: true})
+        dispatch(findWorkspace(this.state.address))
+          .then(
+            () => this.setState({ errors: {address: "Workspace address already taken."}, disabled: true }),
+            () => this.setState({ page: "channel", disabled: true })
+          )
         break;
       case "channel":
         this.setState({ page: "finish" })
@@ -61,20 +69,27 @@ class WorkspaceForm extends React.Component {
 
   updateField(type) {
     return (e) => {
-      if (e.currentTarget.value === '')
-        this.setState({ [type]: e.currentTarget.value, disabled: true })
-      else if (type === "channel") {
-        let currentVal = e.currentTarget.value.split('');
-        let lastVal = currentVal.pop();
-        lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal.toLowerCase());        
-        this.setState({ [type]: currentVal.join(''), disabled: false })
-      } else {
-        let currentVal = e.currentTarget.value.split('');
+      let { value } = e.currentTarget;
+
+      if (value === '')
+        this.setState({ [type]: value, disabled: true })
+      else {
+        if (value.length == 1 && (value[0] == " " || value[0] == "-")) 
+          return;
+        let currentVal = value.split('');
         let lastVal = currentVal.pop();
         lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal); 
-        this.setState({ [type]: currentVal.join(''), disabled: false })
+        this.setState({ [type]: currentVal.join(''), disabled: false, errors:{[type]: ""} })
       }
     }
+  }
+
+  renderErrors(type) {
+    return (
+      <div className="workspace-form-error">
+        {this.state.errors[type]}
+      </div>
+    )
   }
 
   render() {
@@ -88,12 +103,14 @@ class WorkspaceForm extends React.Component {
               </Link>
             </div>
             <div className="workspace-create-form">
-              <h1>What's the name of your company or team?</h1>
+              <h1>What's your workspace address?</h1>
               <input type="text" id="workspace-form-input" autoFocus
                     onChange={this.updateField("address")}
-                    placeholder="Ex. aA or App Academy"
+                    placeholder="Ex. aa or app-academy"
                     value={this.state.address}/>
+              
               {this.nextButton("address")}
+              {this.renderErrors("address")}
             </div>
           </div>
         )

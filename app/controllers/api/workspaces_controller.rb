@@ -14,7 +14,7 @@ class Api::WorkspacesController < ApplicationController
       end
       render '/api/workspaces/show'
     else
-      render json: ["Workspace does not exist"], status: 402
+      render json: ["Workspace does not exist"], status: 400
     end
   end
 

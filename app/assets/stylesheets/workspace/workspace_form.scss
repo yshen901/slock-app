@@ -82,3 +82,15 @@
     box-shadow: none;
   }
 }
+
+.workspace-form-error {
+  width: 100%;
+  text-align: right;
+
+  margin-top: 5px;
+
+  font-size: 15px;
+  line-height: 17px;
+  color: orange;
+  font-weight: bold;
+}

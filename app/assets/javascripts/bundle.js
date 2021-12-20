@@ -1349,6 +1349,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
   _inherits(WorkspaceForm, _React$Component);
 
@@ -1364,6 +1365,9 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
       page: "address",
       address: "",
       channel: "",
+      errors: {
+        address: ""
+      },
       disabled: true
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -1413,9 +1417,18 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
 
       switch (type) {
         case "address":
-          this.setState({
-            page: "channel",
-            disabled: true
+          dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["findWorkspace"])(this.state.address)).then(function () {
+            return _this4.setState({
+              errors: {
+                address: "Workspace address already taken."
+              },
+              disabled: true
+            });
+          }, function () {
+            return _this4.setState({
+              page: "channel",
+              disabled: true
+            });
           });
           break;
 
@@ -1447,26 +1460,25 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
       return function (e) {
         var _this5$setState;
 
-        if (e.currentTarget.value === '') _this5.setState((_this5$setState = {}, _defineProperty(_this5$setState, type, e.currentTarget.value), _defineProperty(_this5$setState, "disabled", true), _this5$setState));else if (type === "channel") {
+        var value = e.currentTarget.value;
+        if (value === '') _this5.setState((_this5$setState = {}, _defineProperty(_this5$setState, type, value), _defineProperty(_this5$setState, "disabled", true), _this5$setState));else {
           var _this5$setState2;
 
-          var currentVal = e.currentTarget.value.split('');
+          if (value.length == 1 && (value[0] == " " || value[0] == "-")) return;
+          var currentVal = value.split('');
           var lastVal = currentVal.pop();
-          lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal.toLowerCase());
+          lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal);
 
-          _this5.setState((_this5$setState2 = {}, _defineProperty(_this5$setState2, type, currentVal.join('')), _defineProperty(_this5$setState2, "disabled", false), _this5$setState2));
-        } else {
-          var _this5$setState3;
-
-          var _currentVal = e.currentTarget.value.split('');
-
-          var _lastVal = _currentVal.pop();
-
-          _lastVal === ' ' ? _currentVal.push('-') : _currentVal.push(_lastVal);
-
-          _this5.setState((_this5$setState3 = {}, _defineProperty(_this5$setState3, type, _currentVal.join('')), _defineProperty(_this5$setState3, "disabled", false), _this5$setState3));
+          _this5.setState((_this5$setState2 = {}, _defineProperty(_this5$setState2, type, currentVal.join('')), _defineProperty(_this5$setState2, "disabled", false), _defineProperty(_this5$setState2, "errors", _defineProperty({}, type, "")), _this5$setState2));
         }
       };
+    }
+  }, {
+    key: "renderErrors",
+    value: function renderErrors(type) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "workspace-form-error"
+      }, this.state.errors[type]);
     }
   }, {
     key: "render",
@@ -1487,14 +1499,14 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
             src: "/images/logo.jpg"
           }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-create-form"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's the name of your company or team?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "What's your workspace address?"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             type: "text",
             id: "workspace-form-input",
             autoFocus: true,
             onChange: this.updateField("address"),
-            placeholder: "Ex. aA or App Academy",
+            placeholder: "Ex. aa or app-academy",
             value: this.state.address
-          }), this.nextButton("address")));
+          }), this.nextButton("address"), this.renderErrors("address")));
 
         case "channel":
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
