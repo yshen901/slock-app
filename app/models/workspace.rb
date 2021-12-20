@@ -16,4 +16,9 @@ class Workspace < ApplicationRecord
     through: :connections,
     source: :user
 
+  def address=(address) 
+    new_address = address.split(" ").map{ |word| word.downcase }
+    @address = new_address.join('-')
+    super(new_address.join('-'))
+  end
 end

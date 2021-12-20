@@ -367,7 +367,7 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_USER = 'RECEIVE_USER';
 var LOGOUT = 'LOGOUT'; // DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
 
-var DEMO_WORKSPACE = 'DemoWorkspace';
+var DEMO_WORKSPACE = 'demo-workspace';
 /* NOTE: How actions (thunk and creater) work
        1) Receives currentUser, as this action is the same regardless of signin/logout
              the change to the state is the same!

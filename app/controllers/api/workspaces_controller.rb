@@ -28,6 +28,11 @@ class Api::WorkspacesController < ApplicationController
 
   def create 
     @workspace = Workspace.new(workspace_params)
+    
+    # Modify workspace address to save the lower-cased version - unecessary due to overridden setter in model
+    # new_address = @workspace.address.split(" ").map{ |word| word.downcase }
+    # @workspace.address = new_address.join('-');
+
     if !logged_in?
       render json: ["I don't know how you did this but this is illegal"], status: 402
     elsif @workspace.save

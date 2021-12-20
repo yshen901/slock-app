@@ -33,7 +33,7 @@ aragorn.photo.attach({io: file, filename: "aragorn.jpg"})
 demo_user = User.create(email: "demoUser@slock.com", password: "demoPassword", display_name: "Demo User", full_name: "Demo User", what_i_do: "Website Tester")
 
 my_user = User.create(email: "shen.yuci1@gmail.com", password: "zunera", display_name: "Yuci", full_name: "Yuci Shen", what_i_do: "Software Engineer/Fullstack Developer", phone_number: "4083167173")
-demo_workspace = Workspace.create(address: 'DemoWorkspace')
+demo_workspace = Workspace.create(address: 'Demo Workspace')
 general_channel = Channel.create({name: "general", workspace_id: demo_workspace.id})
 random_channel = Channel.create({name: "random", workspace_id: demo_workspace.id})
 channel_1 = Channel.create(name: "council-of-elrond", workspace_id: demo_workspace.id, description: "What to do about the One Ring")
