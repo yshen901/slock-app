@@ -9,6 +9,7 @@ class ProfileSidebar extends React.Component {
     super(props);
 
     this.startChat = this.startChat.bind(this);
+    this.startCall = this.startCall.bind(this);
   }
 
   // BUTTON ACTIONS
@@ -22,6 +23,20 @@ class ProfileSidebar extends React.Component {
         let {channel_id} = dmChannelUser;
         let {workspace_address} = this.props.match.params;
         this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+      }
+    )
+  }
+
+  startCall() {
+    dispatch(startDmChannel({
+      user_1_id: getState().session.user_id,
+      user_2_id: this.props.userId,
+      workspace_id: getState().session.workspace_id
+    })).then(
+      ({dmChannelUser}) => {
+        let {channel_id} = dmChannelUser;
+        let {workspace_address} = this.props.match.params;
+        this.props.startVideoCall(workspace_address, channel_id);
       }
     )
   }
@@ -85,7 +100,6 @@ class ProfileSidebar extends React.Component {
   }
 
   sidebarButtons(user) {
-    debugger;
     if (user.id != getState().session.user_id)
       return (
         <div id="profile-sidebar-buttons">
@@ -97,7 +111,7 @@ class ProfileSidebar extends React.Component {
               Message
             </div>
           </div>
-          <div className="profile-sidebar-button">
+          <div className="profile-sidebar-button" onClick={this.startCall}>
             <div className="button-icon">
               <i className="fas fa-phone-alt"></i>
             </div>

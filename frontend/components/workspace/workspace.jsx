@@ -139,15 +139,8 @@ class Workspace extends React.Component {
   }
 
   // Creates a popup of a video call
-  startVideoCall(link) {
-    let windowLink = link;
-    if (!windowLink) {
-      windowLink = window.location.href;
-      if (windowLink[windowLink.length - 1] == "/") // two possibilities
-        windowLink += "video_call";
-      else
-        windowLink += "/video_call";
-    }
+  startVideoCall(workspace_address, channel_id) {
+    let windowLink = `${window.location.origin}/#/workspace/${workspace_address}/${channel_id}/video_call`;
 
     let windowName = "Slock call";
     let windowFeatures = "popup, width=640, height=480";
@@ -169,13 +162,8 @@ class Workspace extends React.Component {
     let {incomingCall} = this.state;
     if (!incomingCall) return;
 
-    let {channel_id} = incomingCall;
-    let {channels, users, user_id} = this.props;
-
-    let channelUserIds = Object.keys(channels[channel_id].users);
-    let remoteUser = users[channelUserIds[0]];
-    if (user_id == channelUserIds[0])
-      remoteUser = users[channelUserIds[1]];
+    let {users} = this.props;
+    let remoteUser = users[incomingCall.from];
 
     return (
       <div id="video-ping-modal" onClick={this.rejectCall(incomingCall)}>
@@ -202,8 +190,7 @@ class Workspace extends React.Component {
       let { workspace_address } = this.props.match.params;
       let { channel_id } = callData;
   
-      let windowLink = window.location.origin + `/#/workspace/${workspace_address}/${channel_id}/video_call?pickup`;
-      this.startVideoCall(windowLink);
+      this.startVideoCall(workspace_address, channel_id);
       this.setState({incomingCall: null});
     }
   }
@@ -257,7 +244,8 @@ class Workspace extends React.Component {
       return (
         <ChannelProfileSidebar
           userId={this.state.shownUserId}
-          hideUser={this.hideUser}/>
+          hideUser={this.hideUser}
+          startVideoCall={this.startVideoCall}/>
       )
   }
 

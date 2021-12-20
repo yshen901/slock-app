@@ -73,7 +73,6 @@ class ChannelChatRoom extends React.Component {
 
     if (i == 0 || created_date !== messagesData[i-1].created_date) {
       let date = created_date;
-      debugger;
       if (date == this.state.currentDate)
         date = "Today";
       messagesList.push(

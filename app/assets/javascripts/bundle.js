@@ -2128,7 +2128,6 @@ var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
 
       if (i == 0 || created_date !== messagesData[i - 1].created_date) {
         var date = created_date;
-        debugger;
         if (date == this.state.currentDate) date = "Today";
         messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "day-divider"
@@ -2496,9 +2495,11 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "right",
     value: function right() {
-      var _this3 = this;
-
-      var leaveButton, videoCallButton, action, actionText;
+      var leaveButton, videoCallButton;
+      var _this$props2 = this.props,
+          workspace_address = _this$props2.workspace_address,
+          channel_id = _this$props2.channel_id,
+          startVideoCall = _this$props2.startVideoCall;
 
       if (this.props.status.canLeave) {
         if (!this.props.channel.dm_channel) {
@@ -2517,7 +2518,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
           }, " In Video Call ");else videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "channel-nav-button",
             onClick: function onClick() {
-              return _this3.props.startVideoCall();
+              return startVideoCall(workspace_address, channel_id);
             }
           }, "Start Video Call");
         }
@@ -2651,6 +2652,7 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.startChat = _this.startChat.bind(_assertThisInitialized(_this));
+    _this.startCall = _this.startCall.bind(_assertThisInitialized(_this));
     return _this;
   } // BUTTON ACTIONS
 
@@ -2670,6 +2672,23 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
         var workspace_address = _this2.props.match.params.workspace_address;
 
         _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
+      });
+    }
+  }, {
+    key: "startCall",
+    value: function startCall() {
+      var _this3 = this;
+
+      dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"])({
+        user_1_id: getState().session.user_id,
+        user_2_id: this.props.userId,
+        workspace_id: getState().session.workspace_id
+      })).then(function (_ref2) {
+        var dmChannelUser = _ref2.dmChannelUser;
+        var channel_id = dmChannelUser.channel_id;
+        var workspace_address = _this3.props.match.params.workspace_address;
+
+        _this3.props.startVideoCall(workspace_address, channel_id);
       });
     }
   }, {
@@ -2737,7 +2756,6 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "sidebarButtons",
     value: function sidebarButtons(user) {
-      debugger;
       if (user.id != getState().session.user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-buttons"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2750,7 +2768,8 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "button-description"
       }, "Message")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "profile-sidebar-button"
+        className: "profile-sidebar-button",
+        onClick: this.startCall
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "button-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -5682,15 +5701,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
 
   }, {
     key: "startVideoCall",
-    value: function startVideoCall(link) {
-      var windowLink = link;
-
-      if (!windowLink) {
-        windowLink = window.location.href;
-        if (windowLink[windowLink.length - 1] == "/") // two possibilities
-          windowLink += "video_call";else windowLink += "/video_call";
-      }
-
+    value: function startVideoCall(workspace_address, channel_id) {
+      var windowLink = "".concat(window.location.origin, "/#/workspace/").concat(workspace_address, "/").concat(channel_id, "/video_call");
       var windowName = "Slock call";
       var windowFeatures = "popup, width=640, height=480";
       window.open(windowLink, windowName, windowFeatures);
@@ -5709,14 +5721,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     value: function renderVideoCallPing() {
       var incomingCall = this.state.incomingCall;
       if (!incomingCall) return;
-      var channel_id = incomingCall.channel_id;
-      var _this$props3 = this.props,
-          channels = _this$props3.channels,
-          users = _this$props3.users,
-          user_id = _this$props3.user_id;
-      var channelUserIds = Object.keys(channels[channel_id].users);
-      var remoteUser = users[channelUserIds[0]];
-      if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
+      var users = this.props.users;
+      var remoteUser = users[incomingCall.from];
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "video-ping-modal",
         onClick: this.rejectCall(incomingCall)
@@ -5754,9 +5760,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         e.stopPropagation();
         var workspace_address = _this4.props.match.params.workspace_address;
         var channel_id = callData.channel_id;
-        var windowLink = window.location.origin + "/#/workspace/".concat(workspace_address, "/").concat(channel_id, "/video_call?pickup");
 
-        _this4.startVideoCall(windowLink);
+        _this4.startVideoCall(workspace_address, channel_id);
 
         _this4.setState({
           incomingCall: null
@@ -5823,7 +5828,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     value: function renderProfile() {
       if (this.state.shownUserId != 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_4__["default"], {
         userId: this.state.shownUserId,
-        hideUser: this.hideUser
+        hideUser: this.hideUser,
+        startVideoCall: this.startVideoCall
       });
     }
   }, {
@@ -5850,9 +5856,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/images/orb.gif"
       }));
-      var _this$props4 = this.props,
-          user_id = _this$props4.user_id,
-          users = _this$props4.users;
+      var _this$props3 = this.props,
+          user_id = _this$props3.user_id,
+          users = _this$props3.users;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-container",
         onClick: function onClick() {
@@ -7033,8 +7039,8 @@ var ice = {
     urls: "turn:52.8.11.126:3478",
     credential: "slockPass",
     username: "slock"
-  }],
-  iceTransportPolicy: "relay"
+  }] // iceTransportPolicy: "relay"
+
 }; // Sends data to the calls controller, similar to AJAX
 
 var broadcastData = function broadcastData(data) {

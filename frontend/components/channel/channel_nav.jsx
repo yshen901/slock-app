@@ -130,7 +130,9 @@ class ChannelNav extends React.Component {
   }
 
   right() {
-    let leaveButton, videoCallButton, action, actionText;
+    let leaveButton, videoCallButton;
+    let {workspace_address, channel_id, startVideoCall} = this.props;
+
     if (this.props.status.canLeave) {
       if (!this.props.channel.dm_channel) {
         leaveButton = (
@@ -149,7 +151,8 @@ class ChannelNav extends React.Component {
           );       
         else
           videoCallButton = (
-            <div className="channel-nav-button" onClick={() => this.props.startVideoCall()}>Start Video Call</div>
+            <div className="channel-nav-button" 
+              onClick={() => startVideoCall(workspace_address, channel_id)}>Start Video Call</div>
           );
       }
     }
