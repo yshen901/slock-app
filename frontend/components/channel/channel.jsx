@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom';
 
 import ChannelNavContainer from './channel_nav_container';
 import ChannelChatContainer from './channel_chat_container';
-import ChannelProfileSidebar from "./channel_profile_sidebar";
 
 import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
@@ -18,7 +17,6 @@ class Channel extends React.Component {
       canJoin: this.canJoin(),
       canLeave: this.canLeave(),
       inVideoCall: false,
-      shownUserId: 0,
       incomingCall: null // contains incoming call information
     }
 
@@ -28,9 +26,6 @@ class Channel extends React.Component {
     this.startVideoCall = this.startVideoCall.bind(this);
     this.pickupCall = this.pickupCall.bind(this);
     this.rejectCall = this.rejectCall.bind(this);
-
-    this.showUser = this.showUser.bind(this);
-    this.hideUser = this.hideUser.bind(this);
   }
 
   // Begins listening for videocall pings
@@ -204,34 +199,6 @@ class Channel extends React.Component {
     this.setState({ inVideoCall: true });
   }
 
-  renderRoom() {
-      return (
-        <ChannelChatContainer 
-            joinChannel={this.joinChannel}
-            status={this.state}
-            showUser={this.showUser}/>
-      )
-  }
-
-
-  // handles profile sidebar of channel
-  renderProfile() {
-    if (this.state.shownUserId != 0)
-      return (
-        <ChannelProfileSidebar
-          userId={this.state.shownUserId}
-          hideUser={this.hideUser}/>
-      )
-  }
-
-  showUser(userId) {
-    this.setState({shownUserId: userId});
-  }
-
-  hideUser() {
-    this.setState({shownUserId: 0});
-  }
-
   getUserName(user) {
     if (user.display_name)
       return user.display_name;
@@ -303,16 +270,16 @@ class Channel extends React.Component {
 
   render() {
     return (
-      <div id="channel">
-        <div id="channel-main">
-          <ChannelNavContainer 
-            leaveChannel={this.leaveChannel}
-            status={this.state}
-            startVideoCall={this.startVideoCall}
-            inVideoCall={this.state.inVideoCall}/>
-          {this.renderRoom()}
-        </div>
-        { this.renderProfile() }
+      <div id="channel-main">
+        <ChannelNavContainer 
+          leaveChannel={this.leaveChannel}
+          status={this.state}
+          startVideoCall={this.startVideoCall}
+          inVideoCall={this.state.inVideoCall}/>
+        <ChannelChatContainer 
+          joinChannel={this.joinChannel}
+          status={this.state}
+          showUser={this.props.showUser}/>
         { this.renderVideoCallPing() }
       </div>
     )

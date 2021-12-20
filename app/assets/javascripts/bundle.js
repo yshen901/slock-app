@@ -1654,8 +1654,13 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "updateForm",
     value: function updateForm(e) {
+      var value = e.currentTarget.value;
+      if (value.length == 1 && (value[0] == " " || value[0] == "-")) return;
+      var currentVal = value.split('');
+      var lastVal = currentVal.pop();
+      lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal);
       this.setState({
-        workspace_address: e.currentTarget.value
+        workspace_address: currentVal.join('')
       });
     } // Can only be triggered by demoButton
 
@@ -1759,11 +1764,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _channel_nav_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channel_nav_container */ "./frontend/components/channel/channel_nav_container.js");
 /* harmony import */ var _channel_chat_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_chat_container */ "./frontend/components/channel/channel_chat_container.js");
-/* harmony import */ var _channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./channel_profile_sidebar */ "./frontend/components/channel/channel_profile_sidebar.jsx");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
-/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
-/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
-/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1795,7 +1799,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
 var Channel = /*#__PURE__*/function (_React$Component) {
   _inherits(Channel, _React$Component);
 
@@ -1811,7 +1814,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       canJoin: _this.canJoin(),
       canLeave: _this.canLeave(),
       inVideoCall: false,
-      shownUserId: 0,
       incomingCall: null // contains incoming call information
 
     };
@@ -1820,8 +1822,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
     _this.startVideoCall = _this.startVideoCall.bind(_assertThisInitialized(_this));
     _this.pickupCall = _this.pickupCall.bind(_assertThisInitialized(_this));
     _this.rejectCall = _this.rejectCall.bind(_assertThisInitialized(_this));
-    _this.showUser = _this.showUser.bind(_assertThisInitialized(_this));
-    _this.hideUser = _this.hideUser.bind(_assertThisInitialized(_this));
     return _this;
   } // Begins listening for videocall pings
 
@@ -1846,7 +1846,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
           //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
 
-          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_8__["JOIN_CALL"] && target_user_id == user.id && !_this2.state.inVideoCall) {
+          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_7__["JOIN_CALL"] && target_user_id == user.id && !_this2.state.inVideoCall) {
             if (user_channel_ids.includes(channel_id)) {
               _this2.setState({
                 incomingCall: data
@@ -1862,7 +1862,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
                 });
               });
             }
-          } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_8__["LEAVE_CALL"]) {
+          } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_7__["LEAVE_CALL"]) {
             // detects if user or caller ends call
             if (from == user.id) _this2.setState({
               inVideoCall: null
@@ -1896,7 +1896,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       e.stopPropagation();
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown");
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("dropdown");
       var _this$props2 = this.props,
           channel = _this$props2.channel,
           channel_id = _this$props2.channel_id,
@@ -1905,7 +1905,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
 
       if (!channel.dm_channel) {
         if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
-          dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["leaveChannel"])(parseInt(channel_id))).then(function () {
+          dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_5__["leaveChannel"])(parseInt(channel_id))).then(function () {
             _this3.props.loginACChannel.speak({
               channel_data: {
                 login: false,
@@ -1927,7 +1927,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           user_id: user.id,
           active: false
         };
-        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_7__["endDmChannel"])(channelInfo)).then(function () {
+        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_6__["endDmChannel"])(channelInfo)).then(function () {
           (function () {
             // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
             _this3.setState({
@@ -1945,13 +1945,13 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var _this4 = this;
 
       e.stopPropagation();
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown");
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("dropdown");
       var channel = this.props.channel;
       var workspace_id = this.props.channel.workspace_id;
       var user_id = this.props.user.id;
 
       if (channel.dm_channel) {
-        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_7__["restartDmChannel"])({
+        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_6__["restartDmChannel"])({
           user_id: user_id,
           channel_id: channel.id,
           active: true
@@ -1962,7 +1962,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           });
         });
       } else {
-        dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_6__["joinChannel"])({
+        dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_5__["joinChannel"])({
           channel_id: channel.id,
           workspace_id: workspace_id
         })).then(function () {
@@ -2015,38 +2015,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       window.open(windowLink, windowName, windowFeatures);
       this.setState({
         inVideoCall: true
-      });
-    }
-  }, {
-    key: "renderRoom",
-    value: function renderRoom() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        joinChannel: this.joinChannel,
-        status: this.state,
-        showUser: this.showUser
-      });
-    } // handles profile sidebar of channel
-
-  }, {
-    key: "renderProfile",
-    value: function renderProfile() {
-      if (this.state.shownUserId != 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        userId: this.state.shownUserId,
-        hideUser: this.hideUser
-      });
-    }
-  }, {
-    key: "showUser",
-    value: function showUser(userId) {
-      this.setState({
-        shownUserId: userId
-      });
-    }
-  }, {
-    key: "hideUser",
-    value: function hideUser() {
-      this.setState({
-        shownUserId: 0
       });
     }
   }, {
@@ -2127,7 +2095,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
             channel_id = callData.channel_id;
 
         _this6.callACChannel.speak({
-          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_8__["REJECT_CALL"],
+          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_7__["REJECT_CALL"],
           from: target_user_id,
           target_user_id: from,
           channel_id: channel_id
@@ -2142,15 +2110,17 @@ var Channel = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "channel"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel-main"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_nav_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
         leaveChannel: this.leaveChannel,
         status: this.state,
         startVideoCall: this.startVideoCall,
         inVideoCall: this.state.inVideoCall
-      }), this.renderRoom()), this.renderProfile(), this.renderVideoCallPing());
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        joinChannel: this.joinChannel,
+        status: this.state,
+        showUser: this.props.showUser
+      }), this.renderVideoCallPing());
     }
   }]);
 
@@ -5579,18 +5549,19 @@ var Root = function Root(_ref) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _workspace_sidebar_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./workspace_sidebar_container */ "./frontend/components/workspace/workspace_sidebar_container.js");
-/* harmony import */ var _channel_channel_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../channel/channel_container */ "./frontend/components/channel/channel_container.js");
-/* harmony import */ var _modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modals/browse_channel_modal */ "./frontend/components/modals/browse_channel_modal.jsx");
-/* harmony import */ var _modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modals/browse_dm_channel_modal */ "./frontend/components/modals/browse_dm_channel_modal.jsx");
-/* harmony import */ var _modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modals/new_channel_modal_container */ "./frontend/components/modals/new_channel_modal_container.jsx");
-/* harmony import */ var _modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modals/invite_user_modal */ "./frontend/components/modals/invite_user_modal.jsx");
-/* harmony import */ var _modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modals/edit_channel_topic_modal */ "./frontend/components/modals/edit_channel_topic_modal.jsx");
-/* harmony import */ var _modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modals/edit_profile_modal_container */ "./frontend/components/modals/edit_profile_modal_container.jsx");
-/* harmony import */ var _modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../modals/sidebar_dropdown */ "./frontend/components/modals/sidebar_dropdown.jsx");
-/* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modals/profile-dropdown */ "./frontend/components/modals/profile-dropdown.jsx");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
-/* harmony import */ var _workspace_topbar__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./workspace_topbar */ "./frontend/components/workspace/workspace_topbar.jsx");
+/* harmony import */ var _workspace_topbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./workspace_topbar */ "./frontend/components/workspace/workspace_topbar.jsx");
+/* harmony import */ var _workspace_sidebar_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./workspace_sidebar_container */ "./frontend/components/workspace/workspace_sidebar_container.js");
+/* harmony import */ var _channel_channel_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../channel/channel_container */ "./frontend/components/channel/channel_container.js");
+/* harmony import */ var _channel_channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../channel/channel_profile_sidebar */ "./frontend/components/channel/channel_profile_sidebar.jsx");
+/* harmony import */ var _modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modals/browse_channel_modal */ "./frontend/components/modals/browse_channel_modal.jsx");
+/* harmony import */ var _modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modals/browse_dm_channel_modal */ "./frontend/components/modals/browse_dm_channel_modal.jsx");
+/* harmony import */ var _modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modals/new_channel_modal_container */ "./frontend/components/modals/new_channel_modal_container.jsx");
+/* harmony import */ var _modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modals/invite_user_modal */ "./frontend/components/modals/invite_user_modal.jsx");
+/* harmony import */ var _modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../modals/edit_channel_topic_modal */ "./frontend/components/modals/edit_channel_topic_modal.jsx");
+/* harmony import */ var _modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modals/edit_profile_modal_container */ "./frontend/components/modals/edit_profile_modal_container.jsx");
+/* harmony import */ var _modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../modals/sidebar_dropdown */ "./frontend/components/modals/sidebar_dropdown.jsx");
+/* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modals/profile-dropdown */ "./frontend/components/modals/profile-dropdown.jsx");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5613,15 +5584,19 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+ // Subcomponents
+
+
+
+
+ // Modals
 
 
 
 
 
 
-
-
-
+ // Dropdowns
 
 
 
@@ -5641,9 +5616,12 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       loaded: false,
       channelFlag: 0,
-      workspaceFlag: 0
+      workspaceFlag: 0,
+      shownUserId: 0
     };
     _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
+    _this.showUser = _this.showUser.bind(_assertThisInitialized(_this));
+    _this.hideUser = _this.hideUser.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -5724,6 +5702,29 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         if (getState().entities.channels[this.props.match.params.channel_id] === undefined) this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
         else this.props.loadChannel(parseInt(this.props.match.params.channel_id));
       }
+    } // handles profile sidebar of channel
+
+  }, {
+    key: "renderProfile",
+    value: function renderProfile() {
+      if (this.state.shownUserId != 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        userId: this.state.shownUserId,
+        hideUser: this.hideUser
+      });
+    }
+  }, {
+    key: "showUser",
+    value: function showUser(userId) {
+      this.setState({
+        shownUserId: userId
+      });
+    }
+  }, {
+    key: "hideUser",
+    value: function hideUser() {
+      this.setState({
+        shownUserId: 0
+      });
     }
   }, {
     key: "render",
@@ -5739,24 +5740,27 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-container",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_11__["hideElements"])("dropdown");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_13__["hideElements"])("dropdown");
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_topbar__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_topbar__WEBPACK_IMPORTED_MODULE_1__["default"], {
         photo_url: users[user_id].photo_url
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_sidebar_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_sidebar_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
         workspaceFlag: this.state.workspaceFlag
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "channel"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         loginACChannel: this.loginACChannel,
-        channelFlag: this.state.channelFlag
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_9__["default"], {
+        channelFlag: this.state.channelFlag,
+        showUser: this.showUser
+      }), this.renderProfile()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__["default"], {
         loginACChannel: this.loginACChannel
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_12__["default"], {
         loginACChannel: this.loginACChannel
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_3__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_6__["default"], {
         workspaceFlag: this.state.workspaceFlag
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_8__["default"], null)));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_10__["default"], null)));
     }
   }]);
 

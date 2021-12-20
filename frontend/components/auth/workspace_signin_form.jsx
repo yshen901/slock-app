@@ -39,7 +39,14 @@ class WorkspaceSigninForm extends React.Component {
   }
 
   updateForm(e) {
-    this.setState({ workspace_address: e.currentTarget.value });
+    let {value} = e.currentTarget;
+
+    if (value.length == 1 && (value[0] == " " || value[0] == "-")) 
+    return;
+    let currentVal = value.split('');
+    let lastVal = currentVal.pop();
+    lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal); 
+    this.setState({ workspace_address: currentVal.join('') })
   }
 
   // Can only be triggered by demoButton

@@ -1,7 +1,12 @@
 import React from 'react';
 
+// Subcomponents
+import WorkspaceTopbar from './workspace_topbar';
 import WorkspaceSidebarContainer from "./workspace_sidebar_container"
 import ChannelContainer from '../channel/channel_container';
+import ChannelProfileSidebar from "../channel/channel_profile_sidebar";
+
+// Modals
 import BrowseChannelModal from '../modals/browse_channel_modal';
 import BrowseDmChannelModal from "../modals/browse_dm_channel_modal";
 import NewChannelModalContainer from '../modals/new_channel_modal_container';
@@ -9,11 +14,11 @@ import InviteUserModal from '../modals/invite_user_modal';
 import EditChannelTopicModal from '../modals/edit_channel_topic_modal';
 import EditProfileModalContainer from "../modals/edit_profile_modal_container";
 
+// Dropdowns
 import SidebarDropdown from '../modals/sidebar_dropdown';
 import ProfileDropdown from "../modals/profile-dropdown";
 
 import { hideElements, focus } from '../../util/modal_api_util';
-import WorkspaceTopbar from './workspace_topbar';
 
 class Workspace extends React.Component {
   constructor() {
@@ -23,8 +28,12 @@ class Workspace extends React.Component {
       loaded: false,
       channelFlag: 0,
       workspaceFlag: 0,
+      shownUserId: 0
     }
+
     this.receiveACData = this.receiveACData.bind(this);
+    this.showUser = this.showUser.bind(this);
+    this.hideUser = this.hideUser.bind(this);
   }
 
   componentDidMount() {
@@ -101,6 +110,24 @@ class Workspace extends React.Component {
     }
   }
 
+  // handles profile sidebar of channel
+  renderProfile() {
+    if (this.state.shownUserId != 0)
+      return (
+        <ChannelProfileSidebar
+          userId={this.state.shownUserId}
+          hideUser={this.hideUser}/>
+      )
+  }
+
+  showUser(userId) {
+    this.setState({shownUserId: userId});
+  }
+
+  hideUser() {
+    this.setState({shownUserId: 0});
+  }
+
   render() {
     if (!this.state.loaded)
       return(
@@ -115,10 +142,14 @@ class Workspace extends React.Component {
         <WorkspaceTopbar photo_url={users[user_id].photo_url}/>
         <div id="workspace">
           <WorkspaceSidebarContainer workspaceFlag={this.state.workspaceFlag}/>
-          <ChannelContainer 
-            loginACChannel={this.loginACChannel}
-            channelFlag={this.state.channelFlag}
-          />
+          <div id="channel">
+            <ChannelContainer 
+              loginACChannel={this.loginACChannel}
+              channelFlag={this.state.channelFlag}
+              showUser={this.showUser}
+            />
+            { this.renderProfile() }
+          </div>
 
           <SidebarDropdown loginACChannel={this.loginACChannel}/>
           <ProfileDropdown loginACChannel={this.loginACChannel}/>
