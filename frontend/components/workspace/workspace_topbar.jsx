@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router";
 import { hideElements, toggleElements } from "../../util/modal_api_util";
 
-const DEFAULT_PHOTO_URL = '/images/profile/default.jpg';
+const DEFAULT_PHOTO_URL = '/images/profile/default.png';
 
 class WorkspaceTopbar extends React.Component {
   constructor(props) {

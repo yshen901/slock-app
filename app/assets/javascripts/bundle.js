@@ -2048,7 +2048,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var DEFAULT_PHOTO_URL = '/images/profile/default.jpg'; // #AC
+var DEFAULT_PHOTO_URL = '/images/profile/default.png'; // #AC
 
 var ChannelChatRoom = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelChatRoom, _React$Component);
@@ -4448,7 +4448,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "photoUrl",
     value: function photoUrl() {
-      if (this.state.imageFile) return this.state.imageUrl;else if (this.props.user.photo_url) return this.props.user.photo_url;else return "/images/profile/default.jpg";
+      if (this.state.imageFile) return this.state.imageUrl;else if (this.props.user.photo_url) return this.props.user.photo_url;else return "/images/profile/default.png";
     }
   }, {
     key: "submitButton",
@@ -6139,7 +6139,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var DEFAULT_PHOTO_URL = '/images/profile/default.jpg';
+var DEFAULT_PHOTO_URL = '/images/profile/default.png';
 
 var WorkspaceTopbar = /*#__PURE__*/function (_React$Component) {
   _inherits(WorkspaceTopbar, _React$Component);

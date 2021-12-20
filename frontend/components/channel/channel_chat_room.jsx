@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import MessageForm from './message_form';
 
-const DEFAULT_PHOTO_URL = '/images/profile/default.jpg';
+const DEFAULT_PHOTO_URL = '/images/profile/default.png';
 
 // #AC
 class ChannelChatRoom extends React.Component {
