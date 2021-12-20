@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { logout } from '../../actions/session_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
 import { workspaceTitle } from '../../selectors/selectors';
-import { toggleElements } from '../../util/modal_api_util';
+import { hideElements, toggleElements } from '../../util/modal_api_util';
 
 class ProfileDropdown extends React.Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class ProfileDropdown extends React.Component {
 
     this.logoutUser = this.logoutUser.bind(this);
     this.logoutWorkspace = this.logoutWorkspace.bind(this);
-    this.toggleElement = this.toggleElement.bind(this);
+    this.toggleButton = this.toggleButton.bind(this);
   }
 
   logoutUser(e) {
@@ -43,19 +43,20 @@ class ProfileDropdown extends React.Component {
       )
   }
 
-  toggleElement(className) {
+  // stops propagation and executes a function
+  toggleButton(cb) {
     return (e) => {
       e.stopPropagation();
-      toggleElements(className);
-      toggleElements("dropdown profile")
-    };
+      hideElements("dropdown");
+      cb();
+    }
   }
 
   render() {
     return (
       <div className="dropdown profile hidden">
-        <div className="dropdown-item" onClick={this.toggleElement("edit-profile-modal")}>
-          Edit Profile
+        <div className="dropdown-item" onClick={this.toggleButton(this.props.showUser)}>
+          Profile
         </div>
         <div className="horizontal-divider"></div>
         <div className="dropdown-item" onClick={this.logoutWorkspace}>

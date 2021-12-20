@@ -2537,6 +2537,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2558,6 +2559,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -2596,6 +2598,12 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
 
         _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
       });
+    }
+  }, {
+    key: "editProfile",
+    value: function editProfile(e) {
+      e.stopPropagation();
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["toggleElements"])("edit-profile-modal");
     } // RENDER HELPER FUNCTIONS
 
   }, {
@@ -2654,6 +2662,42 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
       }, user.email));
     }
   }, {
+    key: "sidebarButtons",
+    value: function sidebarButtons(user) {
+      debugger;
+      if (user.id != getState().session.user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "profile-sidebar-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-button",
+        onClick: this.startChat
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-comment-dots"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-description"
+      }, "Message")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-button"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-phone-alt"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-description"
+      }, "Call")));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "profile-sidebar-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-button",
+        onClick: this.editProfile
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fas fa-pen"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-description"
+      }, "Edit profile")));
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -2678,26 +2722,7 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
         id: "profile-sidebar-name"
       }, this.activity(user), this.profileName(user)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-occupation"
-      }, user.what_i_do)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "profile-sidebar-buttons"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "profile-sidebar-button",
-        onClick: this.startChat
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "button-icon"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-comment-dots"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "button-description"
-      }, "Message")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "profile-sidebar-button"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "button-icon"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-phone-alt"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "button-description"
-      }, "Call"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, user.what_i_do)), this.sidebarButtons(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-sections"
       }, this.displayName(user), this.email(user), this.phoneNumber(user))));
     }
@@ -4954,9 +4979,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/modals/profile-dropdown.jsx":
+/***/ "./frontend/components/modals/profile_dropdown.jsx":
 /*!*********************************************************!*\
-  !*** ./frontend/components/modals/profile-dropdown.jsx ***!
+  !*** ./frontend/components/modals/profile_dropdown.jsx ***!
   \*********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -5012,7 +5037,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.logoutUser = _this.logoutUser.bind(_assertThisInitialized(_this));
     _this.logoutWorkspace = _this.logoutWorkspace.bind(_assertThisInitialized(_this));
-    _this.toggleElement = _this.toggleElement.bind(_assertThisInitialized(_this));
+    _this.toggleButton = _this.toggleButton.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -5046,14 +5071,15 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
 
         _this3.props.history.push('/');
       });
-    }
+    } // stops propagation and executes a function
+
   }, {
-    key: "toggleElement",
-    value: function toggleElement(className) {
+    key: "toggleButton",
+    value: function toggleButton(cb) {
       return function (e) {
         e.stopPropagation();
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["toggleElements"])(className);
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["toggleElements"])("dropdown profile");
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown");
+        cb();
       };
     }
   }, {
@@ -5063,8 +5089,8 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
         className: "dropdown profile hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
-        onClick: this.toggleElement("edit-profile-modal")
-      }, "Edit Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: this.toggleButton(this.props.showUser)
+      }, "Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "horizontal-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
@@ -5391,7 +5417,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../modals/edit_channel_topic_modal */ "./frontend/components/modals/edit_channel_topic_modal.jsx");
 /* harmony import */ var _modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modals/edit_profile_modal_container */ "./frontend/components/modals/edit_profile_modal_container.jsx");
 /* harmony import */ var _modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../modals/sidebar_dropdown */ "./frontend/components/modals/sidebar_dropdown.jsx");
-/* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modals/profile-dropdown */ "./frontend/components/modals/profile-dropdown.jsx");
+/* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modals/profile_dropdown */ "./frontend/components/modals/profile_dropdown.jsx");
 /* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -5730,6 +5756,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this6 = this;
+
       if (!this.state.loaded) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "loading-page"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -5760,7 +5788,10 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       }), this.renderProfile(), this.renderVideoCallPing()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__["default"], {
         loginACChannel: this.loginACChannel
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_12__["default"], {
-        loginACChannel: this.loginACChannel
+        loginACChannel: this.loginACChannel,
+        showUser: function showUser() {
+          return _this6.showUser(user_id);
+        }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_5__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_6__["default"], {
         workspaceFlag: this.state.workspaceFlag
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_10__["default"], null)));

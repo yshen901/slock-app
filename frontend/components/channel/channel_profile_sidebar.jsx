@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { startDmChannel } from "../../actions/dm_channel_actions";
 import { photoUrl } from '../../selectors/selectors';
+import { toggleElements } from '../../util/modal_api_util';
 
 class ProfileSidebar extends React.Component {
   constructor(props) {
@@ -23,6 +24,11 @@ class ProfileSidebar extends React.Component {
         this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
       }
     )
+  }
+
+  editProfile(e) {
+    e.stopPropagation();
+    toggleElements("edit-profile-modal");
   }
 
   // RENDER HELPER FUNCTIONS
@@ -78,6 +84,44 @@ class ProfileSidebar extends React.Component {
     )
   }
 
+  sidebarButtons(user) {
+    debugger;
+    if (user.id != getState().session.user_id)
+      return (
+        <div id="profile-sidebar-buttons">
+          <div className="profile-sidebar-button" onClick={this.startChat}>
+            <div className="button-icon">
+              <i className="fas fa-comment-dots"></i>
+            </div>
+            <div className="button-description">
+              Message
+            </div>
+          </div>
+          <div className="profile-sidebar-button">
+            <div className="button-icon">
+              <i className="fas fa-phone-alt"></i>
+            </div>
+            <div className="button-description">
+              Call
+            </div>
+          </div>
+        </div>
+      )
+    else 
+      return (
+        <div id="profile-sidebar-buttons">
+          <div className="profile-sidebar-button" onClick={this.editProfile}>
+            <div className="button-icon">
+              <i className='fas fas fa-pen'></i>
+            </div>
+            <div className="button-description">
+              Edit profile
+            </div>
+          </div>
+        </div>
+      )
+  }
+
   render() {
     let { hideUser, userId } = this.props;
     let user = getState().entities.users[userId];
@@ -99,24 +143,7 @@ class ProfileSidebar extends React.Component {
             </div>
             <div id="profile-sidebar-occupation">{user.what_i_do}</div>
           </div>
-          <div id="profile-sidebar-buttons">
-            <div className="profile-sidebar-button" onClick={this.startChat}>
-              <div className="button-icon">
-                <i className="fas fa-comment-dots"></i>
-              </div>
-              <div className="button-description">
-                Message
-              </div>
-            </div>
-            <div className="profile-sidebar-button">
-              <div className="button-icon">
-                <i className="fas fa-phone-alt"></i>
-              </div>
-              <div className="button-description">
-                Call
-              </div>
-            </div>
-          </div>
+          {this.sidebarButtons(user)}
           <div id="profile-sidebar-sections">
             {this.displayName(user)}
             {this.email(user)}

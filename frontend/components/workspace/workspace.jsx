@@ -16,7 +16,7 @@ import EditProfileModalContainer from "../modals/edit_profile_modal_container";
 
 // Dropdowns
 import SidebarDropdown from '../modals/sidebar_dropdown';
-import ProfileDropdown from "../modals/profile-dropdown";
+import ProfileDropdown from "../modals/profile_dropdown";
 
 // Utilities and constants
 import { JOIN_CALL, LEAVE_CALL, REJECT_CALL } from '../../util/call_api_util';
@@ -294,7 +294,7 @@ class Workspace extends React.Component {
           </div>
 
           <SidebarDropdown loginACChannel={this.loginACChannel}/>
-          <ProfileDropdown loginACChannel={this.loginACChannel}/>
+          <ProfileDropdown loginACChannel={this.loginACChannel} showUser={() => this.showUser(user_id)}/>
 
           <BrowseChannelModal />
           <BrowseDmChannelModal 
