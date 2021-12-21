@@ -54,13 +54,16 @@ class ChannelChat extends React.Component {
   getMessageDate(message) {
     let { currentDate } = this.state;
     let messageDate = new Date(message.created_at);
-    
+    messageDate = messageDate.toLocaleDateString();
+
     if (messageDate == "Invalid Date")
-      currentDate;
-    return messageDate.toLocaleDateString();
+      return currentDate;
+    return messageDate;
   }
 
   groupMessages(message, prevMessage) {
+    if (message.created_date != prevMessage.created_date) return false;
+    
     if (message.user_id == prevMessage.user_id)
       if (message.created_at.slice(0, 2) == prevMessage.created_at.slice(0, 2))
         return true;

@@ -2057,12 +2057,14 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     value: function getMessageDate(message) {
       var currentDate = this.state.currentDate;
       var messageDate = new Date(message.created_at);
-      if (messageDate == "Invalid Date") currentDate;
-      return messageDate.toLocaleDateString();
+      messageDate = messageDate.toLocaleDateString();
+      if (messageDate == "Invalid Date") return currentDate;
+      return messageDate;
     }
   }, {
     key: "groupMessages",
     value: function groupMessages(message, prevMessage) {
+      if (message.created_date != prevMessage.created_date) return false;
       if (message.user_id == prevMessage.user_id) if (message.created_at.slice(0, 2) == prevMessage.created_at.slice(0, 2)) return true;
       return false;
     }
@@ -5833,6 +5835,17 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "renderChannel",
+    value: function renderChannel() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        loginACChannel: this.loginACChannel,
+        channelFlag: this.state.channelFlag,
+        showUser: this.showUser,
+        startVideoCall: this.startVideoCall,
+        inVideoCall: this.state.inVideoCall
+      });
+    }
+  }, {
     key: "showUser",
     value: function showUser(userId) {
       this.setState({
@@ -5872,13 +5885,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         workspaceFlag: this.state.workspaceFlag
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        loginACChannel: this.loginACChannel,
-        channelFlag: this.state.channelFlag,
-        showUser: this.showUser,
-        startVideoCall: this.startVideoCall,
-        inVideoCall: this.state.inVideoCall
-      }), this.renderProfile(), this.renderVideoCallPing()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      }, this.renderChannel(), this.renderProfile(), this.renderVideoCallPing()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__["default"], {
         loginACChannel: this.loginACChannel
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_12__["default"], {
         loginACChannel: this.loginACChannel,

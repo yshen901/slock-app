@@ -250,6 +250,18 @@ class Workspace extends React.Component {
       )
   }
 
+  renderChannel() {
+    return (
+      <ChannelContainer 
+              loginACChannel={this.loginACChannel}
+              channelFlag={this.state.channelFlag}
+              showUser={this.showUser}
+              startVideoCall={this.startVideoCall}
+              inVideoCall={this.state.inVideoCall}
+      />
+    )
+  }
+
   showUser(userId) {
     this.setState({shownUserId: userId});
   }
@@ -273,13 +285,7 @@ class Workspace extends React.Component {
         <div id="workspace">
           <WorkspaceSidebarContainer workspaceFlag={this.state.workspaceFlag}/>
           <div id="channel">
-            <ChannelContainer 
-              loginACChannel={this.loginACChannel}
-              channelFlag={this.state.channelFlag}
-              showUser={this.showUser}
-              startVideoCall={this.startVideoCall}
-              inVideoCall={this.state.inVideoCall}
-            />
+            { this.renderChannel() }
             { this.renderProfile() }
             { this.renderVideoCallPing() }
           </div>
