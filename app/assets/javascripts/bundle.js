@@ -1927,7 +1927,8 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
         id: "search-bar",
         onChange: this.update,
         value: this.state.search,
-        placeholder: "Search by channel name"
+        placeholder: "Search by channel name",
+        autoFocus: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-list"
       }, this.allChannels(this.state.search)));
@@ -2123,7 +2124,8 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         id: "search-bar",
         onChange: this.update,
         value: this.state.search,
-        placeholder: "i.e. shen.yuci1@gmail.com"
+        placeholder: "i.e. shen.yuci1@gmail.com",
+        autoFocus: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-list"
       }, this.allUsers(this.state.search)));
@@ -6547,11 +6549,10 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "sidebar-header-link hoverable",
-        onClick: this.toggleElements("full-modal channel-modal", "channel-search-bar")
-      }, "Channels"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-header-link hoverable"
+      }, "Channels"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "sidebar-header-button",
-        onClick: this.toggleElements("new-channel-modal", "new-channel-input")
+        to: this.channelLink("channel-browser")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-plus-circle"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6570,11 +6571,10 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "sidebar-header-link hoverable",
-        onClick: this.toggleElements("full-modal dm-channel-modal", 'dm-channel-search-bar')
-      }, "Direct Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-header-link hoverable"
+      }, "Direct Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "sidebar-header-button",
-        onClick: this.toggleElements("full-modal dm-channel-modal", 'dm-channel-search-bar')
+        to: this.channelLink("people-browser")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-plus-circle"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

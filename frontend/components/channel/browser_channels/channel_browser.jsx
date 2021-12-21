@@ -96,7 +96,8 @@ class ChannelBrowser extends React.Component {
           <input type="text" id="search-bar"
             onChange={this.update}
             value={this.state.search}
-            placeholder="Search by channel name"/>
+            placeholder="Search by channel name"
+            autoFocus/>
         </div>
         <div className="browser-channel-list">
           { this.allChannels(this.state.search) }

@@ -125,10 +125,10 @@ class WorkspaceSidebar extends React.Component {
 
           <div id="channels">
             <div className='sidebar-header'>
-              <div className='sidebar-header-link hoverable' onClick={ this.toggleElements("full-modal channel-modal", "channel-search-bar") }>Channels</div>
-              <div className='sidebar-header-button' onClick={ this.toggleElements("new-channel-modal", "new-channel-input") }>
+              <div className='sidebar-header-link hoverable'>Channels</div>
+              <Link className='sidebar-header-button' to={this.channelLink("channel-browser")}>
                 <i className="fas fa-plus-circle"></i>
-              </div>
+              </Link>
             </div>
             <div className="sidebar-list">
               {this.getChannels(false).map((channel, idx) => {
@@ -146,10 +146,10 @@ class WorkspaceSidebar extends React.Component {
 
           <div id="channels">
             <div className='sidebar-header'>
-              <div className='sidebar-header-link hoverable' onClick={ this.toggleElements("full-modal dm-channel-modal", 'dm-channel-search-bar') }>Direct Messages</div>
-              <div className='sidebar-header-button' onClick={ this.toggleElements("full-modal dm-channel-modal", 'dm-channel-search-bar') }>
+              <div className='sidebar-header-link hoverable'>Direct Messages</div>
+              <Link className='sidebar-header-button' to={this.channelLink("people-browser")}>
                 <i className="fas fa-plus-circle"></i>
-              </div>
+              </Link>
             </div>
             <div className="sidebar-list">
               {this.getChannels(false, true).map((channel, idx) => {
