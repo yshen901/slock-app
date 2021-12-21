@@ -8,9 +8,9 @@ class EditChannelTopicModal extends React.Component {
   constructor(props) {
     super(props);
 
-    let { description } = getState().entities.channels[props.match.params.channel_id];
+    let channel = getState().entities.channels[props.match.params.channel_id];
     this.state = {
-      topic: description ? description : "",
+      topic: channel ? channel.description : "",
       disabled: true,
       error: ""
     }

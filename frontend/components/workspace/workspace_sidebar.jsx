@@ -108,14 +108,14 @@ class WorkspaceSidebar extends React.Component {
           <div className="sidebar-list">
               <Link className="sidebar-item" to={this.channelLink("channel-browser")}>
                 <div className="channel-name">
-                  Channel Browser
+                  Channel browser
                 </div>
               </Link>
             </div>
             <div className="sidebar-list">
-              <Link className="sidebar-item" to={this.channelLink("user-browser")}>
+              <Link className="sidebar-item" to={this.channelLink("people-browser")}>
                 <div className="channel-name">
-                  User Browser
+                  People browser
                 </div>
               </Link>
             </div>

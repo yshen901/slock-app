@@ -5,6 +5,8 @@ import WorkspaceTopbar from './workspace_topbar';
 import WorkspaceSidebarContainer from "./workspace_sidebar_container"
 import ChannelContainer from '../channel/channel_container';
 import ChannelProfileSidebar from "../channel/channel_profile_sidebar";
+import ChannelBrowser from "../channel/browser_channels/channel_browser";
+import PeopleBrowser from "../channel/browser_channels/people_browser";
 
 // Modals
 import BrowseChannelModal from '../modals/browse_channel_modal';
@@ -71,7 +73,7 @@ class Workspace extends React.Component {
           .then(
             ({channels, workspace}) => {
               let first_channel = Object.keys(channels)[0];  // goes to first channel if url is invalid
-              if (channels[channel_id] === undefined)
+              if (channel_id != "channel-browser" && channel_id != "people-browser" && channels[channel_id] === undefined)
                 this.props.history.replace(`/workspace/${workspace_address}/${first_channel}`)
 
               this.loginACChannel.speak({ // announces login through ActionCable
@@ -230,7 +232,7 @@ class Workspace extends React.Component {
   componentDidUpdate(oldProps) {
     let { channel_id } = this.props.match.params;
     if (oldProps.match.params.channel_id !== channel_id) {
-      if (channel_id == "channel-browser" || channel_id == 'user-browser')
+      if (channel_id == "channel-browser" || channel_id == 'people-browser')
         this.props.loadChannel(parseInt(channel_id));
       else if (getState().entities.channels[channel_id] === undefined)
         this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
@@ -251,15 +253,25 @@ class Workspace extends React.Component {
   }
 
   renderChannel() {
-    return (
-      <ChannelContainer 
-              loginACChannel={this.loginACChannel}
-              channelFlag={this.state.channelFlag}
-              showUser={this.showUser}
-              startVideoCall={this.startVideoCall}
-              inVideoCall={this.state.inVideoCall}
-      />
-    )
+    let {channel_id} = this.props;
+    if (channel_id == "channel-browser")
+      return (
+        <ChannelBrowser/>
+      )
+    else if (channel_id == "people-browser")
+      return (
+        <PeopleBrowser/>
+      )
+    else
+      return (
+        <ChannelContainer 
+                loginACChannel={this.loginACChannel}
+                channelFlag={this.state.channelFlag}
+                showUser={this.showUser}
+                startVideoCall={this.startVideoCall}
+                inVideoCall={this.state.inVideoCall}
+        />
+      )
   }
 
   showUser(userId) {

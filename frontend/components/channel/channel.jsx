@@ -21,7 +21,7 @@ class Channel extends React.Component {
     this.joinChannel = this.joinChannel.bind(this);
   }
 
-  // Ignore transition channel and non-int nav channels
+  // Ignore transition channel
   componentDidUpdate(oldProps) {
     if (this.props.channel_id == "0") return
       
