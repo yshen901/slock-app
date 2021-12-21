@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import ChannelChatRoom from './channel_chat_room';
+import ChannelChat from './channel_chat';
 import { getMessages } from '../../actions/message_actions';
 import { startDmChannel } from '../../actions/dm_channel_actions';
 
@@ -22,4 +22,4 @@ const mapDispatchToProps = dispatch => ({
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChannelChatRoom))
+)(ChannelChat))

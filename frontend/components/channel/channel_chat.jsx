@@ -2,10 +2,10 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { photoUrl } from '../../selectors/selectors';
 
-import MessageForm from './message_form';
+import ChannelMessageForm from './channel_message_form';
 
 // #AC
-class ChannelChatRoom extends React.Component {
+class ChannelChat extends React.Component {
   constructor(props) {
     super(props);
 
@@ -198,10 +198,10 @@ class ChannelChatRoom extends React.Component {
           )}
           <div ref={this.bottom} />
         </div>
-        <MessageForm messageACChannel={this.messageACChannel} joinChannel={this.props.joinChannel} status={this.props.status}/>
+        <ChannelMessageForm messageACChannel={this.messageACChannel} joinChannel={this.props.joinChannel} status={this.props.status}/>
       </div>
     );
   }
 }
 
-export default withRouter(ChannelChatRoom);
+export default withRouter(ChannelChat);

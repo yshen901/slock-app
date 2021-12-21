@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { joinChannel } from "../../actions/channel_actions";
 
-class MessageForm extends React.Component {
+class ChannelMessageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -88,4 +88,4 @@ class MessageForm extends React.Component {
   }
 }
 
-export default withRouter(MessageForm);
+export default withRouter(ChannelMessageForm);
