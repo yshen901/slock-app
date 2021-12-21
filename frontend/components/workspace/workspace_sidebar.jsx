@@ -104,6 +104,23 @@ class WorkspaceSidebar extends React.Component {
             {/* <h6>{this.props.user.email}</h6> */}
           </div>
 
+          <div id="channels">
+          <div className="sidebar-list">
+              <Link className="sidebar-item" to={this.channelLink("channel-browser")}>
+                <div className="channel-name">
+                  Channel Browser
+                </div>
+              </Link>
+            </div>
+            <div className="sidebar-list">
+              <Link className="sidebar-item" to={this.channelLink("user-browser")}>
+                <div className="channel-name">
+                  User Browser
+                </div>
+              </Link>
+            </div>
+          </div>
+
           { this.starred() }
 
           <div id="channels">

@@ -7,7 +7,7 @@ import Channel from './channel';
 const mapStateToProps = (state, ownProps) => ({
   workspace_address: ownProps.match.params.workspace_address,
   channel: state.entities.channels[ownProps.match.params.channel_id],
-  channel_id: parseInt(ownProps.match.params.channel_id),
+  channel_id: ownProps.match.params.channel_id,
 })
 
 const mapDispatchToProps = (dispatch) => ({

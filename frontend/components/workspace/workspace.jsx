@@ -228,13 +228,14 @@ class Workspace extends React.Component {
 
   // Makes sure you don't go to an invalid channel
   componentDidUpdate(oldProps) {
-    if (oldProps.match.params.channel_id !== this.props.match.params.channel_id) {
-      debugger;
-      if (getState().entities.channels[this.props.match.params.channel_id] === undefined) {
+    let { channel_id } = this.props.match.params;
+    if (oldProps.match.params.channel_id !== channel_id) {
+      if (channel_id == "channel-browser" || channel_id == 'user-browser')
+        this.props.loadChannel(parseInt(channel_id));
+      else if (getState().entities.channels[channel_id] === undefined)
         this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
-      }
       else
-        this.props.loadChannel(parseInt(this.props.match.params.channel_id))
+        this.props.loadChannel(parseInt(channel_id));
     }
   }
 

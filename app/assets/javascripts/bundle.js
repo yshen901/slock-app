@@ -1815,13 +1815,14 @@ var Channel = /*#__PURE__*/function (_React$Component) {
     _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
     _this.joinChannel = _this.joinChannel.bind(_assertThisInitialized(_this));
     return _this;
-  } // Ignore transition channel
+  } // Ignore transition channel and non-int nav channels
 
 
   _createClass(Channel, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
-      if (this.props.channel_id != "0" && oldProps.channel_id !== this.props.channel_id) this.setState({
+      if (this.props.channel_id == "0") return;
+      if (oldProps.channel_id !== this.props.channel_id) this.setState({
         canJoin: this.canJoin(),
         canLeave: this.canLeave()
       });
@@ -2858,7 +2859,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspace_address: ownProps.match.params.workspace_address,
     channel: state.entities.channels[ownProps.match.params.channel_id],
-    channel_id: parseInt(ownProps.match.params.channel_id)
+    channel_id: ownProps.match.params.channel_id
   };
 };
 
@@ -5814,12 +5815,11 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
-      if (oldProps.match.params.channel_id !== this.props.match.params.channel_id) {
-        debugger;
+      var channel_id = this.props.match.params.channel_id;
 
-        if (getState().entities.channels[this.props.match.params.channel_id] === undefined) {
-          this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
-        } else this.props.loadChannel(parseInt(this.props.match.params.channel_id));
+      if (oldProps.match.params.channel_id !== channel_id) {
+        if (channel_id == "channel-browser" || channel_id == 'user-browser') this.props.loadChannel(parseInt(channel_id));else if (getState().entities.channels[channel_id] === undefined) this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
+        else this.props.loadChannel(parseInt(channel_id));
       }
     } // handles profile sidebar of channel
 
@@ -6127,7 +6127,23 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         onClick: this.toggleElements("dropdown sidebar")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["workspaceTitle"])(this.props.workspace_address), " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-chevron-down"
-      }, " "))), this.starred(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, " "))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "channels"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-list"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "sidebar-item",
+        to: this.channelLink("channel-browser")
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name"
+      }, "Channel Browser"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-list"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "sidebar-item",
+        to: this.channelLink("user-browser")
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name"
+      }, "User Browser")))), this.starred(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channels"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
