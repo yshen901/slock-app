@@ -1,6 +1,6 @@
 .message-list {
   width: 100%;
-  height: calc(100% - 81px);
+  max-height: calc(100% - 81px);
   
   overflow-x: hidden;
   overflow-y: auto;
@@ -9,9 +9,14 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
+
+  vertical-align: text-bottom;
 }
 
 .chatroom-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   form {
     width: 100%;
     height: 81px;
