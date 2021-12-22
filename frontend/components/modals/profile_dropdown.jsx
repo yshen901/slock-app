@@ -47,20 +47,22 @@ class ProfileDropdown extends React.Component {
   toggleButton(cb) {
     return (e) => {
       e.stopPropagation();
-      hideElements("dropdown");
+      hideElements("dropdown-modal");
       cb();
     }
   }
 
   render() {
     return (
-      <div className="dropdown profile hidden">
-        <div className="dropdown-item" onClick={this.toggleButton(this.props.showUser)}>
-          Profile
-        </div>
-        <div className="horizontal-divider"></div>
-        <div className="dropdown-item" onClick={this.logoutWorkspace}>
-          Sign out of <em>{workspaceTitle(this.props.match.params.workspace_address)}</em>
+      <div className="dropdown-modal profile hidden" onClick={() => hideElements("dropdown-modal")}>
+        <div className="dropdown profile">
+          <div className="dropdown-item" onClick={this.toggleButton(this.props.showUser)}>
+            Profile
+          </div>
+          <div className="horizontal-divider"></div>
+          <div className="dropdown-item" onClick={this.logoutWorkspace}>
+            Sign out of <em>{workspaceTitle(this.props.match.params.workspace_address)}</em>
+          </div>
         </div>
       </div>
     )

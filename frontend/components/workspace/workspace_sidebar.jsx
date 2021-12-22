@@ -29,7 +29,6 @@ class WorkspaceSidebar extends React.Component {
     return (e) => {
       e.stopPropagation();
 
-      hideElements("dropdown"); 
       toggleElements(className);
       focus(inputId);
     }
@@ -115,7 +114,7 @@ class WorkspaceSidebar extends React.Component {
     if (this.props.user) 
       return (
         <div id="workspace-sidebar">
-          <div id="workspace-sidebar-nav" onClick={ this.toggleElements("dropdown sidebar") }>
+          <div id="workspace-sidebar-nav" onClick={ this.toggleElements("dropdown-modal sidebar") }>
             <h2>{workspaceTitle(this.props.workspace_address)} <i className="fa fa-chevron-down"> </i></h2>
             {/* <h6>{this.props.user.email}</h6> */}
           </div>

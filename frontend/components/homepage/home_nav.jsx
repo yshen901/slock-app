@@ -1,19 +1,39 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { logout } from '../../actions/session_actions';
 import { toggleElements } from '../../util/modal_api_util';
 
 
 class HomeNav extends React.Component {
   constructor(props) {
     super(props);
+
+    this.logoutUser = this.logoutUser.bind(this);
+  }
+
+  logoutUser(e) {
+    e.stopPropagation();
+    dispatch(logout())
+    .then(
+      () => {
+        this.props.history.push('/');
+      }
+    )
   }
 
   generateRight() {
     if(getState().session.user_id)
+      // return (
+      //   <div className="right">
+      //     <button className="nav-button" onClick={(e) => { e.stopPropagation(); toggleElements("dropdown-modal workspaces") }}>
+      //       <div>Your Workspaces</div>
+      //     </button>
+      //   </div>
+      // )
       return (
         <div className="right">
-          <button className="nav-button" onClick={(e) => { e.stopPropagation(); toggleElements("dropdown") }}>
-            <div>Your Workspaces</div>
+          <button className="nav-button" onClick={this.logoutUser}>
+            <div>Sign Out</div>
           </button>
         </div>
       )

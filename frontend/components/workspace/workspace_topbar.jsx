@@ -12,8 +12,6 @@ class WorkspaceTopbar extends React.Component {
   toggleElements(className, inputId) {
     return (e) => {
       e.stopPropagation();
-
-      hideElements("dropdown"); 
       toggleElements(className);
     }
   }
@@ -22,7 +20,7 @@ class WorkspaceTopbar extends React.Component {
     return (
       <div id="workspace-top-bar">
         <div id="user-photo">
-          <img src={photoUrl(this.props.user)} onClick={this.toggleElements("dropdown profile")}/>
+          <img src={photoUrl(this.props.user)} onClick={this.toggleElements("dropdown-modal profile")}/>
         </div>
       </div>
     )

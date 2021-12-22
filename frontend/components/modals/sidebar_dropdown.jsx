@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { logout } from '../../actions/session_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
 import { workspaceTitle } from '../../selectors/selectors';
-import { toggleElements } from '../../util/modal_api_util';
+import { toggleElements, hideElements } from '../../util/modal_api_util';
 
 class SidebarDropdown extends React.Component {
   constructor(props) {
@@ -51,43 +51,44 @@ class SidebarDropdown extends React.Component {
     return (e) => {
       e.stopPropagation();
       toggleElements(className);
-      toggleElements("dropdown sidebar")
     };
   }
 
   render() {
     return (
-      <div className="dropdown sidebar">
-        <div className="dropdown-header">
-          <div className="dropdown-image-container">
-            {this.state.workspaceTitle[0]}
+      <div className="dropdown-modal sidebar hidden" onClick={() => hideElements("dropdown-modal sidebar")}>
+        <div className="dropdown sidebar">
+          <div className="dropdown-header">
+            <div className="dropdown-image-container">
+              {this.state.workspaceTitle[0]}
+            </div>
+            <div className="dropdown-content">
+              <div className="dropdown-content-top">{this.state.workspaceTitle}</div>
+              <div className="dropdown-content-bottom">{this.props.match.params.workspace_address}</div>
+            </div>
           </div>
-          <div className="dropdown-content">
-            <div className="dropdown-content-top">{this.state.workspaceTitle}</div>
-            <div className="dropdown-content-bottom">slock-app.herokuapp.com/#/workspace/{this.props.match.params.workspace_address}</div>
+          <div className="horizontal-divider"></div>
+          <div className="dropdown-item" onClick={this.toggleElement("invite-user-modal")}>
+            Invite people to {this.state.workspaceTitle}
           </div>
-        </div>
-        <div className="horizontal-divider"></div>
-        <div className="dropdown-item" onClick={this.toggleElement("invite-user-modal")}>
-          Invite people to {this.state.workspaceTitle}
-        </div>
-        <div className="dropdown-item" onClick={this.toggleElement("new-channel-modal")}>
-          Create a channel
-        </div>
-        <div className="horizontal-divider"></div>
-        <div className="dropdown-item" onClick={() => this.props.history.push("/create")}>
-          Create a new workspace
-        </div>
-        <div className="dropdown-item" onClick={() => this.props.history.push("/signin")}>
-          Sign into another workspace
-        </div>
-        <div className="horizontal-divider"></div>
-        <div className="dropdown-item" onClick={this.logoutWorkspace}>
-          Sign out of {this.state.workspaceTitle}
+          <div className="dropdown-item" onClick={this.toggleElement("new-channel-modal")}>
+            Create a channel
+          </div>
+          <div className="horizontal-divider"></div>
+          <div className="dropdown-item" onClick={() => this.props.history.push("/create")}>
+            Create a new workspace
+          </div>
+          <div className="dropdown-item" onClick={() => this.props.history.push("/signin")}>
+            Sign into another workspace
+          </div>
+          <div className="horizontal-divider"></div>
+          <div className="dropdown-item" onClick={this.logoutWorkspace}>
+            Sign out of {this.state.workspaceTitle}
+          </div>
         </div>
       </div>
-    )
-  }
+      )
+    }
 }
 
 export default withRouter(SidebarDropdown);

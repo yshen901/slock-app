@@ -292,7 +292,7 @@ class Workspace extends React.Component {
 
     let { user_id, users } = this.props;
     return (
-      <div id="workspace-container" onClick={() => hideElements("dropdown")}>
+      <div id="workspace-container">
         <WorkspaceTopbar user={users[user_id]}/>
         <div id="workspace">
           <WorkspaceSidebarContainer workspaceFlag={this.state.workspaceFlag}/>

@@ -32,7 +32,6 @@ class WorkspaceDropdown extends React.Component {
 
   logoutUser(e) {
     e.stopPropagation();
-    hideElements("dropdown");
     dispatch(logout())
     .then(
       () => {
@@ -43,12 +42,14 @@ class WorkspaceDropdown extends React.Component {
 
   render() {
     return (
-      <div className="dropdown hidden">
-        {this.workspaceList()}
-        <div className="dropdown-auth-links">
-          <Link className="dropdown-link" to="/create">Create a new workspace</Link>
-          <Link className="dropdown-link" to="/signin">Sign into another workspace</Link>
-          <div className="dropdown-link" onClick={this.logoutUser}>Sign Out</div>
+      <div className="dropdown-modal workspaces hidden" onClick={(e) => { e.stopPropagation(); hideElements("dropdown-modal") }}>
+        <div className="dropdown workspaces">
+          {this.workspaceList()}
+          <div className="dropdown-auth-links">
+            <Link className="dropdown-link" to="/create">Create a new workspace</Link>
+            <Link className="dropdown-link" to="/signin">Sign into another workspace</Link>
+            <div className="dropdown-link" onClick={this.logoutUser}>Sign Out</div>
+          </div>
         </div>
       </div>
     )
