@@ -1,0 +1,124 @@
+.dropdown {
+  position: absolute;
+  top: 70px;
+  right: 20%;
+  z-index: 10001;
+  width: 300px;
+
+  display: flex;
+  flex-direction: column;
+
+  padding-bottom: 12px;
+
+  box-sizing: border-box;
+  background: white;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  box-shadow: 0 0.5rem 2rem rgba(0,0,0,.2);
+
+  -webkit-animation: fadein 0.3s;
+  -moz-animation: fadein 0.3s;
+  -ms-animation: fadein 0.3s;
+  -o-animation: fadein 0.3s;
+  animation: fadein 0.3s;
+
+  .dropdown-workspaces {
+    border-bottom: 1px gray solid;
+  }
+  
+  .dropdown-auth-links {
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+  }
+  
+  .dropdown-link {
+    text-decoration: none;
+    color: rgb(70, 70, 70);
+    font-size: 15px;
+    font-weight: 550;
+  
+    padding: 15px;
+    padding-top: 0px;
+  }
+  
+  .dropdown-link:hover {
+    color: rgb(40, 40, 216);
+    cursor: pointer;
+  }
+  
+  .dropdown-workspaces {
+    padding: 10px;
+  }
+  
+  .dropdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px 24px 12px 24px;
+    box-sizing: border-box;
+
+    .dropdown-image-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      min-height: 36px;
+      min-width: 36px;
+      border-radius: 3px;
+
+      background: rgb(98,98,98);
+
+      margin-right: 12px;
+
+      color: white;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .dropdown-content {
+      .dropdown-content-top {
+        font-size: 15px;
+        font-weight: 900;
+      }
+      .dropdown-content-bottom {
+        color: #1D1C1DB3;
+        font-size: 13px;
+      }
+    }
+  }
+
+  .dropdown-item {
+    height: 28px;
+    line-height: 28px;
+  
+    padding: 0 24px;
+  
+    font-size: 15px;
+  }
+  
+  .dropdown-item:hover {
+    color: white;
+    background:  #1164a3;
+    cursor: pointer;
+  }
+}
+
+.auth.dropdown {
+  top: 80px;
+  right: 1%;
+}
+
+.sidebar.dropdown{
+  position: absolute;
+  top: 85px;
+  left: 20px;
+}
+
+.profile.dropdown {
+  position: absolute;
+  top: 38px;
+  right: 16px;
+}
+

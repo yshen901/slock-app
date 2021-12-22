@@ -69,5 +69,6 @@ em {
 }
 
 .horizontal-divider {
-  border: 1px solid lightgray;
+  border: 0.5px solid lightgray;
+  margin: 8px 0;
 }

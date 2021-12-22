@@ -10,6 +10,10 @@ class SidebarDropdown extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      workspaceTitle: workspaceTitle(this.props.match.params.workspace_address)
+    };
+
     this.logoutUser = this.logoutUser.bind(this);
     this.logoutWorkspace = this.logoutWorkspace.bind(this);
     this.toggleElement = this.toggleElement.bind(this);
@@ -53,22 +57,33 @@ class SidebarDropdown extends React.Component {
 
   render() {
     return (
-      <div className="dropdown sidebar hidden">
+      <div className="dropdown sidebar">
+        <div className="dropdown-header">
+          <div className="dropdown-image-container">
+            {this.state.workspaceTitle[0]}
+          </div>
+          <div className="dropdown-content">
+            <div className="dropdown-content-top">{this.state.workspaceTitle}</div>
+            <div className="dropdown-content-bottom">slock-app.herokuapp.com/#/workspace/{this.props.match.params.workspace_address}</div>
+          </div>
+        </div>
+        <div className="horizontal-divider"></div>
+        <div className="dropdown-item" onClick={this.toggleElement("invite-user-modal")}>
+          Invite people to {this.state.workspaceTitle}
+        </div>
+        <div className="dropdown-item" onClick={this.toggleElement("new-channel-modal")}>
+          Create a channel
+        </div>
+        <div className="horizontal-divider"></div>
         <div className="dropdown-item" onClick={() => this.props.history.push("/create")}>
           Create a new workspace
         </div>
         <div className="dropdown-item" onClick={() => this.props.history.push("/signin")}>
           Sign into another workspace
         </div>
-        <div className="dropdown-item" onClick={this.logoutWorkspace}>
-          Sign out of <em>{workspaceTitle(this.props.match.params.workspace_address)}</em>
-        </div>
-        <div className="dropdown-item" onClick={this.logoutUser}>
-          Sign out of account
-        </div>
         <div className="horizontal-divider"></div>
-        <div className="dropdown-item" onClick={() => this.props.history.push("/")}>
-          Back to Home
+        <div className="dropdown-item" onClick={this.logoutWorkspace}>
+          Sign out of {this.state.workspaceTitle}
         </div>
       </div>
     )

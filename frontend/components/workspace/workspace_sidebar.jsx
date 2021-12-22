@@ -123,13 +123,13 @@ class WorkspaceSidebar extends React.Component {
           <div id="channels">
             <div className="sidebar-list">
               <Link className={channel_id == "channel-browser" ? "sidebar-item selected" : "sidebar-item"} to={this.channelLink("channel-browser")}>
-                <i class="fab fa-slack-hash"></i>
+                <i className="fab fa-slack-hash"></i>
                 <div className="channel-name">
                   Channel browser
                 </div>
               </Link>
               <Link className={channel_id == "people-browser" ? "sidebar-item selected" : "sidebar-item"} to={this.channelLink("people-browser")}>
-                <i class="far fa-address-book"></i>
+                <i className="far fa-address-book"></i>
                 <div className="channel-name">
                   People
                 </div>
@@ -142,7 +142,7 @@ class WorkspaceSidebar extends React.Component {
           <div id="channels">
             <div className='sidebar-header'>
               <div className='sidebar-header-chevron' onClick={this.toggleDropdown("channel")}>
-                {this.state.channel ? <i class="fas fa-caret-right"></i> : <i class="fas fa-caret-down"></i>}
+                {this.state.channel ? <i className="fas fa-caret-right"></i> : <i className="fas fa-caret-down"></i>}
               </div>
               <div className='sidebar-header-link hoverable' onClick={this.toggleDropdown("channel")}>Channels</div>
               <Link className='sidebar-header-button' to={this.channelLink("channel-browser")}>
@@ -171,7 +171,7 @@ class WorkspaceSidebar extends React.Component {
           <div id="channels">
             <div className='sidebar-header'>
               <div className='sidebar-header-chevron' onClick={this.toggleDropdown("DM")}>
-                {this.state.DM ? <i class="fas fa-caret-right"></i> : <i class="fas fa-caret-down"></i>}
+                {this.state.DM ? <i className="fas fa-caret-right"></i> : <i className="fas fa-caret-down"></i>}
               </div>
               <div className='sidebar-header-link hoverable' onClick={this.toggleDropdown("DM")}>Direct Messages</div>
               <Link className='sidebar-header-button' to={this.channelLink("people-browser")}>

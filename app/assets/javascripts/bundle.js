@@ -5658,6 +5658,9 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, SidebarDropdown);
 
     _this = _super.call(this, props);
+    _this.state = {
+      workspaceTitle: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["workspaceTitle"])(_this.props.match.params.workspace_address)
+    };
     _this.logoutUser = _this.logoutUser.bind(_assertThisInitialized(_this));
     _this.logoutWorkspace = _this.logoutWorkspace.bind(_assertThisInitialized(_this));
     _this.toggleElement = _this.toggleElement.bind(_assertThisInitialized(_this));
@@ -5710,8 +5713,28 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
       var _this4 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown sidebar hidden"
+        className: "dropdown sidebar"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-image-container"
+      }, this.state.workspaceTitle[0]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-content-top"
+      }, this.state.workspaceTitle), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-content-bottom"
+      }, "slock-app.herokuapp.com/#/workspace/", this.props.match.params.workspace_address))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "horizontal-divider"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-item",
+        onClick: this.toggleElement("invite-user-modal")
+      }, "Invite people to ", this.state.workspaceTitle), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-item",
+        onClick: this.toggleElement("new-channel-modal")
+      }, "Create a channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "horizontal-divider"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: function onClick() {
           return _this4.props.history.push("/create");
@@ -5722,19 +5745,11 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
           return _this4.props.history.push("/signin");
         }
       }, "Sign into another workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown-item",
-        onClick: this.logoutWorkspace
-      }, "Sign out of ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("em", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["workspaceTitle"])(this.props.match.params.workspace_address))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown-item",
-        onClick: this.logoutUser
-      }, "Sign out of account"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "horizontal-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
-        onClick: function onClick() {
-          return _this4.props.history.push("/");
-        }
-      }, "Back to Home"));
+        onClick: this.logoutWorkspace
+      }, "Sign out of ", this.state.workspaceTitle));
     }
   }]);
 
@@ -6555,14 +6570,14 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         className: channel_id == "channel-browser" ? "sidebar-item selected" : "sidebar-item",
         to: this.channelLink("channel-browser")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        "class": "fab fa-slack-hash"
+        className: "fab fa-slack-hash"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-name"
       }, "Channel browser")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: channel_id == "people-browser" ? "sidebar-item selected" : "sidebar-item",
         to: this.channelLink("people-browser")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        "class": "far fa-address-book"
+        className: "far fa-address-book"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-name"
       }, "People")))), this.starred(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6573,9 +6588,9 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         className: "sidebar-header-chevron",
         onClick: this.toggleDropdown("channel")
       }, this.state.channel ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        "class": "fas fa-caret-right"
+        className: "fas fa-caret-right"
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        "class": "fas fa-caret-down"
+        className: "fas fa-caret-down"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-link hoverable",
         onClick: this.toggleDropdown("channel")
@@ -6610,9 +6625,9 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         className: "sidebar-header-chevron",
         onClick: this.toggleDropdown("DM")
       }, this.state.DM ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        "class": "fas fa-caret-right"
+        className: "fas fa-caret-right"
       }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        "class": "fas fa-caret-down"
+        className: "fas fa-caret-down"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-link hoverable",
         onClick: this.toggleDropdown("DM")
