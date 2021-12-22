@@ -50,7 +50,6 @@ const ChannelReducer = (state = {}, action) => {
     case RECEIVE_CHANNEL_USER:
       nextState = cloneDeep(state);
       channel_id = action.channel_user.channel_id;
-      debugger;
       nextState[channel_id].starred = action.channel_user.starred;
       return nextState;
 
@@ -74,7 +73,6 @@ const ChannelReducer = (state = {}, action) => {
         nextState[channel_id].users[user_id] = { id: user_id };
       else
         delete nextState[channel_id].users[user_id];
-      debugger;
       return nextState;
     default:
       return state

@@ -126,7 +126,6 @@ class Workspace extends React.Component {
             }
           }
           else if (type == LEAVE_CALL) { // detects if user or caller ends call
-            debugger;
             if (from == user.id)
               this.setState({ inVideoCall: null });
             else if (this.state.incomingCall && this.state.incomingCall.channel_id == channel_id)

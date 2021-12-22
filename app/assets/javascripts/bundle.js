@@ -2846,7 +2846,6 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
                 // return this.removeUser(data); // no need to remove user if we only have one
 
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["REJECT_CALL"]:
-                  debugger;
                   if (data.target_user_id == user_id && data.channel_id == channel_id) _this2.cancelCall();
                   return;
 
@@ -2956,8 +2955,6 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       };
 
       pc.ontrack = function (e) {
-        debugger;
-
         if (!_this3.appended) {
           var remoteVid = document.createElement("video");
           remoteVid.id = "remote-video-instance container-".concat(userId);
@@ -6177,7 +6174,6 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
             }
           } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_15__["LEAVE_CALL"]) {
             // detects if user or caller ends call
-            debugger;
             if (from == user.id) _this3.setState({
               inVideoCall: null
             });else if (_this3.state.incomingCall && _this3.state.incomingCall.channel_id == channel_id) _this3.setState({
@@ -7010,7 +7006,6 @@ var ChannelReducer = function ChannelReducer() {
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL_USER"]:
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       _channel_id = action.channel_user.channel_id;
-      debugger;
       nextState[_channel_id].starred = action.channel_user.starred;
       return nextState;
     // same as ReceiveChannel since we don't need to change users
@@ -7036,7 +7031,6 @@ var ChannelReducer = function ChannelReducer() {
       if (login) nextState[_channel_id].users[_user_id] = {
         id: _user_id
       };else delete nextState[_channel_id].users[_user_id];
-      debugger;
       return nextState;
 
     default:

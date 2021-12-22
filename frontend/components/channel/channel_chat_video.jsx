@@ -89,7 +89,6 @@ class ChannelVideoChatRoomExternal extends React.Component {
                         return this.endCall();
                         // return this.removeUser(data); // no need to remove user if we only have one
                       case REJECT_CALL:
-                        debugger;
                         if (data.target_user_id == user_id && data.channel_id == channel_id)
                           this.cancelCall();
                         return;
@@ -192,7 +191,6 @@ class ChannelVideoChatRoomExternal extends React.Component {
         })
     };
     pc.ontrack = (e) => {
-      debugger;
         if (!this.appended) {
           const remoteVid = document.createElement("video");
           remoteVid.id = `remote-video-instance container-${userId}`;
