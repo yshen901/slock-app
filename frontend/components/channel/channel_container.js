@@ -8,7 +8,8 @@ const mapStateToProps = (state, ownProps) => ({
   workspace_address: ownProps.match.params.workspace_address,
   channel: state.entities.channels[ownProps.match.params.channel_id],
   channel_id: ownProps.match.params.channel_id,
-  messages: state.entities.messages
+  messages: state.entities.messages,
+  user_id: state.session.user_id
 })
 
 const mapDispatchToProps = (dispatch) => ({

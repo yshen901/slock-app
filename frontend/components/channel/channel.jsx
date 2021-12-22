@@ -88,7 +88,7 @@ class Channel extends React.Component {
     e.stopPropagation();
     let { channel } = this.props;
     let { workspace_id } = this.props.channel;
-    let user_id = this.props.user.id;
+    let user_id = this.props.user_id;
 
     if (channel.dm_channel) {
       dispatch(restartDmChannel({

@@ -1260,7 +1260,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     formType: "Sign in",
     workspace_address: ownProps.match.params.workspace_address,
-    error_messages: ["Sorry, you entered an incorrect email address or password."]
+    error_messages: ["Invalid username/password. Please try again or contact workspace owner."]
   };
 };
 
@@ -2309,7 +2309,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       e.stopPropagation();
       var channel = this.props.channel;
       var workspace_id = this.props.channel.workspace_id;
-      var user_id = this.props.user.id;
+      var user_id = this.props.user_id;
 
       if (channel.dm_channel) {
         dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_6__["restartDmChannel"])({
@@ -3281,7 +3281,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     workspace_address: ownProps.match.params.workspace_address,
     channel: state.entities.channels[ownProps.match.params.channel_id],
     channel_id: ownProps.match.params.channel_id,
-    messages: state.entities.messages
+    messages: state.entities.messages,
+    user_id: state.session.user_id
   };
 };
 
