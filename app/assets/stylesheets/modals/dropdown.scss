@@ -66,6 +66,7 @@
       align-items: center;
       justify-content: center;
       
+      height: 36px;
       min-height: 36px;
       min-width: 36px;
       border-radius: 3px;
@@ -77,6 +78,12 @@
       color: white;
       font-size: 20px;
       font-weight: 700;
+
+      img {
+        height: 100%;
+        width: auto;
+        object-fit: cover;
+      }
     }
 
     .dropdown-content {
@@ -133,5 +140,11 @@
   position: absolute;
   top: 38px;
   right: 16px;
+}
+
+.workspaces.dropdown {
+  position: absolute;
+  top: 60px;
+  right: 20px;
 }
 

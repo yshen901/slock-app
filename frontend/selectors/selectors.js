@@ -25,3 +25,12 @@ export const photoUrl = (user) => {
     return DEFAULT_PHOTO_URL;
   return user.photo_url;
 }
+
+export const getUserName = (user) => {
+    if (user.display_name)
+      return user.display_name;
+    else if (user.full_name)
+      return user.full_name;
+    else
+      return user.email;
+}

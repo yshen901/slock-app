@@ -61,11 +61,11 @@ class WorkspaceSigninForm extends React.Component {
     for (let i = 0; i < demoWorkspaceAddress.length; i++)
       setTimeout(() => {
         this.setState({workspace_address: this.state.workspace_address + demoWorkspaceAddress[i]})
-      }, i*50);
+      }, i*30);
 
     setTimeout(() => {
       this.handleSubmit();
-    }, demoWorkspaceAddress.length * 50);
+    }, demoWorkspaceAddress.length * 31);
   }
 
   // Only shows for the demo workspace

@@ -3,12 +3,16 @@ import { withRouter } from 'react-router-dom';
 
 import { logout } from '../../actions/session_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
-import { workspaceTitle } from '../../selectors/selectors';
+import { getUserName, photoUrl, workspaceTitle } from '../../selectors/selectors';
 import { hideElements, toggleElements } from '../../util/modal_api_util';
 
 class ProfileDropdown extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      user: getState().entities.users[getState().session.user_id]
+    }
 
     this.logoutUser = this.logoutUser.bind(this);
     this.logoutWorkspace = this.logoutWorkspace.bind(this);
@@ -56,6 +60,15 @@ class ProfileDropdown extends React.Component {
     return (
       <div className="dropdown-modal profile hidden" onClick={() => hideElements("dropdown-modal")}>
         <div className="dropdown profile" onClick={e => e.stopPropagation()}>
+          <div className="dropdown-header">
+            <div className="dropdown-image-container">
+              <img src={photoUrl(this.state.user)}/>
+            </div>
+            <div className="dropdown-content">
+              <div className="dropdown-content-top">{getUserName(this.state.user)}</div>
+            </div>
+          </div>
+          <div className="horizontal-divider"></div>
           <div className="dropdown-item" onClick={this.toggleButton(this.props.showUser)}>
             Profile
           </div>

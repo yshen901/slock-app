@@ -96,16 +96,16 @@ class UserSigninForm extends React.Component {
     for (let i = 0; i < demoEmail.length; i++)
       setTimeout(() => {
         this.setState({email: this.state.email + demoEmail[i]})
-      }, i*50);
+      }, i*30);
 
     for (let i = 0; i < demoPassword.length; i++)
       setTimeout(() => {
         this.setState({password: this.state.password + demoPassword[i]})
-      }, i*50 + demoEmail.length * 50);
+      }, i*30 + demoEmail.length * 30);
 
     setTimeout(() => {
       this.handleSubmit();
-    }, (demoEmail.length + demoPassword.length) * 50);
+    }, (demoEmail.length + demoPassword.length) * 31);
   }
 
   // Only shows for the demo workspace

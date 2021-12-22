@@ -1114,7 +1114,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
           _this5.setState({
             email: _this5.state.email + demoEmail[i]
           });
-        }, i * 50);
+        }, i * 30);
       };
 
       for (var i = 0; i < demoEmail.length; i++) {
@@ -1126,7 +1126,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
           _this5.setState({
             password: _this5.state.password + demoPassword[_i]
           });
-        }, _i * 50 + demoEmail.length * 50);
+        }, _i * 30 + demoEmail.length * 30);
       };
 
       for (var _i = 0; _i < demoPassword.length; _i++) {
@@ -1135,7 +1135,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
 
       setTimeout(function () {
         _this5.handleSubmit();
-      }, (demoEmail.length + demoPassword.length) * 50);
+      }, (demoEmail.length + demoPassword.length) * 31);
     } // Only shows for the demo workspace
 
   }, {
@@ -1681,7 +1681,7 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
           _this3.setState({
             workspace_address: _this3.state.workspace_address + demoWorkspaceAddress[i]
           });
-        }, i * 50);
+        }, i * 30);
       };
 
       for (var i = 0; i < demoWorkspaceAddress.length; i++) {
@@ -1690,7 +1690,7 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
 
       setTimeout(function () {
         _this3.handleSubmit();
-      }, demoWorkspaceAddress.length * 50);
+      }, demoWorkspaceAddress.length * 31);
     } // Only shows for the demo workspace
 
   }, {
@@ -5551,6 +5551,9 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, ProfileDropdown);
 
     _this = _super.call(this, props);
+    _this.state = {
+      user: getState().entities.users[getState().session.user_id]
+    };
     _this.logoutUser = _this.logoutUser.bind(_assertThisInitialized(_this));
     _this.logoutWorkspace = _this.logoutWorkspace.bind(_assertThisInitialized(_this));
     _this.toggleButton = _this.toggleButton.bind(_assertThisInitialized(_this));
@@ -5612,6 +5615,18 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
           return e.stopPropagation();
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-image-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["photoUrl"])(this.state.user)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-content-top"
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["getUserName"])(this.state.user)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "horizontal-divider"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.toggleButton(this.props.showUser)
       }, "Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -7393,7 +7408,7 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl */
+/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7403,6 +7418,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "objectToNameArray", function() { return objectToNameArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "workspaceTitle", function() { return workspaceTitle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "photoUrl", function() { return photoUrl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserName", function() { return getUserName; });
 var DEFAULT_PHOTO_URL = '/images/profile/default.png';
 var objectToArray = function objectToArray(object) {
   return Object.keys(object).map(function (key) {
@@ -7427,6 +7443,9 @@ var workspaceTitle = function workspaceTitle(address) {
 var photoUrl = function photoUrl(user) {
   if (!user || !user.photo_url) return DEFAULT_PHOTO_URL;
   return user.photo_url;
+};
+var getUserName = function getUserName(user) {
+  if (user.display_name) return user.display_name;else if (user.full_name) return user.full_name;else return user.email;
 };
 
 /***/ }),
