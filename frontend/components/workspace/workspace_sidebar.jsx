@@ -7,8 +7,14 @@ class WorkspaceSidebar extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      channel: "hidden",
+      DM: "hidden"
+    }
+
     this.channelLink = this.channelLink.bind(this);
     this.toggleElements = this.toggleElements.bind(this);
+    this.toggleDropdown = this.toggleDropdown.bind(this);
 
     this.starred = this.starred.bind(this);
     this.getChannels = this.getChannels.bind(this);
@@ -26,6 +32,14 @@ class WorkspaceSidebar extends React.Component {
       hideElements("dropdown"); 
       toggleElements(className);
       focus(inputId);
+    }
+  }
+
+  toggleDropdown(category) {
+    return (e) => {
+      e.stopPropagation();
+
+      this.setState({ [category]: this.state[category] == "" ? "hidden" : "" })
     }
   }
 
@@ -105,15 +119,13 @@ class WorkspaceSidebar extends React.Component {
           </div>
 
           <div id="channels">
-          <div className="sidebar-list">
+            <div className="sidebar-list">
               <Link className="sidebar-item" to={this.channelLink("channel-browser")}>
                 <div className="channel-name">
                   <i class="fab fa-slack-hash"></i>
                   &nbsp;Channel browser
                 </div>
               </Link>
-            </div>
-            <div className="sidebar-list">
               <Link className="sidebar-item" to={this.channelLink("people-browser")}>
                 <div className="channel-name">
                   <i class="far fa-address-book"></i>
@@ -127,14 +139,14 @@ class WorkspaceSidebar extends React.Component {
 
           <div id="channels">
             <div className='sidebar-header'>
-              <div className='sidebar-header-link hoverable'>Channels</div>
+              <div className='sidebar-header-link hoverable' onClick={this.toggleDropdown("channel")}>Channels</div>
               <Link className='sidebar-header-button' to={this.channelLink("channel-browser")}>
                 <i className="fas fa-plus-circle"></i>
               </Link>
             </div>
             <div className="sidebar-list">
               {this.getChannels(false).map((channel, idx) => {
-                let channelClassName = channel.id == channel_id ? "sidebar-item selected" : "sidebar-item";
+                let channelClassName = channel.id == channel_id ? `sidebar-item indented selected` : `sidebar-item indented ${this.state.channel}`;
                 return (
                   <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
                     <div className="channel-name">
@@ -148,14 +160,14 @@ class WorkspaceSidebar extends React.Component {
 
           <div id="channels">
             <div className='sidebar-header'>
-              <div className='sidebar-header-link hoverable'>Direct Messages</div>
+              <div className='sidebar-header-link hoverable' onClick={this.toggleDropdown("DM")}>Direct Messages</div>
               <Link className='sidebar-header-button' to={this.channelLink("people-browser")}>
                 <i className="fas fa-plus-circle"></i>
               </Link>
             </div>
             <div className="sidebar-list">
               {this.getChannels(false, true).map((channel, idx) => {
-                let channelClassName = channel.id == channel_id ? "sidebar-item selected" : "sidebar-item";
+                let channelClassName = channel.id == channel_id ? `sidebar-item indented selected` : `sidebar-item indented ${this.state.DM}`;
                 return (
                   <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
                     {this.getDmChannelName(channel)}

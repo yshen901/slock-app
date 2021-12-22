@@ -6379,6 +6379,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -6415,8 +6417,13 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, WorkspaceSidebar);
 
     _this = _super.call(this, props);
+    _this.state = {
+      channel: "hidden",
+      DM: "hidden"
+    };
     _this.channelLink = _this.channelLink.bind(_assertThisInitialized(_this));
     _this.toggleElements = _this.toggleElements.bind(_assertThisInitialized(_this));
+    _this.toggleDropdown = _this.toggleDropdown.bind(_assertThisInitialized(_this));
     _this.starred = _this.starred.bind(_assertThisInitialized(_this));
     _this.getChannels = _this.getChannels.bind(_assertThisInitialized(_this));
     return _this;
@@ -6438,6 +6445,17 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])(className);
 
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["focus"])(inputId);
+      };
+    }
+  }, {
+    key: "toggleDropdown",
+    value: function toggleDropdown(category) {
+      var _this2 = this;
+
+      return function (e) {
+        e.stopPropagation();
+
+        _this2.setState(_defineProperty({}, category, _this2.state[category] == "" ? "hidden" : ""));
       };
     }
   }, {
@@ -6493,7 +6511,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "starred",
     value: function starred() {
-      var _this2 = this;
+      var _this3 = this;
 
       var starred = this.getChannels(true);
       var channel_id = this.props.match.params.channel_id;
@@ -6508,18 +6526,18 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
             key: idx,
             className: "sidebar-item selected",
-            to: _this2.channelLink(channel.id)
+            to: _this3.channelLink(channel.id)
           }, "# \xA0", channel.name);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: "sidebar-item",
-          to: _this2.channelLink(channel.id)
+          to: _this3.channelLink(channel.id)
         }, "# \xA0", channel.name);
       }));
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var channel_id = this.props.match.params.channel_id;
       if (this.props.user) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6540,9 +6558,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         className: "channel-name"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         "class": "fab fa-slack-hash"
-      }), "\xA0Channel browser"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "sidebar-list"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }), "\xA0Channel browser")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "sidebar-item",
         to: this.channelLink("people-browser")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6554,7 +6570,8 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "sidebar-header-link hoverable"
+        className: "sidebar-header-link hoverable",
+        onClick: this.toggleDropdown("channel")
       }, "Channels"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "sidebar-header-button",
         to: this.channelLink("channel-browser")
@@ -6563,11 +6580,11 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-list"
       }, this.getChannels(false).map(function (channel, idx) {
-        var channelClassName = channel.id == channel_id ? "sidebar-item selected" : "sidebar-item";
+        var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented ".concat(_this4.state.channel);
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: channelClassName,
-          to: _this3.channelLink(channel.id)
+          to: _this4.channelLink(channel.id)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-name"
         }, "# \xA0", channel.name));
@@ -6576,7 +6593,8 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "sidebar-header-link hoverable"
+        className: "sidebar-header-link hoverable",
+        onClick: this.toggleDropdown("DM")
       }, "Direct Messages"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "sidebar-header-button",
         to: this.channelLink("people-browser")
@@ -6585,12 +6603,12 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-list"
       }, this.getChannels(false, true).map(function (channel, idx) {
-        var channelClassName = channel.id == channel_id ? "sidebar-item selected" : "sidebar-item";
+        var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented ".concat(_this4.state.DM);
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: channelClassName,
-          to: _this3.channelLink(channel.id)
-        }, _this3.getDmChannelName(channel));
+          to: _this4.channelLink(channel.id)
+        }, _this4.getDmChannelName(channel));
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-button"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
