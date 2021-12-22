@@ -50,6 +50,7 @@ class SidebarDropdown extends React.Component {
   toggleElement(className) {
     return (e) => {
       e.stopPropagation();
+      hideElements("dropdown-modal")
       toggleElements(className);
     };
   }
@@ -57,7 +58,7 @@ class SidebarDropdown extends React.Component {
   render() {
     return (
       <div className="dropdown-modal sidebar hidden" onClick={() => hideElements("dropdown-modal sidebar")}>
-        <div className="dropdown sidebar">
+        <div className="dropdown sidebar" onClick={e => e.stopPropagation()}>
           <div className="dropdown-header">
             <div className="dropdown-image-container">
               {this.state.workspaceTitle[0]}

@@ -11,7 +11,7 @@ class AuthNav extends React.Component {
           <Link className="auth-nav-link" to="/tbd">Pricing</Link>
           <Link className="auth-nav-link" to="/tbd">Support</Link> */}
           <Link className="auth-nav-link" to="/tbd">Create a new workspace</Link>
-          <div id="auth-signin" onClick={(e) => {e.stopPropagation(); toggleElements("dropdown")}}>Your Workspaces</div>
+          <div id="auth-signin" onClick={(e) => {e.stopPropagation(); toggleElements("dropdown-modal workspaces")}}>Your Workspaces</div>
         </div>
       )
     else {  // Returns either signin or signup button depending on the page

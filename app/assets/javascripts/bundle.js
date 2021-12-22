@@ -914,7 +914,7 @@ var AuthNav = /*#__PURE__*/function (_React$Component) {
         id: "auth-signin",
         onClick: function onClick(e) {
           e.stopPropagation();
-          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])("dropdown");
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])("dropdown-modal workspaces");
         }
       }, "Your Workspaces"));else {
         // Returns either signin or signup button depending on the page
@@ -5607,7 +5607,10 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
           return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown-modal");
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown profile"
+        className: "dropdown profile",
+        onClick: function onClick(e) {
+          return e.stopPropagation();
+        }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.toggleButton(this.props.showUser)
@@ -5728,6 +5731,7 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
     value: function toggleElement(className) {
       return function (e) {
         e.stopPropagation();
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown-modal");
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["toggleElements"])(className);
       };
     }
@@ -5742,7 +5746,10 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
           return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown-modal sidebar");
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown sidebar"
+        className: "dropdown sidebar",
+        onClick: function onClick(e) {
+          return e.stopPropagation();
+        }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5887,19 +5894,22 @@ var WorkspaceDropdown = /*#__PURE__*/function (_React$Component) {
           Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("dropdown-modal");
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown workspaces"
+        className: "dropdown workspaces",
+        onClick: function onClick(e) {
+          return e.stopPropagation();
+        }
       }, this.workspaceList(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown-auth-links"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "dropdown-link",
+        className: "horizontal-divider"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "dropdown-item",
         to: "/create"
       }, "Create a new workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "dropdown-link",
+        className: "dropdown-item",
         to: "/signin"
       }, "Sign into another workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown-link",
+        className: "dropdown-item",
         onClick: this.logoutUser
-      }, "Sign Out"))));
+      }, "Sign Out")));
     }
   }]);
 

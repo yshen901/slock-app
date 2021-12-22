@@ -55,7 +55,7 @@ class ProfileDropdown extends React.Component {
   render() {
     return (
       <div className="dropdown-modal profile hidden" onClick={() => hideElements("dropdown-modal")}>
-        <div className="dropdown profile">
+        <div className="dropdown profile" onClick={e => e.stopPropagation()}>
           <div className="dropdown-item" onClick={this.toggleButton(this.props.showUser)}>
             Profile
           </div>

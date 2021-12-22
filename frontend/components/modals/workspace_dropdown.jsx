@@ -43,13 +43,12 @@ class WorkspaceDropdown extends React.Component {
   render() {
     return (
       <div className="dropdown-modal workspaces hidden" onClick={(e) => { e.stopPropagation(); hideElements("dropdown-modal") }}>
-        <div className="dropdown workspaces">
+        <div className="dropdown workspaces" onClick={e => e.stopPropagation()}>
           {this.workspaceList()}
-          <div className="dropdown-auth-links">
-            <Link className="dropdown-link" to="/create">Create a new workspace</Link>
-            <Link className="dropdown-link" to="/signin">Sign into another workspace</Link>
-            <div className="dropdown-link" onClick={this.logoutUser}>Sign Out</div>
-          </div>
+          <div className="horizontal-divider"></div>
+          <Link className="dropdown-item" to="/create">Create a new workspace</Link>
+          <Link className="dropdown-item" to="/signin">Sign into another workspace</Link>
+          <div className="dropdown-item" onClick={this.logoutUser}>Sign Out</div>
         </div>
       </div>
     )
