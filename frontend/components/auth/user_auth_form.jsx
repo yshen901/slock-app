@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import AuthNav from './auth_nav';
 import AuthFooter from './auth_footer';
@@ -18,6 +18,7 @@ class UserSigninForm extends React.Component {
       workspace_address: this.props.workspace_address,
       email: "",
       password: "",
+      password_confirm: "",
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,6 +63,7 @@ class UserSigninForm extends React.Component {
     //   )
     if (e)
       e.preventDefault();
+
     this.props.processForm(this.state)
       .then( 
         () => {
@@ -70,17 +72,19 @@ class UserSigninForm extends React.Component {
           else
             this.props.history.push("/")
         },
-        () => this.setState({state: this.state})
       );
   }
 
   updateForm(type) {
-    return (e) => this.setState({ [type]: e.currentTarget.value })
+    return (e) => {
+      if (getState().errors.session.length > 0)
+        this.props.refreshErrors();
+      this.setState({ [type]: e.currentTarget.value })
+    }
   }
 
   createGreeting() {
-    let address = this.state.workspace_address.split('-');
-    return `${this.props.formType} to ${address.join(' ')}.slock.com`;
+    return `${this.props.formType} to ${this.state.workspace_address}.slock.com`;
   }
 
   // Can only be triggered by demoButton
@@ -119,12 +123,40 @@ class UserSigninForm extends React.Component {
   }
 
   render() {
+    debugger;
     let greeting = this.createGreeting();
+    let { password, password_confirm, email } = this.state;
+
+    // Renders user auth errors
     let error_class = "auth-errors hidden"
+    let error_messages = [];
     if (getState().errors.session.length > 0) {
       error_class = "auth-errors";
-      this.props.refreshErrors();
+      error_messages.push(0)
     }
+
+    // Checks for password confirmation when signing in
+    let passwordConfirm = "";
+    if (this.props.formType == "Sign up") {
+      passwordConfirm = (
+        <input type="password_confirm"
+              onChange={this.updateForm('password_confirm')}
+              placeholder="confirm password" 
+              value={this.state.password_confirm}/>
+      )
+
+      if (password_confirm && password_confirm != password) {
+        error_class = "auth-errors";
+        error_messages.push(1);
+      }
+    }
+
+    // Disables the button if conditions aren't met
+    let disabled = "";
+    if (password == "" || email == "")
+      disabled = "disabled";
+    else if (this.props.formType == "Sign up" && (password_confirm == "" || password_confirm != password))
+      disabled = "disabled";
 
     return (
       <div className="auth-page" id='user-signin' onClick={() => hideElements("dropdown")}>
@@ -133,7 +165,9 @@ class UserSigninForm extends React.Component {
 
         <div className={error_class}>
           <h6>!!!</h6>
-          <h6>{this.props.error_message}</h6>
+          {error_messages.map(idx => (
+            <h6 key={idx}>{this.props.error_messages[idx]}</h6>
+          ))}
         </div>
         <div className='auth-box'>
           <div className="auth-greeting">
@@ -150,7 +184,10 @@ class UserSigninForm extends React.Component {
               onChange={this.updateForm('password')}
               placeholder="password" 
               value={this.state.password}/>
-            <input type="submit" value={this.props.formType}/>
+            { passwordConfirm }
+            <input type="submit" 
+              value={this.props.formType}
+              disabled={disabled}/>
           </form>
           {this.demoButton()}
           {/* <h4 className="auth-box-footer">

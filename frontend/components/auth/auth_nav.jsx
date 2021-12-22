@@ -10,7 +10,7 @@ class AuthNav extends React.Component {
           {/* <Link className="auth-nav-link" to="/tbd">Product</Link>
           <Link className="auth-nav-link" to="/tbd">Pricing</Link>
           <Link className="auth-nav-link" to="/tbd">Support</Link> */}
-          <Link className="auth-nav-link" to="/tbd">Create a new workspace</Link>
+          <Link className="auth-nav-link" to="/create">Create a new workspace</Link>
           <div id="auth-signin" onClick={(e) => {e.stopPropagation(); toggleElements("dropdown-modal workspaces")}}>Your Workspaces</div>
         </div>
       )

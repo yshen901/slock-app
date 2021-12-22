@@ -59,7 +59,7 @@ class Api::UsersController < ApplicationController
   def create
     @user = User.includes(workspaces: [:connections]).find_by(email: user_params[:email])
     if @user
-      render json: ["User already exists"]
+      render json: ["User already exists"], status: 401
     else
       @user = User.new(
         email: user_params[:email],
@@ -69,7 +69,7 @@ class Api::UsersController < ApplicationController
         login!(@user)
         render '/api/users/show'
       else
-        render json: @users.errors.full_messages, status: 401
+        render json: @user.errors.full_messages, status: 401
       end
     end
   end

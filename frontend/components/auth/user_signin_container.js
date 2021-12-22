@@ -12,7 +12,7 @@ import { refreshErrors } from '../../actions/error_actions';
 const mapStateToProps = (state, ownProps) => ({
   formType: "Sign in",
   workspace_address: ownProps.match.params.workspace_address,
-  error_message: "Sorry, you entered an incorrect email address or password.",
+  error_messages: ["Sorry, you entered an incorrect email address or password."],
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -909,7 +909,7 @@ var AuthNav = /*#__PURE__*/function (_React$Component) {
         className: "right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         className: "auth-nav-link",
-        to: "/tbd"
+        to: "/create"
       }, "Create a new workspace"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "auth-signin",
         onClick: function onClick(e) {
@@ -1022,7 +1022,8 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       workspace_address: _this.props.workspace_address,
       email: "",
-      password: ""
+      password: "",
+      password_confirm: ""
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.updateForm = _this.updateForm.bind(_assertThisInitialized(_this));
@@ -1073,10 +1074,6 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
       if (e) e.preventDefault();
       this.props.processForm(this.state).then(function () {
         if (_this3.props.formType === 'Sign in') _this3.props.history.push("/workspace/".concat(_this3.state.workspace_address, "/0"));else _this3.props.history.push("/");
-      }, function () {
-        return _this3.setState({
-          state: _this3.state
-        });
       });
     }
   }, {
@@ -1085,14 +1082,15 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
       var _this4 = this;
 
       return function (e) {
-        return _this4.setState(_defineProperty({}, type, e.currentTarget.value));
+        if (getState().errors.session.length > 0) _this4.props.refreshErrors();
+
+        _this4.setState(_defineProperty({}, type, e.currentTarget.value));
       };
     }
   }, {
     key: "createGreeting",
     value: function createGreeting() {
-      var address = this.state.workspace_address.split('-');
-      return "".concat(this.props.formType, " to ").concat(address.join(' '), ".slock.com");
+      return "".concat(this.props.formType, " to ").concat(this.state.workspace_address, ".slock.com");
     } // Can only be triggered by demoButton
 
   }, {
@@ -1148,14 +1146,43 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this6 = this;
+
+      debugger;
       var greeting = this.createGreeting();
+      var _this$state = this.state,
+          password = _this$state.password,
+          password_confirm = _this$state.password_confirm,
+          email = _this$state.email; // Renders user auth errors
+
       var error_class = "auth-errors hidden";
+      var error_messages = [];
 
       if (getState().errors.session.length > 0) {
         error_class = "auth-errors";
-        this.props.refreshErrors();
-      }
+        error_messages.push(0);
+      } // Checks for password confirmation when signing in
 
+
+      var passwordConfirm = "";
+
+      if (this.props.formType == "Sign up") {
+        passwordConfirm = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "password_confirm",
+          onChange: this.updateForm('password_confirm'),
+          placeholder: "confirm password",
+          value: this.state.password_confirm
+        });
+
+        if (password_confirm && password_confirm != password) {
+          error_class = "auth-errors";
+          error_messages.push(1);
+        }
+      } // Disables the button if conditions aren't met
+
+
+      var disabled = "";
+      if (password == "" || email == "") disabled = "disabled";else if (this.props.formType == "Sign up" && (password_confirm == "" || password_confirm != password)) disabled = "disabled";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-page",
         id: "user-signin",
@@ -1166,7 +1193,11 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
         dropdownClass: "auth dropdown hidden"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: error_class
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "!!!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, this.props.error_message)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "!!!"), error_messages.map(function (idx) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", {
+          key: idx
+        }, _this6.props.error_messages[idx]);
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-box"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-greeting"
@@ -1183,9 +1214,10 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
         onChange: this.updateForm('password'),
         placeholder: "password",
         value: this.state.password
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }), passwordConfirm, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
-        value: this.props.formType
+        value: this.props.formType,
+        disabled: disabled
       })), this.demoButton()));
     }
   }]);
@@ -1226,7 +1258,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     formType: "Sign in",
     workspace_address: ownProps.match.params.workspace_address,
-    error_message: "Sorry, you entered an incorrect email address or password."
+    error_messages: ["Sorry, you entered an incorrect email address or password."]
   };
 };
 
@@ -1279,7 +1311,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state) {
   return {
     formType: "Sign up",
-    error_message: "User already exists, please try again",
+    error_messages: ["User already exists, please try again", "Passwords do not match, please try again"],
     // workspace_address: DEMO_WORKSPACE, // to disable demo button for signup
     workspace_address: ""
   };
@@ -1711,6 +1743,8 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
         dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_6__["refreshErrors"])());
       }
 
+      var disabled = "";
+      if (this.state.workspace_address == "") disabled = "disabled";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-page",
         id: "workspace-signin",
@@ -1721,9 +1755,7 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
         dropdownClass: "auth dropdown hidden"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: error_class
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "!!!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "We couldn't find your workspace."), "\xA0If you can't remember your workspace's address, we can \xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
-        to: "/tbd"
-      }, "send you a reminder"), ".")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "!!!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "We couldn't find your workspace."))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-box"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-greeting"
@@ -1738,7 +1770,8 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
         value: this.state.workspace_address
       }), " .slock.com"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
-        value: 'Continue '
+        value: 'Continue ',
+        disabled: disabled
       }), this.demoButton())));
     }
   }]);

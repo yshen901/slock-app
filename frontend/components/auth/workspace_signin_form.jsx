@@ -82,6 +82,11 @@ class WorkspaceSigninForm extends React.Component {
       error_class = "auth-errors";
       dispatch(refreshErrors());
     }
+
+    let disabled = "";
+    if (this.state.workspace_address == "")
+      disabled = "disabled";
+    
     return (
       <div className="auth-page" id="workspace-signin" onClick={() => hideElements("dropdown")}>
         <AuthNav />
@@ -91,8 +96,8 @@ class WorkspaceSigninForm extends React.Component {
           <h6>!!!</h6>
           <h6>
             <strong>We couldn't find your workspace.</strong> 
-            &nbsp;If you can't remember your workspace's address, we can 
-            &nbsp;<Link to='/tbd'>send you a reminder</Link>.
+            {/* &nbsp;If you can't remember your workspace's address, we can 
+            &nbsp;<Link to='/tbd'>send you a reminder</Link>. */}
           </h6>
         </div>
         <div className="auth-box">
@@ -108,7 +113,7 @@ class WorkspaceSigninForm extends React.Component {
                 align="left"
                 value={this.state.workspace_address}/> .slock.com
             </label>
-            <input type="submit" value={'Continue '}/>
+            <input type="submit" value={'Continue '} disabled={disabled}/>
             {this.demoButton()}
           </form>
           {/* <h4 className="auth-box-footer">
