@@ -4176,11 +4176,11 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
           }, "Launch Slock"));
         });
       } else {
-        return [/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "workspace"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "no-workspace-notice"
-        }, "You are not logged into any workspaces!"))];
+        }, "You are not logged into any workspaces!"));
       }
     }
   }, {
@@ -5597,10 +5597,11 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       var _getState$session = getState().session,
           workspace_id = _getState$session.workspace_id,
           user_id = _getState$session.user_id;
+      var user = getState().entities.users[user_id];
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["logoutWorkspace"])(workspace_id)).then(function () {
         _this3.props.loginACChannel.speak({
           workspace_data: {
-            user: getState().users[user_id],
+            user: user,
             logged_in: false,
             workspace_id: workspace_id
           }
@@ -6134,11 +6135,11 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
                 channel_id: first_channel,
                 workspace_id: workspace.id
               })).then(function () {
-                _this2.props.loginACChannel.speak({
+                _this2.loginACChannel.speak({
                   channel_data: {
                     login: true,
-                    user_id: user_id,
-                    channel_id: channel.id
+                    user_id: _this2.props.user.id,
+                    channel_id: channel_id
                   }
                 });
               });
@@ -6308,7 +6309,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           channel_data = _ref2.channel_data;
 
       if (workspace_data) {
-        if (workspace_data.user_id != this.props.user_id) {
+        if (workspace_data.user.id != this.props.user_id) {
           this.props.updateOtherUserWorkspaceStatus(workspace_data);
         }
       } else if (channel_data) {
@@ -7163,7 +7164,6 @@ var UserReducer = function UserReducer() {
       return nextState;
 
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_OTHER_USER_WORKSPACE_STATUS"]:
-      debugger;
       var _action$userData = action.userData,
           user = _action$userData.user,
           logged_in = _action$userData.logged_in,

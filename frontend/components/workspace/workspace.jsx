@@ -91,12 +91,12 @@ class Workspace extends React.Component {
                 dispatch(joinChannel({channel_id: first_channel, workspace_id: workspace.id}))
                 .then(
                   () => {
-                    this.props.loginACChannel.speak(
+                    this.loginACChannel.speak(
                       {
                         channel_data: {
                           login: true,
-                          user_id,
-                          channel_id: channel.id
+                          user_id: this.props.user.id,
+                          channel_id: channel_id
                         }
                       }
                     );
@@ -236,7 +236,7 @@ class Workspace extends React.Component {
   // Ignores your own data
   receiveLoginACData({ workspace_data, channel_data }) {
     if (workspace_data) {
-        if (workspace_data.user_id != this.props.user_id) {
+        if (workspace_data.user.id != this.props.user_id) {
           this.props.updateOtherUserWorkspaceStatus(workspace_data);
         }
     }

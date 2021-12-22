@@ -30,13 +30,14 @@ class ProfileDropdown extends React.Component {
   logoutWorkspace(e) {
     e.stopPropagation();
     let { workspace_id, user_id } = getState().session;
+    let user = getState().entities.users[user_id];
     dispatch(logoutWorkspace(workspace_id))
     .then(
       () => {
         this.props.loginACChannel.speak(
           {
             workspace_data: {
-              user: getState().users[user_id],
+              user,
               logged_in: false,
               workspace_id
             }

@@ -20,7 +20,6 @@ const UserReducer = (state = { }, action) => {
       nextState[action.user.id] = action.user;
       return nextState;
     case UPDATE_OTHER_USER_WORKSPACE_STATUS:
-      debugger;
       let { user, logged_in, workspace_id } = action.userData;
       nextState = Object.assign({}, state);
 

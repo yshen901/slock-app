@@ -40,11 +40,11 @@ class Homepage extends React.Component {
       ))
     }
     else {
-      return [
+      return (
         <div className="workspace">
           <div id="no-workspace-notice">You are not logged into any workspaces!</div>
         </div>
-      ]
+      )
     }
     
   }
