@@ -1,12 +1,18 @@
 .channel-profile-sidebar {
+    width: 348px;
+    height: 100%;
+    border-left: 1px solid lightgray;
+    box-sizing: border-box;
+
   .profile-sidebar-title {
-    height: 60px;
+    height: 50px;
     width: 100%;
    
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
-    padding: 8px;
+    padding: 8px 20px;
     border-bottom: 1px solid lightgray;
     box-sizing: border-box;
 
@@ -14,10 +20,8 @@
       font-size: 18px;
       line-height: 24px;
 
-      font-weight: bold;
-      vertical-align: baseline;
-
-      margin: 10px;
+      font-weight: 900;
+      vertical-align: middle;
     }
 
     div {
