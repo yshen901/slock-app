@@ -1167,7 +1167,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
 
       if (this.props.formType == "Sign up") {
         passwordConfirm = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          type: "password_confirm",
+          type: "password",
           onChange: this.updateForm('password_confirm'),
           placeholder: "confirm password",
           value: this.state.password_confirm
@@ -1189,7 +1189,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
         className: "auth-page",
         id: "user-signin",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown-modal");
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_nav__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_workspace_dropdown__WEBPACK_IMPORTED_MODULE_4__["default"], {
         dropdownClass: "auth dropdown hidden"
@@ -1749,10 +1749,7 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
       if (this.state.workspace_address == "") disabled = "disabled";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "auth-page",
-        id: "workspace-signin",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_7__["hideElements"])("dropdown");
-        }
+        id: "workspace-signin"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_auth_nav__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_workspace_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
         dropdownClass: "auth dropdown hidden"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2262,7 +2259,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var _this2 = this;
 
       e.stopPropagation();
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("dropdown");
       var _this$props = this.props,
           channel = _this$props.channel,
           channel_id = _this$props.channel_id,
@@ -2311,7 +2307,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       e.stopPropagation();
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("dropdown");
       var channel = this.props.channel;
       var workspace_id = this.props.channel.workspace_id;
       var user_id = this.props.user.id;
@@ -3542,11 +3537,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
 
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleElements"])(className);
 
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["focus"])(inputId); // Hides all dropdown elements once another modal is toggled
-
-        if (!className.includes("dropdown")) {
-          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("dropdown");
-        }
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["focus"])(inputId);
       };
     }
   }, {
@@ -4204,10 +4195,7 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
       if (user_id) {
         var user = getState().entities.users[user_id];
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "homepage",
-          onClick: function onClick() {
-            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("dropdown");
-          }
+          id: "homepage"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_home_nav__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_workspace_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
           dropdownClass: "dropdown hidden"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4230,10 +4218,7 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
       } // When user isn't signed in, display try now button
       else {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "homepage",
-          onClick: function onClick() {
-            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("dropdown");
-          }
+          id: "homepage"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_home_nav__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_workspace_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
           dropdownClass: "dropdown hidden"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

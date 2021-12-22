@@ -138,7 +138,7 @@ class UserSigninForm extends React.Component {
     let passwordConfirm = "";
     if (this.props.formType == "Sign up") {
       passwordConfirm = (
-        <input type="password_confirm"
+        <input type="password"
               onChange={this.updateForm('password_confirm')}
               placeholder="confirm password" 
               value={this.state.password_confirm}/>
@@ -162,7 +162,7 @@ class UserSigninForm extends React.Component {
       disabled = "disabled";
 
     return (
-      <div className="auth-page" id='user-signin' onClick={() => hideElements("dropdown")}>
+      <div className="auth-page" id='user-signin' onClick={() => hideElements("dropdown-modal")}>
         <AuthNav />
         <WorkspaceDropdown dropdownClass="auth dropdown hidden" />
 

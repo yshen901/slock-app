@@ -42,11 +42,6 @@ class ChannelNav extends React.Component {
       e.stopPropagation();
       toggleElements(className);
       focus(inputId)
-
-      // Hides all dropdown elements once another modal is toggled
-      if (!className.includes("dropdown")) {
-        hideElements("dropdown");
-      }
     }
   }
 

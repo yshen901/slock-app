@@ -40,7 +40,6 @@ class Channel extends React.Component {
   // Leaves channel - different logic for dm channel and general channel
   leaveChannel(e) {
     e.stopPropagation();
-    hideElements("dropdown");
 
     let { channel, channel_id, user } = this.props;
     let user_id = user.id;
@@ -87,7 +86,6 @@ class Channel extends React.Component {
   // Joins channel - different logic for dm channel and general channel
   joinChannel(e) {
     e.stopPropagation();
-    hideElements("dropdown");
     let { channel } = this.props;
     let { workspace_id } = this.props.channel;
     let user_id = this.props.user.id;

@@ -88,7 +88,7 @@ class WorkspaceSigninForm extends React.Component {
       disabled = "disabled";
     
     return (
-      <div className="auth-page" id="workspace-signin" onClick={() => hideElements("dropdown")}>
+      <div className="auth-page" id="workspace-signin">
         <AuthNav />
         <WorkspaceDropdown dropdownClass="auth dropdown hidden" />
 

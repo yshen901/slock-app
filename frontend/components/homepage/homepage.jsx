@@ -56,7 +56,7 @@ class Homepage extends React.Component {
     if (user_id) { 
       let user = getState().entities.users[user_id]
       return (
-        <div id="homepage" onClick={() => hideElements("dropdown")}>
+        <div id="homepage">
           <HomeNav />
           <WorkspaceDropdown dropdownClass="dropdown hidden" />
 
@@ -83,7 +83,7 @@ class Homepage extends React.Component {
     // When user isn't signed in, display try now button
     else { 
       return (
-        <div id="homepage" onClick={() => hideElements("dropdown")}>
+        <div id="homepage">
           <HomeNav />
           <WorkspaceDropdown dropdownClass="dropdown hidden" />
 
