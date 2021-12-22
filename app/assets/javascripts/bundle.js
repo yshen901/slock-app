@@ -6522,16 +6522,16 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header-link"
       }, "Starred")), starred.map(function (channel, idx) {
-        if (channel.id === channel_id) // TODO: SEPARATE THE 
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-            key: idx,
-            className: "sidebar-item selected",
-            to: _this3.channelLink(channel.id)
-          }, "# \xA0", channel.name);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented";
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
-          className: "sidebar-item",
+          className: channelClassName,
           to: _this3.channelLink(channel.id)
-        }, "# \xA0", channel.name);
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "sidebar-item-symbol"
+        }, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-name"
+        }, channel.name));
       }));
     }
   }, {
@@ -6591,9 +6591,18 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
           className: channelClassName,
           to: _this4.channelLink(channel.id)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "sidebar-item-symbol"
+        }, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-name"
-        }, "# \xA0", channel.name));
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, channel.name));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        className: "sidebar-item indented ".concat(this.state.channel),
+        to: this.channelLink("channel-browser")
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-item-symbol-box"
+      }, "+"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name"
+      }, "Add channels")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channels"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
@@ -6619,7 +6628,14 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
           className: channelClassName,
           to: _this4.channelLink(channel.id)
         }, _this4.getDmChannelName(channel));
-      }))));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-item indented ".concat(this.state.DM),
+        onClick: this.toggleElements("invite-user-modal")
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-item-symbol-box"
+      }, "+"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name"
+      }, "Add teammates")))));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-sidebar"
       });
     }

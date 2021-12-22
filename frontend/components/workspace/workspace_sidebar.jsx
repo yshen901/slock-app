@@ -97,11 +97,13 @@ class WorkspaceSidebar extends React.Component {
             <div className='sidebar-header-link'>Starred</div>
           </div>
           { starred.map((channel, idx) => {
-            if (channel.id === channel_id)
-              // TODO: SEPARATE THE 
-              return (<Link key={idx} className="sidebar-item selected" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
-            else
-              return (<Link key={idx} className="sidebar-item" to={this.channelLink(channel.id)}># &nbsp;{channel.name}</Link>);
+            let channelClassName = channel.id == channel_id ? `sidebar-item indented selected` : `sidebar-item indented`;  
+            return (
+              <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
+                <div className="sidebar-item-symbol">#</div>
+                <div className="channel-name">{channel.name}</div>
+              </Link>
+            );
           })}
         </div>
       )
@@ -152,12 +154,17 @@ class WorkspaceSidebar extends React.Component {
                 let channelClassName = channel.id == channel_id ? `sidebar-item indented selected` : `sidebar-item indented ${this.state.channel}`;
                 return (
                   <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
-                    <div className="channel-name">
-                      # &nbsp;{channel.name}
-                    </div>
+                    <div className="sidebar-item-symbol">#</div>
+                    <div className="channel-name">{channel.name}</div>
                   </Link>
                 );
               })}
+              <Link className={`sidebar-item indented ${this.state.channel}`} to={this.channelLink("channel-browser")}>
+                <div className="sidebar-item-symbol-box">
+                  +
+                </div>
+                <div className="channel-name">Add channels</div>
+              </Link>
             </div>
           </div>
 
@@ -180,6 +187,12 @@ class WorkspaceSidebar extends React.Component {
                   </Link>
                 );
               })}
+              <div className={`sidebar-item indented ${this.state.DM}`} onClick={this.toggleElements("invite-user-modal")}>
+                <div className="sidebar-item-symbol-box">
+                  +
+                </div>
+                <div className="channel-name">Add teammates</div>
+              </div>
             </div>
           </div>
         </div>

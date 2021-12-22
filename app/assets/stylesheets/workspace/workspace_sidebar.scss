@@ -76,8 +76,7 @@
   padding-left: 8px;
   padding-right: 15px;
 
-  margin-top: 20px;
-  margin-bottom: 5px;
+  margin-top: 10px;
   box-sizing: border-box;
 
   .sidebar-header-link, .sidebar-header-button, .sidebar-action, .sidebar-header-chevron {
@@ -102,6 +101,7 @@
     
     font-size: 26px;
     text-align: center;
+    vertical-align: middle;
     font-weight: 300;
 
     padding-bottom: 2px;
@@ -145,8 +145,6 @@
   }
 }
 
-
-
 .sidebar-action {
   font-size: 15px;
   line-height: 20px;
@@ -167,6 +165,8 @@
 .sidebar-list {
   display: flex;
   flex-direction: column;
+
+  margin-top: 5px;
 }
 
 .sidebar-item {
@@ -178,7 +178,6 @@
 
   font-size: 15px;
   line-height: 27px;
-  padding-bottom: 2px;
   vertical-align: middle;
 
   padding-left: 15px;
@@ -187,6 +186,26 @@
   i {
     opacity: 0.65;
     padding-right: 10px;
+  }
+
+  .sidebar-item-symbol-box, .sidebar-item-symbol {
+    height: 20px;
+    width: 20px;
+
+    margin-right: 8px;
+
+    opacity: 0.65;
+
+    background: rgb(82,38,83);
+    border-radius: 5px;
+
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .sidebar-item-symbol {
+    background: none;
   }
 
   .dm-channel-info {
