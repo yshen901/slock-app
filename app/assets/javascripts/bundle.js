@@ -1148,7 +1148,6 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this6 = this;
 
-      debugger;
       var greeting = this.createGreeting();
       var _this$state = this.state,
           password = _this$state.password,
@@ -1174,7 +1173,10 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
           value: this.state.password_confirm
         });
 
-        if (password_confirm && password_confirm != password) {
+        if (password && password.length < 6) {
+          error_class = "auth-errors";
+          error_messages.push(2);
+        } else if (password_confirm && password_confirm != password) {
           error_class = "auth-errors";
           error_messages.push(1);
         }
@@ -1311,7 +1313,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state) {
   return {
     formType: "Sign up",
-    error_messages: ["User already exists, please try again", "Passwords do not match, please try again"],
+    error_messages: ["User already exists, please try again.", "Passwords do not match, please try again.", "Password must be at least 6 characters long."],
     // workspace_address: DEMO_WORKSPACE, // to disable demo button for signup
     workspace_address: ""
   };

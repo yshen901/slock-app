@@ -123,7 +123,6 @@ class UserSigninForm extends React.Component {
   }
 
   render() {
-    debugger;
     let greeting = this.createGreeting();
     let { password, password_confirm, email } = this.state;
 
@@ -145,7 +144,11 @@ class UserSigninForm extends React.Component {
               value={this.state.password_confirm}/>
       )
 
-      if (password_confirm && password_confirm != password) {
+      if (password && password.length < 6) {
+        error_class = "auth-errors";
+        error_messages.push(2);
+      }
+      else if (password_confirm && password_confirm != password) {
         error_class = "auth-errors";
         error_messages.push(1);
       }
