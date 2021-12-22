@@ -23,7 +23,7 @@ else
   json.users do
     channel_connections.each do |channel_connection|
       json.set! channel_connection.user_id do
-        json.id channel_connection.id
+        json.id channel_connection.user_id
       end
 
       if channel_connection.user_id == current_user.id
