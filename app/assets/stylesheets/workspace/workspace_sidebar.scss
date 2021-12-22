@@ -67,46 +67,85 @@
 
 .sidebar-header {
   display: flex;
-  justify-content: space-between; /*NOTE: PLACE THINGS AT OPPOSITE ENDS*/
   align-items: center;
 
-  font-weight: bold;
+  height: 28px;
+
   transition: 0.3s;
 
-  padding-top: 20px;
-  padding-left: 14px;
+  padding-left: 8px;
   padding-right: 15px;
-  margin-bottom: 2px;
+
+  margin-top: 20px;
+  margin-bottom: 5px;
   box-sizing: border-box;
+
+  .sidebar-header-link, .sidebar-header-button, .sidebar-action, .sidebar-header-chevron {
+    color: rgb(236, 236, 236);
+    opacity: 0.9;
+    
+    font-size: 14px;
+    text-decoration: none;
+  
+    transition: 0.1s;
+  } 
+  
+  .sidebar-header-button, .sidebar-header-chevron{
+    display: none;  // later overridden when hovered
+    flex-direction: center;
+    justify-content: center;
+    align-items: center;
+  
+    height: 28px;
+    width: 28px;
+    border-radius: 5px;
+    
+    font-size: 26px;
+    text-align: center;
+    font-weight: 300;
+
+    padding-bottom: 2px;
+    box-sizing: border-box;
+  }
+
+  .sidebar-header-chevron {
+    display: flex;
+    font-size: 15px;
+    padding: 0;
+  }
+
+  .sidebar-header-button:hover, .sidebar-header-chevron:hover {
+    transition: 0.3s;
+    background: rgb(82,38,83);
+
+    color: white;
+    border-color: white;
+    opacity: 1;
+    cursor: pointer;
+  }
+  
+  .sidebar-header-link {
+    flex: 1;
+
+    font-size: 15px;
+    line-height: 20px;
+    vertical-align: middle;
+
+    padding-left: 3px;
+  
+  }
 }
 
 .sidebar-header:hover {
+  transition: 0.3s;
   color: white;
+
+  .sidebar-header-button {
+    display: flex;
+  }
 }
 
-.sidebar-header-link, .sidebar-header-button, .sidebar-action {
-  color: rgb(236, 236, 236);
-  opacity: 0.9;
-  
-  font-size: 14px;
-  font-weight: bold;
-  text-decoration: none;
 
-  transition: 0.1s;
-}
-
-.sidebar-header-button .fa-plus-circle {
-  font-size: 12px;
-  padding-top: 2px;
-}
-
-.sidebar-header-link {
-  font-size: 15px;
-  line-height: 20px;
-  vertical-align: middle;
-
-  width: 80%;
-}
 
 .sidebar-action {
   font-size: 15px;
@@ -117,7 +156,7 @@
   width: 80%;
 }
 
-.sidebar-header-link.hoverable:hover, .sidebar-header-button:hover, .sidebar-action:hover {
+.sidebar-header-link.hoverable:hover, .sidebar-action:hover {
   color: white;
   border-color: white;
   opacity: 1;
@@ -131,8 +170,10 @@
 }
 
 .sidebar-item {
+  display: flex;
+  align-items: center;
+
   color: white;
-  // opacity: 0.65;
   text-decoration: none;
 
   font-size: 15px;
@@ -142,6 +183,11 @@
 
   padding-left: 15px;
   box-sizing: border-box;
+
+  i {
+    opacity: 0.65;
+    padding-right: 10px;
+  }
 
   .dm-channel-info {
     display: flex;
@@ -177,11 +223,15 @@
         right: -4px;
         font-size: 8px;
 
+        padding: 0;
+        opacity: 1;
+
         background: #3F0E40;
 
         border: 2px solid #3F0E40;
         border-radius: 6px;
         box-sizing: border-box;
+
       }
     }
   }
@@ -209,7 +259,7 @@
 .sidebar-item.selected {
   background:  #1164a3;
   
-  .channel-name {
+  .channel-name, i {
     opacity: 1;
   }
 }

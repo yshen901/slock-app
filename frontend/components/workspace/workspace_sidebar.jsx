@@ -9,7 +9,7 @@ class WorkspaceSidebar extends React.Component {
 
     this.state = {
       channel: "hidden",
-      DM: "hidden"
+      DM: ""
     }
 
     this.channelLink = this.channelLink.bind(this);
@@ -120,16 +120,16 @@ class WorkspaceSidebar extends React.Component {
 
           <div id="channels">
             <div className="sidebar-list">
-              <Link className="sidebar-item" to={this.channelLink("channel-browser")}>
+              <Link className={channel_id == "channel-browser" ? "sidebar-item selected" : "sidebar-item"} to={this.channelLink("channel-browser")}>
+                <i class="fab fa-slack-hash"></i>
                 <div className="channel-name">
-                  <i class="fab fa-slack-hash"></i>
-                  &nbsp;Channel browser
+                  Channel browser
                 </div>
               </Link>
-              <Link className="sidebar-item" to={this.channelLink("people-browser")}>
+              <Link className={channel_id == "people-browser" ? "sidebar-item selected" : "sidebar-item"} to={this.channelLink("people-browser")}>
+                <i class="far fa-address-book"></i>
                 <div className="channel-name">
-                  <i class="far fa-address-book"></i>
-                  &nbsp;People browser
+                  People
                 </div>
               </Link>
             </div>
@@ -139,9 +139,12 @@ class WorkspaceSidebar extends React.Component {
 
           <div id="channels">
             <div className='sidebar-header'>
+              <div className='sidebar-header-chevron' onClick={this.toggleDropdown("channel")}>
+                {this.state.channel ? <i class="fas fa-caret-right"></i> : <i class="fas fa-caret-down"></i>}
+              </div>
               <div className='sidebar-header-link hoverable' onClick={this.toggleDropdown("channel")}>Channels</div>
               <Link className='sidebar-header-button' to={this.channelLink("channel-browser")}>
-                <i className="fas fa-plus-circle"></i>
+                +
               </Link>
             </div>
             <div className="sidebar-list">
@@ -160,9 +163,12 @@ class WorkspaceSidebar extends React.Component {
 
           <div id="channels">
             <div className='sidebar-header'>
+              <div className='sidebar-header-chevron' onClick={this.toggleDropdown("DM")}>
+                {this.state.DM ? <i class="fas fa-caret-right"></i> : <i class="fas fa-caret-down"></i>}
+              </div>
               <div className='sidebar-header-link hoverable' onClick={this.toggleDropdown("DM")}>Direct Messages</div>
               <Link className='sidebar-header-button' to={this.channelLink("people-browser")}>
-                <i className="fas fa-plus-circle"></i>
+                +
               </Link>
             </div>
             <div className="sidebar-list">
@@ -175,11 +181,6 @@ class WorkspaceSidebar extends React.Component {
                 );
               })}
             </div>
-          </div>
-
-          <div className='sidebar-button'>
-            <div className='sidebar-symbol'>&#x2b;</div>
-            <div className='sidebar-action' onClick={this.toggleElements("invite-user-modal", "invite-user-input")}>Add People</div>
           </div>
         </div>
       )
