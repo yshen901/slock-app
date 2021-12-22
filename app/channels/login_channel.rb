@@ -10,7 +10,7 @@ class LoginChannel < ApplicationCable::Channel
     if workspace_data
       socket = { 
         workspace_data: {
-          user_id: workspace_data['user_id'],
+          user: workspace_data['user'],
           logged_in: workspace_data['logged_in'],
           workspace_id: workspace_data['workspace_id']
         }

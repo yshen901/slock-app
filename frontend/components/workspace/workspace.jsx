@@ -23,6 +23,7 @@ import ProfileDropdown from "../modals/profile_dropdown";
 // Utilities and constants
 import { JOIN_CALL, LEAVE_CALL, REJECT_CALL } from '../../util/call_api_util';
 import { hideElements, focus } from '../../util/modal_api_util';
+import { joinChannel } from '../../actions/channel_actions';
 
 class Workspace extends React.Component {
   constructor() {
@@ -78,11 +79,30 @@ class Workspace extends React.Component {
 
               this.loginACChannel.speak({ // announces login through ActionCable
                 workspace_data: {
-                  user_id: this.props.user_id,
+                  user: this.props.user,
+                  logged_in: true,
+                  user_channel_ids: this.props.user_channel_ids,
                   workspace_id: workspace.id,
-                  logged_in: true
                 }
               })
+
+              // For new users that aren't logged into the general channel, log them in 
+              if (!this.props.user_channel_ids.includes(first_channel)) {
+                dispatch(joinChannel({channel_id: first_channel, workspace_id: workspace.id}))
+                .then(
+                  () => {
+                    this.props.loginACChannel.speak(
+                      {
+                        channel_data: {
+                          login: true,
+                          user_id,
+                          channel_id: channel.id
+                        }
+                      }
+                    );
+                  }
+                )
+              }
 
               this.setupCallACChannel();
 

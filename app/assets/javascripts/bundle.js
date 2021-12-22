@@ -5600,7 +5600,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["logoutWorkspace"])(workspace_id)).then(function () {
         _this3.props.loginACChannel.speak({
           workspace_data: {
-            user_id: user_id,
+            user: getState().users[user_id],
             logged_in: false,
             workspace_id: workspace_id
           }
@@ -5750,7 +5750,7 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["logoutWorkspace"])(workspace_id)).then(function () {
         _this3.props.loginACChannel.speak({
           workspace_data: {
-            user_id: user_id,
+            user: getState().users[user_id],
             logged_in: false,
             workspace_id: workspace_id
           }
@@ -6010,6 +6010,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../modals/profile_dropdown */ "./frontend/components/modals/profile_dropdown.jsx");
 /* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.js");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6050,6 +6051,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
  // Utilities and constants
+
 
 
 
@@ -6119,11 +6121,28 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
             _this2.loginACChannel.speak({
               // announces login through ActionCable
               workspace_data: {
-                user_id: _this2.props.user_id,
-                workspace_id: workspace.id,
-                logged_in: true
+                user: _this2.props.user,
+                logged_in: true,
+                user_channel_ids: _this2.props.user_channel_ids,
+                workspace_id: workspace.id
               }
-            });
+            }); // For new users that aren't logged into the general channel, log them in 
+
+
+            if (!_this2.props.user_channel_ids.includes(first_channel)) {
+              dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_17__["joinChannel"])({
+                channel_id: first_channel,
+                workspace_id: workspace.id
+              })).then(function () {
+                _this2.props.loginACChannel.speak({
+                  channel_data: {
+                    login: true,
+                    user_id: user_id,
+                    channel_id: channel.id
+                  }
+                });
+              });
+            }
 
             _this2.setupCallACChannel();
 
@@ -7144,13 +7163,16 @@ var UserReducer = function UserReducer() {
       return nextState;
 
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_OTHER_USER_WORKSPACE_STATUS"]:
+      debugger;
       var _action$userData = action.userData,
-          user_id = _action$userData.user_id,
+          user = _action$userData.user,
           logged_in = _action$userData.logged_in,
           workspace_id = _action$userData.workspace_id;
-      nextState = Object.assign({}, state); // Update workspace user login information
+      nextState = Object.assign({}, state); // Copy over all of the user's data that they passed up
 
-      nextState[user_id].logged_in = logged_in;
+      nextState[user.id] = user; // Update workspace user login information (not deprecated for logout)
+
+      nextState[user.id].logged_in = logged_in;
       return nextState;
 
     default:
@@ -7211,13 +7233,20 @@ var WorkspaceReducer = function WorkspaceReducer() {
 
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["UPDATE_OTHER_USER_WORKSPACE_STATUS"]:
       var _action$userData = action.userData,
-          user_id = _action$userData.user_id,
+          user = _action$userData.user,
           logged_in = _action$userData.logged_in,
           workspace_id = _action$userData.workspace_id;
-      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(state); // Update workspace user login information
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(state); // Updates workspace login info
+      // Adds user if user doesn't already exist (automatically increments)
 
-      if (nextState[workspace_id].users[user_id].logged_in != logged_in) {
-        nextState[workspace_id].users[user_id].logged_in = logged_in;
+      if (!nextState[workspace_id].users[user.id]) {
+        nextState[workspace_id].users[user.id] = {
+          id: user.id,
+          logged_in: logged_in
+        };
+        nextState[workspace_id].num_logged_in_users += 1;
+      } else if (nextState[workspace_id].users[user.id].logged_in != logged_in) {
+        nextState[workspace_id].users[user.id].logged_in = logged_in;
         if (logged_in) nextState[workspace_id].num_logged_in_users += 1;else nextState[workspace_id].num_logged_in_users -= 1;
       }
 

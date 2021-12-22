@@ -20,10 +20,14 @@ const UserReducer = (state = { }, action) => {
       nextState[action.user.id] = action.user;
       return nextState;
     case UPDATE_OTHER_USER_WORKSPACE_STATUS:
-      let { user_id, logged_in, workspace_id } = action.userData;
+      debugger;
+      let { user, logged_in, workspace_id } = action.userData;
       nextState = Object.assign({}, state);
-      // Update workspace user login information
-      nextState[user_id].logged_in = logged_in;
+
+      // Copy over all of the user's data that they passed up
+      nextState[user.id] = user;
+      // Update workspace user login information (not deprecated for logout)
+      nextState[user.id].logged_in = logged_in;
       return nextState;
     default:
       return state;

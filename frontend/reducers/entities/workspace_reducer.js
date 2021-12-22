@@ -25,11 +25,20 @@ const WorkspaceReducer = (state = {}, action) => {
       if (nextState === undefined) nextState = {};
       return nextState;
     case UPDATE_OTHER_USER_WORKSPACE_STATUS:
-      let { user_id, logged_in, workspace_id } = action.userData;
+      let { user, logged_in, workspace_id } = action.userData;
       nextState = cloneDeep(state);
-      // Update workspace user login information
-      if (nextState[workspace_id].users[user_id].logged_in != logged_in) {
-        nextState[workspace_id].users[user_id].logged_in = logged_in;
+
+      // Updates workspace login info
+      // Adds user if user doesn't already exist (automatically increments)
+      if (!nextState[workspace_id].users[user.id]) {
+        nextState[workspace_id].users[user.id] = {
+          id: user.id,
+          logged_in
+        };
+        nextState[workspace_id].num_logged_in_users += 1;
+      }
+      else if (nextState[workspace_id].users[user.id].logged_in != logged_in) {
+        nextState[workspace_id].users[user.id].logged_in = logged_in;
         if (logged_in)
           nextState[workspace_id].num_logged_in_users += 1;
         else

@@ -36,7 +36,7 @@ class ProfileDropdown extends React.Component {
         this.props.loginACChannel.speak(
           {
             workspace_data: {
-              user_id,
+              user: getState().users[user_id],
               logged_in: false,
               workspace_id
             }
