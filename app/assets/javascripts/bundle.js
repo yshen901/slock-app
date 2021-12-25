@@ -2121,29 +2121,26 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       }
 
       for (var _i = 0; _i < 10; _i++) {
-        placeholders.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: _i
+        channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: _i + usersArray.length
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "browse-modal-user placeholder"
         })));
       }
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "browser-channel-content"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "browser-channel-header"
-      }, channelsDisplay.length, " recommended results  "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "browser-channel-grid"
-      }, channelsDisplay, placeholders));
+      return channelsDisplay;
     }
   }, {
     key: "render",
     value: function render() {
+      var channelsDisplay = this.allUsers(this.state.search);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel",
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel-top"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-nav"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -2164,7 +2161,13 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         value: this.state.search,
         placeholder: "i.e. shen.yuci1@gmail.com",
         autoFocus: true
-      })), this.allUsers(this.state.search));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "browser-channel-header"
+      }, channelsDisplay.length - 10, " recommended results  ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel-grid"
+      }, channelsDisplay)));
     }
   }]);
 

@@ -90,40 +90,41 @@ class PeopleBrowser extends React.Component {
     }
     
     for (let i = 0; i < 10; i++) {
-      placeholders.push(
-        <div key={i}>
+      channelsDisplay.push(
+        <div key={i + usersArray.length}>
           <div className="browse-modal-user placeholder"></div>
         </div>
       );
     }
 
-    return (
-      <div className="browser-channel-content">
-        <h1 className="browser-channel-header">{channelsDisplay.length} recommended results  </h1>
-        <div className="browser-channel-grid">
-          {channelsDisplay}
-          {placeholders}
-        </div>
-      </div>
-    )
+    return channelsDisplay;
   }
 
   render() {
+    let channelsDisplay = this.allUsers(this.state.search);
+
     return (
       <div className="browser-channel" onClick={e => e.stopPropagation()}>
-        <div className="browser-channel-nav">
-          <h1 className="browser-channel-title">People</h1>
-          <div className="browser-channel-action" onClick={() => toggleElements("invite-user-modal")}>Invite People</div>
+        <div className="browser-channel-top">
+          <div className="browser-channel-nav">
+            <h1 className="browser-channel-title">People</h1>
+            <div className="browser-channel-action" onClick={() => toggleElements("invite-user-modal")}>Invite People</div>
+          </div>
+          <div className="browser-channel-search">
+            <i className='fas fa-search search-icon'></i> 
+            <input type="text" id="search-bar"
+              onChange={this.update}
+              value={this.state.search}
+              placeholder="i.e. shen.yuci1@gmail.com"
+              autoFocus/>
+          </div>
+          <h1 className="browser-channel-header">{channelsDisplay.length - 10} recommended results  </h1>
         </div>
-        <div className="browser-channel-search">
-          <i className='fas fa-search search-icon'></i> 
-          <input type="text" id="search-bar"
-            onChange={this.update}
-            value={this.state.search}
-            placeholder="i.e. shen.yuci1@gmail.com"
-            autoFocus/>
+        <div className="browser-channel-content">
+          <div className="browser-channel-grid">
+            {channelsDisplay}
+          </div>
         </div>
-        { this.allUsers(this.state.search) }
       </div>
     )
   }
