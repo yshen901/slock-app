@@ -279,7 +279,9 @@ class Workspace extends React.Component {
       )
     else if (channel_id == "people-browser")
       return (
-        <PeopleBrowser/>
+        <PeopleBrowser
+          showUser={this.showUser}
+        />
       )
     else
       return (

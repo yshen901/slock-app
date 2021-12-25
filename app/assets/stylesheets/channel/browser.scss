@@ -71,12 +71,81 @@
     }
   }
 
-  .browser-channel-list {
+  .browser-channel-content {
     flex: 1;
 
-    padding: 0 20px;
+    padding: 0 10px;
 
     overflow-y: scroll;
     overflow-x: hidden;
-  }
+
+    .browser-channel-header {
+      height: 28px;
+      width: 100%;
+
+      padding-left: 20px;
+      
+      font-size: 13px;
+      line-height: 28px;
+      font-weight: 700;
+      color: #1D1B1DB3
+    }
+
+    .browser-channel-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .browse-modal-user {
+        height: 240px;
+        width: 150px;
+
+        margin: 8px;
+
+        border: 1px solid lightgray;
+        border-radius: 8px;
+        overflow: hidden;
+
+        .browse-modal-user-image {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          
+          height: 150px;
+          width: 150px;
+
+          img {
+            height: 150px;
+            width: auto;
+            object-fit: cover;
+          }
+        }
+
+        .browse-modal-user-info {
+          padding: 10px 16px;
+
+          .browse-modal-username {
+            font-size: 15px;
+            line-height: 22px;
+            font-weight: bold;
+
+            i {
+              font-size: 10px;
+            }
+          }
+
+          .browse-modal-occupation {
+            font-size: 13px;
+            line-height: 18px;
+            color: #1D1B1DB3;
+          }
+        }
+      }
+
+      .browse-modal-user.placeholder {
+        height: 0px;
+        border: 1px solid white;
+      }
+    }
+  }  
 }

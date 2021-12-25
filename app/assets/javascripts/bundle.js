@@ -1306,9 +1306,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* TODO3: Remove need for a "default" server for signup
-         ... more research into how slack actually works is required
-*/
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
@@ -2086,10 +2083,14 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(user)
       }));
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-name"
+        className: "browse-modal-user"
+      }, profileImage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browse-modal-user-info"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "browse-modal-user-icon"
-      }, profileImage, icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, user.email));
+        className: "browse-modal-username"
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user), " ", icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browse-modal-occupation"
+      }, user.what_i_do)));
     }
   }, {
     key: "allUsers",
@@ -2097,6 +2098,7 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       var channelsDisplay = [];
+      var placeholders = [];
       var users = getState().entities.users;
       var currentUserId = getState().session.user_id;
       var workspaceId = getState().session.workspace_id;
@@ -2105,30 +2107,34 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
 
       var user;
 
-      var _loop = function _loop(i) {
+      for (var i = 0; i < usersArray.length; i++) {
         user = usersArray[i];
 
-        if (user.id != currentUserId && user.email.startsWith(_this3.state.search)) {
+        if (user.id != currentUserId && user.email.startsWith(this.state.search)) {
           channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "full-modal-item",
             key: i,
             onClick: function onClick() {
-              return _this3.createDmChannel([currentUserId, usersArray[i].id], workspaceId);
+              return _this3.props.showUser(user.id);
             }
-          }, _this3.getUserInfo(user)));
+          }, this.getUserInfo(user)));
         }
-      };
+      }
 
-      for (var i = 0; i < usersArray.length; i++) {
-        _loop(i);
-      } // }
-
+      for (var _i = 0; _i < 10; _i++) {
+        placeholders.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: _i
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "browse-modal-user placeholder"
+        })));
+      }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: 0
+        className: "browser-channel-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "full-modal-section-header"
-      }, "Search Results"), channelsDisplay);
+        className: "browser-channel-header"
+      }, channelsDisplay.length, " recommended results  "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel-grid"
+      }, channelsDisplay, placeholders));
     }
   }, {
     key: "render",
@@ -2158,9 +2164,7 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         value: this.state.search,
         placeholder: "i.e. shen.yuci1@gmail.com",
         autoFocus: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "browser-channel-list"
-      }, this.allUsers(this.state.search)));
+      })), this.allUsers(this.state.search));
     }
   }]);
 
@@ -6343,7 +6347,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     key: "renderChannel",
     value: function renderChannel() {
       var channel_id = this.props.channel_id;
-      if (channel_id == "channel-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_channel_browser__WEBPACK_IMPORTED_MODULE_5__["default"], null);else if (channel_id == "people-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_people_browser__WEBPACK_IMPORTED_MODULE_6__["default"], null);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      if (channel_id == "channel-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_channel_browser__WEBPACK_IMPORTED_MODULE_5__["default"], null);else if (channel_id == "people-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_people_browser__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        showUser: this.showUser
+      });else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         loginACChannel: this.loginACChannel,
         channelFlag: this.state.channelFlag,
         showUser: this.showUser,
@@ -7487,9 +7493,24 @@ var workspaceTitle = function workspaceTitle(address) {
 var photoUrl = function photoUrl(user) {
   if (!user || !user.photo_url) return DEFAULT_PHOTO_URL;
   return user.photo_url;
-};
+}; // Returns username based on user data
+
 var getUserName = function getUserName(user) {
-  if (user.display_name) return user.display_name;else if (user.full_name) return user.full_name;else return user.email;
+  var fullNameFirst = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var _ref = [user.display_name, user.full_name, user.email],
+      first = _ref[0],
+      second = _ref[1],
+      third = _ref[2];
+
+  if (fullNameFirst) {
+    var _ref2 = [second, first];
+    first = _ref2[0];
+    second = _ref2[1];
+  }
+
+  if (first) return first;
+  if (second) return second;
+  if (third) return third;
 };
 
 /***/ }),

@@ -26,11 +26,13 @@ export const photoUrl = (user) => {
   return user.photo_url;
 }
 
-export const getUserName = (user) => {
-    if (user.display_name)
-      return user.display_name;
-    else if (user.full_name)
-      return user.full_name;
-    else
-      return user.email;
+// Returns username based on user data
+export const getUserName = (user, fullNameFirst=false) => {
+  let [first, second, third] = [user.display_name, user.full_name, user.email];
+  if (fullNameFirst)
+    [first, second] = [second, first]
+  
+  if (first) return first;
+  if (second) return second;
+  if (third) return third;
 }

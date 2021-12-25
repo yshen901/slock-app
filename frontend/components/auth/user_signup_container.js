@@ -6,9 +6,6 @@ import { signup, DEMO_WORKSPACE } from '../../actions/session_actions';
 import { findWorkspace, getWorkspaces } from '../../actions/workspace_actions';
 import { refreshErrors } from '../../actions/error_actions';
 
-/* TODO3: Remove need for a "default" server for signup
-         ... more research into how slack actually works is required
-*/
 const mapStateToProps = (state) => ({
   formType: "Sign up",
   error_messages: [

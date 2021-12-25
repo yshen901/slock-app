@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 import { startDmChannel } from "../../../actions/dm_channel_actions";
-import { photoUrl } from "../../../selectors/selectors";
+import { getUserName, photoUrl } from "../../../selectors/selectors";
 import { toggleElements } from "../../../util/modal_api_util";
 
 class PeopleBrowser extends React.Component {
@@ -49,21 +49,23 @@ class PeopleBrowser extends React.Component {
     </div>
 
     return (
-      <div className="channel-name">
-        <div className="browse-modal-user-icon">
-          {profileImage}
-          {icon} 
-        </div>
-        <div>
-          {user.email}
+      <div className="browse-modal-user">
+        {profileImage}
+        <div className="browse-modal-user-info">
+          <div className="browse-modal-username">
+            {getUserName(user)} {icon} 
+          </div>
+          <div className="browse-modal-occupation">
+            {user.what_i_do}
+          </div>
         </div>
       </div>
     )
   }
 
-
   allUsers() {
     let channelsDisplay = [];
+    let placeholders = [];
     let users = getState().entities.users;
     let currentUserId = getState().session.user_id;
     let workspaceId = getState().session.workspace_id;
@@ -73,25 +75,35 @@ class PeopleBrowser extends React.Component {
     
     // Only display users once someone has started to search
     // if (this.state.search.length > 0) {
-      let user;
-      for (let i = 0; i < usersArray.length; i++) {
-        user = usersArray[i];
-        if (user.id != currentUserId && user.email.startsWith(this.state.search)) {
-          channelsDisplay.push(
-            <div 
-              className="full-modal-item" key={i} 
-              onClick={() => this.createDmChannel([currentUserId, usersArray[i].id], workspaceId)}>
-              {this.getUserInfo(user)}
-            </div>
-          )
-        }
+    let user;
+    for (let i = 0; i < usersArray.length; i++) {
+      user = usersArray[i];
+      if (user.id != currentUserId && user.email.startsWith(this.state.search)) {
+        channelsDisplay.push(
+          <div 
+            key={i} 
+            onClick={() => this.props.showUser(user.id)}>
+            {this.getUserInfo(user)}
+          </div>
+        )
       }
-    // }
+    }
+    
+    for (let i = 0; i < 10; i++) {
+      placeholders.push(
+        <div key={i}>
+          <div className="browse-modal-user placeholder"></div>
+        </div>
+      );
+    }
 
     return (
-      <div key={0}>
-        <h1 className="full-modal-section-header">Search Results</h1>
-        {channelsDisplay}
+      <div className="browser-channel-content">
+        <h1 className="browser-channel-header">{channelsDisplay.length} recommended results  </h1>
+        <div className="browser-channel-grid">
+          {channelsDisplay}
+          {placeholders}
+        </div>
       </div>
     )
   }
@@ -111,9 +123,7 @@ class PeopleBrowser extends React.Component {
             placeholder="i.e. shen.yuci1@gmail.com"
             autoFocus/>
         </div>
-        <div className="browser-channel-list">
-          { this.allUsers(this.state.search) }
-        </div>
+        { this.allUsers(this.state.search) }
       </div>
     )
   }

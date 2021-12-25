@@ -52,7 +52,6 @@ class Api::DmChannelUsersController < ApplicationController
   end
 
   # Will disable the current_user's active link to the channel
-  # TODO: Not really update, more like a specialized leaveDM method
   def update
     @dm_channel_user = DmChannelUser.includes(:channel).find_by(channel_id: dm_channel_user_params[:channel_id])
 
