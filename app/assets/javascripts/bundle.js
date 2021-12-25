@@ -2024,9 +2024,11 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
 
     _classCallCheck(this, PeopleBrowser);
 
-    _this = _super.call(this, props);
+    _this = _super.call(this, props); // capSearch is so we don't have to do uppercase on caps everytime
+
     _this.state = {
-      search: ""
+      search: "",
+      capSearch: ""
     };
     _this.createDmChannel = _this.createDmChannel.bind(_assertThisInitialized(_this));
     _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
@@ -2039,7 +2041,8 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
     key: "update",
     value: function update(e) {
       this.setState({
-        search: e.currentTarget.value
+        search: e.currentTarget.value,
+        capSearch: e.currentTarget.value.toUpperCase()
       });
     }
   }, {
@@ -2058,7 +2061,8 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         _this2.goToChannel(dmChannelUser.channel_id);
 
         _this2.setState({
-          search: ""
+          search: "",
+          capSearch: ""
         });
       });
     }
@@ -2091,6 +2095,22 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user), " ", icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-occupation"
       }, user.what_i_do)));
+    } // search by username, full name, or display name
+
+  }, {
+    key: "userInSearch",
+    value: function userInSearch(user) {
+      var capSearch = this.state.capSearch; // uppercase all parameters for searching
+
+      var email = user.email,
+          full_name = user.full_name,
+          display_name = user.display_name;
+      var _ref2 = [email.toUpperCase(), full_name.toUpperCase(), display_name.toUpperCase()];
+      email = _ref2[0];
+      full_name = _ref2[1];
+      display_name = _ref2[2];
+      if (email.startsWith(capSearch) || full_name.startsWith(capSearch) || display_name.startsWith(capSearch)) return true;
+      return false;
     }
   }, {
     key: "allUsers",
@@ -2110,7 +2130,7 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       for (var i = 0; i < usersArray.length; i++) {
         user = usersArray[i];
 
-        if (user.id != currentUserId && user.email.startsWith(this.state.search)) {
+        if (user.id != currentUserId && this.userInSearch(user)) {
           channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: i,
             onClick: function onClick() {

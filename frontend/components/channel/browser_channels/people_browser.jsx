@@ -8,8 +8,10 @@ class PeopleBrowser extends React.Component {
   constructor(props) {
     super(props);
 
+    // capSearch is so we don't have to do uppercase on caps everytime
     this.state = {
-      search: ""
+      search: "",
+      capSearch: ""
     }
 
     this.createDmChannel = this.createDmChannel.bind(this);
@@ -20,7 +22,10 @@ class PeopleBrowser extends React.Component {
   }
 
   update(e) {
-    this.setState({search: e.currentTarget.value});
+    this.setState({
+      search: e.currentTarget.value,
+      capSearch: e.currentTarget.value.toUpperCase()
+    });
   }
 
   createDmChannel(userIds, workspaceId) {
@@ -30,7 +35,10 @@ class PeopleBrowser extends React.Component {
       workspace_id: workspaceId
     })).then(({dmChannelUser}) => {  // REMEMBER THE THING PASSED BACK IS ACTION
       this.goToChannel(dmChannelUser.channel_id);
-      this.setState({search: ""});
+      this.setState({
+        search: "",
+        capSearch: ""
+      });
     });
   }
 
@@ -63,6 +71,21 @@ class PeopleBrowser extends React.Component {
     )
   }
 
+  // search by username, full name, or display name
+  userInSearch(user) {
+    let { capSearch } = this.state;
+    
+    // uppercase all parameters for searching
+    let { email, full_name, display_name } = user;
+    [email, full_name, display_name] = [email.toUpperCase(), full_name.toUpperCase(), display_name.toUpperCase()];
+    
+
+
+    if (email.startsWith(capSearch) || full_name.startsWith(capSearch) || display_name.startsWith(capSearch))
+      return true;
+    return false;
+  }
+
   allUsers() {
     let channelsDisplay = [];
     let placeholders = [];
@@ -78,7 +101,7 @@ class PeopleBrowser extends React.Component {
     let user;
     for (let i = 0; i < usersArray.length; i++) {
       user = usersArray[i];
-      if (user.id != currentUserId && user.email.startsWith(this.state.search)) {
+      if (user.id != currentUserId && this.userInSearch(user)) {
         channelsDisplay.push(
           <div 
             key={i} 
