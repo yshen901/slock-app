@@ -85,22 +85,28 @@ class ChannelBrowser extends React.Component {
   }
 
   render() {
+    let allChannels = this.allChannels(this.state.search);
     return (
       <div className="browser-channel">
-        <div className="browser-channel-nav">
-          <h1 className="browser-channel-title">Channel browser</h1>
-          <div className="browser-channel-action" onClick={() => toggleElements("new-channel-modal")}>Create Channel</div>
+        <div className="browser-channel-top">
+          <div className="browser-channel-nav">
+            <h1 className="browser-channel-title">Channel browser</h1>
+            <div className="browser-channel-action" onClick={() => toggleElements("new-channel-modal")}>Create Channel</div>
+          </div>
+          <div className="browser-channel-search">
+            <i className='fas fa-search search-icon'></i> 
+            <input type="text" id="search-bar"
+              onChange={this.update}
+              value={this.state.search}
+              placeholder="Search by channel name"
+              autoFocus/>
+          </div>
+          <h1 className="browser-channel-header">{allChannels.length} recommended results  </h1>
         </div>
-        <div className="browser-channel-search">
-          <i className='fas fa-search search-icon'></i> 
-          <input type="text" id="search-bar"
-            onChange={this.update}
-            value={this.state.search}
-            placeholder="Search by channel name"
-            autoFocus/>
-        </div>
-        <div className="browser-channel-list">
-          { this.allChannels(this.state.search) }
+        <div className="browser-channel-content">
+          <div className="browser-channel-list">
+            { allChannels }
+          </div>
         </div>
       </div>
     )

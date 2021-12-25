@@ -296,6 +296,7 @@ class Workspace extends React.Component {
   }
 
   showUser(userId) {
+    debugger;
     this.setState({shownUserId: userId});
   }
 

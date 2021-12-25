@@ -1936,8 +1936,11 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var allChannels = this.allChannels(this.state.search);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel-top"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-nav"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
@@ -1958,9 +1961,13 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
         value: this.state.search,
         placeholder: "Search by channel name",
         autoFocus: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "browser-channel-header"
+      }, allChannels.length, " recommended results  ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-list"
-      }, this.allChannels(this.state.search)));
+      }, allChannels)));
     }
   }]);
 
@@ -2125,19 +2132,19 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       var usersArray = Object.values(users); // Only display users once someone has started to search
       // if (this.state.search.length > 0) {
 
-      var user;
-
-      for (var i = 0; i < usersArray.length; i++) {
-        user = usersArray[i];
-
-        if (user.id != currentUserId && this.userInSearch(user)) {
+      var _loop = function _loop(i) {
+        if (usersArray[i].id != currentUserId && _this3.userInSearch(usersArray[i])) {
           channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: i,
             onClick: function onClick() {
-              return _this3.props.showUser(user.id);
+              return _this3.props.showUser(usersArray[i].id);
             }
-          }, this.getUserInfo(user)));
+          }, _this3.getUserInfo(usersArray[i])));
         }
+      };
+
+      for (var i = 0; i < usersArray.length; i++) {
+        _loop(i);
       }
 
       for (var _i = 0; _i < 10; _i++) {
@@ -2183,7 +2190,7 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         autoFocus: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "browser-channel-header"
-      }, channelsDisplay.length - 10, " recommended results  ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, channelsDisplay.length - 10, " ", this.state.search ? channelsDisplay.length == 11 ? "result" : "results" : "members")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-grid"
@@ -6383,6 +6390,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "showUser",
     value: function showUser(userId) {
+      debugger;
       this.setState({
         shownUserId: userId
       });

@@ -98,15 +98,13 @@ class PeopleBrowser extends React.Component {
     
     // Only display users once someone has started to search
     // if (this.state.search.length > 0) {
-    let user;
     for (let i = 0; i < usersArray.length; i++) {
-      user = usersArray[i];
-      if (user.id != currentUserId && this.userInSearch(user)) {
+      if (usersArray[i].id != currentUserId && this.userInSearch(usersArray[i])) {
         channelsDisplay.push(
           <div 
             key={i} 
-            onClick={() => this.props.showUser(user.id)}>
-            {this.getUserInfo(user)}
+            onClick={() => this.props.showUser(usersArray[i].id)}>
+            {this.getUserInfo(usersArray[i])}
           </div>
         )
       }
@@ -141,7 +139,9 @@ class PeopleBrowser extends React.Component {
               placeholder="i.e. shen.yuci1@gmail.com"
               autoFocus/>
           </div>
-          <h1 className="browser-channel-header">{channelsDisplay.length - 10} recommended results  </h1>
+          <h1 className="browser-channel-header">
+            {channelsDisplay.length - 10} {this.state.search ? (channelsDisplay.length == 11 ? "result" : "results") : "members"}
+          </h1>
         </div>
         <div className="browser-channel-content">
           <div className="browser-channel-grid">
