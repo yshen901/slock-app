@@ -85,7 +85,7 @@ class EditChannelTopicModal extends React.Component {
 
   render() {
     return (
-      <div className="edit-channel-topic-modal hidden">
+      <div className="edit-channel-topic-modal darker hidden">
         <div className="part-modal-background" onClick={() => hideElements("edit-channel-topic-modal")}></div>
         {this.modalForm()}
       </div>

@@ -6,7 +6,6 @@ class ChannelNav extends React.Component {
   constructor(props) {
     super(props);
 
-    this.star = this.star.bind(this);
     this.starClick = this.starClick.bind(this);
     this.toggleElements = this.toggleElements.bind(this);
   }

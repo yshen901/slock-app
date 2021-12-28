@@ -17,17 +17,17 @@
 /* FADE IN ANIMATION FOR OPAQUE */
 @keyframes fadein-opaque {
   from { opacity: 0; }
-  to { opacity: 0.3; }
+  to { opacity: 0.6; }
 }
 
 @-moz-keyframes fadein-opaque {
   from { opacity: 0; }
-  to { opacity: 0.3; }
+  to { opacity: 0.6; }
 }
 
 @-webkit-keyframes fadein-opaque {
   from { opacity: 0; }
-  to { opacity: 0.3; }
+  to { opacity: 0.6; }
 }
 
 

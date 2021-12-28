@@ -1,0 +1,115 @@
+.channel-details-modal {
+  z-index: 2;
+
+  -webkit-animation: fadein 0.4s;
+  -moz-animation: fadein 0.4s;
+  -ms-animation: fadein 0.4s;
+  -o-animation: fadein 0.4s;
+  animation: fadein 0.4s;
+
+  .channel-details {
+    display: flex;
+    flex-direction: column;
+
+    position: fixed;
+    left: calc(50vw - 290px);
+    top: 9.5vh;
+    z-index: 3;
+
+    width: 580px;
+    height: 700px;
+
+    border-radius: 8px;
+    background: white;
+
+    .title {
+      font-size: 22px;
+      line-height: 26px;
+      font-weight: 900;
+
+      padding: 20px 76px 0px 28px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: flex-start;
+
+      margin: 12px 0px 8px 28px;
+
+      .channel-details-button {
+        font-size: 13px;
+
+        padding: 7px 12px 5px 12px;
+        border: 1px solid lightgray;
+        border-radius: 4px;
+      }
+    }
+
+    .tab-buttons {
+      display: flex;
+      justify-content: flex-start;
+
+      padding-left: 20px;
+
+      div {
+        padding: 9px 0;
+        margin: 0 20px 0 8px;
+
+        color: gray;
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: bold;
+      }
+
+      div.selected {
+        padding-bottom: 7px;
+        border-bottom: rgb(0,122,91) solid 2px;
+
+        color: black;
+      }
+
+      div:hover {
+        transition: 0.3s;
+        cursor: pointer;
+        color: black;
+      }
+    }
+
+    .tab-content {
+      flex: 1;
+      background-color: rgb(248,248,248);
+
+      .block {
+        width: 522px;
+        border: 1px solid lightgray;
+        border-radius: 12px;
+        margin: 16px 28px;
+
+        font-size: 15px;
+        line-height: 22px;
+
+        background-color: white;
+
+        .section {
+          padding: 16px 20px;
+
+          .section-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+
+            .section-edit {
+              font-size: 13px;
+              color: rgb(18,100,163);
+            }
+
+            .section-edit:hover {
+              cursor: pointer;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}
