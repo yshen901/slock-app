@@ -39,7 +39,7 @@ class ChannelBrowser extends React.Component {
         </div>
       )
     
-    return channelsDisplay;
+    return [channelsDisplay, myChannels.length + otherChannels.length];
   }
 
   update(e) {
@@ -85,7 +85,7 @@ class ChannelBrowser extends React.Component {
   }
 
   render() {
-    let allChannels = this.allChannels(this.state.search);
+    let [allChannels, numChannels] = this.allChannels(this.state.search);
     return (
       <div className="browser-channel">
         <div className="browser-channel-top">
@@ -98,10 +98,10 @@ class ChannelBrowser extends React.Component {
             <input type="text" id="search-bar"
               onChange={this.update}
               value={this.state.search}
-              placeholder="Search by channel name"
+              placeholder="Search by name"
               autoFocus/>
           </div>
-          <h1 className="browser-channel-header">{allChannels.length} recommended results  </h1>
+          <h1 className="browser-channel-header">{numChannels} {this.state.search ? (numChannels == 1 ? "result" : "results") : "recommended results"}</h1>
         </div>
         <div className="browser-channel-content">
           <div className="browser-channel-list">

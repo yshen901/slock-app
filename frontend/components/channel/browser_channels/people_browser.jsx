@@ -136,7 +136,7 @@ class PeopleBrowser extends React.Component {
             <input type="text" id="search-bar"
               onChange={this.update}
               value={this.state.search}
-              placeholder="i.e. shen.yuci1@gmail.com"
+              placeholder="Search by name or email"
               autoFocus/>
           </div>
           <h1 className="browser-channel-header">
