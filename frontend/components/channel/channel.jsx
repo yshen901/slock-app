@@ -149,7 +149,10 @@ class Channel extends React.Component {
           status={this.state}
           showUser={this.props.showUser}/>
 
-        <ChannelDetailsModalContainer canLeave={this.state.canLeave} leaveChannel={this.leaveChannel}/>
+        <ChannelDetailsModalContainer 
+          canLeave={this.state.canLeave} 
+          leaveChannel={this.leaveChannel}
+          showUser={this.props.showUser}/>
         <EditChannelTopicModal/>
       </div>
     )

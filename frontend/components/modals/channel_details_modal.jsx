@@ -13,6 +13,7 @@ class ChannelDetailsModal extends React.Component {
     }
 
     this.starClick = this.starClick.bind(this);
+    this.userClick = this.userClick.bind(this);
     this.toggleElements = this.toggleElements.bind(this);
   }
 
@@ -21,6 +22,14 @@ class ChannelDetailsModal extends React.Component {
       e.stopPropagation();
       toggleElements(className);
       focus(inputId)
+    }
+  }
+
+  userClick(userId) {
+    return (e) => {
+      e.stopPropagation();
+      hideElements("channel-details-modal");
+      this.props.showUser(userId);
     }
   }
 
@@ -83,7 +92,7 @@ class ChannelDetailsModal extends React.Component {
               </div>
             </div>
             <div className="block">
-              <div className="section">
+              <div className="section" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
                 <div className="section-header">
                   <div className="section-name">Topic</div>
                   <div className="section-edit" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>Edit</div>
@@ -117,13 +126,19 @@ class ChannelDetailsModal extends React.Component {
         )
       case "Members": // search bar with members list
         return (
-          <div className="tab-content">
-            <input className="search-bar" value={this.state.search} onChange={e => this.setState({search: e.currentTarget.value})}></input>
+          <div className="tab-content members">
+            <div className="search-bar">
+              <i className='fas fa-search search-icon gray'></i> 
+              <input type="text"
+                onChange={e => this.setState({search: e.currentTarget.value})}
+                value={this.state.search}
+                placeholder="Find members"/>
+            </div>
             <div className="members-list">
               { Object.keys(channel.users).map((userId, idx) => {
                 if (!users[userId].email.startsWith(search)) return;
                 return (
-                  <div className="member">
+                  <div className="member" key={idx} onClick={this.userClick(userId)}>
                     <div className="member-icon">
                       <img src={users[userId].photo_url ? users[userId].photo_url : DEFAULT_PHOTO_URL}/>
                     </div>

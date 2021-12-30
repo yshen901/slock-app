@@ -17,7 +17,7 @@
     z-index: 3;
 
     width: 580px;
-    height: auto;
+    height: 81vh;
 
     border-radius: 8px;
     background: white;
@@ -53,7 +53,8 @@
 
       div {
         padding: 9px 0;
-        margin: 0 20px 0 8px;
+        margin: 0px 20px 0px 8px;
+        z-index: 10;
 
         color: gray;
         font-size: 13px;
@@ -79,6 +80,9 @@
       flex: 1;
       background-color: rgb(248,248,248);
       padding-bottom: 50px;
+      box-sizing: border-box;
+
+      border-top: 1px solid lightgray;
 
       .block {
         width: 522px;
@@ -125,6 +129,105 @@
           margin: 0px;
         }
       }
+
+      .search-bar {
+        display: flex;
+        align-items: center;
+
+        flex: 1;
+        height: 36px;
+
+        padding: 8px 8px;
+        margin: 16px 28px;
+        border: 1px solid rgb(180, 180, 180);
+        border-radius: 4px;
+        box-sizing: border-box;
+
+        i {
+          padding-left: 4px;
+          padding-right: 8px;
+
+          font-size: 13px;
+          line-height: 15px;
+        }
+
+        input {
+          flex: 1;
+          
+          border: none;
+          background: none;
+
+          font-size: 16px;
+          line-height: 18px;
+        }
+
+        input:focus {
+          outline: none;
+        }
+      }
+
+      .search-bar:hover, .search-bar:focus {
+        transition: 0.3s;
+        border: 1px solid rgb(29,28,29);
+      }
+
+      .members-list {
+        width: 100%;
+        height: calc(100% - 50px);
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        .member {
+          display: flex;
+          align-items: center;
+
+          width: 100%;
+          padding: 12px 28px;
+          box-sizing: border-box;
+
+          .member-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            height: 36px;
+            width: 36px;
+            overflow: hidden;
+
+            margin-right: 12px;
+            border-radius: 4px;
+
+            img {
+              height: 36px;
+              width: auto;
+              object-fit: cover;
+            }
+          }
+
+          .member-name {
+            margin-right: 6px;
+
+            font-size: 15px;
+            line-height: 18px;
+            font-weight: bold;
+          }
+
+          .member-status {
+            margin-top: 3px;
+            font-size: 11px;
+          }
+        }
+
+        .member:hover {
+          transition: 0.3s;
+          cursor: pointer;
+          background-color: rgb(240, 240, 240);
+        }
+      }
+    }
+
+    .tab-content.members {
+      background: white;
     }
   }
 }

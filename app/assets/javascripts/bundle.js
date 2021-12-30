@@ -2429,7 +2429,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         showUser: this.props.showUser
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_channel_details_modal_container__WEBPACK_IMPORTED_MODULE_7__["default"], {
         canLeave: this.state.canLeave,
-        leaveChannel: this.leaveChannel
+        leaveChannel: this.leaveChannel,
+        showUser: this.props.showUser
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_8__["default"], null));
     }
   }]);
@@ -4761,6 +4762,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       search: ""
     };
     _this.starClick = _this.starClick.bind(_assertThisInitialized(_this));
+    _this.userClick = _this.userClick.bind(_assertThisInitialized(_this));
     _this.toggleElements = _this.toggleElements.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -4777,16 +4779,28 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
+    key: "userClick",
+    value: function userClick(userId) {
+      var _this2 = this;
+
+      return function (e) {
+        e.stopPropagation();
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
+
+        _this2.props.showUser(userId);
+      };
+    }
+  }, {
     key: "starClick",
     value: function starClick(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       var channel = this.props.channel;
       this.props.updateChannelUser({
         starred: !channel.starred,
         channel_id: channel.id
       }).then(function () {
-        return _this2.setState(_this2.state);
+        return _this3.setState(_this3.state);
       });
     }
   }, {
@@ -4824,7 +4838,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "tabContent",
     value: function tabContent() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _this$props = this.props,
           channel = _this$props.channel,
@@ -4850,7 +4864,8 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           }, "#\xA0", channel.name))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "block"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "section"
+            className: "section",
+            onClick: this.toggleElements("edit-channel-topic-modal", "channel-topic-input")
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "section-header"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4891,21 +4906,28 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         case "Members":
           // search bar with members list
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "tab-content"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-            className: "search-bar",
-            value: this.state.search,
+            className: "tab-content members"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "search-bar"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            className: "fas fa-search search-icon gray"
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            type: "text",
             onChange: function onChange(e) {
-              return _this3.setState({
+              return _this4.setState({
                 search: e.currentTarget.value
               });
-            }
-          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            },
+            value: this.state.search,
+            placeholder: "Find members"
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "members-list"
           }, Object.keys(channel.users).map(function (userId, idx) {
             if (!users[userId].email.startsWith(search)) return;
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-              className: "member"
+              className: "member",
+              key: idx,
+              onClick: _this4.userClick(userId)
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member-icon"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -4928,7 +4950,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var channel = this.props.channel;
       if (!channel || channel.dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4952,14 +4974,14 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "About" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this4.setState({
+          return _this5.setState({
             tab: "About"
           });
         }
       }, "About"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "Members" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this4.setState({
+          return _this5.setState({
             tab: "Members"
           });
         }
@@ -6708,7 +6730,6 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "showUser",
     value: function showUser(userId) {
-      debugger;
       this.setState({
         shownUserId: userId
       });
