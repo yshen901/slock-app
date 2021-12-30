@@ -3611,18 +3611,24 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
           src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["photoUrl"])(users[userId])
         }));
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-info"
+          className: "channel-info",
+          onClick: this.toggleElements("channel-details-modal")
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-nav-user-icon"
         }, profileImage, icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-name"
-        }, users[userId].email));
+        }, users[userId].email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fa fa-chevron-down"
+        }));
       } else {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-info"
+          className: "channel-info",
+          onClick: this.toggleElements("channel-details-modal")
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-name"
-        }, "#\xA0", channel.name));
+        }, "#\xA0", channel.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fa fa-chevron-down"
+        }));
       }
     }
   }, {
@@ -3631,30 +3637,17 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
       var channel = this.props.channel;
       var name = channel.name,
           description = channel.description,
+          topic = channel.topic,
           users = channel.users,
           dm_channel = channel.dm_channel;
       if (!dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "left"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "left-top"
-      }, this.getChannelName()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "left-bottom"
-      }, this.star(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "members"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "material-icons"
-      }, "person_outline"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object.keys(users).length)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-nav-divider"
-      }, "|"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.getChannelName(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "topic",
         onClick: this.toggleElements("edit-channel-topic-modal", "channel-topic-input")
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fas fa-pen"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ", description ? description : "Add a topic", " "))));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, " ", topic ? topic : "Add a topic", " ")));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "left"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "left-top"
-      }, " ", this.getChannelName(), " "));
+      }, this.getChannelName());
     }
   }, {
     key: "right",
@@ -4824,11 +4817,21 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             className: "section-header"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "section-name"
-          }, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, "Topic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "section-edit",
             onClick: this.toggleElements("edit-channel-topic-modal", "channel-topic-input")
           }, "Edit")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "section-content"
+            className: channel.topic ? "section-content" : "section-content gray"
+          }, channel.topic)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "section"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "section-header"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "section-name"
+          }, "Description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "section-edit"
+          }, "Edit")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: channel.description ? "section-content" : "section-content gray"
           }, channel.description))));
 
         case "Members":
@@ -4852,7 +4855,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         className: "channel-details-modal"
       });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-details-modal"
+        className: "channel-details-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
@@ -4987,7 +4990,7 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     var channel = getState().entities.channels[props.match.params.channel_id];
     _this.state = {
-      topic: channel ? channel.description : "",
+      topic: channel ? channel.topic : "",
       disabled: true,
       error: ""
     };
@@ -5006,7 +5009,7 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
 
       if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
         if (getState().entities.channels[channel_id]) this.setState({
-          topic: getState().entities.channels[channel_id].description
+          topic: getState().entities.channels[channel_id].topic
         });
       }
     }
@@ -5015,9 +5018,9 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
     value: function button() {
       if (this.state.disabled) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         disabled: true
-      }, "Set Topic");else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, "Save");else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.submitForm
-      }, "Set Topic");
+      }, "Save");
     }
   }, {
     key: "warning",
@@ -5046,7 +5049,7 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
 
       e.preventDefault();
       dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["updateChannel"])({
-        description: this.state.topic,
+        topic: this.state.topic,
         id: this.props.match.params.channel_id
       })).then(function () {
         _this3.setState({
@@ -5067,7 +5070,7 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Edit channel topic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Edit topic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-topic-form-header"
       }, this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         type: "text",
@@ -5690,7 +5693,6 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
 
         _this3.setState({
           name: "",
-          description: "",
           disabled: true,
           error: "none"
         });

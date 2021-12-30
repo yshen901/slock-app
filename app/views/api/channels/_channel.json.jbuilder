@@ -2,6 +2,7 @@ json.id channel.id
 json.name channel.name
 json.workspace_id channel.workspace_id
 json.description channel.description
+json.topic channel.topic
 json.dm_channel channel.dm_channel  
 
 # handles things differently depending on what the channel is

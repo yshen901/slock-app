@@ -43,5 +43,6 @@ class Channel < ApplicationRecord
 
   def ensure_defaults
     self.description ||= ""
+    self.topic ||= ""
   end
 end

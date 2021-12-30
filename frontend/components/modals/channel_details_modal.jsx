@@ -55,13 +55,22 @@ class ChannelDetailsModal extends React.Component {
         return (
           <div className="tab-content">
             <div className="block">
+            <div className="section">
+                <div className="section-header">
+                  <div className="section-name">Topic</div>
+                  <div className="section-edit" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>Edit</div>
+                </div>
+                <div className={channel.topic ? "section-content" : "section-content gray"}>
+                  { channel.topic }
+                </div>
+              </div>
               <div className="section">
                 <div className="section-header">
                   <div className="section-name">Description</div>
-                  <div className="section-edit" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>Edit</div>
+                  <div className="section-edit">Edit</div>
                 </div>
-                <div className="section-content">
-                  {channel.description}
+                <div className={channel.description ? "section-content" : "section-content gray"}>
+                  { channel.description }
                 </div>
               </div>
             </div>
@@ -88,7 +97,7 @@ class ChannelDetailsModal extends React.Component {
       )
 
     return (
-      <div className="channel-details-modal">
+      <div className="channel-details-modal hidden">
         <div className="part-modal-background" onClick={() => hideElements("channel-details-modal")}></div>
         <div className="channel-details">
           <div className="title">#&nbsp;{channel.name}</div>

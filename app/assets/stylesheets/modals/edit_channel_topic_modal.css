@@ -26,8 +26,8 @@
 }
 
 #channel-topic-form h1 {
-  font-size: 23px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 900;
 
   padding-bottom: 12px;
 }
@@ -61,8 +61,8 @@
   border-radius: 5px;
   border: 1px solid gray;
 
-  font-size: 18px;
-  line-height: 30px;
+  font-size: 15px;
+  line-height: 22px;
 }
 
 #channel-topic-form button {

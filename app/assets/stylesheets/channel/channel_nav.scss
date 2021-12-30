@@ -23,71 +23,109 @@
   }
 
   #left {
-    width: calc(100% - 400px);
-    min-width: 300px;
     height: 100%;
   
     padding: 3px;
     padding-right: 10px;
-    padding-left: 20px;
+    padding-left: 17px;
     box-sizing: border-box;
   
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: center;
 
-    #left-top {
+    .channel-info {
+      display: flex;
+      align-items: center;
       overflow: visible;
 
-      .channel-info {
-        display: flex;
-        align-items: center;
+      border-radius: 6px;
+      padding: 3px 8px;
+
+      user-select: none;
+
+      .channel-name {
+        font-weight: 900;
+        font-size: 18px;
+        line-height: 24px;
+        vertical-align: baseline;
+      }
+
+      .channel-nav-user-icon {
+        position: relative;
         overflow: visible;
-
-        .channel-name {
-          font-weight: 900;
-          font-size: 18px;
-          line-height: 24px;
-          vertical-align: baseline;
-        }
-
-        .channel-nav-user-icon {
-          position: relative;
-          overflow: visible;
-          margin-right: 8px;
-    
-          .channel-nav-user-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-    
+        margin-right: 8px;
+  
+        .channel-nav-user-image {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+  
+          height: 32px;
+          width: 32px;
+  
+          overflow: hidden;
+          border-radius: 4px;
+  
+          img {
             height: 32px;
-            width: 32px;
-    
-            overflow: hidden;
-            border-radius: 4px;
-    
-            img {
-              height: 32px;
-              width: auto;
-              object-fit: cover;
-            }
+            width: auto;
+            object-fit: cover;
           }
-    
-          i {
-            position: absolute;
-            bottom: -3px;
-            right: -5px;
-            font-size: 10px;
-    
-            background: white;
-    
-            border: 2px solid white;
-            border-radius: 8px;
-            box-sizing: border-box;
-          }
+        }
+  
+        i {
+          position: absolute;
+          bottom: -3px;
+          right: -5px;
+          font-size: 10px;
+  
+          background: white;
+  
+          border: 2px solid white;
+          border-radius: 8px;
+          box-sizing: border-box;
         }
       }
+
+      i.fa-chevron-down {
+        padding-top: 1px;
+        margin-left: 5px;
+
+        color: rgb(30,30,30);
+        font-size: 8px;
+      }
+    }
+
+    .channel-info:hover {
+      transition: 0.3s;
+      cursor: pointer;
+      background: rgb(236,236,236);
+    }
+
+    #topic {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      
+      height: 30px;
+      padding: 6px 6px;
+      margin: 0px 10px;
+      box-sizing: border-box;
+    
+      div {
+        width: auto;
+    
+        color: #1D1C1DB3;
+        font-size: 13px;
+        line-height: 15px;
+        box-sizing: border-box;
+      }
+    }
+
+    #topic:hover {
+      cursor: pointer;
+      // border: 1px solid gray;
+      // border-radius: 4px;
     }
 
     #left-bottom {
@@ -118,42 +156,11 @@
         cursor: pointer;
         color: rgb(43, 108, 161)
       }
-
-      #topic {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-      
-        padding: 0 4px;
-        box-sizing: border-box;
-      
-        div {
-          height: 18px;
-          width: auto;
-      
-          line-height: 18px;
-          font-size: 12px;
-          // vertical-align: middle;
-          box-sizing: border-box;
-        }
-      
-        .fa-pen {
-          font-size: 10px;
-          padding-right: 4px;
-        }
-      }
-
-      #topic:hover {
-        cursor: pointer;
-        border: 1px solid gray;
-        border-radius: 4px;
-      }
     }
   }
 
   .right {
-    min-width: 200px;
+    width: 200px;
     height: 100%;
   
     padding: 10px;

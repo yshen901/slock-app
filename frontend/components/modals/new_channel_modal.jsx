@@ -64,7 +64,7 @@ class NewChannelModal extends React.Component {
       .then(
         ({channel}) => {
           hideElements("new-channel-modal");
-          this.setState({name: "", description: "", disabled: true, error: "none"});
+          this.setState({name: "", disabled: true, error: "none"});
           this.props.history.push(`/workspace/${this.props.workspace_address}/${channel.id}`);
         }
       )

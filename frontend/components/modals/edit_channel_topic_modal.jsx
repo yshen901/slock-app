@@ -10,7 +10,7 @@ class EditChannelTopicModal extends React.Component {
 
     let channel = getState().entities.channels[props.match.params.channel_id];
     this.state = {
-      topic: channel ? channel.description : "",
+      topic: channel ? channel.topic : "",
       disabled: true,
       error: ""
     }
@@ -28,15 +28,15 @@ class EditChannelTopicModal extends React.Component {
     // Ignore changes during channel transition, and ignore invalid channels
     if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
       if (getState().entities.channels[channel_id])
-        this.setState({topic: getState().entities.channels[channel_id].description})
+        this.setState({topic: getState().entities.channels[channel_id].topic})
     }
   }
 
   button() {
     if (this.state.disabled)
-      return (<button disabled>Set Topic</button>)
+      return (<button disabled>Save</button>)
     else
-      return (<button onClick={this.submitForm}>Set Topic</button>)
+      return (<button onClick={this.submitForm}>Save</button>)
   }
 
   warning() {
@@ -57,7 +57,7 @@ class EditChannelTopicModal extends React.Component {
   submitForm(e) {
     e.preventDefault();
 
-    dispatch(updateChannel({ description: this.state.topic, id: this.props.match.params.channel_id }))
+    dispatch(updateChannel({ topic: this.state.topic, id: this.props.match.params.channel_id }))
       .then(
         () => {
           this.setState({ topic: "", disabled: true, error: "" });
@@ -70,7 +70,7 @@ class EditChannelTopicModal extends React.Component {
   modalForm() {
     return (
       <div id="channel-topic-form" onClick={e => e.stopPropagation()}>
-        <h1>Edit channel topic</h1>
+        <h1>Edit topic</h1>
         <div className="channel-topic-form-header">
           {this.warning()}
         </div>

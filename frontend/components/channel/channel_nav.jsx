@@ -63,7 +63,7 @@ class ChannelNav extends React.Component {
       </div>
 
       return (
-        <div className="channel-info">
+        <div className="channel-info" onClick={this.toggleElements("channel-details-modal")}>
           <div className="channel-nav-user-icon">
             {profileImage}
             {icon}
@@ -71,15 +71,17 @@ class ChannelNav extends React.Component {
           <div className="channel-name">
             {users[userId].email}
           </div>
+          <i className="fa fa-chevron-down"></i>
         </div>
       )
     }
     else {
       return (
-        <div className="channel-info">
+        <div className="channel-info" onClick={this.toggleElements("channel-details-modal")}>
           <div className="channel-name">
             #&nbsp;{channel.name}
           </div>
+          <i className="fa fa-chevron-down"></i>
         </div>
       )
     }
@@ -87,13 +89,18 @@ class ChannelNav extends React.Component {
 
   left() {
     let { channel } = this.props;
-    let { name, description, users, dm_channel } = channel;
+    let { name, description, topic, users, dm_channel } = channel;
 
     if (!dm_channel) 
       return (
         <div id="left">
-          <div id="left-top">{this.getChannelName()}</div>
-          <div id="left-bottom">
+          {/* <div id="left-top"> */}
+            {this.getChannelName()}
+            <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
+              <div> { topic ? topic : "Add a topic" } </div>
+            </div>
+          {/* </div> */}
+          {/* <div id="left-bottom">
             {this.star()} 
             <div id="members">
               <i className="material-icons">person_outline</i>
@@ -104,15 +111,17 @@ class ChannelNav extends React.Component {
             <div className="channel-nav-divider">|</div> 
             <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
               <i className='fas fas fa-pen'></i>
-              <div> { description ? description : "Add a topic" } </div>
+              <div> { topic ? topic : "Add a topic" } </div>
             </div>
-          </div>
+          </div> */}
         </div>
       )
     else
       return (
         <div id="left">
-          <div id="left-top"> {this.getChannelName()} </div>
+          {/* <div id="left-top">  */}
+            {this.getChannelName()} 
+          {/* </div> */}
           {/* <div id="left-bottom">
             <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
               <i className='fas fas fa-pen'></i>
