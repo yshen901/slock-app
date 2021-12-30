@@ -4,6 +4,7 @@ json.workspace_id channel.workspace_id
 json.description channel.description
 json.topic channel.topic
 json.dm_channel channel.dm_channel  
+json.created_at channel.created_at
 
 # handles things differently depending on what the channel is
 # returns channels users to make it easier to display channel name

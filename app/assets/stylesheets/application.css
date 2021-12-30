@@ -30,11 +30,17 @@ em {
   user-select: none;
 }
 
+.magenta { color: #e01e5a }
+.red { color: red }
 .green { color: green }
 .blue { color: rgb(33, 33, 245) }
 .pink { color: rgb(255, 70, 255) }
 .orange { color: rgb(241, 157, 0) }
 .gray { color: #1d1c1db3}
+
+.bold-900 { font-weight: 900 }
+.bold-700 { font-weight: 700 }
+.bolder { font-weight: bolder }
 
 /* html {
   height: 100%;

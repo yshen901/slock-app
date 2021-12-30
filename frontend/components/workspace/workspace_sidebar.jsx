@@ -8,7 +8,7 @@ class WorkspaceSidebar extends React.Component {
     super(props);
 
     this.state = {
-      channel: "hidden",
+      channel: "",
       DM: ""
     }
 

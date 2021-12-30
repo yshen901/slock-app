@@ -7,6 +7,7 @@ const mapStateToProps = (state, ownProps) => ({
   channel_id: ownProps.match.params.channel_id,
   channel: state.entities.channels[ownProps.match.params.channel_id],
   users: state.entities.users,
+  current_user_id: state.session.user_id
 });
 
 const mapDispatchToProps = (dispatch) => ({

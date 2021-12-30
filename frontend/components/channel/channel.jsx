@@ -8,6 +8,10 @@ import { hideElements } from '../../util/modal_api_util';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
 import { restartDmChannel, endDmChannel } from "../../actions/dm_channel_actions";
 
+// Modals
+import ChannelDetailsModalContainer from "../modals/channel_details_modal_container";
+import EditChannelTopicModal from '../modals/edit_channel_topic_modal';
+
 class Channel extends React.Component {
   constructor(props) {
     super(props);
@@ -41,8 +45,7 @@ class Channel extends React.Component {
   leaveChannel(e) {
     e.stopPropagation();
 
-    let { channel, channel_id, user } = this.props;
-    let user_id = user.id;
+    let { channel, channel_id, user_id } = this.props;
 
     if (!channel.dm_channel) {
       if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
@@ -145,6 +148,9 @@ class Channel extends React.Component {
           joinChannel={this.joinChannel}
           status={this.state}
           showUser={this.props.showUser}/>
+
+        <ChannelDetailsModalContainer canLeave={this.state.canLeave} leaveChannel={this.leaveChannel}/>
+        <EditChannelTopicModal/>
       </div>
     )
   }

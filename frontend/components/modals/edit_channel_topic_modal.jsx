@@ -60,7 +60,7 @@ class EditChannelTopicModal extends React.Component {
     dispatch(updateChannel({ topic: this.state.topic, id: this.props.match.params.channel_id }))
       .then(
         () => {
-          this.setState({ topic: "", disabled: true, error: "" });
+          this.setState({ topic: this.state.topic, disabled: true, error: "" });
           hideElements("edit-channel-topic-modal");
         }
       )

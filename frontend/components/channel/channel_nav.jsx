@@ -63,7 +63,7 @@ class ChannelNav extends React.Component {
       </div>
 
       return (
-        <div className="channel-info" onClick={this.toggleElements("channel-details-modal")}>
+        <div className="channel-info">
           <div className="channel-nav-user-icon">
             {profileImage}
             {icon}
@@ -71,7 +71,6 @@ class ChannelNav extends React.Component {
           <div className="channel-name">
             {users[userId].email}
           </div>
-          <i className="fa fa-chevron-down"></i>
         </div>
       )
     }

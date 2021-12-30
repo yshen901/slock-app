@@ -13,9 +13,7 @@ import BrowseChannelModal from '../modals/browse_channel_modal';
 import BrowseDmChannelModal from "../modals/browse_dm_channel_modal";
 import NewChannelModalContainer from '../modals/new_channel_modal_container';
 import InviteUserModal from '../modals/invite_user_modal';
-import EditChannelTopicModal from '../modals/edit_channel_topic_modal';
 import EditProfileModalContainer from "../modals/edit_profile_modal_container";
-import ChannelDetailsModalContainer from "../modals/channel_details_modal_container";
 
 // Dropdowns
 import SidebarDropdown from '../modals/sidebar_dropdown';
@@ -329,13 +327,11 @@ class Workspace extends React.Component {
           <ProfileDropdown loginACChannel={this.loginACChannel} showUser={() => this.showUser(user_id)}/>
 
           <BrowseChannelModal />
-          <ChannelDetailsModalContainer />
           <BrowseDmChannelModal 
             workspaceFlag={this.state.workspaceFlag}
           />
           <InviteUserModal />
           <NewChannelModalContainer />
-          <EditChannelTopicModal />
           <EditProfileModalContainer />
         </div>
       </div>
