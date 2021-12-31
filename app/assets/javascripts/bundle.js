@@ -1776,10 +1776,10 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/channel/browser_channels/channel_browser.js":
-/*!*************************************************************************!*\
-  !*** ./frontend/components/channel/browser_channels/channel_browser.js ***!
-  \*************************************************************************/
+/***/ "./frontend/components/channel/browser_channels/channel_browser.jsx":
+/*!**************************************************************************!*\
+  !*** ./frontend/components/channel/browser_channels/channel_browser.jsx ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1788,7 +1788,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -1827,6 +1828,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelBrowser, _React$Component);
 
@@ -1841,31 +1843,112 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       search: ""
     };
+    _this.joinChannel = _this.joinChannel.bind(_assertThisInitialized(_this));
+    _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
     _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
-    _this.myChannels = _this.myChannels.bind(_assertThisInitialized(_this));
-    _this.otherChannels = _this.otherChannels.bind(_assertThisInitialized(_this));
-    _this.allChannels = _this.allChannels.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ChannelBrowser, [{
-    key: "allChannels",
-    value: function allChannels(searchString) {
-      var channelsDisplay = [];
-      var myChannels = this.myChannels(searchString);
-      var otherChannels = this.otherChannels(searchString);
-      if (otherChannels.length > 0) channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: 0
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "full-modal-section-header"
-      }, "Channels you can join"), otherChannels));
-      if (myChannels.length > 0) channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: 1
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "full-modal-section-header"
-      }, "Channels you belong to"), myChannels));
-      return [channelsDisplay, myChannels.length + otherChannels.length];
+    key: "leaveChannel",
+    value: function leaveChannel(channel) {
+      var _this2 = this;
+
+      return function (e) {
+        e.stopPropagation();
+        if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
+          dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["leaveChannel"])(channel.id)).then(function () {
+            _this2.props.loginACChannel.speak({
+              channel_data: {
+                login: false,
+                user_id: getState().session.user_id,
+                channel_id: channel.id
+              }
+            });
+          }, null);
+      };
+    }
+  }, {
+    key: "joinChannel",
+    value: function joinChannel(channel) {
+      var _this3 = this;
+
+      return function (e) {
+        e.stopPropagation();
+        var workspace_id = getState().session.workspace_id;
+        dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["joinChannel"])({
+          channel_id: channel.id,
+          workspace_id: workspace_id
+        })).then(function () {
+          _this3.props.loginACChannel.speak({
+            channel_data: {
+              login: true,
+              user_id: getState().session.user_id,
+              channel_id: channel.id
+            }
+          });
+
+          _this3.props.history.push("/workspace/".concat(_this3.props.match.params.workspace_address, "/").concat(channel.id));
+        });
+      };
+    }
+  }, {
+    key: "channelsList",
+    value: function channelsList(searchString) {
+      var _this4 = this;
+
+      var user_id = getState().session.user_id;
+      var channels = Object.values(getState().entities.channels).filter(function (channel) {
+        return !channel.dm_channel;
+      });
+      var joined, numMembers, channelMembers, channelTopic, buttons;
+      var divider = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "divider fas fa-circle"
+      });
+      var channelStatus = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-status"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-check"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Joined"));
+      var displayed_channels = [];
+
+      var _loop = function _loop(i) {
+        if (searchString.length === 0 || channels[i].name.includes(searchString)) numMembers = Object.keys(channels[i].users).length;
+        joined = channels[i].users[user_id];
+        channelMembers = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-users"
+        }, numMembers, " ", numMembers == 1 ? "member" : "members");
+        channelTopic = channels[i].topic ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-topic"
+        }, channels[i].topic) : "";
+        buttons = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "buttons",
+          onClick: function onClick() {
+            return _this4.goToChannel(channels[i].id);
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: joined ? "button" : "button green",
+          onClick: joined ? _this4.leaveChannel(channels[i]) : _this4.joinChannel(channels[i])
+        }, joined ? "Leave" : "Join"));
+        displayed_channels.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "browser-list-item",
+          key: i,
+          onClick: function onClick() {
+            return _this4.goToChannel(channels[i].id);
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-name"
+        }, "# ", channels[i].name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-details"
+        }, joined ? channelStatus : "", joined ? divider : "", channelMembers, channelTopic ? divider : "", channelTopic), channels[i].name == "general" ? "" : buttons));
+      };
+
+      for (var i = 0; i < channels.length; i++) {
+        _loop(i);
+      }
+
+      return [displayed_channels, displayed_channels.length];
     }
   }, {
     key: "update",
@@ -1881,74 +1964,12 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
       this.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
     }
   }, {
-    key: "myChannels",
-    value: function myChannels(searchString) {
-      var _this2 = this;
-
-      var channels = getState().entities.channels;
-      var user_channels = getState().session.user_channels;
-      var my_channels = Object.keys(user_channels).filter(function (id) {
-        return !channels[id].dm_channel;
-      });
-      var channel_name;
-      var displayed_channels = [];
-
-      var _loop = function _loop(i) {
-        channel_name = channels[my_channels[i]].name;
-        if (searchString.length === 0 || channel_name.startsWith(searchString)) displayed_channels.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "full-modal-item",
-          key: i,
-          onClick: function onClick() {
-            return _this2.goToChannel(my_channels[i]);
-          }
-        }, "# ", channel_name));
-      };
-
-      for (var i = 0; i < my_channels.length; i++) {
-        _loop(i);
-      }
-
-      return displayed_channels;
-    }
-  }, {
-    key: "otherChannels",
-    value: function otherChannels(searchString) {
-      var _this3 = this;
-
-      var channels = getState().entities.channels;
-      var user_channels = getState().session.user_channels;
-      var other_channels = Object.keys(channels).filter(function (id) {
-        return !user_channels[id] && !channels[id].dm_channel;
-      });
-      var channel_name;
-      var displayed_channels = [];
-
-      if (other_channels.length > 0) {
-        var _loop2 = function _loop2(i) {
-          channel_name = channels[other_channels[i]].name;
-          if (searchString.length === 0 || channel_name.startsWith(searchString)) displayed_channels.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "full-modal-item",
-            key: i + 2000,
-            onClick: function onClick() {
-              return _this3.goToChannel(other_channels[i]);
-            }
-          }, "# ", channel_name));
-        };
-
-        for (var i = 0; i < other_channels.length; i++) {
-          _loop2(i);
-        }
-      }
-
-      return displayed_channels;
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this$allChannels = this.allChannels(this.state.search),
-          _this$allChannels2 = _slicedToArray(_this$allChannels, 2),
-          allChannels = _this$allChannels2[0],
-          numChannels = _this$allChannels2[1];
+      var _this$channelsList = this.channelsList(this.state.search),
+          _this$channelsList2 = _slicedToArray(_this$channelsList, 2),
+          channelsList = _this$channelsList2[0],
+          numChannels = _this$channelsList2[1];
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel"
@@ -1960,7 +1981,7 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
         className: "browser-channel-title"
       }, "Channel browser"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-action no-highlight",
-        onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleFocusElements"])("new-channel-modal", "new-channel-input")
+        onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["toggleFocusElements"])("new-channel-modal", "new-channel-input")
       }, "Create Channel")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-search"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -1978,7 +1999,7 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
         className: "browser-channel-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-list"
-      }, allChannels)));
+      }, channelsList)));
     }
   }]);
 
@@ -4716,6 +4737,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     };
     _this.starClick = _this.starClick.bind(_assertThisInitialized(_this));
     _this.userClick = _this.userClick.bind(_assertThisInitialized(_this));
+    _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -4763,23 +4785,34 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }));
     }
   }, {
+    key: "leaveChannel",
+    value: function leaveChannel() {
+      var _this4 = this;
+
+      return function (e) {
+        _this4.props.leaveChannel(e);
+
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
+      };
+    }
+  }, {
     key: "leaveSection",
     value: function leaveSection() {
       if (this.props.canLeave) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "horizontal-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "section"
+        className: "section",
+        onClick: this.leaveChannel()
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "section-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "section-name magenta bold-700",
-        onClick: this.props.leaveChannel
+        className: "section-name magenta bold-700"
       }, "Leave Channel"))));
     }
   }, {
     key: "channelTabContent",
     value: function channelTabContent() {
-      var _this4 = this;
+      var _this5 = this;
 
       var _this$props = this.props,
           channel = _this$props.channel,
@@ -4861,7 +4894,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             type: "text",
             onChange: function onChange(e) {
-              return _this4.setState({
+              return _this5.setState({
                 search: e.currentTarget.value
               });
             },
@@ -4875,7 +4908,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member",
               key: idx,
-              onClick: _this4.userClick(channel_user.id)
+              onClick: _this5.userClick(channel_user.id)
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member-icon"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -4901,7 +4934,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       var channel = this.props.channel;
       if (!channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4924,14 +4957,14 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "About" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this5.setState({
+          return _this6.setState({
             tab: "About"
           });
         }
       }, "About"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "Members" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this5.setState({
+          return _this6.setState({
             tab: "Members"
           });
         }
@@ -4960,14 +4993,14 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "About" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this5.setState({
+          return _this6.setState({
             tab: "About"
           });
         }
       }, "About"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "Members" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this5.setState({
+          return _this6.setState({
             tab: "Members"
           });
         }
@@ -5308,7 +5341,7 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
       return function (e) {
         var _this2$setState, _this2$setState2;
 
-        if (e.currentTarget.value.length >= 80) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "Name must be 80 characters or less."), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
+        if (e.currentTarget.value.length >= 80) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value.toLowerCase()), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "Name must be 80 characters or less."), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value.toLowerCase()), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
       };
     } // submits the information, and updates channel
 
@@ -6753,7 +6786,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _workspace_sidebar_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./workspace_sidebar_container */ "./frontend/components/workspace/workspace_sidebar_container.js");
 /* harmony import */ var _channel_channel_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../channel/channel_container */ "./frontend/components/channel/channel_container.js");
 /* harmony import */ var _channel_channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../channel/channel_profile_sidebar */ "./frontend/components/channel/channel_profile_sidebar.jsx");
-/* harmony import */ var _channel_browser_channels_channel_browser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../channel/browser_channels/channel_browser */ "./frontend/components/channel/browser_channels/channel_browser.js");
+/* harmony import */ var _channel_browser_channels_channel_browser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../channel/browser_channels/channel_browser */ "./frontend/components/channel/browser_channels/channel_browser.jsx");
 /* harmony import */ var _channel_browser_channels_people_browser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../channel/browser_channels/people_browser */ "./frontend/components/channel/browser_channels/people_browser.jsx");
 /* harmony import */ var _modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modals/browse_channel_modal */ "./frontend/components/modals/browse_channel_modal.jsx");
 /* harmony import */ var _modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modals/browse_dm_channel_modal */ "./frontend/components/modals/browse_dm_channel_modal.jsx");
@@ -6888,8 +6921,6 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
 
             _this2.setupCallACChannel();
 
-            _this2.setupChatACChannel();
-
             _this2.setState({
               loaded: true
             });
@@ -6948,10 +6979,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           return this.perform("speak", data);
         }
       });
-    }
-  }, {
-    key: "setupChatACChannel",
-    value: function setupChatACChannel() {} // Listens for login for workspace and channel
+    } // Listens for login for workspace and channel
     // workspace_data : { user_id, logged_in }
     // channel_data   : { user_id, channel_id, action }
 
@@ -7101,7 +7129,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     key: "renderChannel",
     value: function renderChannel() {
       var channel_id = this.props.channel_id;
-      if (channel_id == "channel-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_channel_browser__WEBPACK_IMPORTED_MODULE_5__["default"], null);else if (channel_id == "people-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_people_browser__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      if (channel_id == "channel-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_channel_browser__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        loginACChannel: this.loginACChannel
+      });else if (channel_id == "people-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_people_browser__WEBPACK_IMPORTED_MODULE_6__["default"], {
         showUser: this.showUser
       });else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         loginACChannel: this.loginACChannel,

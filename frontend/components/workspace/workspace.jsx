@@ -92,7 +92,6 @@ class Workspace extends React.Component {
               }
 
               this.setupCallACChannel();
-              this.setupChatACChannel();
 
               this.setState({loaded: true})
             }
@@ -145,10 +144,6 @@ class Workspace extends React.Component {
         }
       }
     )
-  }
-
-  setupChatACChannel() {
-
   }
 
   // Listens for login for workspace and channel
@@ -278,13 +273,13 @@ class Workspace extends React.Component {
     let {channel_id} = this.props;
     if (channel_id == "channel-browser")
       return (
-        <ChannelBrowser/>
+        <ChannelBrowser
+          loginACChannel={this.loginACChannel}/>
       )
     else if (channel_id == "people-browser")
       return (
         <PeopleBrowser
-          showUser={this.showUser}
-        />
+          showUser={this.showUser}/>
       )
     else
       return (
@@ -293,8 +288,7 @@ class Workspace extends React.Component {
                 channelFlag={this.state.channelFlag}
                 showUser={this.showUser}
                 startVideoCall={this.startVideoCall}
-                inVideoCall={this.state.inVideoCall}
-        />
+                inVideoCall={this.state.inVideoCall}/>
       )
   }
 

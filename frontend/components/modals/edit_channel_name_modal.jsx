@@ -46,9 +46,9 @@ class EditChannelNameModal extends React.Component {
   updateField(type) {
     return (e) => {
       if (e.currentTarget.value.length >= 80)
-        this.setState({ [type]: e.currentTarget.value, disabled: true, error: "Name must be 80 characters or less." })
+        this.setState({ [type]: e.currentTarget.value.toLowerCase(), disabled: true, error: "Name must be 80 characters or less." })
       else
-        this.setState({ [type]: e.currentTarget.value, disabled: false, error: "" })
+        this.setState({ [type]: e.currentTarget.value.toLowerCase(), disabled: false, error: "" })
     }
   }
 

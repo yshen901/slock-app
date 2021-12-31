@@ -14,21 +14,18 @@
  *= require_self
 */
 
-strong {
-  font-weight: bold;
-}
+strong { font-weight: bold }
 
-em {
-  font-style: italic;
-}
+em { font-style: italic }
 
-.hidden {
-  display: none;
-}
+.hidden { display: none }
 
-.no-highlight {
-  user-select: none;
-}
+.no-highlight { user-select: none }
+
+.no-top-border { border-top: none }
+.no-bottom-border { border-bottom: none }
+.no-left-border { border-left: none }
+.no-right-border { border-right: none }
 
 .magenta { color: #e01e5a }
 .red { color: red }

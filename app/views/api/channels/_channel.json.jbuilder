@@ -24,12 +24,14 @@ else
   starred = false
   json.users do
     channel_connections.each do |channel_connection|
-      json.set! channel_connection.user_id do
-        json.id channel_connection.user_id
-      end
+      if (channel_connection.active)
+        json.set! channel_connection.user_id do
+          json.id channel_connection.user_id
+        end
 
-      if channel_connection.user_id == current_user.id
-        starred = channel_connection.starred
+        if channel_connection.user_id == current_user.id
+          starred = channel_connection.starred
+        end
       end
     end
   end

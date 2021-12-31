@@ -14,6 +14,7 @@ class ChannelDetailsModal extends React.Component {
 
     this.starClick = this.starClick.bind(this);
     this.userClick = this.userClick.bind(this);
+    this.leaveChannel = this.leaveChannel.bind(this);
   }
 
   userClick(userId) {
@@ -50,14 +51,21 @@ class ChannelDetailsModal extends React.Component {
       )
   }
 
+  leaveChannel() {
+    return e => {
+      this.props.leaveChannel(e);
+      hideElements("channel-details-modal");
+    }
+  }
+
   leaveSection() {
     if (this.props.canLeave)
      return (
        <div>
         <div className="horizontal-divider"></div>
-        <div className="section">
+        <div className="section" onClick={this.leaveChannel()}>
           <div className="section-header">
-            <div className="section-name magenta bold-700" onClick={this.props.leaveChannel}>Leave Channel</div>
+            <div className="section-name magenta bold-700">Leave Channel</div>
           </div>
         </div>
        </div>
