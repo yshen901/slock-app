@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { DEFAULT_PHOTO_URL } from '../../selectors/selectors';
+import { DEFAULT_PHOTO_URL, getUserName, userInSearch } from '../../selectors/selectors';
 import { hideElements, toggleElements } from '../../util/modal_api_util';
 
 class ChannelDetailsModal extends React.Component {
@@ -74,7 +74,7 @@ class ChannelDetailsModal extends React.Component {
   }
   
   tabContent() {
-    let { channel, users, current_user_id } = this.props;
+    let { channel, channel_users, current_user_id } = this.props;
     let { search } = this.state;
 
     switch(this.state.tab) {
@@ -135,18 +135,18 @@ class ChannelDetailsModal extends React.Component {
                 placeholder="Find members"/>
             </div>
             <div className="members-list">
-              { Object.keys(channel.users).map((userId, idx) => {
-                if (!users[userId].email.startsWith(search)) return;
+              { channel_users.map((channel_user, idx) => {
+                if (!userInSearch(channel_user, search)) return;
                 return (
-                  <div className="member" key={idx} onClick={this.userClick(userId)}>
+                  <div className="member" key={idx} onClick={this.userClick(channel_user.id)}>
                     <div className="member-icon">
-                      <img src={users[userId].photo_url ? users[userId].photo_url : DEFAULT_PHOTO_URL}/>
+                      <img src={channel_user.photo_url ? channel_user.photo_url : DEFAULT_PHOTO_URL}/>
                     </div>
                     <div className="member-name">
-                      {users[userId].email} {userId == current_user_id ? "(you)" : ""}
+                      {getUserName(channel_user)} {channel_user.id == current_user_id ? "(you)" : ""}
                     </div>
                     <div className="member-status">
-                      <i className={users[userId].logged_in ? "fas fa-circle active-circle-dark" : "fas fa-circle inactive-circle"}></i>
+                      <i className={channel_user.logged_in ? "fas fa-circle active-circle-dark" : "fas fa-circle inactive-circle"}></i>
                     </div>
                   </div>
                 )

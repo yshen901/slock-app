@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 import { startDmChannel } from "../../../actions/dm_channel_actions";
-import { getUserName, photoUrl } from "../../../selectors/selectors";
+import { getUserName, photoUrl, sortedUsers, userInSearch } from "../../../selectors/selectors";
 import { toggleElements } from "../../../util/modal_api_util";
 
 class PeopleBrowser extends React.Component {
@@ -71,35 +71,18 @@ class PeopleBrowser extends React.Component {
     )
   }
 
-  // search by username, full name, or display name
-  userInSearch(user) {
-    let { capSearch } = this.state;
-    
-    // uppercase all parameters for searching
-    let { email, full_name, display_name } = user;
-    [email, full_name, display_name] = [email.toUpperCase(), full_name.toUpperCase(), display_name.toUpperCase()];
-    
-
-
-    if (email.startsWith(capSearch) || full_name.startsWith(capSearch) || display_name.startsWith(capSearch))
-      return true;
-    return false;
-  }
-
   allUsers() {
     let channelsDisplay = [];
-    let placeholders = [];
     let users = getState().entities.users;
     let currentUserId = getState().session.user_id;
-    let workspaceId = getState().session.workspace_id;
 
-    let usersArray = Object.values(users);
+    let usersArray = sortedUsers(users);
 
     
     // Only display users once someone has started to search
     // if (this.state.search.length > 0) {
     for (let i = 0; i < usersArray.length; i++) {
-      if (usersArray[i].id != currentUserId && this.userInSearch(usersArray[i])) {
+      if (usersArray[i].id != currentUserId && userInSearch(usersArray[i], this.state.capSearch)) {
         channelsDisplay.push(
           <div 
             key={i} 

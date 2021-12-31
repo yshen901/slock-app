@@ -2118,22 +2118,6 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user), " ", icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-occupation"
       }, user.what_i_do)));
-    } // search by username, full name, or display name
-
-  }, {
-    key: "userInSearch",
-    value: function userInSearch(user) {
-      var capSearch = this.state.capSearch; // uppercase all parameters for searching
-
-      var email = user.email,
-          full_name = user.full_name,
-          display_name = user.display_name;
-      var _ref2 = [email.toUpperCase(), full_name.toUpperCase(), display_name.toUpperCase()];
-      email = _ref2[0];
-      full_name = _ref2[1];
-      display_name = _ref2[2];
-      if (email.startsWith(capSearch) || full_name.startsWith(capSearch) || display_name.startsWith(capSearch)) return true;
-      return false;
     }
   }, {
     key: "allUsers",
@@ -2141,15 +2125,13 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       var channelsDisplay = [];
-      var placeholders = [];
       var users = getState().entities.users;
       var currentUserId = getState().session.user_id;
-      var workspaceId = getState().session.workspace_id;
-      var usersArray = Object.values(users); // Only display users once someone has started to search
+      var usersArray = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["sortedUsers"])(users); // Only display users once someone has started to search
       // if (this.state.search.length > 0) {
 
       var _loop = function _loop(i) {
-        if (usersArray[i].id != currentUserId && _this3.userInSearch(usersArray[i])) {
+        if (usersArray[i].id != currentUserId && Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["userInSearch"])(usersArray[i], _this3.state.capSearch)) {
           channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: i,
             onClick: function onClick() {
@@ -4842,7 +4824,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
 
       var _this$props = this.props,
           channel = _this$props.channel,
-          users = _this$props.users,
+          channel_users = _this$props.channel_users,
           current_user_id = _this$props.current_user_id;
       var search = this.state.search;
 
@@ -4922,22 +4904,22 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             placeholder: "Find members"
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "members-list"
-          }, Object.keys(channel.users).map(function (userId, idx) {
-            if (!users[userId].email.startsWith(search)) return;
+          }, channel_users.map(function (channel_user, idx) {
+            if (!Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["userInSearch"])(channel_user, search)) return;
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member",
               key: idx,
-              onClick: _this4.userClick(userId)
+              onClick: _this4.userClick(channel_user.id)
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member-icon"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-              src: users[userId].photo_url ? users[userId].photo_url : _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["DEFAULT_PHOTO_URL"]
+              src: channel_user.photo_url ? channel_user.photo_url : _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["DEFAULT_PHOTO_URL"]
             })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member-name"
-            }, users[userId].email, " ", userId == current_user_id ? "(you)" : ""), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserName"])(channel_user), " ", channel_user.id == current_user_id ? "(you)" : ""), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member-status"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-              className: users[userId].logged_in ? "fas fa-circle active-circle-dark" : "fas fa-circle inactive-circle"
+              className: channel_user.logged_in ? "fas fa-circle active-circle-dark" : "fas fa-circle inactive-circle"
             })));
           })));
 
@@ -5009,17 +4991,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _channel_details_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_details_modal */ "./frontend/components/modals/channel_details_modal.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+
 
 
 
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
+  var _state$entities = state.entities,
+      channels = _state$entities.channels,
+      users = _state$entities.users;
+  var _state$session = state.session,
+      channel_id = _state$session.channel_id,
+      user_id = _state$session.user_id;
   return {
-    channel_id: ownProps.match.params.channel_id,
-    channel: state.entities.channels[ownProps.match.params.channel_id],
-    users: state.entities.users,
-    current_user_id: state.session.user_id
+    channel_id: channel_id,
+    channel: channels[channel_id],
+    channel_users: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["sortedChannelUsers"])(channels[channel_id], users),
+    current_user_id: user_id
   };
 };
 
@@ -7828,7 +7818,7 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName */
+/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, userInSearch, channelUsers, sortedChannelUsers, sortedUsers */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7839,6 +7829,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "workspaceTitle", function() { return workspaceTitle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "photoUrl", function() { return photoUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserName", function() { return getUserName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "userInSearch", function() { return userInSearch; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "channelUsers", function() { return channelUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortedChannelUsers", function() { return sortedChannelUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortedUsers", function() { return sortedUsers; });
 var DEFAULT_PHOTO_URL = '/images/profile/default.png';
 var objectToArray = function objectToArray(object) {
   return Object.keys(object).map(function (key) {
@@ -7881,6 +7875,34 @@ var getUserName = function getUserName(user) {
   if (first) return first;
   if (second) return second;
   if (third) return third;
+}; // Returns whether a user should show up in search based on its getUserName
+
+var userInSearch = function userInSearch(user, searchParam) {
+  var name = getUserName(user).toUpperCase();
+  return name.includes(searchParam.toUpperCase());
+}; // Takes in channel and users, return array of users
+
+var channelUsers = function channelUsers(channel, users) {
+  if (!channel || !users) return [];
+  return Object.keys(channel.users).map(function (id, idx) {
+    return users[id];
+  });
+}; // Takes in channel and users object, returns array of sorted users
+
+var sortedChannelUsers = function sortedChannelUsers(channel, users) {
+  var channel_users = channelUsers(channel, users);
+  channel_users.sort(function (first, second) {
+    return getUserName(first) > getUserName(second) ? 1 : -1;
+  });
+  return channel_users;
+}; // Takes in users object, returns an array of sorted users
+
+var sortedUsers = function sortedUsers(users) {
+  var sortedUsers = Object.values(users);
+  sortedUsers.sort(function (first, second) {
+    return getUserName(first) > getUserName(second) ? 1 : -1;
+  });
+  return sortedUsers;
 };
 
 /***/ }),

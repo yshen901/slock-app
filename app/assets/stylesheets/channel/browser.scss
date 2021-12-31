@@ -164,6 +164,11 @@
         }
       }
 
+      .browse-modal-user:hover {
+        transition: 0.3s;
+        cursor: pointer;
+      }
+
       .browse-modal-user.placeholder {
         height: 0px;
         border: 1px solid white;
