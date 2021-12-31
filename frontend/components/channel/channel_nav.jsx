@@ -1,5 +1,5 @@
 import React from 'react';
-import { photoUrl } from '../../selectors/selectors';
+import { dmChannelUserId, photoUrl } from '../../selectors/selectors';
 import { toggleFocusElements } from '../../util/modal_api_util';
 
 class ChannelNav extends React.Component {
@@ -39,11 +39,7 @@ class ChannelNav extends React.Component {
     let { user, users, channel } = this.props;
 
     if (channel.dm_channel) {
-      let ids = Object.keys(channel.users);
-
-      let userId = ids[0]
-      if (ids[0] == user.id) 
-        userId = ids[1]
+      let userId = dmChannelUserId(channel, user.id);
 
       let icon = <i className="fas fa-circle inactive-circle"></i>
       if (users[userId].logged_in)

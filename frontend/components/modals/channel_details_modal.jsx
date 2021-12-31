@@ -64,7 +64,7 @@ class ChannelDetailsModal extends React.Component {
      )
   }
   
-  tabContent() {
+  channelTabContent() {
     let { channel, channel_users, current_user_id } = this.props;
     let { search } = this.state;
 
@@ -154,29 +154,50 @@ class ChannelDetailsModal extends React.Component {
     }
   }
 
+  dmTabContent() {
+
+  }
+
   render() {
     let { channel } = this.props;
-    if (!channel || channel.dm_channel)
+    if (!channel)
       return (
-        <div className="channel-details-modal"></div>
+        <div className="channel-details-modal hidden"></div>
       )
-
-    return (
-      <div className="channel-details-modal hidden">
-        <div className="part-modal-background" onClick={() => hideElements("channel-details-modal")}></div>
-        <div className="channel-details">
-          <div className="title">#&nbsp;{channel.name}</div>
-          <div className="buttons">
-            {this.star()}
+    else if (channel.dm_channel)
+      return (
+        <div className="channel-details-modal hidden">
+          <div className="part-modal-background" onClick={() => hideElements("channel-details-modal")}></div>
+          <div className="channel-details">
+            <div className="title">#&nbsp;{channel.name}</div>
+            <div className="buttons">
+              {this.star()}
+            </div>
+            <div className="tab-buttons">
+              <div className={this.state.tab == "About" ? "selected" : ""} onClick={e => this.setState({tab: "About"})}>About</div>
+              <div className={this.state.tab == "Members" ? "selected" : ""} onClick={e => this.setState({tab: "Members"})}>Members</div>
+            </div>
+            { this.channelTabContent() }
           </div>
-          <div className="tab-buttons">
-            <div className={this.state.tab == "About" ? "selected" : ""} onClick={e => this.setState({tab: "About"})}>About</div>
-            <div className={this.state.tab == "Members" ? "selected" : ""} onClick={e => this.setState({tab: "Members"})}>Members</div>
-          </div>
-          { this.tabContent() }
         </div>
-      </div>
-    )
+      )
+    else
+      return (
+        <div className="channel-details-modal hidden">
+          <div className="part-modal-background" onClick={() => hideElements("channel-details-modal")}></div>
+          <div className="channel-details">
+            <div className="title">#&nbsp;{channel.name}</div>
+            <div className="buttons">
+              {this.star()}
+            </div>
+            <div className="tab-buttons">
+              <div className={this.state.tab == "About" ? "selected" : ""} onClick={e => this.setState({tab: "About"})}>About</div>
+              <div className={this.state.tab == "Members" ? "selected" : ""} onClick={e => this.setState({tab: "Members"})}>Members</div>
+            </div>
+            { this.channelTabContent() }
+          </div>
+        </div>
+      )
   }
 }
 

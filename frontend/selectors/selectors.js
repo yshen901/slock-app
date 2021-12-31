@@ -70,3 +70,9 @@ export const sortedUsers = (users) => {
   );
   return sortedUsers;
 }
+
+// Selects a dm channels' user
+export const dmChannelUserId = (dmChannel, currentUserId) => {
+  let channel_users = Object.keys(dmChannel.users);
+  return channel_users[0] == currentUserId ? channel_users[1] : channel_users[0];
+}

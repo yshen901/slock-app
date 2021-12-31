@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { getWorkspace } from '../../actions/workspace_actions';
+import { dmChannelUserId } from '../../selectors/selectors';
 
 // import Webcam from 'react-webcam';
 import { broadcastChannel, JOIN_CALL, LEAVE_CALL, EXCHANGE, REJECT_CALL, ice, PICKUP_CALL } from '../../util/call_api_util';
@@ -373,10 +374,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     let channelUserIds = Object.keys(channels[channel_id].users);
 
     let localUser = users[user_id];
-    let remoteUser = users[channelUserIds[0]];
-    if (user_id == channelUserIds[0])
-      remoteUser = users[channelUserIds[1]];
-
+    let remoteUser = users[dmChannelUserId(channels[channel_id], user_id)];
 
     if (this.state.callRejected || this.state.callEnded) {
       let message = "Call Ended";

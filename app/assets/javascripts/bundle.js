@@ -2757,8 +2757,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
-/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2780,6 +2781,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -2870,19 +2872,19 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
               console.log(data);
 
               switch (data.type) {
-                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["PICKUP_CALL"]:
-                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["JOIN_CALL"]:
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["PICKUP_CALL"]:
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["JOIN_CALL"]:
                   return _this2.join(data);
 
-                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"]:
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"]:
                   if (data.to != "".concat(user_id)) return;
                   return _this2.exchange(data);
 
-                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"]:
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["LEAVE_CALL"]:
                   return _this2.endCall();
                 // return this.removeUser(data); // no need to remove user if we only have one
 
-                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["REJECT_CALL"]:
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["REJECT_CALL"]:
                   if (data.target_user_id == user_id && data.channel_id == channel_id) _this2.cancelCall();
                   return;
 
@@ -2925,7 +2927,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       var target_user_id = channel_users[0];
       if (channel_users[0] == user_id) target_user_id = channel_users[1];
       var joinCallData = {
-        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["JOIN_CALL"],
+        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["JOIN_CALL"],
         from: getState().session.user_id,
         channel_id: channel_id,
         target_user_id: target_user_id
@@ -2951,7 +2953,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     key: "pickupCall",
     value: function pickupCall(e) {
       var pickupCallData = {
-        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["PICKUP_CALL"],
+        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["PICKUP_CALL"],
         from: getState().session.user_id
       };
       this.callACChannel.speak(pickupCallData);
@@ -2961,7 +2963,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     value: function createPC(userId, offerBool) {
       var _this3 = this;
 
-      var pc = new RTCPeerConnection(_util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["ice"]);
+      var pc = new RTCPeerConnection(_util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["ice"]);
       this.pcPeers[userId] = pc;
       this.localStream.getTracks().forEach(function (track) {
         return pc.addTrack(track, _this3.localStream);
@@ -2972,7 +2974,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           pc.setLocalDescription(offer).then(function () {
             setTimeout(function () {
               _this3.callACChannel.speak({
-                type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
+                type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"],
                 from: getState().session.user_id,
                 to: userId,
                 sdp: JSON.stringify(pc.localDescription)
@@ -2984,7 +2986,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
 
       pc.onicecandidate = function (e) {
         _this3.callACChannel.speak({
-          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
+          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"],
           from: getState().session.user_id,
           to: userId,
           sdp: JSON.stringify(e.candidate)
@@ -3011,7 +3013,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       pc.oniceconnectionstatechange = function (e) {
         if (pc.iceConnectionState === 'disconnected') {
           _this3.callACChannel.speak({
-            type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"],
+            type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["LEAVE_CALL"],
             from: userId,
             channel_id: _this3.props.match.params.channel_id
           });
@@ -3047,7 +3049,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
               pc.createAnswer().then(function (answer) {
                 pc.setLocalDescription(answer).then(function () {
                   _this4.callACChannel.speak({
-                    type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["EXCHANGE"],
+                    type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"],
                     from: getState().session.user_id,
                     to: data.from,
                     sdp: JSON.stringify(pc.localDescription)
@@ -3076,7 +3078,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       App.cable.subscriptions.subscriptions = [];
       this.remoteVideoContainer.innerHTML = "";
       this.callACChannel.speak({
-        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__["LEAVE_CALL"],
+        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["LEAVE_CALL"],
         from: getState().session.user_id,
         channel_id: this.props.match.params.channel_id
       });
@@ -3225,8 +3227,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           channels = _getState$entities.channels;
       var channelUserIds = Object.keys(channels[channel_id].users);
       var localUser = users[user_id];
-      var remoteUser = users[channelUserIds[0]];
-      if (user_id == channelUserIds[0]) remoteUser = users[channelUserIds[1]];
+      var remoteUser = users[Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["dmChannelUserId"])(channels[channel_id], user_id)];
 
       if (this.state.callRejected || this.state.callEnded) {
         var message = "Call Ended";
@@ -3242,10 +3243,10 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-container",
           onMouseOver: function onMouseOver() {
-            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["revealElements"])("video-chatroom-settings");
+            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["revealElements"])("video-chatroom-settings");
           },
           onMouseLeave: function onMouseLeave() {
-            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("video-chatroom-settings");
+            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("video-chatroom-settings");
           }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-videos"
@@ -3266,10 +3267,10 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-container",
           onMouseOver: function onMouseOver() {
-            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["revealElements"])("video-chatroom-settings");
+            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["revealElements"])("video-chatroom-settings");
           },
           onMouseLeave: function onMouseLeave() {
-            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["hideElements"])("video-chatroom-settings");
+            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("video-chatroom-settings");
           }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "video-chatroom-videos"
@@ -3571,9 +3572,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
           channel = _this$props.channel;
 
       if (channel.dm_channel) {
-        var ids = Object.keys(channel.users);
-        var userId = ids[0];
-        if (ids[0] == user.id) userId = ids[1];
+        var userId = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["dmChannelUserId"])(channel, user.id);
         var icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fas fa-circle inactive-circle"
         });
@@ -4778,8 +4777,8 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }, "Leave Channel"))));
     }
   }, {
-    key: "tabContent",
-    value: function tabContent() {
+    key: "channelTabContent",
+    value: function channelTabContent() {
       var _this4 = this;
 
       var _this$props = this.props,
@@ -4897,15 +4896,17 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }
     }
   }, {
+    key: "dmTabContent",
+    value: function dmTabContent() {}
+  }, {
     key: "render",
     value: function render() {
       var _this5 = this;
 
       var channel = this.props.channel;
-      if (!channel || channel.dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-details-modal"
-      });
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (!channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-details-modal hidden"
+      });else if (channel.dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
@@ -4934,7 +4935,36 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             tab: "Members"
           });
         }
-      }, "Members")), this.tabContent()));
+      }, "Members")), this.channelTabContent()));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-details-modal hidden"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "part-modal-background",
+        onClick: function onClick() {
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-details"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "title"
+      }, "#\xA0", channel.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons"
+      }, this.star()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.tab == "About" ? "selected" : "",
+        onClick: function onClick(e) {
+          return _this5.setState({
+            tab: "About"
+          });
+        }
+      }, "About"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.tab == "Members" ? "selected" : "",
+        onClick: function onClick(e) {
+          return _this5.setState({
+            tab: "Members"
+          });
+        }
+      }, "Members")), this.channelTabContent()));
     }
   }]);
 
@@ -8082,7 +8112,7 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, userInSearch, channelUsers, sortedChannelUsers, sortedUsers */
+/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8097,6 +8127,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "channelUsers", function() { return channelUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortedChannelUsers", function() { return sortedChannelUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortedUsers", function() { return sortedUsers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dmChannelUserId", function() { return dmChannelUserId; });
 var DEFAULT_PHOTO_URL = '/images/profile/default.png';
 var objectToArray = function objectToArray(object) {
   return Object.keys(object).map(function (key) {
@@ -8167,6 +8198,11 @@ var sortedUsers = function sortedUsers(users) {
     return getUserName(first) > getUserName(second) ? 1 : -1;
   });
   return sortedUsers;
+}; // Selects a dm channels' user
+
+var dmChannelUserId = function dmChannelUserId(dmChannel, currentUserId) {
+  var channel_users = Object.keys(dmChannel.users);
+  return channel_users[0] == currentUserId ? channel_users[1] : channel_users[0];
 };
 
 /***/ }),
