@@ -2319,7 +2319,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         var channelInfo = {
           // sends current user's info
           channel_id: channel_id,
-          user_id: user.id,
+          user_id: user_id,
           active: false
         };
         dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_6__["endDmChannel"])(channelInfo)).then(function () {

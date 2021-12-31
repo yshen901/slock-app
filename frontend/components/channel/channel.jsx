@@ -72,7 +72,7 @@ class Channel extends React.Component {
     else {
       let channelInfo = { // sends current user's info
         channel_id, 
-        user_id: user.id,
+        user_id: user_id,
         active: false
       }
       dispatch(endDmChannel(channelInfo))
