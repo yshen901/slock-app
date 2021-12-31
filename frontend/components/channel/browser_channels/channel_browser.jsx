@@ -78,7 +78,7 @@ class ChannelBrowser extends React.Component {
     );
 
     let displayed_channels = [];
-    for (let i = 0; i < channels.length; i++) {
+    for (let i = 0; i < channels.length && i < 50; i++) {
       if (searchString.length === 0 || channels[i].name.includes(searchString))        
         numMembers = Object.keys(channels[i].users).length;
         joined = channels[i].users[user_id];

@@ -1944,7 +1944,7 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
         }, joined ? channelStatus : "", joined ? divider : "", channelMembers, channelTopic ? divider : "", channelTopic), channels[i].name == "general" ? "" : buttons));
       };
 
-      for (var i = 0; i < channels.length; i++) {
+      for (var i = 0; i < channels.length && i < 50; i++) {
         _loop(i);
       }
 
@@ -2143,8 +2143,7 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       var channelsDisplay = [];
       var users = getState().entities.users;
       var currentUserId = getState().session.user_id;
-      var usersArray = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["sortedUsers"])(users); // Only display users once someone has started to search
-      // if (this.state.search.length > 0) {
+      var usersArray = this.state.capSearch ? Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["sortedUsers"])(users) : Object.values(users); // if (this.state.search.length > 0) {
 
       var _loop = function _loop(i) {
         if (usersArray[i].id != currentUserId && Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["userInSearch"])(usersArray[i], _this3.state.capSearch)) {
@@ -2157,7 +2156,7 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         }
       };
 
-      for (var i = 0; i < usersArray.length; i++) {
+      for (var i = 0; i < usersArray.length && i < 50; i++) {
         _loop(i);
       }
 
@@ -2202,7 +2201,7 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         autoFocus: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "browser-channel-header"
-      }, channelsDisplay.length - 10, " ", this.state.search ? channelsDisplay.length == 11 ? "result" : "results" : "members")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, channelsDisplay.length - 10, " ", this.state.search ? channelsDisplay.length == 11 ? "result" : "results" : "recommended results")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-grid"

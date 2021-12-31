@@ -76,12 +76,10 @@ class PeopleBrowser extends React.Component {
     let users = getState().entities.users;
     let currentUserId = getState().session.user_id;
 
-    let usersArray = sortedUsers(users);
-
+    let usersArray = this.state.capSearch ? sortedUsers(users) : Object.values(users);
     
-    // Only display users once someone has started to search
     // if (this.state.search.length > 0) {
-    for (let i = 0; i < usersArray.length; i++) {
+    for (let i = 0; i < usersArray.length && i < 50; i++) {
       if (usersArray[i].id != currentUserId && userInSearch(usersArray[i], this.state.capSearch)) {
         channelsDisplay.push(
           <div 
@@ -123,7 +121,7 @@ class PeopleBrowser extends React.Component {
               autoFocus/>
           </div>
           <h1 className="browser-channel-header">
-            {channelsDisplay.length - 10} {this.state.search ? (channelsDisplay.length == 11 ? "result" : "results") : "members"}
+            {channelsDisplay.length - 10} {this.state.search ? (channelsDisplay.length == 11 ? "result" : "results") : "recommended results"}
           </h1>
         </div>
         <div className="browser-channel-content">
