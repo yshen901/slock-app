@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { toggleElements, focus, hideElements } from '../../util/modal_api_util';
 import { photoUrl, workspaceTitle } from '../../selectors/selectors'
+import { toggleFocusElements } from '../../util/modal_api_util';
 
 class WorkspaceSidebar extends React.Component {
   constructor(props) {
@@ -13,7 +13,6 @@ class WorkspaceSidebar extends React.Component {
     }
 
     this.channelLink = this.channelLink.bind(this);
-    this.toggleElements = this.toggleElements.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
 
     this.starred = this.starred.bind(this);
@@ -24,20 +23,9 @@ class WorkspaceSidebar extends React.Component {
     return `/workspace/${this.props.workspace_address}/${channelId}`;
   }
 
-  // hide all other dropdowns, then activate this one
-  toggleElements(className, inputId) {
-    return (e) => {
-      e.stopPropagation();
-
-      toggleElements(className);
-      focus(inputId);
-    }
-  }
-
   toggleDropdown(category) {
     return (e) => {
       e.stopPropagation();
-
       this.setState({ [category]: this.state[category] == "" ? "hidden" : "" })
     }
   }
@@ -114,7 +102,7 @@ class WorkspaceSidebar extends React.Component {
     if (this.props.user) 
       return (
         <div id="workspace-sidebar">
-          <div id="workspace-sidebar-nav" onClick={ this.toggleElements("dropdown-modal sidebar") }>
+          <div id="workspace-sidebar-nav" onClick={ toggleFocusElements("dropdown-modal sidebar") }>
             <h2>{workspaceTitle(this.props.workspace_address)} <i className="fa fa-chevron-down"> </i></h2>
             {/* <h6>{this.props.user.email}</h6> */}
           </div>
@@ -186,7 +174,7 @@ class WorkspaceSidebar extends React.Component {
                   </Link>
                 );
               })}
-              <div className={`sidebar-item indented ${this.state.DM}`} onClick={this.toggleElements("invite-user-modal")}>
+              <div className={`sidebar-item indented ${this.state.DM}`} onClick={toggleFocusElements("invite-user-modal", "invite-user-input")}>
                 <div className="sidebar-item-symbol-box">
                   +
                 </div>

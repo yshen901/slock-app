@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router";
 import { startDmChannel } from "../../../actions/dm_channel_actions";
 import { getUserName, photoUrl, sortedUsers, userInSearch } from "../../../selectors/selectors";
-import { toggleElements } from "../../../util/modal_api_util";
+import { toggleFocusElements } from "../../../util/modal_api_util";
 
 class PeopleBrowser extends React.Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class PeopleBrowser extends React.Component {
     </div>
 
     return (
-      <div className="browse-modal-user">
+      <div className="browse-modal-user no-highlight">
         {profileImage}
         <div className="browse-modal-user-info">
           <div className="browse-modal-username">
@@ -112,7 +112,7 @@ class PeopleBrowser extends React.Component {
         <div className="browser-channel-top">
           <div className="browser-channel-nav">
             <h1 className="browser-channel-title">People</h1>
-            <div className="browser-channel-action" onClick={() => toggleElements("invite-user-modal")}>Invite People</div>
+            <div className="browser-channel-action no-highlight" onClick={toggleFocusElements("invite-user-modal", "invite-user-input")}>Invite People</div>
           </div>
           <div className="browser-channel-search">
             <i className='fas fa-search search-icon'></i> 

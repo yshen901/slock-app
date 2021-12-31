@@ -1,26 +1,18 @@
 import React from "react";
 import { withRouter } from "react-router";
 import { photoUrl } from "../../selectors/selectors";
-import { hideElements, toggleElements } from "../../util/modal_api_util";
+import { toggleFocusElements } from "../../util/modal_api_util";
 
 class WorkspaceTopbar extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  // hide all other dropdowns, then activate this one
-  toggleElements(className, inputId) {
-    return (e) => {
-      e.stopPropagation();
-      toggleElements(className);
-    }
-  }
-
   render() {
     return (
       <div id="workspace-top-bar">
         <div id="user-photo">
-          <img src={photoUrl(this.props.user)} onClick={this.toggleElements("dropdown-modal profile")}/>
+          <img src={photoUrl(this.props.user)} onClick={toggleFocusElements("dropdown-modal profile")}/>
         </div>
       </div>
     )

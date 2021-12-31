@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { startDmChannel } from "../../actions/dm_channel_actions";
 import { photoUrl } from '../../selectors/selectors';
-import { toggleElements } from '../../util/modal_api_util';
+import { toggleFocusElements } from '../../util/modal_api_util';
 
 class ProfileSidebar extends React.Component {
   constructor(props) {
@@ -39,11 +39,6 @@ class ProfileSidebar extends React.Component {
         this.props.startVideoCall(workspace_address, channel_id);
       }
     )
-  }
-
-  editProfile(e) {
-    e.stopPropagation();
-    toggleElements("edit-profile-modal");
   }
 
   // RENDER HELPER FUNCTIONS
@@ -102,7 +97,7 @@ class ProfileSidebar extends React.Component {
   sidebarButtons(user) {
     if (user.id != getState().session.user_id)
       return (
-        <div id="profile-sidebar-buttons">
+        <div id="profile-sidebar-buttons" className="no-highlight">
           <div className="profile-sidebar-button" onClick={this.startChat}>
             <div className="button-icon">
               <i className="fas fa-comment-dots"></i>
@@ -124,7 +119,7 @@ class ProfileSidebar extends React.Component {
     else 
       return (
         <div id="profile-sidebar-buttons">
-          <div className="profile-sidebar-button" onClick={this.editProfile}>
+          <div className="profile-sidebar-button" onClick={toggleFocusElements("edit-profile-modal")}>
             <div className="button-icon">
               <i className='fas fas fa-pen'></i>
             </div>

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { logout } from '../../actions/session_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
 import { getUserName, photoUrl, workspaceTitle } from '../../selectors/selectors';
-import { hideElements, toggleElements } from '../../util/modal_api_util';
+import { hideElements } from '../../util/modal_api_util';
 
 class ProfileDropdown extends React.Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { toggleElements } from "../../../util/modal_api_util";
+import { toggleFocusElements } from "../../../util/modal_api_util";
 
 class ChannelBrowser extends React.Component {
   constructor(props) {
@@ -91,7 +91,7 @@ class ChannelBrowser extends React.Component {
         <div className="browser-channel-top">
           <div className="browser-channel-nav">
             <h1 className="browser-channel-title">Channel browser</h1>
-            <div className="browser-channel-action" onClick={() => toggleElements("new-channel-modal")}>Create Channel</div>
+            <div className="browser-channel-action no-highlight" onClick={toggleFocusElements("new-channel-modal", "new-channel-input")}>Create Channel</div>
           </div>
           <div className="browser-channel-search">
             <i className='fas fa-search search-icon'></i> 

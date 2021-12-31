@@ -10,7 +10,9 @@ import { restartDmChannel, endDmChannel } from "../../actions/dm_channel_actions
 
 // Modals
 import ChannelDetailsModalContainer from "../modals/channel_details_modal_container";
+import EditChannelNameModal from '../modals/edit_channel_name_modal';
 import EditChannelTopicModal from '../modals/edit_channel_topic_modal';
+import EditChannelDescriptionModal from '../modals/edit_channel_description_modal';
 
 class Channel extends React.Component {
   constructor(props) {
@@ -153,7 +155,10 @@ class Channel extends React.Component {
           canLeave={this.state.canLeave} 
           leaveChannel={this.leaveChannel}
           showUser={this.props.showUser}/>
+
+        <EditChannelNameModal/>
         <EditChannelTopicModal/>
+        <EditChannelDescriptionModal/>
       </div>
     )
   }

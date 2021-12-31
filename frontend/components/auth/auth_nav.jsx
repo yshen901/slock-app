@@ -1,17 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { toggleElements } from '../../util/modal_api_util';
+import { toggleFocusElements } from '../../util/modal_api_util';
 
 class AuthNav extends React.Component {
   right() {
     if (getState().session.user_id)
       return (
         <div className="right">
-          {/* <Link className="auth-nav-link" to="/tbd">Product</Link>
-          <Link className="auth-nav-link" to="/tbd">Pricing</Link>
-          <Link className="auth-nav-link" to="/tbd">Support</Link> */}
           <Link className="auth-nav-link" to="/create">Create a new workspace</Link>
-          <div id="auth-signin" onClick={(e) => {e.stopPropagation(); toggleElements("dropdown-modal workspaces")}}>Your Workspaces</div>
+          <div id="auth-signin" onClick={toggleFocusElements("dropdown-modal workspaces")}>Your Workspaces</div>
         </div>
       )
     else {  // Returns either signin or signup button depending on the page
@@ -23,11 +20,6 @@ class AuthNav extends React.Component {
       }
       return (
         <div className="right">
-          {/* <Link className="auth-nav-link" to="/tbd">Product</Link>
-          <Link className="auth-nav-link" to="/tbd">Pricing</Link>
-          <Link className="auth-nav-link" to="/tbd">Support</Link> */}
-          {/* <Link className="auth-nav-link" to="/tbd">Create a new workspace</Link> */}
-          {/* <Link className="auth-nav-link" to="/tbd">Find your workspace</Link> */}
           <Link id="auth-signin" to={link}>{linkName}</Link>
         </div> 
       )

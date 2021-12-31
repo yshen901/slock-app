@@ -49,6 +49,11 @@
         border-radius: 5px;
         box-sizing: border-box;
       }
+
+      .browser-channel-action {
+        transition: 0.3s;
+        cursor: pointer;
+      }
     }
   
     .browser-channel-search {

@@ -79,7 +79,7 @@ class ChannelChat extends React.Component {
       if (date == this.state.currentDate)
         date = "Today";
       messagesList.push(
-        <div className="day-divider">
+        <div className="day-divider no-highlight">
           <div className="day-divider-line"></div>
           <div className="day-divider-date">{date}</div>
         </div>

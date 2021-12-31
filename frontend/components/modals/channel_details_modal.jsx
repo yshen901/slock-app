@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { DEFAULT_PHOTO_URL, getUserName, userInSearch } from '../../selectors/selectors';
-import { hideElements, toggleElements } from '../../util/modal_api_util';
+import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
 
 class ChannelDetailsModal extends React.Component {
   constructor(props) {
@@ -14,15 +14,6 @@ class ChannelDetailsModal extends React.Component {
 
     this.starClick = this.starClick.bind(this);
     this.userClick = this.userClick.bind(this);
-    this.toggleElements = this.toggleElements.bind(this);
-  }
-
-  toggleElements(className, inputId) {
-    return (e) => {
-      e.stopPropagation();
-      toggleElements(className);
-      focus(inputId)
-    }
   }
 
   userClick(userId) {
@@ -82,9 +73,10 @@ class ChannelDetailsModal extends React.Component {
         return (
           <div className="tab-content">
             <div className="block">
-              <div className="section">
+            <div className="section" onClick={toggleFocusElements("edit-channel-name-modal", "channel-name-input")}>
                 <div className="section-header">
                   <div className="section-name">Channel name</div>
+                  <div className="section-edit" onClick={toggleFocusElements("edit-channel-name-modal", "channel-name-input")}>Edit</div>
                 </div>
                 <div className="section-content">
                   #&nbsp;{ channel.name }
@@ -92,20 +84,20 @@ class ChannelDetailsModal extends React.Component {
               </div>
             </div>
             <div className="block">
-              <div className="section" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
+              <div className="section" onClick={toggleFocusElements("edit-channel-topic-modal", "channel-topic-input")}>
                 <div className="section-header">
                   <div className="section-name">Topic</div>
-                  <div className="section-edit" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>Edit</div>
+                  <div className="section-edit" onClick={toggleFocusElements("edit-channel-topic-modal", "channel-topic-input")}>Edit</div>
                 </div>
                 <div className={channel.topic ? "section-content" : "section-content gray"}>
                   { channel.topic ? channel.topic : "Add a topic" }
                 </div>
               </div>
               <div className="horizontal-divider"></div>
-              <div className="section">
+              <div className="section" onClick={toggleFocusElements("edit-channel-description-modal", "channel-description-input")}>
                 <div className="section-header">
                   <div className="section-name">Description</div>
-                  <div className="section-edit">Edit</div>
+                  <div className="section-edit" onClick={toggleFocusElements("edit-channel-description-modal", "channel-description-input")}>Edit</div>
                 </div>
                 <div className={channel.description ? "section-content" : "section-content gray"}>
                   { channel.description ? channel.description : "Add a description" }
@@ -132,7 +124,8 @@ class ChannelDetailsModal extends React.Component {
               <input type="text"
                 onChange={e => this.setState({search: e.currentTarget.value})}
                 value={this.state.search}
-                placeholder="Find members"/>
+                placeholder="Find members"
+                autoFocus/>
             </div>
             <div className="members-list">
               { channel_users.map((channel_user, idx) => {
@@ -169,7 +162,7 @@ class ChannelDetailsModal extends React.Component {
       )
 
     return (
-      <div className="channel-details-modal">
+      <div className="channel-details-modal hidden">
         <div className="part-modal-background" onClick={() => hideElements("channel-details-modal")}></div>
         <div className="channel-details">
           <div className="title">#&nbsp;{channel.name}</div>

@@ -24,5 +24,19 @@ export const revealElements = (className) => {
 
 export const focus = (id) => {
   let element = document.getElementById(id);
-  if (element) element.focus();
+  if (element) {
+    element.focus();
+
+    let length = element.value.length;
+    element.setSelectionRange(length, length);
+  }
 }
+
+// Used to activate modals
+export const toggleFocusElements = (className, id) => {
+  return (e) => {
+    e.stopPropagation();
+    toggleElements(className);
+    focus(id);
+  };
+};

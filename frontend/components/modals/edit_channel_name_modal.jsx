@@ -3,13 +3,13 @@ import { withRouter } from 'react-router-dom';
 import { hideElements } from '../../util/modal_api_util';
 import { updateChannel } from '../../actions/channel_actions';
 
-class EditChannelTopicModal extends React.Component {
+class EditChannelNameModal extends React.Component {
   constructor(props) {
     super(props);
 
     let channel = getState().entities.channels[props.match.params.channel_id];
     this.state = {
-      topic: channel ? channel.topic : "",
+      name: channel ? channel.name : "",
       disabled: true,
       error: ""
     }
@@ -27,7 +27,7 @@ class EditChannelTopicModal extends React.Component {
     // Ignore changes during channel transition, and ignore invalid channels
     if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
       if (getState().entities.channels[channel_id])
-        this.setState({topic: getState().entities.channels[channel_id].topic})
+        this.setState({name: getState().entities.channels[channel_id].name})
     }
   }
 
@@ -45,8 +45,8 @@ class EditChannelTopicModal extends React.Component {
   // updates a field, and either enables or disables the button
   updateField(type) {
     return (e) => {
-      if (e.currentTarget.value.length >= 250)
-        this.setState({ [type]: e.currentTarget.value, disabled: true, error: "Topic must be 250 characters or less." })
+      if (e.currentTarget.value.length >= 100)
+        this.setState({ [type]: e.currentTarget.value, disabled: true, error: "Name must be 100 characters or less." })
       else
         this.setState({ [type]: e.currentTarget.value, disabled: false, error: "" })
     }
@@ -56,11 +56,11 @@ class EditChannelTopicModal extends React.Component {
   submitForm(e) {
     e.preventDefault();
 
-    dispatch(updateChannel({ topic: this.state.topic, id: this.props.match.params.channel_id }))
+    dispatch(updateChannel({ name: this.state.name, id: this.props.match.params.channel_id }))
       .then(
         () => {
-          this.setState({ topic: this.state.topic, disabled: true, error: "" });
-          hideElements("edit-channel-topic-modal");
+          this.setState({ name: this.state.name, disabled: true, error: "" });
+          hideElements("edit-channel-name-modal");
         }
       )
   }
@@ -68,15 +68,15 @@ class EditChannelTopicModal extends React.Component {
   // form this modal will output
   modalForm() {
     return (
-      <div id="channel-topic-form" onClick={e => e.stopPropagation()}>
-        <h1>Edit topic</h1>
-        <div className="channel-topic-form-header">
+      <div id="channel-name-form" onClick={e => e.stopPropagation()}>
+        <h1>Edit name</h1>
+        <div className="channel-name-form-header">
           {this.warning()}
         </div>
         <textarea
-          type="text" id="channel-topic-input"
-          onChange={this.updateField('topic')}
-          value={this.state.topic}></textarea>
+          type="text" id="channel-name-input"
+          onChange={this.updateField('name')}
+          value={this.state.name}></textarea>
         {this.button()}
       </div>
     )
@@ -84,12 +84,12 @@ class EditChannelTopicModal extends React.Component {
 
   render() {
     return (
-      <div className="edit-channel-topic-modal darker hidden">
-        <div className="part-modal-background" onClick={() => hideElements("edit-channel-topic-modal")}></div>
+      <div className="edit-channel-name-modal darker hidden">
+        <div className="part-modal-background" onClick={() => hideElements("edit-channel-name-modal")}></div>
         {this.modalForm()}
       </div>
     )
   }
 }
 
-export default withRouter(EditChannelTopicModal);
+export default withRouter(EditChannelNameModal);

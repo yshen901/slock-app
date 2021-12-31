@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { logout } from '../../actions/session_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
 import { workspaceTitle } from '../../selectors/selectors';
-import { toggleElements, hideElements } from '../../util/modal_api_util';
+import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
 
 class SidebarDropdown extends React.Component {
   constructor(props) {
@@ -16,7 +16,6 @@ class SidebarDropdown extends React.Component {
 
     this.logoutUser = this.logoutUser.bind(this);
     this.logoutWorkspace = this.logoutWorkspace.bind(this);
-    this.toggleElement = this.toggleElement.bind(this);
   }
 
   logoutUser(e) {
@@ -47,14 +46,6 @@ class SidebarDropdown extends React.Component {
       )
   }
 
-  toggleElement(className) {
-    return (e) => {
-      e.stopPropagation();
-      hideElements("dropdown-modal")
-      toggleElements(className);
-    };
-  }
-
   render() {
     return (
       <div className="dropdown-modal sidebar hidden" onClick={() => hideElements("dropdown-modal sidebar")}>
@@ -69,10 +60,10 @@ class SidebarDropdown extends React.Component {
             </div>
           </div>
           <div className="horizontal-divider"></div>
-          <div className="dropdown-item" onClick={this.toggleElement("invite-user-modal")}>
+          <div className="dropdown-item" onClick={toggleFocusElements("invite-user-modal")}>
             Invite people to {this.state.workspaceTitle}
           </div>
-          <div className="dropdown-item" onClick={this.toggleElement("new-channel-modal")}>
+          <div className="dropdown-item" onClick={toggleFocusElements("new-channel-modal")}>
             Create a channel
           </div>
           <div className="horizontal-divider"></div>

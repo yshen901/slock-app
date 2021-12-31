@@ -1,13 +1,12 @@
 import React from 'react';
 import { photoUrl } from '../../selectors/selectors';
-import { toggleElements, hideElements, focus } from '../../util/modal_api_util';
+import { toggleFocusElements } from '../../util/modal_api_util';
 
 class ChannelNav extends React.Component {
   constructor(props) {
     super(props);
 
     this.starClick = this.starClick.bind(this);
-    this.toggleElements = this.toggleElements.bind(this);
   }
 
   starClick(e) {
@@ -34,14 +33,6 @@ class ChannelNav extends React.Component {
           <i className='far fa-star' ></i>
         </div >
       )
-  }
-
-  toggleElements(className, inputId) {
-    return (e) => {
-      e.stopPropagation();
-      toggleElements(className);
-      focus(inputId)
-    }
   }
 
   getChannelName() {
@@ -76,7 +67,7 @@ class ChannelNav extends React.Component {
     }
     else {
       return (
-        <div className="channel-info" onClick={this.toggleElements("channel-details-modal")}>
+        <div className="channel-info" onClick={toggleFocusElements("channel-details-modal")}>
           <div className="channel-name">
             #&nbsp;{channel.name}
           </div>
@@ -93,40 +84,16 @@ class ChannelNav extends React.Component {
     if (!dm_channel) 
       return (
         <div id="left">
-          {/* <div id="left-top"> */}
-            {this.getChannelName()}
-            <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
-              <div> { topic ? topic : "Add a topic" } </div>
-            </div>
-          {/* </div> */}
-          {/* <div id="left-bottom">
-            {this.star()} 
-            <div id="members">
-              <i className="material-icons">person_outline</i>
-              <div>
-                { Object.keys(users).length }
-              </div>
-            </div>
-            <div className="channel-nav-divider">|</div> 
-            <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
-              <i className='fas fas fa-pen'></i>
-              <div> { topic ? topic : "Add a topic" } </div>
-            </div>
-          </div> */}
+          {this.getChannelName()}
+          <div id="topic" onClick={toggleFocusElements("edit-channel-topic-modal", "channel-topic-input")}>
+            <div> { topic ? topic : "Add a topic" } </div>
+          </div>
         </div>
       )
     else
       return (
         <div id="left">
-          {/* <div id="left-top">  */}
             {this.getChannelName()} 
-          {/* </div> */}
-          {/* <div id="left-bottom">
-            <div id="topic" onClick={this.toggleElements("edit-channel-topic-modal", "channel-topic-input")}>
-              <i className='fas fas fa-pen'></i>
-              <div> { description ? description : "Add a note" } </div>
-            </div>
-          </div> */}
         </div>
       )
   }
@@ -170,7 +137,7 @@ class ChannelNav extends React.Component {
   render() {
     if (this.props.channel) {
       return (
-        <div id="channel-nav">
+        <div id="channel-nav" className="no-highlight">
           { this.left() }
           { this.right() }
         </div>
