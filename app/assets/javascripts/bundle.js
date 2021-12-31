@@ -3605,12 +3605,15 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
           src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["photoUrl"])(users[userId])
         }));
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-info"
+          className: "channel-info",
+          onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleFocusElements"])("channel-details-modal")
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-nav-user-icon"
         }, profileImage, icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-name"
-        }, users[userId].email));
+        }, users[userId].email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fa fa-chevron-down"
+        }));
       } else {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-info",
@@ -4769,7 +4772,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     key: "star",
     value: function star() {
       var channel = this.props.channel;
-      if (channel.dm_channel) return null;else if (this.props.channel.starred) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (channel.dm_channel) return;else if (channel.starred) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details-button",
         id: "star filled hidden",
         onClick: this.starClick
@@ -4929,45 +4932,77 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "dmTabContent",
-    value: function dmTabContent() {}
+    value: function dmTabContent() {
+      var _this$props2 = this.props,
+          channel = _this$props2.channel,
+          users = _this$props2.users,
+          current_user_id = _this$props2.current_user_id;
+      var otherUser = users[Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["dmChannelUserId"])(channel, current_user_id)];
+
+      switch (this.state.tab) {
+        case "About":
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "tab-content"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "block"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "section"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "section-content"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            "class": "far fa-envelope"
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, otherUser.email)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "section-link",
+            onClick: this.userClick(current_user_id)
+          }, "View full profile"))));
+
+        default:
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "tab-content"
+          });
+      }
+    }
   }, {
     key: "render",
     value: function render() {
       var _this6 = this;
 
-      var channel = this.props.channel;
+      var _this$props3 = this.props,
+          channel = _this$props3.channel,
+          users = _this$props3.users,
+          current_user_id = _this$props3.current_user_id;
       if (!channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details-modal hidden"
-      });else if (channel.dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-details-modal hidden"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "part-modal-background",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-details"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "title"
-      }, "#\xA0", channel.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "buttons"
-      }, this.star()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "tab-buttons"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.tab == "About" ? "selected" : "",
-        onClick: function onClick(e) {
-          return _this6.setState({
-            tab: "About"
-          });
-        }
-      }, "About"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.tab == "Members" ? "selected" : "",
-        onClick: function onClick(e) {
-          return _this6.setState({
-            tab: "Members"
-          });
-        }
-      }, "Members")), this.channelTabContent()));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      });else if (channel.dm_channel) {
+        var otherUser = users[Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["dmChannelUserId"])(channel, current_user_id)];
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-details-modal hidden"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "part-modal-background",
+          onClick: function onClick() {
+            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
+          }
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-details"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "title"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "title-image"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(otherUser)
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserName"])(otherUser))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "buttons"
+        }, this.star()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "tab-buttons"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: this.state.tab == "About" ? "selected" : "",
+          onClick: function onClick(e) {
+            return _this6.setState({
+              tab: "About"
+            });
+          }
+        }, "About")), this.dmTabContent()));
+      } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
@@ -5044,6 +5079,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     channel_id: channel_id,
     channel: channels[channel_id],
+    users: users,
     channel_users: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["sortedChannelUsers"])(channels[channel_id], users),
     current_user_id: user_id
   };

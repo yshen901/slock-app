@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_28_234438) do
+ActiveRecord::Schema.define(version: 2021_12_31_214300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 2021_12_28_234438) do
     t.datetime "updated_at", null: false
     t.string "channel_type", default: "channel"
     t.boolean "dm_channel", default: false
-    t.string "topic"
+    t.string "topic", null: false
     t.index ["name", "workspace_id", "dm_channel"], name: "index_channels_on_name_and_workspace_id_and_dm_channel", unique: true
     t.index ["workspace_id"], name: "index_channels_on_workspace_id"
   end
@@ -71,6 +71,8 @@ ActiveRecord::Schema.define(version: 2021_12_28_234438) do
     t.integer "workspace_id", null: false
     t.boolean "active_1", default: false
     t.boolean "active_2", default: false
+    t.boolean "starred_1", default: false
+    t.boolean "starred_2", default: false
     t.index ["channel_id"], name: "index_dm_channel_users_on_channel_id", unique: true
     t.index ["user_1_id", "user_2_id"], name: "index_dm_channel_users_on_user_1_id_and_user_2_id", unique: true
     t.index ["user_1_id"], name: "index_dm_channel_users_on_user_1_id"

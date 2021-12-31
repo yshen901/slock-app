@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { DEFAULT_PHOTO_URL, getUserName, userInSearch } from '../../selectors/selectors';
+import { DEFAULT_PHOTO_URL, dmChannelUserId, getUserName, photoUrl, userInSearch } from '../../selectors/selectors';
 import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
 
 class ChannelDetailsModal extends React.Component {
@@ -30,25 +30,25 @@ class ChannelDetailsModal extends React.Component {
     this.props.updateChannelUser({ starred: !channel.starred, channel_id: channel.id })
       .then(
         () => this.setState(this.state)
-      )
+      );
   }
 
   star() {
-    let {channel} = this.props
+    let {channel} = this.props;
     if (channel.dm_channel)
-      return null
-    else if (this.props.channel.starred)
+      return;
+    else if (channel.starred)
       return (
         <div className='channel-details-button' id="star filled hidden" onClick={this.starClick}>
           <i className='fas fa-star'></i>
         </div>
-      )
+      );
     else
       return(
         <div className='channel-details-button' id = "star empty" onClick={this.starClick}>
           <i className='far fa-star' ></i>
         </div >
-      )
+      );
   }
 
   leaveChannel() {
@@ -163,32 +163,61 @@ class ChannelDetailsModal extends React.Component {
   }
 
   dmTabContent() {
+    let { channel, users, current_user_id } = this.props;
+    let otherUser = users[dmChannelUserId(channel, current_user_id)];
 
+    switch(this.state.tab) {
+      case "About":
+        return (
+          <div className="tab-content">
+            <div className="block">
+              <div className="section">
+                <div className="section-content">
+                  <i class="far fa-envelope"></i>
+                  <div>{otherUser.email}</div>
+                </div>
+                <div className="section-link" onClick={this.userClick(current_user_id)}>View full profile</div>
+              </div>
+            </div>
+          </div>
+        )
+      default:
+        return (
+          <div className="tab-content"></div>
+        )
+    }
   }
 
   render() {
-    let { channel } = this.props;
+    let { channel, users, current_user_id } = this.props;
+
     if (!channel)
       return (
         <div className="channel-details-modal hidden"></div>
       )
-    else if (channel.dm_channel)
+    else if (channel.dm_channel) {
+      let otherUser = users[dmChannelUserId(channel, current_user_id)];
       return (
         <div className="channel-details-modal hidden">
           <div className="part-modal-background" onClick={() => hideElements("channel-details-modal")}></div>
           <div className="channel-details">
-            <div className="title">#&nbsp;{channel.name}</div>
+            <div className="title">
+              <div className="title-image">
+                <img src={photoUrl(otherUser)}/>
+              </div>
+              <div>{getUserName(otherUser)}</div>
+            </div>
             <div className="buttons">
               {this.star()}
             </div>
             <div className="tab-buttons">
               <div className={this.state.tab == "About" ? "selected" : ""} onClick={e => this.setState({tab: "About"})}>About</div>
-              <div className={this.state.tab == "Members" ? "selected" : ""} onClick={e => this.setState({tab: "Members"})}>Members</div>
             </div>
-            { this.channelTabContent() }
+            { this.dmTabContent() }
           </div>
         </div>
       )
+    }
     else
       return (
         <div className="channel-details-modal hidden">

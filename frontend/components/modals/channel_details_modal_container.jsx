@@ -11,6 +11,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     channel_id,
     channel: channels[channel_id],
+    users,
     channel_users: sortedChannelUsers(channels[channel_id], users),
     current_user_id: user_id
   };

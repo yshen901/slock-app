@@ -35,11 +35,33 @@
     }
 
     .title {
+      display: flex;
+      align-items: center;
+
       font-size: 22px;
       line-height: 26px;
       font-weight: 900;
 
       padding: 20px 76px 0px 28px;
+
+      .title-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 72px;
+        width: 72px;
+        overflow: hidden;
+
+        border-radius: 12px;
+        margin: 8px 16px 8px 0;
+
+        img {
+          height: 72px;
+          width: auto;
+          object-fit: cover;
+        }
+      }
     }
 
     .buttons {
@@ -126,6 +148,28 @@
               cursor: pointer;
               text-decoration: underline;
             }
+          }
+
+          .section-content {
+            display: flex;
+
+            i {
+              font-size: 15.5px;
+              line-height: 22px;
+              padding-top: 1px;
+              padding-right: 8px;
+            }
+          }
+
+          .section-link {
+            font-size: 15px;
+            line-height: 22px;
+            color: rgb(18,100,163);
+          }
+
+          .section-link:hover {
+            transition: 0.3s;
+            text-decoration: underline;
           }
         }
 

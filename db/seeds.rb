@@ -8,27 +8,27 @@
 
 boromir = User.create(email: "boromir@slock.com", password: "zunera", display_name: "Boromir", full_name: "Boromir of Gondor", what_i_do: "Captain of the White Tower")
 file = File.open("app/assets/images/boromir.jpg")
-boromir.photo.attach({io: file, filename: "boromir.jpg"})
+# boromir.photo.attach({io: file, filename: "boromir.jpg"})
 
 gandalf = User.create(email: "gandalf@slock.com", password: "zunera", display_name: "Gandalf", full_name: "Gandalf the Grey", what_i_do: "Istar")
 file = File.open("app/assets/images/gandalf.png")
-gandalf.photo.attach({io: file, filename: "gandalf.png"})
+# gandalf.photo.attach({io: file, filename: "gandalf.png"})
 
 legolas = User.create(email: "legolas@slock.com", password: "zunera", display_name: "Legolas", full_name: "Legolas Greenleaf", what_i_do: "Prince of the Woodland Realm")
 file = File.open("app/assets/images/legolas.jpg")
-legolas.photo.attach({io: file, filename: "legolas.jpg"})
+# legolas.photo.attach({io: file, filename: "legolas.jpg"})
 
 gimli = User.create(email: "gimli@slock.com", password: "zunera", display_name: "Gimli", full_name: "Gimli, son of Gloin", what_i_do: "Lord of the Glittering Caves")
 file = File.open("app/assets/images/gimli.png")
-gimli.photo.attach({io: file, filename: "gimli.png"})
+# gimli.photo.attach({io: file, filename: "gimli.png"})
 
 frodo = User.create(email: "frodo@slock.com", password: "zunera", display_name: "Frodo", full_name: "Frodo Baggins", what_i_do: "Bearer of the One Ring")
 file = File.open("app/assets/images/frodo.jpg")
-frodo.photo.attach({io: file, filename: "frodo.jpg"})
+# frodo.photo.attach({io: file, filename: "frodo.jpg"})
 
 aragorn = User.create(email: "aragorn@slock.com", password: "zunera", display_name: "Aragorn", full_name: "Aragorn II Elessar", what_i_do: "King of Gondor")
 file = File.open("app/assets/images/aragorn.jpg")
-aragorn.photo.attach({io: file, filename: "aragorn.jpg"})
+# aragorn.photo.attach({io: file, filename: "aragorn.jpg"})
 
 demo_user = User.create(email: "demoUser@slock.com", password: "demoPassword", display_name: "Demo User", full_name: "Demo User", what_i_do: "Website Tester")
 

@@ -10,15 +10,21 @@ json.created_at channel.created_at
 # returns channels users to make it easier to display channel name
 json.users({})
 if channel.dm_channel
+  dm_channel_user = channel.dm_channel_connection
   json.users do
-    json.set! channel.dm_user_1.id do
-      json.id channel.dm_user_1.id
+    json.set! dm_channel_user.user_1_id do
+      json.id dm_channel_user.user_1_id
     end
-    json.set! channel.dm_user_2.id do
-      json.id channel.dm_user_2.id
+    json.set! dm_channel_user.user_2_id do
+      json.id dm_channel_user.user_2_id
     end
   end
-  json.starred false
+
+  if dm_channel_user.user_1_id == current_user.id
+    json.starred dm_channel_user.starred_1
+  else
+    json.starred dm_channel_user.starred_2
+  end
 else
   channel_connections = @single_channel_connection ? [@single_channel_connection] : channel.channel_connections
   starred = false

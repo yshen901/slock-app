@@ -51,15 +51,18 @@ class Api::DmChannelUsersController < ApplicationController
     end
   end
 
-  # Will disable the current_user's active link to the channel
+  # Will disable/enable the current_user's active link to the channel
+  # Will also update the starred status
   def update
     @dm_channel_user = DmChannelUser.includes(:channel).find_by(channel_id: dm_channel_user_params[:channel_id])
 
     update_active = {};
     if current_user.id == @dm_channel_user.user_1_id
       update_active[:active_1] = dm_channel_user_params[:active]
+      update_active[:starred_1] = dm_channel_user_params[:starred] if dm_channel_user_params.has_key?(:starred)
     elsif current_user.id == @dm_channel_user.user_2_id
       update_active[:active_2] = dm_channel_user_params[:active]
+      update_active[:starred_2] = dm_channel_user_params[:starred] if dm_channel_user_params.has_key?(:starred)
     end
 
     if @dm_channel_user
@@ -79,7 +82,7 @@ class Api::DmChannelUsersController < ApplicationController
       :channel_id, :workspace_id,
       :user_1_id, :active_1,
       :user_2_id, :active_2,
-      :active
+      :active, :starred
     )
   end
 end
