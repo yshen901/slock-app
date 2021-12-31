@@ -11,7 +11,8 @@ class EditChannelTopicModal extends React.Component {
     this.state = {
       topic: channel ? channel.topic : "",
       disabled: true,
-      error: ""
+      error: "",
+      channel
     }
 
     this.modalForm = this.modalForm.bind(this);
@@ -69,14 +70,21 @@ class EditChannelTopicModal extends React.Component {
   modalForm() {
     return (
       <div id="channel-topic-form" onClick={e => e.stopPropagation()}>
-        <h1>Edit topic</h1>
-        <div className="channel-topic-form-header">
+        <div className="modal-header">
+          <h1>Edit topic</h1>
+          <div className="modal-close-button" onClick={() => hideElements("edit-channel-topic-modal")}>&#10005;</div>
+        </div>
+        <div className="channel-form-header">
           {this.warning()}
         </div>
         <textarea
           type="text" id="channel-topic-input"
           onChange={this.updateField('topic')}
           value={this.state.topic}></textarea>
+        <div className="channel-form-footer">
+          <div>Let people know what <strong>#{this.state.channel.name}</strong> is focused on right now (ex. a project milestone).</div>
+          <div>Topics are always visible in the header.</div>
+        </div>
         {this.button()}
       </div>
     )

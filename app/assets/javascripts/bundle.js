@@ -4945,8 +4945,15 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "title"
       }, "#\xA0", channel.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-close-button",
+        onClick: function onClick() {
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
+        }
+      }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons"
       }, this.star()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-buttons"
@@ -5158,14 +5165,23 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Edit description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-description-form-header"
+        className: "modal-close-button",
+        onClick: function onClick() {
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-description-modal");
+        }
+      }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-form-header"
       }, this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         type: "text",
         id: "channel-description-input",
         onChange: this.updateField('description'),
         value: this.state.description
-      }), this.button());
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-form-footer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Let people know what this channel is for.")), this.button());
     }
   }, {
     key: "render",
@@ -5292,7 +5308,7 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
       return function (e) {
         var _this2$setState, _this2$setState2;
 
-        if (e.currentTarget.value.length >= 100) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "Name must be 100 characters or less."), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
+        if (e.currentTarget.value.length >= 80) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "Name must be 80 characters or less."), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
       };
     } // submits the information, and updates channel
 
@@ -5324,14 +5340,29 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Edit name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-name-form-header"
-      }, this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Rename this channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-close-button",
+        onClick: function onClick() {
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-name-modal");
+        }
+      }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-form-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Channel name"), this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name-input"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "symbol gray"
+      }, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         id: "channel-name-input",
         onChange: this.updateField('name'),
         value: this.state.name
-      }), this.button());
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chars-left gray"
+      }, 80 - this.state.name.length)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-form-footer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Names must be lowercase, without spaces or periods, and can\u2019t be longer than 80 characters.")), this.button());
     }
   }, {
     key: "render",
@@ -5412,7 +5443,8 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       topic: channel ? channel.topic : "",
       disabled: true,
-      error: ""
+      error: "",
+      channel: channel
     };
     _this.modalForm = _this.modalForm.bind(_assertThisInitialized(_this));
     _this.updateField = _this.updateField.bind(_assertThisInitialized(_this));
@@ -5490,14 +5522,23 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Edit topic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-topic-form-header"
+        className: "modal-close-button",
+        onClick: function onClick() {
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-topic-modal");
+        }
+      }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-form-header"
       }, this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         type: "text",
         id: "channel-topic-input",
         onChange: this.updateField('topic'),
         value: this.state.topic
-      }), this.button());
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-form-footer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Let people know what ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "#", this.state.channel.name), " is focused on right now (ex. a project milestone)."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Topics are always visible in the header.")), this.button());
     }
   }, {
     key: "render",
@@ -5721,7 +5762,14 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
     value: function modalForm() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "edit-profile-modal-form"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Edit your profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-close-button",
+        onClick: function onClick() {
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("edit-profile-modal");
+        }
+      }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "info"
@@ -5956,15 +6004,24 @@ var InviteUserModal = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Add People"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Add your teammates to this workspace and start collaborating now! Only teammates with a Slock account can be added."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Add people"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-close-button",
+        onClick: function onClick() {
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("invite-user-modal");
+        }
+      }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Add your teammates to this workspace and start collaborating now! Only teammates with a Slock account can be added."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "new-channel-form-header"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "User Email"), this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "To:"), this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name-input"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         id: "invite-user-input",
         onChange: this.updateField('name'),
-        placeholder: "name@example.com",
+        placeholder: "name@gmail.com",
         value: this.state.name
-      }), this.button());
+      })), this.button());
     }
   }, {
     key: "render",
@@ -6047,6 +6104,7 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this);
     _this.state = {
       name: "",
+      description: "",
       disabled: true,
       error: "none"
     };
@@ -6129,15 +6187,28 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Create a channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Channels are where your members communicate. They\u2019re best when organized around a topic - #proj-budget, for example."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Create a channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-close-button",
+        onClick: function onClick() {
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("new-channel-modal");
+        }
+      }, "\u2715")), "                ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Channels are where your members communicate. They\u2019re best when organized around a topic - #proj-budget, for example."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "new-channel-form-header"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Name"), this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Name"), this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name-input"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "symbol gray"
+      }, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         id: "new-channel-input",
         onChange: this.updateField('name'),
         placeholder: "e.g. plan budget",
         value: this.state.name
-      }), this.button());
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chars-left gray"
+      }, 80 - this.state.name.length)), this.button());
     }
   }, {
     key: "render",
@@ -6758,7 +6829,6 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       incomingCall: null // contains incoming call information
 
     };
-    _this.receiveLoginACData = _this.receiveLoginACData.bind(_assertThisInitialized(_this));
     _this.showUser = _this.showUser.bind(_assertThisInitialized(_this));
     _this.hideUser = _this.hideUser.bind(_assertThisInitialized(_this));
     _this.startVideoCall = _this.startVideoCall.bind(_assertThisInitialized(_this));
@@ -6776,18 +6846,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           workspaces = _this$props.workspaces,
           workspace_address = _this$props.workspace_address,
           channel_id = _this$props.channel_id;
-      var valid = false; // Listens for login for workspace and channel
-      // workspace_data : { user_id, logged_in }
-      // channel_data   : { user_id, channel_id, action }
-
-      this.loginACChannel = App.cable.subscriptions.create({
-        channel: "LoginChannel"
-      }, {
-        received: this.receiveLoginACData,
-        speak: function speak(data) {
-          return this.perform("speak", data);
-        }
-      });
+      var valid = false;
+      this.setupLoginACChannel();
 
       for (var i = 0; i < workspaces.length; i++) {
         if (workspaces[i].address === workspace_address) {
@@ -6827,6 +6887,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
             }
 
             _this2.setupCallACChannel();
+
+            _this2.setupChatACChannel();
 
             _this2.setState({
               loaded: true
@@ -6880,6 +6942,39 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
             });else if (_this3.state.incomingCall && _this3.state.incomingCall.channel_id == channel_id) _this3.setState({
               incomingCall: null
             });
+          }
+        },
+        speak: function speak(data) {
+          return this.perform("speak", data);
+        }
+      });
+    }
+  }, {
+    key: "setupChatACChannel",
+    value: function setupChatACChannel() {} // Listens for login for workspace and channel
+    // workspace_data : { user_id, logged_in }
+    // channel_data   : { user_id, channel_id, action }
+
+  }, {
+    key: "setupLoginACChannel",
+    value: function setupLoginACChannel() {
+      var _this4 = this;
+
+      this.loginACChannel = App.cable.subscriptions.create({
+        channel: "LoginChannel"
+      }, {
+        received: function received(_ref2) {
+          var workspace_data = _ref2.workspace_data,
+              channel_data = _ref2.channel_data;
+
+          if (workspace_data) {
+            if (workspace_data.user.id != _this4.props.user_id) {
+              _this4.props.updateOtherUserWorkspaceStatus(workspace_data);
+            }
+          } else if (channel_data) {
+            if (channel_data.user_id != _this4.props.user_id) {
+              _this4.props.updateOtherUserChannelStatus(channel_data);
+            }
           }
         },
         speak: function speak(data) {
@@ -6943,16 +7038,16 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "pickupCall",
     value: function pickupCall(callData) {
-      var _this4 = this;
+      var _this5 = this;
 
       return function (e) {
         e.stopPropagation();
-        var workspace_address = _this4.props.match.params.workspace_address;
+        var workspace_address = _this5.props.match.params.workspace_address;
         var channel_id = callData.channel_id;
 
-        _this4.startVideoCall(workspace_address, channel_id);
+        _this5.startVideoCall(workspace_address, channel_id);
 
-        _this4.setState({
+        _this5.setState({
           incomingCall: null
         });
       };
@@ -6961,7 +7056,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "rejectCall",
     value: function rejectCall(callData) {
-      var _this5 = this;
+      var _this6 = this;
 
       return function (e) {
         e.stopPropagation();
@@ -6969,35 +7064,17 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
             target_user_id = callData.target_user_id,
             channel_id = callData.channel_id;
 
-        _this5.callACChannel.speak({
+        _this6.callACChannel.speak({
           type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["REJECT_CALL"],
           from: target_user_id,
           target_user_id: from,
           channel_id: channel_id
         });
 
-        _this5.setState({
+        _this6.setState({
           incomingCall: null
         });
       };
-    } // Receives data sent from other users' workspace and channel join/leave actions
-    // Ignores your own data
-
-  }, {
-    key: "receiveLoginACData",
-    value: function receiveLoginACData(_ref2) {
-      var workspace_data = _ref2.workspace_data,
-          channel_data = _ref2.channel_data;
-
-      if (workspace_data) {
-        if (workspace_data.user.id != this.props.user_id) {
-          this.props.updateOtherUserWorkspaceStatus(workspace_data);
-        }
-      } else if (channel_data) {
-        if (channel_data.user_id != this.props.user_id) {
-          this.props.updateOtherUserChannelStatus(channel_data);
-        }
-      }
     } // Makes sure you don't go to an invalid channel
 
   }, {
@@ -7051,7 +7128,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this7 = this;
 
       if (!this.state.loaded) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "loading-page"
@@ -7076,7 +7153,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_13__["default"], {
         loginACChannel: this.loginACChannel,
         showUser: function showUser() {
-          return _this6.showUser(user_id);
+          return _this7.showUser(user_id);
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_8__["default"], {
         workspaceFlag: this.state.workspaceFlag

@@ -45,8 +45,8 @@ class EditChannelNameModal extends React.Component {
   // updates a field, and either enables or disables the button
   updateField(type) {
     return (e) => {
-      if (e.currentTarget.value.length >= 100)
-        this.setState({ [type]: e.currentTarget.value, disabled: true, error: "Name must be 100 characters or less." })
+      if (e.currentTarget.value.length >= 80)
+        this.setState({ [type]: e.currentTarget.value, disabled: true, error: "Name must be 80 characters or less." })
       else
         this.setState({ [type]: e.currentTarget.value, disabled: false, error: "" })
     }
@@ -69,14 +69,26 @@ class EditChannelNameModal extends React.Component {
   modalForm() {
     return (
       <div id="channel-name-form" onClick={e => e.stopPropagation()}>
-        <h1>Edit name</h1>
-        <div className="channel-name-form-header">
+        <div className="modal-header">
+          <h1>Rename this channel</h1>
+          <div className="modal-close-button" onClick={() => hideElements("edit-channel-name-modal")}>&#10005;</div>
+        </div>
+        <br/>
+        <div className="channel-form-header">
+          <h2>Channel name</h2>
           {this.warning()}
         </div>
-        <textarea
-          type="text" id="channel-name-input"
-          onChange={this.updateField('name')}
-          value={this.state.name}></textarea>
+        <div className="channel-name-input">
+          <div className="symbol gray">#</div>
+          <input
+            type="text" id="channel-name-input"
+            onChange={this.updateField('name')}
+            value={this.state.name}></input>
+          <div className="chars-left gray">{80 - this.state.name.length}</div>
+        </div>
+        <div className="channel-form-footer">
+          <div>Names must be lowercase, without spaces or periods, and can’t be longer than 80 characters.</div>
+        </div>
         {this.button()}
       </div>
     )

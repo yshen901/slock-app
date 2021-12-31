@@ -8,6 +8,7 @@ class NewChannelModal extends React.Component {
 
     this.state = {
       name: "",
+      description: "",
       disabled: true,
       error: "none"
     }
@@ -74,8 +75,10 @@ class NewChannelModal extends React.Component {
   modalForm() {
     return (
       <div id="new-channel-form" onClick={e => e.stopPropagation()}>
-        <h1>Create a channel</h1>
-        <h6>
+        <div className="modal-header">
+          <h1>Create a channel</h1>
+          <div className="modal-close-button" onClick={() => hideElements("new-channel-modal")}>&#10005;</div>
+        </div>                <h6>
           Channels are where your members communicate. They’re best when 
           organized around a topic - #proj-budget, for example.
         </h6>
@@ -83,12 +86,15 @@ class NewChannelModal extends React.Component {
           <h2>Name</h2>
           {this.warning()}
         </div>
-        <input 
-          type="text" id="new-channel-input"
-          onChange={this.updateField('name')}
-          placeholder="e.g. plan budget"
-          value={this.state.name}></input>
-
+        <div className="channel-name-input">
+          <div className="symbol gray">#</div>
+          <input 
+            type="text" id="new-channel-input"
+            onChange={this.updateField('name')}
+            placeholder="e.g. plan budget"
+            value={this.state.name}></input>
+          <div className="chars-left gray">{80 - this.state.name.length}</div>
+        </div>
         {this.button()}
       </div>
     )

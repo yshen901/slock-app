@@ -38,7 +38,6 @@ class Workspace extends React.Component {
       incomingCall: null // contains incoming call information
     }
 
-    this.receiveLoginACData = this.receiveLoginACData.bind(this);
     this.showUser = this.showUser.bind(this);
     this.hideUser = this.hideUser.bind(this);
 
@@ -51,18 +50,7 @@ class Workspace extends React.Component {
     let { workspaces, workspace_address, channel_id } = this.props;
     let valid = false
 
-    // Listens for login for workspace and channel
-    // workspace_data : { user_id, logged_in }
-    // channel_data   : { user_id, channel_id, action }
-    this.loginACChannel = App.cable.subscriptions.create(
-      { channel: "LoginChannel" },
-      {
-        received: this.receiveLoginACData,
-        speak: function(data) {
-          return this.perform("speak", data)
-        }
-      }
-    )
+    this.setupLoginACChannel();
 
     for (let i = 0; i < workspaces.length; i++) {
       if (workspaces[i].address === workspace_address) {
@@ -104,6 +92,7 @@ class Workspace extends React.Component {
               }
 
               this.setupCallACChannel();
+              this.setupChatACChannel();
 
               this.setState({loaded: true})
             }
@@ -153,6 +142,36 @@ class Workspace extends React.Component {
         },
         speak: function(data) {
           return this.perform("speak", data);
+        }
+      }
+    )
+  }
+
+  setupChatACChannel() {
+
+  }
+
+  // Listens for login for workspace and channel
+  // workspace_data : { user_id, logged_in }
+  // channel_data   : { user_id, channel_id, action }
+  setupLoginACChannel() {
+    this.loginACChannel = App.cable.subscriptions.create(
+      { channel: "LoginChannel" },
+      {
+        received: ({ workspace_data, channel_data }) => {
+          if (workspace_data) {
+              if (workspace_data.user.id != this.props.user_id) {
+                this.props.updateOtherUserWorkspaceStatus(workspace_data);
+              }
+          }
+          else if (channel_data) {
+            if (channel_data.user_id != this.props.user_id) {
+              this.props.updateOtherUserChannelStatus(channel_data);
+            }
+          }
+        },
+        speak: function(data) {
+          return this.perform("speak", data)
         }
       }
     )
@@ -228,21 +247,6 @@ class Workspace extends React.Component {
         channel_id
       });
       this.setState({ incomingCall: null });
-    }
-  }
-
-  // Receives data sent from other users' workspace and channel join/leave actions
-  // Ignores your own data
-  receiveLoginACData({ workspace_data, channel_data }) {
-    if (workspace_data) {
-        if (workspace_data.user.id != this.props.user_id) {
-          this.props.updateOtherUserWorkspaceStatus(workspace_data);
-        }
-    }
-    else if (channel_data) {
-      if (channel_data.user_id != this.props.user_id) {
-        this.props.updateOtherUserChannelStatus(channel_data);
-      }
     }
   }
 

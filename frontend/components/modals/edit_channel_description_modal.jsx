@@ -69,14 +69,20 @@ class EditChannelDescriptionModal extends React.Component {
   modalForm() {
     return (
       <div id="channel-description-form" onClick={e => e.stopPropagation()}>
-        <h1>Edit description</h1>
-        <div className="channel-description-form-header">
+        <div className="modal-header">
+          <h1>Edit description</h1>
+          <div className="modal-close-button" onClick={() => hideElements("edit-channel-description-modal")}>&#10005;</div>
+        </div>
+        <div className="channel-form-header">
           {this.warning()}
         </div>
         <textarea
           type="text" id="channel-description-input"
           onChange={this.updateField('description')}
           value={this.state.description}></textarea>
+        <div className="channel-form-footer">
+          <div>Let people know what this channel is for.</div>
+        </div>
         {this.button()}
       </div>
     )

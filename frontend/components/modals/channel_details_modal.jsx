@@ -186,7 +186,10 @@ class ChannelDetailsModal extends React.Component {
         <div className="channel-details-modal hidden">
           <div className="part-modal-background" onClick={() => hideElements("channel-details-modal")}></div>
           <div className="channel-details">
-            <div className="title">#&nbsp;{channel.name}</div>
+            <div className="modal-header">
+              <div className="title">#&nbsp;{channel.name}</div>
+              <div className="modal-close-button" onClick={() => hideElements("channel-details-modal")}>&#10005;</div>
+            </div>
             <div className="buttons">
               {this.star()}
             </div>

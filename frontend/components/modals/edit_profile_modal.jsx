@@ -115,7 +115,10 @@ class EditProfileModal extends React.Component {
   modalForm() {
     return (
       <div id="edit-profile-modal-form">
-        <h1>Edit your profile</h1>
+        <div className="modal-header">
+          <h1>Edit your profile</h1>
+          <div className="modal-close-button" onClick={() => hideElements("edit-profile-modal")}>&#10005;</div>
+        </div>
         <div className="form-content">
           <div className="info">
             <h2>Full Name</h2>

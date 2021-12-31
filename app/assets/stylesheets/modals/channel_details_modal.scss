@@ -22,6 +22,18 @@
     border-radius: 8px;
     background: white;
 
+    .modal-header {
+      .modal-close-button {
+        height: 30px;
+        width: 30px;
+
+        font-size: 22px;
+        line-height: 30px;
+
+        margin: 20px 28px 0 0;
+      }
+    }
+
     .title {
       font-size: 22px;
       line-height: 26px;

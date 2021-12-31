@@ -31,7 +31,9 @@
       font-size: 20px;
       line-height: 30px;
       vertical-align: middle;
-      text-align: right;
+      text-align: center;
+
+      border-radius: 4px;
 
       margin: 10px;
       margin-right: 0px;
@@ -41,7 +43,7 @@
     div:hover {
       transition: 0.3s;
       cursor: pointer;
-      background: lightgray;
+      background: rgb(240, 240, 240);
     }
   }
 
