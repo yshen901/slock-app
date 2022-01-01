@@ -190,6 +190,10 @@ class ChannelChat extends React.Component {
     if (this.bottom.current) this.bottom.current.scrollIntoView();
   }
 
+  componentWillUnmount() {
+    this.messageACChannel.unsubscribe();
+  }
+
   render() {
     return (
       <div className="chatroom-container">

@@ -258,6 +258,11 @@ class Workspace extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.loginACChannel.unsubscribe();
+    this.callACChannel.unsubscribe();
+  }
+
   // handles profile sidebar of channel
   renderProfile() {
     if (this.state.shownUserId != 0)

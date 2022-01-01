@@ -179,7 +179,7 @@ class EditProfileModal extends React.Component {
 
   render() {
     return (
-      <div className="edit-profile-modal">
+      <div className="edit-profile-modal hidden">
         <div className="part-modal-background" onClick={() => hideElements("edit-profile-modal")}></div>
         { this.modalForm() }
       </div>

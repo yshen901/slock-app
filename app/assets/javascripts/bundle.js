@@ -2720,6 +2720,11 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (this.bottom.current) this.bottom.current.scrollIntoView();
     }
   }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.messageACChannel.unsubscribe();
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3132,6 +3137,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         channel_id: this.props.match.params.channel_id
       });
       this.appended = false;
+      this.callACChannel.unsubscribe();
     } // When other user ends call
 
   }, {
@@ -5988,7 +5994,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "edit-profile-modal"
+        className: "edit-profile-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
@@ -7244,6 +7250,12 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         if (channel_id == "channel-browser" || channel_id == 'people-browser') this.props.loadChannel(parseInt(channel_id));else if (getState().entities.channels[channel_id] === undefined) this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
         else this.props.loadChannel(parseInt(channel_id));
       }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.loginACChannel.unsubscribe();
+      this.callACChannel.unsubscribe();
     } // handles profile sidebar of channel
 
   }, {

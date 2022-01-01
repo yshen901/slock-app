@@ -258,6 +258,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     this.callACChannel.speak({ type: LEAVE_CALL, from: getState().session.user_id, channel_id: this.props.match.params.channel_id });    
 
     this.appended = false;
+    this.callACChannel.unsubscribe();
   }
 
   // When other user ends call
