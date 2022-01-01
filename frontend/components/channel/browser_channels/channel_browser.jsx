@@ -67,6 +67,8 @@ class ChannelBrowser extends React.Component {
   channelsList(searchString) {
     let { user_id } = getState().session;
     let channels = Object.values(getState().entities.channels).filter((channel) => !channel.dm_channel);
+    if (searchString)
+      channels.sort((a, b) => a.name > b.name ? 1 : -1);
 
     let joined, numMembers, channelMembers, channelTopic, buttons;
     let divider = <i className="divider fas fa-circle"></i>;
@@ -79,7 +81,7 @@ class ChannelBrowser extends React.Component {
 
     let displayed_channels = [];
     for (let i = 0; i < channels.length && i < 50; i++) {
-      if (searchString.length === 0 || channels[i].name.includes(searchString))        
+      if (searchString.length === 0 || channels[i].name.includes(searchString)) {   
         numMembers = Object.keys(channels[i].users).length;
         joined = channels[i].users[user_id];
 
@@ -112,6 +114,7 @@ class ChannelBrowser extends React.Component {
             { channels[i].name == "general" ? "" : buttons }
           </div>
         );
+      }
     }
     
     return [displayed_channels, displayed_channels.length];

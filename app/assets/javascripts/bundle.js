@@ -222,6 +222,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartDmChannel", function() { return restartDmChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateDmChannel", function() { return updateDmChannel; });
 /* harmony import */ var _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/dm_channel_user_util */ "./frontend/util/dm_channel_user_util.js");
+/* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
+
 
 var RECEIVE_DM_CHANNEL = "RECEIVE_DM_CHANNEL";
 var LEAVE_DM_CHANNEL = "LEAVE_DM_CHANNEL";
@@ -252,7 +254,7 @@ var startDmChannel = function startDmChannel(channelInfo) {
     return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["startDmChannel"](channelInfo).then(function (dmChannelUser) {
       return dispatch(joinDmChannel(dmChannelUser));
     }, function (errors) {
-      return dispatch(receiveErrors(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_1__["receiveErrors"])(errors));
     });
   };
 };
@@ -261,7 +263,7 @@ var endDmChannel = function endDmChannel(channelInfo) {
     return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["endDmChannel"](channelInfo).then(function (dmChannelUser) {
       return dispatch(leaveDmChannel(dmChannelUser));
     }, function (errors) {
-      return dispatch(receiveErrors(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_1__["receiveErrors"])(errors));
     });
   };
 }; // Join dmChannel that has already been created
@@ -271,7 +273,7 @@ var restartDmChannel = function restartDmChannel(channelInfo) {
     return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["endDmChannel"](channelInfo).then(function (dmChannelUser) {
       return dispatch(joinDmChannel(dmChannelUser));
     }, function (errors) {
-      return dispatch(receiveErrors(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_1__["receiveErrors"])(errors));
     });
   };
 }; // Update dmChannel's starred status
@@ -280,8 +282,8 @@ var updateDmChannel = function updateDmChannel(channelInfo) {
   return function (dispatch) {
     return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["updateDmChannel"](channelInfo).then(function (dmChannelUser) {
       return dispatch(receiveDmChannel(dmChannelUser));
-    }, function (error) {
-      return dispatch(receiveErrors(errors));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_1__["receiveErrors"])(errors));
     });
   };
 };
@@ -1920,6 +1922,9 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
       var channels = Object.values(getState().entities.channels).filter(function (channel) {
         return !channel.dm_channel;
       });
+      if (searchString) channels.sort(function (a, b) {
+        return a.name > b.name ? 1 : -1;
+      });
       var joined, numMembers, channelMembers, channelTopic, buttons;
       var divider = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "divider fas fa-circle"
@@ -1932,37 +1937,39 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
       var displayed_channels = [];
 
       var _loop = function _loop(i) {
-        if (searchString.length === 0 || channels[i].name.includes(searchString)) numMembers = Object.keys(channels[i].users).length;
-        joined = channels[i].users[user_id];
-        channelMembers = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-users"
-        }, numMembers, " ", numMembers == 1 ? "member" : "members");
-        channelTopic = channels[i].topic ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-topic"
-        }, channels[i].topic) : "";
-        buttons = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "buttons",
-          onClick: function onClick() {
-            return _this4.goToChannel(channels[i].id);
-          }
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: joined ? "hidden" : "button",
-          onClick: _this4.joinChannel(channels[i])
-        }, "View"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: joined ? "button" : "button green",
-          onClick: joined ? _this4.leaveChannel(channels[i]) : _this4.joinChannel(channels[i])
-        }, joined ? "Leave" : "Join"));
-        displayed_channels.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "browser-list-item",
-          key: i,
-          onClick: function onClick() {
-            return _this4.goToChannel(channels[i].id);
-          }
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-name"
-        }, "# ", channels[i].name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-details"
-        }, joined ? channelStatus : "", joined ? divider : "", channelMembers, channelTopic ? divider : "", channelTopic), channels[i].name == "general" ? "" : buttons));
+        if (searchString.length === 0 || channels[i].name.includes(searchString)) {
+          numMembers = Object.keys(channels[i].users).length;
+          joined = channels[i].users[user_id];
+          channelMembers = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "channel-users"
+          }, numMembers, " ", numMembers == 1 ? "member" : "members");
+          channelTopic = channels[i].topic ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "channel-topic"
+          }, channels[i].topic) : "";
+          buttons = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "buttons",
+            onClick: function onClick() {
+              return _this4.goToChannel(channels[i].id);
+            }
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: joined ? "hidden" : "button",
+            onClick: _this4.joinChannel(channels[i])
+          }, "View"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: joined ? "button" : "button green",
+            onClick: joined ? _this4.leaveChannel(channels[i]) : _this4.joinChannel(channels[i])
+          }, joined ? "Leave" : "Join"));
+          displayed_channels.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "browser-list-item",
+            key: i,
+            onClick: function onClick() {
+              return _this4.goToChannel(channels[i].id);
+            }
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "channel-name"
+          }, "# ", channels[i].name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "channel-details"
+          }, joined ? channelStatus : "", joined ? divider : "", channelMembers, channelTopic ? divider : "", channelTopic), channels[i].name == "general" ? "" : buttons));
+        }
       };
 
       for (var i = 0; i < channels.length && i < 50; i++) {
@@ -4796,13 +4803,18 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     key: "star",
     value: function star() {
       var channel = this.props.channel;
-      var starId = channel.starred ? "star filled hidden" : "star empty";
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (channel.starred) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details-button",
-        id: starId,
+        id: "star filled hidden",
         onClick: this.starClick
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-star"
+      }));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-details-button",
+        id: "star empty",
+        onClick: this.starClick
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "far fa-star"
       }));
     }
   }, {
@@ -4969,7 +4981,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "section-content"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-            "class": "far fa-envelope"
+            className: "far fa-envelope"
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, otherUser.email)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "section-link",
             onClick: this.userClick(current_user_id)
@@ -7448,7 +7460,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }
 
       return filteredChannels.sort(function (a, b) {
-        return a > b ? 1 : -1;
+        return a.name > b.name ? 1 : -1;
       });
     }
   }, {
@@ -7457,6 +7469,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       var starred = this.getChannels(true);
+      starred = starred.concat(this.getChannels(true, true));
       var channel_id = this.props.match.params.channel_id;
       if (starred.length > 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channels"
@@ -7466,7 +7479,11 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         className: "sidebar-header-link"
       }, "Starred")), starred.map(function (channel, idx) {
         var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented";
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        if (channel.dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          key: idx,
+          className: channelClassName,
+          to: _this3.channelLink(channel.id)
+        }, _this3.getDmChannelName(channel));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: channelClassName,
           to: _this3.channelLink(channel.id)
@@ -8489,6 +8506,8 @@ var PICKUP_CALL = "PICKUP_CALL"; // Public stun server you can ping to get your 
 
 var ice = {
   iceServers: [{
+    urls: "stun.l.google.com:19302"
+  }, {
     urls: "turn:52.8.11.126:3478",
     credential: "slockPass",
     username: "slock"

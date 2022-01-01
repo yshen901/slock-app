@@ -39,12 +39,18 @@ class ChannelDetailsModal extends React.Component {
 
   star() {
     let {channel} = this.props;
-    let starId = channel.starred ? "star filled hidden" : "star empty";
-    return (
-      <div className='channel-details-button' id={starId} onClick={this.starClick}>
-        <i className='fas fa-star'></i>
-      </div>
-    );
+    if (channel.starred)
+      return (
+        <div className='channel-details-button' id="star filled hidden" onClick={this.starClick}>
+          <i className='fas fa-star'></i>
+        </div>
+      );
+    else
+      return(
+        <div className='channel-details-button' id = "star empty" onClick={this.starClick}>
+          <i className='far fa-star' ></i>
+        </div >
+      );
   }
 
   leaveChannel() {
@@ -169,7 +175,7 @@ class ChannelDetailsModal extends React.Component {
             <div className="block">
               <div className="section">
                 <div className="section-content">
-                  <i class="far fa-envelope"></i>
+                  <i className="far fa-envelope"></i>
                   <div>{otherUser.email}</div>
                 </div>
                 <div className="section-link" onClick={this.userClick(current_user_id)}>View full profile</div>

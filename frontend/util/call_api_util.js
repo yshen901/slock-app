@@ -8,6 +8,9 @@ export const PICKUP_CALL = "PICKUP_CALL";
 export const ice = {
   iceServers: [
     {
+      urls: "stun.l.google.com:19302"
+    },
+    {
       urls: "turn:52.8.11.126:3478",
       credential: "slockPass",
       username: "slock" 

@@ -67,16 +67,18 @@ class WorkspaceSidebar extends React.Component {
     let filteredChannels = [];
     let channelList = user_channels.map((id) => channels[id])
     for (let i = 0; i < channelList.length; i++) {
-      if (channelList[i].starred === starStatus && channelList[i].dm_channel == dmStatus) 
+      if (channelList[i].starred === starStatus && channelList[i].dm_channel == dmStatus)
         filteredChannels.push(channelList[i])
     }
 
-    return filteredChannels.sort((a, b) => a > b ? 1 : -1);
+    return filteredChannels.sort((a, b) => a.name > b.name ? 1 : -1);
   }
 
   starred() {
     let starred = this.getChannels(true);
+    starred = starred.concat(this.getChannels(true, true))
     let { channel_id } = this.props.match.params;
+
     if (starred.length > 0) 
       return (
         <div id="channels">
@@ -85,12 +87,19 @@ class WorkspaceSidebar extends React.Component {
           </div>
           { starred.map((channel, idx) => {
             let channelClassName = channel.id == channel_id ? `sidebar-item indented selected` : `sidebar-item indented`;  
-            return (
-              <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
-                <div className="sidebar-item-symbol">#</div>
-                <div className="channel-name">{channel.name}</div>
-              </Link>
-            );
+            if (channel.dm_channel)
+              return (
+                <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
+                  {this.getDmChannelName(channel)}
+                </Link>
+              )
+            else
+              return (
+                <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
+                  <div className="sidebar-item-symbol">#</div>
+                  <div className="channel-name">{channel.name}</div>
+                </Link>
+              );
           })}
         </div>
       )

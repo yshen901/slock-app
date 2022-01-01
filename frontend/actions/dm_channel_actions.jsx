@@ -1,4 +1,5 @@
 import * as DmChannelUserAPI from "../util/dm_channel_user_util";
+import { receiveErrors } from "./error_actions";
 
 export const RECEIVE_DM_CHANNEL = "RECEIVE_DM_CHANNEL";
 export const LEAVE_DM_CHANNEL = "LEAVE_DM_CHANNEL";
@@ -52,6 +53,6 @@ export const updateDmChannel = (channelInfo) => dispatch => (
     .updateDmChannel(channelInfo)
     .then(
       dmChannelUser => dispatch(receiveDmChannel(dmChannelUser)),
-      error => dispatch(receiveErrors(errors))
+      errors => dispatch(receiveErrors(errors))
     )
 );

@@ -58,10 +58,10 @@ class Api::DmChannelUsersController < ApplicationController
 
     update_active = {};
     if current_user.id == @dm_channel_user.user_1_id
-      update_active[:active_1] = dm_channel_user_params[:active]
+      update_active[:active_1] = dm_channel_user_params[:active] if dm_channel_user_params.has_key?(:active)
       update_active[:starred_1] = dm_channel_user_params[:starred] if dm_channel_user_params.has_key?(:starred)
     elsif current_user.id == @dm_channel_user.user_2_id
-      update_active[:active_2] = dm_channel_user_params[:active]
+      update_active[:active_2] = dm_channel_user_params[:active] if dm_channel_user_params.has_key?(:active)
       update_active[:starred_2] = dm_channel_user_params[:starred] if dm_channel_user_params.has_key?(:starred)
     end
 

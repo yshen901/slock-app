@@ -77,6 +77,10 @@
         border: 1px solid lightgray;
         border-radius: 4px;
       }
+
+      .channel-details-button:hover {
+        cursor: pointer;
+      }
     }
 
     .tab-buttons {
