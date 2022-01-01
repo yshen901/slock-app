@@ -7,7 +7,7 @@ import {
 
 import { LOAD_WORKSPACE, REMOVE_WORKSPACE } from '../../actions/workspace_actions';
 import { LOGOUT } from '../../actions/session_actions';
-import { JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../../actions/dm_channel_actions';
+import { RECEIVE_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../../actions/dm_channel_actions';
 import { UPDATE_OTHER_USER_CHANNEL_STATUS } from '../../actions/user_actions';
 import cloneDeep from "lodash/cloneDeep";
 
@@ -54,7 +54,7 @@ const ChannelReducer = (state = {}, action) => {
       return nextState;
 
     // same as ReceiveChannel since we don't need to change users
-    case JOIN_DM_CHANNEL: 
+    case RECEIVE_DM_CHANNEL: 
       nextState = cloneDeep(state);
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;

@@ -1,7 +1,7 @@
 import { RECEIVE_USER, LOGOUT } from '../actions/session_actions';
 import { REMOVE_WORKSPACE, LOAD_WORKSPACE } from '../actions/workspace_actions';
 import { LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL } from '../actions/channel_actions';
-import { JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../actions/dm_channel_actions';
+import { RECEIVE_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../actions/dm_channel_actions';
 import { RECEIVE_ERRORS } from '../actions/error_actions';
 import cloneDeep from "lodash/cloneDeep"
 
@@ -54,7 +54,7 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
       return nextState;
 
     // Same as join channel, we just add it to the list
-    case JOIN_DM_CHANNEL:
+    case RECEIVE_DM_CHANNEL:
       channel_id = action.dmChannelUser.channel.id;
       nextState.user_channels[channel_id] = { [channel_id]: channel_id};
       return nextState;

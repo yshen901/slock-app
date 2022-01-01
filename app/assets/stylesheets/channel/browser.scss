@@ -189,8 +189,10 @@
       justify-content: center;
       align-items: center;
 
-      width: calc(100% - 40px);
-      margin: 0 20px;
+      width: 100%;
+      padding: 0 20px;
+      box-sizing: border-box;
+      overflow: visible;
 
       .browser-list-item {
         position: relative;
@@ -202,6 +204,7 @@
         border-top: 1px solid lightgray;
         padding: 16px 12px;
         box-sizing: border-box;
+        overflow: visible;
 
         .channel-name {
           font-size: 15px;
@@ -239,36 +242,33 @@
         .buttons {
           position: absolute;
           top: 0px;
-          left: 0px;
+          left: -20px;
 
           display: flex;
           align-items: center;
 
-          width: 100%;
+          width: auto;
           height: 100%;
 
-          padding: 16px 12px;
+          padding: 16px 0;
           box-sizing: border-box;
 
           display: none;
 
           .button {
-            width: 80px;
+            width: 77px;
 
             border: 1px solid rgb(190, 190, 190);
             border-radius: 4px;
             box-sizing: border-box;
+            margin-left: 10px;  
             
             background-color: white;
             font-size: 15px;
-            line-height: 32px;
+            line-height: 36px;
             vertical-align: middle;
             text-align: center;
             font-weight: bold;
-          }
-
-          .button:hover {
-            box-shadow:rgb(99, 99, 99);
           }
 
           .button.green {
@@ -285,18 +285,21 @@
         background: rgb(248, 248, 248);
 
         .buttons {
+          transition: 0.3s;
           display: flex;
+          background: rgb(248, 248, 248);
         }
 
         .buttons:hover {
-          transition: 0.1s;
-          background: rgba(248, 248, 248, 0.8);
+          transition: 0.3s;
 
           .button:hover {
+            transition: 0.3s;
             box-shadow: 0 0.1rem 0.4rem rgba(0,0,0,0.1);
           }
 
           .button.green:hover {
+            transition: 0.3s;
             box-shadow: 0 0.1rem 0.4rem rgba(0,0,0,0.1);
             background: #008f69;
           }

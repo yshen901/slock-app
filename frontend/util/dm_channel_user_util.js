@@ -8,7 +8,7 @@ export const startDmChannel = (dm_channel_user) => {
   });
 };
 
-// Disables the channel using the channel_id, user_id, and active
+// Updates the channel using the channel_id, user_id, and active
 // Which user is toggled is determined in controller
 export const endDmChannel = (dm_channel_user) => {
   return $.ajax({
@@ -18,6 +18,15 @@ export const endDmChannel = (dm_channel_user) => {
   });
 };
 
+// Updates the channel using the channel_id, user_id
+// Which user is toggled is determined in controller
+export const updateDmChannel = (dm_channel_user) => {
+  return $.ajax({
+    method: "PATCH",
+    url: `/api/dm_channel_users/${dm_channel_user.channel_id}`,
+    data: { dm_channel_user }
+  });
+};
 
 
 // FOR TESTING

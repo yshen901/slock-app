@@ -27,28 +27,24 @@ class ChannelDetailsModal extends React.Component {
 
   starClick(e) {
     let { channel } = this.props;
-    this.props.updateChannelUser({ starred: !channel.starred, channel_id: channel.id })
-      .then(
-        () => this.setState(this.state)
-      );
+
+    if (channel.dm_channel)
+      this.props.updateDmChannelUser({ channel_id: channel.id, starred: !channel.starred })
+    else
+      this.props.updateChannelUser({ starred: !channel.starred, channel_id: channel.id })
+        .then(
+          () => this.setState(this.state)
+        );
   }
 
   star() {
     let {channel} = this.props;
-    if (channel.dm_channel)
-      return;
-    else if (channel.starred)
-      return (
-        <div className='channel-details-button' id="star filled hidden" onClick={this.starClick}>
-          <i className='fas fa-star'></i>
-        </div>
-      );
-    else
-      return(
-        <div className='channel-details-button' id = "star empty" onClick={this.starClick}>
-          <i className='far fa-star' ></i>
-        </div >
-      );
+    let starId = channel.starred ? "star filled hidden" : "star empty";
+    return (
+      <div className='channel-details-button' id={starId} onClick={this.starClick}>
+        <i className='fas fa-star'></i>
+      </div>
+    );
   }
 
   leaveChannel() {

@@ -1,10 +1,10 @@
 import * as DmChannelUserAPI from "../util/dm_channel_user_util";
 
-export const JOIN_DM_CHANNEL = "JOIN_DM_CHANNEL";
+export const RECEIVE_DM_CHANNEL = "RECEIVE_DM_CHANNEL";
 export const LEAVE_DM_CHANNEL = "LEAVE_DM_CHANNEL";
 
 const joinDmChannel = (dmChannelUser) => ({
-  type: JOIN_DM_CHANNEL,
+  type: RECEIVE_DM_CHANNEL,
   dmChannelUser
 });
 
@@ -12,6 +12,11 @@ const leaveDmChannel = (dmChannelUser) => ({
   type: LEAVE_DM_CHANNEL,
   dmChannelUser
 });
+
+const receiveDmChannel = (dmChannelUser) => ({
+  type: RECEIVE_DM_CHANNEL,
+  dmChannelUser
+})
 
 export const startDmChannel = (channelInfo) => dispatch => (
   DmChannelUserAPI
@@ -38,5 +43,15 @@ export const restartDmChannel = (channelInfo) => dispatch => (
     .then(
       dmChannelUser => dispatch(joinDmChannel(dmChannelUser)),
       errors => dispatch(receiveErrors(errors))
+    )
+);
+
+// Update dmChannel's starred status
+export const updateDmChannel = (channelInfo) => dispatch => (
+  DmChannelUserAPI
+    .updateDmChannel(channelInfo)
+    .then(
+      dmChannelUser => dispatch(receiveDmChannel(dmChannelUser)),
+      error => dispatch(receiveErrors(errors))
     )
 );

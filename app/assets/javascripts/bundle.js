@@ -210,24 +210,25 @@ var updateChannelUser = function updateChannelUser(channel_user) {
 /*!*************************************************!*\
   !*** ./frontend/actions/dm_channel_actions.jsx ***!
   \*************************************************/
-/*! exports provided: JOIN_DM_CHANNEL, LEAVE_DM_CHANNEL, startDmChannel, endDmChannel, restartDmChannel */
+/*! exports provided: RECEIVE_DM_CHANNEL, LEAVE_DM_CHANNEL, startDmChannel, endDmChannel, restartDmChannel, updateDmChannel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JOIN_DM_CHANNEL", function() { return JOIN_DM_CHANNEL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_DM_CHANNEL", function() { return RECEIVE_DM_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LEAVE_DM_CHANNEL", function() { return LEAVE_DM_CHANNEL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startDmChannel", function() { return startDmChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endDmChannel", function() { return endDmChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "restartDmChannel", function() { return restartDmChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateDmChannel", function() { return updateDmChannel; });
 /* harmony import */ var _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/dm_channel_user_util */ "./frontend/util/dm_channel_user_util.js");
 
-var JOIN_DM_CHANNEL = "JOIN_DM_CHANNEL";
+var RECEIVE_DM_CHANNEL = "RECEIVE_DM_CHANNEL";
 var LEAVE_DM_CHANNEL = "LEAVE_DM_CHANNEL";
 
 var joinDmChannel = function joinDmChannel(dmChannelUser) {
   return {
-    type: JOIN_DM_CHANNEL,
+    type: RECEIVE_DM_CHANNEL,
     dmChannelUser: dmChannelUser
   };
 };
@@ -235,6 +236,13 @@ var joinDmChannel = function joinDmChannel(dmChannelUser) {
 var leaveDmChannel = function leaveDmChannel(dmChannelUser) {
   return {
     type: LEAVE_DM_CHANNEL,
+    dmChannelUser: dmChannelUser
+  };
+};
+
+var receiveDmChannel = function receiveDmChannel(dmChannelUser) {
+  return {
+    type: RECEIVE_DM_CHANNEL,
     dmChannelUser: dmChannelUser
   };
 };
@@ -263,6 +271,16 @@ var restartDmChannel = function restartDmChannel(channelInfo) {
     return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["endDmChannel"](channelInfo).then(function (dmChannelUser) {
       return dispatch(joinDmChannel(dmChannelUser));
     }, function (errors) {
+      return dispatch(receiveErrors(errors));
+    });
+  };
+}; // Update dmChannel's starred status
+
+var updateDmChannel = function updateDmChannel(channelInfo) {
+  return function (dispatch) {
+    return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["updateDmChannel"](channelInfo).then(function (dmChannelUser) {
+      return dispatch(receiveDmChannel(dmChannelUser));
+    }, function (error) {
       return dispatch(receiveErrors(errors));
     });
   };
@@ -1928,6 +1946,9 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
             return _this4.goToChannel(channels[i].id);
           }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: joined ? "hidden" : "button",
+          onClick: _this4.joinChannel(channels[i])
+        }, "View"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: joined ? "button" : "button green",
           onClick: joined ? _this4.leaveChannel(channels[i]) : _this4.joinChannel(channels[i])
         }, joined ? "Leave" : "Join"));
@@ -4761,7 +4782,10 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       var channel = this.props.channel;
-      this.props.updateChannelUser({
+      if (channel.dm_channel) this.props.updateDmChannelUser({
+        channel_id: channel.id,
+        starred: !channel.starred
+      });else this.props.updateChannelUser({
         starred: !channel.starred,
         channel_id: channel.id
       }).then(function () {
@@ -4772,18 +4796,13 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     key: "star",
     value: function star() {
       var channel = this.props.channel;
-      if (channel.dm_channel) return;else if (channel.starred) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var starId = channel.starred ? "star filled hidden" : "star empty";
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details-button",
-        id: "star filled hidden",
+        id: starId,
         onClick: this.starClick
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-star"
-      }));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-details-button",
-        id: "star empty",
-        onClick: this.starClick
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "far fa-star"
       }));
     }
   }, {
@@ -5063,6 +5082,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _channel_details_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_details_modal */ "./frontend/components/modals/channel_details_modal.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+
 
 
 
@@ -5089,6 +5110,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     updateChannelUser: function updateChannelUser(channel_user) {
       return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["updateChannelUser"])(channel_user));
+    },
+    updateDmChannelUser: function updateDmChannelUser(dm_channel_user) {
+      return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_5__["updateDmChannel"])(dm_channel_user));
     }
   };
 };
@@ -7832,7 +7856,7 @@ var ChannelReducer = function ChannelReducer() {
       return nextState;
     // same as ReceiveChannel since we don't need to change users
 
-    case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["JOIN_DM_CHANNEL"]:
+    case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_DM_CHANNEL"]:
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;
@@ -8225,7 +8249,7 @@ var SessionReducer = function SessionReducer() {
       return nextState;
     // Same as join channel, we just add it to the list
 
-    case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["JOIN_DM_CHANNEL"]:
+    case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_DM_CHANNEL"]:
       channel_id = action.dmChannelUser.channel.id;
       nextState.user_channels[channel_id] = _defineProperty({}, channel_id, channel_id);
       return nextState;
@@ -8641,13 +8665,14 @@ var inviteUser = function inviteUser(user_email, workspace_address) {
 /*!***********************************************!*\
   !*** ./frontend/util/dm_channel_user_util.js ***!
   \***********************************************/
-/*! exports provided: startDmChannel, endDmChannel, createTestData, disableTestData */
+/*! exports provided: startDmChannel, endDmChannel, updateDmChannel, createTestData, disableTestData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "startDmChannel", function() { return startDmChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "endDmChannel", function() { return endDmChannel; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateDmChannel", function() { return updateDmChannel; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTestData", function() { return createTestData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "disableTestData", function() { return disableTestData; });
 // Pass workspace_id, user_1_id, user_2_id
@@ -8660,10 +8685,21 @@ var startDmChannel = function startDmChannel(dm_channel_user) {
       dm_channel_user: dm_channel_user
     }
   });
-}; // Disables the channel using the channel_id, user_id, and active
+}; // Updates the channel using the channel_id, user_id, and active
 // Which user is toggled is determined in controller
 
 var endDmChannel = function endDmChannel(dm_channel_user) {
+  return $.ajax({
+    method: "PATCH",
+    url: "/api/dm_channel_users/".concat(dm_channel_user.channel_id),
+    data: {
+      dm_channel_user: dm_channel_user
+    }
+  });
+}; // Updates the channel using the channel_id, user_id
+// Which user is toggled is determined in controller
+
+var updateDmChannel = function updateDmChannel(dm_channel_user) {
   return $.ajax({
     method: "PATCH",
     url: "/api/dm_channel_users/".concat(dm_channel_user.channel_id),
