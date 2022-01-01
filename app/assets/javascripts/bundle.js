@@ -7447,7 +7447,8 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       channel: "",
-      DM: ""
+      DM: "",
+      starred: ""
     };
     _this.channelLink = _this.channelLink.bind(_assertThisInitialized(_this));
     _this.toggleDropdown = _this.toggleDropdown.bind(_assertThisInitialized(_this));
@@ -7535,9 +7536,17 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "sidebar-header-link"
+        className: "sidebar-header-chevron",
+        onClick: this.toggleDropdown("starred")
+      }, this.state.starred ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-caret-right"
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-caret-down"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sidebar-header-link hoverable",
+        onClick: this.toggleDropdown("starred")
       }, "Starred")), starred.map(function (channel, idx) {
-        var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented";
+        var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented ".concat(_this3.state.starred);
         if (channel.dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: channelClassName,

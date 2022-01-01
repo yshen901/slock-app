@@ -9,7 +9,8 @@ class WorkspaceSidebar extends React.Component {
 
     this.state = {
       channel: "",
-      DM: ""
+      DM: "",
+      starred: "",
     }
 
     this.channelLink = this.channelLink.bind(this);
@@ -83,10 +84,13 @@ class WorkspaceSidebar extends React.Component {
       return (
         <div id="channels">
           <div className='sidebar-header'>
-            <div className='sidebar-header-link'>Starred</div>
+            <div className='sidebar-header-chevron' onClick={this.toggleDropdown("starred")}>
+              {this.state.starred ? <i className="fas fa-caret-right"></i> : <i className="fas fa-caret-down"></i>}
+            </div>
+            <div className='sidebar-header-link hoverable' onClick={this.toggleDropdown("starred")}>Starred</div>
           </div>
           { starred.map((channel, idx) => {
-            let channelClassName = channel.id == channel_id ? `sidebar-item indented selected` : `sidebar-item indented`;  
+            let channelClassName = channel.id == channel_id ? `sidebar-item indented selected` : `sidebar-item indented ${this.state.starred}`;  
             if (channel.dm_channel)
               return (
                 <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
