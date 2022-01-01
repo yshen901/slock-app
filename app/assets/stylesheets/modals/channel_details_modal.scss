@@ -71,11 +71,25 @@
       margin: 12px 0px 8px 28px;
 
       .channel-details-button {
-        font-size: 13px;
+        display: flex;
+        align-items: center;
 
-        padding: 7px 12px 5px 12px;
-        border: 1px solid lightgray;
+        font-size: 13px;
+        line-height: 17px;
+
+        margin-right: 8px;
+        padding: 4.5px 12px 4.5px 12px;
+        border: 1px solid rgba(29, 29, 29, 0.3);
         border-radius: 4px;
+
+        div {
+          font-weight: bold;
+          padding-left: 6px;
+        }
+
+        i.fa-phone {
+          font-size: 12px;
+        }
       }
 
       .channel-details-button:hover {

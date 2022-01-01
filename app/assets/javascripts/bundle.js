@@ -2457,7 +2457,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_channel_details_modal_container__WEBPACK_IMPORTED_MODULE_7__["default"], {
         canLeave: this.state.canLeave,
         leaveChannel: this.leaveChannel,
-        showUser: this.props.showUser
+        showUser: this.props.showUser,
+        startVideoCall: this.props.startVideoCall
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_name_modal__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_description_modal__WEBPACK_IMPORTED_MODULE_10__["default"], null));
     }
   }]);
@@ -5001,7 +5002,9 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       var _this$props3 = this.props,
           channel = _this$props3.channel,
           users = _this$props3.users,
-          current_user_id = _this$props3.current_user_id;
+          current_user_id = _this$props3.current_user_id,
+          workspace_address = _this$props3.workspace_address,
+          startVideoCall = _this$props3.startVideoCall;
       if (!channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details-modal hidden"
       });else if (channel.dm_channel) {
@@ -5023,7 +5026,14 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(otherUser)
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserName"])(otherUser))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "buttons"
-        }, this.star()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, this.star(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "channel-details-button",
+          onClick: function onClick() {
+            return startVideoCall(workspace_address, channel.id);
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          "class": "fas fa-phone"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Start a Call"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "tab-buttons"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: this.state.tab == "About" ? "selected" : "",
@@ -5114,7 +5124,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     channel: channels[channel_id],
     users: users,
     channel_users: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["sortedChannelUsers"])(channels[channel_id], users),
-    current_user_id: user_id
+    current_user_id: user_id,
+    workspace_address: ownProps.match.params.workspace_address
   };
 };
 

@@ -14,7 +14,9 @@ const mapStateToProps = (state, ownProps) => {
     channel: channels[channel_id],
     users,
     channel_users: sortedChannelUsers(channels[channel_id], users),
-    current_user_id: user_id
+    current_user_id: user_id,
+
+    workspace_address: ownProps.match.params.workspace_address,
   };
 }
 

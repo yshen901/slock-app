@@ -154,7 +154,8 @@ class Channel extends React.Component {
         <ChannelDetailsModalContainer 
           canLeave={this.state.canLeave} 
           leaveChannel={this.leaveChannel}
-          showUser={this.props.showUser}/>
+          showUser={this.props.showUser}
+          startVideoCall={this.props.startVideoCall}/>
 
         <EditChannelNameModal/>
         <EditChannelTopicModal/>

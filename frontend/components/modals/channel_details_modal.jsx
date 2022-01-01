@@ -47,8 +47,8 @@ class ChannelDetailsModal extends React.Component {
       );
     else
       return(
-        <div className='channel-details-button' id = "star empty" onClick={this.starClick}>
-          <i className='far fa-star' ></i>
+        <div className='channel-details-button' id="star empty" onClick={this.starClick}>
+          <i className='far fa-star'></i>
         </div >
       );
   }
@@ -191,7 +191,7 @@ class ChannelDetailsModal extends React.Component {
   }
 
   render() {
-    let { channel, users, current_user_id } = this.props;
+    let { channel, users, current_user_id, workspace_address, startVideoCall } = this.props;
 
     if (!channel)
       return (
@@ -211,6 +211,10 @@ class ChannelDetailsModal extends React.Component {
             </div>
             <div className="buttons">
               {this.star()}
+              <div className='channel-details-button' onClick={() => startVideoCall(workspace_address, channel.id)}>
+                <i class="fas fa-phone"></i>
+                <div>Start a Call</div>
+              </div >
             </div>
             <div className="tab-buttons">
               <div className={this.state.tab == "About" ? "selected" : ""} onClick={e => this.setState({tab: "About"})}>About</div>
