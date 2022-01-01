@@ -172,17 +172,26 @@
             display: flex;
 
             i {
-              font-size: 15.5px;
+              font-size: 18px;
               line-height: 22px;
               padding-top: 1px;
               padding-right: 8px;
             }
           }
 
+          .section-content.dm {
+            margin-bottom: 8px;
+          }
+
           .section-link {
             font-size: 15px;
+            font-weight: bold;
             line-height: 22px;
             color: rgb(18,100,163);
+          }
+
+          .section-link.dm {
+            padding-top: 8px;
           }
 
           .section-link:hover {

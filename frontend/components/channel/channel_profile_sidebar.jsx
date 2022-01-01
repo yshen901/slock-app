@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { startDmChannel } from "../../actions/dm_channel_actions";
-import { photoUrl } from '../../selectors/selectors';
+import { getLocalTime, photoUrl } from '../../selectors/selectors';
 import { toggleFocusElements } from '../../util/modal_api_util';
 
 class ProfileSidebar extends React.Component {
@@ -95,16 +95,10 @@ class ProfileSidebar extends React.Component {
   }
 
   localTime(user) {
-    let date = new Date();
-    let hours = date.getUTCHours() + user.timezone_offset;
-    let minutes = date.getUTCMinutes();
-
-    let timeString = `${hours % 12}:${minutes} ${hours >= 12 ? "PM" : "AM"}`
-
     return (
       <div className="profile-sidebar-section">
         <div className="profile-sidebar-section-name">Local time</div>
-        <div className="profile-sidebar-section-content">{timeString}</div>
+        <div className="profile-sidebar-section-content">{getLocalTime(user)}</div>
       </div>
     )
   }

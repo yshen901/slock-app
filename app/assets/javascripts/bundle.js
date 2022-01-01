@@ -3937,17 +3937,13 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "localTime",
     value: function localTime(user) {
-      var date = new Date();
-      var hours = date.getUTCHours() + user.timezone_offset;
-      var minutes = date.getUTCMinutes();
-      var timeString = "".concat(hours % 12, ":").concat(minutes, " ").concat(hours >= 12 ? "PM" : "AM");
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-sidebar-section"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-sidebar-section-name"
       }, "Local time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-sidebar-section-content"
-      }, timeString));
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getLocalTime"])(user)));
     }
   }, {
     key: "sidebarButtons",
@@ -5001,11 +4997,15 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "section"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "section-content"
+            className: "section-content dm"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            className: "far fa-clock"
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getLocalTime"])(otherUser), " local time")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "section-content dm"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
             className: "far fa-envelope"
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, otherUser.email)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "section-link",
+            className: "section-link dm",
             onClick: this.userClick(current_user_id)
           }, "View full profile"))));
 
@@ -5053,7 +5053,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             return startVideoCall(workspace_address, channel.id);
           }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-          className: "fas fa-phone"
+          className: "fas fa-video"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Start a Call"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "tab-buttons"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -8375,7 +8375,7 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId */
+/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8386,6 +8386,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "workspaceTitle", function() { return workspaceTitle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "photoUrl", function() { return photoUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserName", function() { return getUserName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLocalTime", function() { return getLocalTime; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "userInSearch", function() { return userInSearch; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "channelUsers", function() { return channelUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortedChannelUsers", function() { return sortedChannelUsers; });
@@ -8433,6 +8434,13 @@ var getUserName = function getUserName(user) {
   if (first) return first;
   if (second) return second;
   if (third) return third;
+}; // Returns user's local time based on their time offset
+
+var getLocalTime = function getLocalTime(user) {
+  var date = new Date();
+  var hours = date.getUTCHours() + user.timezone_offset;
+  var minutes = date.getUTCMinutes();
+  return "".concat(hours % 12, ":").concat(minutes, " ").concat(hours >= 12 ? "PM" : "AM");
 }; // Returns whether a user should show up in search based on its getUserName
 
 var userInSearch = function userInSearch(user, searchParam) {

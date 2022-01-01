@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { DEFAULT_PHOTO_URL, dmChannelUserId, getUserName, photoUrl, userInSearch } from '../../selectors/selectors';
+import { DEFAULT_PHOTO_URL, dmChannelUserId, getLocalTime, getUserName, photoUrl, userInSearch } from '../../selectors/selectors';
 import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
 
 class ChannelDetailsModal extends React.Component {
@@ -174,11 +174,15 @@ class ChannelDetailsModal extends React.Component {
           <div className="tab-content">
             <div className="block">
               <div className="section">
-                <div className="section-content">
+                <div className="section-content dm">
+                  <i className="far fa-clock"></i>
+                  <div>{getLocalTime(otherUser)} local time</div>
+                </div>
+                <div className="section-content dm">
                   <i className="far fa-envelope"></i>
                   <div>{otherUser.email}</div>
                 </div>
-                <div className="section-link" onClick={this.userClick(current_user_id)}>View full profile</div>
+                <div className="section-link dm" onClick={this.userClick(current_user_id)}>View full profile</div>
               </div>
             </div>
           </div>
@@ -212,7 +216,7 @@ class ChannelDetailsModal extends React.Component {
             <div className="buttons">
               {this.star()}
               <div className='channel-details-button' onClick={() => startVideoCall(workspace_address, channel.id)}>
-                <i className="fas fa-phone"></i>
+                <i className="fas fa-video"></i>
                 <div>Start a Call</div>
               </div >
             </div>

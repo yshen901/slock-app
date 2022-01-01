@@ -37,6 +37,15 @@ export const getUserName = (user, fullNameFirst=false) => {
   if (third) return third;
 }
 
+// Returns user's local time based on their time offset
+export const getLocalTime = (user) => {
+  let date = new Date();
+  let hours = date.getUTCHours() + user.timezone_offset;
+  let minutes = date.getUTCMinutes();
+
+  return `${hours % 12}:${minutes} ${hours >= 12 ? "PM" : "AM"}`
+}
+
 // Returns whether a user should show up in search based on its getUserName
 export const userInSearch = (user, searchParam) => {
   let name = getUserName(user).toUpperCase();
