@@ -212,7 +212,7 @@ class ChannelDetailsModal extends React.Component {
             <div className="buttons">
               {this.star()}
               <div className='channel-details-button' onClick={() => startVideoCall(workspace_address, channel.id)}>
-                <i class="fas fa-phone"></i>
+                <i className="fas fa-phone"></i>
                 <div>Start a Call</div>
               </div >
             </div>

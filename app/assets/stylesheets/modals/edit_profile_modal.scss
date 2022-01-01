@@ -1,10 +1,10 @@
 #edit-profile-modal-form {
   position: absolute;
   top: 15%;
-  left: 32%;
+  left: calc(50% - 350px);
   z-index: 2;
 
-  width: 36%;
+  width: 700px;
   height: auto;
   background: white;
   opacity: 1;
@@ -19,8 +19,8 @@
   animation: fadein 0.4s;
 
   h1 {
-    font-size: 23px;
-    font-weight: bold;
+    font-size: 22px;
+    font-weight: 900;
   
     padding-bottom: 22px;
   }
@@ -29,6 +29,14 @@
     font-size: 15px;
     font-weight: bold;  
     padding-bottom: 10px;
+  }
+
+  h4 {
+    font-size: 13px;
+    line-height: 17.5px;
+    color: rgb(97, 96, 97);
+
+    margin: 4px 0 20px 0;
   }
 
   .form-note {
@@ -43,37 +51,47 @@
     .info {
       width: 66%;
       
-      input {
+      input, select {
         width: 100%;
         padding: 8px;
         box-sizing: border-box;
         
-        margin-bottom: 15px;
+        background: white;
         border-radius: 5px;
-        border: 1px solid gray;
+        border: 1px solid rgba(29, 28, 29, 0.3);
       
         font-size: 18px;
         line-height: 30px;
       }
+
+      option {
+        font-size: 15px;
+        line-height: 22px;
+      }
     }
 
     .photo {
-      width: 30%;
-      margin-left: 2.9%;
+      width: 192px;
+      margin-left: 15px;
 
       display: flex;
       flex-direction: column;
 
       .img-container {
-        width: 90%;
-        padding: 5%;
-        background: rgb(180, 180, 180);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        height: 192px;
+        width: 192px;
         border-radius: 5px;
 
         img {
-          width: 100%;
-          height: auto;
+          height: 100%;
+          width: auto;
           border-radius: 5px;
+
+          object-fit: cover;
         }
       }
 
@@ -83,7 +101,7 @@
         margin-top: 10px;
       
         background:white;
-        border: rgb(180, 180, 180) 1px solid;
+        border: rgba(97, 96, 97, 0.3) 1px solid;
         border-radius: 5px;
         padding: 10px;
       

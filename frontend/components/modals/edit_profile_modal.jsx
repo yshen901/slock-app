@@ -1,6 +1,7 @@
 import React from "react";
 import { hideElements } from "../../util/modal_api_util";
 import { photoUrl } from "../../selectors/selectors";
+import { timeZones } from "../../util/user_api_util";
 
 class EditProfileModal extends React.Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class EditProfileModal extends React.Component {
       full_name: "",
       display_name: "",
       what_i_do: "",
-      phone_number: ""
+      phone_number: "",
+      timezone_offset: 0
     };
 
     this.resetState = this.setState.bind(this);
@@ -24,19 +26,20 @@ class EditProfileModal extends React.Component {
   }
 
   componentDidMount() {
-    let { full_name, display_name, what_i_do, phone_number } = this.props.user;
+    let { full_name, display_name, what_i_do, phone_number, timezone_offset } = this.props.user;
     this.setState({
       full_name, 
       display_name,
       what_i_do,
-      phone_number
+      phone_number,
+      timezone_offset
     });
   }
 
   // Fires backend to update the user's attached photo
   handleUpload(e) {
     e.stopPropagation();
-    let { imageFile, full_name, display_name, what_i_do, phone_number } = this.state;
+    let { imageFile, full_name, display_name, what_i_do, phone_number, timezone_offset } = this.state;
 
     // Necessary for uploading files
     let userForm = new FormData();
@@ -48,6 +51,7 @@ class EditProfileModal extends React.Component {
     userForm.append('user[display_name]', display_name); // Nested!
     userForm.append('user[what_i_do]', what_i_do); // Nested!
     userForm.append('user[phone_number]', phone_number); // Nested!
+    userForm.append('user[timezone_offset]', timezone_offset); // Nested!
 
     this.props.updateUser(userForm)
     .then(() => {
@@ -122,13 +126,30 @@ class EditProfileModal extends React.Component {
         <div className="form-content">
           <div className="info">
             <h2>Full Name</h2>
-            <input type="text" value={this.state.full_name} onChange={this.handleChange("full_name")}/>
+            <input type="text" value={this.state.full_name} onChange={this.handleChange("full_name")} placeholder="Full Name"/>
+            <h4></h4>
+
             <h2>Display Name</h2>
-            <input type="text" value={this.state.display_name} onChange={this.handleChange("display_name")}/>
-            <h2>Phone Number</h2>
-            <input type="text" value={this.state.phone_number} onChange={this.handleChange("phone_number")}/>
+            <input type="text" value={this.state.display_name} onChange={this.handleChange("display_name")} placeholder="Display Name"/>
+            <h4>This could be your first name, or a nickname — however you’d like people to refer to you in Slack.</h4>
+
             <h2>What I Do</h2>
-            <input type="text" value={this.state.what_i_do} onChange={this.handleChange("what_i_do")}/>
+            <input type="text" value={this.state.what_i_do} onChange={this.handleChange("what_i_do")} placeholder="What I Do"/>
+            <h4>Let people know what you do at App Academy.</h4>
+
+            <h2>Phone Number</h2>
+            <input type="text" value={this.state.phone_number} onChange={this.handleChange("phone_number")} placeholder="(123)-555-5555"/>
+            <h4>Enter a phone number.</h4>
+
+            <h2>Timezone</h2>
+            <select name="timezone_offset" value={this.state.timezone_offset} onChange={this.handleChange("timezone_offset")}>
+              { timeZones.map(([offset, description], idx) => {
+                return (
+                  <option value={parseInt(offset)} key={idx}>{description}</option>
+                )
+              })}
+            </select>
+            <h4>Your current timezone. Used for notifications, for times in your activity feeds, and for reminders.</h4>
           </div>
           <div className="photo">
             <h2>Profile Photo</h2>
@@ -158,7 +179,7 @@ class EditProfileModal extends React.Component {
 
   render() {
     return (
-      <div className="edit-profile-modal hidden">
+      <div className="edit-profile-modal">
         <div className="part-modal-background" onClick={() => hideElements("edit-profile-modal")}></div>
         { this.modalForm() }
       </div>

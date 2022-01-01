@@ -3693,20 +3693,20 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
             className: "channel-nav-button",
             onClick: this.props.leaveChannel
           }, "Leave Chat");
-          if (this.props.inVideoCall) videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "channel-nav-button"
-          }, " In Video Call ");else videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          videoCallButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "channel-nav-button",
             onClick: function onClick() {
               return startVideoCall(workspace_address, channel_id);
             }
-          }, "Start Video Call");
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            className: "fas fa-video"
+          }));
         }
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "right"
-      }, videoCallButton, leaveButton);
+      }, videoCallButton);
     }
   }, {
     key: "render",
@@ -3929,6 +3929,21 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
       }, user.email));
     }
   }, {
+    key: "localTime",
+    value: function localTime(user) {
+      var date = new Date();
+      var hours = date.getUTCHours() + user.timezone_offset;
+      var minutes = date.getUTCMinutes();
+      var timeString = "".concat(hours % 12, ":").concat(minutes, " ").concat(hours >= 12 ? "PM" : "AM");
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-section"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-section-name"
+      }, "Local time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-section-content"
+      }, timeString));
+    }
+  }, {
     key: "sidebarButtons",
     value: function sidebarButtons(user) {
       if (user.id != getState().session.user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3988,11 +4003,11 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
         id: "profile-sidebar-overview"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-name"
-      }, this.activity(user), this.profileName(user)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.profileName(user), this.activity(user)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-occupation"
       }, user.what_i_do)), this.sidebarButtons(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-sections"
-      }, this.displayName(user), this.email(user), this.phoneNumber(user))));
+      }, this.displayName(user), this.email(user), this.phoneNumber(user), this.localTime(user))));
     }
   }]);
 
@@ -5032,7 +5047,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             return startVideoCall(workspace_address, channel.id);
           }
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-          "class": "fas fa-phone"
+          className: "fas fa-phone"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Start a Call"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "tab-buttons"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5689,7 +5704,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _util_user_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/user_api_util */ "./frontend/util/user_api_util.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -5729,6 +5753,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   _inherits(EditProfileModal, _React$Component);
 
@@ -5747,7 +5772,8 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       full_name: "",
       display_name: "",
       what_i_do: "",
-      phone_number: ""
+      phone_number: "",
+      timezone_offset: 0
     };
     _this.resetState = _this.setState.bind(_assertThisInitialized(_this));
     _this.readFile = _this.readFile.bind(_assertThisInitialized(_this));
@@ -5764,12 +5790,14 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
           full_name = _this$props$user.full_name,
           display_name = _this$props$user.display_name,
           what_i_do = _this$props$user.what_i_do,
-          phone_number = _this$props$user.phone_number;
+          phone_number = _this$props$user.phone_number,
+          timezone_offset = _this$props$user.timezone_offset;
       this.setState({
         full_name: full_name,
         display_name: display_name,
         what_i_do: what_i_do,
-        phone_number: phone_number
+        phone_number: phone_number,
+        timezone_offset: timezone_offset
       });
     } // Fires backend to update the user's attached photo
 
@@ -5784,7 +5812,8 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
           full_name = _this$state.full_name,
           display_name = _this$state.display_name,
           what_i_do = _this$state.what_i_do,
-          phone_number = _this$state.phone_number; // Necessary for uploading files
+          phone_number = _this$state.phone_number,
+          timezone_offset = _this$state.timezone_offset; // Necessary for uploading files
 
       var userForm = new FormData();
       userForm.append('id', this.props.user.id);
@@ -5797,6 +5826,8 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       userForm.append('user[what_i_do]', what_i_do); // Nested!
 
       userForm.append('user[phone_number]', phone_number); // Nested!
+
+      userForm.append('user[timezone_offset]', timezone_offset); // Nested!
 
       this.props.updateUser(userForm).then(function () {
         _this2.handleCancel();
@@ -5891,20 +5922,37 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Full Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.full_name,
-        onChange: this.handleChange("full_name")
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Display Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        onChange: this.handleChange("full_name"),
+        placeholder: "Full Name"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Display Name"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.display_name,
-        onChange: this.handleChange("display_name")
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Phone Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        value: this.state.phone_number,
-        onChange: this.handleChange("phone_number")
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "What I Do"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        onChange: this.handleChange("display_name"),
+        placeholder: "Display Name"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "This could be your first name, or a nickname \u2014 however you\u2019d like people to refer to you in Slack."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "What I Do"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         value: this.state.what_i_do,
-        onChange: this.handleChange("what_i_do")
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onChange: this.handleChange("what_i_do"),
+        placeholder: "What I Do"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Let people know what you do at App Academy."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Phone Number"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        value: this.state.phone_number,
+        onChange: this.handleChange("phone_number"),
+        placeholder: "(123)-555-5555"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Enter a phone number."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Timezone"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        name: "timezone_offset",
+        value: this.state.timezone_offset,
+        onChange: this.handleChange("timezone_offset")
+      }, _util_user_api_util__WEBPACK_IMPORTED_MODULE_3__["timeZones"].map(function (_ref, idx) {
+        var _ref2 = _slicedToArray(_ref, 2),
+            offset = _ref2[0],
+            description = _ref2[1];
+
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: parseInt(offset),
+          key: idx
+        }, description);
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Your current timezone. Used for notifications, for times in your activity feeds, and for reminders.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "photo"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Profile Photo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "img-container"
@@ -5940,7 +5988,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "edit-profile-modal hidden"
+        className: "edit-profile-modal"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
@@ -8931,12 +8979,14 @@ var logout = function logout() {
 /*!****************************************!*\
   !*** ./frontend/util/user_api_util.js ***!
   \****************************************/
-/*! exports provided: updateUser */
+/*! exports provided: timeZones, updateUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timeZones", function() { return timeZones; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUser", function() { return updateUser; });
+var timeZones = [["-11", "(UTC-11:00) American Samoa"], ["-10", "(UTC-10:00) Hawaii"], ["-9", "(UTC-09:00) Alaska"], ["-8", "(UTC-08:00) Pacific Time (US and Canada)"], ["-7", "(UTC-07:00) Mountain Time (US and Canada)"], ["-6", "(UTC-11:00) Central Time (US and Canada)"], ["-5", "(UTC-05:00) Eastern Time (US and Canada)"], ["-4", "(UTC-04:00) Atantic Time (Canada)"], ["-3", "(UTC-03:00) City of Buenos Aires"], ["-2", "(UTC-02:00) Fernando de Noronha"], ["-1", "(UTC-01:00) Cabo Verde Islands"], ["0", "(UTC) Dublin, Edinburgh, Lisbon, London"], ["1", "(UTC+01:00) Berlin, Madrid, Paris, Warsaw"], ["2", "(UTC+02:00) Athens, Bucharest, Cairo, Jerusalem"], ["3", "(UTC+03:00) Baghdad, Istanbul, Moscow"], ["4", "(UTC+04:00) Abu Dhabi, Tbilisi, Yerevan"], ["5", "(UTC+05:00) Ekaterinburg, Islamabad, Karachi"], ["6", "(UTC+06:00) Astana, Dhaka"], ["7", "(UTC+07:00) Bangkok, Hanoi, Jakarta, Tomsk"], ["8", "(UTC+08:00) Beijing, Hong Kong, Singapore, Taipei"], ["9", "(UTC+09:00) Osaka, Sapporo, Tokyo, Seoul"], ["10", "(UTC+10:00) Brisbane, Melbourne, Sydney, Guam"], ["11", "(UTC+11:00) Norfolk Island, Solomon Islands"], ["12", "(UTC+12:00) Auckland, Wellington, Fiji Islands"], ["13", "(UTC+13:00) Nuku'alofa, Samoa"], ["14", "(UTC+14:00) Kiritimati Island"]];
 var updateUser = function updateUser(formData) {
   return $.ajax({
     method: "PATCH",

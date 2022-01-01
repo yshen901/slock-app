@@ -94,6 +94,21 @@ class ProfileSidebar extends React.Component {
     )
   }
 
+  localTime(user) {
+    let date = new Date();
+    let hours = date.getUTCHours() + user.timezone_offset;
+    let minutes = date.getUTCMinutes();
+
+    let timeString = `${hours % 12}:${minutes} ${hours >= 12 ? "PM" : "AM"}`
+
+    return (
+      <div className="profile-sidebar-section">
+        <div className="profile-sidebar-section-name">Local time</div>
+        <div className="profile-sidebar-section-content">{timeString}</div>
+      </div>
+    )
+  }
+
   sidebarButtons(user) {
     if (user.id != getState().session.user_id)
       return (
@@ -147,8 +162,8 @@ class ProfileSidebar extends React.Component {
           </div>
           <div id="profile-sidebar-overview">
             <div id="profile-sidebar-name">
-              {this.activity(user)}
               {this.profileName(user)}
+              {this.activity(user)}
             </div>
             <div id="profile-sidebar-occupation">{user.what_i_do}</div>
           </div>
@@ -157,6 +172,7 @@ class ProfileSidebar extends React.Component {
             {this.displayName(user)}
             {this.email(user)}
             {this.phoneNumber(user)}
+            {this.localTime(user)}
           </div>
         </div>
       </div>
