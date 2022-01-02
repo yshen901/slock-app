@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { joinChannel } from "../../actions/channel_actions";
+import { toggleFocusElements } from '../../util/modal_api_util';
 
 class ChannelMessageForm extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class ChannelMessageForm extends React.Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.goToChannel = this.goToChannel.bind(this);
   }
 
   componentDidUpdate(oldProps) {
@@ -21,6 +23,11 @@ class ChannelMessageForm extends React.Component {
   update(field) {
     return e =>
       this.setState({ [field]: e.currentTarget.value });
+  }
+
+  goToChannel(channel_id) {
+    let workspace_address = this.props.match.params.workspace_address;
+    this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
   }
 
   handleSubmit(e) {
@@ -62,14 +69,22 @@ class ChannelMessageForm extends React.Component {
         return (
           <div className="channel-preview-panel">
             <h1>You are viewing your chat with <strong>{this.getDmChannelName(channels[channel_id])}</strong> </h1>
-            <div className="channel-preview-button" onClick={this.props.joinChannel}>Start Messaging</div>
+            <div className="buttons">
+              <div className="channel-preview-button green" onClick={this.props.joinChannel}>Join Chat</div>
+              <div className="channel-preview-button" onClick={toggleFocusElements("channel-details-modal")}>See More Details</div>
+            </div>
+            <div className="channel-preview-link" onClick={() => this.goToChannel("channel-browser")}>Back to Channel Browser</div>
           </div>
         )
       else
         return (
           <div className="channel-preview-panel">
             <h1>You are viewing <strong>#{channels[channel_id].name}</strong> </h1>
-            <div className="channel-preview-button" onClick={this.props.joinChannel}>Join Channel</div>
+            <div className="buttons">
+              <div className="channel-preview-button green" onClick={this.props.joinChannel}>Join Channel</div>
+              <div className="channel-preview-button" onClick={toggleFocusElements("channel-details-modal")}>See More Details</div>
+            </div>
+            <div className="channel-preview-link" onClick={() => this.goToChannel("channel-browser")}>Back to Channel Browser</div>
           </div>
         )
     }
