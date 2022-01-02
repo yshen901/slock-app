@@ -440,7 +440,7 @@ var logout = function logout() {
 /*!*******************************************!*\
   !*** ./frontend/actions/user_actions.jsx ***!
   \*******************************************/
-/*! exports provided: UPDATE_OTHER_USER_WORKSPACE_STATUS, updateOtherUserWorkspaceStatus, UPDATE_OTHER_USER_CHANNEL_STATUS, updateOtherUserChannelStatus, updateUser */
+/*! exports provided: UPDATE_OTHER_USER_WORKSPACE_STATUS, updateOtherUserWorkspaceStatus, UPDATE_OTHER_USER_CHANNEL_STATUS, updateOtherUserChannelStatus, RECEIVE_WORKSPACE_USER, receiveWorkspaceUser, updateUser, updateWorkspaceUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -449,10 +449,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateOtherUserWorkspaceStatus", function() { return updateOtherUserWorkspaceStatus; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_OTHER_USER_CHANNEL_STATUS", function() { return UPDATE_OTHER_USER_CHANNEL_STATUS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateOtherUserChannelStatus", function() { return updateOtherUserChannelStatus; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_WORKSPACE_USER", function() { return RECEIVE_WORKSPACE_USER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveWorkspaceUser", function() { return receiveWorkspaceUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUser", function() { return updateUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateWorkspaceUser", function() { return updateWorkspaceUser; });
 /* harmony import */ var _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/user_api_util */ "./frontend/util/user_api_util.js");
-/* harmony import */ var _session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session_actions */ "./frontend/actions/session_actions.jsx");
-/* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
+/* harmony import */ var _util_connection_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/connection_api_util */ "./frontend/util/connection_api_util.js");
+/* harmony import */ var _session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./session_actions */ "./frontend/actions/session_actions.jsx");
+/* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
+
 
 
 
@@ -470,12 +475,28 @@ var updateOtherUserChannelStatus = function updateOtherUserChannelStatus(userDat
     userData: userData
   };
 };
+var RECEIVE_WORKSPACE_USER = "RECEIVE_WORKSPACE_USER";
+var receiveWorkspaceUser = function receiveWorkspaceUser(workspace_user) {
+  return {
+    type: RECEIVE_WORKSPACE_USER,
+    workspace_user: workspace_user
+  };
+};
 var updateUser = function updateUser(formData) {
   return function (dispatch) {
     return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__["updateUser"](formData).then(function (user) {
-      return dispatch(Object(_session_actions__WEBPACK_IMPORTED_MODULE_1__["receiveUser"])(user));
+      return dispatch(Object(_session_actions__WEBPACK_IMPORTED_MODULE_2__["receiveUser"])(user));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+    });
+  };
+};
+var updateWorkspaceUser = function updateWorkspaceUser(workspace_id, workspace_user) {
+  return function (dispatch) {
+    return _util_connection_api_util__WEBPACK_IMPORTED_MODULE_1__["updateWorkspaceUser"](workspace_id, workspace_user).then(function (workspace_user) {
+      return dispatch(receiveWorkspaceUser(workspace_user));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
     });
   };
 };
@@ -2142,12 +2163,6 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "getUserInfo",
     value: function getUserInfo(user) {
-      var icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-circle inactive-circle"
-      });
-      if (user.logged_in) icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-circle active-circle-dark"
-      });
       var profileImage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-user-image"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -2159,7 +2174,9 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         className: "browse-modal-user-info"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-username"
-      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user), " ", icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserActivity"])(user)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-occupation"
       }, user.what_i_do)));
     }
@@ -3708,12 +3725,6 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
 
       if (channel.dm_channel) {
         var userId = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["dmChannelUserId"])(channel, user.id);
-        var icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-          className: "fas fa-circle inactive-circle"
-        });
-        if (users[userId].logged_in) icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-          className: "fas fa-circle active-circle-dark"
-        });
         var profileImage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-nav-user-image"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -3724,7 +3735,9 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
           onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["toggleFocusElements"])("channel-details-modal")
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-nav-user-icon"
-        }, profileImage, icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, profileImage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["getUserActivity"])(user)
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-name"
         }, users[userId].email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fa fa-chevron-down"
@@ -4682,7 +4695,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserName"])(channel_user), " ", channel_user.id == current_user_id ? "(you)" : ""), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member-status"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-              className: channel_user.logged_in ? "fas fa-circle active-circle-dark" : "fas fa-circle inactive-circle"
+              className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserActivity"])(channel_user)
             })));
           })));
 
@@ -6215,9 +6228,6 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, ProfileDropdown);
 
     _this = _super.call(this, props);
-    _this.state = {
-      user: getState().entities.users[getState().session.user_id]
-    };
     _this.logoutUser = _this.logoutUser.bind(_assertThisInitialized(_this));
     _this.logoutWorkspace = _this.logoutWorkspace.bind(_assertThisInitialized(_this));
     _this.toggleButton = _this.toggleButton.bind(_assertThisInitialized(_this));
@@ -6243,7 +6253,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       var _getState$session = getState().session,
           workspace_id = _getState$session.workspace_id,
           user_id = _getState$session.user_id;
-      var user = getState().entities.users[user_id];
+      var user = this.props.user;
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["logoutWorkspace"])(workspace_id)).then(function () {
         _this3.props.loginACChannel.speak({
           workspace_data: {
@@ -6269,6 +6279,10 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this$props = this.props,
+          user = _this$props.user,
+          showUser = _this$props.showUser,
+          updateCurrentUser = _this$props.updateCurrentUser;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-modal profile hidden",
         onClick: function onClick() {
@@ -6284,16 +6298,23 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-image-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["photoUrl"])(this.state.user)
+        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["photoUrl"])(user)
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-content-top"
-      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["getUserName"])(this.state.user)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["getUserName"])(user)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-item",
+        onClick: this.toggleButton(function () {
+          return updateCurrentUser({
+            active: !user.active
+          });
+        })
+      }, "Set yourself as ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, user.active ? "away" : "active")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "horizontal-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
-        onClick: this.toggleButton(this.props.showUser)
+        onClick: this.toggleButton(showUser)
       }, "Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "horizontal-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6893,6 +6914,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     };
     _this.showUser = _this.showUser.bind(_assertThisInitialized(_this));
     _this.hideUser = _this.hideUser.bind(_assertThisInitialized(_this));
+    _this.updateCurrentUser = _this.updateCurrentUser.bind(_assertThisInitialized(_this));
     _this.startVideoCall = _this.startVideoCall.bind(_assertThisInitialized(_this));
     _this.pickupCall = _this.pickupCall.bind(_assertThisInitialized(_this));
     _this.rejectCall = _this.rejectCall.bind(_assertThisInitialized(_this));
@@ -7188,6 +7210,26 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       this.setState({
         shownUserId: 0
       });
+    } // workspace_user contains new active, status, and paused data for the user
+
+  }, {
+    key: "updateCurrentUser",
+    value: function updateCurrentUser(workspace_user) {
+      var _this$props3 = this.props,
+          workspace_id = _this$props3.workspace_id,
+          updateWorkspaceUser = _this$props3.updateWorkspaceUser;
+      updateWorkspaceUser(workspace_id, workspace_user); // .then(
+      //   () => {
+      //     this.loginACChannel.speak({ // announces change through ActionCable
+      //       workspace_data: {
+      //         user: this.props.user,
+      //         logged_in: true,
+      //         user_channel_ids: this.props.user_channel_ids,
+      //         workspace_id: workspace.id,
+      //       }
+      //     })
+      //   }
+      // )
     }
   }, {
     key: "render",
@@ -7199,9 +7241,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/images/orb.gif"
       }));
-      var _this$props3 = this.props,
-          user_id = _this$props3.user_id,
-          users = _this$props3.users;
+      var _this$props4 = this.props,
+          user_id = _this$props4.user_id,
+          users = _this$props4.users;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_topbar__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -7218,7 +7260,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         loginACChannel: this.loginACChannel,
         showUser: function showUser() {
           return _this7.showUser(user_id);
-        }
+        },
+        updateCurrentUser: this.updateCurrentUser,
+        user: users[user_id]
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));
     }
   }]);
@@ -7260,6 +7304,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspaces: Object.values(state.entities.workspaces),
     workspace_address: ownProps.match.params.workspace_address,
+    workspace_id: state.session.workspace_id,
     channel_id: ownProps.match.params.channel_id,
     channels: state.entities.channels,
     user: state.entities.users[state.session.user_id],
@@ -7279,6 +7324,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     loadChannel: function loadChannel(channel_id) {
       return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_4__["loadChannel"])(channel_id));
+    },
+    updateWorkspaceUser: function updateWorkspaceUser(workspace_id, workspace_user) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_7__["updateWorkspaceUser"])(workspace_id, workspace_user));
     },
     updateOtherUserWorkspaceStatus: function updateOtherUserWorkspaceStatus(userData) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_7__["updateOtherUserWorkspaceStatus"])(userData));
@@ -7384,12 +7432,6 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       var ids = Object.keys(channel.users);
       var userId = ids[0];
       if (ids[0] == user.id) userId = ids[1];
-      var icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-circle inactive-circle"
-      });
-      if (users[userId].logged_in) icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-circle active-circle-light"
-      });
       var profileImage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "workspace-sidebar-user-image"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -7399,7 +7441,9 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         className: "dm-channel-info"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "workspace-sidebar-user-icon"
-      }, profileImage, icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, profileImage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserActivity"])(user, false)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-name"
       }, users[userId].email));
     }
@@ -7968,12 +8012,28 @@ var UserReducer = function UserReducer() {
 
       for (var i = 0; i < userIds.length; i++) {
         nextState[userIds[i]].logged_in = action.workspace.users[userIds[i]].logged_in;
+        nextState[userIds[i]].status = action.workspace.users[userIds[i]].status;
+        nextState[userIds[i]].active = action.workspace.users[userIds[i]].active;
+        nextState[userIds[i]].paused = action.workspace.users[userIds[i]].paused;
       }
 
       return nextState;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
       nextState[action.user.id] = action.user;
+      return nextState;
+
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_WORKSPACE_USER"]:
+      var _action$workspace_use = action.workspace_user,
+          user_id = _action$workspace_use.user_id,
+          active = _action$workspace_use.active,
+          status = _action$workspace_use.status,
+          paused = _action$workspace_use.paused;
+      Object.assign(nextState[user_id], {
+        active: active,
+        status: status,
+        paused: paused
+      });
       return nextState;
 
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_OTHER_USER_WORKSPACE_STATUS"]:
@@ -8328,7 +8388,8 @@ var getUserName = function getUserName(user) {
 }; // Returns user activity symbol classname
 
 var getUserActivity = function getUserActivity(user) {
-  if (user.logged_in) return "fas fa-circle active-circle-dark";
+  var dark = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  if (user.logged_in && user.active) return "fas fa-circle active-circle".concat(dark ? "-dark" : "");
   return "fas fa-circle inactive-circle";
 }; // Returns user's local time based on their time offset
 
@@ -8619,7 +8680,7 @@ var updateChannelUser = function updateChannelUser(channel_user) {
 /*!**********************************************!*\
   !*** ./frontend/util/connection_api_util.js ***!
   \**********************************************/
-/*! exports provided: logoutWorkspace, loginWorkspace, inviteUser */
+/*! exports provided: logoutWorkspace, loginWorkspace, inviteUser, updateWorkspaceUser */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8627,6 +8688,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logoutWorkspace", function() { return logoutWorkspace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "loginWorkspace", function() { return loginWorkspace; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inviteUser", function() { return inviteUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateWorkspaceUser", function() { return updateWorkspaceUser; });
 var logoutWorkspace = function logoutWorkspace(workspace_id) {
   return $.ajax({
     method: "PATCH",
@@ -8658,6 +8720,16 @@ var inviteUser = function inviteUser(user_email, workspace_address) {
         user_email: user_email,
         workspace_address: workspace_address
       }
+    }
+  });
+}; // Data is nested under workspace_user, and contains activity, status, and paused values
+
+var updateWorkspaceUser = function updateWorkspaceUser(workspace_id, workspace_user) {
+  return $.ajax({
+    method: "PATCH",
+    url: "/api/workspace_users/".concat(workspace_id),
+    data: {
+      workspace_user: workspace_user
     }
   });
 };

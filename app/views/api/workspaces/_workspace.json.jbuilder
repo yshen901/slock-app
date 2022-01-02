@@ -13,6 +13,9 @@ json.users do
     json.set! connection.user_id do
       json.id connection.user_id
       json.logged_in connection.logged_in
+      json.status connection.status
+      json.active connection.active
+      json.paused connection.paused
     end
     if connection.logged_in
       num_logged_in_users += 1

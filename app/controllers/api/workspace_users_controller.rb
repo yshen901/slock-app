@@ -21,11 +21,7 @@ class Api::WorkspaceUsersController < ApplicationController
   def update 
     @connection = WorkspaceUser.find_by(user_id: current_user.id, workspace_id: params[:id])
     if @connection
-      if workspace_user_params[:logged_in] == "true"
-        @connection.login!
-      elsif workspace_user_params[:logged_in] == "false"
-        @connection.logout!
-      end
+      @connection.update(workspace_user_params)
       render '/api/workspace_users/show'
     else
       render json: ['CONNECTION INVALID'], status: 401
@@ -35,6 +31,6 @@ class Api::WorkspaceUsersController < ApplicationController
   private
 
   def workspace_user_params
-    params.require(:workspace_user).permit(:logged_in, :user_email, :workspace_id, :workspace_address)
+    params.require(:workspace_user).permit(:logged_in, :user_email, :workspace_id, :workspace_address, :active, :status, :paused)
   end
 end

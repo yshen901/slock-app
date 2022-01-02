@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_01_094551) do
+ActiveRecord::Schema.define(version: 2022_01_02_092331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,9 @@ ActiveRecord::Schema.define(version: 2022_01_01_094551) do
     t.boolean "logged_in", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: true
+    t.boolean "paused", default: false
+    t.string "status", default: ""
     t.index ["user_id", "workspace_id"], name: "index_workspace_users_on_user_id_and_workspace_id", unique: true
     t.index ["user_id"], name: "index_workspace_users_on_user_id"
     t.index ["workspace_id"], name: "index_workspace_users_on_workspace_id"

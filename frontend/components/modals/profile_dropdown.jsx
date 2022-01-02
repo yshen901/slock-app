@@ -10,10 +10,6 @@ class ProfileDropdown extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      user: getState().entities.users[getState().session.user_id]
-    }
-
     this.logoutUser = this.logoutUser.bind(this);
     this.logoutWorkspace = this.logoutWorkspace.bind(this);
     this.toggleButton = this.toggleButton.bind(this);
@@ -30,7 +26,7 @@ class ProfileDropdown extends React.Component {
   logoutWorkspace(e) {
     e.stopPropagation();
     let { workspace_id, user_id } = getState().session;
-    let user = getState().entities.users[user_id];
+    let { user } = this.props;  
     dispatch(logoutWorkspace(workspace_id))
     .then(
       () => {
@@ -58,19 +54,23 @@ class ProfileDropdown extends React.Component {
   }
 
   render() {
+    let { user, showUser, updateCurrentUser } = this.props;
     return (
       <div className="dropdown-modal profile hidden" onClick={() => hideElements("dropdown-modal")}>
         <div className="dropdown profile" onClick={e => e.stopPropagation()}>
           <div className="dropdown-header">
             <div className="dropdown-image-container">
-              <img src={photoUrl(this.state.user)}/>
+              <img src={photoUrl(user)}/>
             </div>
             <div className="dropdown-content">
-              <div className="dropdown-content-top">{getUserName(this.state.user)}</div>
+              <div className="dropdown-content-top">{getUserName(user)}</div>
             </div>
           </div>
+          <div className="dropdown-item" onClick={this.toggleButton(() => updateCurrentUser({active: !user.active}))}>
+            Set yourself as <strong>{ user.active ? "away" : "active"}</strong>
+          </div>
           <div className="horizontal-divider"></div>
-          <div className="dropdown-item" onClick={this.toggleButton(this.props.showUser)}>
+          <div className="dropdown-item" onClick={this.toggleButton(showUser)}>
             Profile
           </div>
           <div className="horizontal-divider"></div>
