@@ -15,6 +15,15 @@ class ChannelDetailsModal extends React.Component {
     this.starClick = this.starClick.bind(this);
     this.userClick = this.userClick.bind(this);
     this.leaveChannel = this.leaveChannel.bind(this);
+    this.toggleHide = this.toggleHide.bind(this);
+  }
+
+  toggleHide() {
+    return (e) => {
+      e.stopPropagation();
+      this.setState({tab: "About", search: ""});
+      hideElements("channel-details-modal");
+    };
   }
 
   userClick(userId) {
@@ -205,13 +214,16 @@ class ChannelDetailsModal extends React.Component {
       let otherUser = users[dmChannelUserId(channel, current_user_id)];
       return (
         <div className="channel-details-modal hidden">
-          <div className="part-modal-background" onClick={() => hideElements("channel-details-modal")}></div>
+          <div className="part-modal-background" onClick={this.toggleHide()}></div>
           <div className="channel-details">
-            <div className="title">
-              <div className="title-image">
-                <img src={photoUrl(otherUser)}/>
+            <div className="modal-header">
+              <div className="title">
+                <div className="title-image">
+                  <img src={photoUrl(otherUser)}/>
+                </div>
+                <div>{getUserName(otherUser)}</div>
               </div>
-              <div>{getUserName(otherUser)}</div>
+              <div className="modal-close-button" onClick={this.toggleHide()}>&#10005;</div>
             </div>
             <div className="buttons">
               {this.star()}
@@ -231,17 +243,17 @@ class ChannelDetailsModal extends React.Component {
     else
       return (
         <div className="channel-details-modal hidden">
-          <div className="part-modal-background" onClick={() => hideElements("channel-details-modal")}></div>
+          <div className="part-modal-background" onClick={this.toggleHide()}></div>
           <div className="channel-details">
             <div className="modal-header">
               <div className="title">#&nbsp;{channel.name}</div>
-              <div className="modal-close-button" onClick={() => hideElements("channel-details-modal")}>&#10005;</div>
+              <div className="modal-close-button" onClick={this.toggleHide()}>&#10005;</div>
             </div>
             <div className="buttons">
               {this.star()}
             </div>
             <div className="tab-buttons">
-              <div className={this.state.tab == "About" ? "selected" : ""} onClick={e => this.setState({tab: "About"})}>About</div>
+              <div className={this.state.tab == "About" ? "selected" : ""} onClick={e => this.setState({tab: "About", search: ""})}>About</div>
               <div className={this.state.tab == "Members" ? "selected" : ""} onClick={e => this.setState({tab: "Members"})}>Members</div>
             </div>
             { this.channelTabContent() }

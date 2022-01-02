@@ -146,10 +146,12 @@ class Channel extends React.Component {
           status={this.state}
           startVideoCall={this.props.startVideoCall}
           inVideoCall={this.props.inVideoCall}/>
+          
         <ChannelChatContainer 
           joinChannel={this.joinChannel}
           status={this.state}
-          showUser={this.props.showUser}/>
+          showUser={this.props.showUser}
+          startVideoCall={this.props.startVideoCall}/>
 
         <ChannelDetailsModalContainer 
           canLeave={this.state.canLeave} 

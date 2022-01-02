@@ -2453,7 +2453,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_chat_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         joinChannel: this.joinChannel,
         status: this.state,
-        showUser: this.props.showUser
+        showUser: this.props.showUser,
+        startVideoCall: this.props.startVideoCall
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_channel_details_modal_container__WEBPACK_IMPORTED_MODULE_7__["default"], {
         canLeave: this.state.canLeave,
         leaveChannel: this.leaveChannel,
@@ -2484,6 +2485,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _channel_message_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_message_form */ "./frontend/components/channel/channel_message_form.jsx");
+/* harmony import */ var _modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modals/user_popup_modal.jsx */ "./frontend/components/modals/user_popup_modal.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2509,7 +2511,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
- // #AC
+
+
 
 var ChannelChat = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelChat, _React$Component);
@@ -2525,11 +2528,14 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       messagesList: [],
       messagesData: [],
-      currentDate: new Date(Date()).toLocaleDateString()
+      currentDate: new Date(Date()).toLocaleDateString(),
+      popupUserId: 0,
+      popupUserTarget: null
     };
     _this.bottom = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.loadMessages = _this.loadMessages.bind(_assertThisInitialized(_this));
     _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
+    _this.toggleUserPopup = _this.toggleUserPopup.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2576,8 +2582,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "processNewMessage",
     value: function processNewMessage(messagesData, messagesList, i) {
-      var _this2 = this;
-
       i = i != null ? i : messagesData.length - 1;
       var _messagesData$i = messagesData[i],
           created_at = _messagesData$i.created_at,
@@ -2614,18 +2618,14 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         className: "message-user-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: photo_url,
-        onClick: function onClick() {
-          return _this2.props.showUser(user_id);
-        }
+        onClick: this.toggleUserPopup(user_id)
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-text"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user",
-        onClick: function onClick() {
-          return _this2.props.showUser(user_id);
-        }
+        onClick: this.toggleUserPopup(user_id)
       }, username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-time"
       }, created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2635,7 +2635,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "loadMessages",
     value: function loadMessages() {
-      var _this3 = this;
+      var _this2 = this;
 
       var _this$props = this.props,
           getMessages = _this$props.getMessages,
@@ -2646,19 +2646,19 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         // update message data
         var messagesData = Object.values(messages).map(function (message) {
           message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
-          message.created_date = _this3.getMessageDate(message);
-          message.created_at = _this3.getMessageTimestamp(message);
-          message.username = _this3.profileName(users[message.user_id]);
+          message.created_date = _this2.getMessageDate(message);
+          message.created_at = _this2.getMessageTimestamp(message);
+          message.username = _this2.profileName(users[message.user_id]);
           return message;
         }); // popualate messagesList
 
         var messagesList = [];
 
         for (var i = 0; i < messagesData.length; i++) {
-          _this3.processNewMessage(messagesData, messagesList, i);
+          _this2.processNewMessage(messagesData, messagesList, i);
         }
 
-        _this3.setState({
+        _this2.setState({
           messagesList: messagesList,
           messagesData: messagesData
         });
@@ -2725,6 +2725,43 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       this.messageACChannel.unsubscribe();
     }
   }, {
+    key: "toggleUserPopup",
+    value: function toggleUserPopup(userId) {
+      var _this3 = this;
+
+      return function (e) {
+        e.stopPropagation();
+
+        _this3.setState({
+          popupUserId: userId,
+          popupUserTarget: e.currentTarget
+        });
+      };
+    }
+  }, {
+    key: "renderUserPopup",
+    value: function renderUserPopup() {
+      var _this4 = this;
+
+      var _this$props2 = this.props,
+          users = _this$props2.users,
+          showUser = _this$props2.showUser;
+      var _this$state = this.state,
+          popupUserId = _this$state.popupUserId,
+          popupUserTarget = _this$state.popupUserTarget;
+      if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        user: users[popupUserId],
+        popupUserTarget: popupUserTarget,
+        hidePopup: function hidePopup() {
+          return _this4.setState({
+            popupUserId: 0
+          });
+        },
+        showUser: showUser,
+        startVideoCall: this.props.startVideoCall
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2741,7 +2778,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         messageACChannel: this.messageACChannel,
         joinChannel: this.props.joinChannel,
         status: this.props.status
-      }));
+      }), this.renderUserPopup());
     }
   }]);
 
@@ -3918,16 +3955,6 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, name);
     }
   }, {
-    key: "activity",
-    value: function activity(user) {
-      if (user.logged_in) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-circle active-circle-dark"
-      });
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-circle inactive-circle"
-      });
-    }
-  }, {
     key: "phoneNumber",
     value: function phoneNumber(user) {
       if (user.phone_number) {
@@ -4036,7 +4063,9 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
         id: "profile-sidebar-overview"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-name"
-      }, this.profileName(user), this.activity(user)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user, true)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserActivity"])(user)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-occupation"
       }, user.what_i_do)), this.sidebarButtons(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-sections"
@@ -4340,424 +4369,6 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/modals/browse_channel_modal.jsx":
-/*!*************************************************************!*\
-  !*** ./frontend/components/modals/browse_channel_modal.jsx ***!
-  \*************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-
-
-
-var BrowseChannelModal = /*#__PURE__*/function (_React$Component) {
-  _inherits(BrowseChannelModal, _React$Component);
-
-  var _super = _createSuper(BrowseChannelModal);
-
-  function BrowseChannelModal() {
-    var _this;
-
-    _classCallCheck(this, BrowseChannelModal);
-
-    _this = _super.call(this);
-    _this.state = {
-      search: ""
-    };
-    _this.switchForm = _this.switchForm.bind(_assertThisInitialized(_this));
-    _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
-    _this.update = _this.update.bind(_assertThisInitialized(_this));
-    _this.myChannels = _this.myChannels.bind(_assertThisInitialized(_this));
-    _this.otherChannels = _this.otherChannels.bind(_assertThisInitialized(_this));
-    _this.allChannels = _this.allChannels.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(BrowseChannelModal, [{
-    key: "update",
-    value: function update(e) {
-      this.setState({
-        search: e.currentTarget.value
-      });
-    }
-  }, {
-    key: "switchForm",
-    value: function switchForm() {
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal channel-modal");
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["revealElements"])("new-channel-modal");
-    }
-  }, {
-    key: "goToChannel",
-    value: function goToChannel(channel_id) {
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal channel-modal");
-      var workspace_address = this.props.match.params.workspace_address;
-      this.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
-    }
-  }, {
-    key: "allChannels",
-    value: function allChannels(searchString) {
-      var channelsDisplay = [];
-      var myChannels = this.myChannels(searchString);
-      var otherChannels = this.otherChannels(searchString);
-      if (otherChannels.length > 0) channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: 0
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "full-modal-section-header"
-      }, "Channels you can join"), otherChannels));
-      if (myChannels.length > 0) channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: 1
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "full-modal-section-header"
-      }, "Channels you belong to"), myChannels));
-      return channelsDisplay;
-    }
-  }, {
-    key: "myChannels",
-    value: function myChannels(searchString) {
-      var _this2 = this;
-
-      var channels = getState().entities.channels;
-      var user_channels = getState().session.user_channels;
-      var my_channels = Object.keys(user_channels).filter(function (id) {
-        return !channels[id].dm_channel;
-      });
-      var channel_name;
-      var displayed_channels = [];
-
-      var _loop = function _loop(i) {
-        channel_name = channels[my_channels[i]].name;
-        if (searchString.length === 0 || channel_name.startsWith(searchString)) displayed_channels.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "full-modal-item",
-          key: i,
-          onClick: function onClick() {
-            return _this2.goToChannel(my_channels[i]);
-          }
-        }, "# ", channel_name));
-      };
-
-      for (var i = 0; i < my_channels.length; i++) {
-        _loop(i);
-      }
-
-      return displayed_channels;
-    }
-  }, {
-    key: "otherChannels",
-    value: function otherChannels(searchString) {
-      var _this3 = this;
-
-      var channels = getState().entities.channels;
-      var user_channels = getState().session.user_channels;
-      var other_channels = Object.keys(channels).filter(function (id) {
-        return !user_channels[id] && !channels[id].dm_channel;
-      });
-      var channel_name;
-      var displayed_channels = [];
-
-      if (other_channels.length > 0) {
-        var _loop2 = function _loop2(i) {
-          channel_name = channels[other_channels[i]].name;
-          if (searchString.length === 0 || channel_name.startsWith(searchString)) displayed_channels.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "full-modal-item",
-            key: i + 2000,
-            onClick: function onClick() {
-              return _this3.goToChannel(other_channels[i]);
-            }
-          }, "# ", channel_name));
-        };
-
-        for (var i = 0; i < other_channels.length; i++) {
-          _loop2(i);
-        }
-      }
-
-      return displayed_channels;
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this4 = this;
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal channel-modal hidden",
-        onClick: function onClick(e) {
-          return e.stopPropagation();
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-button",
-        onClick: function onClick() {
-          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal channel-modal");
-
-          _this4.setState({
-            search: ""
-          });
-        }
-      }, "\u2715"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-content"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-header"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "full-modal-header-text"
-      }, "Browse Channels"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-header-button",
-        onClick: this.switchForm
-      }, "Create Channel")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-search-bar"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-search search-icon"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "channel-search-bar",
-        onChange: this.update,
-        value: this.state.search,
-        placeholder: "i.e. channel-name"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-list"
-      }, this.allChannels(this.state.search))));
-    }
-  }]);
-
-  return BrowseChannelModal;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(BrowseChannelModal));
-
-/***/ }),
-
-/***/ "./frontend/components/modals/browse_dm_channel_modal.jsx":
-/*!****************************************************************!*\
-  !*** ./frontend/components/modals/browse_dm_channel_modal.jsx ***!
-  \****************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
-/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-
-
-
-
-
-var BrowseDmChannelModal = /*#__PURE__*/function (_React$Component) {
-  _inherits(BrowseDmChannelModal, _React$Component);
-
-  var _super = _createSuper(BrowseDmChannelModal);
-
-  function BrowseDmChannelModal() {
-    var _this;
-
-    _classCallCheck(this, BrowseDmChannelModal);
-
-    _this = _super.call(this);
-    _this.state = {
-      search: ""
-    };
-    _this.createDmChannel = _this.createDmChannel.bind(_assertThisInitialized(_this));
-    _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
-    _this.update = _this.update.bind(_assertThisInitialized(_this));
-    _this.allUsers = _this.allUsers.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(BrowseDmChannelModal, [{
-    key: "update",
-    value: function update(e) {
-      this.setState({
-        search: e.currentTarget.value
-      });
-    }
-  }, {
-    key: "createDmChannel",
-    value: function createDmChannel(userIds, workspaceId) {
-      var _this2 = this;
-
-      dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["startDmChannel"])({
-        user_1_id: userIds[0],
-        user_2_id: userIds[1],
-        workspace_id: workspaceId
-      })).then(function (_ref) {
-        var dmChannelUser = _ref.dmChannelUser;
-
-        // REMEMBER THE THING PASSED BACK IS ACTION
-        _this2.goToChannel(dmChannelUser.channel_id);
-
-        _this2.setState({
-          search: ""
-        });
-      });
-    }
-  }, {
-    key: "goToChannel",
-    value: function goToChannel(channel_id) {
-      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal dm-channel-modal");
-      var workspace_address = this.props.match.params.workspace_address;
-      this.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
-    }
-  }, {
-    key: "getUserInfo",
-    value: function getUserInfo(user) {
-      var icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-circle inactive-circle"
-      });
-      if (user.logged_in) icon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-circle active-circle-dark"
-      });
-      var profileImage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "browse-modal-user-image"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["photoUrl"])(user)
-      }));
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-name"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "browse-modal-user-icon"
-      }, profileImage, icon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, user.email));
-    }
-  }, {
-    key: "allUsers",
-    value: function allUsers() {
-      var _this3 = this;
-
-      var channelsDisplay = [];
-      var users = getState().entities.users;
-      var currentUserId = getState().session.user_id;
-      var workspaceId = getState().session.workspace_id;
-      var usersArray = Object.values(users); // Only display users once someone has started to search
-      // if (this.state.search.length > 0) {
-
-      var user;
-
-      var _loop = function _loop(i) {
-        user = usersArray[i];
-
-        if (user.id != currentUserId && user.email.startsWith(_this3.state.search)) {
-          channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "full-modal-item",
-            key: i,
-            onClick: function onClick() {
-              return _this3.createDmChannel([currentUserId, usersArray[i].id], workspaceId);
-            }
-          }, _this3.getUserInfo(user)));
-        }
-      };
-
-      for (var i = 0; i < usersArray.length; i++) {
-        _loop(i);
-      } // }
-
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        key: 0
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "full-modal-section-header"
-      }, "Search Results"), channelsDisplay);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this4 = this;
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal dm-channel-modal hidden",
-        onClick: function onClick(e) {
-          return e.stopPropagation();
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-button",
-        onClick: function onClick() {
-          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("full-modal dm-channel-modal");
-
-          _this4.setState({
-            search: ""
-          });
-        }
-      }, "\u2715"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-content"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-header"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-        className: "full-modal-header-text"
-      }, "Search Users")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-search-bar"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-search search-icon"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "dm-channel-search-bar",
-        onChange: this.update,
-        value: this.state.search,
-        placeholder: "i.e. shen.yuci1@gmail.com"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "full-modal-list"
-      }, this.allUsers(this.state.search))));
-    }
-  }]);
-
-  return BrowseDmChannelModal;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(BrowseDmChannelModal));
-
-/***/ }),
-
 /***/ "./frontend/components/modals/channel_details_modal.jsx":
 /*!**************************************************************!*\
   !*** ./frontend/components/modals/channel_details_modal.jsx ***!
@@ -4817,25 +4428,42 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     _this.starClick = _this.starClick.bind(_assertThisInitialized(_this));
     _this.userClick = _this.userClick.bind(_assertThisInitialized(_this));
     _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
+    _this.toggleHide = _this.toggleHide.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ChannelDetailsModal, [{
+    key: "toggleHide",
+    value: function toggleHide() {
+      var _this2 = this;
+
+      return function (e) {
+        e.stopPropagation();
+
+        _this2.setState({
+          tab: "About",
+          search: ""
+        });
+
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
+      };
+    }
+  }, {
     key: "userClick",
     value: function userClick(userId) {
-      var _this2 = this;
+      var _this3 = this;
 
       return function (e) {
         e.stopPropagation();
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
 
-        _this2.props.showUser(userId);
+        _this3.props.showUser(userId);
       };
     }
   }, {
     key: "starClick",
     value: function starClick(e) {
-      var _this3 = this;
+      var _this4 = this;
 
       var channel = this.props.channel;
       if (channel.dm_channel) this.props.updateDmChannelUser({
@@ -4845,7 +4473,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         starred: !channel.starred,
         channel_id: channel.id
       }).then(function () {
-        return _this3.setState(_this3.state);
+        return _this4.setState(_this4.state);
       });
     }
   }, {
@@ -4869,10 +4497,10 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "leaveChannel",
     value: function leaveChannel() {
-      var _this4 = this;
+      var _this5 = this;
 
       return function (e) {
-        _this4.props.leaveChannel(e);
+        _this5.props.leaveChannel(e);
 
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
       };
@@ -4894,7 +4522,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "channelTabContent",
     value: function channelTabContent() {
-      var _this5 = this;
+      var _this6 = this;
 
       var _this$props = this.props,
           channel = _this$props.channel,
@@ -4976,7 +4604,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             type: "text",
             onChange: function onChange(e) {
-              return _this5.setState({
+              return _this6.setState({
                 search: e.currentTarget.value
               });
             },
@@ -4990,7 +4618,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member",
               key: idx,
-              onClick: _this5.userClick(channel_user.id)
+              onClick: _this6.userClick(channel_user.id)
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member-icon"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -5049,7 +4677,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this7 = this;
 
       var _this$props3 = this.props,
           channel = _this$props3.channel,
@@ -5065,11 +4693,11 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           className: "channel-details-modal hidden"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "part-modal-background",
-          onClick: function onClick() {
-            return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
-          }
+          onClick: this.toggleHide()
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-details"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "modal-header"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "title"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5077,6 +4705,9 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
           src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(otherUser)
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserName"])(otherUser))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "modal-close-button",
+          onClick: this.toggleHide()
+        }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "buttons"
         }, this.star(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-details-button",
@@ -5090,7 +4721,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: this.state.tab == "About" ? "selected" : "",
           onClick: function onClick(e) {
-            return _this6.setState({
+            return _this7.setState({
               tab: "About"
             });
           }
@@ -5099,9 +4730,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         className: "channel-details-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
-        }
+        onClick: this.toggleHide()
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5110,9 +4739,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         className: "title"
       }, "#\xA0", channel.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-close-button",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
-        }
+        onClick: this.toggleHide()
       }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons"
       }, this.star()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5120,14 +4747,15 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "About" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this6.setState({
-            tab: "About"
+          return _this7.setState({
+            tab: "About",
+            search: ""
           });
         }
       }, "About"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "Members" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this6.setState({
+          return _this7.setState({
             tab: "Members"
           });
         }
@@ -6784,6 +6412,192 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
+/***/ "./frontend/components/modals/user_popup_modal.jsx":
+/*!*********************************************************!*\
+  !*** ./frontend/components/modals/user_popup_modal.jsx ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var UserPopupModal = /*#__PURE__*/function (_React$Component) {
+  _inherits(UserPopupModal, _React$Component);
+
+  var _super = _createSuper(UserPopupModal);
+
+  function UserPopupModal(props) {
+    var _this;
+
+    _classCallCheck(this, UserPopupModal);
+
+    _this = _super.call(this, props);
+    _this.openProfile = _this.openProfile.bind(_assertThisInitialized(_this));
+    _this.startChat = _this.startChat.bind(_assertThisInitialized(_this));
+    _this.startCall = _this.startCall.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(UserPopupModal, [{
+    key: "startChat",
+    value: function startChat(userId) {
+      var _this2 = this;
+
+      return function (e) {
+        e.stopPropagation();
+
+        _this2.props.hidePopup();
+
+        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"])({
+          user_1_id: getState().session.user_id,
+          user_2_id: userId,
+          workspace_id: getState().session.workspace_id
+        })).then(function (_ref) {
+          var dmChannelUser = _ref.dmChannelUser;
+          var channel_id = dmChannelUser.channel_id;
+          var workspace_address = _this2.props.match.params.workspace_address;
+
+          _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
+        });
+      };
+    }
+  }, {
+    key: "startCall",
+    value: function startCall(userId) {
+      var _this3 = this;
+
+      return function (e) {
+        e.stopPropagation();
+
+        _this3.props.hidePopup();
+
+        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"])({
+          user_1_id: getState().session.user_id,
+          user_2_id: userId,
+          workspace_id: getState().session.workspace_id
+        })).then(function (_ref2) {
+          var dmChannelUser = _ref2.dmChannelUser;
+          var channel_id = dmChannelUser.channel_id;
+          var workspace_address = _this3.props.match.params.workspace_address;
+
+          _this3.props.startVideoCall(workspace_address, channel_id);
+        });
+      };
+    }
+  }, {
+    key: "openProfile",
+    value: function openProfile(userId) {
+      var _this4 = this;
+
+      return function (e) {
+        e.stopPropagation();
+
+        _this4.props.showUser(userId);
+
+        _this4.props.hidePopup();
+      };
+    }
+  }, {
+    key: "calculatePos",
+    value: function calculatePos() {
+      var popupUserTarget = this.props.popupUserTarget;
+      var viewHeight = $(window).innerHeight();
+      var top = popupUserTarget.offsetTop;
+      if (top > viewHeight - 520) top = viewHeight - 520;
+      var left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + 10;
+      return {
+        top: top,
+        left: left
+      };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          hidePopup = _this$props.hidePopup,
+          user = _this$props.user;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-popup-modal"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "part-modal-background no-background",
+        onClick: function onClick() {
+          hidePopup();
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-popup",
+        style: this.calculatePos()
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-popup-img"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(user)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-popup-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-popup-name"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user, true)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserActivity"])(user)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-popup-title"
+      }, user.what_i_do)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-popup-link",
+        onClick: this.openProfile(user.id)
+      }, "View full profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-popup-section"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "section-title"
+      }, "Local time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "section-content"
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getLocalTime"])(user))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-popup-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button",
+        onClick: this.startChat(user.id)
+      }, "Message"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button",
+        onClick: this.startCall(user.id)
+      }, "Call"))));
+    }
+  }]);
+
+  return UserPopupModal;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(UserPopupModal));
+
+/***/ }),
+
 /***/ "./frontend/components/modals/workspace_dropdown.jsx":
 /*!***********************************************************!*\
   !*** ./frontend/components/modals/workspace_dropdown.jsx ***!
@@ -6955,16 +6769,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _channel_channel_profile_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../channel/channel_profile_sidebar */ "./frontend/components/channel/channel_profile_sidebar.jsx");
 /* harmony import */ var _channel_browser_channels_channel_browser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../channel/browser_channels/channel_browser */ "./frontend/components/channel/browser_channels/channel_browser.jsx");
 /* harmony import */ var _channel_browser_channels_people_browser__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../channel/browser_channels/people_browser */ "./frontend/components/channel/browser_channels/people_browser.jsx");
-/* harmony import */ var _modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modals/browse_channel_modal */ "./frontend/components/modals/browse_channel_modal.jsx");
-/* harmony import */ var _modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modals/browse_dm_channel_modal */ "./frontend/components/modals/browse_dm_channel_modal.jsx");
-/* harmony import */ var _modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../modals/new_channel_modal_container */ "./frontend/components/modals/new_channel_modal_container.jsx");
-/* harmony import */ var _modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modals/invite_user_modal */ "./frontend/components/modals/invite_user_modal.jsx");
-/* harmony import */ var _modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../modals/edit_profile_modal_container */ "./frontend/components/modals/edit_profile_modal_container.jsx");
-/* harmony import */ var _modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modals/sidebar_dropdown */ "./frontend/components/modals/sidebar_dropdown.jsx");
-/* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../modals/profile_dropdown */ "./frontend/components/modals/profile_dropdown.jsx");
-/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modals/new_channel_modal_container */ "./frontend/components/modals/new_channel_modal_container.jsx");
+/* harmony import */ var _modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modals/invite_user_modal */ "./frontend/components/modals/invite_user_modal.jsx");
+/* harmony import */ var _modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../modals/edit_profile_modal_container */ "./frontend/components/modals/edit_profile_modal_container.jsx");
+/* harmony import */ var _modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modals/sidebar_dropdown */ "./frontend/components/modals/sidebar_dropdown.jsx");
+/* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../modals/profile_dropdown */ "./frontend/components/modals/profile_dropdown.jsx");
+/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
+/* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6995,8 +6807,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
  // Modals
-
-
 
 
 
@@ -7072,7 +6882,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
 
 
             if (!_this2.props.user_channel_ids.includes(first_channel)) {
-              dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_16__["joinChannel"])({
+              dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_14__["joinChannel"])({
                 channel_id: first_channel,
                 workspace_id: workspace.id
               })).then(function () {
@@ -7117,7 +6927,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
           //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
 
-          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["JOIN_CALL"] && target_user_id == user.id && !_this3.state.inVideoCall) {
+          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_12__["JOIN_CALL"] && target_user_id == user.id && !_this3.state.inVideoCall) {
             if (user_channel_ids.includes(channel_id)) {
               _this3.setState({
                 incomingCall: data
@@ -7133,7 +6943,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
                 });
               });
             }
-          } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["LEAVE_CALL"]) {
+          } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_12__["LEAVE_CALL"]) {
             // detects if user or caller ends call
             if (from == user.id) _this3.setState({
               inVideoCall: null
@@ -7260,7 +7070,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
             channel_id = callData.channel_id;
 
         _this6.callACChannel.speak({
-          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["REJECT_CALL"],
+          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_12__["REJECT_CALL"],
           from: target_user_id,
           target_user_id: from,
           channel_id: channel_id
@@ -7310,8 +7120,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         loginACChannel: this.loginACChannel,
         channelFlag: this.state.channelFlag,
         showUser: this.showUser,
-        startVideoCall: this.startVideoCall,
-        inVideoCall: this.state.inVideoCall
+        startVideoCall: this.startVideoCall
       });
     }
   }, {
@@ -7351,16 +7160,14 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         workspaceFlag: this.state.workspaceFlag
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel"
-      }, this.renderChannel(), this.renderProfile(), this.renderVideoCallPing()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_12__["default"], {
+      }, this.renderChannel(), this.renderProfile(), this.renderVideoCallPing()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_10__["default"], {
         loginACChannel: this.loginACChannel
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_13__["default"], {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_11__["default"], {
         loginACChannel: this.loginACChannel,
         showUser: function showUser() {
           return _this7.showUser(user_id);
         }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_channel_modal__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_browse_dm_channel_modal__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        workspaceFlag: this.state.workspaceFlag
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_10__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_11__["default"], null)));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));
     }
   }]);
 
@@ -8406,7 +8213,7 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId */
+/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8417,6 +8224,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "workspaceTitle", function() { return workspaceTitle; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "photoUrl", function() { return photoUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserName", function() { return getUserName; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserActivity", function() { return getUserActivity; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLocalTime", function() { return getLocalTime; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "userInSearch", function() { return userInSearch; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "channelUsers", function() { return channelUsers; });
@@ -8465,6 +8273,11 @@ var getUserName = function getUserName(user) {
   if (first) return first;
   if (second) return second;
   if (third) return third;
+}; // Returns user activity symbol classname
+
+var getUserActivity = function getUserActivity(user) {
+  if (user.logged_in) return "fas fa-circle active-circle-dark";
+  return "fas fa-circle inactive-circle";
 }; // Returns user's local time based on their time offset
 
 var getLocalTime = function getLocalTime(user) {

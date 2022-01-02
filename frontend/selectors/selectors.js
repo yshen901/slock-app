@@ -37,6 +37,13 @@ export const getUserName = (user, fullNameFirst=false) => {
   if (third) return third;
 }
 
+// Returns user activity symbol classname
+export const getUserActivity = (user) => {
+  if (user.logged_in)
+    return "fas fa-circle active-circle-dark";
+  return "fas fa-circle inactive-circle";
+}
+
 // Returns user's local time based on their time offset
 export const getLocalTime = (user) => {
   let date = new Date();

@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import { photoUrl } from '../../selectors/selectors';
 
 import ChannelMessageForm from './channel_message_form';
+import UserPopupModal from "../modals/user_popup_modal.jsx";
 
-// #AC
 class ChannelChat extends React.Component {
   constructor(props) {
     super(props);
@@ -12,13 +12,15 @@ class ChannelChat extends React.Component {
     this.state = { 
       messagesList: [],
       messagesData: [],
-      currentDate: (new Date(Date())).toLocaleDateString()
+      currentDate: (new Date(Date())).toLocaleDateString(),
+      popupUserId: 0,
+      popupUserTarget: null
     };
 
     this.bottom = React.createRef();
-
     this.loadMessages = this.loadMessages.bind(this);
     this.receiveACData = this.receiveACData.bind(this);
+    this.toggleUserPopup = this.toggleUserPopup.bind(this);
   }
 
   profileName(user) {
@@ -99,11 +101,11 @@ class ChannelChat extends React.Component {
       messagesList.push(
         <div className='message'>
           <div className="message-user-icon">
-            <img src={photo_url} onClick={() => this.props.showUser(user_id)}/>
+            <img src={photo_url} onClick={this.toggleUserPopup(user_id)}/>
           </div>
           <div className="message-text">
             <div className="message-header">
-              <div className="message-user" onClick={() => this.props.showUser(user_id)}>{username}</div>
+              <div className="message-user" onClick={this.toggleUserPopup(user_id)}>{username}</div>
               <div className="message-time">{created_at}</div>
             </div>
             <div className="message-body">{body}</div>
@@ -194,6 +196,28 @@ class ChannelChat extends React.Component {
     this.messageACChannel.unsubscribe();
   }
 
+  toggleUserPopup(userId) {
+    return (e) => {
+      e.stopPropagation();
+      this.setState({ popupUserId: userId, popupUserTarget: e.currentTarget });
+    };
+  }
+
+  renderUserPopup() {
+    let { users, showUser } = this.props;
+    let { popupUserId, popupUserTarget } = this.state; 
+
+    if (popupUserId)
+      return (
+        <UserPopupModal 
+          user={users[popupUserId]} 
+          popupUserTarget={popupUserTarget} 
+          hidePopup={() => this.setState({popupUserId: 0})}
+          showUser={showUser}
+          startVideoCall={this.props.startVideoCall}/>
+      )
+  }
+
   render() {
     return (
       <div className="chatroom-container">
@@ -206,6 +230,7 @@ class ChannelChat extends React.Component {
           <div ref={this.bottom} />
         </div>
         <ChannelMessageForm messageACChannel={this.messageACChannel} joinChannel={this.props.joinChannel} status={this.props.status}/>
+        { this.renderUserPopup() }
       </div>
     );
   }

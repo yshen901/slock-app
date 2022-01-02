@@ -9,8 +9,6 @@ import ChannelBrowser from "../channel/browser_channels/channel_browser";
 import PeopleBrowser from "../channel/browser_channels/people_browser";
 
 // Modals
-import BrowseChannelModal from '../modals/browse_channel_modal';
-import BrowseDmChannelModal from "../modals/browse_dm_channel_modal";
 import NewChannelModalContainer from '../modals/new_channel_modal_container';
 import InviteUserModal from '../modals/invite_user_modal';
 import EditProfileModalContainer from "../modals/edit_profile_modal_container";
@@ -292,8 +290,7 @@ class Workspace extends React.Component {
                 loginACChannel={this.loginACChannel}
                 channelFlag={this.state.channelFlag}
                 showUser={this.showUser}
-                startVideoCall={this.startVideoCall}
-                inVideoCall={this.state.inVideoCall}/>
+                startVideoCall={this.startVideoCall}/>
       )
   }
 
@@ -328,10 +325,6 @@ class Workspace extends React.Component {
           <SidebarDropdown loginACChannel={this.loginACChannel}/>
           <ProfileDropdown loginACChannel={this.loginACChannel} showUser={() => this.showUser(user_id)}/>
 
-          <BrowseChannelModal />
-          <BrowseDmChannelModal 
-            workspaceFlag={this.state.workspaceFlag}
-          />
           <InviteUserModal />
           <NewChannelModalContainer />
           <EditProfileModalContainer />

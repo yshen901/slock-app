@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { startDmChannel } from "../../actions/dm_channel_actions";
-import { getLocalTime, photoUrl } from '../../selectors/selectors';
+import { getLocalTime, getUserActivity, getUserName, photoUrl } from '../../selectors/selectors';
 import { toggleFocusElements } from '../../util/modal_api_util';
 
 class ProfileSidebar extends React.Component {
@@ -54,12 +54,6 @@ class ProfileSidebar extends React.Component {
     return (
       <div>{name}</div>
     )
-  }
-
-  activity(user) {
-    if (user.logged_in)
-      return (<i className="fas fa-circle active-circle-dark"></i>)
-    return (<i className="fas fa-circle inactive-circle"></i>)
   }
 
   phoneNumber(user) {
@@ -156,8 +150,8 @@ class ProfileSidebar extends React.Component {
           </div>
           <div id="profile-sidebar-overview">
             <div id="profile-sidebar-name">
-              {this.profileName(user)}
-              {this.activity(user)}
+              <div>{getUserName(user, true)}</div>
+              <i className={getUserActivity(user)}></i>
             </div>
             <div id="profile-sidebar-occupation">{user.what_i_do}</div>
           </div>
