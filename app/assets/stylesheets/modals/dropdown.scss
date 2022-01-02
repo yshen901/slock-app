@@ -92,8 +92,20 @@
         font-weight: 900;
       }
       .dropdown-content-bottom {
+        display: flex;
+        align-items: flex-end;
+
         color: #1D1C1DB3;
         font-size: 13px;
+        line-height: 20px;
+
+        div {
+          margin: 3.5px 0 -3.5px 5px;
+        }
+
+        i {
+          font-size: 10px;
+        }
       }
     }
   }

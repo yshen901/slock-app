@@ -30,7 +30,7 @@ aragorn = User.create(email: "aragorn@slock.com", password: "zunera", display_na
 file = File.open("app/assets/images/aragorn.jpg")
 # aragorn.photo.attach({io: file, filename: "aragorn.jpg"})
 
-demo_user = User.create(email: "demoUser@slock.com", password: "demoPassword", display_name: "Demo User", full_name: "Demo User", what_i_do: "Website Tester")
+demo_user = User.create(email: "demoUser@slock.com", password: "demoPassword", display_name: "Demo User", what_i_do: "Website Tester")
 
 my_user = User.create(email: "shen.yuci1@gmail.com", password: "zunera", display_name: "Yuci", full_name: "Yuci Shen", what_i_do: "Software Engineer/Fullstack Developer", phone_number: "4083167173")
 demo_workspace = Workspace.create(address: 'Demo Workspace')

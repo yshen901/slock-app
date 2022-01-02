@@ -10,12 +10,15 @@ class EditProfileModal extends React.Component {
     this.state = {
       imageUrl: "",
       imageFile: null,
-      errors: [],
       full_name: "",
       display_name: "",
       what_i_do: "",
       phone_number: "",
-      timezone_offset: 0
+      timezone_offset: 0,
+      errors: {
+        full_name: "",
+        imageFile: ""
+      }
     };
 
     this.resetState = this.setState.bind(this);
@@ -69,7 +72,13 @@ class EditProfileModal extends React.Component {
   // Special case for phone number where it will insert dashes at the right places
   handleChange(type) {
     return (e) => {
-      if (type != "phone_number")
+      if (type == "full_name") {
+        this.setState({
+          [type]: e.currentTarget.value,
+          errors: Object.assign(this.state.errors, { full_name: e.currentTarget.value ? "" : "Full name can't be left blank!" })
+        });
+      }
+      else if (type != "phone_number")
         this.setState({
           [type]: e.currentTarget.value
         });
@@ -91,9 +100,10 @@ class EditProfileModal extends React.Component {
     // Triggers when a file is done
     reader.onloadend = () => {
       if (file.type === "image/jpeg" || file.type === "image/png") 
-        this.setState({ imageUrl: reader.result, imageFile: file, errors: [] });
-      else
-        this.setState({ errors: ["Invalid file format: profile photos must be jpg or png.", ...this.state.errors]})
+        this.setState({ imageUrl: reader.result, imageFile: file, errors: Object.assign(this.state.errors, {imageFile: ""}) });
+      else {
+        this.setState({ errors: Object.assign(this.state.errors, {imageFile: "Invalid file format: profile photos must be jpg or png."})})
+      }
     };
 
     if (file) 
@@ -110,9 +120,9 @@ class EditProfileModal extends React.Component {
   }
 
   submitButton() {
-    // if (this.state.errors.length != 0)
-    //   return <button className="green-button" disabled onClick={this.handleUpload}>Save</button>
-    // else
+    if (this.state.errors.full_name)
+      return <button className="green-button" disabled onClick={this.handleUpload}>Save</button>
+    else
       return <button className="green-button" onClick={this.handleUpload}>Save</button>
   }
 
@@ -169,7 +179,7 @@ class EditProfileModal extends React.Component {
           { this.submitButton() }
         </div>
         <div className="form-errors">
-          { this.state.errors.map((error, idx) => (
+          { Object.values(this.state.errors).map((error, idx) => (
             <div key={idx}>{error}</div>
           ))}
         </div>

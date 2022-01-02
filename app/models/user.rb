@@ -90,7 +90,7 @@ class User < ApplicationRecord
   end
 
   def ensure_defaults 
-    self.full_name ||= ""
+    self.full_name ||= self.email.split("@")[0]
     self.display_name ||= ""
     self.phone_number ||= ""
     self.what_i_do ||= ""

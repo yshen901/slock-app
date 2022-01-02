@@ -5443,21 +5443,13 @@ function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArra
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -5500,12 +5492,15 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       imageUrl: "",
       imageFile: null,
-      errors: [],
       full_name: "",
       display_name: "",
       what_i_do: "",
       phone_number: "",
-      timezone_offset: 0
+      timezone_offset: 0,
+      errors: {
+        full_name: "",
+        imageFile: ""
+      }
     };
     _this.resetState = _this.setState.bind(_assertThisInitialized(_this));
     _this.readFile = _this.readFile.bind(_assertThisInitialized(_this));
@@ -5584,7 +5579,13 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       return function (e) {
-        if (type != "phone_number") _this3.setState(_defineProperty({}, type, e.currentTarget.value));else {
+        if (type == "full_name") {
+          var _this3$setState;
+
+          _this3.setState((_this3$setState = {}, _defineProperty(_this3$setState, type, e.currentTarget.value), _defineProperty(_this3$setState, "errors", Object.assign(_this3.state.errors, {
+            full_name: e.currentTarget.value ? "" : "Full name can't be left blank!"
+          })), _this3$setState));
+        } else if (type != "phone_number") _this3.setState(_defineProperty({}, type, e.currentTarget.value));else {
           var number = e.currentTarget.value;
           number = number.split("").filter(function (_char) {
             return parseInt(_char);
@@ -5607,10 +5608,16 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         if (file.type === "image/jpeg" || file.type === "image/png") _this4.setState({
           imageUrl: reader.result,
           imageFile: file,
-          errors: []
-        });else _this4.setState({
-          errors: ["Invalid file format: profile photos must be jpg or png."].concat(_toConsumableArray(_this4.state.errors))
-        });
+          errors: Object.assign(_this4.state.errors, {
+            imageFile: ""
+          })
+        });else {
+          _this4.setState({
+            errors: Object.assign(_this4.state.errors, {
+              imageFile: "Invalid file format: profile photos must be jpg or png."
+            })
+          });
+        }
       };
 
       if (file) reader.readAsDataURL(file); // Triggers load
@@ -5627,10 +5634,11 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "submitButton",
     value: function submitButton() {
-      // if (this.state.errors.length != 0)
-      //   return <button className="green-button" disabled onClick={this.handleUpload}>Save</button>
-      // else
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      if (this.state.errors.full_name) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "green-button",
+        disabled: true,
+        onClick: this.handleUpload
+      }, "Save");else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "green-button",
         onClick: this.handleUpload
       }, "Save");
@@ -5710,7 +5718,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         onClick: this.handleCancel
       }, "Cancel"), this.submitButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-errors"
-      }, this.state.errors.map(function (error, idx) {
+      }, Object.values(this.state.errors).map(function (error, idx) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: idx
         }, error);
@@ -6303,7 +6311,11 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
         className: "dropdown-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-content-top"
-      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["getUserName"])(user)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["getUserName"])(user)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-content-bottom"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["getUserActivity"])(user)
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, user.active ? "Active" : "Away")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.toggleButton(function () {
           return updateCurrentUser({

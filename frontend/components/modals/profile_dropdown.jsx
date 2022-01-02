@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 
 import { logout } from '../../actions/session_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
-import { getUserName, photoUrl, workspaceTitle } from '../../selectors/selectors';
+import { getUserActivity, getUserName, photoUrl, workspaceTitle } from '../../selectors/selectors';
 import { hideElements } from '../../util/modal_api_util';
 
 class ProfileDropdown extends React.Component {
@@ -64,6 +64,10 @@ class ProfileDropdown extends React.Component {
             </div>
             <div className="dropdown-content">
               <div className="dropdown-content-top">{getUserName(user)}</div>
+              <div className="dropdown-content-bottom">
+                <i className={getUserActivity(user)}></i>
+                <div>{ user.active ? "Active" : "Away" }</div>
+              </div>
             </div>
           </div>
           <div className="dropdown-item" onClick={this.toggleButton(() => updateCurrentUser({active: !user.active}))}>
