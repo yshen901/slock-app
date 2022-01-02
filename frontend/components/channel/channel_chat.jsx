@@ -21,6 +21,7 @@ class ChannelChat extends React.Component {
     this.loadMessages = this.loadMessages.bind(this);
     this.receiveACData = this.receiveACData.bind(this);
     this.toggleUserPopup = this.toggleUserPopup.bind(this);
+    this.calculatePos = this.calculatePos.bind(this);
   }
 
   profileName(user) {
@@ -205,17 +206,32 @@ class ChannelChat extends React.Component {
 
   renderUserPopup() {
     let { users, showUser } = this.props;
-    let { popupUserId, popupUserTarget } = this.state; 
+    let { popupUserId } = this.state; 
 
     if (popupUserId)
       return (
         <UserPopupModal 
           user={users[popupUserId]} 
-          popupUserTarget={popupUserTarget} 
           hidePopup={() => this.setState({popupUserId: 0})}
           showUser={showUser}
-          startVideoCall={this.props.startVideoCall}/>
+          startVideoCall={this.props.startVideoCall}
+          calculatePos={this.calculatePos}/>
       )
+  }
+
+  calculatePos() {
+    let { popupUserTarget } = this.state;
+    
+    let viewHeight = $(window).innerHeight();
+    let top = popupUserTarget.offsetTop;
+    if (top > viewHeight - 520)
+      top = viewHeight - 520;
+    let left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + 10;
+
+    return {
+      top,
+      left
+    };
   }
 
   render() {

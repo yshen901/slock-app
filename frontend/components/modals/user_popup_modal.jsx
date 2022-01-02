@@ -12,6 +12,14 @@ class UserPopupModal extends React.Component {
     this.startCall = this.startCall.bind(this);
   }
 
+  componentDidMount() {
+    window.addEventListener('resize', this.props.hidePopup);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.props.hidePopup);
+  }
+
   startChat(userId) {
     return e => {     
       e.stopPropagation();
@@ -56,27 +64,12 @@ class UserPopupModal extends React.Component {
     }
   }
 
-  calculatePos() {
-    let { popupUserTarget } = this.props;
-    
-    let viewHeight = $(window).innerHeight();
-    let top = popupUserTarget.offsetTop;
-    if (top > viewHeight - 520)
-      top = viewHeight - 520;
-    let left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + 10;
-
-    return {
-      top,
-      left
-    };
-  }
-
   render() {
-    let { hidePopup, user } = this.props;
+    let { hidePopup, user, calculatePos } = this.props;
     return (
       <div className="user-popup-modal">
         <div className="part-modal-background no-background" onClick={ () => { hidePopup(); } }></div>
-        <div className="user-popup" style={this.calculatePos()}>
+        <div className="user-popup" style={calculatePos()}>
           <div className="user-popup-img">
             <img src={photoUrl(user)}/>
           </div>

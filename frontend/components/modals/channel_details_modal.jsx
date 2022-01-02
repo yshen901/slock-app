@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { DEFAULT_PHOTO_URL, dmChannelUserId, getLocalTime, getUserName, photoUrl, userInSearch } from '../../selectors/selectors';
 import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
+import UserPopupModal from "./user_popup_modal";
 
 class ChannelDetailsModal extends React.Component {
   constructor(props) {
@@ -9,13 +10,16 @@ class ChannelDetailsModal extends React.Component {
 
     this.state = {
       tab: "About",
-      search: ""
+      search: "",
+      popupUserId: 0,
+      popupUserTarget: null
     }
 
     this.starClick = this.starClick.bind(this);
     this.userClick = this.userClick.bind(this);
     this.leaveChannel = this.leaveChannel.bind(this);
     this.toggleHide = this.toggleHide.bind(this);
+    this.calculatePos = this.calculatePos.bind(this);
   }
 
   toggleHide() {
@@ -29,8 +33,7 @@ class ChannelDetailsModal extends React.Component {
   userClick(userId) {
     return (e) => {
       e.stopPropagation();
-      hideElements("channel-details-modal");
-      this.props.showUser(userId);
+      this.setState({ popupUserId: userId, popupUserTarget: e.currentTarget });
     }
   }
 
@@ -81,6 +84,36 @@ class ChannelDetailsModal extends React.Component {
         </div>
        </div>
      )
+  }
+
+  renderUserPopup() {
+    let { users, showUser } = this.props;
+    let { popupUserId } = this.state; 
+
+    if (popupUserId)
+      return (
+        <UserPopupModal 
+          user={users[popupUserId]} 
+          hidePopup={() => this.setState({popupUserId: 0})}
+          showUser={showUser}
+          startVideoCall={this.props.startVideoCall}
+          calculatePos={this.calculatePos}/>
+      )
+  }
+
+  // offsetTop is from its parent, rather than from the top
+  // must add parent offsetTop to make up for this
+  calculatePos() {
+    let { popupUserTarget } = this.state;
+    let viewHeight = $(window).innerHeight();
+    let top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop + popupUserTarget.offsetHeight;
+    if (top > viewHeight - 520)
+      top = viewHeight - 520; 
+
+    return {
+      top,
+      left: "calc(50vw - 290px + 28px)"
+    };
   }
   
   channelTabContent() {
@@ -258,6 +291,7 @@ class ChannelDetailsModal extends React.Component {
             </div>
             { this.channelTabContent() }
           </div>
+          {this.renderUserPopup()}
         </div>
       )
   }

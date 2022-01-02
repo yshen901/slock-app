@@ -2536,6 +2536,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     _this.loadMessages = _this.loadMessages.bind(_assertThisInitialized(_this));
     _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
     _this.toggleUserPopup = _this.toggleUserPopup.bind(_assertThisInitialized(_this));
+    _this.calculatePos = _this.calculatePos.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2746,20 +2747,31 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       var _this$props2 = this.props,
           users = _this$props2.users,
           showUser = _this$props2.showUser;
-      var _this$state = this.state,
-          popupUserId = _this$state.popupUserId,
-          popupUserTarget = _this$state.popupUserTarget;
+      var popupUserId = this.state.popupUserId;
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: users[popupUserId],
-        popupUserTarget: popupUserTarget,
         hidePopup: function hidePopup() {
           return _this4.setState({
             popupUserId: 0
           });
         },
         showUser: showUser,
-        startVideoCall: this.props.startVideoCall
+        startVideoCall: this.props.startVideoCall,
+        calculatePos: this.calculatePos
       });
+    }
+  }, {
+    key: "calculatePos",
+    value: function calculatePos() {
+      var popupUserTarget = this.state.popupUserTarget;
+      var viewHeight = $(window).innerHeight();
+      var top = popupUserTarget.offsetTop;
+      if (top > viewHeight - 520) top = viewHeight - 520;
+      var left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + 10;
+      return {
+        top: top,
+        left: left
+      };
     }
   }, {
     key: "render",
@@ -4383,6 +4395,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
+/* harmony import */ var _user_popup_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user_popup_modal */ "./frontend/components/modals/user_popup_modal.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4410,6 +4423,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelDetailsModal, _React$Component);
 
@@ -4423,12 +4437,15 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       tab: "About",
-      search: ""
+      search: "",
+      popupUserId: 0,
+      popupUserTarget: null
     };
     _this.starClick = _this.starClick.bind(_assertThisInitialized(_this));
     _this.userClick = _this.userClick.bind(_assertThisInitialized(_this));
     _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
     _this.toggleHide = _this.toggleHide.bind(_assertThisInitialized(_this));
+    _this.calculatePos = _this.calculatePos.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -4455,9 +4472,11 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
 
       return function (e) {
         e.stopPropagation();
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
 
-        _this3.props.showUser(userId);
+        _this3.setState({
+          popupUserId: userId,
+          popupUserTarget: e.currentTarget
+        });
       };
     }
   }, {
@@ -4520,14 +4539,49 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }, "Leave Channel"))));
     }
   }, {
-    key: "channelTabContent",
-    value: function channelTabContent() {
+    key: "renderUserPopup",
+    value: function renderUserPopup() {
       var _this6 = this;
 
       var _this$props = this.props,
-          channel = _this$props.channel,
-          channel_users = _this$props.channel_users,
-          current_user_id = _this$props.current_user_id;
+          users = _this$props.users,
+          showUser = _this$props.showUser;
+      var popupUserId = this.state.popupUserId;
+      if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_popup_modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        user: users[popupUserId],
+        hidePopup: function hidePopup() {
+          return _this6.setState({
+            popupUserId: 0
+          });
+        },
+        showUser: showUser,
+        startVideoCall: this.props.startVideoCall,
+        calculatePos: this.calculatePos
+      });
+    } // offsetTop is from its parent, rather than from the top
+    // must add parent offsetTop to make up for this
+
+  }, {
+    key: "calculatePos",
+    value: function calculatePos() {
+      var popupUserTarget = this.state.popupUserTarget;
+      var viewHeight = $(window).innerHeight();
+      var top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop + popupUserTarget.offsetHeight;
+      if (top > viewHeight - 520) top = viewHeight - 520;
+      return {
+        top: top,
+        left: "calc(50vw - 290px + 28px)"
+      };
+    }
+  }, {
+    key: "channelTabContent",
+    value: function channelTabContent() {
+      var _this7 = this;
+
+      var _this$props2 = this.props,
+          channel = _this$props2.channel,
+          channel_users = _this$props2.channel_users,
+          current_user_id = _this$props2.current_user_id;
       var search = this.state.search;
 
       switch (this.state.tab) {
@@ -4604,7 +4658,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             type: "text",
             onChange: function onChange(e) {
-              return _this6.setState({
+              return _this7.setState({
                 search: e.currentTarget.value
               });
             },
@@ -4618,7 +4672,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member",
               key: idx,
-              onClick: _this6.userClick(channel_user.id)
+              onClick: _this7.userClick(channel_user.id)
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member-icon"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -4641,10 +4695,10 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "dmTabContent",
     value: function dmTabContent() {
-      var _this$props2 = this.props,
-          channel = _this$props2.channel,
-          users = _this$props2.users,
-          current_user_id = _this$props2.current_user_id;
+      var _this$props3 = this.props,
+          channel = _this$props3.channel,
+          users = _this$props3.users,
+          current_user_id = _this$props3.current_user_id;
       var otherUser = users[Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["dmChannelUserId"])(channel, current_user_id)];
 
       switch (this.state.tab) {
@@ -4677,14 +4731,14 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this7 = this;
+      var _this8 = this;
 
-      var _this$props3 = this.props,
-          channel = _this$props3.channel,
-          users = _this$props3.users,
-          current_user_id = _this$props3.current_user_id,
-          workspace_address = _this$props3.workspace_address,
-          startVideoCall = _this$props3.startVideoCall;
+      var _this$props4 = this.props,
+          channel = _this$props4.channel,
+          users = _this$props4.users,
+          current_user_id = _this$props4.current_user_id,
+          workspace_address = _this$props4.workspace_address,
+          startVideoCall = _this$props4.startVideoCall;
       if (!channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details-modal hidden"
       });else if (channel.dm_channel) {
@@ -4721,7 +4775,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: this.state.tab == "About" ? "selected" : "",
           onClick: function onClick(e) {
-            return _this7.setState({
+            return _this8.setState({
               tab: "About"
             });
           }
@@ -4747,7 +4801,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "About" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this7.setState({
+          return _this8.setState({
             tab: "About",
             search: ""
           });
@@ -4755,11 +4809,11 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }, "About"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "Members" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this7.setState({
+          return _this8.setState({
             tab: "Members"
           });
         }
-      }, "Members")), this.channelTabContent()));
+      }, "Members")), this.channelTabContent()), this.renderUserPopup());
     }
   }]);
 
@@ -6471,6 +6525,16 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(UserPopupModal, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      window.addEventListener('resize', this.props.hidePopup);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      window.removeEventListener('resize', this.props.hidePopup);
+    }
+  }, {
     key: "startChat",
     value: function startChat(userId) {
       var _this2 = this;
@@ -6530,24 +6594,12 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
-    key: "calculatePos",
-    value: function calculatePos() {
-      var popupUserTarget = this.props.popupUserTarget;
-      var viewHeight = $(window).innerHeight();
-      var top = popupUserTarget.offsetTop;
-      if (top > viewHeight - 520) top = viewHeight - 520;
-      var left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + 10;
-      return {
-        top: top,
-        left: left
-      };
-    }
-  }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,
           hidePopup = _this$props.hidePopup,
-          user = _this$props.user;
+          user = _this$props.user,
+          calculatePos = _this$props.calculatePos;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-popup-modal"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6557,7 +6609,7 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-popup",
-        style: this.calculatePos()
+        style: calculatePos()
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-popup-img"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
