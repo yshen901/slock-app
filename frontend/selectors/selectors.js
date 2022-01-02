@@ -38,9 +38,9 @@ export const getUserName = (user, fullNameFirst=false) => {
 }
 
 // Returns user activity symbol classname
-export const getUserActivity = (user) => {
-  if (user.logged_in)
-    return "fas fa-circle active-circle-dark";
+export const getUserActivity = (user, dark=true) => {
+  if (user.logged_in && user.active)
+    return `fas fa-circle active-circle${dark ? "-dark" : ""}`;
   return "fas fa-circle inactive-circle";
 }
 

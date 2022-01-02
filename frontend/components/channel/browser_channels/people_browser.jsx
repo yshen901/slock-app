@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 import { startDmChannel } from "../../../actions/dm_channel_actions";
-import { getUserName, photoUrl, sortedUsers, userInSearch } from "../../../selectors/selectors";
+import { getUserActivity, getUserName, photoUrl, sortedUsers, userInSearch } from "../../../selectors/selectors";
 import { toggleFocusElements } from "../../../util/modal_api_util";
 
 class PeopleBrowser extends React.Component {
@@ -48,10 +48,6 @@ class PeopleBrowser extends React.Component {
   }
 
   getUserInfo(user) {
-    let icon = <i className="fas fa-circle inactive-circle"></i>
-    if (user.logged_in)
-      icon = <i className="fas fa-circle active-circle-dark"></i>
-
     let profileImage = <div className="browse-modal-user-image">
       <img src={photoUrl(user)}/>
     </div>
@@ -61,7 +57,8 @@ class PeopleBrowser extends React.Component {
         {profileImage}
         <div className="browse-modal-user-info">
           <div className="browse-modal-username">
-            {getUserName(user)} {icon} 
+            {getUserName(user)}
+            <i className={getUserActivity(user)}></i>
           </div>
           <div className="browse-modal-occupation">
             {user.what_i_do}

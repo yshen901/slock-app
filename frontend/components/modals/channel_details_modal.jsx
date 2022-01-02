@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { DEFAULT_PHOTO_URL, dmChannelUserId, getLocalTime, getUserName, photoUrl, userInSearch } from '../../selectors/selectors';
+import { DEFAULT_PHOTO_URL, dmChannelUserId, getLocalTime, getUserActivity, getUserName, photoUrl, userInSearch } from '../../selectors/selectors';
 import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
 import UserPopupModal from "./user_popup_modal";
 
@@ -191,7 +191,7 @@ class ChannelDetailsModal extends React.Component {
                       {getUserName(channel_user)} {channel_user.id == current_user_id ? "(you)" : ""}
                     </div>
                     <div className="member-status">
-                      <i className={channel_user.logged_in ? "fas fa-circle active-circle-dark" : "fas fa-circle inactive-circle"}></i>
+                      <i className={getUserActivity(channel_user)}></i>
                     </div>
                   </div>
                 )

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { photoUrl, workspaceTitle } from '../../selectors/selectors'
+import { getUserActivity, photoUrl, workspaceTitle } from '../../selectors/selectors'
 import { toggleFocusElements } from '../../util/modal_api_util';
 
 class WorkspaceSidebar extends React.Component {
@@ -39,10 +39,6 @@ class WorkspaceSidebar extends React.Component {
     if (ids[0] == user.id) 
       userId = ids[1]
 
-    let icon = <i className="fas fa-circle inactive-circle"></i>
-    if (users[userId].logged_in)
-      icon = <i className="fas fa-circle active-circle-light"></i>
-
     let profileImage = <div className="workspace-sidebar-user-image">
       <img src={photoUrl(users[userId])}/>
     </div>
@@ -51,7 +47,7 @@ class WorkspaceSidebar extends React.Component {
       <div className="dm-channel-info">
         <div className="workspace-sidebar-user-icon">
           {profileImage}
-          {icon}
+          <i className={getUserActivity(user, false)}></i>
         </div>
         <div className="channel-name">
           {users[userId].email}
