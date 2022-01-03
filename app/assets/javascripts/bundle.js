@@ -7529,6 +7529,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.jsx");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+
 
 
 
@@ -7562,6 +7564,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     loadChannel: function loadChannel(channel_id) {
       return dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_4__["loadChannel"])(channel_id));
+    },
+    restartDmChannel: function restartDmChannel(channelInfo) {
+      return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_8__["restartDmChannel"])(channelInfo));
     },
     updateWorkspaceUser: function updateWorkspaceUser(workspace_id, workspace_user) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_7__["updateWorkspaceUser"])(workspace_id, workspace_user));
