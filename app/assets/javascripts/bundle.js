@@ -7324,7 +7324,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "startVideoCall",
     value: function startVideoCall(workspace_address, channel_id) {
-      var windowLink = "".concat(window.location.origin, "/#/workspace/").concat(workspace_address, "/").concat(channel_id, "/video_call");
+      var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
+      var windowLink = "".concat(window.location.origin, "/#/workspace/").concat(workspace_address, "/").concat(channel_id, "/video_call").concat(query);
       var windowName = "Slock call";
       var windowFeatures = "popup, width=640, height=480";
       window.open(windowLink, windowName, windowFeatures);
@@ -7383,7 +7384,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         var workspace_address = _this5.props.match.params.workspace_address;
         var channel_id = callData.channel_id;
 
-        _this5.startVideoCall(workspace_address, channel_id);
+        _this5.startVideoCall(workspace_address, channel_id, "?pickup");
 
         _this5.setState({
           incomingCall: null
@@ -8814,11 +8815,7 @@ var PICKUP_CALL = "PICKUP_CALL"; // Public stun server you can ping to get your 
 
 var ice = {
   iceServers: [{
-    urls: "stun.l.google.com:19302"
-  }, {
-    urls: "turn:52.8.11.126:3478",
-    credential: "slockPass",
-    username: "slock"
+    urls: "stun:stun2.l.google.com:19302"
   }] // iceTransportPolicy: "relay"
 
 }; // Sends data to the calls controller, similar to AJAX
