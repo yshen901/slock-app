@@ -95,9 +95,11 @@
   border-radius: 4px;
 
   .symbol {
-    width: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 30px;
 
     font-size: 18px;
     line-height: 34px;
@@ -117,12 +119,12 @@
   }
 
   .chars-left {
-    width: 22px;
-    padding: 0 9px 0 13px;
+    width: 40px;
+    padding-left: 4px;
 
     font-size: 18px;
     line-height: 34px;
-    text-align: right;
+    text-align: center;
   }
 
   #invite-user-input {

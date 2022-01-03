@@ -64,12 +64,23 @@ class UserPopupModal extends React.Component {
     }
   }
 
+  renderStatus() {
+    let { user } = this.props;
+    if (user.status)
+      return (
+        <div className="user-popup-section">
+            <div className='section-title'>Status</div>
+            <div className='section-content'>{user.status}</div>
+          </div>
+      )
+  }
+
   render() {
     let { hidePopup, user, calculatePos } = this.props;
     return (
       <div className="user-popup-modal">
         <div className="part-modal-background no-background" onClick={ () => { hidePopup(); } }></div>
-        <div className="user-popup" style={calculatePos()}>
+        <div className="user-popup" style={calculatePos(!!user.status)}>
           <div className="user-popup-img">
             <img src={photoUrl(user)}/>
           </div>
@@ -85,6 +96,7 @@ class UserPopupModal extends React.Component {
             <div className='section-title'>Local time</div>
             <div className='section-content'>{getLocalTime(user)}</div>
           </div>
+          { this.renderStatus() }
           <div className="user-popup-buttons">
             <div className="button" onClick={ this.startChat(user.id) }>Message</div>
             <div className="button" onClick={ this.startCall(user.id) }>Call</div>

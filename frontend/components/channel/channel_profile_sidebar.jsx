@@ -122,6 +122,14 @@ class ProfileSidebar extends React.Component {
     else 
       return (
         <div id="profile-sidebar-buttons">
+          <div className="profile-sidebar-button" onClick={toggleFocusElements("edit-profile-status-modal", "edit-profile-status-input")}>
+            <div className="button-icon">
+              <i className='far fa-smile'></i>
+            </div>
+            <div className="button-description">
+              {user.status ? "Edit" : "Set"} status
+            </div>
+          </div>
           <div className="profile-sidebar-button" onClick={toggleFocusElements("edit-profile-modal")}>
             <div className="button-icon">
               <i className='fas fas fa-pen'></i>
@@ -154,6 +162,7 @@ class ProfileSidebar extends React.Component {
               <i className={getUserActivity(user)}></i>
             </div>
             <div id="profile-sidebar-occupation">{user.what_i_do}</div>
+            <div id="profile-sidebar-status">{user.status}</div>
           </div>
           {this.sidebarButtons(user)}
           <div id="profile-sidebar-sections">

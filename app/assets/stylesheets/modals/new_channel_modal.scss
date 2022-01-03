@@ -51,36 +51,92 @@
   padding-bottom: 10px;
 }
 
-#new-channel-form button {
-  width: 80px;
-  height: 35px;
+#new-channel-form {
+  button {
+    width: 80px;
+    height: 35px;
+  
+    margin-top: 15px;
+  
+    background: #007a5a;
+    border: none;
+    border-radius: 5px;
+  
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+  
+    justify-self: end;
+    align-self: flex-end;
+  
+    transition: 0.15s;
+  } 
 
-  margin-top: 15px;
+  button:hover {
+    cursor: pointer;
+    background: #008f69;
+  
+    box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
+  }
 
-  background: #007a5a;
-  border: none;
-  border-radius: 5px;
-
-  color: white;
-  font-weight: bold;
-  font-size: 16px;
-
-  justify-self: end;
-  align-self: flex-end;
-
-  transition: 0.15s;
+  button:disabled {
+    cursor: default;
+    background: gray;
+  
+    box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
+  }
 }
 
-#new-channel-form button:hover {
-  cursor: pointer;
-  background: #008f69;
+#new-channel-form {
+  .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
 
-  box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
-}
+    button {
+      width: 84px;
+      height: 38px;
+    
+      background:white;
+      border: 1px rgb(180, 180, 180) solid;
+      border-radius: 5px;
+    
+      color: black;
+      font-weight: bold;
+      font-size: 14px;
+    
+      margin-top: 5px;
+    
+      justify-self: end;
+      align-self: flex-end;
+    
+      transition: 0.15s;
+    }
+    
+    button:hover {
+      transition: 0.15s;
+      cursor: pointer;
+      background: rgb(245, 245, 245);
+    }
 
-#new-channel-form button:disabled {
-  cursor: default;
-  background: gray;
+    .green-button {
+      background: #007a5a;
+      border: none;
+      color: white;
 
-  box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
+      margin-left: 10px;
+    }
+
+    .green-button:hover {
+      background: #008f69;
+      box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
+    }
+
+    .green-button:disabled {
+      cursor: default;
+      background: gray;
+    
+      box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
+    }
+  }
 }

@@ -18,8 +18,7 @@ class EditChannelTopicModal extends React.Component {
     this.modalForm = this.modalForm.bind(this);
     this.updateField = this.updateField.bind(this);
     this.submitForm = this.submitForm.bind(this);
-    this.button = this.button.bind(this);
-    this.warning = this.warning.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   componentDidUpdate(oldProps) {
@@ -30,6 +29,13 @@ class EditChannelTopicModal extends React.Component {
       if (getState().entities.channels[channel_id])
         this.setState({topic: getState().entities.channels[channel_id].topic})
     }
+  }
+
+  handleCancel(e) {
+    e.stopPropagation();
+    let {channel_id} = this.props.match.params;
+    this.setState({topic: getState().entities.channels[channel_id].topic});
+    hideElements("edit-channel-topic-modal");
   }
 
   button() {
@@ -47,7 +53,7 @@ class EditChannelTopicModal extends React.Component {
   updateField(type) {
     return (e) => {
       if (e.currentTarget.value.length >= 250)
-        this.setState({ [type]: e.currentTarget.value, disabled: true, error: "Topic must be 250 characters or less." })
+        this.setState({ [type]: e.currentTarget.value, disabled: true, error: `(${250 - e.currentTarget.value.length}) Topic must be 250 characters or less.` })
       else
         this.setState({ [type]: e.currentTarget.value, disabled: false, error: "" })
     }
@@ -72,7 +78,7 @@ class EditChannelTopicModal extends React.Component {
       <div id="channel-topic-form" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h1>Edit topic</h1>
-          <div className="modal-close-button" onClick={() => hideElements("edit-channel-topic-modal")}>&#10005;</div>
+          <div className="modal-close-button" onClick={this.handleCancel}>&#10005;</div>
         </div>
         <div className="channel-form-header">
           {this.warning()}
@@ -93,7 +99,7 @@ class EditChannelTopicModal extends React.Component {
   render() {
     return (
       <div className="edit-channel-topic-modal darker hidden">
-        <div className="part-modal-background" onClick={() => hideElements("edit-channel-topic-modal")}></div>
+        <div className="part-modal-background" onClick={this.handleCancel}></div>
         {this.modalForm()}
       </div>
     )

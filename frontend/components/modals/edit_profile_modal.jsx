@@ -63,8 +63,20 @@ class EditProfileModal extends React.Component {
   }
 
   // Resets state and hides modal
-  handleCancel() {
-    this.setState({imageUrl: "", imageFile: null, errors: []});
+  handleCancel(e) {
+    e.stopPropagation();
+    let { full_name, display_name, what_i_do, phone_number, timezone_offset } = this.props.user;
+
+    this.setState({
+      imageUrl: "", 
+      imageFile: null, 
+      errors: [],
+      full_name, 
+      display_name,
+      what_i_do,
+      phone_number,
+      timezone_offset
+    });
     hideElements("edit-profile-modal");
   }
 
@@ -131,7 +143,7 @@ class EditProfileModal extends React.Component {
       <div id="edit-profile-modal-form">
         <div className="modal-header">
           <h1>Edit your profile</h1>
-          <div className="modal-close-button" onClick={() => hideElements("edit-profile-modal")}>&#10005;</div>
+          <div className="modal-close-button" onClick={this.handleCancel}>&#10005;</div>
         </div>
         <div className="form-content">
           <div className="info">
@@ -190,7 +202,7 @@ class EditProfileModal extends React.Component {
   render() {
     return (
       <div className="edit-profile-modal hidden">
-        <div className="part-modal-background" onClick={() => hideElements("edit-profile-modal")}></div>
+        <div className="part-modal-background" onClick={this.handleCancel}></div>
         { this.modalForm() }
       </div>
     );

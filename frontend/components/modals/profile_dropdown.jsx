@@ -2,9 +2,10 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 import { logout } from '../../actions/session_actions';
+import { updateWorkspaceUser } from '../../actions/user_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
 import { getUserActivity, getUserName, photoUrl, workspaceTitle } from '../../selectors/selectors';
-import { hideElements } from '../../util/modal_api_util';
+import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
 
 class ProfileDropdown extends React.Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class ProfileDropdown extends React.Component {
     this.logoutUser = this.logoutUser.bind(this);
     this.logoutWorkspace = this.logoutWorkspace.bind(this);
     this.toggleButton = this.toggleButton.bind(this);
+    this.updateWorkspaceUser = this.updateWorkspaceUser.bind(this);
   }
 
   logoutUser(e) {
@@ -53,8 +55,13 @@ class ProfileDropdown extends React.Component {
     }
   }
 
+  updateWorkspaceUser(workspace_user) {
+    let { workspace_id } = getState().session;
+    dispatch(updateWorkspaceUser(workspace_id, workspace_user));
+  }
+
   render() {
-    let { user, showUser, updateCurrentUser } = this.props;
+    let { user, showUser } = this.props;
     return (
       <div className="dropdown-modal profile hidden" onClick={() => hideElements("dropdown-modal")}>
         <div className="dropdown profile" onClick={e => e.stopPropagation()}>
@@ -70,8 +77,15 @@ class ProfileDropdown extends React.Component {
               </div>
             </div>
           </div>
-          <div className="dropdown-item" onClick={this.toggleButton(() => updateCurrentUser({active: !user.active}))}>
+          <div className="dropdown-input" onClick={this.toggleButton(toggleFocusElements("edit-profile-status-modal", "edit-profile-status-input"))}>
+            <i className="far fa-smile"></i>
+            <div className="input-message">{ user.status.slice(0, 22) }{user.status.length > 23 ? "..." : user.status.slice(22, 23)}</div>
+          </div>
+          <div className="dropdown-item" onClick={this.toggleButton(() => this.updateWorkspaceUser({active: !user.active}))}>
             Set yourself as <strong>{ user.active ? "away" : "active"}</strong>
+          </div>
+          <div className="dropdown-item" onClick={this.toggleButton(() => this.updateWorkspaceUser({paused: !user.paused}))}>
+            { user.paused ? "Pause" : "Unpause"} notifications
           </div>
           <div className="horizontal-divider"></div>
           <div className="dropdown-item" onClick={this.toggleButton(showUser)}>

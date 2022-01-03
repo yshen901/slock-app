@@ -219,13 +219,17 @@ class ChannelChat extends React.Component {
       )
   }
 
-  calculatePos() {
+  calculatePos(hasStatus) {
     let { popupUserTarget } = this.state;
+
+    let minOffset = 520;
+    if (hasStatus)
+      minOffset = 576;
     
     let viewHeight = $(window).innerHeight();
     let top = popupUserTarget.offsetTop;
-    if (top > viewHeight - 520)
-      top = viewHeight - 520;
+    if (top > viewHeight - minOffset)
+      top = viewHeight - minOffset;
     let left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + 10;
 
     return {

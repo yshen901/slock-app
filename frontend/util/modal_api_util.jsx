@@ -35,7 +35,7 @@ export const focus = (id) => {
 // Used to activate modals
 export const toggleFocusElements = (className, id) => {
   return (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     toggleElements(className);
     focus(id);
   };

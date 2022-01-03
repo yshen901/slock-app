@@ -17,8 +17,7 @@ class EditChannelNameModal extends React.Component {
     this.modalForm = this.modalForm.bind(this);
     this.updateField = this.updateField.bind(this);
     this.submitForm = this.submitForm.bind(this);
-    this.button = this.button.bind(this);
-    this.warning = this.warning.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   componentDidUpdate(oldProps) {
@@ -29,6 +28,13 @@ class EditChannelNameModal extends React.Component {
       if (getState().entities.channels[channel_id])
         this.setState({name: getState().entities.channels[channel_id].name})
     }
+  }
+
+  handleCancel(e) {
+    e.stopPropagation();
+    let {channel_id} = this.props.match.params;
+    this.setState({name: getState().entities.channels[channel_id].name});
+    hideElements("edit-channel-name-modal");
   }
 
   button() {
@@ -71,7 +77,7 @@ class EditChannelNameModal extends React.Component {
       <div id="channel-name-form" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h1>Rename this channel</h1>
-          <div className="modal-close-button" onClick={() => hideElements("edit-channel-name-modal")}>&#10005;</div>
+          <div className="modal-close-button" onClick={this.handleCancel}>&#10005;</div>
         </div>
         <br/>
         <div className="channel-form-header">
@@ -97,7 +103,7 @@ class EditChannelNameModal extends React.Component {
   render() {
     return (
       <div className="edit-channel-name-modal darker hidden">
-        <div className="part-modal-background" onClick={() => hideElements("edit-channel-name-modal")}></div>
+        <div className="part-modal-background" onClick={this.handleCancel}></div>
         {this.modalForm()}
       </div>
     )

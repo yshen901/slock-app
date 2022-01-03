@@ -16,6 +16,8 @@
   background-color: #350D36;
 
   #user-photo {
+    position: relative;
+
     width: 28px;
     height: 28px;
     overflow: hidden;
@@ -42,6 +44,23 @@
       cursor: pointer;
 
       opacity: 1;
+    }
+
+    i {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      font-size: 8px;
+
+      padding: 0;
+      opacity: 1;
+
+      background: #350D36;
+
+      border: 2px solid #350D36;
+      border-radius: 6px;
+      box-sizing: border-box;
+
     }
   }
 }

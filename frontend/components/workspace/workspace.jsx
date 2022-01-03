@@ -12,6 +12,7 @@ import PeopleBrowser from "../channel/browser_channels/people_browser";
 import NewChannelModalContainer from '../modals/new_channel_modal_container';
 import InviteUserModal from '../modals/invite_user_modal';
 import EditProfileModalContainer from "../modals/edit_profile_modal_container";
+import EditProfileStatusModal from "../modals/edit_profile_status_modal";
 
 // Dropdowns
 import SidebarDropdown from '../modals/sidebar_dropdown';
@@ -19,7 +20,6 @@ import ProfileDropdown from "../modals/profile_dropdown";
 
 // Utilities and constants
 import { JOIN_CALL, LEAVE_CALL, REJECT_CALL } from '../../util/call_api_util';
-import { hideElements, focus } from '../../util/modal_api_util';
 import { joinChannel } from '../../actions/channel_actions';
 
 class Workspace extends React.Component {
@@ -38,7 +38,6 @@ class Workspace extends React.Component {
 
     this.showUser = this.showUser.bind(this);
     this.hideUser = this.hideUser.bind(this);
-    this.updateCurrentUser = this.updateCurrentUser.bind(this);
 
     this.startVideoCall = this.startVideoCall.bind(this);
     this.pickupCall = this.pickupCall.bind(this);
@@ -303,24 +302,6 @@ class Workspace extends React.Component {
     this.setState({shownUserId: 0});
   }
 
-  // workspace_user contains new active, status, and paused data for the user
-  updateCurrentUser(workspace_user) {
-    let { workspace_id, updateWorkspaceUser } = this.props;
-    updateWorkspaceUser(workspace_id, workspace_user);
-      // .then(
-      //   () => {
-      //     this.loginACChannel.speak({ // announces change through ActionCable
-      //       workspace_data: {
-      //         user: this.props.user,
-      //         logged_in: true,
-      //         user_channel_ids: this.props.user_channel_ids,
-      //         workspace_id: workspace.id,
-      //       }
-      //     })
-      //   }
-      // )
-  }
-
   render() {
     if (!this.state.loaded)
       return(
@@ -345,12 +326,12 @@ class Workspace extends React.Component {
           <ProfileDropdown 
             loginACChannel={this.loginACChannel} 
             showUser={() => this.showUser(user_id)}
-            updateCurrentUser={this.updateCurrentUser}
             user={users[user_id]}/>
 
           <InviteUserModal />
           <NewChannelModalContainer />
           <EditProfileModalContainer />
+          <EditProfileStatusModal />
         </div>
       </div>
     )

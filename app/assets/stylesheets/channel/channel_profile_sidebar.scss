@@ -103,10 +103,16 @@
         }
       }
 
-      #profile-sidebar-occupation {
+      #profile-sidebar-occupation, #profile-sidebar-status {
         font-size: 15px;
         line-height: 18px;
         vertical-align: center;
+      }
+
+      #profile-sidebar-status {
+        padding-top: 3px;
+        font-size: 13px;
+        color: #1D1C1DB3;
       }
     }
 

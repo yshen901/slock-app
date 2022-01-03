@@ -2779,11 +2779,13 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "calculatePos",
-    value: function calculatePos() {
+    value: function calculatePos(hasStatus) {
       var popupUserTarget = this.state.popupUserTarget;
+      var minOffset = 520;
+      if (hasStatus) minOffset = 576;
       var viewHeight = $(window).innerHeight();
       var top = popupUserTarget.offsetTop;
-      if (top > viewHeight - 520) top = viewHeight - 520;
+      if (top > viewHeight - minOffset) top = viewHeight - minOffset;
       var left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + 10;
       return {
         top: top,
@@ -4056,6 +4058,15 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
         id: "profile-sidebar-buttons"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "profile-sidebar-button",
+        onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["toggleFocusElements"])("edit-profile-status-modal", "edit-profile-status-input")
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "far fa-smile"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-description"
+      }, user.status ? "Edit" : "Set", " status")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-sidebar-button",
         onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["toggleFocusElements"])("edit-profile-modal")
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "button-icon"
@@ -4092,7 +4103,9 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
         className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserActivity"])(user)
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-occupation"
-      }, user.what_i_do)), this.sidebarButtons(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, user.what_i_do), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "profile-sidebar-status"
+      }, user.status)), this.sidebarButtons(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-sections"
       }, this.displayName(user), this.email(user), this.phoneNumber(user), this.localTime(user))));
     }
@@ -4954,8 +4967,7 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
     _this.modalForm = _this.modalForm.bind(_assertThisInitialized(_this));
     _this.updateField = _this.updateField.bind(_assertThisInitialized(_this));
     _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
-    _this.button = _this.button.bind(_assertThisInitialized(_this));
-    _this.warning = _this.warning.bind(_assertThisInitialized(_this));
+    _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -4969,6 +4981,16 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
           description: getState().entities.channels[channel_id].description
         });
       }
+    }
+  }, {
+    key: "handleCancel",
+    value: function handleCancel(e) {
+      e.stopPropagation();
+      var channel_id = this.props.match.params.channel_id;
+      this.setState({
+        description: getState().entities.channels[channel_id].description
+      });
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-description-modal");
     }
   }, {
     key: "button",
@@ -4995,7 +5017,7 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
       return function (e) {
         var _this2$setState, _this2$setState2;
 
-        if (e.currentTarget.value.length >= 250) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "Description must be 250 characters or less."), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
+        if (e.currentTarget.value.length >= 250) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "(".concat(250 - e.currentTarget.value.length, ") Description must be 250 characters or less.")), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
       };
     } // submits the information, and updates channel
 
@@ -5031,9 +5053,7 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
         className: "modal-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Edit description"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-close-button",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-description-modal");
-        }
+        onClick: this.handleCancel
       }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-form-header"
       }, this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
@@ -5052,9 +5072,7 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
         className: "edit-channel-description-modal darker hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-description-modal");
-        }
+        onClick: this.handleCancel
       }), this.modalForm());
     }
   }]);
@@ -5129,8 +5147,7 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
     _this.modalForm = _this.modalForm.bind(_assertThisInitialized(_this));
     _this.updateField = _this.updateField.bind(_assertThisInitialized(_this));
     _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
-    _this.button = _this.button.bind(_assertThisInitialized(_this));
-    _this.warning = _this.warning.bind(_assertThisInitialized(_this));
+    _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -5144,6 +5161,16 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
           name: getState().entities.channels[channel_id].name
         });
       }
+    }
+  }, {
+    key: "handleCancel",
+    value: function handleCancel(e) {
+      e.stopPropagation();
+      var channel_id = this.props.match.params.channel_id;
+      this.setState({
+        name: getState().entities.channels[channel_id].name
+      });
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-name-modal");
     }
   }, {
     key: "button",
@@ -5206,9 +5233,7 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
         className: "modal-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Rename this channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-close-button",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-name-modal");
-        }
+        onClick: this.handleCancel
       }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-form-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Channel name"), this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5233,9 +5258,7 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
         className: "edit-channel-name-modal darker hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-name-modal");
-        }
+        onClick: this.handleCancel
       }), this.modalForm());
     }
   }]);
@@ -5311,8 +5334,7 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
     _this.modalForm = _this.modalForm.bind(_assertThisInitialized(_this));
     _this.updateField = _this.updateField.bind(_assertThisInitialized(_this));
     _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
-    _this.button = _this.button.bind(_assertThisInitialized(_this));
-    _this.warning = _this.warning.bind(_assertThisInitialized(_this));
+    _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -5326,6 +5348,16 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
           topic: getState().entities.channels[channel_id].topic
         });
       }
+    }
+  }, {
+    key: "handleCancel",
+    value: function handleCancel(e) {
+      e.stopPropagation();
+      var channel_id = this.props.match.params.channel_id;
+      this.setState({
+        topic: getState().entities.channels[channel_id].topic
+      });
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-topic-modal");
     }
   }, {
     key: "button",
@@ -5352,7 +5384,7 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
       return function (e) {
         var _this2$setState, _this2$setState2;
 
-        if (e.currentTarget.value.length >= 250) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "Topic must be 250 characters or less."), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
+        if (e.currentTarget.value.length >= 250) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "(".concat(250 - e.currentTarget.value.length, ") Topic must be 250 characters or less.")), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
       };
     } // submits the information, and updates channel
 
@@ -5388,9 +5420,7 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
         className: "modal-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Edit topic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-close-button",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-topic-modal");
-        }
+        onClick: this.handleCancel
       }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-form-header"
       }, this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
@@ -5409,9 +5439,7 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
         className: "edit-channel-topic-modal darker hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-topic-modal");
-        }
+        onClick: this.handleCancel
       }), this.modalForm());
     }
   }]);
@@ -5563,11 +5591,23 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
 
   }, {
     key: "handleCancel",
-    value: function handleCancel() {
+    value: function handleCancel(e) {
+      e.stopPropagation();
+      var _this$props$user2 = this.props.user,
+          full_name = _this$props$user2.full_name,
+          display_name = _this$props$user2.display_name,
+          what_i_do = _this$props$user2.what_i_do,
+          phone_number = _this$props$user2.phone_number,
+          timezone_offset = _this$props$user2.timezone_offset;
       this.setState({
         imageUrl: "",
         imageFile: null,
-        errors: []
+        errors: [],
+        full_name: full_name,
+        display_name: display_name,
+        what_i_do: what_i_do,
+        phone_number: phone_number,
+        timezone_offset: timezone_offset
       });
       Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("edit-profile-modal");
     } // Updates the field
@@ -5652,9 +5692,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         className: "modal-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Edit your profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-close-button",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("edit-profile-modal");
-        }
+        onClick: this.handleCancel
       }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5731,9 +5769,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         className: "edit-profile-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
-        onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("edit-profile-modal");
-        }
+        onClick: this.handleCancel
       }), this.modalForm());
     }
   }]);
@@ -5779,6 +5815,174 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_edit_profile_modal__WEBPACK_IMPORTED_MODULE_2__["default"])));
+
+/***/ }),
+
+/***/ "./frontend/components/modals/edit_profile_status_modal.jsx":
+/*!******************************************************************!*\
+  !*** ./frontend/components/modals/edit_profile_status_modal.jsx ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.jsx");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
+  _inherits(EditProfileStatusModal, _React$Component);
+
+  var _super = _createSuper(EditProfileStatusModal);
+
+  function EditProfileStatusModal(props) {
+    var _this;
+
+    _classCallCheck(this, EditProfileStatusModal);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      status: ""
+    };
+    _this.updateField = _this.updateField.bind(_assertThisInitialized(_this));
+    _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
+    _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(EditProfileStatusModal, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var user_id = getState().session.user_id;
+      var user = getState().entities.users[user_id];
+      this.setState({
+        status: user.status
+      });
+    } // updates a field, and either enables or disables the button
+
+  }, {
+    key: "updateField",
+    value: function updateField(e) {
+      e.stopPropagation();
+      this.setState({
+        status: e.currentTarget.value
+      });
+    } // handle cancel
+
+  }, {
+    key: "handleCancel",
+    value: function handleCancel(e) {
+      if (e) e.stopPropagation();
+      var user_id = getState().session.user_id;
+      var user = getState().entities.users[user_id];
+      this.setState({
+        status: user.status
+      });
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("edit-profile-status-modal");
+    }
+  }, {
+    key: "submitForm",
+    value: function submitForm(e) {
+      var _this2 = this;
+
+      e.stopPropagation();
+      var workspace_id = getState().session.workspace_id;
+      dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["updateWorkspaceUser"])(workspace_id, {
+        status: this.state.status
+      })).then(function () {
+        return _this2.handleCancel();
+      });
+    }
+  }, {
+    key: "buttons",
+    value: function buttons() {
+      var submitButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "green-button",
+        onClick: this.submitForm
+      }, "Save");
+      if (this.state.status.length > 100) submitButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        disabled: true
+      }, "Save");
+      var cancelButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: this.handleCancel
+      }, "Cancel");
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-buttons"
+      }, cancelButton, submitButton);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "edit-profile-status-modal hidden"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "part-modal-background",
+        onClick: this.handleCancel
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "new-channel-form",
+        onClick: function onClick(e) {
+          return e.stopPropagation();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Set a status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-close-button",
+        onClick: this.handleCancel
+      }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "new-channel-form-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "orange"
+      }, this.state.status.length > 100 ? "Status must be 100 characters or less." : "")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name-input"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "symbol gray"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "far fa-smile"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        id: "edit-profile-status-input",
+        onChange: this.updateField,
+        placeholder: "What's your status?",
+        value: this.state.status
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "chars-left gray"
+      }, 100 - this.state.status.length)), this.buttons()));
+    }
+  }]);
+
+  return EditProfileStatusModal;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(EditProfileStatusModal));
 
 /***/ }),
 
@@ -6193,9 +6397,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
-/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
-/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.jsx");
+/* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6225,6 +6430,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
   _inherits(ProfileDropdown, _React$Component);
 
@@ -6239,6 +6445,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
     _this.logoutUser = _this.logoutUser.bind(_assertThisInitialized(_this));
     _this.logoutWorkspace = _this.logoutWorkspace.bind(_assertThisInitialized(_this));
     _this.toggleButton = _this.toggleButton.bind(_assertThisInitialized(_this));
+    _this.updateWorkspaceUser = _this.updateWorkspaceUser.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -6262,7 +6469,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
           workspace_id = _getState$session.workspace_id,
           user_id = _getState$session.user_id;
       var user = this.props.user;
-      dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["logoutWorkspace"])(workspace_id)).then(function () {
+      dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_4__["logoutWorkspace"])(workspace_id)).then(function () {
         _this3.props.loginACChannel.speak({
           workspace_data: {
             user: user,
@@ -6280,21 +6487,28 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
     value: function toggleButton(cb) {
       return function (e) {
         e.stopPropagation();
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown-modal");
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__["hideElements"])("dropdown-modal");
         cb();
       };
     }
   }, {
+    key: "updateWorkspaceUser",
+    value: function updateWorkspaceUser(workspace_user) {
+      var workspace_id = getState().session.workspace_id;
+      dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["updateWorkspaceUser"])(workspace_id, workspace_user));
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       var _this$props = this.props,
           user = _this$props.user,
-          showUser = _this$props.showUser,
-          updateCurrentUser = _this$props.updateCurrentUser;
+          showUser = _this$props.showUser;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-modal profile hidden",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__["hideElements"])("dropdown-modal");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__["hideElements"])("dropdown-modal");
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown profile",
@@ -6306,23 +6520,37 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-image-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["photoUrl"])(user)
+        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_5__["photoUrl"])(user)
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-content-top"
-      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["getUserName"])(user)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_5__["getUserName"])(user)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-content-bottom"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["getUserActivity"])(user)
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_5__["getUserActivity"])(user)
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, user.active ? "Active" : "Away")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-input",
+        onClick: this.toggleButton(Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__["toggleFocusElements"])("edit-profile-status-modal", "edit-profile-status-input"))
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "far fa-smile"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "input-message"
+      }, user.status.slice(0, 22), user.status.length > 23 ? "..." : user.status.slice(22, 23))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.toggleButton(function () {
-          return updateCurrentUser({
+          return _this4.updateWorkspaceUser({
             active: !user.active
           });
         })
       }, "Set yourself as ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, user.active ? "away" : "active")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-item",
+        onClick: this.toggleButton(function () {
+          return _this4.updateWorkspaceUser({
+            paused: !user.paused
+          });
+        })
+      }, user.paused ? "Pause" : "Unpause", " notifications"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "horizontal-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
@@ -6332,7 +6560,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.logoutWorkspace
-      }, "Sign out of ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("em", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["workspaceTitle"])(this.props.match.params.workspace_address)))));
+      }, "Sign out of ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("em", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_5__["workspaceTitle"])(this.props.match.params.workspace_address)))));
     }
   }]);
 
@@ -6627,6 +6855,18 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
+    key: "renderStatus",
+    value: function renderStatus() {
+      var user = this.props.user;
+      if (user.status) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-popup-section"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "section-title"
+      }, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "section-content"
+      }, user.status));
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,
@@ -6642,7 +6882,7 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-popup",
-        style: calculatePos()
+        style: calculatePos(!!user.status)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-popup-img"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -6664,7 +6904,7 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
         className: "section-title"
       }, "Local time"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "section-content"
-      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getLocalTime"])(user))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getLocalTime"])(user))), this.renderStatus(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-popup-buttons"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "button",
@@ -6857,10 +7097,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modals/new_channel_modal_container */ "./frontend/components/modals/new_channel_modal_container.jsx");
 /* harmony import */ var _modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modals/invite_user_modal */ "./frontend/components/modals/invite_user_modal.jsx");
 /* harmony import */ var _modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../modals/edit_profile_modal_container */ "./frontend/components/modals/edit_profile_modal_container.jsx");
-/* harmony import */ var _modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modals/sidebar_dropdown */ "./frontend/components/modals/sidebar_dropdown.jsx");
-/* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../modals/profile_dropdown */ "./frontend/components/modals/profile_dropdown.jsx");
-/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
+/* harmony import */ var _modals_edit_profile_status_modal__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modals/edit_profile_status_modal */ "./frontend/components/modals/edit_profile_status_modal.jsx");
+/* harmony import */ var _modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../modals/sidebar_dropdown */ "./frontend/components/modals/sidebar_dropdown.jsx");
+/* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modals/profile_dropdown */ "./frontend/components/modals/profile_dropdown.jsx");
+/* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -6895,11 +7135,11 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
  // Dropdowns
 
 
  // Utilities and constants
-
 
 
 
@@ -6926,7 +7166,6 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     };
     _this.showUser = _this.showUser.bind(_assertThisInitialized(_this));
     _this.hideUser = _this.hideUser.bind(_assertThisInitialized(_this));
-    _this.updateCurrentUser = _this.updateCurrentUser.bind(_assertThisInitialized(_this));
     _this.startVideoCall = _this.startVideoCall.bind(_assertThisInitialized(_this));
     _this.pickupCall = _this.pickupCall.bind(_assertThisInitialized(_this));
     _this.rejectCall = _this.rejectCall.bind(_assertThisInitialized(_this));
@@ -7013,7 +7252,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
           //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
 
-          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_12__["JOIN_CALL"] && target_user_id == user.id && !_this3.state.inVideoCall) {
+          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_13__["JOIN_CALL"] && target_user_id == user.id && !_this3.state.inVideoCall) {
             if (user_channel_ids.includes(channel_id)) {
               _this3.setState({
                 incomingCall: data
@@ -7029,7 +7268,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
                 });
               });
             }
-          } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_12__["LEAVE_CALL"]) {
+          } else if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_13__["LEAVE_CALL"]) {
             // detects if user or caller ends call
             if (from == user.id) _this3.setState({
               inVideoCall: null
@@ -7156,7 +7395,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
             channel_id = callData.channel_id;
 
         _this6.callACChannel.speak({
-          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_12__["REJECT_CALL"],
+          type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_13__["REJECT_CALL"],
           from: target_user_id,
           target_user_id: from,
           channel_id: channel_id
@@ -7222,26 +7461,6 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       this.setState({
         shownUserId: 0
       });
-    } // workspace_user contains new active, status, and paused data for the user
-
-  }, {
-    key: "updateCurrentUser",
-    value: function updateCurrentUser(workspace_user) {
-      var _this$props3 = this.props,
-          workspace_id = _this$props3.workspace_id,
-          updateWorkspaceUser = _this$props3.updateWorkspaceUser;
-      updateWorkspaceUser(workspace_id, workspace_user); // .then(
-      //   () => {
-      //     this.loginACChannel.speak({ // announces change through ActionCable
-      //       workspace_data: {
-      //         user: this.props.user,
-      //         logged_in: true,
-      //         user_channel_ids: this.props.user_channel_ids,
-      //         workspace_id: workspace.id,
-      //       }
-      //     })
-      //   }
-      // )
     }
   }, {
     key: "render",
@@ -7253,9 +7472,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/images/orb.gif"
       }));
-      var _this$props4 = this.props,
-          user_id = _this$props4.user_id,
-          users = _this$props4.users;
+      var _this$props3 = this.props,
+          user_id = _this$props3.user_id,
+          users = _this$props3.users;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_topbar__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -7266,16 +7485,15 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         workspaceFlag: this.state.workspaceFlag
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel"
-      }, this.renderChannel(), this.renderProfile(), this.renderVideoCallPing()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      }, this.renderChannel(), this.renderProfile(), this.renderVideoCallPing()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_11__["default"], {
         loginACChannel: this.loginACChannel
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_11__["default"], {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_12__["default"], {
         loginACChannel: this.loginACChannel,
         showUser: function showUser() {
           return _this7.showUser(user_id);
         },
-        updateCurrentUser: this.updateCurrentUser,
         user: users[user_id]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_9__["default"], null)));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_status_modal__WEBPACK_IMPORTED_MODULE_10__["default"], null)));
     }
   }]);
 
@@ -7739,6 +7957,8 @@ var WorkspaceTopbar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.user),
         onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["toggleFocusElements"])("dropdown-modal profile")
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserActivity"])(this.props.user)
       })));
     }
   }]);
@@ -8874,7 +9094,7 @@ var focus = function focus(id) {
 
 var toggleFocusElements = function toggleFocusElements(className, id) {
   return function (e) {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     toggleElements(className);
     focus(id);
   };
