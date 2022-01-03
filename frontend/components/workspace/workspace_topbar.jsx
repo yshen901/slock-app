@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { getUserActivity, photoUrl } from "../../selectors/selectors";
+import { getUserActivity, getUserPaused, photoUrl } from "../../selectors/selectors";
 import { toggleFocusElements } from "../../util/modal_api_util";
 
 class WorkspaceTopbar extends React.Component {
@@ -9,11 +9,16 @@ class WorkspaceTopbar extends React.Component {
   }
 
   render() {
+    let { user } = this.props;
+
     return (
       <div id="workspace-top-bar">
-        <div id="user-photo">
-          <img src={photoUrl(this.props.user)} onClick={toggleFocusElements("dropdown-modal profile")}/>
-          <i className={getUserActivity(this.props.user)}></i>
+        <div className="user-icon">
+          <div id="user-photo">
+            <img src={photoUrl(user)} onClick={toggleFocusElements("dropdown-modal profile")}/>
+          </div>
+          <div className={getUserPaused(user)}>z</div>
+          <i className={getUserActivity(user)}></i>
         </div>
       </div>
     )

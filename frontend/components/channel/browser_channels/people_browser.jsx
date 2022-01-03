@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 import { startDmChannel } from "../../../actions/dm_channel_actions";
-import { getUserActivity, getUserName, photoUrl, sortedUsers, userInSearch } from "../../../selectors/selectors";
+import { getUserActivity, getUserName, getUserPaused, photoUrl, sortedUsers, userInSearch } from "../../../selectors/selectors";
 import { toggleFocusElements } from "../../../util/modal_api_util";
 
 class PeopleBrowser extends React.Component {
@@ -58,7 +58,10 @@ class PeopleBrowser extends React.Component {
         <div className="browse-modal-user-info">
           <div className="browse-modal-username">
             {getUserName(user)}
-            <i className={getUserActivity(user)}></i>
+            <div className="user-activity-icon">
+              <i className={getUserActivity(user, true, true)}></i>
+              <div className={getUserPaused(user, true, true)}>z</div>
+            </div>
           </div>
           <div className="browse-modal-occupation">
             {user.what_i_do}

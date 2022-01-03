@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { startDmChannel } from "../../actions/dm_channel_actions";
-import { getLocalTime, getUserActivity, getUserName, photoUrl } from '../../selectors/selectors';
+import { getLocalTime, getUserActivity, getUserName, getUserPaused, photoUrl } from '../../selectors/selectors';
 import { toggleFocusElements } from '../../util/modal_api_util';
 
 class ProfileSidebar extends React.Component {
@@ -159,7 +159,8 @@ class ProfileSidebar extends React.Component {
           <div id="profile-sidebar-overview">
             <div id="profile-sidebar-name">
               <div>{getUserName(user, true)}</div>
-              <i className={getUserActivity(user)}></i>
+              <i className={getUserActivity(user, true, true)}></i>
+              <div className={getUserPaused(user, true, true)}>z</div>
             </div>
             <div id="profile-sidebar-occupation">{user.what_i_do}</div>
             <div id="profile-sidebar-status">{user.status}</div>

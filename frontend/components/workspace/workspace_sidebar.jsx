@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getUserActivity, photoUrl, workspaceTitle } from '../../selectors/selectors'
+import { getUserActivity, getUserPaused, photoUrl, workspaceTitle } from '../../selectors/selectors'
 import { toggleFocusElements } from '../../util/modal_api_util';
 
 class WorkspaceSidebar extends React.Component {
@@ -47,7 +47,8 @@ class WorkspaceSidebar extends React.Component {
       <div className="dm-channel-info">
         <div className="workspace-sidebar-user-icon">
           {profileImage}
-          <i className={getUserActivity(user, false)}></i>
+          <i className={getUserActivity(users[userId], false)}></i>
+          <div className={getUserPaused(users[userId], false)}>z</div>
         </div>
         <div className="channel-name">
           {users[userId].email}

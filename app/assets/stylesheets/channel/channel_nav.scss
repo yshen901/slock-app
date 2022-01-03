@@ -51,21 +51,21 @@
       .channel-nav-user-icon {
         position: relative;
         overflow: visible;
-        margin-right: 8px;
+        margin-right: 10px;
   
         .channel-nav-user-image {
           display: flex;
           justify-content: center;
           align-items: center;
   
-          height: 32px;
-          width: 32px;
+          height: 24px;
+          width: 24px;
   
           overflow: hidden;
           border-radius: 4px;
   
           img {
-            height: 32px;
+            height: 24px;
             width: auto;
             object-fit: cover;
           }
@@ -75,12 +75,27 @@
           position: absolute;
           bottom: -3px;
           right: -5px;
-          font-size: 10px;
+
+          font-size: 9px;
   
           background: white;
   
           border: 2px solid white;
           border-radius: 8px;
+          box-sizing: border-box;
+        }
+
+        .user-paused-icon {
+          position: absolute;
+          right: -8px;
+          bottom: 5px;
+          z-index: 1;
+          
+          font-size: 12px;
+          line-height: 7px;
+          font-weight: 900;
+          background-color: white;
+          padding: 0 1px 1.5px 0.5px;
           box-sizing: border-box;
         }
       }
@@ -176,9 +191,6 @@
   padding-right: 8px;
   text-align: center;
 }
-
-
-
 
 #channel-nav .settings-button {
   height: 100%;

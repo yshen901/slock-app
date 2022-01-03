@@ -38,10 +38,21 @@ export const getUserName = (user, fullNameFirst=false) => {
 }
 
 // Returns user activity symbol classname
-export const getUserActivity = (user, dark=true) => {
+export const getUserActivity = (user, darkGreen=true, darkGray=false) => {
   if (user.logged_in && user.active)
-    return `fas fa-circle active-circle${dark ? "-dark" : ""}`;
-  return "fas fa-circle inactive-circle";
+    return `fas fa-circle active-circle${darkGreen ? "-dark" : ""}`;
+  return `fas fa-circle inactive-circle ${darkGray ? "gray" : ""}` ;
+}
+
+// Returns user paused symbol classname
+export const getUserPaused = (user, darkGreen=true, darkGray=false) => {
+  if (user.paused)
+    return "user-paused-icon hidden";
+
+  let color = darkGray ? "gray" : "dark-gray";
+  if (user.logged_in && user.active)
+    color = darkGreen ? "dark-green" : "light-green";
+  return `user-paused-icon ${color}`
 }
 
 // Returns user's local time based on their time offset

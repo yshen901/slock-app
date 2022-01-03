@@ -22,12 +22,10 @@ class ChannelDetailsModal extends React.Component {
     this.calculatePos = this.calculatePos.bind(this);
   }
 
-  toggleHide() {
-    return (e) => {
-      e.stopPropagation();
-      this.setState({tab: "About", search: ""});
-      hideElements("channel-details-modal");
-    };
+  toggleHide(e) {
+    e.stopPropagation();
+    this.setState({tab: "About", search: ""});
+    hideElements("channel-details-modal");
   }
 
   userClick(userId) {
@@ -224,7 +222,7 @@ class ChannelDetailsModal extends React.Component {
                   <i className="far fa-envelope"></i>
                   <div>{otherUser.email}</div>
                 </div>
-                <div className="section-link dm" onClick={this.userClick(current_user_id)}>View full profile</div>
+                <div className="section-link dm" onClick={(e)=> { this.props.showUser(otherUser.id); this.toggleHide(e); }}>View full profile</div>
               </div>
             </div>
           </div>
@@ -247,7 +245,7 @@ class ChannelDetailsModal extends React.Component {
       let otherUser = users[dmChannelUserId(channel, current_user_id)];
       return (
         <div className="channel-details-modal hidden">
-          <div className="part-modal-background" onClick={this.toggleHide()}></div>
+          <div className="part-modal-background" onClick={this.toggleHide}></div>
           <div className="channel-details">
             <div className="modal-header">
               <div className="title">
@@ -256,7 +254,7 @@ class ChannelDetailsModal extends React.Component {
                 </div>
                 <div>{getUserName(otherUser)}</div>
               </div>
-              <div className="modal-close-button" onClick={this.toggleHide()}>&#10005;</div>
+              <div className="modal-close-button" onClick={this.toggleHide}>&#10005;</div>
             </div>
             <div className="buttons">
               {this.star()}
@@ -276,11 +274,11 @@ class ChannelDetailsModal extends React.Component {
     else
       return (
         <div className="channel-details-modal hidden">
-          <div className="part-modal-background" onClick={this.toggleHide()}></div>
+          <div className="part-modal-background" onClick={this.toggleHide}></div>
           <div className="channel-details">
             <div className="modal-header">
               <div className="title">#&nbsp;{channel.name}</div>
-              <div className="modal-close-button" onClick={this.toggleHide()}>&#10005;</div>
+              <div className="modal-close-button" onClick={this.toggleHide}>&#10005;</div>
             </div>
             <div className="buttons">
               {this.star()}

@@ -13,7 +13,7 @@
 
 
 // For user activity circle color
-.active-circle-light {
+.active-circle {
   color: rgb(0, 255, 0);
 }
 
@@ -23,5 +23,13 @@
 
 .inactive-circle {
   color:darkgray;
+}
+
+.activity-icon {
+  position: absolute;
+  height: 12px;
+  width: 12px;
+  bottom: -2px;
+  right: -2px;
 }
 

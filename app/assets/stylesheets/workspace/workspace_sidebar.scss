@@ -237,6 +237,7 @@
         position: absolute;
         bottom: -2px;
         right: -2px;
+
         font-size: 6px;
 
         padding: 0;
@@ -247,7 +248,20 @@
         border: 2px solid #3F0E40;
         border-radius: 6px;
         box-sizing: border-box;
+      }
 
+      .user-paused-icon {
+        position: absolute;
+        right: -4px;
+        bottom: 3px;
+        z-index: 1;
+        
+        font-size: 8px;
+        line-height: 6px;
+        font-weight: 900;
+        background-color: #3F0E40;
+        padding: 0 1px 1.5px 1px;
+        box-sizing: border-box;
       }
     }
   }
@@ -277,6 +291,14 @@
   
   .channel-name, i {
     opacity: 1;
+  }
+
+  .dm-channel-info .workspace-sidebar-user-icon i {
+    border-color: #1164a3;
+  }
+  
+  .dm-channel-info .workspace-sidebar-user-icon .user-paused-icon {
+    background-color: #1164a3;
   }
 }
 

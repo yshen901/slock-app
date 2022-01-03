@@ -1,5 +1,5 @@
 import React from 'react';
-import { dmChannelUserId, getUserActivity, photoUrl } from '../../selectors/selectors';
+import { dmChannelUserId, getUserActivity, getUserPaused, photoUrl } from '../../selectors/selectors';
 import { toggleFocusElements } from '../../util/modal_api_util';
 
 class ChannelNav extends React.Component {
@@ -49,7 +49,8 @@ class ChannelNav extends React.Component {
         <div className="channel-info" onClick={toggleFocusElements("channel-details-modal")}>
           <div className="channel-nav-user-icon">
             {profileImage}
-            <i className={getUserActivity(user)}></i>
+            <i className={getUserActivity(users[userId], true, true)}></i>
+            <div className={getUserPaused(users[userId], true, true)}>z</div>
           </div>
           <div className="channel-name">
             {users[userId].email}

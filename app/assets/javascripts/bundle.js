@@ -2174,9 +2174,13 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         className: "browse-modal-user-info"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-username"
-      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserActivity"])(user)
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-activity-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserActivity"])(user, true, true)
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserPaused"])(user, true, true)
+      }, "z"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-occupation"
       }, user.what_i_do)));
     }
@@ -3738,8 +3742,10 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-nav-user-icon"
         }, profileImage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-          className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["getUserActivity"])(user)
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["getUserActivity"])(users[userId], true, true)
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["getUserPaused"])(users[userId], true, true)
+        }, "z")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-name"
         }, users[userId].email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fa fa-chevron-down"
@@ -4100,8 +4106,10 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-name"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user, true)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserActivity"])(user)
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserActivity"])(user, true, true)
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserPaused"])(user, true, true)
+      }, "z")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-occupation"
       }, user.what_i_do), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-status"
@@ -4477,29 +4485,23 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
 
   _createClass(ChannelDetailsModal, [{
     key: "toggleHide",
-    value: function toggleHide() {
+    value: function toggleHide(e) {
+      e.stopPropagation();
+      this.setState({
+        tab: "About",
+        search: ""
+      });
+      Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
+    }
+  }, {
+    key: "userClick",
+    value: function userClick(userId) {
       var _this2 = this;
 
       return function (e) {
         e.stopPropagation();
 
         _this2.setState({
-          tab: "About",
-          search: ""
-        });
-
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
-      };
-    }
-  }, {
-    key: "userClick",
-    value: function userClick(userId) {
-      var _this3 = this;
-
-      return function (e) {
-        e.stopPropagation();
-
-        _this3.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
         });
@@ -4508,7 +4510,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "starClick",
     value: function starClick(e) {
-      var _this4 = this;
+      var _this3 = this;
 
       var channel = this.props.channel;
       if (channel.dm_channel) this.props.updateDmChannelUser({
@@ -4518,7 +4520,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         starred: !channel.starred,
         channel_id: channel.id
       }).then(function () {
-        return _this4.setState(_this4.state);
+        return _this3.setState(_this3.state);
       });
     }
   }, {
@@ -4542,10 +4544,10 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "leaveChannel",
     value: function leaveChannel() {
-      var _this5 = this;
+      var _this4 = this;
 
       return function (e) {
-        _this5.props.leaveChannel(e);
+        _this4.props.leaveChannel(e);
 
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
       };
@@ -4567,7 +4569,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderUserPopup",
     value: function renderUserPopup() {
-      var _this6 = this;
+      var _this5 = this;
 
       var _this$props = this.props,
           users = _this$props.users,
@@ -4576,7 +4578,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_popup_modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: users[popupUserId],
         hidePopup: function hidePopup() {
-          return _this6.setState({
+          return _this5.setState({
             popupUserId: 0
           });
         },
@@ -4602,7 +4604,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "channelTabContent",
     value: function channelTabContent() {
-      var _this7 = this;
+      var _this6 = this;
 
       var _this$props2 = this.props,
           channel = _this$props2.channel,
@@ -4684,7 +4686,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             type: "text",
             onChange: function onChange(e) {
-              return _this7.setState({
+              return _this6.setState({
                 search: e.currentTarget.value
               });
             },
@@ -4698,7 +4700,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member",
               key: idx,
-              onClick: _this7.userClick(channel_user.id)
+              onClick: _this6.userClick(channel_user.id)
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "member-icon"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -4721,6 +4723,8 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "dmTabContent",
     value: function dmTabContent() {
+      var _this7 = this;
+
       var _this$props3 = this.props,
           channel = _this$props3.channel,
           users = _this$props3.users,
@@ -4745,7 +4749,11 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             className: "far fa-envelope"
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, otherUser.email)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "section-link dm",
-            onClick: this.userClick(current_user_id)
+            onClick: function onClick(e) {
+              _this7.props.showUser(otherUser.id);
+
+              _this7.toggleHide(e);
+            }
           }, "View full profile"))));
 
         default:
@@ -4773,7 +4781,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           className: "channel-details-modal hidden"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "part-modal-background",
-          onClick: this.toggleHide()
+          onClick: this.toggleHide
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-details"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4786,7 +4794,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(otherUser)
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserName"])(otherUser))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "modal-close-button",
-          onClick: this.toggleHide()
+          onClick: this.toggleHide
         }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "buttons"
         }, this.star(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4810,7 +4818,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         className: "channel-details-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
-        onClick: this.toggleHide()
+        onClick: this.toggleHide
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4819,7 +4827,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         className: "title"
       }, "#\xA0", channel.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-close-button",
-        onClick: this.toggleHide()
+        onClick: this.toggleHide
       }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "buttons"
       }, this.star()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -7672,8 +7680,10 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "workspace-sidebar-user-icon"
       }, profileImage, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserActivity"])(user, false)
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserActivity"])(users[userId], false)
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserPaused"])(users[userId], false)
+      }, "z")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-name"
       }, users[userId].email));
     }
@@ -7950,15 +7960,20 @@ var WorkspaceTopbar = /*#__PURE__*/function (_React$Component) {
   _createClass(WorkspaceTopbar, [{
     key: "render",
     value: function render() {
+      var user = this.props.user;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-top-bar"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "user-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "user-photo"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.user),
+        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(user),
         onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["toggleFocusElements"])("dropdown-modal profile")
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserActivity"])(this.props.user)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserPaused"])(user)
+      }, "z"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserActivity"])(user)
       })));
     }
   }]);
@@ -8557,7 +8572,7 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId */
+/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getUserPaused, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -8569,6 +8584,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "photoUrl", function() { return photoUrl; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserName", function() { return getUserName; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserActivity", function() { return getUserActivity; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUserPaused", function() { return getUserPaused; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getLocalTime", function() { return getLocalTime; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "userInSearch", function() { return userInSearch; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "channelUsers", function() { return channelUsers; });
@@ -8620,9 +8636,19 @@ var getUserName = function getUserName(user) {
 }; // Returns user activity symbol classname
 
 var getUserActivity = function getUserActivity(user) {
-  var dark = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-  if (user.logged_in && user.active) return "fas fa-circle active-circle".concat(dark ? "-dark" : "");
-  return "fas fa-circle inactive-circle";
+  var darkGreen = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var darkGray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  if (user.logged_in && user.active) return "fas fa-circle active-circle".concat(darkGreen ? "-dark" : "");
+  return "fas fa-circle inactive-circle ".concat(darkGray ? "gray" : "");
+}; // Returns user paused symbol classname
+
+var getUserPaused = function getUserPaused(user) {
+  var darkGreen = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+  var darkGray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  if (user.paused) return "user-paused-icon hidden";
+  var color = darkGray ? "gray" : "dark-gray";
+  if (user.logged_in && user.active) color = darkGreen ? "dark-green" : "light-green";
+  return "user-paused-icon ".concat(color);
 }; // Returns user's local time based on their time offset
 
 var getLocalTime = function getLocalTime(user) {

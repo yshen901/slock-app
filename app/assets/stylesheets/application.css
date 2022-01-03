@@ -28,12 +28,18 @@ em { font-style: italic }
 .no-left-border { border-left: none }
 .no-right-border { border-right: none }
 
-.magenta { color: #e01e5a }
 .red { color: red }
-.green { color: green }
-.blue { color: rgb(33, 33, 245) }
+.magenta { color: #e01e5a }
 .pink { color: rgb(255, 70, 255) }
 .orange { color: rgb(241, 157, 0) }
+
+.green { color: green }
+.dark-green { color: rgb(48,162,76) }
+.light-green { color: rgb(0, 255, 0) }
+
+.blue { color: rgb(33, 33, 245) }
+
+.dark-gray { color: darkgray }
 .gray { color: #1d1c1db3}
 
 .bold-900 { font-weight: 900 }
