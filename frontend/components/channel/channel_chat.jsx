@@ -194,7 +194,7 @@ class ChannelChat extends React.Component {
   }
 
   componentWillUnmount() {
-    this.messageACChannel.unsubscribe();
+    if (this.messageACChannel) this.messageACChannel.unsubscribe();
   }
 
   toggleUserPopup(userId) {

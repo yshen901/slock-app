@@ -257,8 +257,8 @@ class Workspace extends React.Component {
   }
 
   componentWillUnmount() {
-    this.loginACChannel.unsubscribe();
-    this.callACChannel.unsubscribe();
+    if (this.loginACChannel) this.loginACChannel.unsubscribe();
+    if (this.callACChannel) this.callACChannel.unsubscribe();
   }
 
   // handles profile sidebar of channel

@@ -2744,7 +2744,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this.messageACChannel.unsubscribe();
+      if (this.messageACChannel) this.messageACChannel.unsubscribe();
     }
   }, {
     key: "toggleUserPopup",
@@ -6558,7 +6558,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
             paused: !user.paused
           });
         })
-      }, user.paused ? "Pause" : "Unpause", " notifications"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, user.paused ? "Unpause" : "Pause", " notifications"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "horizontal-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
@@ -6665,7 +6665,7 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["logoutWorkspace"])(workspace_id)).then(function () {
         _this3.props.loginACChannel.speak({
           workspace_data: {
-            user: getState().users[user_id],
+            user: user_id,
             logged_in: false,
             workspace_id: workspace_id
           }
@@ -7428,8 +7428,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this.loginACChannel.unsubscribe();
-      this.callACChannel.unsubscribe();
+      if (this.loginACChannel) this.loginACChannel.unsubscribe();
+      if (this.callACChannel) this.callACChannel.unsubscribe();
     } // handles profile sidebar of channel
 
   }, {
@@ -8645,7 +8645,7 @@ var getUserActivity = function getUserActivity(user) {
 var getUserPaused = function getUserPaused(user) {
   var darkGreen = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
   var darkGray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  if (user.paused) return "user-paused-icon hidden";
+  if (!user.paused) return "user-paused-icon hidden";
   var color = darkGray ? "gray" : "dark-gray";
   if (user.logged_in && user.active) color = darkGreen ? "dark-green" : "light-green";
   return "user-paused-icon ".concat(color);

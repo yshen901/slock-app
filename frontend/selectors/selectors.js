@@ -46,7 +46,7 @@ export const getUserActivity = (user, darkGreen=true, darkGray=false) => {
 
 // Returns user paused symbol classname
 export const getUserPaused = (user, darkGreen=true, darkGray=false) => {
-  if (user.paused)
+  if (!user.paused)
     return "user-paused-icon hidden";
 
   let color = darkGray ? "gray" : "dark-gray";

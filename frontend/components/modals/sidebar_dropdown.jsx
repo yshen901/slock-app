@@ -35,7 +35,7 @@ class SidebarDropdown extends React.Component {
         this.props.loginACChannel.speak(
           {
             workspace_data: {
-              user: getState().users[user_id],
+              user: user_id,
               logged_in: false,
               workspace_id
             }

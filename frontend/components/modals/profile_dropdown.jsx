@@ -85,7 +85,7 @@ class ProfileDropdown extends React.Component {
             Set yourself as <strong>{ user.active ? "away" : "active"}</strong>
           </div>
           <div className="dropdown-item" onClick={this.toggleButton(() => this.updateWorkspaceUser({paused: !user.paused}))}>
-            { user.paused ? "Pause" : "Unpause"} notifications
+            { user.paused ? "Unpause" : "Pause"} notifications
           </div>
           <div className="horizontal-divider"></div>
           <div className="dropdown-item" onClick={this.toggleButton(showUser)}>
