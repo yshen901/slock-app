@@ -48,6 +48,7 @@ class Channel extends React.Component {
     e.stopPropagation();
 
     let { channel, channel_id, user_id } = this.props;
+    let { workspace_address } = this.props.match.params;
 
     if (!channel.dm_channel) {
       if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
@@ -63,7 +64,8 @@ class Channel extends React.Component {
                   }
                 }
               );
-              // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
+
+              this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
               this.setState({ canJoin: true, canLeave: false });
             },
             null
@@ -79,7 +81,7 @@ class Channel extends React.Component {
         .then(
           () => {
             () => {
-              // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
+              this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
               this.setState({ canJoin: true, canLeave: false });
             },
             null
@@ -142,7 +144,6 @@ class Channel extends React.Component {
     return (
       <div id="channel-main">
         <ChannelNavContainer 
-          leaveChannel={this.leaveChannel}
           status={this.state}
           startVideoCall={this.props.startVideoCall}
           inVideoCall={this.props.inVideoCall}/>

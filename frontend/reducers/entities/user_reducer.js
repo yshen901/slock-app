@@ -7,7 +7,6 @@ const UserReducer = (state = { }, action) => {
   let nextState = Object.assign({}, state);
 
   switch (action.type) {
-    // case REMOVE_WORKSPACE: TODO: CLEAR ALL BUT THE CURRENT USER
     case LOGOUT:
       return {};
     case LOAD_WORKSPACE:

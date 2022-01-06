@@ -2366,6 +2366,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           channel = _this$props.channel,
           channel_id = _this$props.channel_id,
           user_id = _this$props.user_id;
+      var workspace_address = this.props.match.params.workspace_address;
 
       if (!channel.dm_channel) {
         if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
@@ -2376,8 +2377,9 @@ var Channel = /*#__PURE__*/function (_React$Component) {
                 user_id: user_id,
                 channel_id: channel_id
               }
-            }); // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
+            });
 
+            _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(_this2.props.generalChannelId));
 
             _this2.setState({
               canJoin: true,
@@ -2393,7 +2395,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         };
         dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_6__["endDmChannel"])(channelInfo)).then(function () {
           (function () {
-            // this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
+            _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(_this2.props.generalChannelId));
+
             _this2.setState({
               canJoin: true,
               canLeave: false
@@ -2467,7 +2470,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel-main"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_nav_container__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        leaveChannel: this.leaveChannel,
         status: this.state,
         startVideoCall: this.props.startVideoCall,
         inVideoCall: this.props.inVideoCall
@@ -6742,7 +6744,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       var _this$props = this.props,
           user = _this$props.user,
           showUser = _this$props.showUser;
-      var userStatus = user.status ? user.status.slice(0, 22) + user.status.length > 23 ? "..." : user.status.slice(22, 23) : "Set your status";
+      var userStatus = user.status ? user.status.slice(0, 22) + (user.status.length > 23 ? "..." : user.status.slice(22, 23)) : "Set your status";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-modal profile hidden",
         onClick: function onClick() {
@@ -7429,9 +7431,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           this.props.getWorkspace(workspace_address).then(function (_ref) {
             var channels = _ref.channels,
                 workspace = _ref.workspace;
-            var first_channel = Object.keys(channels)[0]; // goes to first channel if url is invalid
+            _this2.first_channel = Object.keys(channels)[0]; // goes to first channel if url is invalid
 
-            if (channel_id != "channel-browser" && channel_id != "people-browser" && channels[channel_id] === undefined) _this2.props.history.replace("/workspace/".concat(workspace_address, "/").concat(first_channel));
+            if (channel_id != "channel-browser" && channel_id != "people-browser" && channels[channel_id] === undefined) _this2.props.history.replace("/workspace/".concat(workspace_address, "/").concat(_this2.first_channel));
 
             _this2.loginACChannel.speak({
               // announces login through ActionCable
@@ -7444,9 +7446,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
             }); // For new users that aren't logged into the general channel, log them in 
 
 
-            if (!_this2.props.user_channel_ids.includes(first_channel)) {
+            if (!_this2.props.user_channel_ids.includes(_this2.first_channel)) {
               dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_14__["joinChannel"])({
-                channel_id: first_channel,
+                channel_id: _this2.first_channel,
                 workspace_id: workspace.id
               })).then(function () {
                 _this2.loginACChannel.speak({
@@ -7555,7 +7557,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     key: "startVideoCall",
     value: function startVideoCall(workspace_address, channel_id) {
       var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
-      var windowLink = "".concat(window.location.origin, "/#/workspace/").concat(workspace_address, "/").concat(channel_id, "/video_call").concat(query);
+      var windowLink = "".concat(window.location.ofrigin, "/#/workspace/").concat(workspace_address, "/").concat(channel_id, "/video_call").concat(query);
       var windowName = "Slock call";
       var windowFeatures = "popup, width=640, height=480";
       window.open(windowLink, windowName, windowFeatures);
@@ -7684,7 +7686,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         loginACChannel: this.loginACChannel,
         channelFlag: this.state.channelFlag,
         showUser: this.showUser,
-        startVideoCall: this.startVideoCall
+        startVideoCall: this.startVideoCall,
+        generalChannelId: this.first_channel
       });
     }
   }, {
@@ -8484,7 +8487,6 @@ var UserReducer = function UserReducer() {
   var nextState = Object.assign({}, state);
 
   switch (action.type) {
-    // case REMOVE_WORKSPACE: TODO: CLEAR ALL BUT THE CURRENT USER
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
       return {};
 

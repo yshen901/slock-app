@@ -62,7 +62,7 @@ class ProfileDropdown extends React.Component {
 
   render() {
     let { user, showUser } = this.props;
-    let userStatus = user.status ? user.status.slice(0, 22) + user.status.length > 23 ? "..." : user.status.slice(22, 23) : "Set your status";
+    let userStatus = user.status ? user.status.slice(0, 22) + (user.status.length > 23 ? "..." : user.status.slice(22, 23)) : "Set your status";
 
     return (
       <div className="dropdown-modal profile hidden" onClick={() => hideElements("dropdown-modal")}>

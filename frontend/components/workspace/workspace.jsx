@@ -58,9 +58,9 @@ class Workspace extends React.Component {
         this.props.getWorkspace(workspace_address) 
           .then(
             ({channels, workspace}) => {
-              let first_channel = Object.keys(channels)[0];  // goes to first channel if url is invalid
+              this.first_channel = Object.keys(channels)[0];  // goes to first channel if url is invalid
               if (channel_id != "channel-browser" && channel_id != "people-browser" && channels[channel_id] === undefined)
-                this.props.history.replace(`/workspace/${workspace_address}/${first_channel}`)
+                this.props.history.replace(`/workspace/${workspace_address}/${this.first_channel}`)
 
               this.loginACChannel.speak({ // announces login through ActionCable
                 workspace_data: {
@@ -72,8 +72,8 @@ class Workspace extends React.Component {
               })
 
               // For new users that aren't logged into the general channel, log them in 
-              if (!this.props.user_channel_ids.includes(first_channel)) {
-                dispatch(joinChannel({channel_id: first_channel, workspace_id: workspace.id}))
+              if (!this.props.user_channel_ids.includes(this.first_channel)) {
+                dispatch(joinChannel({channel_id: this.first_channel, workspace_id: workspace.id}))
                 .then(
                   () => {
                     this.loginACChannel.speak(
@@ -172,7 +172,7 @@ class Workspace extends React.Component {
 
   // Creates a popup of a video call
   startVideoCall(workspace_address, channel_id, query="") {
-    let windowLink = `${window.location.origin}/#/workspace/${workspace_address}/${channel_id}/video_call${query}`;
+    let windowLink = `${window.location.ofrigin}/#/workspace/${workspace_address}/${channel_id}/video_call${query}`;
 
     let windowName = "Slock call";
     let windowFeatures = "popup, width=640, height=480";
@@ -290,7 +290,8 @@ class Workspace extends React.Component {
                 loginACChannel={this.loginACChannel}
                 channelFlag={this.state.channelFlag}
                 showUser={this.showUser}
-                startVideoCall={this.startVideoCall}/>
+                startVideoCall={this.startVideoCall}
+                generalChannelId={this.first_channel}/>
       )
   }
 
