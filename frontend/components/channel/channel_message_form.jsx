@@ -7,11 +7,12 @@ class ChannelMessageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
-      body: "",
-      canJoin: props.status.canJoin
+      canJoin: props.status.canJoin,
     };
 
+    this.format = this.format.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.goToChannel = this.goToChannel.bind(this);
   }
 
@@ -31,22 +32,22 @@ class ChannelMessageForm extends React.Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault();
-    if (this.state.body !== "") {
+    debugger;
+    if (e.currentTarget.textContent.length != 0) {
       let { users } = getState().entities;
       let { user_id } = getState().session;
 
       this.props.messageACChannel.speak(
         {
           message: { 
-            body: this.state.body,
+            body: e.currentTarget.innerHTML,
             user_id: getState().session.user_id,
             channel_id: getState().session.channel_id,
             created_at: new Date().toLocaleTimeString(),
           }
         }
       );
-      this.setState({ body: "" });
+      e.currentTarget.innerHTML = "";
     }
   }
 
@@ -58,6 +59,21 @@ class ChannelMessageForm extends React.Component {
     if (ids[0] == currentUserId)
       return users[ids[1]].email
     return users[ids[0]].email
+  }
+
+  format(command, value) {
+    return e => {
+      e.preventDefault();
+      let success = document.execCommand(command, false, value);
+      console.log(success);
+    }
+  }
+
+  handleKeyPress(e) {
+    if (!e.shiftKey && e.key == "Enter") {
+      e.preventDefault();
+      this.handleSubmit(e);
+    }
   }
 
   render() {
@@ -90,15 +106,37 @@ class ChannelMessageForm extends React.Component {
     }
     else
       return (
-        <form onSubmit={this.handleSubmit.bind(this)}>
-          <input className="chat-input" autoFocus
-            type="text"
-            value={this.state.body}
-            onChange={this.update("body")}
-            placeholder="Type message here"
-          />
-          <input type="submit" value=""/>
-        </form>
+        // <form onSubmit={this.handleSubmit.bind(this)}>
+        //   <input className="chat-input" autoFocus
+        //     type="text"
+        //     value={`<strong>${this.state.body}</strong>`}
+        //     onChange={this.update("body")}
+        //     placeholder="Type message here"
+        //   />
+        //   <input type="submit" value=""/>
+        // </form>
+        <div className="message-box">
+          <div className="message-form">
+            <div className="chat-toolbar">
+              <div className="toolbar-button fa fa-bold fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('bold')}></div>
+              <div className="toolbar-button fa fa-italic fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('italic')}></div>
+              <div className="toolbar-button fa fa-list fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('strikeThrough')}></div>
+            </div>
+            <div className="chat-input" contentEditable onKeyPress={this.handleKeyPress}>
+            </div>
+            <div className="chat-footer">
+              <div className="toolbar-button"></div>
+              <div className="toolbar-divider"></div>
+              <div className="toolbar-button"></div>
+              <div className="toolbar-button"></div>
+            </div>
+          </div>
+          <div className="message-footer">
+            <div>
+              <b>Shift + Return</b> to add a new line.
+            </div>
+          </div>
+        </div>
       )
   }
 }

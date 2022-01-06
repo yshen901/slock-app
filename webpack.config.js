@@ -20,12 +20,21 @@ module.exports = {
           loader: 'babel-loader',
           query: {
             presets: ['@babel/env', '@babel/react']
-          }
+          },
         },
       },
       {
         test: /\.jpeg?$/,
         use: 'url-loader'
+      },
+      {
+        test: /\.css$/,
+        use: {
+          loader: 'css-loader',
+          options: {
+            url: false
+          }
+        }
       }
     ]
   },

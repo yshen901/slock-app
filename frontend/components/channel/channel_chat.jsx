@@ -94,7 +94,7 @@ class ChannelChat extends React.Component {
         <div className='message'>
           <div className="message-time-tag">{created_at}</div>
           <div className="message-text">
-            <div className="message-body">{body}</div>
+            <div className="message-body">{[body]}</div>
           </div>
         </div>
       )
