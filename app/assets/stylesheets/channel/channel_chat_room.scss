@@ -1,11 +1,11 @@
 .message-list {
   width: 100%;
-  flex: 1;
+  // flex: 1;
   
   overflow-x: hidden;
   overflow-y: auto;
 
-  /* display: flex; TODO: WHY DOESN'T SCROLLBAR WORK WITH FLEXBOX HERE*/ 
+  // display: flex; //TODO: WHY DOESN'T SCROLLBAR WORK WITH FLEXBOX HERE*/ 
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
@@ -149,6 +149,7 @@
   display: flex;
   flex-direction: column;
   padding: 0 20px;
+  flex: none;
 
   margin-top: 12px;
 

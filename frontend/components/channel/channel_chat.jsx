@@ -241,6 +241,7 @@ class ChannelChat extends React.Component {
   render() {
     return (
       <div className="chatroom-container">
+        <div className="message-filler"></div>
         <div className="message-list">
           {this.state.messagesList.map((item, idx) => 
             <div key={idx}>
