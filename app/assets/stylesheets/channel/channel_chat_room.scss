@@ -15,6 +15,23 @@
   // FOR RICHTEXT MESSAGE EDITOR
   b { font-weight: 700 }
   i { font-style: italic }
+  ul { 
+    list-style-position: inside;
+    list-style-type: disc;
+  }
+  ol { 
+    list-style-position: inside;
+    list-style-type: decimal;
+    li::before {
+      content: "";
+      padding-left: 5px;
+    }
+  }
+  ol, ul {
+    li {
+      line-height: 22px;
+    }
+  }
 }
 
 .chatroom-container {
@@ -155,6 +172,16 @@
       // FOR RICHTEXT MESSAGE EDITOR
       b { font-weight: 700 }
       i { font-style: italic }
+      ul { 
+        list-style: square inside;
+        list-style-type: circle;
+        padding-left: 20px;
+      }
+      ol { 
+        list-style: square inside;
+        list-style-type: decimal;
+        padding-left: 20px;
+      }
     }
 
     #chat-input:focus {

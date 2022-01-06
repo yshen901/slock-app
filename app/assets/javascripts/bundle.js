@@ -3772,6 +3772,22 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick() {
           return _this3.toggleLinkForm(true);
         }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-divider"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button fa fa-list fa-fw",
+        "aria-hidden": "true",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format('insertunorderedlist')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button fa fa-list-ol fa-fw",
+        "aria-hidden": "true",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format('insertorderedlist')
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-input",
         contentEditable: true,

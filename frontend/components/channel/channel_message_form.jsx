@@ -188,6 +188,9 @@ class ChannelMessageForm extends React.Component {
               <div className="toolbar-button fa fa-strikethrough fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('strikeThrough')}></div>
               <div className="toolbar-divider"></div>
               <div className="toolbar-button fa fa-link fa-fw" aria-hidden="true" onClick={() => this.toggleLinkForm(true)}></div>
+              <div className="toolbar-divider"></div>
+              <div className="toolbar-button fa fa-list fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('insertunorderedlist')}></div>
+              <div className="toolbar-button fa fa-list-ol fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('insertorderedlist')}></div>
             </div>
             <div id="chat-input" contentEditable onKeyDown={this.handleChatKeyDown}>
             </div>
