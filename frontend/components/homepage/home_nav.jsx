@@ -47,7 +47,7 @@ class HomeNav extends React.Component {
             <img src="/images/logo.jpg"/>
           </Link>
           <a className="home-link no-highlight" to="https://github.com/yshen901" onClick={() => window.open("https://github.com/yshen901")}><i className='fab fa-github'></i> Github</a>
-          <a className="home-link no-highlight" to="https://www.linkedin.com/in/yucishen/" onClick={() => window.open("https://www.linkedin.com/in/yucishen/")}><i className="fa fa-linkedin-square"></i> Linkedin</a>
+          <a className="home-link no-highlight" to="https://www.linkedin.com/in/yucishen/" onClick={() => window.open("https://linkedin.com/in/yucishen/")}><i className="fa fa-linkedin-square"></i> Linkedin</a>
         </div>
         {this.generateRight()}
       </div>

@@ -86,9 +86,8 @@ class ChannelMessageForm extends React.Component {
     e.preventDefault();
 
     let {linkUrl, linkText} = this.state;
-    let anchorEle = `<a href="${linkUrl}" target="_blank">${linkText}</a>`;
-    document.getElementById("chat-input").focus();
-    document.execCommand("insertHTML", false, anchorEle);
+    let anchorEle = `<a href="http://${linkUrl}" target="_blank">${linkText}</a>`;
+    $(document.getElementById("chat-input")).append(anchorEle);
     this.toggleLinkForm(false);
   }
 
@@ -116,8 +115,9 @@ class ChannelMessageForm extends React.Component {
             <h2>Link</h2>
           </div>
           <div className="channel-name-input">
+            <div className='input-prefix gray'>http://</div>
             <input
-              type="text" id="invite-user-input"
+              type="text" id="invite-user-input" className="with-prefix"
               onChange={(e) => this.setState({linkUrl: e.currentTarget.value})}
               value={this.state.linkUrl}></input>
           </div> 

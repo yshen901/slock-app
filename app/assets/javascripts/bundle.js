@@ -3608,9 +3608,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       var _this$state = this.state,
           linkUrl = _this$state.linkUrl,
           linkText = _this$state.linkText;
-      var anchorEle = "<a href=\"".concat(linkUrl, "\" target=\"_blank\">").concat(linkText, "</a>");
-      document.getElementById("chat-input").focus();
-      document.execCommand("insertHTML", false, anchorEle);
+      var anchorEle = "<a href=\"http://".concat(linkUrl, "\" target=\"_blank\">").concat(linkText, "</a>");
+      $(document.getElementById("chat-input")).append(anchorEle);
       this.toggleLinkForm(false);
     } // Generates a link form modal that will update the 
 
@@ -3653,9 +3652,12 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         className: "create-form-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Link")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-name-input"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "input-prefix gray"
+      }, "http://"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         id: "invite-user-input",
+        className: "with-prefix",
         onChange: function onChange(e) {
           return _this2.setState({
             linkUrl: e.currentTarget.value
@@ -4367,7 +4369,7 @@ var HomeNav = /*#__PURE__*/function (_React$Component) {
         className: "home-link no-highlight",
         to: "https://www.linkedin.com/in/yucishen/",
         onClick: function onClick() {
-          return window.open("https://www.linkedin.com/in/yucishen/");
+          return window.open("https://linkedin.com/in/yucishen/");
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-linkedin-square"

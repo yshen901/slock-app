@@ -90,6 +90,7 @@
   align-items: center;
 
   padding: 4px;
+  margin-bottom: 15px;
 
   border: 1px solid gray;
   border-radius: 4px;
@@ -118,6 +119,12 @@
     outline: none;
   }
 
+  .input-prefix {
+    font-size: 18px;
+    line-height: 34px;
+    padding-left: 12px;
+  }
+
   .chars-left {
     width: 40px;
     padding-left: 4px;
@@ -129,5 +136,9 @@
 
   #invite-user-input {
     padding-left: 12px;
+  }
+
+  #invite-user-input.with-prefix {
+    padding-left: 0px;
   }
 }
