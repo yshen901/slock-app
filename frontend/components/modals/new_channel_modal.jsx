@@ -74,15 +74,16 @@ class NewChannelModal extends React.Component {
   // form this modal will output
   modalForm() {
     return (
-      <div id="new-channel-form" onClick={e => e.stopPropagation()}>
+      <div className="create-form" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h1>Create a channel</h1>
           <div className="modal-close-button" onClick={() => hideElements("new-channel-modal")}>&#10005;</div>
-        </div>                <h6>
+        </div>                
+        <h6>
           Channels are where your members communicate. They’re best when 
           organized around a topic - #proj-budget, for example.
         </h6>
-        <div className="new-channel-form-header">
+        <div className="create-form-header">
           <h2>Name</h2>
           {this.warning()}
         </div>

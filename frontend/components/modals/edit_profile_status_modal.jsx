@@ -65,12 +65,12 @@ class EditProfileStatusModal extends React.Component {
     return (
       <div className="edit-profile-status-modal hidden">
         <div className="part-modal-background" onClick={ this.handleCancel }></div>
-        <div id="new-channel-form" onClick={e => e.stopPropagation()}>
+        <div className="create-form" onClick={e => e.stopPropagation()}>
           <div className="modal-header">
             <h1>Set a status</h1>
             <div className="modal-close-button" onClick={ this.handleCancel }>&#10005;</div>
           </div>                
-          <div className="new-channel-form-header">
+          <div className="create-form-header">
             <h2 className="orange">{this.state.status.length > 100 ? "Status must be 100 characters or less." : ""}</h2>
           </div>
           <div className="channel-name-input">

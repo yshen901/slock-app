@@ -11,6 +11,10 @@
   align-items: flex-end;
 
   vertical-align: text-bottom;
+
+  // FOR RICHTEXT MESSAGE EDITOR
+  b { font-weight: 700 }
+  i { font-style: italic }
 }
 
 .chatroom-container {
@@ -124,26 +128,20 @@
   }
 } 
 
-.message-box {
+#message-box {
   display: flex;
   flex-direction: column;
   padding: 0 20px;
   box-sizing: border-box;
 
-  b {
-    font-weight: 700;
-  }
+  margin-top: 12px;
 
-  i {
-    font-style: italic;
-  }
-
-  .message-form {
+  #message-form {
     border: 1px solid rgba(29,28,29,0.3);
     border-radius: 6px;
     box-sizing: border-box;
 
-    .chat-toolbar {
+    #chat-toolbar {
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -153,25 +151,30 @@
       background: rgb(248,248,248);
     }
 
-    .chat-input {
+    #chat-input {
       padding: 8px 12px;
+
+      // FOR RICHTEXT MESSAGE EDITOR
+      b { font-weight: 700 }
+      i { font-style: italic }
     }
 
-    .chat-input:focus {
+    #chat-input:focus {
       outline: none;
     }
 
-    .chat-input:hover {
+    #chat-input:hover {
       cursor: text;
     }
 
-    .chat-footer {
+    #chat-footer {
       height: 40px;
     }
 
     .toolbar-button {
       width: 24px;
 
+      color: rgba(29,28,29,0.7);
       font-size: 16px;
       line-height: 24px;
       padding: 2px;
@@ -185,9 +188,18 @@
       cursor: pointer;
       background: rgb(220, 220, 220);
     }
+
+    .toolbar-divider {
+      height: 20px;
+      width: 1px;
+      border: 0.5px solid rgba(29,28,29,0.2);
+      box-sizing: border-box;
+
+      margin: 0 3px;
+    }
   }
 
-  .message-footer {
+  #message-footer {
     display: flex;
     align-items: center;
     justify-content: flex-end;

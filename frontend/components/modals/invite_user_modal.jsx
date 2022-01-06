@@ -57,7 +57,7 @@ class InviteUserModal extends React.Component {
   // form this modal will output
   modalForm() {
     return (
-      <div id="new-channel-form" onClick={e => e.stopPropagation()}>
+      <div className="create-form" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h1>Add people</h1>
           <div className="modal-close-button" onClick={() => hideElements("invite-user-modal")}>&#10005;</div>
@@ -66,7 +66,7 @@ class InviteUserModal extends React.Component {
           Add your teammates to this workspace and start collaborating now!
           Only teammates with a Slock account can be added.
         </h6>
-        <div className="new-channel-form-header">
+        <div className="create-form-header">
           <h2>To:</h2>
           {this.warning()}
         </div>

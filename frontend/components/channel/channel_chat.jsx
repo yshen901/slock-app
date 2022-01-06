@@ -94,7 +94,7 @@ class ChannelChat extends React.Component {
         <div className='message'>
           <div className="message-time-tag">{created_at}</div>
           <div className="message-text">
-            <div className="message-body">{[body]}</div>
+            <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
           </div>
         </div>
       )
@@ -109,7 +109,7 @@ class ChannelChat extends React.Component {
               <div className="message-user" onClick={this.toggleUserPopup(user_id)}>{username}</div>
               <div className="message-time">{created_at}</div>
             </div>
-            <div className="message-body">{body}</div>
+            <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
           </div>
         </div>
       );

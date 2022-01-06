@@ -2633,8 +2633,11 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       }, created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-text"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-body"
-      }, [body]))));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-body",
+        dangerouslySetInnerHTML: {
+          __html: body
+        }
+      }))));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user-icon"
@@ -2651,8 +2654,11 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       }, username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-time"
       }, created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-body"
-      }, body))));
+        className: "message-body",
+        dangerouslySetInnerHTML: {
+          __html: body
+        }
+      }))));
     }
   }, {
     key: "loadMessages",
@@ -3476,8 +3482,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -3515,11 +3519,16 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      canJoin: props.status.canJoin
+      canJoin: props.status.canJoin,
+      linkModal: false,
+      linkText: "",
+      linkUrl: ""
     };
     _this.format = _this.format.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_this));
+    _this.toggleLinkForm = _this.toggleLinkForm.bind(_assertThisInitialized(_this));
+    _this.appendLink = _this.appendLink.bind(_assertThisInitialized(_this));
     _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -3532,15 +3541,6 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "update",
-    value: function update(field) {
-      var _this2 = this;
-
-      return function (e) {
-        return _this2.setState(_defineProperty({}, field, e.currentTarget.value));
-      };
-    }
-  }, {
     key: "goToChannel",
     value: function goToChannel(channel_id) {
       var workspace_address = this.props.match.params.workspace_address;
@@ -3549,8 +3549,6 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      debugger;
-
       if (e.currentTarget.textContent.length != 0) {
         var users = getState().entities.users;
         var user_id = getState().session.user_id;
@@ -3573,16 +3571,17 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       var ids = Object.keys(channel.users);
       if (ids[0] == currentUserId) return users[ids[1]].email;
       return users[ids[0]].email;
-    }
+    } // Executes commands on contentEditable chat-input
+
   }, {
     key: "format",
     value: function format(command, value) {
       return function (e) {
         e.preventDefault();
-        var success = document.execCommand(command, false, value);
-        console.log(success);
+        document.execCommand(command, false, value);
       };
-    }
+    } // Handles key press on contentEditable chat-input
+
   }, {
     key: "handleKeyPress",
     value: function handleKeyPress(e) {
@@ -3590,6 +3589,93 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         e.preventDefault();
         this.handleSubmit(e);
       }
+    } // Toggles link form and clears linkText/linkUrl
+
+  }, {
+    key: "toggleLinkForm",
+    value: function toggleLinkForm(linkModal) {
+      this.setState({
+        linkModal: linkModal,
+        linkText: "",
+        linkUrl: ""
+      });
+    } // Append the link to the chat input field
+
+  }, {
+    key: "appendLink",
+    value: function appendLink(e) {
+      e.preventDefault();
+      var _this$state = this.state,
+          linkUrl = _this$state.linkUrl,
+          linkText = _this$state.linkText;
+      var anchorEle = "<a href=\"".concat(linkUrl, "\" target=\"_blank\">").concat(linkText, "</a>");
+      document.getElementById("chat-input").focus();
+      document.execCommand("insertHTML", false, anchorEle);
+      this.toggleLinkForm(false);
+    } // Generates a link form modal that will update the 
+
+  }, {
+    key: "renderLinkForm",
+    value: function renderLinkForm() {
+      var _this2 = this;
+
+      if (!this.state.linkModal) return;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "link-form-modal"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "part-modal-background",
+        onClick: function onClick() {
+          return _this2.toggleLinkForm(false);
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-form"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Add link"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-close-button",
+        onClick: function onClick() {
+          return _this2.toggleLinkForm(false);
+        }
+      }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-form-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Text")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name-input"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        id: "invite-user-input",
+        onChange: function onChange(e) {
+          return _this2.setState({
+            linkText: e.currentTarget.value
+          });
+        },
+        value: this.state.linkText
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-form-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Link")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "channel-name-input"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        id: "invite-user-input",
+        onChange: function onChange(e) {
+          return _this2.setState({
+            linkUrl: e.currentTarget.value
+          });
+        },
+        value: this.state.linkUrl
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        onClick: function onClick() {
+          return _this2.toggleLinkForm(false);
+        }
+      }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "green-button",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.appendLink,
+        disabled: this.state.linkUrl.length == 0 || this.state.linkText.length == 0
+      }, "Save"))));
     }
   }, {
     key: "render",
@@ -3598,31 +3684,19 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
 
       var channels = getState().entities.channels;
       var channel_id = this.props.match.params.channel_id;
+      var channel = channels[channel_id];
 
-      if (this.state.canJoin && channels[channel_id]) {
-        if (channels[channel_id].dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (this.state.canJoin && channel) {
+        var channelName = channels.dm_channel ? this.getDmChannelName(channel) : "#".concat(channel.name);
+        var buttonText = channels.dm_channel ? "Join Chat" : "Join Channel";
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-preview-panel"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "You are viewing your chat with ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, this.getDmChannelName(channels[channel_id])), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "You are viewing ", channels.dm_channel ? "your chat with " : "", " ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, channelName), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "buttons"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-preview-button green",
           onClick: this.props.joinChannel
-        }, "Join Chat"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-preview-button",
-          onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["toggleFocusElements"])("channel-details-modal")
-        }, "See More Details")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-preview-link",
-          onClick: function onClick() {
-            return _this3.goToChannel("channel-browser");
-          }
-        }, "Back to Channel Browser"));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-preview-panel"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "You are viewing ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, "#", channels[channel_id].name), " "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "buttons"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-preview-button green",
-          onClick: this.props.joinChannel
-        }, "Join Channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }, buttonText), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-preview-button",
           onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["toggleFocusElements"])("channel-details-modal")
         }, "See More Details")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3631,62 +3705,59 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
             return _this3.goToChannel("channel-browser");
           }
         }, "Back to Channel Browser"));
-      } else return (
-        /*#__PURE__*/
-        // <form onSubmit={this.handleSubmit.bind(this)}>
-        //   <input className="chat-input" autoFocus
-        //     type="text"
-        //     value={`<strong>${this.state.body}</strong>`}
-        //     onChange={this.update("body")}
-        //     placeholder="Type message here"
-        //   />
-        //   <input type="submit" value=""/>
-        // </form>
-        react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-box"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-form"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "chat-toolbar"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "toolbar-button fa fa-bold fa-fw",
-          "aria-hidden": "true",
-          onMouseDown: function onMouseDown(e) {
-            return e.preventDefault();
-          },
-          onClick: this.format('bold')
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "toolbar-button fa fa-italic fa-fw",
-          "aria-hidden": "true",
-          onMouseDown: function onMouseDown(e) {
-            return e.preventDefault();
-          },
-          onClick: this.format('italic')
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "toolbar-button fa fa-list fa-fw",
-          "aria-hidden": "true",
-          onMouseDown: function onMouseDown(e) {
-            return e.preventDefault();
-          },
-          onClick: this.format('strikeThrough')
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "chat-input",
-          contentEditable: true,
-          onKeyPress: this.handleKeyPress
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "chat-footer"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "toolbar-button"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "toolbar-divider"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "toolbar-button"
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "toolbar-button"
-        }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-footer"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Shift + Return"), " to add a new line.")))
-      );
+      } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "message-box"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "message-form"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "chat-toolbar"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button fa fa-bold fa-fw",
+        "aria-hidden": "true",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format('bold')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button fa fa-italic fa-fw",
+        "aria-hidden": "true",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format('italic')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button fa fa-strikethrough fa-fw",
+        "aria-hidden": "true",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format('strikeThrough')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-divider"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button fa fa-link fa-fw",
+        "aria-hidden": "true",
+        onClick: function onClick() {
+          return _this3.toggleLinkForm(true);
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "chat-input",
+        autoFocus: true,
+        contentEditable: true,
+        onKeyPress: this.handleKeyPress
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "chat-footer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-divider"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button"
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "message-footer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Shift + Return"), " to add a new line.")), this.renderLinkForm());
     }
   }]);
 
@@ -6015,7 +6086,7 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
         className: "part-modal-background",
         onClick: this.handleCancel
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "new-channel-form",
+        className: "create-form",
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
@@ -6025,7 +6096,7 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
         className: "modal-close-button",
         onClick: this.handleCancel
       }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "new-channel-form-header"
+        className: "create-form-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
         className: "orange"
       }, this.state.status.length > 100 ? "Status must be 100 characters or less." : "")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6174,7 +6245,7 @@ var InviteUserModal = /*#__PURE__*/function (_React$Component) {
     key: "modalForm",
     value: function modalForm() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "new-channel-form",
+        className: "create-form",
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
@@ -6186,7 +6257,7 @@ var InviteUserModal = /*#__PURE__*/function (_React$Component) {
           return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("invite-user-modal");
         }
       }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Add your teammates to this workspace and start collaborating now! Only teammates with a Slock account can be added."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "new-channel-form-header"
+        className: "create-form-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "To:"), this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-name-input"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -6357,7 +6428,7 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
     key: "modalForm",
     value: function modalForm() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "new-channel-form",
+        className: "create-form",
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
@@ -6368,8 +6439,8 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
         onClick: function onClick() {
           return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("new-channel-modal");
         }
-      }, "\u2715")), "                ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Channels are where your members communicate. They\u2019re best when organized around a topic - #proj-budget, for example."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "new-channel-form-header"
+      }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Channels are where your members communicate. They\u2019re best when organized around a topic - #proj-budget, for example."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "create-form-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Name"), this.warning()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-name-input"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

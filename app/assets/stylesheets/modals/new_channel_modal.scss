@@ -1,4 +1,4 @@
-#new-channel-form {
+.create-form {
   position: absolute;
   top: 20%;
   left: 50%;
@@ -23,40 +23,41 @@
   -ms-animation: fadein 0.4s;
   -o-animation: fadein 0.4s;
   animation: fadein 0.4s;
-}
 
-#new-channel-form h1 {
-  font-size: 28px;
-  font-weight: bold;
+  h1 {
+    font-size: 22px;
+    font-weight: 900;
+  
+    padding-bottom: 22px;
+  }
 
-  padding-bottom: 22px;
-}
+  h6 {
+    font-size: 15px;
+    line-height: 22px;
+    color: gray;
+  
+    padding-bottom: 24px;
+  }
 
-#new-channel-form h6 {
-  font-size: 15px;
-  line-height: 22px;
-  color: gray;
+  .channel-name-input {
+    margin-bottom: 15px;
+  }
 
-  padding-bottom: 24px;
-}
+  .create-form-header {
+    display: flex;
+    justify-content: space-between;
 
-.new-channel-form-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.new-channel-form-header h2 {
-  font-size: 15px;
-  font-weight: bold;  
-  padding-bottom: 10px;
-}
-
-#new-channel-form {
+    h2 {
+      font-size: 15px;
+      line-height: 22px;
+      font-weight: 700;  
+      padding-bottom: 8px;
+    }
+  }
+  
   button {
     width: 80px;
     height: 35px;
-  
-    margin-top: 15px;
   
     background: #007a5a;
     border: none;
@@ -85,9 +86,7 @@
   
     box-shadow: 0 0.25rem 2rem rgba(0,0,0,0.1);
   }
-}
 
-#new-channel-form {
   .form-buttons {
     display: flex;
     justify-content: flex-end;
