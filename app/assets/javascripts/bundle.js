@@ -5829,7 +5829,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleCancel",
     value: function handleCancel(e) {
-      e.stopPropagation();
+      if (e) e.stopPropagation();
       var _this$props$user2 = this.props.user,
           full_name = _this$props$user2.full_name,
           display_name = _this$props$user2.display_name,
@@ -6742,6 +6742,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       var _this$props = this.props,
           user = _this$props.user,
           showUser = _this$props.showUser;
+      var userStatus = user.status ? user.status.slice(0, 22) + user.status.length > 23 ? "..." : user.status.slice(22, 23) : "Set your status";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-modal profile hidden",
         onClick: function onClick() {
@@ -6773,7 +6774,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
         className: "far fa-smile"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-message"
-      }, user.status.slice(0, 22), user.status.length > 23 ? "..." : user.status.slice(22, 23))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, userStatus)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.toggleButton(function () {
           return _this4.updateWorkspaceUser({

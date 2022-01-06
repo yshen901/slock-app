@@ -64,7 +64,7 @@ class EditProfileModal extends React.Component {
 
   // Resets state and hides modal
   handleCancel(e) {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     let { full_name, display_name, what_i_do, phone_number, timezone_offset } = this.props.user;
 
     this.setState({

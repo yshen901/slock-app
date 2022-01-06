@@ -62,6 +62,8 @@ class ProfileDropdown extends React.Component {
 
   render() {
     let { user, showUser } = this.props;
+    let userStatus = user.status ? user.status.slice(0, 22) + user.status.length > 23 ? "..." : user.status.slice(22, 23) : "Set your status";
+
     return (
       <div className="dropdown-modal profile hidden" onClick={() => hideElements("dropdown-modal")}>
         <div className="dropdown profile" onClick={e => e.stopPropagation()}>
@@ -79,7 +81,7 @@ class ProfileDropdown extends React.Component {
           </div>
           <div className="dropdown-input" onClick={this.toggleButton(toggleFocusElements("edit-profile-status-modal", "edit-profile-status-input"))}>
             <i className="far fa-smile"></i>
-            <div className="input-message">{ user.status.slice(0, 22) }{user.status.length > 23 ? "..." : user.status.slice(22, 23)}</div>
+            <div className="input-message">{userStatus}</div>
           </div>
           <div className="dropdown-item" onClick={this.toggleButton(() => this.updateWorkspaceUser({active: !user.active}))}>
             Set yourself as <strong>{ user.active ? "away" : "active"}</strong>
