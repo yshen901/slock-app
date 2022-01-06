@@ -12,11 +12,20 @@ class ChannelMessageForm extends React.Component {
       linkModal: false,
       linkText: "",
       linkUrl: "",
-      formatBar: true
+      formatBar: true,
+      isActivated: {
+        bold: false,
+        italic: false,
+        strikethrough: false,
+        createLink: false,
+        insertUnorderedList: false,
+        insertOrderedList: false
+      }
     };
 
     this.format = this.format.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.updateToolbarState = this.updateToolbarState.bind(this);
     this.handleChatKeyDown = this.handleChatKeyDown.bind(this);
     this.handleLinkKeyDown = this.handleLinkKeyDown.bind(this);
     this.toggleLinkForm = this.toggleLinkForm.bind(this);
@@ -70,7 +79,22 @@ class ChannelMessageForm extends React.Component {
     return e => {
       e.preventDefault();
       document.execCommand(command, false, value);
+      this.setState({isActivated: Object.assign(this.state.isActivated, {[command]: !this.state.isActivated[command]})});
     }
+  }
+
+  // Handles events that updates the toolbar states
+  updateToolbarState() {
+    this.setState({
+      isActivated: {
+        bold: document.queryCommandState("bold"),
+        italic: document.queryCommandState("italic"),
+        strikethrough: document.queryCommandState("strikethrough"),
+        createLink: document.queryCommandState("createLink"),
+        insertUnorderedList: document.queryCommandState("insertUnorderedList"),
+        insertOrderedList: document.queryCommandState("insertOrderedList")
+      }
+    });
   }
 
   // Handles key press on contentEditable chat-input
@@ -79,6 +103,7 @@ class ChannelMessageForm extends React.Component {
       e.preventDefault();
       this.handleSubmit(e);
     }
+    this.updateToolbarState();
   }
 
   // Handles key press on link form
@@ -87,25 +112,28 @@ class ChannelMessageForm extends React.Component {
       this.appendLink(e);
   }
 
-  // Toggles link form and clears linkText/linkUrl
+  // Toggles link form, clears linkText/linkUrl, and resets focus and cursor location
   toggleLinkForm(linkModal) {
-    this.setState({linkModal, linkText: "", linkUrl: ""});
-    if (!linkModal) {
-      let el = document.getElementById("chat-input");
-      el.focus();
-      if (typeof window.getSelection != "undefined"
-              && typeof document.createRange != "undefined") {
-        var range = document.createRange();
-        range.selectNodeContents(el);
-        range.collapse();
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-      } else if (typeof document.body.createTextRange != "undefined") {
-        var textRange = document.body.createTextRange();
-        textRange.moveToElementText(el);
-        textRange.collapse();
-        textRange.select();
+    return e => {
+      e.stopPropagation();
+      this.setState({linkModal, linkText: "", linkUrl: ""});
+      if (!linkModal) {
+        let el = document.getElementById("chat-input");
+        el.focus();
+        if (typeof window.getSelection != "undefined"
+                && typeof document.createRange != "undefined") {
+          var range = document.createRange();
+          range.selectNodeContents(el);
+          range.collapse();
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        } else if (typeof document.body.createTextRange != "undefined") {
+          var textRange = document.body.createTextRange();
+          textRange.moveToElementText(el);
+          textRange.collapse();
+          textRange.select();
+        }
       }
     }
   }
@@ -125,11 +153,11 @@ class ChannelMessageForm extends React.Component {
     if (!this.state.linkModal) return;
     return (
       <div className="link-form-modal">
-        <div className="part-modal-background" onClick={() => this.toggleLinkForm(false) }></div>
+        <div className="part-modal-background" onClick={this.toggleLinkForm(false) }></div>
         <div className="create-form">
           <div className="modal-header">
             <h1>Add link</h1>
-            <div className="modal-close-button" onClick={() => this.toggleLinkForm(false)}>&#10005;</div>
+            <div className="modal-close-button" onClick={this.toggleLinkForm(false)}>&#10005;</div>
           </div>     
           <div className="create-form-header">
             <h2>Text</h2>
@@ -167,6 +195,8 @@ class ChannelMessageForm extends React.Component {
     let { channel_id } = this.props.match.params;    
     let channel = channels[channel_id];
 
+    let { bold, italic, strikethrough, createLink, insertUnorderedList, insertOrderedList } = this.state.isActivated;
+
     if (this.state.canJoin && channel) {
       let channelName = channels.dm_channel ? this.getDmChannelName(channel) : `#${channel.name}`;
       let buttonText = channels.dm_channel ? "Join Chat" : "Join Channel";
@@ -183,30 +213,55 @@ class ChannelMessageForm extends React.Component {
     }
     else
       return (
-        <div id="message-box">
-          <div id="message-form" onClick={() => {setTimeout(() => document.getElementById("chat-input").focus(), 0)}}>
-            <div id="chat-toolbar" className={this.state.formatBar ? "" : "hidden"}>
-              <div className="toolbar-button fa fa-bold fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('bold')}></div>
-              <div className="toolbar-button fa fa-italic fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('italic')}></div>
-              <div className="toolbar-button fa fa-strikethrough fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('strikeThrough')}></div>
-              <div className="toolbar-divider"></div>
-              <div className="toolbar-button fa fa-link fa-fw" aria-hidden="true" onClick={() => this.toggleLinkForm(true)}></div>
-              <div className="toolbar-divider"></div>
-              <div className="toolbar-button fa fa-list fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('insertunorderedlist')}></div>
-              <div className="toolbar-button fa fa-list-ol fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('insertorderedlist')}></div>
+        <div>
+          <div id="message-box">
+            <div id="message-form" onMouseUp={this.updateToolbarState} onClick={() => {setTimeout(() => document.getElementById("chat-input").focus(), 0)}}>
+              <div id="chat-toolbar" className={this.state.formatBar ? "" : "hidden"}>
+                <div 
+                  className={`toolbar-button fa fa-bold fa-fw ${bold ? "selected" : ""}`}
+                  aria-hidden="true" 
+                  onMouseDown={e => e.preventDefault()} 
+                  onClick={this.format('bold')}></div>
+                <div 
+                  className={`toolbar-button fa fa-italic fa-fw ${italic ? "selected" : ""}`}
+                  aria-hidden="true" 
+                  onMouseDown={e => e.preventDefault()} 
+                  onClick={this.format('italic')}></div>
+                <div 
+                  className={`toolbar-button fa fa-strikethrough fa-fw ${strikethrough ? "selected" : ""}`}
+                  aria-hidden="true" 
+                  onMouseDown={e => e.preventDefault()} 
+                  onClick={this.format('strikethrough')}></div>
+                <div className="toolbar-divider"></div>
+                <div 
+                  className={`toolbar-button fa fa-link fa-fw ${createLink ? "selected" : ""}`} 
+                  aria-hidden="true" 
+                  onClick={this.toggleLinkForm(true)}></div>
+                <div className="toolbar-divider"></div>
+                <div 
+                  className={`toolbar-button fa fa-list fa-fw ${insertUnorderedList ? "selected" : ""}`}
+                  aria-hidden="true" 
+                  onMouseDown={e => e.preventDefault()} 
+                  onClick={this.format('insertUnorderedList')}></div>
+                <div 
+                  className={`toolbar-button fa fa-list-ol fa-fw ${insertOrderedList ? "selected" : ""}`}
+                  aria-hidden="true" 
+                  onMouseDown={e => e.preventDefault()} 
+                  onClick={this.format('insertOrderedList')}></div>
+              </div>
+              <div id="chat-input" contentEditable onKeyDown={this.handleChatKeyDown}>
+              </div>
+              <div id="chat-footer">
+                {/* <div className="toolbar-button fa fa-upload fa-fw"></div>
+                <div className="toolbar-divider"></div> */}
+                <div className="toolbar-button" onMouseDown={e => { e.preventDefault(); document.getElementById("chat-toolbar").classList.toggle("hidden"); }}>Aa</div>
+                <div className="toolbar-button"></div>
+              </div>
             </div>
-            <div id="chat-input" contentEditable onKeyDown={this.handleChatKeyDown}>
-            </div>
-            <div id="chat-footer">
-              {/* <div className="toolbar-button fa fa-upload fa-fw"></div>
-              <div className="toolbar-divider"></div> */}
-              <div className="toolbar-button" onMouseDown={e => { e.preventDefault(); document.getElementById("chat-toolbar").classList.toggle("hidden"); }}>Aa</div>
-              <div className="toolbar-button"></div>
-            </div>
-          </div>
-          <div id="message-footer">
-            <div>
-              <b>Shift + Return</b> to add a new line.
+            <div id="message-footer">
+              <div>
+                <b>Shift + Return</b> to add a new line.
+              </div>
             </div>
           </div>
           { this.renderLinkForm() }

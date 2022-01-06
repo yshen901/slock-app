@@ -148,16 +148,15 @@
 #message-box {
   display: flex;
   flex-direction: column;
-  padding: 0 20px;
   flex: none;
 
+  padding: 0 20px;
   margin-top: 12px;
-
-  opacity: 0.5;
 
   #message-form {
     border: 1px solid rgba(29,28,29,0.3);
     border-radius: 6px;
+    opacity: 0.5;
 
     #chat-toolbar {
       display: flex;
@@ -239,6 +238,10 @@
       background: rgb(220, 220, 220);
     }
 
+    .toolbar-button.selected {
+      background: rgb(220, 220, 220);
+    }
+
     .toolbar-divider {
       height: 20px;
       width: 1px;
@@ -263,12 +266,21 @@
     text-align: end;
     font-size: 10.5px;
     line-height: 16px;
+
+    opacity: 0.5;
   }
 }
 
 #message-box:focus-within {
-  transition: 0.2s;
-  opacity: 1;
+  #message-form {
+    transition: 0.2;
+    opacity: 1;
+  }
+
+  #message-footer {
+    transition: 0.2;
+    opacity: 1;
+  }
 }
 
 .day-divider {
