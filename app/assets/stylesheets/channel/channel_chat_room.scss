@@ -1,6 +1,6 @@
 .message-list {
   width: 100%;
-  max-height: calc(100% - 81px);
+  flex: 1;
   
   overflow-x: hidden;
   overflow-y: auto;
@@ -132,14 +132,12 @@
   display: flex;
   flex-direction: column;
   padding: 0 20px;
-  box-sizing: border-box;
 
   margin-top: 12px;
 
   #message-form {
     border: 1px solid rgba(29,28,29,0.3);
     border-radius: 6px;
-    box-sizing: border-box;
 
     #chat-toolbar {
       display: flex;

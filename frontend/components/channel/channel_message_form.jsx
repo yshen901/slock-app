@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { joinChannel } from "../../actions/channel_actions";
 import { toggleFocusElements } from '../../util/modal_api_util';
+import DOMPurify from 'dompurify';
 
 class ChannelMessageForm extends React.Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class ChannelMessageForm extends React.Component {
 
     this.format = this.format.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleChatKeyDown = this.handleChatKeyDown.bind(this);
+    this.handleLinkKeyDown = this.handleLinkKeyDown.bind(this);
     this.toggleLinkForm = this.toggleLinkForm.bind(this);
     this.appendLink = this.appendLink.bind(this);
     this.goToChannel = this.goToChannel.bind(this);
@@ -39,7 +41,7 @@ class ChannelMessageForm extends React.Component {
       this.props.messageACChannel.speak(
         {
           message: { 
-            body: e.currentTarget.innerHTML,
+            body: DOMPurify.sanitize(e.currentTarget.innerHTML),
             user_id: getState().session.user_id,
             channel_id: getState().session.channel_id,
             created_at: new Date().toLocaleTimeString(),
@@ -69,16 +71,40 @@ class ChannelMessageForm extends React.Component {
   }
 
   // Handles key press on contentEditable chat-input
-  handleKeyDown(e) {
+  handleChatKeyDown(e) {
     if (!e.shiftKey && e.key == "Enter") {
       e.preventDefault();
       this.handleSubmit(e);
     }
   }
 
+  // Handles key press on link form
+  handleLinkKeyDown(e) {
+    if (e.key == "Enter" && this.state.linkUrl.length > 0 && this.state.linkText.length > 0)
+      this.appendLink(e);
+  }
+
   // Toggles link form and clears linkText/linkUrl
   toggleLinkForm(linkModal) {
     this.setState({linkModal, linkText: "", linkUrl: ""});
+    if (!linkModal) {
+      let el = document.getElementById("chat-input");
+      el.focus();
+      if (typeof window.getSelection != "undefined"
+              && typeof document.createRange != "undefined") {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse();
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else if (typeof document.body.createTextRange != "undefined") {
+        var textRange = document.body.createTextRange();
+        textRange.moveToElementText(el);
+        textRange.collapse();
+        textRange.select();
+      }
+    }
   }
 
   // Append the link to the chat input field
@@ -107,8 +133,10 @@ class ChannelMessageForm extends React.Component {
           </div>
           <div className="channel-name-input">
             <input
-              type="text" id="invite-user-input"
+              autoFocus
+              type="text"
               onChange={(e) => this.setState({linkText: e.currentTarget.value})}
+              onKeyDown={this.handleLinkKeyDown}
               value={this.state.linkText}></input>
           </div> 
           <div className="create-form-header">
@@ -117,8 +145,9 @@ class ChannelMessageForm extends React.Component {
           <div className="channel-name-input">
             <div className='input-prefix gray'>http://</div>
             <input
-              type="text" id="invite-user-input" className="with-prefix"
+              type="text" className="with-prefix"
               onChange={(e) => this.setState({linkUrl: e.currentTarget.value})}
+              onKeyDown={this.handleLinkKeyDown}
               value={this.state.linkUrl}></input>
           </div> 
           <div className="form-buttons">
@@ -160,7 +189,7 @@ class ChannelMessageForm extends React.Component {
               <div className="toolbar-divider"></div>
               <div className="toolbar-button fa fa-link fa-fw" aria-hidden="true" onClick={() => this.toggleLinkForm(true)}></div>
             </div>
-            <div id="chat-input" autoFocus contentEditable onKeyDown={this.handleKeyDown}>
+            <div id="chat-input" contentEditable onKeyDown={this.handleChatKeyDown}>
             </div>
             <div id="chat-footer">
               <div className="toolbar-button"></div>
