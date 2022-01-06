@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { joinChannel } from "../../actions/channel_actions";
-import { toggleFocusElements } from '../../util/modal_api_util';
+import { toggleElements, toggleFocusElements } from '../../util/modal_api_util';
 import DOMPurify from 'dompurify';
 
 class ChannelMessageForm extends React.Component {
@@ -24,9 +24,11 @@ class ChannelMessageForm extends React.Component {
     this.goToChannel = this.goToChannel.bind(this);
   }
 
-  componentDidUpdate(oldProps) {
+  componentDidUpdate(oldProps, oldState) {
     if (oldProps.status.canJoin !== this.props.status.canJoin)
       this.setState({ canJoin: this.props.status.canJoin })
+    if (oldState.formatBar != this.state.formatBar)
+      document.getElementById("chat-input").focus();
   }
 
   goToChannel(channel_id) {
@@ -182,7 +184,7 @@ class ChannelMessageForm extends React.Component {
     else
       return (
         <div id="message-box">
-          <div id="message-form">
+          <div id="message-form" onClick={() => {setTimeout(() => document.getElementById("chat-input").focus(), 0)}}>
             <div id="chat-toolbar" className={this.state.formatBar ? "" : "hidden"}>
               <div className="toolbar-button fa fa-bold fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('bold')}></div>
               <div className="toolbar-button fa fa-italic fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('italic')}></div>
@@ -196,9 +198,9 @@ class ChannelMessageForm extends React.Component {
             <div id="chat-input" contentEditable onKeyDown={this.handleChatKeyDown}>
             </div>
             <div id="chat-footer">
-              <div className="toolbar-button fa fa-upload fa-fw"></div>
-              <div className="toolbar-divider"></div>
-              <div className="toolbar-button" onClick={() => this.setState({formatBar: !this.state.formatBar})}>Aa</div>
+              {/* <div className="toolbar-button fa fa-upload fa-fw"></div>
+              <div className="toolbar-divider"></div> */}
+              <div className="toolbar-button" onMouseDown={e => { e.preventDefault(); document.getElementById("chat-toolbar").classList.toggle("hidden"); }}>Aa</div>
               <div className="toolbar-button"></div>
             </div>
           </div>

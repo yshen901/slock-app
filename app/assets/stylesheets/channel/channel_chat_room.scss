@@ -175,6 +175,7 @@
 
     #chat-input {
       padding: 8px 12px;
+      line-height: 22px;
 
       // FOR RICHTEXT MESSAGE EDITOR
       b { font-weight: 700 }
@@ -246,6 +247,10 @@
 
       margin: 0 3px;
     }
+  }
+
+  #message-form:hover {
+    cursor: text;
   }
 
   #message-footer {

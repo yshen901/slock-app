@@ -3542,10 +3542,11 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
 
   _createClass(ChannelMessageForm, [{
     key: "componentDidUpdate",
-    value: function componentDidUpdate(oldProps) {
+    value: function componentDidUpdate(oldProps, oldState) {
       if (oldProps.status.canJoin !== this.props.status.canJoin) this.setState({
         canJoin: this.props.status.canJoin
       });
+      if (oldState.formatBar != this.state.formatBar) document.getElementById("chat-input").focus();
     }
   }, {
     key: "goToChannel",
@@ -3743,7 +3744,12 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-box"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "message-form"
+        id: "message-form",
+        onClick: function onClick() {
+          setTimeout(function () {
+            return document.getElementById("chat-input").focus();
+          }, 0);
+        }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-toolbar",
         className: this.state.formatBar ? "" : "hidden"
@@ -3799,15 +3805,10 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-footer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "toolbar-button fa fa-upload fa-fw"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "toolbar-divider"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button",
-        onClick: function onClick() {
-          return _this3.setState({
-            formatBar: !_this3.state.formatBar
-          });
+        onMouseDown: function onMouseDown(e) {
+          e.preventDefault();
+          document.getElementById("chat-toolbar").classList.toggle("hidden");
         }
       }, "Aa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button"
