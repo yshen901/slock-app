@@ -67,7 +67,7 @@
       margin: 20px;
       padding: 8px;
   
-      border: 1px solid rgb(187, 187, 187);
+      border: 1px solid rgba(29,28,29,0.3);
       border-radius: 5px;
       box-sizing: border-box;
   
@@ -89,6 +89,12 @@
       #search-bar:focus {
         outline: none;
       }
+    }
+
+    .browser-channel-search:focus-within {
+      transition: 0.2s;
+      border-color: #1D1B1DB3;
+      box-shadow: 0 0 0 3pt rgba(135, 206, 250, 0.6);
     }
   
     .browser-channel-header {

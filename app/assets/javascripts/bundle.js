@@ -3525,7 +3525,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       canJoin: props.status.canJoin,
       linkModal: false,
       linkText: "",
-      linkUrl: ""
+      linkUrl: "",
+      formatBar: true
     };
     _this.format = _this.format.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -3742,7 +3743,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-form"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "chat-toolbar"
+        id: "chat-toolbar",
+        className: this.state.formatBar ? "" : "hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button fa fa-bold fa-fw",
         "aria-hidden": "true",
@@ -3795,12 +3797,17 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-footer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "toolbar-button"
+        className: "toolbar-button fa fa-upload fa-fw"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "toolbar-button"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button",
+        onClick: function onClick() {
+          return _this3.setState({
+            formatBar: !_this3.state.formatBar
+          });
+        }
+      }, "Aa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button"
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-footer"

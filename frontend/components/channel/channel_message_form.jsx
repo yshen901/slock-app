@@ -12,6 +12,7 @@ class ChannelMessageForm extends React.Component {
       linkModal: false,
       linkText: "",
       linkUrl: "",
+      formatBar: true
     };
 
     this.format = this.format.bind(this);
@@ -182,7 +183,7 @@ class ChannelMessageForm extends React.Component {
       return (
         <div id="message-box">
           <div id="message-form">
-            <div id="chat-toolbar">
+            <div id="chat-toolbar" className={this.state.formatBar ? "" : "hidden"}>
               <div className="toolbar-button fa fa-bold fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('bold')}></div>
               <div className="toolbar-button fa fa-italic fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('italic')}></div>
               <div className="toolbar-button fa fa-strikethrough fa-fw" aria-hidden="true" onMouseDown={e => e.preventDefault()} onClick={this.format('strikeThrough')}></div>
@@ -195,9 +196,9 @@ class ChannelMessageForm extends React.Component {
             <div id="chat-input" contentEditable onKeyDown={this.handleChatKeyDown}>
             </div>
             <div id="chat-footer">
-              <div className="toolbar-button"></div>
+              <div className="toolbar-button fa fa-upload fa-fw"></div>
               <div className="toolbar-divider"></div>
-              <div className="toolbar-button"></div>
+              <div className="toolbar-button" onClick={() => this.setState({formatBar: !this.state.formatBar})}>Aa</div>
               <div className="toolbar-button"></div>
             </div>
           </div>
