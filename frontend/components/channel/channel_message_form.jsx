@@ -15,7 +15,7 @@ class ChannelMessageForm extends React.Component {
 
     this.format = this.format.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
     this.toggleLinkForm = this.toggleLinkForm.bind(this);
     this.appendLink = this.appendLink.bind(this);
     this.goToChannel = this.goToChannel.bind(this);
@@ -69,7 +69,7 @@ class ChannelMessageForm extends React.Component {
   }
 
   // Handles key press on contentEditable chat-input
-  handleKeyPress(e) {
+  handleKeyDown(e) {
     if (!e.shiftKey && e.key == "Enter") {
       e.preventDefault();
       this.handleSubmit(e);
@@ -160,7 +160,7 @@ class ChannelMessageForm extends React.Component {
               <div className="toolbar-divider"></div>
               <div className="toolbar-button fa fa-link fa-fw" aria-hidden="true" onClick={() => this.toggleLinkForm(true)}></div>
             </div>
-            <div id="chat-input" autoFocus contentEditable onKeyPress={this.handleKeyPress}>
+            <div id="chat-input" autoFocus contentEditable onKeyDown={this.handleKeyDown}>
             </div>
             <div id="chat-footer">
               <div className="toolbar-button"></div>

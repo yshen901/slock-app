@@ -3526,7 +3526,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
     };
     _this.format = _this.format.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_this));
+    _this.handleKeyDown = _this.handleKeyDown.bind(_assertThisInitialized(_this));
     _this.toggleLinkForm = _this.toggleLinkForm.bind(_assertThisInitialized(_this));
     _this.appendLink = _this.appendLink.bind(_assertThisInitialized(_this));
     _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
@@ -3583,8 +3583,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
     } // Handles key press on contentEditable chat-input
 
   }, {
-    key: "handleKeyPress",
-    value: function handleKeyPress(e) {
+    key: "handleKeyDown",
+    value: function handleKeyDown(e) {
       if (!e.shiftKey && e.key == "Enter") {
         e.preventDefault();
         this.handleSubmit(e);
@@ -3746,7 +3746,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         id: "chat-input",
         autoFocus: true,
         contentEditable: true,
-        onKeyPress: this.handleKeyPress
+        onKeyDown: this.handleKeyDown
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-footer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
