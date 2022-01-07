@@ -131,6 +131,12 @@ class WorkspaceSidebar extends React.Component {
                   People
                 </div>
               </Link>
+              <Link className={channel_id == "saved-browser" ? "sidebar-item selected" : "sidebar-item"} to={this.channelLink("saved-browser")}>
+                <i className="far fa-bookmark"></i>
+                <div className="channel-name">
+                  Saved items
+                </div>
+              </Link>
             </div>
           </div>
 

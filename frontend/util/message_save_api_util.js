@@ -1,4 +1,13 @@
 // Creates using message_id and react_code
+export const getMessageSaves = (workspace_id) => (
+  $.ajax({
+    method: "GET",
+    url: "/api/message_saves",
+    data: { message_save: {workspace_id} }
+  })
+);
+
+// Creates using message_id and react_code
 export const postMessageSave = (message_save) => (
   $.ajax({
     method: "POST",

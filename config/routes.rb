@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     resources :dm_channel_users, only: [:create, :update]
 
     resources :message_reacts, only: [:create, :destroy]
-    resources :message_saves, only: [:create, :destroy]
+    resources :message_saves, only: [:index, :create, :destroy]
   end
   resources :calls, only: [:create]
 

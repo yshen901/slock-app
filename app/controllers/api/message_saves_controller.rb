@@ -1,4 +1,12 @@
 class Api::MessageSavesController < ApplicationController
+  def index
+    @message_saves = MessageSave.includes(:message).where(
+      user_id: current_user.id,
+      workspace_id: message_save_params[:workspace_id]
+    )
+    render :index
+  end
+
   def create
     @message_save = MessageSave.new(
       user_id: current_user.id, 

@@ -7,6 +7,7 @@ import ChannelContainer from '../channel/channel_container';
 import ChannelProfileSidebar from "../channel/channel_profile_sidebar";
 import ChannelBrowser from "../channel/browser_channels/channel_browser";
 import PeopleBrowser from "../channel/browser_channels/people_browser";
+import SavedBrowser from "../channel/browser_channels/saved_browser";
 
 // Modals
 import NewChannelModalContainer from '../modals/new_channel_modal_container';
@@ -59,7 +60,7 @@ class Workspace extends React.Component {
           .then(
             ({channels, workspace}) => {
               this.first_channel = Object.keys(channels)[0];  // goes to first channel if url is invalid
-              if (channel_id != "channel-browser" && channel_id != "people-browser" && channels[channel_id] === undefined)
+              if (channel_id != "saved-browser" && channel_id != "channel-browser" && channel_id != "people-browser" && channels[channel_id] === undefined)
                 this.props.history.replace(`/workspace/${workspace_address}/${this.first_channel}`)
 
               this.loginACChannel.speak({ // announces login through ActionCable
@@ -247,7 +248,7 @@ class Workspace extends React.Component {
   componentDidUpdate(oldProps) {
     let { channel_id } = this.props.match.params;
     if (oldProps.match.params.channel_id !== channel_id) {
-      if (channel_id == "channel-browser" || channel_id == 'people-browser')
+      if (channel_id == "channel-browser" || channel_id == 'people-browser' || channel_id == 'saved-browser')
         this.props.loadChannel(parseInt(channel_id));
       else if (getState().entities.channels[channel_id] === undefined)
         this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
@@ -283,6 +284,10 @@ class Workspace extends React.Component {
       return (
         <PeopleBrowser
           showUser={this.showUser}/>
+      )
+    else if (channel_id == "saved-browser")
+      return (
+        <SavedBrowser/>
       )
     else
       return (
