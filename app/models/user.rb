@@ -53,8 +53,18 @@ class User < ApplicationRecord
     through: :dm_channel_connections_2,
     source: :channel
 
-  has_many :messages
-  has_many :message_reacts
+  has_many :messages,
+    class_name: :Message,
+    foreign_key: :user_id,
+    dependent: :destroy
+  has_many :message_reacts,
+    class_name: :MessageReact,
+    foreign_key: :user_id,
+    dependent: :destroy
+  has_many :message_saves,
+    class_name: :MessageSave,
+    foreign_key: :user_id,
+    dependent: :destroy
 
   #AWS Photo
   has_one_attached :photo

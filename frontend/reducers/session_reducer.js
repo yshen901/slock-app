@@ -4,6 +4,7 @@ import { LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL } from '../a
 import { RECEIVE_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../actions/dm_channel_actions';
 import { RECEIVE_ERRORS } from '../actions/error_actions';
 import cloneDeep from "lodash/cloneDeep"
+import { RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_SAVE } from '../actions/message_actions';
 
 let DEFAULT_SESSION = {
   user_id: null, 
@@ -15,7 +16,7 @@ let DEFAULT_SESSION = {
 const SessionReducer = (state = DEFAULT_SESSION, action) => {
   Object.freeze(state);
   let nextState = cloneDeep(state);
-  let channel_id;
+  let channel_id, message;
 
   switch(action.type) {
     case RECEIVE_USER:
@@ -24,6 +25,7 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
 
     case LOAD_WORKSPACE:
       nextState.user_channels = action.user_channels ? action.user_channels : {} ;
+      nextState.user_saved_messages = action.user_saved_messages ? action.user_saved_messages : {} ;
       nextState.workspace_id = action.workspace.id;
       return nextState;
 
@@ -64,6 +66,14 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
       channel_id = action.dmChannelUser.channel.id;
       delete nextState.user_channels[channel_id];
       if (nextState.user_channels === undefined) nextState.user_channels = {} // in case that was the last channel
+      return nextState;
+
+    case RECEIVE_MESSAGE_SAVE:
+      nextState.user_saved_messages[action.message_save.message_id] = {id: action.message_save.message_id};
+      return nextState;
+    
+    case REMOVE_MESSAGE_SAVE:
+      delete nextState.user_saved_messages[action.message_save.message_id];
       return nextState;
 
     case LOGOUT:

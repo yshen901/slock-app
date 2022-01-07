@@ -27,7 +27,7 @@ class Api::MessageReactsController < ApplicationController
         render json: @message_react.errors.full_messages, status: 402
       end
     else
-      render json: ["Delete failed: message react not found!"], status: 400
+      render json: ["Delete failed: message react not found."], status: 400
     end
   end
 

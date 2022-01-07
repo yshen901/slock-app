@@ -74,4 +74,15 @@ if logged_in?
       end
     end
   end
+
+  json.user_saved_messages({})
+  json.user_saved_messages do
+    @current_user.message_saves.each do |message_save|
+      if message_save.workspace_id == @workspace.id
+        json.set! message_save.message_id do
+          json.id message_save.message_id
+        end
+      end
+    end
+  end
 end

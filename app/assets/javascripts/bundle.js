@@ -329,7 +329,7 @@ var refreshErrors = function refreshErrors() {
 /*!**********************************************!*\
   !*** ./frontend/actions/message_actions.jsx ***!
   \**********************************************/
-/*! exports provided: LOAD_MESSAGES, RECEIVE_MESSAGE_REACT, REMOVE_MESSAGE_REACT, getMessages, postMessageReact, deleteMessageReact */
+/*! exports provided: LOAD_MESSAGES, RECEIVE_MESSAGE_REACT, REMOVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_SAVE, getMessages, postMessageReact, deleteMessageReact, postMessageSave, deleteMessageSave */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -337,18 +337,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_MESSAGES", function() { return LOAD_MESSAGES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MESSAGE_REACT", function() { return RECEIVE_MESSAGE_REACT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_MESSAGE_REACT", function() { return REMOVE_MESSAGE_REACT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MESSAGE_SAVE", function() { return RECEIVE_MESSAGE_SAVE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_MESSAGE_SAVE", function() { return REMOVE_MESSAGE_SAVE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessages", function() { return getMessages; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postMessageReact", function() { return postMessageReact; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMessageReact", function() { return deleteMessageReact; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postMessageSave", function() { return postMessageSave; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMessageSave", function() { return deleteMessageSave; });
 /* harmony import */ var _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/message_api_util */ "./frontend/util/message_api_util.js");
 /* harmony import */ var _util_message_react_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/message_react_api_util */ "./frontend/util/message_react_api_util.js");
-/* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
+/* harmony import */ var _util_message_save_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/message_save_api_util */ "./frontend/util/message_save_api_util.js");
+/* harmony import */ var _error_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./error_actions */ "./frontend/actions/error_actions.jsx");
+
 
 
 
 var LOAD_MESSAGES = "LOAD_MESSAGES";
 var RECEIVE_MESSAGE_REACT = "RECEIVE_MESSAGE_REACT";
 var REMOVE_MESSAGE_REACT = "REMOVE_MESSAGE_REACT";
+var RECEIVE_MESSAGE_SAVE = "RECEIVE_MESSAGE_SAVE";
+var REMOVE_MESSAGE_SAVE = "REMOVE_MESSAGE_SAVE";
 
 var loadMessages = function loadMessages(messages) {
   return {
@@ -371,12 +379,26 @@ var removeMessageReact = function removeMessageReact(message_react) {
   };
 };
 
+var receiveMessageSave = function receiveMessageSave(message_save) {
+  return {
+    type: RECEIVE_MESSAGE_SAVE,
+    message_save: message_save
+  };
+};
+
+var removeMessageSave = function removeMessageSave(message_save) {
+  return {
+    type: REMOVE_MESSAGE_SAVE,
+    message_save: message_save
+  };
+};
+
 var getMessages = function getMessages(channel_id) {
   return function (dispatch) {
     return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["getMessages"](channel_id).then(function (messages) {
       return dispatch(loadMessages(messages));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
     });
   };
 };
@@ -385,7 +407,7 @@ var postMessageReact = function postMessageReact(message_react) {
     return _util_message_react_api_util__WEBPACK_IMPORTED_MODULE_1__["postMessageReact"](message_react).then(function (message_react) {
       return dispatch(receiveMessageReact(message_react));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
     });
   };
 };
@@ -394,7 +416,25 @@ var deleteMessageReact = function deleteMessageReact(message_react) {
     return _util_message_react_api_util__WEBPACK_IMPORTED_MODULE_1__["deleteMessageReact"](message_react).then(function (message_react) {
       return dispatch(removeMessageReact(message_react));
     }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+    });
+  };
+};
+var postMessageSave = function postMessageSave(message_save) {
+  return function (dispatch) {
+    return _util_message_save_api_util__WEBPACK_IMPORTED_MODULE_2__["postMessageSave"](message_save).then(function (message_save) {
+      return dispatch(receiveMessageSave(message_save));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+    });
+  };
+};
+var deleteMessageSave = function deleteMessageSave(message_save) {
+  return function (dispatch) {
+    return _util_message_save_api_util__WEBPACK_IMPORTED_MODULE_2__["deleteMessageSave"](message_save).then(function (message_save) {
+      return dispatch(removeMessageSave(message_save));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
     });
   };
 };
@@ -579,13 +619,15 @@ var receiveWorkspace = function receiveWorkspace(_ref) {
   var workspace = _ref.workspace,
       users = _ref.users,
       user_channels = _ref.user_channels,
-      channels = _ref.channels;
+      channels = _ref.channels,
+      user_saved_messages = _ref.user_saved_messages;
   return {
     type: RECEIVE_WORKSPACE,
     workspace: workspace,
     channels: channels,
     users: users,
-    user_channels: user_channels
+    user_channels: user_channels,
+    user_saved_messages: user_saved_messages
   };
 }; // Loads workspace info into other slices
 
@@ -594,13 +636,15 @@ var loadWorkspace = function loadWorkspace(_ref2) {
   var workspace = _ref2.workspace,
       users = _ref2.users,
       user_channels = _ref2.user_channels,
-      channels = _ref2.channels;
+      channels = _ref2.channels,
+      user_saved_messages = _ref2.user_saved_messages;
   return {
     type: LOAD_WORKSPACE,
     workspace: workspace,
     users: users,
     channels: channels,
-    user_channels: user_channels
+    user_channels: user_channels,
+    user_saved_messages: user_saved_messages
   };
 };
 
@@ -2615,6 +2659,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
     _this.toggleUserPopup = _this.toggleUserPopup.bind(_assertThisInitialized(_this));
     _this.toggleMessageReact = _this.toggleMessageReact.bind(_assertThisInitialized(_this));
+    _this.toggleMessageSave = _this.toggleMessageSave.bind(_assertThisInitialized(_this));
     _this.calculatePos = _this.calculatePos.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -2766,6 +2811,35 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
+    key: "toggleMessageSave",
+    value: function toggleMessageSave(messageId) {
+      var _this4 = this;
+
+      return function (e) {
+        e.preventDefault();
+        if (_this4.props.user_saved_messages[messageId]) _this4.props.deleteMessageSave({
+          message_id: messageId
+        }).then(function (_ref3) {
+          var message_save = _ref3.message_save,
+              type = _ref3.type;
+          return _this4.updateMessage({
+            type: type,
+            id: message_save.message_id
+          });
+        });else _this4.props.postMessageSave({
+          message_id: messageId,
+          workspace_id: _this4.props.workspace_id
+        }).then(function (_ref4) {
+          var message_save = _ref4.message_save,
+              type = _ref4.type;
+          return _this4.updateMessage({
+            type: type,
+            id: message_save.message_id
+          });
+        });
+      };
+    }
+  }, {
     key: "messageEmojiButton",
     value: function messageEmojiButton(messageData, react_code) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2776,21 +2850,21 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageReactsList",
     value: function messageReactsList(messageData) {
-      var _this4 = this;
+      var _this5 = this;
 
       var total_reacts = Object.entries(messageData.total_reacts);
       if (total_reacts.length == 0) return;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-reacts-list"
-      }, total_reacts.map(function (_ref3, idx) {
-        var _ref4 = _slicedToArray(_ref3, 2),
-            react_code = _ref4[0],
-            num = _ref4[1];
+      }, total_reacts.map(function (_ref5, idx) {
+        var _ref6 = _slicedToArray(_ref5, 2),
+            react_code = _ref6[0],
+            num = _ref6[1];
 
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-react",
           key: idx,
-          onClick: _this4.toggleMessageReact(messageData, react_code)
+          onClick: _this5.toggleMessageReact(messageData, react_code)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "emoji"
         }, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2810,6 +2884,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           username = _messagesData$i.username,
           photo_url = _messagesData$i.photo_url,
           id = _messagesData$i.id;
+      var saved = !!this.props.user_saved_messages[messagesData[i].id];
 
       if (i == 0 || created_date !== messagesData[i - 1].created_date) {
         var date = created_date;
@@ -2841,9 +2916,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-buttons"
       }, this.messageEmojiButton(messagesData[i], "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i], "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE22"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button"
+        className: "message-button",
+        onClick: this.toggleMessageSave(messagesData[i].id)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "far fa-bookmark fa-fw"
+        className: saved ? "fas fa-bookmark fa-fw" : "far fa-bookmark fa-fw"
       })), this.messageDeleteButton(messagesData[i]))), this.messageReactsList(messagesData[i])));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2872,38 +2948,39 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-buttons"
       }, this.messageEmojiButton(messagesData[i], "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i], "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE22"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button"
+        className: "message-button",
+        onClick: this.toggleMessageSave(messagesData[i].id)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "far fa-bookmark fa-fw"
+        className: saved ? "fas fa-bookmark fa-fw" : "far fa-bookmark fa-fw"
       })), this.messageDeleteButton(messagesData[i]))), this.messageReactsList(messagesData[i])));
     }
   }, {
     key: "loadMessages",
     value: function loadMessages() {
-      var _this5 = this;
+      var _this6 = this;
 
       var _this$props = this.props,
           getMessages = _this$props.getMessages,
           channel_id = _this$props.channel_id,
           users = _this$props.users;
-      getMessages(channel_id).then(function (_ref5) {
-        var messages = _ref5.messages;
+      getMessages(channel_id).then(function (_ref7) {
+        var messages = _ref7.messages;
         // update message data
         var messagesData = Object.values(messages).map(function (message) {
           message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
-          message.created_date = _this5.getMessageDate(message);
-          message.created_at = _this5.getMessageTimestamp(message);
-          message.username = _this5.profileName(users[message.user_id]);
+          message.created_date = _this6.getMessageDate(message);
+          message.created_at = _this6.getMessageTimestamp(message);
+          message.username = _this6.profileName(users[message.user_id]);
           return message;
         }); // popualate messagesList
 
         var messagesList = [];
 
         for (var i = 0; i < messagesData.length; i++) {
-          _this5.processNewMessage(messagesData, messagesList, i);
+          _this6.processNewMessage(messagesData, messagesList, i);
         }
 
-        _this5.setState({
+        _this6.setState({
           messagesList: messagesList,
           messagesData: messagesData
         });
@@ -2996,12 +3073,12 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleUserPopup",
     value: function toggleUserPopup(userId) {
-      var _this6 = this;
+      var _this7 = this;
 
       return function (e) {
         e.stopPropagation();
 
-        _this6.setState({
+        _this7.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
         });
@@ -3010,7 +3087,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderUserPopup",
     value: function renderUserPopup() {
-      var _this7 = this;
+      var _this8 = this;
 
       var _this$props2 = this.props,
           users = _this$props2.users,
@@ -3019,7 +3096,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: users[popupUserId],
         hidePopup: function hidePopup() {
-          return _this7.setState({
+          return _this8.setState({
             popupUserId: 0
           });
         },
@@ -3103,7 +3180,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     workspace_id: state.session.workspace_id,
     channel_id: ownProps.match.params.channel_id,
     joinChannels: ownProps.joinChannels,
-    status: ownProps.status
+    status: ownProps.status,
+    user_saved_messages: state.session.user_saved_messages
   };
 };
 
@@ -3120,6 +3198,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteMessageReact: function deleteMessageReact(message_react) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["deleteMessageReact"])(message_react));
+    },
+    postMessageSave: function postMessageSave(message_save) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["postMessageSave"])(message_save));
+    },
+    deleteMessageSave: function deleteMessageSave(message_save) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["deleteMessageSave"])(message_save));
     }
   };
 };
@@ -9101,7 +9185,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_error_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../actions/error_actions */ "./frontend/actions/error_actions.jsx");
 /* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/cloneDeep */ "./node_modules/lodash/cloneDeep.js");
 /* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -9121,7 +9207,7 @@ var SessionReducer = function SessionReducer() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
   var nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
-  var channel_id;
+  var channel_id, message;
 
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
@@ -9130,6 +9216,7 @@ var SessionReducer = function SessionReducer() {
 
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_WORKSPACE"]:
       nextState.user_channels = action.user_channels ? action.user_channels : {};
+      nextState.user_saved_messages = action.user_saved_messages ? action.user_saved_messages : {};
       nextState.workspace_id = action.workspace.id;
       return nextState;
 
@@ -9171,6 +9258,16 @@ var SessionReducer = function SessionReducer() {
       delete nextState.user_channels[channel_id];
       if (nextState.user_channels === undefined) nextState.user_channels = {}; // in case that was the last channel
 
+      return nextState;
+
+    case _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["RECEIVE_MESSAGE_SAVE"]:
+      nextState.user_saved_messages[action.message_save.message_id] = {
+        id: action.message_save.message_id
+      };
+      return nextState;
+
+    case _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE_SAVE"]:
+      delete nextState.user_saved_messages[action.message_save.message_id];
       return nextState;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
@@ -9714,6 +9811,40 @@ var deleteMessageReact = function deleteMessageReact(message_react) {
     url: "/api/message_reacts/0",
     data: {
       message_react: message_react
+    }
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/message_save_api_util.js":
+/*!************************************************!*\
+  !*** ./frontend/util/message_save_api_util.js ***!
+  \************************************************/
+/*! exports provided: postMessageSave, deleteMessageSave */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postMessageSave", function() { return postMessageSave; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMessageSave", function() { return deleteMessageSave; });
+// Creates using message_id and react_code
+var postMessageSave = function postMessageSave(message_save) {
+  return $.ajax({
+    method: "POST",
+    url: "/api/message_saves",
+    data: {
+      message_save: message_save
+    }
+  });
+}; // Placeholder url id, found with message_id and react_code
+
+var deleteMessageSave = function deleteMessageSave(message_save) {
+  return $.ajax({
+    method: "DELETE",
+    url: "/api/message_saves/0",
+    data: {
+      message_save: message_save
     }
   });
 };

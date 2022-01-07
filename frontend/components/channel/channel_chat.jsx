@@ -4,7 +4,7 @@ import { photoUrl } from '../../selectors/selectors';
 
 import ChannelMessageForm from './channel_message_form';
 import UserPopupModal from "../modals/user_popup_modal.jsx";
-import { RECEIVE_MESSAGE_REACT, REMOVE_MESSAGE_REACT } from '../../actions/message_actions';
+import { RECEIVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_REACT, REMOVE_MESSAGE_SAVE } from '../../actions/message_actions';
 
 class ChannelChat extends React.Component {
   constructor(props) {
@@ -25,6 +25,7 @@ class ChannelChat extends React.Component {
     this.receiveACData = this.receiveACData.bind(this);
     this.toggleUserPopup = this.toggleUserPopup.bind(this);
     this.toggleMessageReact = this.toggleMessageReact.bind(this);
+    this.toggleMessageSave = this.toggleMessageSave.bind(this);
     this.calculatePos = this.calculatePos.bind(this);
   }
 
@@ -147,6 +148,21 @@ class ChannelChat extends React.Component {
     };
   }
 
+  toggleMessageSave(messageId) {
+    return (e) => {
+      e.preventDefault();
+      if (this.props.user_saved_messages[messageId])
+        this.props.deleteMessageSave({
+          message_id: messageId,
+        }).then(({message_save, type}) => this.updateMessage({type, id: message_save.message_id}))
+      else
+        this.props.postMessageSave({
+          message_id: messageId,
+          workspace_id: this.props.workspace_id
+        }).then(({message_save, type}) => this.updateMessage({type, id: message_save.message_id}))
+    }
+  }
+
   messageEmojiButton(messageData, react_code) {
     return (
       <div className="message-button emoji" 
@@ -173,6 +189,7 @@ class ChannelChat extends React.Component {
   processNewMessage(messagesData, messagesList, i) {
     i = i != null ? i : messagesData.length - 1;
     let { created_at, created_date, body, user_id, username, photo_url, id} = messagesData[i];
+    let saved = !!this.props.user_saved_messages[messagesData[i].id];
 
     if (i == 0 || created_date !== messagesData[i-1].created_date) {
       let date = created_date;
@@ -207,8 +224,8 @@ class ChannelChat extends React.Component {
               { this.messageEmojiButton(messagesData[i], '\u{1F60D}') }
               { this.messageEmojiButton(messagesData[i], '\u{1F622}') }
               { this.messageEmojiButton(messagesData[i], '\u{1F620}') }
-              <div className="message-button">
-                <i className="far fa-bookmark fa-fw"></i>
+              <div className="message-button" onClick={this.toggleMessageSave(messagesData[i].id)}>
+                <i className={saved ? "fas fa-bookmark fa-fw" : "far fa-bookmark fa-fw"}></i>
               </div>
               {this.messageDeleteButton(messagesData[i])}
             </div>
@@ -243,8 +260,8 @@ class ChannelChat extends React.Component {
               { this.messageEmojiButton(messagesData[i], '\u{1F60D}') }
               { this.messageEmojiButton(messagesData[i], '\u{1F622}') }
               { this.messageEmojiButton(messagesData[i], '\u{1F620}') }
-              <div className="message-button">
-                <i className="far fa-bookmark fa-fw"></i>
+              <div className="message-button" onClick={this.toggleMessageSave(messagesData[i].id)}>
+                <i className={saved ? "fas fa-bookmark fa-fw" : "far fa-bookmark fa-fw"}></i>
               </div>
               {this.messageDeleteButton(messagesData[i])}
             </div>
