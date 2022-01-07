@@ -1,5 +1,6 @@
 .message-list {
   width: 100%;
+  max-height: calc(100% - 154px);
   
   overflow-x: hidden;
   overflow-y: auto;
