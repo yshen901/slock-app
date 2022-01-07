@@ -396,12 +396,14 @@ var receiveMessageSaves = function receiveMessageSaves(_ref) {
 };
 
 var receiveMessageSave = function receiveMessageSave(message_save) {
+  message_save.message_save_id = message_save.id;
   return {
     type: RECEIVE_MESSAGE_SAVE,
     message_save: message_save
   };
 };
 var removeMessageSave = function removeMessageSave(message_save) {
+  message_save.message_save_id = message_save.id;
   return {
     type: REMOVE_MESSAGE_SAVE,
     message_save: message_save
@@ -2442,8 +2444,11 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
       popupUserId: 0,
       popupUserTarget: null
     };
+    _this.toggleUserPopup = _this.toggleUserPopup.bind(_assertThisInitialized(_this));
+    _this.calculatePos = _this.calculatePos.bind(_assertThisInitialized(_this));
     _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
     _this.updateMessage = _this.updateMessage.bind(_assertThisInitialized(_this));
+    _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
     return _this;
   } // Load user's saved messages and begin listening for changes to reacts or saved
 
@@ -2543,6 +2548,12 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
         top: top,
         left: left
       };
+    }
+  }, {
+    key: "goToChannel",
+    value: function goToChannel(channel_id) {
+      var workspace_address = this.props.match.params.workspace_address;
+      this.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
     }
   }, {
     key: "toggleMessageReact",
@@ -2656,6 +2667,8 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderMessage",
     value: function renderMessage(messageId) {
+      var _this7 = this;
+
       var message = getState().entities.messages[messageId];
       if (!message) return;
       var created_at = message.created_at,
@@ -2676,7 +2689,10 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
         className: "message",
         key: message.id
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-channel-header"
+        className: "message-channel-header",
+        onClick: function onClick() {
+          return _this7.goToChannel(channel.id);
+        }
       }, channel.dm_channel ? "Direct Message" : "#".concat(channel.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2708,7 +2724,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this7 = this;
+      var _this8 = this;
 
       var user_saved_messages = Object.values(getState().session.user_saved_messages);
       user_saved_messages.sort(function (a, b) {
@@ -2729,7 +2745,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
         className: "message-list browser"
       }, user_saved_messages.map(function (_ref7) {
         var id = _ref7.id;
-        return _this7.renderMessage(id);
+        return _this8.renderMessage(id);
       })), this.renderUserPopup());
     }
   }]);

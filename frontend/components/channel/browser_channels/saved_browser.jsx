@@ -27,8 +27,11 @@ class SavedBrowser extends React.Component {
       popupUserTarget: null
     }
 
+    this.toggleUserPopup = this.toggleUserPopup.bind(this);
+    this.calculatePos = this.calculatePos.bind(this);
     this.receiveACData = this.receiveACData.bind(this);
     this.updateMessage = this.updateMessage.bind(this);
+    this.goToChannel = this.goToChannel.bind(this);
   }
 
   // Load user's saved messages and begin listening for changes to reacts or saved
@@ -121,6 +124,11 @@ class SavedBrowser extends React.Component {
     };
   }
 
+  goToChannel(channel_id) {
+    let workspace_address = this.props.match.params.workspace_address;
+    this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+  }
+
   toggleMessageReact(messageData, react_code) {
     return (e) => {
       e.preventDefault();
@@ -195,7 +203,7 @@ class SavedBrowser extends React.Component {
 
     return (
       <div className='message' key={message.id}>
-        <div className="message-channel-header">
+        <div className="message-channel-header" onClick={() => this.goToChannel(channel.id)}>
           {channel.dm_channel ? "Direct Message" : `#${channel.name}`}
         </div>
         <div className="message-content">

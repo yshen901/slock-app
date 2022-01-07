@@ -363,6 +363,12 @@
         margin-bottom: 8px;
       }
 
+      .message-channel-header:hover {
+        transition: 0.3s;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
       .message-content {
         .message-user-icon {
           margin-left: 0;

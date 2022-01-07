@@ -31,15 +31,21 @@ const receiveMessageSaves = ({message_saves, messages}) => ({
   messages
 });
 
-export const receiveMessageSave = (message_save) => ({
-  type: RECEIVE_MESSAGE_SAVE,
-  message_save
-});
+export const receiveMessageSave = (message_save) => {
+  message_save.message_save_id = message_save.id;
+  return {
+    type: RECEIVE_MESSAGE_SAVE,
+    message_save
+  };
+};
 
-export const removeMessageSave = (message_save) => ({
-  type: REMOVE_MESSAGE_SAVE,
-  message_save
-});
+export const removeMessageSave = (message_save) => {
+  message_save.message_save_id = message_save.id;
+  return {
+    type: REMOVE_MESSAGE_SAVE,
+    message_save
+  };
+};
 
 export const getMessages = channel_id => dispatch => (
   MessageAPI
