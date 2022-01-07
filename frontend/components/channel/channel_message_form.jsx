@@ -256,7 +256,14 @@ class ChannelMessageForm extends React.Component {
                 {/* <div className="toolbar-button fa fa-upload fa-fw"></div>
                 <div className="toolbar-divider"></div> */}
                 <div className="toolbar-button" onMouseDown={e => { e.preventDefault(); document.getElementById("chat-toolbar").classList.toggle("hidden"); }}>Aa</div>
-                <div className="toolbar-button"></div>
+                <div className="toolbar-divider"></div>
+                <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F4AF}')}>{'\u{1F4AF}'}</div>
+                <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F44D}')}>{'\u{1F44D}'}</div>
+                <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F642}')}>{'\u{1F642}'}</div>
+                <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F602}')}>{'\u{1F602}'}</div>
+                <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F60D}')}>{'\u{1F60D}'}</div>
+                <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F622}')}>{'\u{1F622}'}</div>
+                <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F620}')}>{'\u{1F620}'}</div>
               </div>
             </div>
             <div id="message-footer">

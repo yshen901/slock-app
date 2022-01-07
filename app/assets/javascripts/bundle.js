@@ -4074,8 +4074,50 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
           document.getElementById("chat-toolbar").classList.toggle("hidden");
         }
       }, "Aa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "toolbar-button"
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-divider"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format("insertHTML", "\uD83D\uDCAF")
+      }, "\uD83D\uDCAF"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format("insertHTML", "\uD83D\uDC4D")
+      }, "\uD83D\uDC4D"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format("insertHTML", "\uD83D\uDE42")
+      }, "\uD83D\uDE42"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format("insertHTML", "\uD83D\uDE02")
+      }, "\uD83D\uDE02"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format("insertHTML", "\uD83D\uDE0D")
+      }, "\uD83D\uDE0D"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format("insertHTML", "\uD83D\uDE22")
+      }, "\uD83D\uDE22"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        },
+        onClick: this.format("insertHTML", "\uD83D\uDE20")
+      }, "\uD83D\uDE20"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-footer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Shift + Return"), " to add a new line."))), this.renderLinkForm());
     }
