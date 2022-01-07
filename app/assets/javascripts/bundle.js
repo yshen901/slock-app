@@ -2619,6 +2619,39 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(ChannelChat, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.messageACChannel = App.cable.subscriptions.create({
+        channel: "ChatChannel"
+      }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
+      {
+        received: this.receiveACData,
+        speak: function speak(data) {
+          return this.perform('speak', data);
+        }
+      });
+      this.loadMessages();
+    } // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
+    // Only trigger for non-transitional channels (channel_id != 0)
+
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(oldProps, oldState) {
+      var channel_id = this.props.match.params.channel_id;
+
+      if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
+        this.loadMessages();
+      } // Only scroll on initial load
+
+
+      if (oldState.messagesData.length == 0) if (this.bottom.current) this.bottom.current.scrollIntoView();
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      if (this.messageACChannel) this.messageACChannel.unsubscribe();
+    }
+  }, {
     key: "profileName",
     value: function profileName(user) {
       if (user.display_name != "") return user.display_name;else if (user.full_name != "") return user.full_name;else return user.email.split("@")[0];
@@ -2935,34 +2968,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           }
         }
       }
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.messageACChannel = App.cable.subscriptions.create({
-        channel: "ChatChannel"
-      }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
-      {
-        received: this.receiveACData,
-        speak: function speak(data) {
-          return this.perform('speak', data);
-        }
-      });
-      this.loadMessages();
-    } // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
-    // Only trigger for non-transitional channels (channel_id != 0)
-
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(oldProps) {
-      var channel_id = this.props.match.params.channel_id;
-      if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) this.loadMessages();
-      if (this.bottom.current) this.bottom.current.scrollIntoView();
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      if (this.messageACChannel) this.messageACChannel.unsubscribe();
     }
   }, {
     key: "toggleUserPopup",

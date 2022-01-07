@@ -26,6 +26,36 @@ class ChannelChat extends React.Component {
     this.calculatePos = this.calculatePos.bind(this);
   }
 
+  componentDidMount() {
+    this.messageACChannel = App.cable.subscriptions.create(
+      { channel: "ChatChannel" }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
+      {
+        received: this.receiveACData,
+        speak: function(data) {
+          return this.perform('speak', data);
+        }
+      }
+    );
+    this.loadMessages();
+  }
+
+  // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
+  // Only trigger for non-transitional channels (channel_id != 0)
+  componentDidUpdate(oldProps, oldState) {
+    let {channel_id} = this.props.match.params;
+    if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
+      this.loadMessages();
+    }
+
+    // Only scroll on initial load
+    if (oldState.messagesData.length == 0)
+      if (this.bottom.current) this.bottom.current.scrollIntoView();
+  }
+
+  componentWillUnmount() {
+    if (this.messageACChannel) this.messageACChannel.unsubscribe();
+  }
+
   profileName(user) {
     if (user.display_name != "")
       return user.display_name;
@@ -292,32 +322,6 @@ class ChannelChat extends React.Component {
         }
       }
     }
-  }
-
-  componentDidMount() {
-    this.messageACChannel = App.cable.subscriptions.create(
-      { channel: "ChatChannel" }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
-      {
-        received: this.receiveACData,
-        speak: function(data) {
-          return this.perform('speak', data);
-        }
-      }
-    );
-    this.loadMessages();
-  }
-
-  // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
-  // Only trigger for non-transitional channels (channel_id != 0)
-  componentDidUpdate(oldProps) {
-    let {channel_id} = this.props.match.params;
-    if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id)
-      this.loadMessages();
-    if (this.bottom.current) this.bottom.current.scrollIntoView();
-  }
-
-  componentWillUnmount() {
-    if (this.messageACChannel) this.messageACChannel.unsubscribe();
   }
 
   toggleUserPopup(userId) {
