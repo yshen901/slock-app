@@ -2604,6 +2604,25 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       return false;
     }
   }, {
+    key: "messageDeleteButton",
+    value: function messageDeleteButton(messageData) {
+      var _this2 = this;
+
+      if (messageData.user_id == this.props.current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-button",
+        onClick: function onClick() {
+          return _this2.messageACChannel.speak({
+            message: {
+              type: "DELETE",
+              id: messageData.id
+            }
+          });
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "far fa-trash-alt fa-fw"
+      }));
+    }
+  }, {
     key: "processNewMessage",
     value: function processNewMessage(messagesData, messagesList, i) {
       i = i != null ? i : messagesData.length - 1;
@@ -2655,11 +2674,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         className: "message-button"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-bookmark fa-fw"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "far fa-trash-alt fa-fw"
-      })))));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), this.messageDeleteButton(messagesData[i]))));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user-icon"
@@ -2696,16 +2711,12 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         className: "message-button"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-bookmark fa-fw"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "far fa-trash-alt fa-fw"
-      })))));
+      })), this.messageDeleteButton(messagesData[i]))));
     }
   }, {
     key: "loadMessages",
     value: function loadMessages() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _this$props = this.props,
           getMessages = _this$props.getMessages,
@@ -2716,19 +2727,19 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         // update message data
         var messagesData = Object.values(messages).map(function (message) {
           message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
-          message.created_date = _this2.getMessageDate(message);
-          message.created_at = _this2.getMessageTimestamp(message);
-          message.username = _this2.profileName(users[message.user_id]);
+          message.created_date = _this3.getMessageDate(message);
+          message.created_at = _this3.getMessageTimestamp(message);
+          message.username = _this3.profileName(users[message.user_id]);
           return message;
         }); // popualate messagesList
 
         var messagesList = [];
 
         for (var i = 0; i < messagesData.length; i++) {
-          _this2.processNewMessage(messagesData, messagesList, i);
+          _this3.processNewMessage(messagesData, messagesList, i);
         }
 
-        _this2.setState({
+        _this3.setState({
           messagesList: messagesList,
           messagesData: messagesData
         });
@@ -2739,30 +2750,35 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     value: function receiveACData(data) {
       var message = data.message; //extract the data
 
-      var user_id = message.user_id,
-          channel_id = message.channel_id,
-          activate_dm_channel = message.activate_dm_channel; // loads the message if its to the current channel
-
-      if (channel_id == this.props.channel_id) {
-        message.username = this.profileName(this.props.users[user_id]);
-        message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.users[user_id]);
-        message.created_date = this.getMessageDate(message);
-        message.created_at = this.processTime(message.created_at);
-        var messagesData = this.state.messagesData.concat(message);
-        var messagesList = this.state.messagesList;
-        this.processNewMessage(messagesData, messagesList);
-        this.setState({
-          messagesData: messagesData,
-          messagesList: messagesList
-        });
+      if (message.type == "DELETE") {
+        // if a message was deleted. TODO: only reload a single message!
+        this.loadMessages();
       } else {
-        // joins the dm channel if not already in it
-        if (activate_dm_channel) {
-          this.props.startDmChannel({
-            user_1_id: this.props.current_user_id,
-            user_2_id: user_id,
-            workspace_id: this.props.workspace_id
+        var user_id = message.user_id,
+            channel_id = message.channel_id,
+            activate_dm_channel = message.activate_dm_channel; // loads the message if its to the current channel
+
+        if (channel_id == this.props.channel_id) {
+          message.username = this.profileName(this.props.users[user_id]);
+          message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.users[user_id]);
+          message.created_date = this.getMessageDate(message);
+          message.created_at = this.processTime(message.created_at);
+          var messagesData = this.state.messagesData.concat(message);
+          var messagesList = this.state.messagesList;
+          this.processNewMessage(messagesData, messagesList);
+          this.setState({
+            messagesData: messagesData,
+            messagesList: messagesList
           });
+        } else {
+          // joins the dm channel if not already in it
+          if (activate_dm_channel) {
+            this.props.startDmChannel({
+              user_1_id: this.props.current_user_id,
+              user_2_id: user_id,
+              workspace_id: this.props.workspace_id
+            });
+          }
         }
       }
     }
@@ -2797,12 +2813,12 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleUserPopup",
     value: function toggleUserPopup(userId) {
-      var _this3 = this;
+      var _this4 = this;
 
       return function (e) {
         e.stopPropagation();
 
-        _this3.setState({
+        _this4.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
         });
@@ -2811,7 +2827,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderUserPopup",
     value: function renderUserPopup() {
-      var _this4 = this;
+      var _this5 = this;
 
       var _this$props2 = this.props,
           users = _this$props2.users,
@@ -2820,7 +2836,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: users[popupUserId],
         hidePopup: function hidePopup() {
-          return _this4.setState({
+          return _this5.setState({
             popupUserId: 0
           });
         },
@@ -3616,6 +3632,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         var user_id = getState().session.user_id;
         this.props.messageACChannel.speak({
           message: {
+            type: "PUT",
             body: dompurify__WEBPACK_IMPORTED_MODULE_4___default.a.sanitize(e.currentTarget.innerHTML),
             user_id: getState().session.user_id,
             channel_id: getState().session.channel_id,

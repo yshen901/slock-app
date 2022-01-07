@@ -53,6 +53,7 @@ class ChannelMessageForm extends React.Component {
       this.props.messageACChannel.speak(
         {
           message: { 
+            type: "PUT",
             body: DOMPurify.sanitize(e.currentTarget.innerHTML),
             user_id: getState().session.user_id,
             channel_id: getState().session.channel_id,

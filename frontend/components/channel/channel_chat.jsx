@@ -73,6 +73,16 @@ class ChannelChat extends React.Component {
     return false;
   }
 
+  messageDeleteButton(messageData) {
+    if (messageData.user_id == this.props.current_user_id) 
+      return (
+        <div className="message-button"
+          onClick={() => this.messageACChannel.speak({message: {type: "DELETE", id: messageData.id}})}>
+          <i className="far fa-trash-alt fa-fw"></i>
+        </div>
+      );
+  }
+
   processNewMessage(messagesData, messagesList, i) {
     i = i != null ? i : messagesData.length - 1;
     let { created_at, created_date, body, user_id, username, photo_url, id} = messagesData[i];
@@ -105,9 +115,7 @@ class ChannelChat extends React.Component {
             <div className="message-button">
               <i className="far fa-bookmark fa-fw"></i>
             </div>
-            <div className="message-button">
-              <i className="far fa-trash-alt fa-fw"></i>
-            </div>
+            {this.messageDeleteButton(messagesData[i])}
           </div>
         </div>
       )
@@ -133,9 +141,7 @@ class ChannelChat extends React.Component {
             <div className="message-button">
               <i className="far fa-bookmark fa-fw"></i>
             </div>
-            <div className="message-button">
-              <i className="far fa-trash-alt fa-fw"></i>
-            </div>
+            {this.messageDeleteButton(messagesData[i])}
           </div>
         </div>
       );
@@ -167,32 +173,38 @@ class ChannelChat extends React.Component {
 
   receiveACData(data) {
     let { message } = data;     //extract the data
-    let { user_id, channel_id, activate_dm_channel } = message;
 
-    // loads the message if its to the current channel
-    if (channel_id == this.props.channel_id) {
-      message.username = this.profileName(this.props.users[user_id]);
-      message.photo_url = photoUrl(this.props.users[user_id]);
-      message.created_date = this.getMessageDate(message);
-      message.created_at = this.processTime(message.created_at);
-
-      let messagesData = this.state.messagesData.concat(message);
-      let messagesList = this.state.messagesList;
-      this.processNewMessage(messagesData, messagesList);
-
-      this.setState({
-        messagesData,
-        messagesList
-      });
+    if (message.type == "DELETE") { // if a message was deleted. TODO: only reload a single message!
+      this.loadMessages();
     }
     else {
-      // joins the dm channel if not already in it
-      if (activate_dm_channel) {
-        this.props.startDmChannel({
-          user_1_id: this.props.current_user_id,
-          user_2_id: user_id,
-          workspace_id: this.props.workspace_id
-        })
+      let { user_id, channel_id, activate_dm_channel } = message;
+  
+      // loads the message if its to the current channel
+      if (channel_id == this.props.channel_id) {
+        message.username = this.profileName(this.props.users[user_id]);
+        message.photo_url = photoUrl(this.props.users[user_id]);
+        message.created_date = this.getMessageDate(message);
+        message.created_at = this.processTime(message.created_at);
+  
+        let messagesData = this.state.messagesData.concat(message);
+        let messagesList = this.state.messagesList;
+        this.processNewMessage(messagesData, messagesList);
+  
+        this.setState({
+          messagesData,
+          messagesList
+        });
+      }
+      else {
+        // joins the dm channel if not already in it
+        if (activate_dm_channel) {
+          this.props.startDmChannel({
+            user_1_id: this.props.current_user_id,
+            user_2_id: user_id,
+            workspace_id: this.props.workspace_id
+          })
+        }
       }
     }
   }
