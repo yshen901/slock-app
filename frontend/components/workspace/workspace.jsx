@@ -287,7 +287,9 @@ class Workspace extends React.Component {
       )
     else if (channel_id == "saved-browser")
       return (
-        <SavedBrowser/>
+        <SavedBrowser
+          showUser={this.showUser}
+          startVideoCall={this.startVideoCall}/>
       )
     else
       return (

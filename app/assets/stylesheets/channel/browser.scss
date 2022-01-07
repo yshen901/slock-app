@@ -4,6 +4,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   .browser-channel-top {
     display: flex;
@@ -15,7 +16,7 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    z-index: 2px;
+    z-index: 2;
 
     .browser-channel-nav {
       width: 100%;
@@ -110,7 +111,6 @@
       color: #1D1B1DB3
     }
   }
-
 
   .browser-channel-content {
     position: absolute;
@@ -335,4 +335,42 @@
       }
     }
   }  
+  .message-list {
+    position: absolute;
+    top: 0px;
+    padding-top: 70px;
+    background: rgb(248, 248, 248);
+
+    max-height: 100%;
+    height: 100%;
+
+    .message {
+      width: calc(100% - 40px);
+
+      margin: 0 20px 20px 20px;
+      padding: 10px 12px 14px 12px;
+      border: 1px solid rgba(29,28,29,0.3);
+      border-radius: 12px;
+      background: white;
+      box-sizing: border-box;
+
+      .message-channel-header {
+        color: rgba(29,28,29,0.7);
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 18px;
+        margin-bottom: 8px;
+      }
+
+      .message-content {
+        .message-user-icon {
+          margin-left: 0;
+        }
+        .message-buttons {
+          top: 10px;
+          right: 12px;
+        }
+      }
+    }
+  }
 }

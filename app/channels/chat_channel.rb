@@ -66,6 +66,13 @@ class ChatChannel < ApplicationCable::Channel
           react_code: message_data["message_react"]["react_code"]
         }
       })
+    elsif message_data['type'] == "RECEIVE_MESSAGE_SAVE" || message_data['type'] == "REMOVE_MESSAGE_SAVE"
+      ChatChannel.broadcast_to('chat_channel', {
+        message: {
+          type: message_data['type'], 
+          id: message_data["id"],
+        }
+      })
     end
   end
 

@@ -15,19 +15,14 @@ const loadMessages = (messages) => ({
   messages
 });
 
-const receiveMessageReact = (message_react) => ({
+export const receiveMessageReact = (message_react) => ({
   type: RECEIVE_MESSAGE_REACT,
-  message_react
+  message_reacte
 });
 
-const removeMessageReact = (message_react) => ({
+export const removeMessageReact = (message_react) => ({
   type: REMOVE_MESSAGE_REACT,
   message_react
-});
-
-const receiveMessageSave = (message_save) => ({
-  type: RECEIVE_MESSAGE_SAVE,
-  message_save
 });
 
 const receiveMessageSaves = ({message_saves, messages}) => ({
@@ -36,7 +31,12 @@ const receiveMessageSaves = ({message_saves, messages}) => ({
   messages
 });
 
-const removeMessageSave = (message_save) => ({
+export const receiveMessageSave = (message_save) => ({
+  type: RECEIVE_MESSAGE_SAVE,
+  message_save
+});
+
+export const removeMessageSave = (message_save) => ({
   type: REMOVE_MESSAGE_SAVE,
   message_save
 });

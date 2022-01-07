@@ -329,7 +329,7 @@ var refreshErrors = function refreshErrors() {
 /*!**********************************************!*\
   !*** ./frontend/actions/message_actions.jsx ***!
   \**********************************************/
-/*! exports provided: LOAD_MESSAGES, RECEIVE_MESSAGE_REACT, REMOVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVES, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_SAVE, getMessages, postMessageReact, deleteMessageReact, getMessageSaves, postMessageSave, deleteMessageSave */
+/*! exports provided: LOAD_MESSAGES, RECEIVE_MESSAGE_REACT, REMOVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVES, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_SAVE, receiveMessageReact, removeMessageReact, receiveMessageSave, removeMessageSave, getMessages, postMessageReact, deleteMessageReact, getMessageSaves, postMessageSave, deleteMessageSave */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -340,6 +340,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MESSAGE_SAVES", function() { return RECEIVE_MESSAGE_SAVES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MESSAGE_SAVE", function() { return RECEIVE_MESSAGE_SAVE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_MESSAGE_SAVE", function() { return REMOVE_MESSAGE_SAVE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveMessageReact", function() { return receiveMessageReact; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeMessageReact", function() { return removeMessageReact; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveMessageSave", function() { return receiveMessageSave; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeMessageSave", function() { return removeMessageSave; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessages", function() { return getMessages; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postMessageReact", function() { return postMessageReact; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMessageReact", function() { return deleteMessageReact; });
@@ -371,21 +375,13 @@ var loadMessages = function loadMessages(messages) {
 var receiveMessageReact = function receiveMessageReact(message_react) {
   return {
     type: RECEIVE_MESSAGE_REACT,
-    message_react: message_react
+    message_reacte: message_reacte
   };
 };
-
 var removeMessageReact = function removeMessageReact(message_react) {
   return {
     type: REMOVE_MESSAGE_REACT,
     message_react: message_react
-  };
-};
-
-var receiveMessageSave = function receiveMessageSave(message_save) {
-  return {
-    type: RECEIVE_MESSAGE_SAVE,
-    message_save: message_save
   };
 };
 
@@ -399,13 +395,18 @@ var receiveMessageSaves = function receiveMessageSaves(_ref) {
   };
 };
 
+var receiveMessageSave = function receiveMessageSave(message_save) {
+  return {
+    type: RECEIVE_MESSAGE_SAVE,
+    message_save: message_save
+  };
+};
 var removeMessageSave = function removeMessageSave(message_save) {
   return {
     type: REMOVE_MESSAGE_SAVE,
     message_save: message_save
   };
 };
-
 var getMessages = function getMessages(channel_id) {
   return function (dispatch) {
     return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["getMessages"](channel_id).then(function (messages) {
@@ -2383,11 +2384,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
-/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
-/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../selectors/selectors */ "./frontend/selectors/selectors.js");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
+/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _modals_user_popup_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../modals/user_popup_modal */ "./frontend/components/modals/user_popup_modal.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -2415,32 +2427,296 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
 var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   _inherits(SavedBrowser, _React$Component);
 
   var _super = _createSuper(SavedBrowser);
 
   function SavedBrowser(props) {
+    var _this;
+
     _classCallCheck(this, SavedBrowser);
 
-    return _super.call(this, props);
-  }
+    _this = _super.call(this, props);
+    _this.state = {
+      popupUserId: 0,
+      popupUserTarget: null
+    };
+    _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
+    _this.updateMessage = _this.updateMessage.bind(_assertThisInitialized(_this));
+    return _this;
+  } // Load user's saved messages and begin listening for changes to reacts or saved
+
 
   _createClass(SavedBrowser, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["getMessageSaves"])(getState().session.workspace_id));
+      dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["getMessageSaves"])(getState().session.workspace_id));
+      this.messageACChannel = App.cable.subscriptions.create({
+        channel: "ChatChannel"
+      }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
+      {
+        received: this.receiveACData,
+        speak: function speak(data) {
+          return this.perform('speak', data);
+        }
+      });
+    } // No need to listen for new messages
+
+  }, {
+    key: "receiveACData",
+    value: function receiveACData(data) {
+      var message = data.message;
+      var user_saved_messages = getState().session.user_saved_messages;
+      if (!user_saved_messages[message.id]) return;
+      if (message.type != "PUT") this.updateMessage(message);
+    } // Updates message when other users react to my saved message
+
+  }, {
+    key: "updateMessage",
+    value: function updateMessage(message) {
+      var _getState$session = getState().session(),
+          user_id = _getState$session.user_id;
+
+      if (message.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_MESSAGE_REACT"] && user_id != message.user_id) {
+        message.message_id || (message.message_id = message.id);
+        dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["receiveMessageReact"])(message));
+      } else if (message.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["REMOVE_MESSAGE_REACT"] && user_id != message.user_id) {
+        message.message_id || (message.message_id = message.id);
+        dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["removeMessageReact"])(message));
+      }
+    }
+  }, {
+    key: "toggleUserPopup",
+    value: function toggleUserPopup(userId) {
+      var _this2 = this;
+
+      return function (e) {
+        e.stopPropagation();
+
+        _this2.setState({
+          popupUserId: userId,
+          popupUserTarget: e.currentTarget
+        });
+      };
+    }
+  }, {
+    key: "renderUserPopup",
+    value: function renderUserPopup() {
+      var _this3 = this;
+
+      var users = getState().entities.users;
+      var showUser = this.props.showUser;
+      var popupUserId = this.state.popupUserId;
+      if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        user: users[popupUserId],
+        hidePopup: function hidePopup() {
+          return _this3.setState({
+            popupUserId: 0
+          });
+        },
+        showUser: showUser,
+        startVideoCall: this.props.startVideoCall,
+        calculatePos: this.calculatePos
+      });
+    }
+  }, {
+    key: "calculatePos",
+    value: function calculatePos(hasStatus) {
+      var popupUserTarget = this.state.popupUserTarget;
+      var minOffset = 520;
+      if (hasStatus) minOffset = 576;
+      var viewHeight = $(window).innerHeight();
+      var top = popupUserTarget.offsetTop;
+      if (top > viewHeight - minOffset) top = viewHeight - minOffset;
+      var left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + 10;
+      return {
+        top: top,
+        left: left
+      };
+    }
+  }, {
+    key: "toggleMessageReact",
+    value: function toggleMessageReact(messageData, react_code) {
+      var _this4 = this;
+
+      return function (e) {
+        e.preventDefault();
+        var user_id = getState().session.user_id;
+        if (messageData.user_reacts && messageData.user_reacts[user_id] && messageData.user_reacts[user_id][react_code]) dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["deleteMessageReact"])({
+          message_id: messageData.id,
+          react_code: react_code
+        })).then(function (_ref) {
+          var message_react = _ref.message_react,
+              type = _ref.type;
+          return _this4.messageACChannel.speak({
+            message: {
+              type: type,
+              message_react: message_react
+            }
+          });
+        });else dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["postMessageReact"])({
+          message_id: messageData.id,
+          react_code: react_code
+        })).then(function (_ref2) {
+          var message_react = _ref2.message_react,
+              type = _ref2.type;
+          return _this4.messageACChannel.speak({
+            message: {
+              type: type,
+              message_react: message_react
+            }
+          });
+        });
+      };
+    }
+  }, {
+    key: "toggleMessageSave",
+    value: function toggleMessageSave(messageId) {
+      var _this5 = this;
+
+      return function (e) {
+        e.preventDefault();
+        var _getState$session2 = getState().session,
+            user_saved_messages = _getState$session2.user_saved_messages,
+            workspace_id = _getState$session2.workspace_id;
+
+        if (user_saved_messages[messageId]) {
+          dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["deleteMessageSave"])({
+            // updates channel chat
+            message_id: messageId
+          })).then(function (_ref3) {
+            var message_save = _ref3.message_save,
+                type = _ref3.type;
+            return _this5.messageACChannel.speak({
+              message: {
+                type: type,
+                id: message_save.message_id
+              }
+            });
+          });
+        } else dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["postMessageSave"])({
+          // never called
+          message_id: messageId,
+          workspace_id: workspace_id
+        })).then(function (_ref4) {
+          var message_save = _ref4.message_save,
+              type = _ref4.type;
+          return _this5.messageACChannel.speak({
+            message: {
+              type: type,
+              id: message_save.message_id
+            }
+          });
+        });
+      };
+    }
+  }, {
+    key: "messageEmojiButton",
+    value: function messageEmojiButton(messageData, react_code) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-button emoji",
+        onClick: this.toggleMessageReact(messageData, react_code)
+      }, react_code);
+    }
+  }, {
+    key: "messageReactsList",
+    value: function messageReactsList(messageData) {
+      var _this6 = this;
+
+      var total_reacts = Object.entries(messageData.total_reacts);
+      if (total_reacts.length == 0) return;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-reacts-list"
+      }, total_reacts.map(function (_ref5, idx) {
+        var _ref6 = _slicedToArray(_ref5, 2),
+            react_code = _ref6[0],
+            num = _ref6[1];
+
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-react",
+          key: idx,
+          onClick: _this6.toggleMessageReact(messageData, react_code)
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "emoji"
+        }, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "number"
+        }, num));
+      }));
+    }
+  }, {
+    key: "renderMessage",
+    value: function renderMessage(messageId) {
+      var message = getState().entities.messages[messageId];
+      if (!message) return;
+      var created_at = message.created_at,
+          created_date = message.created_date,
+          body = message.body,
+          user_id = message.user_id,
+          username = message.username,
+          photo_url = message.photo_url,
+          id = message.id,
+          channel_id = message.channel_id;
+      var users = getState().entities.users;
+      var user = users[user_id];
+      var user_saved_messages = getState().session.user_saved_messages;
+      var saved = !!user_saved_messages[id];
+      var channels = getState().entities.channels;
+      var channel = channels[channel_id];
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message",
+        key: message.id
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-channel-header"
+      }, channel.dm_channel ? "Direct Message" : "#".concat(channel.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-user-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(user),
+        onClick: this.toggleUserPopup(user_id)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-text"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-user",
+        onClick: this.toggleUserPopup(user_id)
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-body",
+        dangerouslySetInnerHTML: {
+          __html: body
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-buttons"
+      }, this.messageEmojiButton(message, "\uD83D\uDCAF"), this.messageEmojiButton(message, "\uD83D\uDC4D"), this.messageEmojiButton(message, "\uD83D\uDE42"), this.messageEmojiButton(message, "\uD83D\uDE02"), this.messageEmojiButton(message, "\uD83D\uDE0D"), this.messageEmojiButton(message, "\uD83D\uDE22"), this.messageEmojiButton(message, "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-button",
+        onClick: this.toggleMessageSave(message.id)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
+      })))), this.messageReactsList(message));
     }
   }, {
     key: "render",
     value: function render() {
+      var _this7 = this;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel",
         onClick: function onClick(e) {
           return e.stopPropagation();
         }
-      });
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel-top no-search"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel-nav"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "browser-channel-title"
+      }, "People"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-list browser"
+      }, Object.keys(getState().session.user_saved_messages).map(function (messageId) {
+        return _this7.renderMessage(messageId);
+      })), this.renderUserPopup());
     }
   }]);
 
@@ -2933,15 +3209,17 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       var _this4 = this;
 
       return function (e) {
-        e.preventDefault();
+        if (e) e.preventDefault();
         if (_this4.props.user_saved_messages[messageId]) _this4.props.deleteMessageSave({
           message_id: messageId
         }).then(function (_ref3) {
           var message_save = _ref3.message_save,
               type = _ref3.type;
-          return _this4.updateMessage({
-            type: type,
-            id: message_save.message_id
+          return _this4.messageACChannel.speak({
+            message: {
+              type: type,
+              id: message_save.id
+            }
           });
         });else _this4.props.postMessageSave({
           message_id: messageId,
@@ -2949,9 +3227,11 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         }).then(function (_ref4) {
           var message_save = _ref4.message_save,
               type = _ref4.type;
-          return _this4.updateMessage({
-            type: type,
-            id: message_save.message_id
+          return _this4.messageACChannel.speak({
+            message: {
+              type: type,
+              id: message_save.id
+            }
           });
         });
       };
@@ -3142,7 +3422,16 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
             if (messagesData[i].total_reacts[_react_code] <= 0) // decrement and delete entries if necessary
               delete messagesData[i].total_reacts[_react_code];
             delete messagesData[i].user_reacts[_user_id][_react_code];
-          }
+          } // called when user activates in another window
+          else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_SAVE"] && !this.props.user_saved_messages[messageData.id]) {
+              this.props.receiveMessageSave({
+                message_id: messageData.id
+              });
+            } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_SAVE"] && this.props.user_saved_messages[messageData.id]) {
+              this.props.removeMessageSave({
+                message_id: messageData.id
+              });
+            }
 
           break;
         }
@@ -3330,6 +3619,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteMessageSave: function deleteMessageSave(message_save) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["deleteMessageSave"])(message_save));
+    },
+    receiveMessageSave: function receiveMessageSave(message_save) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["receiveMessageSave"])(message_save));
+    },
+    removeMessageSave: function removeMessageSave(message_save) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["removeMessageSave"])(message_save));
     }
   };
 };
@@ -8242,7 +8537,10 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         loginACChannel: this.loginACChannel
       });else if (channel_id == "people-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_people_browser__WEBPACK_IMPORTED_MODULE_6__["default"], {
         showUser: this.showUser
-      });else if (channel_id == "saved-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_saved_browser__WEBPACK_IMPORTED_MODULE_7__["default"], null);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      });else if (channel_id == "saved-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_browser_channels_saved_browser__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        showUser: this.showUser,
+        startVideoCall: this.startVideoCall
+      });else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_channel_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
         loginACChannel: this.loginACChannel,
         channelFlag: this.state.channelFlag,
         showUser: this.showUser,
