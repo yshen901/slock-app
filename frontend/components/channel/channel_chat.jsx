@@ -436,7 +436,7 @@ class ChannelChat extends React.Component {
     
       let viewHeight = $(window).innerHeight();
       debugger;
-      let top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop;
+      let top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - this.scrollBar.current.scrollTop;
       if (top > viewHeight - minOffset)
         top = viewHeight - minOffset;
       let left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + popupUserTarget.offsetParent.offsetLeft + 10;

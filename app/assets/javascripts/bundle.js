@@ -2541,7 +2541,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
       var minOffset = 520;
       if (hasStatus) minOffset = 576;
       var viewHeight = $(window).innerHeight();
-      var top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop + 40;
+      var top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - popupUserTarget.offsetParent.offsetParent.scrollTop + 40;
       if (top > viewHeight - minOffset) top = viewHeight - minOffset;
       var left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + popupUserTarget.offsetParent.offsetLeft + 260 + 10;
       debugger;
@@ -3563,7 +3563,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (hasStatus) minOffset = 576;
       var viewHeight = $(window).innerHeight();
       debugger;
-      var top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop;
+      var top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - this.scrollBar.current.scrollTop;
       if (top > viewHeight - minOffset) top = viewHeight - minOffset;
       var left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + popupUserTarget.offsetParent.offsetLeft + 10;
       return {

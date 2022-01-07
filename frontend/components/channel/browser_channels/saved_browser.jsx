@@ -113,7 +113,7 @@ class SavedBrowser extends React.Component {
       minOffset = 576;
     
     let viewHeight = $(window).innerHeight();
-    let top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop + 40;
+    let top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - popupUserTarget.offsetParent.offsetParent.scrollTop + 40;
     if (top > viewHeight - minOffset)
       top = viewHeight - minOffset;
     let left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + popupUserTarget.offsetParent.offsetLeft + 260 + 10;
