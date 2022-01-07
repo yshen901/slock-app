@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import ChannelChat from './channel_chat';
-import { getMessages } from '../../actions/message_actions';
+import { getMessages, postMessageReact } from '../../actions/message_actions';
 import { startDmChannel } from '../../actions/dm_channel_actions';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -16,7 +16,9 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   getMessages: (channel_id) => dispatch(getMessages(channel_id)),
-  startDmChannel: (dmChannel) => dispatch(startDmChannel(dmChannel))
+  startDmChannel: (dmChannel) => dispatch(startDmChannel(dmChannel)),
+  postMessageReact: (message_react) => dispatch(postMessageReact(message_react)),
+  deleteMessageReact: (message_react) => dispatch(deleteMessageReact(message_react)),
 })
 
 export default withRouter(connect(

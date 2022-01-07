@@ -54,6 +54,7 @@ class User < ApplicationRecord
     source: :channel
 
   has_many :messages
+  has_many :message_reacts
 
   #AWS Photo
   has_one_attached :photo

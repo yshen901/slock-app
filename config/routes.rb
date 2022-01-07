@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     resources :channel_users, only: [:create, :destroy, :update]
 
     resources :dm_channel_users, only: [:create, :update]
+
+    resources :message_reacts, only: [:create, :destroy]
   end
   resources :calls, only: [:create]
 

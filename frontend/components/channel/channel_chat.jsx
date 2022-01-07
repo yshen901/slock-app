@@ -21,6 +21,7 @@ class ChannelChat extends React.Component {
     this.loadMessages = this.loadMessages.bind(this);
     this.receiveACData = this.receiveACData.bind(this);
     this.toggleUserPopup = this.toggleUserPopup.bind(this);
+    this.toggleMessageReact = this.toggleMessageReact.bind(this);
     this.calculatePos = this.calculatePos.bind(this);
   }
 
@@ -83,9 +84,28 @@ class ChannelChat extends React.Component {
       );
   }
 
+  toggleMessageReact(message_id, react_code) {
+    return (e) => {
+      e.preventDefault();
+      this.props.postMessageReact({
+        message_id,
+        react_code
+      });
+    };
+  }
+
+  messageEmojiButton(message_id, react_code) {
+    return (
+      <div className="message-button emoji" 
+        onClick={this.toggleMessageReact(message_id, react_code)}>{react_code}</div>
+    )
+  }
+
   processNewMessage(messagesData, messagesList, i) {
     i = i != null ? i : messagesData.length - 1;
     let { created_at, created_date, body, user_id, username, photo_url, id} = messagesData[i];
+
+    let hundred = '\u{1F4AF}';
 
     if (i == 0 || created_date !== messagesData[i-1].created_date) {
       let date = created_date;
@@ -107,11 +127,13 @@ class ChannelChat extends React.Component {
             <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
           </div>
           <div className="message-buttons">
-            <div className="message-button emoji">&#x1F4AF;</div>
-            <div className="message-button emoji">&#x1F44D;</div>
-            <div className="message-button emoji">&#x1F602;</div>
-            <div className="message-button emoji">&#x1F60D;</div>
-            <div className="message-button emoji">&#x1F620;</div>
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F4AF}') } 
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F44D}') }
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F642}') }
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F602}') }
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F60D}') }
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F61E}') }
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F620}') }
             <div className="message-button">
               <i className="far fa-bookmark fa-fw"></i>
             </div>
@@ -133,11 +155,13 @@ class ChannelChat extends React.Component {
             <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
           </div>
           <div className="message-buttons">
-            <div className="message-button emoji">&#x1F4AF;</div>
-            <div className="message-button emoji">&#x1F44D;</div>
-            <div className="message-button emoji">&#x1F602;</div>
-            <div className="message-button emoji">&#x1F60D;</div>
-            <div className="message-button emoji">&#x1F620;</div>
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F4AF}') } 
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F44D}') }
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F642}') }
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F602}') }
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F60D}') }
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F61E}') }
+            { this.messageEmojiButton(messagesData[i].id, '\u{1F620}') }
             <div className="message-button">
               <i className="far fa-bookmark fa-fw"></i>
             </div>

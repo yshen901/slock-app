@@ -129,7 +129,6 @@ class ChannelNav extends React.Component {
       return (
         <div id="channel-nav" className="no-highlight">
           { this.left() }
-          { this.right() }
         </div>
       )
     } else {

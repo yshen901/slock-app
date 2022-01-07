@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_06_215022) do
+ActiveRecord::Schema.define(version: 2022_01_07_051959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2022_01_06_215022) do
   create_table "channels", force: :cascade do |t|
     t.string "name", null: false
     t.integer "workspace_id", null: false
-    t.string "description"
+    t.string "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "channel_type", default: "channel"
@@ -79,14 +79,22 @@ ActiveRecord::Schema.define(version: 2022_01_06_215022) do
     t.index ["user_2_id"], name: "index_dm_channel_users_on_user_2_id"
   end
 
+  create_table "message_reacts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "message_id", null: false
+    t.string "react_code", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_message_reacts_on_message_id"
+    t.index ["user_id"], name: "index_message_reacts_on_user_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "body", null: false
     t.integer "user_id", null: false
     t.integer "channel_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "file_url"
-    t.boolean "is_file", default: false
     t.index ["channel_id"], name: "index_messages_on_channel_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end

@@ -1,0 +1,1 @@
+json.extract! @message_react, :message_id, :user_id, :react_code
