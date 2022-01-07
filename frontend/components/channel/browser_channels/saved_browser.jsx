@@ -13,6 +13,7 @@ import {
   receiveMessageSave,
   removeMessageSave,
   REMOVE_MESSAGE_SAVE,
+  RECEIVE_MESSAGE_SAVE,
 } from "../../../actions/message_actions";
 import { getUserName, photoUrl } from "../../../selectors/selectors";
 import UserPopupModal from "../../modals/user_popup_modal";
@@ -49,22 +50,32 @@ class SavedBrowser extends React.Component {
     let { message } = data;
     let { user_saved_messages } = getState().session;
     
-    if (!user_saved_messages[message.id]) return;
     if (message.type != "PUT") 
       this.updateMessage(message);
-    
   }
 
   // Updates message when other users react to my saved message
   updateMessage(message) {
-    let { user_id } = getState().session();
-    if (message.type == RECEIVE_MESSAGE_REACT && user_id != message.user_id) {
-      message.message_id ||= message.id;
+    let { user_id, user_saved_messages } = getState().session;
+    if (message.type == RECEIVE_MESSAGE_REACT && user_id != message.user_id && user_saved_messages[message.id]) {
+      message.message_id = message.id;
       dispatch(receiveMessageReact(message));
     }
-    else if (message.type == REMOVE_MESSAGE_REACT && user_id != message.user_id) {
-      message.message_id ||= message.id;
+    else if (message.type == REMOVE_MESSAGE_REACT && user_id != message.user_id && user_saved_messages[message.id]) {
+      message.message_id = message.id;
       dispatch(removeMessageReact(message));
+    }
+    else if (message.type == "DELETE" && user_saved_messages[message.id]) {
+      message.message_id = message.id;
+      dispatch(removeMessageSave(message));
+    }
+    else if (message.type == REMOVE_MESSAGE_SAVE && user_saved_messages[message.id]) {
+      message.message_id = message.id;
+      dispatch(removeMessageSave(message));
+    }
+    else if (message.type == RECEIVE_MESSAGE_SAVE && !user_saved_messages[message.id]) {
+      message.message_id = message.id;
+      dispatch(receiveMessageSave(message));
     }
   }
 

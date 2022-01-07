@@ -2468,22 +2468,31 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
     value: function receiveACData(data) {
       var message = data.message;
       var user_saved_messages = getState().session.user_saved_messages;
-      if (!user_saved_messages[message.id]) return;
       if (message.type != "PUT") this.updateMessage(message);
     } // Updates message when other users react to my saved message
 
   }, {
     key: "updateMessage",
     value: function updateMessage(message) {
-      var _getState$session = getState().session(),
-          user_id = _getState$session.user_id;
+      var _getState$session = getState().session,
+          user_id = _getState$session.user_id,
+          user_saved_messages = _getState$session.user_saved_messages;
 
-      if (message.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_MESSAGE_REACT"] && user_id != message.user_id) {
-        message.message_id || (message.message_id = message.id);
+      if (message.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_MESSAGE_REACT"] && user_id != message.user_id && user_saved_messages[message.id]) {
+        message.message_id = message.id;
         dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["receiveMessageReact"])(message));
-      } else if (message.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["REMOVE_MESSAGE_REACT"] && user_id != message.user_id) {
-        message.message_id || (message.message_id = message.id);
+      } else if (message.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["REMOVE_MESSAGE_REACT"] && user_id != message.user_id && user_saved_messages[message.id]) {
+        message.message_id = message.id;
         dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["removeMessageReact"])(message));
+      } else if (message.type == "DELETE" && user_saved_messages[message.id]) {
+        message.message_id = message.id;
+        dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["removeMessageSave"])(message));
+      } else if (message.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["REMOVE_MESSAGE_SAVE"] && user_saved_messages[message.id]) {
+        message.message_id = message.id;
+        dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["removeMessageSave"])(message));
+      } else if (message.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_MESSAGE_SAVE"] && !user_saved_messages[message.id]) {
+        message.message_id = message.id;
+        dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["receiveMessageSave"])(message));
       }
     }
   }, {
@@ -3210,6 +3219,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
 
       return function (e) {
         if (e) e.preventDefault();
+        var messages = _this4.props.messages;
         if (_this4.props.user_saved_messages[messageId]) _this4.props.deleteMessageSave({
           message_id: messageId
         }).then(function (_ref3) {
@@ -3218,7 +3228,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           return _this4.messageACChannel.speak({
             message: {
               type: type,
-              id: message_save.id
+              id: message_save.message_id
             }
           });
         });else _this4.props.postMessageSave({
@@ -3230,7 +3240,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           return _this4.messageACChannel.speak({
             message: {
               type: type,
-              id: message_save.id
+              id: message_save.message_id,
+              message: messages[message_save.message_id]
             }
           });
         });
@@ -9350,6 +9361,12 @@ var MessageReducer = function MessageReducer() {
       newState[message_id].total_reacts[react_code] -= 1;
       if (newState[message_id].total_reacts[react_code] <= 0) delete newState[message_id].total_reacts[react_code];
       delete newState[message_id].user_reacts[user_id][react_code];
+      return newState;
+
+    case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE_SAVE"]:
+      // receive saved_message data
+      message_id = action.message_save.message_id;
+      newState[message_id] = action.message_save.message;
       return newState;
 
     default:

@@ -159,15 +159,17 @@ class ChannelChat extends React.Component {
   toggleMessageSave(messageId) {
     return (e) => {
       if (e) e.preventDefault();
+
+      let {messages} = this.props;
       if (this.props.user_saved_messages[messageId])
         this.props.deleteMessageSave({
           message_id: messageId,
-        }).then(({message_save, type}) => this.messageACChannel.speak({message: { type, id: message_save.id }}))
+        }).then(({message_save, type}) => this.messageACChannel.speak({message: { type, id: message_save.message_id }}))
       else
         this.props.postMessageSave({
           message_id: messageId,
           workspace_id: this.props.workspace_id
-        }).then(({message_save, type}) => this.messageACChannel.speak({message: { type, id: message_save.id }}))
+        }).then(({message_save, type}) => this.messageACChannel.speak({message: { type, id: message_save.message_id, message: messages[message_save.message_id] }}))
     }
   }
 
@@ -340,12 +342,12 @@ class ChannelChat extends React.Component {
         }                                                                    // called when user activates in another window
         else if (messageData.type == RECEIVE_MESSAGE_SAVE && !this.props.user_saved_messages[messageData.id]) {
           this.props.receiveMessageSave({
-            message_id: messageData.id,
+              message_id: messageData.id,
           })
         }
         else if (messageData.type == REMOVE_MESSAGE_SAVE && this.props.user_saved_messages[messageData.id]) {
           this.props.removeMessageSave({
-            message_id: messageData.id
+              message_id: messageData.id
           });
         }
         break;

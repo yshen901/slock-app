@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { LOAD_MESSAGES, RECEIVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVES, REMOVE_MESSAGE_REACT } from '../../actions/message_actions';
+import { LOAD_MESSAGES, RECEIVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVE, RECEIVE_MESSAGE_SAVES, REMOVE_MESSAGE_REACT, REMOVE_MESSAGE_SAVE } from '../../actions/message_actions';
 
 const MessageReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -24,9 +24,8 @@ const MessageReducer = (state = {}, action) => {
         newState[message_id].user_reacts[user_id][react_code] = true;
       else
         newState[message_id].user_reacts[user_id] = { [react_code]: true }
-
       return newState;
-      
+
     case REMOVE_MESSAGE_REACT: // only changes if it is greater than 0
       react_code = action.message_react.react_code;
       user_id = action.message_react.user_id;
@@ -40,6 +39,11 @@ const MessageReducer = (state = {}, action) => {
       if (newState[message_id].total_reacts[react_code] <= 0)  
         delete newState[message_id].total_reacts[react_code];            
       delete newState[message_id].user_reacts[user_id][react_code]; 
+      return newState;
+
+    case RECEIVE_MESSAGE_SAVE: // receive saved_message data
+      message_id = action.message_save.message_id;
+      newState[message_id] = action.message_save.message;
       return newState;
 
     default:
