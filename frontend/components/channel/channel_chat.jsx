@@ -60,11 +60,19 @@ class ChannelChat extends React.Component {
         if (this.bottom.current) this.bottom.current.scrollIntoView();
       }
       else {
-        let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current;
+        let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
         let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-        if (distanceFromBottom != messagesList[messagesList.length - 1].offsetHeight)
+        if (distanceFromBottom != messagesList[messagesList.length - 1].offsetHeight) {
           if (this.bottom.current) this.bottom.current.scrollIntoView();
+        }
       }
+    }
+    else {
+      let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
+        let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
+        if (distanceFromBottom == 30 || distanceFromBottom == 21) {     // from react/save elements pushing things down
+          if (this.bottom.current) this.bottom.current.scrollIntoView();
+        }
     }
   }
 

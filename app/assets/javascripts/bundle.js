@@ -2809,7 +2809,22 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               scrollTop = _this$scrollBar$curre.scrollTop,
               scrollHeight = _this$scrollBar$curre.scrollHeight;
           var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-          if (distanceFromBottom != messagesList[messagesList.length - 1].offsetHeight) if (this.bottom.current) this.bottom.current.scrollIntoView();
+
+          if (distanceFromBottom != messagesList[messagesList.length - 1].offsetHeight) {
+            if (this.bottom.current) this.bottom.current.scrollIntoView();
+          }
+        }
+      } else {
+        var _this$scrollBar$curre2 = this.scrollBar.current,
+            _offsetHeight = _this$scrollBar$curre2.offsetHeight,
+            _scrollTop = _this$scrollBar$curre2.scrollTop,
+            _scrollHeight = _this$scrollBar$curre2.scrollHeight;
+
+        var _distanceFromBottom = _scrollHeight - _offsetHeight - _scrollTop;
+
+        if (_distanceFromBottom == 30 || _distanceFromBottom == 21) {
+          // from react/save elements pushing things down
+          if (this.bottom.current) this.bottom.current.scrollIntoView();
         }
       }
     }
