@@ -175,7 +175,12 @@ class ChannelChat extends React.Component {
       messagesList.push(
         <div className='message'>
           <div className="message-content">
-            <div className="message-time-tag">{created_at}</div>
+            <div className="message-time-tag">
+              <div className="black-popup">
+                {created_date}
+              </div>
+              {created_at}
+            </div>
             <div className="message-text">
               <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
             </div>
@@ -206,7 +211,12 @@ class ChannelChat extends React.Component {
             <div className="message-text">
               <div className="message-header">
                 <div className="message-user" onClick={this.toggleUserPopup(user_id)}>{username}</div>
-                <div className="message-time">{created_at}</div>
+                <div className="message-time">
+                  <div className="black-popup">
+                    {created_date} at {created_at}
+                  </div>
+                  {created_at}
+                </div>
               </div>
               <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
             </div>

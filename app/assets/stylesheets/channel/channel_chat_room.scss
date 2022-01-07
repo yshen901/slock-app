@@ -27,6 +27,38 @@
       line-height: 22px;
     }
   }
+
+  .black-popup {
+    display: none;
+    position: absolute;
+    overflow: visible;
+    top: -40px;
+    left: calc(50% - 65px);
+
+    width: 130px;
+
+    color: white;
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 30px;
+    text-align: center;
+
+    border-radius: 6px;
+    background: black;
+  }
+
+  .black-popup:after {
+    content:"";
+    position:absolute;
+    bottom:-6px; /* value = - border-top-width - border-bottom-width */
+    left: calc(50% - 8px); /* controls horizontal position */
+    border-width:8px 8px 0; /* vary these values to change the angle of the vertex */
+    border-style:solid;
+    border-color:black transparent;
+    /* reduce the damage in FF3.0 */
+    display:block;
+    width:0;
+  }
 }
 
 .chatroom-container {
@@ -333,6 +365,7 @@
 
   .message-content {
     display: flex;
+    overflow: visible;
 
     .message-user-icon {
       width: 37px;
@@ -361,6 +394,9 @@
     }
   
     .message-time-tag {
+      position: relative; 
+      overflow: visible;
+
       width: 37px;
       height: 12px;
       
@@ -375,17 +411,24 @@
       color: gray;
   
       opacity: 0; 
+
+      .black-popup {
+        left: calc(50% - 40px);
+        width: 80px;
+      }
     }
     
     .message-text {
       display: flex;
       flex-direction: column;
       width: calc(100% - 52px);
+      overflow: visible;
     
       .message-header {
         width: 100%;
         display: flex;
         align-items: baseline;
+        overflow: visible;
       
         .message-user {
           font-size: 16px;
@@ -400,11 +443,25 @@
         }
         
         .message-time {
+          position: relative;
+          overflow: visible;
+
           font-size: 12px;
           height: 12px;
           margin-left: 10px;
         
           color: gray;
+        }
+
+        .message-time:hover {
+          transition: 0.3s;
+          cursor: pointer;
+          text-decoration: underline;
+
+          .black-popup {
+            transition: 0.3s;
+            display: inline;
+          }
         }
       }
       
@@ -510,6 +567,17 @@
 
   .message-time-tag {
     opacity: 1;
+  }
+
+  .message-time-tag:hover {
+    transition: 0.3s;
+    cursor: pointer;
+    text-decoration: underline;
+
+    .black-popup {
+      top: -35px;
+      display: inline;
+    }
   }
 
   .message-buttons {

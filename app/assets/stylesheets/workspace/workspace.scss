@@ -92,6 +92,7 @@
 #workspace {
   width: 100%;
   height: calc(100% - 38px);
+  overflow: visible;
 
   -webkit-animation: fadein 0.4s;
   -moz-animation: fadein 0.4s;
