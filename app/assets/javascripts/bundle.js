@@ -2873,6 +2873,15 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       }));
     }
   }, {
+    key: "messageSavedBanner",
+    value: function messageSavedBanner(saved) {
+      if (saved) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "saved-banner"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-bookmark fa-fw magenta"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Added to your saved items"));
+    }
+  }, {
     key: "processNewMessage",
     value: function processNewMessage(messagesData, messagesList, i) {
       i = i != null ? i : messagesData.length - 1;
@@ -2899,8 +2908,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       }
 
       if (i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1])) messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: saved ? "message saved" : "message"
+      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-time-tag"
@@ -2919,10 +2928,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         className: "message-button",
         onClick: this.toggleMessageSave(messagesData[i].id)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: saved ? "fas fa-bookmark fa-fw" : "far fa-bookmark fa-fw"
+        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
       })), this.messageDeleteButton(messagesData[i]))), this.messageReactsList(messagesData[i])));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: saved ? "message saved" : "message"
+      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user-icon"
@@ -2951,7 +2960,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         className: "message-button",
         onClick: this.toggleMessageSave(messagesData[i].id)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: saved ? "fas fa-bookmark fa-fw" : "far fa-bookmark fa-fw"
+        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
       })), this.messageDeleteButton(messagesData[i]))), this.messageReactsList(messagesData[i])));
     }
   }, {

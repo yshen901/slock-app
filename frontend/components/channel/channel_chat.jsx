@@ -185,6 +185,16 @@ class ChannelChat extends React.Component {
       </div>
     )
   }
+  
+  messageSavedBanner(saved) {
+    if (saved)
+      return (
+        <div className="saved-banner">
+          <i className="fas fa-bookmark fa-fw magenta"></i>
+          <div>Added to your saved items</div>
+        </div>
+      )
+  }
 
   processNewMessage(messagesData, messagesList, i) {
     i = i != null ? i : messagesData.length - 1;
@@ -205,7 +215,8 @@ class ChannelChat extends React.Component {
 
     if (i != 0 && this.groupMessages(messagesData[i], messagesData[i-1]))
       messagesList.push(
-        <div className='message'>
+        <div className={saved ? "message saved" : "message"}>
+          { this.messageSavedBanner(saved) }
           <div className="message-content">
             <div className="message-time-tag">
               <div className="black-popup">
@@ -225,7 +236,7 @@ class ChannelChat extends React.Component {
               { this.messageEmojiButton(messagesData[i], '\u{1F622}') }
               { this.messageEmojiButton(messagesData[i], '\u{1F620}') }
               <div className="message-button" onClick={this.toggleMessageSave(messagesData[i].id)}>
-                <i className={saved ? "fas fa-bookmark fa-fw" : "far fa-bookmark fa-fw"}></i>
+                <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
               </div>
               {this.messageDeleteButton(messagesData[i])}
             </div>
@@ -235,7 +246,8 @@ class ChannelChat extends React.Component {
       )
     else
       messagesList.push(
-        <div className='message'>
+        <div className={saved ? "message saved" : "message"}>
+          { this.messageSavedBanner(saved) }
           <div className="message-content">
             <div className="message-user-icon">
               <img src={photo_url} onClick={this.toggleUserPopup(user_id)}/>
@@ -261,7 +273,7 @@ class ChannelChat extends React.Component {
               { this.messageEmojiButton(messagesData[i], '\u{1F622}') }
               { this.messageEmojiButton(messagesData[i], '\u{1F620}') }
               <div className="message-button" onClick={this.toggleMessageSave(messagesData[i].id)}>
-                <i className={saved ? "fas fa-bookmark fa-fw" : "far fa-bookmark fa-fw"}></i>
+                <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
               </div>
               {this.messageDeleteButton(messagesData[i])}
             </div>

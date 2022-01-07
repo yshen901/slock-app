@@ -370,9 +370,59 @@
   padding: 5px 20px 5px 20px;
   box-sizing: border-box;
 
+  .saved-banner {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    padding-bottom: 2px;
+
+    font-size: 13px;
+    line-height: 19px;
+
+    i {
+      width: 7.5px;
+      padding: 1px 10px 0 34.5px;
+
+      font-size: 10px;
+      font-style: normal;
+      text-align: center;
+    }
+    div {
+      color: rgba(29,28,29,0.7);
+    }
+  }
+  
   .message-content {
     display: flex;
     overflow: visible;
+
+    // FOR RICHTEXT MESSAGE EDITOR
+    b { font-weight: 700 }
+    i { font-style: italic }
+    ul { 
+      list-style-position: inside;
+      list-style-type: disc;
+    }
+    ol { 
+      list-style-position: inside;
+      list-style-type: decimal;
+      li::before {
+        content: "";
+        padding-left: 5px;
+      }
+    }
+    ol, ul {
+      li {
+        line-height: 22px;
+      }
+    }
+
+    .black-popup {
+      top: -40px;
+      left: calc(50% - 65px);
+      width: 130px;
+    }
 
     .message-user-icon {
       width: 37px;
@@ -517,12 +567,12 @@
         text-align: center;
   
         i {
-          margin-top: 2px;
           font-style: normal;
+          margin-top: 2px;
         }
 
         i.highlight {
-          background: red;
+          background: #E01E5A;
         }
       }
   
@@ -598,6 +648,14 @@
   .message-react {
     background: rgb(240, 240, 240);
   }
+}
+
+.message.saved {
+  background: rgb(253,249,237);
+}
+
+.message.saved:hover {
+  background: rgb(253,249,237);
 }
 
 
