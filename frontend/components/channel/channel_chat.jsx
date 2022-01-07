@@ -115,9 +115,9 @@ class ChannelChat extends React.Component {
     return (
       <div className="message-reacts-list">
         { total_reacts.map(([react_code, num], idx) => (
-          <div className="message-react" key={idx}>
-            <div>{react_code}</div>
-            <div>{num}</div>
+          <div className="message-react" key={idx} onClick={this.toggleMessageReact(messageData, react_code)}>
+            <div className="emoji">{react_code}</div>
+            <div className="number">{num}</div>
           </div>
         ))}
       </div>
@@ -143,22 +143,24 @@ class ChannelChat extends React.Component {
     if (i != 0 && this.groupMessages(messagesData[i], messagesData[i-1]))
       messagesList.push(
         <div className='message'>
-          <div className="message-time-tag">{created_at}</div>
-          <div className="message-text">
-            <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
-          </div>
-          <div className="message-buttons">
-            { this.messageEmojiButton(messagesData[i], '\u{1F4AF}') } 
-            { this.messageEmojiButton(messagesData[i], '\u{1F44D}') }
-            { this.messageEmojiButton(messagesData[i], '\u{1F642}') }
-            { this.messageEmojiButton(messagesData[i], '\u{1F602}') }
-            { this.messageEmojiButton(messagesData[i], '\u{1F60D}') }
-            { this.messageEmojiButton(messagesData[i], '\u{1F61E}') }
-            { this.messageEmojiButton(messagesData[i], '\u{1F620}') }
-            <div className="message-button">
-              <i className="far fa-bookmark fa-fw"></i>
+          <div className="message-content">
+            <div className="message-time-tag">{created_at}</div>
+            <div className="message-text">
+              <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
             </div>
-            {this.messageDeleteButton(messagesData[i])}
+            <div className="message-buttons">
+              { this.messageEmojiButton(messagesData[i], '\u{1F4AF}') } 
+              { this.messageEmojiButton(messagesData[i], '\u{1F44D}') }
+              { this.messageEmojiButton(messagesData[i], '\u{1F642}') }
+              { this.messageEmojiButton(messagesData[i], '\u{1F602}') }
+              { this.messageEmojiButton(messagesData[i], '\u{1F60D}') }
+              { this.messageEmojiButton(messagesData[i], '\u{1F622}') }
+              { this.messageEmojiButton(messagesData[i], '\u{1F620}') }
+              <div className="message-button">
+                <i className="far fa-bookmark fa-fw"></i>
+              </div>
+              {this.messageDeleteButton(messagesData[i])}
+            </div>
           </div>
           { this.messageReactsList(messagesData[i]) }
         </div>
@@ -166,28 +168,30 @@ class ChannelChat extends React.Component {
     else
       messagesList.push(
         <div className='message'>
-          <div className="message-user-icon">
-            <img src={photo_url} onClick={this.toggleUserPopup(user_id)}/>
-          </div>
-          <div className="message-text">
-            <div className="message-header">
-              <div className="message-user" onClick={this.toggleUserPopup(user_id)}>{username}</div>
-              <div className="message-time">{created_at}</div>
+          <div className="message-content">
+            <div className="message-user-icon">
+              <img src={photo_url} onClick={this.toggleUserPopup(user_id)}/>
             </div>
-            <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
-          </div>
-          <div className="message-buttons">
-            { this.messageEmojiButton(messagesData[i], '\u{1F4AF}') } 
-            { this.messageEmojiButton(messagesData[i], '\u{1F44D}') }
-            { this.messageEmojiButton(messagesData[i], '\u{1F642}') }
-            { this.messageEmojiButton(messagesData[i], '\u{1F602}') }
-            { this.messageEmojiButton(messagesData[i], '\u{1F60D}') }
-            { this.messageEmojiButton(messagesData[i], '\u{1F61E}') }
-            { this.messageEmojiButton(messagesData[i], '\u{1F620}') }
-            <div className="message-button">
-              <i className="far fa-bookmark fa-fw"></i>
+            <div className="message-text">
+              <div className="message-header">
+                <div className="message-user" onClick={this.toggleUserPopup(user_id)}>{username}</div>
+                <div className="message-time">{created_at}</div>
+              </div>
+              <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
             </div>
-            {this.messageDeleteButton(messagesData[i])}
+            <div className="message-buttons">
+              { this.messageEmojiButton(messagesData[i], '\u{1F4AF}') } 
+              { this.messageEmojiButton(messagesData[i], '\u{1F44D}') }
+              { this.messageEmojiButton(messagesData[i], '\u{1F642}') }
+              { this.messageEmojiButton(messagesData[i], '\u{1F602}') }
+              { this.messageEmojiButton(messagesData[i], '\u{1F60D}') }
+              { this.messageEmojiButton(messagesData[i], '\u{1F622}') }
+              { this.messageEmojiButton(messagesData[i], '\u{1F620}') }
+              <div className="message-button">
+                <i className="far fa-bookmark fa-fw"></i>
+              </div>
+              {this.messageDeleteButton(messagesData[i])}
+            </div>
           </div>
           { this.messageReactsList(messagesData[i]) }
         </div>

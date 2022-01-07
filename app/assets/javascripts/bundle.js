@@ -2709,6 +2709,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageReactsList",
     value: function messageReactsList(messageData) {
+      var _this4 = this;
+
       var total_reacts = Object.entries(messageData.total_reacts);
       if (total_reacts.length == 0) return;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2720,8 +2722,13 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
 
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-react",
-          key: idx
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, num));
+          key: idx,
+          onClick: _this4.toggleMessageReact(messageData, react_code)
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "emoji"
+        }, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "number"
+        }, num));
       }));
     }
   }, {
@@ -2752,6 +2759,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1])) messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-time-tag"
       }, created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-text"
@@ -2762,12 +2771,14 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-buttons"
-      }, this.messageEmojiButton(messagesData[i], "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i], "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE1E"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.messageEmojiButton(messagesData[i], "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i], "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE22"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-bookmark fa-fw"
-      })), this.messageDeleteButton(messagesData[i])), this.messageReactsList(messagesData[i])));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), this.messageDeleteButton(messagesData[i]))), this.messageReactsList(messagesData[i])));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -2789,16 +2800,16 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-buttons"
-      }, this.messageEmojiButton(messagesData[i], "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i], "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE1E"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.messageEmojiButton(messagesData[i], "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i], "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE22"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-bookmark fa-fw"
-      })), this.messageDeleteButton(messagesData[i])), this.messageReactsList(messagesData[i])));
+      })), this.messageDeleteButton(messagesData[i]))), this.messageReactsList(messagesData[i])));
     }
   }, {
     key: "loadMessages",
     value: function loadMessages() {
-      var _this4 = this;
+      var _this5 = this;
 
       var _this$props = this.props,
           getMessages = _this$props.getMessages,
@@ -2809,19 +2820,19 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         // update message data
         var messagesData = Object.values(messages).map(function (message) {
           message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
-          message.created_date = _this4.getMessageDate(message);
-          message.created_at = _this4.getMessageTimestamp(message);
-          message.username = _this4.profileName(users[message.user_id]);
+          message.created_date = _this5.getMessageDate(message);
+          message.created_at = _this5.getMessageTimestamp(message);
+          message.username = _this5.profileName(users[message.user_id]);
           return message;
         }); // popualate messagesList
 
         var messagesList = [];
 
         for (var i = 0; i < messagesData.length; i++) {
-          _this4.processNewMessage(messagesData, messagesList, i);
+          _this5.processNewMessage(messagesData, messagesList, i);
         }
 
-        _this4.setState({
+        _this5.setState({
           messagesList: messagesList,
           messagesData: messagesData
         });
@@ -2925,12 +2936,12 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleUserPopup",
     value: function toggleUserPopup(userId) {
-      var _this5 = this;
+      var _this6 = this;
 
       return function (e) {
         e.stopPropagation();
 
-        _this5.setState({
+        _this6.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
         });
@@ -2939,7 +2950,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderUserPopup",
     value: function renderUserPopup() {
-      var _this6 = this;
+      var _this7 = this;
 
       var _this$props2 = this.props,
           users = _this$props2.users,
@@ -2948,7 +2959,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: users[popupUserId],
         hidePopup: function hidePopup() {
-          return _this6.setState({
+          return _this7.setState({
             popupUserId: 0
           });
         },
