@@ -2549,6 +2549,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _channel_message_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_message_form */ "./frontend/components/channel/channel_message_form.jsx");
 /* harmony import */ var _modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modals/user_popup_modal.jsx */ "./frontend/components/modals/user_popup_modal.jsx");
+/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -2582,6 +2583,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -2687,14 +2689,16 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           message_id: messageData.id,
           react_code: react_code
         }).then(function (_ref) {
-          var message_react = _ref.message_react;
-          return _this3.updateMessage(message_react, "UPDATE_REACT");
+          var message_react = _ref.message_react,
+              type = _ref.type;
+          return _this3.updateMessage(message_react, type);
         });else _this3.props.postMessageReact({
           message_id: messageData.id,
           react_code: react_code
         }).then(function (_ref2) {
-          var message_react = _ref2.message_react;
-          return _this3.updateMessage(message_react, "UPDATE_REACT");
+          var message_react = _ref2.message_react,
+              type = _ref2.type;
+          return _this3.updateMessage(message_react, type);
         });
       };
     }
@@ -2845,14 +2849,28 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       var _this$state = this.state,
           messagesData = _this$state.messagesData,
           messagesList = _this$state.messagesList;
-      var messages = this.props.messages;
 
       for (var i = 0; i < messagesData.length; i++) {
-        if (action == "DELETE" && messagesData[i].id == messageData.id) {
-          messagesData.splice(i, 1);
-          break;
-        } else if (action == "UPDATE_REACT" && messagesData[i].id == messageData.message_id) {
-          messagesData[i] = messages[messageData.message_id];
+        if (messagesData[i].id == messageData.message_id) {
+          if (action == "DELETE" && messagesData[i].id == messageData.id) messagesData.splice(i, 1);else if (action == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_REACT"] && messagesData[i].id == messageData.message_id) {
+            var _messagesData$i$total, _messagesData$i$user_;
+
+            var user_id = messageData.user_id,
+                react_code = messageData.react_code;
+            (_messagesData$i$total = messagesData[i].total_reacts)[react_code] || (_messagesData$i$total[react_code] = 0); // lazily initialize if non-existant
+
+            (_messagesData$i$user_ = messagesData[i].user_reacts)[user_id] || (_messagesData$i$user_[user_id] = {});
+            messagesData[i].total_reacts[react_code] += 1; // increment/toggle values
+
+            messagesData[i].user_reacts[user_id][react_code] = true;
+          } else if (action == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_REACT"] && messagesData[i].id == messageData.message_id) {
+            var _user_id = messageData.user_id,
+                _react_code = messageData.react_code;
+            messagesData[i].total_reacts[_react_code] -= 1;
+            if (messagesData[i].total_reacts[_react_code] <= 0) // decrement and delete entries if necessary
+              delete messagesData[i].total_reacts[_react_code];
+            delete messagesData[i].user_reacts[_user_id][_react_code];
+          }
           break;
         }
       }

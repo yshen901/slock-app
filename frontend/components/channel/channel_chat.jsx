@@ -4,6 +4,7 @@ import { photoUrl } from '../../selectors/selectors';
 
 import ChannelMessageForm from './channel_message_form';
 import UserPopupModal from "../modals/user_popup_modal.jsx";
+import { RECEIVE_MESSAGE_REACT, REMOVE_MESSAGE_REACT } from '../../actions/message_actions';
 
 class ChannelChat extends React.Component {
   constructor(props) {
@@ -92,12 +93,12 @@ class ChannelChat extends React.Component {
         this.props.deleteMessageReact({
           message_id: messageData.id,
           react_code
-        }).then(({message_react}) => this.updateMessage(message_react, "UPDATE_REACT"));
+        }).then(({message_react, type}) => this.updateMessage(message_react, type));
       else
         this.props.postMessageReact({
           message_id: messageData.id,
           react_code
-        }).then(({message_react}) => this.updateMessage(message_react, "UPDATE_REACT"));
+        }).then(({message_react, type}) => this.updateMessage(message_react, type));
     };
   }
 
@@ -225,15 +226,26 @@ class ChannelChat extends React.Component {
   // Updates the relevant message and if necessary repopulates messagesList to redo time groupings
   updateMessage(messageData, action) {
     let { messagesData, messagesList } = this.state;
-    let { messages } = this.props;
     
     for (let i = 0; i < messagesData.length; i++) {
-      if (action == "DELETE" && messagesData[i].id == messageData.id) {
-        messagesData.splice(i, 1);
-        break;
-      }
-      else if (action == "UPDATE_REACT" && messagesData[i].id == messageData.message_id) {
-        messagesData[i] = messages[messageData.message_id];
+      if (messagesData[i].id == messageData.message_id) {
+        if (action == "DELETE" && messagesData[i].id == messageData.id)
+          messagesData.splice(i, 1);
+        else if (action == RECEIVE_MESSAGE_REACT && messagesData[i].id == messageData.message_id) {
+          let { user_id, react_code } = messageData;
+          messagesData[i].total_reacts[react_code] ||= 0; // lazily initialize if non-existant
+          messagesData[i].user_reacts[user_id] ||= {};
+
+          messagesData[i].total_reacts[react_code] += 1;  // increment/toggle values
+          messagesData[i].user_reacts[user_id][react_code] = true;
+        }
+        else if (action == REMOVE_MESSAGE_REACT && messagesData[i].id == messageData.message_id) {
+          let { user_id, react_code } = messageData;
+          messagesData[i].total_reacts[react_code] -= 1;
+          if (messagesData[i].total_reacts[react_code] <= 0)  // decrement and delete entries if necessary
+            delete messagesData[i].total_reacts[react_code];
+          delete messagesData[i].user_reacts[user_id][react_code];
+        }
         break;
       }
     }
