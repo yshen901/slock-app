@@ -314,13 +314,20 @@
   }
 }
 
+.messages-wrapper {
+  overflow: visible;
+}
+
 .message {
+  position: relative;
+
   width: 100%;
   height: auto;
-  overflow-y: auto;
   display: flex;
+  overflow: visible;
+
   
-  padding: 5px 20px;
+  padding: 5px 20px 5px 20px;
   box-sizing: border-box;
 
   .message-user-icon {
@@ -407,6 +414,52 @@
       box-sizing: border-box;
     }
   }
+
+  .message-buttons {
+    position: absolute;
+    top: -25px;
+    right: 10px;
+    overflow: visible;
+
+    display: none;
+    justify-content: flex-start;
+    align-items: center;
+
+    height: 38px;
+    width: auto;
+
+    background: white;
+    box-shadow: 0 0 1px 0 rgba(0,0,0,0.8);
+    border-radius: 6px;
+    padding: 2px;
+    box-sizing: border-box;
+
+    .message-button {
+      width: 32px;
+      height: 32px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 6px;
+
+      font-size: 14px;
+      line-height:  32px;
+      text-align: center;
+
+      i {
+        margin-top: 2px;
+        font-style: normal;
+      }
+    }
+
+    .message-button:hover {
+      transition: 0.3s;
+      cursor: pointer;
+      background: rgb(240, 240, 240);
+    }
+  }
 }
 
 .message:hover {
@@ -414,6 +467,10 @@
 
   .message-time-tag {
     opacity: 1;
+  }
+
+  .message-buttons {
+    display: flex;
   }
 }
 

@@ -96,6 +96,19 @@ class ChannelChat extends React.Component {
           <div className="message-text">
             <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
           </div>
+          <div className="message-buttons">
+            <div className="message-button emoji">&#x1F4AF;</div>
+            <div className="message-button emoji">&#x1F44D;</div>
+            <div className="message-button emoji">&#x1F602;</div>
+            <div className="message-button emoji">&#x1F60D;</div>
+            <div className="message-button emoji">&#x1F620;</div>
+            <div className="message-button">
+              <i className="far fa-bookmark fa-fw"></i>
+            </div>
+            <div className="message-button">
+              <i className="far fa-trash-alt fa-fw"></i>
+            </div>
+          </div>
         </div>
       )
     else
@@ -110,6 +123,19 @@ class ChannelChat extends React.Component {
               <div className="message-time">{created_at}</div>
             </div>
             <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
+          </div>
+          <div className="message-buttons">
+            <div className="message-button emoji">&#x1F4AF;</div>
+            <div className="message-button emoji">&#x1F44D;</div>
+            <div className="message-button emoji">&#x1F602;</div>
+            <div className="message-button emoji">&#x1F60D;</div>
+            <div className="message-button emoji">&#x1F620;</div>
+            <div className="message-button">
+              <i className="far fa-bookmark fa-fw"></i>
+            </div>
+            <div className="message-button">
+              <i className="far fa-trash-alt fa-fw"></i>
+            </div>
           </div>
         </div>
       );
@@ -244,7 +270,7 @@ class ChannelChat extends React.Component {
         <div className="message-filler"></div>
         <div className="message-list">
           {this.state.messagesList.map((item, idx) => 
-            <div key={idx}>
+            <div key={idx} className="messages-wrapper">
               {item}
             </div>
           )}
