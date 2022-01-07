@@ -13,18 +13,31 @@ const MessageReducer = (state = {}, action) => {
       react_code = action.message_react.react_code;
       user_id = action.message_react.user_id;
       message_id = action.message_react.message_id;
-      debugger;
-      if (newState[message_id].total_reacts[react_code])
+
+      if (newState[message_id].total_reacts[react_code])    // update total_reacts count
         newState[message_id].total_reacts[react_code] += 1;
       else
         newState[message_id].total_reacts[react_code] = 1;
+
+      if (newState[message_id].user_reacts[user_id])        // update user_reacts flag
+        newState[message_id].user_reacts[user_id][react_code] = true;
+      else
+        newState[message_id].user_reacts[user_id] = { [react_code]: true }
+
       return newState;
     case REMOVE_MESSAGE_REACT: // only changes if it is greater than 0
       react_code = action.message_react.react_code;
       user_id = action.message_react.user_id;
       message_id = action.message_react.message_id;
-      if (newState[message_id].total_reacts[react_code] > 0)
-        newState[message_id].total_reacts[react_code] -= 1;
+      
+      // should never happen, safety
+      if (!newState[message_id].total_reacts[react_code] || !newState[message_id].user_reacts[user_id]) return newState;  
+
+      // decrement/delete total_reacts and user_react entries
+      newState[message_id].total_reacts[react_code] -= 1;                   
+      if (newState[message_id].total_reacts[react_code] <= 0)  
+        delete newState[message_id].total_reacts[react_code];            
+      delete newState[message_id].user_reacts[user_id][react_code]; 
       return newState;
     default:
       return state;

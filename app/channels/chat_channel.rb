@@ -40,6 +40,8 @@ class ChatChannel < ApplicationCable::Channel
           channel_id: message_data['channel_id'],
           activate_dm_channel: activate_dm_channel,
           id: message.id,
+          total_reacts: {},
+          user_reacts: {}
         }
       }
       ChatChannel.broadcast_to('chat_channel', socket)

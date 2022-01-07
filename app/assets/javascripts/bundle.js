@@ -2551,6 +2551,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modals/user_popup_modal.jsx */ "./frontend/components/modals/user_popup_modal.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -2665,25 +2677,52 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "toggleMessageReact",
-    value: function toggleMessageReact(message_id, react_code) {
+    value: function toggleMessageReact(messageData, react_code) {
       var _this3 = this;
 
       return function (e) {
         e.preventDefault();
-
-        _this3.props.postMessageReact({
-          message_id: message_id,
+        var current_user_id = _this3.props.current_user_id;
+        if (messageData.user_reacts && messageData.user_reacts[current_user_id] && messageData.user_reacts[current_user_id][react_code]) _this3.props.deleteMessageReact({
+          message_id: messageData.id,
           react_code: react_code
+        }).then(function (_ref) {
+          var message_react = _ref.message_react;
+          return _this3.updateMessage(message_react, "UPDATE_REACT");
+        });else _this3.props.postMessageReact({
+          message_id: messageData.id,
+          react_code: react_code
+        }).then(function (_ref2) {
+          var message_react = _ref2.message_react;
+          return _this3.updateMessage(message_react, "UPDATE_REACT");
         });
       };
     }
   }, {
     key: "messageEmojiButton",
-    value: function messageEmojiButton(message_id, react_code) {
+    value: function messageEmojiButton(messageData, react_code) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button emoji",
-        onClick: this.toggleMessageReact(message_id, react_code)
+        onClick: this.toggleMessageReact(messageData, react_code)
       }, react_code);
+    }
+  }, {
+    key: "messageReactsList",
+    value: function messageReactsList(messageData) {
+      var total_reacts = Object.entries(messageData.total_reacts);
+      if (total_reacts.length == 0) return;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-reacts-list"
+      }, total_reacts.map(function (_ref3, idx) {
+        var _ref4 = _slicedToArray(_ref3, 2),
+            react_code = _ref4[0],
+            num = _ref4[1];
+
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-react",
+          key: idx
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, num));
+      }));
     }
   }, {
     key: "processNewMessage",
@@ -2697,7 +2736,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           username = _messagesData$i.username,
           photo_url = _messagesData$i.photo_url,
           id = _messagesData$i.id;
-      var hundred = "\uD83D\uDCAF";
 
       if (i == 0 || created_date !== messagesData[i - 1].created_date) {
         var date = created_date;
@@ -2724,11 +2762,11 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-buttons"
-      }, this.messageEmojiButton(messagesData[i].id, "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDE1E"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.messageEmojiButton(messagesData[i], "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i], "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE1E"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-bookmark fa-fw"
-      })), this.messageDeleteButton(messagesData[i]))));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), this.messageDeleteButton(messagesData[i])), this.messageReactsList(messagesData[i])));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user-icon"
@@ -2751,11 +2789,11 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-buttons"
-      }, this.messageEmojiButton(messagesData[i].id, "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDE1E"), this.messageEmojiButton(messagesData[i].id, "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.messageEmojiButton(messagesData[i], "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i], "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE1E"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-bookmark fa-fw"
-      })), this.messageDeleteButton(messagesData[i]))));
+      })), this.messageDeleteButton(messagesData[i])), this.messageReactsList(messagesData[i])));
     }
   }, {
     key: "loadMessages",
@@ -2766,8 +2804,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           getMessages = _this$props.getMessages,
           channel_id = _this$props.channel_id,
           users = _this$props.users;
-      getMessages(channel_id).then(function (_ref) {
-        var messages = _ref.messages;
+      getMessages(channel_id).then(function (_ref5) {
+        var messages = _ref5.messages;
         // update message data
         var messagesData = Object.values(messages).map(function (message) {
           message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
@@ -2788,24 +2826,30 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           messagesData: messagesData
         });
       });
-    } // Updates messagesList and messagesData based on an action
+    } // Updates the relevant message and if necessary repopulates messagesList to redo time groupings
 
   }, {
     key: "updateMessage",
-    value: function updateMessage(messageId, action) {
-      var messagesData = this.state.messagesData;
+    value: function updateMessage(messageData, action) {
+      var _this$state = this.state,
+          messagesData = _this$state.messagesData,
+          messagesList = _this$state.messagesList;
+      var messages = this.props.messages;
 
       for (var i = 0; i < messagesData.length; i++) {
-        if (messagesData[i].id == messageId) {
-          if (action == "DELETE") messagesData.splice(i, 1);
+        if (action == "DELETE" && messagesData[i].id == messageData.id) {
+          messagesData.splice(i, 1);
+          break;
+        } else if (action == "UPDATE_REACT" && messagesData[i].id == messageData.message_id) {
+          messagesData[i] = messages[messageData.message_id];
+          break;
         }
-      } // reinitialize messagesList
+      }
 
+      messagesList = [];
 
-      var messagesList = [];
-
-      for (var _i = 0; _i < messagesData.length; _i++) {
-        this.processNewMessage(messagesData, messagesList, _i);
+      for (var _i2 = 0; _i2 < messagesData.length; _i2++) {
+        this.processNewMessage(messagesData, messagesList, _i2);
       }
 
       this.setState({
@@ -2820,7 +2864,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
 
       if (message.type == "DELETE") {
         // if a message was deleted. TODO: only reload a single message!
-        this.updateMessage(message.id, message.type);
+        this.updateMessage(message, message.type);
       } else {
         var user_id = message.user_id,
             channel_id = message.channel_id,
@@ -2981,12 +3025,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    channel_id: ownProps.match.params.channel_id,
     users: state.entities.users,
-    joinChannels: ownProps.joinChannels,
-    status: ownProps.status,
+    messages: state.entities.messages,
     current_user_id: state.session.user_id,
-    workspace_id: state.session.workspace_id
+    workspace_id: state.session.workspace_id,
+    channel_id: ownProps.match.params.channel_id,
+    joinChannels: ownProps.joinChannels,
+    status: ownProps.status
   };
 };
 
@@ -3001,19 +3046,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     postMessageReact: function postMessageReact(message_react) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["postMessageReact"])(message_react));
     },
-    deleteMessageReact: function (_deleteMessageReact) {
-      function deleteMessageReact(_x) {
-        return _deleteMessageReact.apply(this, arguments);
-      }
-
-      deleteMessageReact.toString = function () {
-        return _deleteMessageReact.toString();
-      };
-
-      return deleteMessageReact;
-    }(function (message_react) {
-      return dispatch(deleteMessageReact(message_react));
-    })
+    deleteMessageReact: function deleteMessageReact(message_react) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["deleteMessageReact"])(message_react));
+    }
   };
 };
 
@@ -8588,6 +8623,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -8607,16 +8644,23 @@ var MessageReducer = function MessageReducer() {
       react_code = action.message_react.react_code;
       user_id = action.message_react.user_id;
       message_id = action.message_react.message_id;
-      debugger;
-      if (newState[message_id].total_reacts[react_code]) newState[message_id].total_reacts[react_code] += 1;else newState[message_id].total_reacts[react_code] = 1;
+      if (newState[message_id].total_reacts[react_code]) // update total_reacts count
+        newState[message_id].total_reacts[react_code] += 1;else newState[message_id].total_reacts[react_code] = 1;
+      if (newState[message_id].user_reacts[user_id]) // update user_reacts flag
+        newState[message_id].user_reacts[user_id][react_code] = true;else newState[message_id].user_reacts[user_id] = _defineProperty({}, react_code, true);
       return newState;
 
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_MESSAGE_REACT"]:
       // only changes if it is greater than 0
       react_code = action.message_react.react_code;
       user_id = action.message_react.user_id;
-      message_id = action.message_react.message_id;
-      if (newState[message_id].total_reacts[react_code] > 0) newState[message_id].total_reacts[react_code] -= 1;
+      message_id = action.message_react.message_id; // should never happen, safety
+
+      if (!newState[message_id].total_reacts[react_code] || !newState[message_id].user_reacts[user_id]) return newState; // decrement/delete total_reacts and user_react entries
+
+      newState[message_id].total_reacts[react_code] -= 1;
+      if (newState[message_id].total_reacts[react_code] <= 0) delete newState[message_id].total_reacts[react_code];
+      delete newState[message_id].user_reacts[user_id][react_code];
       return newState;
 
     default:

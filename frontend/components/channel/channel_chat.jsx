@@ -84,28 +84,49 @@ class ChannelChat extends React.Component {
       );
   }
 
-  toggleMessageReact(message_id, react_code) {
+  toggleMessageReact(messageData, react_code) {
     return (e) => {
       e.preventDefault();
-      this.props.postMessageReact({
-        message_id,
-        react_code
-      });
+      let { current_user_id } = this.props;
+      if (messageData.user_reacts && messageData.user_reacts[current_user_id] && messageData.user_reacts[current_user_id][react_code])
+        this.props.deleteMessageReact({
+          message_id: messageData.id,
+          react_code
+        }).then(({message_react}) => this.updateMessage(message_react, "UPDATE_REACT"));
+      else
+        this.props.postMessageReact({
+          message_id: messageData.id,
+          react_code
+        }).then(({message_react}) => this.updateMessage(message_react, "UPDATE_REACT"));
     };
   }
 
-  messageEmojiButton(message_id, react_code) {
+  messageEmojiButton(messageData, react_code) {
     return (
       <div className="message-button emoji" 
-        onClick={this.toggleMessageReact(message_id, react_code)}>{react_code}</div>
+        onClick={this.toggleMessageReact(messageData, react_code)}>{react_code}</div>
+    )
+  }
+
+  messageReactsList(messageData) {
+    let total_reacts = Object.entries(messageData.total_reacts);
+    if (total_reacts.length == 0) return;
+
+    return (
+      <div className="message-reacts-list">
+        { total_reacts.map(([react_code, num], idx) => (
+          <div className="message-react" key={idx}>
+            <div>{react_code}</div>
+            <div>{num}</div>
+          </div>
+        ))}
+      </div>
     )
   }
 
   processNewMessage(messagesData, messagesList, i) {
     i = i != null ? i : messagesData.length - 1;
     let { created_at, created_date, body, user_id, username, photo_url, id} = messagesData[i];
-
-    let hundred = '\u{1F4AF}';
 
     if (i == 0 || created_date !== messagesData[i-1].created_date) {
       let date = created_date;
@@ -127,18 +148,19 @@ class ChannelChat extends React.Component {
             <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
           </div>
           <div className="message-buttons">
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F4AF}') } 
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F44D}') }
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F642}') }
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F602}') }
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F60D}') }
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F61E}') }
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F620}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F4AF}') } 
+            { this.messageEmojiButton(messagesData[i], '\u{1F44D}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F642}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F602}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F60D}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F61E}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F620}') }
             <div className="message-button">
               <i className="far fa-bookmark fa-fw"></i>
             </div>
             {this.messageDeleteButton(messagesData[i])}
           </div>
+          { this.messageReactsList(messagesData[i]) }
         </div>
       )
     else
@@ -155,18 +177,19 @@ class ChannelChat extends React.Component {
             <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
           </div>
           <div className="message-buttons">
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F4AF}') } 
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F44D}') }
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F642}') }
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F602}') }
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F60D}') }
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F61E}') }
-            { this.messageEmojiButton(messagesData[i].id, '\u{1F620}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F4AF}') } 
+            { this.messageEmojiButton(messagesData[i], '\u{1F44D}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F642}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F602}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F60D}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F61E}') }
+            { this.messageEmojiButton(messagesData[i], '\u{1F620}') }
             <div className="message-button">
               <i className="far fa-bookmark fa-fw"></i>
             </div>
             {this.messageDeleteButton(messagesData[i])}
           </div>
+          { this.messageReactsList(messagesData[i]) }
         </div>
       );
   }
@@ -195,19 +218,24 @@ class ChannelChat extends React.Component {
       )
   }
 
-  // Updates messagesList and messagesData based on an action
-  updateMessage(messageId, action) {
-    let { messagesData } = this.state;
-    for (let i = 0; i < messagesData.length; i++) 
-      if (messagesData[i].id == messageId) {
-        if (action == "DELETE") messagesData.splice(i, 1);
-      }
-
-    // reinitialize messagesList
-    let messagesList = [];
-    for (let i = 0; i < messagesData.length; i++)
-      this.processNewMessage(messagesData, messagesList, i);
+  // Updates the relevant message and if necessary repopulates messagesList to redo time groupings
+  updateMessage(messageData, action) {
+    let { messagesData, messagesList } = this.state;
+    let { messages } = this.props;
     
+    for (let i = 0; i < messagesData.length; i++) {
+      if (action == "DELETE" && messagesData[i].id == messageData.id) {
+        messagesData.splice(i, 1);
+        break;
+      }
+      else if (action == "UPDATE_REACT" && messagesData[i].id == messageData.message_id) {
+        messagesData[i] = messages[messageData.message_id];
+        break;
+      }
+    }
+    messagesList = [];
+    for (let i = 0; i < messagesData.length; i++)
+        this.processNewMessage(messagesData, messagesList, i);
     this.setState({ messagesList, messagesData })
   }
 
@@ -215,7 +243,7 @@ class ChannelChat extends React.Component {
     let { message } = data;     //extract the data
 
     if (message.type == "DELETE") { // if a message was deleted. TODO: only reload a single message!
-      this.updateMessage(message.id, message.type);
+      this.updateMessage(message, message.type);
     }
     else {
       let { user_id, channel_id, activate_dm_channel } = message;

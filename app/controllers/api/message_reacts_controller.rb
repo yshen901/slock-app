@@ -16,10 +16,11 @@ class Api::MessageReactsController < ApplicationController
   def destroy
     @message_react = MessageReact.find_by(
       user_id: current_user.id,
-      message_id: message_react_params[:message_id]
+      message_id: message_react_params[:message_id],
+      react_code: message_react_params[:react_code]
     )
     
-    if @message
+    if @message_react
       if @message_react.destroy
         render :show
       else
