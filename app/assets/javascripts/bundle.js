@@ -2691,14 +2691,24 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         }).then(function (_ref) {
           var message_react = _ref.message_react,
               type = _ref.type;
-          return _this3.updateMessage(message_react, type);
+          return _this3.messageACChannel.speak({
+            message: {
+              type: type,
+              message_react: message_react
+            }
+          });
         });else _this3.props.postMessageReact({
           message_id: messageData.id,
           react_code: react_code
         }).then(function (_ref2) {
           var message_react = _ref2.message_react,
               type = _ref2.type;
-          return _this3.updateMessage(message_react, type);
+          return _this3.messageACChannel.speak({
+            message: {
+              type: type,
+              message_react: message_react
+            }
+          });
         });
       };
     }
@@ -2845,14 +2855,16 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
 
   }, {
     key: "updateMessage",
-    value: function updateMessage(messageData, action) {
+    value: function updateMessage(messageData) {
       var _this$state = this.state,
           messagesData = _this$state.messagesData,
           messagesList = _this$state.messagesList;
 
       for (var i = 0; i < messagesData.length; i++) {
-        if (messagesData[i].id == messageData.message_id) {
-          if (action == "DELETE" && messagesData[i].id == messageData.id) messagesData.splice(i, 1);else if (action == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_REACT"] && messagesData[i].id == messageData.message_id) {
+        if (messagesData[i].id == messageData.id) {
+          if (messageData.type == "DELETE") {
+            messagesData.splice(i, 1);
+          } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_REACT"]) {
             var _messagesData$i$total, _messagesData$i$user_;
 
             var user_id = messageData.user_id,
@@ -2863,7 +2875,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
             messagesData[i].total_reacts[react_code] += 1; // increment/toggle values
 
             messagesData[i].user_reacts[user_id][react_code] = true;
-          } else if (action == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_REACT"] && messagesData[i].id == messageData.message_id) {
+          } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_REACT"]) {
             var _user_id = messageData.user_id,
                 _react_code = messageData.react_code;
             messagesData[i].total_reacts[_react_code] -= 1;
@@ -2871,6 +2883,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               delete messagesData[i].total_reacts[_react_code];
             delete messagesData[i].user_reacts[_user_id][_react_code];
           }
+
           break;
         }
       }
@@ -2890,10 +2903,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     key: "receiveACData",
     value: function receiveACData(data) {
       var message = data.message; //extract the data
+      // For message updates and deletions
 
-      if (message.type == "DELETE") {
-        // if a message was deleted. TODO: only reload a single message!
-        this.updateMessage(message, message.type);
+      if (message.type != "PUT") {
+        this.updateMessage(message);
       } else {
         var user_id = message.user_id,
             channel_id = message.channel_id,

@@ -93,12 +93,12 @@ class ChannelChat extends React.Component {
         this.props.deleteMessageReact({
           message_id: messageData.id,
           react_code
-        }).then(({message_react, type}) => this.updateMessage(message_react, type));
+        }).then(({message_react, type}) => this.messageACChannel.speak({message: { type, message_react }}));
       else
         this.props.postMessageReact({
           message_id: messageData.id,
           react_code
-        }).then(({message_react, type}) => this.updateMessage(message_react, type));
+        }).then(({message_react, type}) => this.messageACChannel.speak({message: { type, message_react }}));
     };
   }
 
@@ -224,14 +224,14 @@ class ChannelChat extends React.Component {
   }
 
   // Updates the relevant message and if necessary repopulates messagesList to redo time groupings
-  updateMessage(messageData, action) {
+  updateMessage(messageData) {
     let { messagesData, messagesList } = this.state;
-    
     for (let i = 0; i < messagesData.length; i++) {
-      if (messagesData[i].id == messageData.message_id) {
-        if (action == "DELETE" && messagesData[i].id == messageData.id)
+      if (messagesData[i].id == messageData.id) {
+        if (messageData.type == "DELETE") {
           messagesData.splice(i, 1);
-        else if (action == RECEIVE_MESSAGE_REACT && messagesData[i].id == messageData.message_id) {
+        }
+        else if (messageData.type == RECEIVE_MESSAGE_REACT) {
           let { user_id, react_code } = messageData;
           messagesData[i].total_reacts[react_code] ||= 0; // lazily initialize if non-existant
           messagesData[i].user_reacts[user_id] ||= {};
@@ -239,7 +239,7 @@ class ChannelChat extends React.Component {
           messagesData[i].total_reacts[react_code] += 1;  // increment/toggle values
           messagesData[i].user_reacts[user_id][react_code] = true;
         }
-        else if (action == REMOVE_MESSAGE_REACT && messagesData[i].id == messageData.message_id) {
+        else if (messageData.type == REMOVE_MESSAGE_REACT) {
           let { user_id, react_code } = messageData;
           messagesData[i].total_reacts[react_code] -= 1;
           if (messagesData[i].total_reacts[react_code] <= 0)  // decrement and delete entries if necessary
@@ -258,8 +258,9 @@ class ChannelChat extends React.Component {
   receiveACData(data) {
     let { message } = data;     //extract the data
 
-    if (message.type == "DELETE") { // if a message was deleted. TODO: only reload a single message!
-      this.updateMessage(message, message.type);
+    // For message updates and deletions
+    if (message.type != "PUT") { 
+      this.updateMessage(message);
     }
     else {
       let { user_id, channel_id, activate_dm_channel } = message;
