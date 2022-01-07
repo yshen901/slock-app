@@ -375,7 +375,7 @@ var loadMessages = function loadMessages(messages) {
 var receiveMessageReact = function receiveMessageReact(message_react) {
   return {
     type: RECEIVE_MESSAGE_REACT,
-    message_reacte: message_reacte
+    message_react: message_react
   };
 };
 var removeMessageReact = function removeMessageReact(message_react) {
@@ -2710,6 +2710,10 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this7 = this;
 
+      var user_saved_messages = Object.values(getState().session.user_saved_messages);
+      user_saved_messages.sort(function (a, b) {
+        return a.message_save_id > b.message_save_id ? -1 : 1;
+      });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel",
         onClick: function onClick(e) {
@@ -2723,8 +2727,9 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
         className: "browser-channel-title"
       }, "People"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list browser"
-      }, Object.keys(getState().session.user_saved_messages).map(function (messageId) {
-        return _this7.renderMessage(messageId);
+      }, user_saved_messages.map(function (_ref7) {
+        var id = _ref7.id;
+        return _this7.renderMessage(id);
       })), this.renderUserPopup());
     }
   }]);
@@ -3237,10 +3242,12 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         }).then(function (_ref4) {
           var message_save = _ref4.message_save,
               type = _ref4.type;
-          return _this4.messageACChannel.speak({
+
+          _this4.messageACChannel.speak({
             message: {
               type: type,
               id: message_save.message_id,
+              message_save_id: message_save.id,
               message: messages[message_save.message_id]
             }
           });
@@ -9713,7 +9720,8 @@ var SessionReducer = function SessionReducer() {
 
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["RECEIVE_MESSAGE_SAVE"]:
       nextState.user_saved_messages[action.message_save.message_id] = {
-        id: action.message_save.message_id
+        id: action.message_save.message_id,
+        message_save_id: action.message_save.message_save_id
       };
       return nextState;
 

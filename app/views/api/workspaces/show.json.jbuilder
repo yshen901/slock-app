@@ -81,6 +81,7 @@ if logged_in?
       if message_save.workspace_id == @workspace.id
         json.set! message_save.message_id do
           json.id message_save.message_id
+          json.message_save_id message_save.id
         end
       end
     end

@@ -169,7 +169,15 @@ class ChannelChat extends React.Component {
         this.props.postMessageSave({
           message_id: messageId,
           workspace_id: this.props.workspace_id
-        }).then(({message_save, type}) => this.messageACChannel.speak({message: { type, id: message_save.message_id, message: messages[message_save.message_id] }}))
+        }).then(({message_save, type}) => {
+          this.messageACChannel.speak({
+            message: { 
+              type, 
+              id: message_save.message_id, 
+              message_save_id: message_save.id, 
+              message: messages[message_save.message_id] 
+            }})
+        })
     }
   }
 

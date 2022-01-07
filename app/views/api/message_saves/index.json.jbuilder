@@ -3,7 +3,10 @@ message_saves = {}
 json.messages({})
 json.messages do
   @message_saves.each do |message_save|
-    message_saves[message_save.message_id] = message_save;
+    message_saves[message_save.message_id] = {
+      message_id: message_save.message_id,
+      id: message_save.id
+    };
     message = message_save.message
     json.set! message.id do
       json.partial! "/api/messages/message", message: message

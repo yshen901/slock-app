@@ -71,6 +71,7 @@ class ChatChannel < ApplicationCable::Channel
         message: {
           type: message_data['type'], 
           id: message_data["id"],
+          message_save_id: message_data["message_save_id"],
           message: message_data["message"],
         }
       })

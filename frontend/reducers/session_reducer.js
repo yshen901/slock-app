@@ -69,7 +69,10 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
       return nextState;
 
     case RECEIVE_MESSAGE_SAVE:
-      nextState.user_saved_messages[action.message_save.message_id] = {id: action.message_save.message_id};
+      nextState.user_saved_messages[action.message_save.message_id] = {
+        id: action.message_save.message_id,
+        message_save_id: action.message_save.message_save_id
+      };
       return nextState;
     
     case REMOVE_MESSAGE_SAVE:

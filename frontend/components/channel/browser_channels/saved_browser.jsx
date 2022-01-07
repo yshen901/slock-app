@@ -234,6 +234,9 @@ class SavedBrowser extends React.Component {
   }
 
   render() {
+    let user_saved_messages = Object.values(getState().session.user_saved_messages);
+    user_saved_messages.sort((a, b) => a.message_save_id > b.message_save_id ? -1 : 1);
+
     return (
       <div className="browser-channel" onClick={e => e.stopPropagation()}>
         <div className="browser-channel-top no-search">
@@ -242,7 +245,7 @@ class SavedBrowser extends React.Component {
           </div>
         </div>
         <div className="message-list browser">
-          { Object.keys(getState().session.user_saved_messages).map(messageId => this.renderMessage(messageId))}
+          { user_saved_messages.map(({id}) => this.renderMessage(id)) }
         </div>
         { this.renderUserPopup() }
       </div>

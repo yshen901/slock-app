@@ -17,7 +17,7 @@ const loadMessages = (messages) => ({
 
 export const receiveMessageReact = (message_react) => ({
   type: RECEIVE_MESSAGE_REACT,
-  message_reacte
+  message_react
 });
 
 export const removeMessageReact = (message_react) => ({
