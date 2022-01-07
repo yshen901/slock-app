@@ -2610,6 +2610,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       popupUserTarget: null
     };
     _this.bottom = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    _this.scrollBar = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.loadMessages = _this.loadMessages.bind(_assertThisInitialized(_this));
     _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
     _this.toggleUserPopup = _this.toggleUserPopup.bind(_assertThisInitialized(_this));
@@ -2641,10 +2642,29 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
 
       if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
         this.loadMessages();
-      } // Only scroll on initial load
+      }
 
+      var _this$state = this.state,
+          messagesData = _this$state.messagesData,
+          messagesList = _this$state.messagesList;
+      var current_user_id = this.props.current_user_id;
 
-      if (oldState.messagesData.length == 0) if (this.bottom.current) this.bottom.current.scrollIntoView();
+      if (oldState.messagesData.length == 0) {
+        // initial load
+        if (this.bottom.current) this.bottom.current.scrollIntoView();
+      } else if (oldState.messagesData.length < messagesData.length) {
+        if (messagesData[messagesData.length - 1].user_id == current_user_id) {
+          // user creates new message
+          if (this.bottom.current) this.bottom.current.scrollIntoView();
+        } else {
+          var _this$scrollBar$curre = this.scrollBar.current,
+              offsetHeight = _this$scrollBar$curre.offsetHeight,
+              scrollTop = _this$scrollBar$curre.scrollTop,
+              scrollHeight = _this$scrollBar$curre.scrollHeight;
+          var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
+          if (distanceFromBottom != messagesList[messagesList.length - 1].offsetHeight) if (this.bottom.current) this.bottom.current.scrollIntoView();
+        }
+      }
     }
   }, {
     key: "componentWillUnmount",
@@ -2893,9 +2913,9 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "updateMessage",
     value: function updateMessage(messageData) {
-      var _this$state = this.state,
-          messagesData = _this$state.messagesData,
-          messagesList = _this$state.messagesList;
+      var _this$state2 = this.state,
+          messagesData = _this$state2.messagesData,
+          messagesList = _this$state2.messagesList;
 
       for (var i = 0; i < messagesData.length; i++) {
         if (messagesData[i].id == messageData.id) {
@@ -3031,7 +3051,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-filler"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-list"
+        className: "message-list",
+        ref: this.scrollBar
       }, this.state.messagesList.map(function (item, idx) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: idx,
@@ -4032,7 +4053,9 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
             return _this5.goToChannel("channel-browser");
           }
         }, "Back to Channel Browser"));
-      } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "message-form-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-box"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-form",
@@ -4052,34 +4075,54 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
           return e.preventDefault();
         },
         onClick: this.format('bold')
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Bold"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Ctrl"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "B")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button fa fa-italic fa-fw ".concat(italic ? "selected" : ""),
         "aria-hidden": "true",
         onMouseDown: function onMouseDown(e) {
           return e.preventDefault();
         },
         onClick: this.format('italic')
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Italic"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Ctrl"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "I")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button fa fa-underline fa-fw ".concat(underline ? "selected" : ""),
         "aria-hidden": "true",
         onMouseDown: function onMouseDown(e) {
           return e.preventDefault();
         },
         onClick: this.format('underline')
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Underline"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Ctrl"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "U")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button fa fa-strikethrough fa-fw ".concat(strikethrough ? "selected" : ""),
         "aria-hidden": "true",
         onMouseDown: function onMouseDown(e) {
           return e.preventDefault();
         },
         onClick: this.format('strikethrough')
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Strikethrough"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Ctrl"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Shift"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "X")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button fa fa-link fa-fw ".concat(createLink ? "selected" : ""),
         "aria-hidden": "true",
         onClick: this.toggleLinkForm(true)
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Link"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Ctrl"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "L")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button fa fa-list fa-fw ".concat(insertUnorderedList ? "selected" : ""),
@@ -4088,14 +4131,22 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
           return e.preventDefault();
         },
         onClick: this.format('insertUnorderedList')
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Unordered List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Ctrl"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Shift"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "5")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button fa fa-list-ol fa-fw ".concat(insertOrderedList ? "selected" : ""),
         "aria-hidden": "true",
         onMouseDown: function onMouseDown(e) {
           return e.preventDefault();
         },
         onClick: this.format('insertOrderedList')
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Ordered List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Ctrl"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Shift"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "6"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-input",
         contentEditable: true,
         onKeyDown: this.handleChatKeyDown
@@ -4107,7 +4158,9 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
           e.preventDefault();
           document.getElementById("chat-toolbar").classList.toggle("hidden");
         }
-      }, "Aa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Aa", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Hide formatting"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-divider"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button",

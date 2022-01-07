@@ -246,7 +246,7 @@ class ChannelMessageForm extends React.Component {
     }
     else
       return (
-        <div>
+        <div id="message-form-container">
           <div id="message-box">
             <div id="message-form" onMouseUp={this.updateToolbarState} onClick={() => {setTimeout(() => this.focusInput(), 0)}}>
               <div id="chat-toolbar" className={this.state.formatBar ? "" : "hidden"}>
@@ -254,45 +254,109 @@ class ChannelMessageForm extends React.Component {
                   className={`toolbar-button fa fa-bold fa-fw ${bold ? "selected" : ""}`}
                   aria-hidden="true" 
                   onMouseDown={e => e.preventDefault()} 
-                  onClick={this.format('bold')}></div>
+                  onClick={this.format('bold')}>
+                    <div className="black-popup">
+                      <div>Bold</div>
+                      <div className="buttons">
+                        <div>Ctrl</div>
+                        <div>B</div>
+                      </div>
+                    </div>
+                  </div>
                 <div 
                   className={`toolbar-button fa fa-italic fa-fw ${italic ? "selected" : ""}`}
                   aria-hidden="true" 
                   onMouseDown={e => e.preventDefault()} 
-                  onClick={this.format('italic')}></div>
+                  onClick={this.format('italic')}>
+                    <div className="black-popup">
+                      <div>Italic</div>
+                      <div className="buttons">
+                        <div>Ctrl</div>
+                        <div>I</div>
+                      </div>
+                    </div>
+                  </div>
                 <div 
                   className={`toolbar-button fa fa-underline fa-fw ${underline ? "selected" : ""}`}
                   aria-hidden="true" 
                   onMouseDown={e => e.preventDefault()} 
-                  onClick={this.format('underline')}></div>
+                  onClick={this.format('underline')}>
+                    <div className="black-popup">
+                      <div>Underline</div>
+                      <div className="buttons">
+                        <div>Ctrl</div>
+                        <div>U</div>
+                      </div>
+                    </div>
+                  </div>
                 <div 
                   className={`toolbar-button fa fa-strikethrough fa-fw ${strikethrough ? "selected" : ""}`}
                   aria-hidden="true" 
                   onMouseDown={e => e.preventDefault()} 
-                  onClick={this.format('strikethrough')}></div>
+                  onClick={this.format('strikethrough')}>
+                    <div className="black-popup">
+                      <div>Strikethrough</div>
+                      <div className="buttons">
+                        <div>Ctrl</div>
+                        <div>Shift</div>
+                        <div>X</div>
+                      </div>
+                    </div>
+                  </div>
                 <div className="toolbar-divider"></div>
                 <div 
                   className={`toolbar-button fa fa-link fa-fw ${createLink ? "selected" : ""}`} 
                   aria-hidden="true" 
-                  onClick={this.toggleLinkForm(true)}></div>
+                  onClick={this.toggleLinkForm(true)}>
+                    <div className="black-popup">
+                      <div>Link</div>
+                      <div className="buttons">
+                        <div>Ctrl</div>
+                        <div>L</div>
+                      </div>
+                    </div>
+                  </div>
                 <div className="toolbar-divider"></div>
                 <div 
                   className={`toolbar-button fa fa-list fa-fw ${insertUnorderedList ? "selected" : ""}`}
                   aria-hidden="true" 
                   onMouseDown={e => e.preventDefault()} 
-                  onClick={this.format('insertUnorderedList')}></div>
+                  onClick={this.format('insertUnorderedList')}>
+                    <div className="black-popup">
+                      <div>Unordered List</div>
+                      <div className="buttons">
+                        <div>Ctrl</div>
+                        <div>Shift</div>
+                        <div>5</div>
+                      </div>
+                    </div>
+                  </div>
                 <div 
                   className={`toolbar-button fa fa-list-ol fa-fw ${insertOrderedList ? "selected" : ""}`}
                   aria-hidden="true" 
                   onMouseDown={e => e.preventDefault()} 
-                  onClick={this.format('insertOrderedList')}></div>
+                  onClick={this.format('insertOrderedList')}>
+                    <div className="black-popup">
+                      <div>Ordered List</div>
+                      <div className="buttons">
+                        <div>Ctrl</div>
+                        <div>Shift</div>
+                        <div>6</div>
+                      </div>
+                    </div>
+                  </div>
               </div>
               <div id="chat-input" contentEditable onKeyDown={this.handleChatKeyDown}>
               </div>
               <div id="chat-footer">
                 {/* <div className="toolbar-button fa fa-upload fa-fw"></div>
                 <div className="toolbar-divider"></div> */}
-                <div className="toolbar-button" onMouseDown={e => { e.preventDefault(); document.getElementById("chat-toolbar").classList.toggle("hidden"); }}>Aa</div>
+                <div className="toolbar-button" onMouseDown={e => { e.preventDefault(); document.getElementById("chat-toolbar").classList.toggle("hidden"); }}>
+                  Aa
+                  <div className="black-popup">
+                    <div>Hide formatting</div>
+                  </div>
+                </div>
                 <div className="toolbar-divider"></div>
                 <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F4AF}')}>{'\u{1F4AF}'}</div>
                 <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F44D}')}>{'\u{1F44D}'}</div>

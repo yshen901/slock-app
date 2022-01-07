@@ -146,27 +146,79 @@
   }
 } 
 
+#message-form-container {
+  overflow: visible;
+}
+
 #message-box {
   display: flex;
   flex-direction: column;
   flex: none;
+  overflow: visible;
 
   padding: 0 20px;
   margin-top: 12px;
 
   #message-form {
+    overflow: visible;
     border: 1px solid rgba(29,28,29,0.3);
     border-radius: 6px;
     opacity: 0.5;
+
+    .toolbar-button {
+      position: relative;
+      overflow: visible;
+      width: 24px;
+
+      padding: 2px;
+      border-radius: 4px;
+
+      margin: 2px;
+      
+      color: rgba(29,28,29,0.7);
+      font-size: 16px;
+      line-height: 24px;
+      text-align: center;
+      user-select: none;
+
+      .black-popup {
+        width: 100px;
+        left: calc(50% - 50px);
+        top: -67px;
+        line-height: 16px;
+        padding: 5px 0;
+      }
+    }
+
+    .toolbar-button:hover {
+      transition: 0.3s;
+      cursor: pointer;
+      background: rgb(220, 220, 220);
+    }
+
+    .toolbar-button.selected {
+      background: rgb(220, 220, 220);
+    }
+
+    .toolbar-divider {
+      height: 20px;
+      width: 1px;
+      border: 0.5px solid rgba(29,28,29,0.2);
+      box-sizing: border-box;
+
+      margin: 0 3px;
+    }
 
     #chat-toolbar {
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      overflow: visible;
 
       padding: 4px;
       height: 30px;
       background: rgb(248,248,248);
+      border-radius: 6px 6px 0 0;
     }
 
     #chat-toolbar.hidden {
@@ -211,45 +263,20 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      overflow: visible;
 
       height: 40px;
       
       padding: 4px;
       box-sizing: border-box;
-    }
 
-    .toolbar-button {
-      width: 24px;
-
-      padding: 2px;
-      border-radius: 4px;
-
-      margin: 2px;
-      
-      color: rgba(29,28,29,0.7);
-      font-size: 16px;
-      line-height: 24px;
-      text-align: center;
-      user-select: none;
-    }
-
-    .toolbar-button:hover {
-      transition: 0.3s;
-      cursor: pointer;
-      background: rgb(220, 220, 220);
-    }
-
-    .toolbar-button.selected {
-      background: rgb(220, 220, 220);
-    }
-
-    .toolbar-divider {
-      height: 20px;
-      width: 1px;
-      border: 0.5px solid rgba(29,28,29,0.2);
-      box-sizing: border-box;
-
-      margin: 0 3px;
+      .toolbar-button {
+        .black-popup {
+          top: -45px;
+          padding: 10px;
+          left: calc(50% - 60px);
+        }
+      }
     }
   }
 
@@ -281,6 +308,12 @@
   #message-footer {
     transition: 0.2;
     opacity: 1;
+  }
+
+  .toolbar-button:hover {
+    .black-popup {
+      display: flex;
+    }
   }
 }
 
@@ -434,7 +467,7 @@
 
           .black-popup {
             transition: 0.3s;
-            display: inline;
+            display: flex;
           }
         }
       }
@@ -550,7 +583,7 @@
 
     .black-popup {
       top: -35px;
-      display: inline;
+      display: flex;
     }
   }
 

@@ -19,6 +19,8 @@ class ChannelChat extends React.Component {
     };
 
     this.bottom = React.createRef();
+    this.scrollBar = React.createRef();
+
     this.loadMessages = this.loadMessages.bind(this);
     this.receiveACData = this.receiveACData.bind(this);
     this.toggleUserPopup = this.toggleUserPopup.bind(this);
@@ -47,9 +49,22 @@ class ChannelChat extends React.Component {
       this.loadMessages();
     }
 
-    // Only scroll on initial load
-    if (oldState.messagesData.length == 0)
+    let { messagesData, messagesList } = this.state;
+    let { current_user_id} = this.props;
+    if (oldState.messagesData.length == 0) { // initial load
       if (this.bottom.current) this.bottom.current.scrollIntoView();
+    } 
+    else if (oldState.messagesData.length < messagesData.length) {
+      if (messagesData[messagesData.length - 1].user_id == current_user_id) { // user creates new message
+        if (this.bottom.current) this.bottom.current.scrollIntoView();
+      }
+      else {
+        let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current;
+        let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
+        if (distanceFromBottom != messagesList[messagesList.length - 1].offsetHeight)
+          if (this.bottom.current) this.bottom.current.scrollIntoView();
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -379,7 +394,7 @@ class ChannelChat extends React.Component {
     return (
       <div className="chatroom-container">
         <div className="message-filler"></div>
-        <div className="message-list">
+        <div className="message-list" ref={this.scrollBar}>
           {this.state.messagesList.map((item, idx) => 
             <div key={idx} className="messages-wrapper">
               {item}

@@ -86,11 +86,15 @@ em { font-style: italic }
 
 /* Speech bubble popups for time and message form */
 .black-popup {
-  display: none;
   position: absolute;
   overflow: visible;
   top: -40px;
   left: calc(50% - 65px);
+  
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   width: 130px;
 
@@ -102,6 +106,20 @@ em { font-style: italic }
 
   border-radius: 6px;
   background: black;
+  box-shadow: 0 0 1px 0 rgba(255,255,255,0.3);
+
+  .buttons {
+    display: flex;
+    font-weight: normal;
+    padding: 5px 0;
+
+    div {
+      background: rgb(50,50,50);
+      padding: 1px 3px;
+      margin: 0 1px;
+      border-radius: 4px;
+    }
+  }
 }
 
 .black-popup:after {
