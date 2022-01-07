@@ -16,6 +16,7 @@ class ChannelMessageForm extends React.Component {
       isActivated: {
         bold: false,
         italic: false,
+        underline: false,
         strikethrough: false,
         createLink: false,
         insertUnorderedList: false,
@@ -24,6 +25,7 @@ class ChannelMessageForm extends React.Component {
     };
 
     this.format = this.format.bind(this);
+    this.focusInput = this.focusInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateToolbarState = this.updateToolbarState.bind(this);
     this.handleChatKeyDown = this.handleChatKeyDown.bind(this);
@@ -75,10 +77,30 @@ class ChannelMessageForm extends React.Component {
     return users[ids[0]].email
   }
 
+  focusInput() {
+    let el = document.getElementById("chat-input");
+    el.focus();
+    if (typeof window.getSelection != "undefined"
+            && typeof document.createRange != "undefined") {
+      var range = document.createRange();
+      range.selectNodeContents(el);
+      range.collapse();
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } else if (typeof document.body.createTextRange != "undefined") {
+      var textRange = document.body.createTextRange();
+      textRange.moveToElementText(el);
+      textRange.collapse();
+      textRange.select();
+    }
+  }
+
   // Executes commands on contentEditable chat-input
   format(command, value) {
     return e => {
       e.preventDefault();
+      e.stopPropagation();
       document.execCommand(command, false, value);
       this.setState({isActivated: Object.assign(this.state.isActivated, {[command]: !this.state.isActivated[command]})});
     }
@@ -90,6 +112,7 @@ class ChannelMessageForm extends React.Component {
       isActivated: {
         bold: document.queryCommandState("bold"),
         italic: document.queryCommandState("italic"),
+        underline: document.queryCommandState("underline"),
         strikethrough: document.queryCommandState("strikethrough"),
         createLink: document.queryCommandState("createLink"),
         insertUnorderedList: document.queryCommandState("insertUnorderedList"),
@@ -103,6 +126,30 @@ class ChannelMessageForm extends React.Component {
     if (!e.shiftKey && e.key == "Enter") {
       e.preventDefault();
       this.handleSubmit(e);
+    } 
+    else if (e.key == "Backspace") {
+      let ele = document.getElementById("chat-input");
+      if (ele.textContent.length == 1) {
+        ele.innerHTML = "";
+      }
+    }
+    else if (e.ctrlKey && !e.shiftKey) {
+      if (e.key == "b")
+        this.format("bold")(e);
+      else if (e.key == "i")
+        this.format("italic")(e);
+      else if (e.key == "u")
+        this.format("underline")(e);
+      else if (e.key == "l")
+        this.toggleLinkForm(true)(e);
+    }
+    else if (e.ctrlKey && e.shiftKey) {
+      if (e.key == "X")
+        this.format("strikethrough")(e);
+      else if (e.key == "%")
+        this.format("insertunorderedlist")(e);
+      else if (e.key == "^")
+        this.format("insertorderedlist")
     }
     this.updateToolbarState();
   }
@@ -116,25 +163,10 @@ class ChannelMessageForm extends React.Component {
   // Toggles link form, clears linkText/linkUrl, and resets focus and cursor location
   toggleLinkForm(linkModal) {
     return e => {
-      e.stopPropagation();
+      if (e) e.stopPropagation();
       this.setState({linkModal, linkText: "", linkUrl: ""});
       if (!linkModal) {
-        let el = document.getElementById("chat-input");
-        el.focus();
-        if (typeof window.getSelection != "undefined"
-                && typeof document.createRange != "undefined") {
-          var range = document.createRange();
-          range.selectNodeContents(el);
-          range.collapse();
-          var sel = window.getSelection();
-          sel.removeAllRanges();
-          sel.addRange(range);
-        } else if (typeof document.body.createTextRange != "undefined") {
-          var textRange = document.body.createTextRange();
-          textRange.moveToElementText(el);
-          textRange.collapse();
-          textRange.select();
-        }
+        this.focusInput();
       }
     }
   }
@@ -146,7 +178,7 @@ class ChannelMessageForm extends React.Component {
     let {linkUrl, linkText} = this.state;
     let anchorEle = `<a href="http://${linkUrl}" target="_blank">${linkText}</a>`;
     $(document.getElementById("chat-input")).append(anchorEle);
-    this.toggleLinkForm(false);
+    this.toggleLinkForm(false)();
   }
 
   // Generates a link form modal that will update the 
@@ -183,7 +215,7 @@ class ChannelMessageForm extends React.Component {
               value={this.state.linkUrl}></input>
           </div> 
           <div className="form-buttons">
-            <button onClick={() => this.toggleLinkForm(false)}>Cancel</button>
+            <button onClick={this.toggleLinkForm(false)}>Cancel</button>
             <button className="green-button" onMouseDown={e => e.preventDefault() } onClick={this.appendLink} disabled={this.state.linkUrl.length == 0 || this.state.linkText.length == 0}>Save</button>
           </div>
         </div>
@@ -196,7 +228,7 @@ class ChannelMessageForm extends React.Component {
     let { channel_id } = this.props.match.params;    
     let channel = channels[channel_id];
 
-    let { bold, italic, strikethrough, createLink, insertUnorderedList, insertOrderedList } = this.state.isActivated;
+    let { bold, italic, underline, strikethrough, createLink, insertUnorderedList, insertOrderedList } = this.state.isActivated;
 
     if (this.state.canJoin && channel) {
       let channelName = channels.dm_channel ? this.getDmChannelName(channel) : `#${channel.name}`;
@@ -216,7 +248,7 @@ class ChannelMessageForm extends React.Component {
       return (
         <div>
           <div id="message-box">
-            <div id="message-form" onMouseUp={this.updateToolbarState} onClick={() => {setTimeout(() => document.getElementById("chat-input").focus(), 0)}}>
+            <div id="message-form" onMouseUp={this.updateToolbarState} onClick={() => {setTimeout(() => this.focusInput(), 0)}}>
               <div id="chat-toolbar" className={this.state.formatBar ? "" : "hidden"}>
                 <div 
                   className={`toolbar-button fa fa-bold fa-fw ${bold ? "selected" : ""}`}
@@ -228,6 +260,11 @@ class ChannelMessageForm extends React.Component {
                   aria-hidden="true" 
                   onMouseDown={e => e.preventDefault()} 
                   onClick={this.format('italic')}></div>
+                <div 
+                  className={`toolbar-button fa fa-underline fa-fw ${underline ? "selected" : ""}`}
+                  aria-hidden="true" 
+                  onMouseDown={e => e.preventDefault()} 
+                  onClick={this.format('underline')}></div>
                 <div 
                   className={`toolbar-button fa fa-strikethrough fa-fw ${strikethrough ? "selected" : ""}`}
                   aria-hidden="true" 
