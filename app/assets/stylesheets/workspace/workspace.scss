@@ -1,12 +1,13 @@
 #workspace-container {
   width: 100vw;
   height: 100vh;
-
-  display: flex;
-  flex-direction: column;
 }
 
 #workspace-top-bar {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+
   width: 100%;
   height: 38px;
 
@@ -90,6 +91,10 @@
 }
 
 #workspace {
+  position: fixed;
+  top: 38px;
+  left: 0px;
+
   width: 100%;
   height: calc(100% - 38px);
   overflow: visible;
