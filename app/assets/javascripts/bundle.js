@@ -2744,6 +2744,30 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           messagesData: messagesData
         });
       });
+    } // Updates messagesList and messagesData based on an action
+
+  }, {
+    key: "updateMessage",
+    value: function updateMessage(messageId, action) {
+      var messagesData = this.state.messagesData;
+
+      for (var i = 0; i < messagesData.length; i++) {
+        if (messagesData[i].id == messageId) {
+          if (action == "DELETE") messagesData.splice(i, 1);
+        }
+      } // reinitialize messagesList
+
+
+      var messagesList = [];
+
+      for (var _i = 0; _i < messagesData.length; _i++) {
+        this.processNewMessage(messagesData, messagesList, _i);
+      }
+
+      this.setState({
+        messagesList: messagesList,
+        messagesData: messagesData
+      });
     }
   }, {
     key: "receiveACData",
@@ -2752,7 +2776,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
 
       if (message.type == "DELETE") {
         // if a message was deleted. TODO: only reload a single message!
-        this.loadMessages();
+        this.updateMessage(message.id, message.type);
       } else {
         var user_id = message.user_id,
             channel_id = message.channel_id,

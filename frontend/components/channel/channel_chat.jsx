@@ -171,11 +171,27 @@ class ChannelChat extends React.Component {
       )
   }
 
+  // Updates messagesList and messagesData based on an action
+  updateMessage(messageId, action) {
+    let { messagesData } = this.state;
+    for (let i = 0; i < messagesData.length; i++) 
+      if (messagesData[i].id == messageId) {
+        if (action == "DELETE") messagesData.splice(i, 1);
+      }
+
+    // reinitialize messagesList
+    let messagesList = [];
+    for (let i = 0; i < messagesData.length; i++)
+      this.processNewMessage(messagesData, messagesList, i);
+    
+    this.setState({ messagesList, messagesData })
+  }
+
   receiveACData(data) {
     let { message } = data;     //extract the data
 
     if (message.type == "DELETE") { // if a message was deleted. TODO: only reload a single message!
-      this.loadMessages();
+      this.updateMessage(message.id, message.type);
     }
     else {
       let { user_id, channel_id, activate_dm_channel } = message;
