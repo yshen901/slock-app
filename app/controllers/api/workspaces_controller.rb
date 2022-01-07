@@ -52,7 +52,6 @@ class Api::WorkspacesController < ApplicationController
     end
   end
 
-
   private
 
   def workspace_params 

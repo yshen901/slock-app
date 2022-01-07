@@ -66,6 +66,10 @@ class Api::UsersController < ApplicationController
         password: user_params[:password]
       )
       if @user.save
+        demo_workspace = Workspace.find_by(address: "demo-workspace")
+        debugger;
+        WorkspaceUser.create(user_id: @user.id, workspace_id: demo_workspace.id, logged_in: false)
+
         login!(@user)
         render '/api/users/show'
       else

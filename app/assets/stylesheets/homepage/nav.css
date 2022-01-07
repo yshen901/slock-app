@@ -45,13 +45,15 @@ img {
 }
 
 .home-link {
+  min-width: 105px;
+
   text-decoration: none;
   color:black;
   font-size: 15px;
+  line-height: 20px;
 
-  padding: 10px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding: 10px 10px;
+  margin-right: 10px;
   box-sizing: border-box;
 
   text-align: center;

@@ -22,9 +22,9 @@
   }
 
   .right {
-    width: 18%;
+    flex: 1;
     min-width: 200px;
-    justify-content: space-evenly;
+    justify-content: flex-end;
   }
 
   .home-nav-link {
