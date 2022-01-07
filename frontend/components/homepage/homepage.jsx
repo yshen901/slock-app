@@ -4,7 +4,7 @@ import HomeNav from './home_nav';
 import WorkspaceDropdown from '../modals/workspace_dropdown';
 import { hideElements } from '../../util/modal_api_util';
 import { DEMO_WORKSPACE } from '../../actions/session_actions';
-import { objectToArray } from '../../selectors/selectors';
+import { objectToArray, workspaceTitle } from '../../selectors/selectors';
 
 class Homepage extends React.Component {
   constructor() {
@@ -29,7 +29,7 @@ class Homepage extends React.Component {
       return workspaces.map((workspace, key) => (
         <div className="workspace" key={key}>
           <div className="workspace-details">
-            <div className="workspace-address">{workspace.address}</div>
+            <div className="workspace-address">{workspaceTitle(workspace.address)}</div>
             <div className="workspace-users">{workspace.num_users} members</div>
           </div>
           <button 

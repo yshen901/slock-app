@@ -4572,7 +4572,7 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
             className: "workspace-details"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-address"
-          }, workspace.address), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_6__["workspaceTitle"])(workspace.address)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-users"
           }, workspace.num_users, " members")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             className: "home-button",
