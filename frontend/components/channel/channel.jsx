@@ -77,7 +77,7 @@ class Channel extends React.Component {
         user_id: user_id,
         active: false
       }
-      dispatch(endDmChannel(channelInfo))
+      this.props.endDmChannel(channelInfo)
         .then(
           () => {
             () => {

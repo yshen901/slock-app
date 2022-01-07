@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import WorkspaceSidebar from './workspace_sidebar';
 import { objectToArray } from '../../selectors/selectors';
 import { logout } from '../../actions/session_actions';
+import { endDmChannel } from '../../actions/dm_channel_actions';
 
 const mapStateToProps = (state, ownProps) => ({
   user: state.entities.users[state.session.user_id],
@@ -16,7 +17,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  endDmChannel: (dmChannelInfo) => dispatch(endDmChannel(dmChannelInfo))
 })
 
 export default withRouter(connect(

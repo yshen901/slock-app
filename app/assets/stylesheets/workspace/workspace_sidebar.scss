@@ -170,16 +170,18 @@
 .sidebar-item {
   display: flex;
   align-items: center;
+  justify-content: space;
 
   color: white;
   text-decoration: none;
 
   font-size: 15px;
-  line-height: 27px;
+  line-height: 28px;
   vertical-align: middle;
 
   padding-left: 15px;
   box-sizing: border-box;
+  user-select: none;
 
   i {
     opacity: 0.65;
@@ -305,6 +307,28 @@
 
 .sidebar-item.indented {
   padding-left: 29px;
+}
+
+.sidebar-item.dm {
+  justify-content: space-between;
+  padding-right: 20px;
+
+  .button {
+    opacity: 0;
+    font-size: 19px;
+  }
+}
+
+.sidebar-item.dm:hover {
+  .button {
+    transition: 0.3s;
+    opacity: 0.5;
+  }
+
+  .button:hover {
+    transition: 0.3s;
+    opacity: 1;
+  }
 }
 
 .sidebar-button {

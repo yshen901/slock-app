@@ -15,6 +15,8 @@ class WorkspaceSidebar extends React.Component {
 
     this.channelLink = this.channelLink.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.goToChannel = this.goToChannel.bind(this);
+    this.leaveDmChannel = this.leaveDmChannel.bind(this);
 
     this.starred = this.starred.bind(this);
     this.getChannels = this.getChannels.bind(this);
@@ -22,6 +24,22 @@ class WorkspaceSidebar extends React.Component {
 
   channelLink(channelId) {
     return `/workspace/${this.props.workspace_address}/${channelId}`;
+  }
+  
+  goToChannel(channel_id) {
+    let workspace_address = this.props.match.params.workspace_address;
+    this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+  }
+
+  leaveDmChannel(channel_id) {
+    return (e) => {
+      e.stopPropagation();
+      let channelInfo = {channel_id, user_id: this.props.user.id, active: false}
+      this.props.endDmChannel(channelInfo)
+        .then(
+          () => this.goToChannel(Object.keys(this.props.channels)[0])
+        )
+    }
   }
 
   toggleDropdown(category) {
@@ -183,11 +201,12 @@ class WorkspaceSidebar extends React.Component {
             </div>
             <div className="sidebar-list">
               {this.getChannels(false, true).map((channel, idx) => {
-                let channelClassName = channel.id == channel_id ? `sidebar-item indented selected` : `sidebar-item indented ${this.state.DM}`;
+                let channelClassName = channel.id == channel_id ? `sidebar-item dm indented selected` : `sidebar-item dm indented ${this.state.DM}`;
                 return (
-                  <Link key={idx} className={channelClassName} to={this.channelLink(channel.id)}>
-                    {this.getDmChannelName(channel)}
-                  </Link>
+                  <div key={idx} className={channelClassName} onClick={() => this.goToChannel(channel.id)}>
+                    <div>{this.getDmChannelName(channel)}</div>
+                    <div className="button" onClick={this.leaveDmChannel(channel.id)}>&#x2715;</div>
+                  </div>
                 );
               })}
               <div className={`sidebar-item indented ${this.state.DM}`} onClick={toggleFocusElements("invite-user-modal", "invite-user-input")}>

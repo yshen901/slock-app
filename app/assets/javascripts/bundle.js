@@ -2886,7 +2886,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
           user_id: user_id,
           active: false
         };
-        dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_6__["endDmChannel"])(channelInfo)).then(function () {
+        this.props.endDmChannel(channelInfo).then(function () {
           (function () {
             _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(_this2.props.generalChannelId));
 
@@ -4251,6 +4251,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     restartDmChannel: function restartDmChannel(dmChannelInfo) {
       return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["restartDmChannel"])(dmChannelInfo));
+    },
+    endDmChannel: function endDmChannel(dmChannelInfo) {
+      return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["endDmChannel"])(dmChannelInfo));
     }
   };
 };
@@ -8773,6 +8776,8 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     };
     _this.channelLink = _this.channelLink.bind(_assertThisInitialized(_this));
     _this.toggleDropdown = _this.toggleDropdown.bind(_assertThisInitialized(_this));
+    _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
+    _this.leaveDmChannel = _this.leaveDmChannel.bind(_assertThisInitialized(_this));
     _this.starred = _this.starred.bind(_assertThisInitialized(_this));
     _this.getChannels = _this.getChannels.bind(_assertThisInitialized(_this));
     return _this;
@@ -8784,14 +8789,38 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       return "/workspace/".concat(this.props.workspace_address, "/").concat(channelId);
     }
   }, {
-    key: "toggleDropdown",
-    value: function toggleDropdown(category) {
+    key: "goToChannel",
+    value: function goToChannel(channel_id) {
+      var workspace_address = this.props.match.params.workspace_address;
+      this.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
+    }
+  }, {
+    key: "leaveDmChannel",
+    value: function leaveDmChannel(channel_id) {
       var _this2 = this;
 
       return function (e) {
         e.stopPropagation();
+        var channelInfo = {
+          channel_id: channel_id,
+          user_id: _this2.props.user.id,
+          active: false
+        };
 
-        _this2.setState(_defineProperty({}, category, _this2.state[category] == "" ? "hidden" : ""));
+        _this2.props.endDmChannel(channelInfo).then(function () {
+          return _this2.goToChannel(Object.keys(_this2.props.channels)[0]);
+        });
+      };
+    }
+  }, {
+    key: "toggleDropdown",
+    value: function toggleDropdown(category) {
+      var _this3 = this;
+
+      return function (e) {
+        e.stopPropagation();
+
+        _this3.setState(_defineProperty({}, category, _this3.state[category] == "" ? "hidden" : ""));
       };
     }
   }, {
@@ -8845,7 +8874,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "starred",
     value: function starred() {
-      var _this3 = this;
+      var _this4 = this;
 
       var starred = this.getChannels(true);
       starred = starred.concat(this.getChannels(true, true));
@@ -8865,15 +8894,15 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
         className: "sidebar-header-link hoverable",
         onClick: this.toggleDropdown("starred")
       }, "Starred")), starred.map(function (channel, idx) {
-        var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented ".concat(_this3.state.starred);
+        var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented ".concat(_this4.state.starred);
         if (channel.dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: channelClassName,
-          to: _this3.channelLink(channel.id)
-        }, _this3.getDmChannelName(channel));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          to: _this4.channelLink(channel.id)
+        }, _this4.getDmChannelName(channel));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: channelClassName,
-          to: _this3.channelLink(channel.id)
+          to: _this4.channelLink(channel.id)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "sidebar-item-symbol"
         }, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -8884,7 +8913,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var channel_id = this.props.match.params.channel_id;
       if (this.props.user) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -8939,11 +8968,11 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }, "+")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-list"
       }, this.getChannels(false).map(function (channel, idx) {
-        var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented ".concat(_this4.state.channel);
+        var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented ".concat(_this5.state.channel);
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
           key: idx,
           className: channelClassName,
-          to: _this4.channelLink(channel.id)
+          to: _this5.channelLink(channel.id)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "sidebar-item-symbol"
         }, "#"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -8976,12 +9005,17 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       }, "+")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-list"
       }, this.getChannels(false, true).map(function (channel, idx) {
-        var channelClassName = channel.id == channel_id ? "sidebar-item indented selected" : "sidebar-item indented ".concat(_this4.state.DM);
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        var channelClassName = channel.id == channel_id ? "sidebar-item dm indented selected" : "sidebar-item dm indented ".concat(_this5.state.DM);
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: idx,
           className: channelClassName,
-          to: _this4.channelLink(channel.id)
-        }, _this4.getDmChannelName(channel));
+          onClick: function onClick() {
+            return _this5.goToChannel(channel.id);
+          }
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _this5.getDmChannelName(channel)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "button",
+          onClick: _this5.leaveDmChannel(channel.id)
+        }, "\u2715"));
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-item indented ".concat(this.state.DM),
         onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["toggleFocusElements"])("invite-user-modal", "invite-user-input")
@@ -9016,6 +9050,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _workspace_sidebar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./workspace_sidebar */ "./frontend/components/workspace/workspace_sidebar.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+
 
 
 
@@ -9037,6 +9073,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     logout: function logout() {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_4__["logout"])());
+    },
+    endDmChannel: function endDmChannel(dmChannelInfo) {
+      return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_5__["endDmChannel"])(dmChannelInfo));
     }
   };
 };
