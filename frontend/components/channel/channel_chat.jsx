@@ -4,6 +4,8 @@ import { photoUrl } from '../../selectors/selectors';
 
 import ChannelMessageForm from './channel_message_form';
 import UserPopupModal from "../modals/user_popup_modal.jsx";
+import ChannelMessageContainer from "./channel_message_container";
+
 import { RECEIVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_REACT, REMOVE_MESSAGE_SAVE } from '../../actions/message_actions';
 
 class ChannelChat extends React.Component {
@@ -218,6 +220,7 @@ class ChannelChat extends React.Component {
     i = i != null ? i : messagesData.length - 1;
     let { created_at, created_date, body, user_id, username, photo_url } = messagesData[i];
     let saved = !!this.props.user_saved_messages[messagesData[i].id];
+    let grouped = this.groupMessages(messagesData[i], messagesData[i-1]);
 
     if (i == 0 || created_date !== messagesData[i-1].created_date) {
       let date = created_date;
@@ -231,7 +234,16 @@ class ChannelChat extends React.Component {
       )        
     }
 
-    
+    messagesList.push(
+      <ChannelMessageContainer
+        grouped={grouped}
+        saved={saved}
+        messageData={messagesData[i]}
+        messageACChannel={this.messageACChannel}
+        toggleUserPopup={this.toggleUserPopup}/>
+    )
+
+
 
     return 
     if (i != 0 && this.groupMessages(messagesData[i], messagesData[i-1]))
@@ -438,7 +450,6 @@ class ChannelChat extends React.Component {
       minOffset = 576;
     
       let viewHeight = $(window).innerHeight();
-      debugger;
       let top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - this.scrollBar.current.scrollTop;
       if (top > viewHeight - minOffset)
         top = viewHeight - minOffset;
