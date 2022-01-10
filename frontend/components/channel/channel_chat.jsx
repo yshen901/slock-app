@@ -216,7 +216,7 @@ class ChannelChat extends React.Component {
 
   processNewMessage(messagesData, messagesList, i) {
     i = i != null ? i : messagesData.length - 1;
-    let { created_at, created_date, body, user_id, username, photo_url, id} = messagesData[i];
+    let { created_at, created_date, body, user_id, username, photo_url } = messagesData[i];
     let saved = !!this.props.user_saved_messages[messagesData[i].id];
 
     if (i == 0 || created_date !== messagesData[i-1].created_date) {
@@ -231,6 +231,9 @@ class ChannelChat extends React.Component {
       )        
     }
 
+    
+
+    return 
     if (i != 0 && this.groupMessages(messagesData[i], messagesData[i-1]))
       messagesList.push(
         <div className={saved ? "message saved" : "message"}>

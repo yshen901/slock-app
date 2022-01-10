@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { joinChannel } from "../../actions/channel_actions";
-import { toggleElements, toggleFocusElements } from '../../util/modal_api_util';
+import { toggleFocusElements } from '../../util/modal_api_util';
 import DOMPurify from 'dompurify';
 
 class ChannelMessageForm extends React.Component {
