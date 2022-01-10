@@ -3269,11 +3269,12 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               this.props.receiveMessageSave({
                 message_id: messageData.id
               });
-            } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE_SAVE"] && this.props.user_saved_messages[messageData.id]) {
-              this.props.removeMessageSave({
-                message_id: messageData.id
-              });
-            }
+            } // called when user activates in another window
+            else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE_SAVE"] && this.props.user_saved_messages[messageData.id]) {
+                this.props.removeMessageSave({
+                  message_id: messageData.id
+                });
+              }
 
           break;
         }
@@ -4220,7 +4221,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     value: function messageReactsList(messageData) {
       var _this4 = this;
 
-      var total_reacts = Object.entries(messageData.total_reacts);
+      var total_reacts = Object.entries(this.props.total_reacts);
       if (total_reacts.length == 0) return;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-reacts-list"
@@ -4364,7 +4365,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     current_user_id: state.session.user_id,
     messages: state.entities.messages,
     user_saved_messages: state.session.user_saved_messages,
-    workspace_id: state.session.workspace_id
+    workspace_id: state.session.workspace_id,
+    total_reacts: state.entities.messages[ownProps.messageData.id].total_reacts,
+    user_reacts: state.entities.messages[ownProps.messageData.id].user_reacts
   };
 };
 

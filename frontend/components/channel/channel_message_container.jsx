@@ -14,7 +14,9 @@ const mapStateToProps = (state, ownProps) => ({
   current_user_id: state.session.user_id,
   messages: state.entities.messages,
   user_saved_messages: state.session.user_saved_messages,
-  workspace_id: state.session.workspace_id
+  workspace_id: state.session.workspace_id,
+  total_reacts: state.entities.messages[ownProps.messageData.id].total_reacts,
+  user_reacts: state.entities.messages[ownProps.messageData.id].user_reacts
 });
 
 const mapDispatchToProps = dispatch => ({
