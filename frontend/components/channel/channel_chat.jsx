@@ -71,7 +71,7 @@ class ChannelChat extends React.Component {
     else {
       let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
         let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-        if (distanceFromBottom == 30 || distanceFromBottom == 21) {     // from react/save elements pushing things down
+        if (distanceFromBottom < 30) {     // from react/save elements pushing things down
           if (this.bottom.current) this.bottom.current.scrollIntoView();
         }
     }
@@ -134,7 +134,6 @@ class ChannelChat extends React.Component {
   processNewMessage(messagesData, messagesList, i) {
     i = i != null ? i : messagesData.length - 1;
     let { created_at, created_date } = messagesData[i];
-    let saved = !!this.props.user_saved_messages[messagesData[i].id];
     let grouped = i != 0 && this.groupMessages(messagesData[i], messagesData[i-1]);
 
     if (i == 0 || created_date !== messagesData[i-1].created_date) {
@@ -153,7 +152,6 @@ class ChannelChat extends React.Component {
       <ChannelMessageContainer
         status={this.props.status}  // decides whether you can interact with messages
         grouped={grouped}
-        saved={saved}
         messageData={messagesData[i]}
         messageACChannel={this.messageACChannel}
         toggleUserPopup={this.toggleUserPopup}/>
@@ -207,12 +205,12 @@ class ChannelChat extends React.Component {
         }                                                                    // called when user saves in another window
         else if (messageData.type == RECEIVE_MESSAGE_SAVE && !this.props.user_saved_messages[messageData.id]) {
           this.props.receiveMessageSave({
-              message_id: messageData.id,
+            message_id: messageData.id,
           })
         }
         else if (messageData.type == REMOVE_MESSAGE_SAVE && this.props.user_saved_messages[messageData.id]) {
           this.props.removeMessageSave({
-              message_id: messageData.id
+            message_id: messageData.id
           });
         }
         break;

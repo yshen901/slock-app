@@ -13,21 +13,22 @@ class ChannelMessage extends React.Component {
     this.toggleMessageSave = this.toggleMessageSave.bind(this);
   }
 
-  toggleMessageReact(messageData, react_code) {
+  toggleMessageReact(react_code) {
     return (e) => {
       e.preventDefault();
-      if (this.props.status.canJoin) return;
-      let { current_user_id } = this.props;
+      if (this.props.status.canJoin) return; // do not allow this action if not joined
+
+      let { current_user_id, message } = this.props;
       let { messageACChannel, deleteMessageReact, postMessageReact } = this.props;
 
-      if (messageData.user_reacts && messageData.user_reacts[current_user_id] && messageData.user_reacts[current_user_id][react_code])
+      if (message.user_reacts && message.user_reacts[current_user_id] && message.user_reacts[current_user_id][react_code])
         deleteMessageReact({
-          message_id: messageData.id,
+          message_id: message.id,
           react_code
         }).then(({message_react, type}) => messageACChannel.speak({message: { type, message_react }}));
       else
         postMessageReact({
-          message_id: messageData.id,
+          message_id: message.id,
           react_code
         }).then(({message_react, type}) => messageACChannel.speak({message: { type, message_react }}));
     };
@@ -69,41 +70,42 @@ class ChannelMessage extends React.Component {
       )
   }
 
-  messageButtons(messageData, saved) {
+  messageButtons(saved) {
+    let { message } = this.props;
     if (!this.props.status.canJoin)
       return (
         <div className="message-buttons">
-          { this.messageEmojiButton(messageData, '\u{1F4AF}') } 
-          { this.messageEmojiButton(messageData, '\u{1F44D}') }
-          { this.messageEmojiButton(messageData, '\u{1F642}') }
-          { this.messageEmojiButton(messageData, '\u{1F602}') }
-          { this.messageEmojiButton(messageData, '\u{1F60D}') }
-          { this.messageEmojiButton(messageData, '\u{1F622}') }
-          { this.messageEmojiButton(messageData, '\u{1F620}') }
-          <div className="message-button" onClick={this.toggleMessageSave(messageData.id)}>
+          { this.messageEmojiButton('\u{1F4AF}') } 
+          { this.messageEmojiButton('\u{1F44D}') }
+          { this.messageEmojiButton('\u{1F642}') }
+          { this.messageEmojiButton('\u{1F602}') }
+          { this.messageEmojiButton('\u{1F60D}') }
+          { this.messageEmojiButton('\u{1F622}') }
+          { this.messageEmojiButton('\u{1F620}') }
+          <div className="message-button" onClick={this.toggleMessageSave(message.id)}>
             <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
           </div>
-          {this.messageEditButton(messageData)}
-          {this.messageDeleteButton(messageData)}
+          {this.messageEditButton()}
+          {this.messageDeleteButton()}
         </div>
       );
   }
 
-  messageEmojiButton(messageData, react_code) {
+  messageEmojiButton(react_code) {
     return (
       <div className="message-button emoji" 
-        onClick={this.toggleMessageReact(messageData, react_code)}>{react_code}</div>
+        onClick={this.toggleMessageReact(react_code)}>{react_code}</div>
     )
   }
 
-  messageReactsList(messageData) {
+  messageReactsList() {
     let total_reacts = Object.entries(this.props.message.total_reacts);
     if (total_reacts.length == 0) return;
 
     return (
       <div className="message-reacts-list">
         { total_reacts.map(([react_code, num], idx) => (
-          <div className="message-react" key={idx} onClick={this.toggleMessageReact(messageData, react_code)}>
+          <div className="message-react" key={idx} onClick={this.toggleMessageReact(react_code)}>
             <div className="emoji">{react_code}</div>
             <div className="number">{num}</div>
           </div>
@@ -112,20 +114,20 @@ class ChannelMessage extends React.Component {
     )
   }
 
-  messageDeleteButton(messageData) {
-    let { current_user_id, messageACChannel } = this.props;
-    if (messageData.user_id == current_user_id) 
+  messageDeleteButton() {
+    let { current_user_id, messageACChannel, message } = this.props;
+    if (message.user_id == current_user_id) 
       return (
         <div className="message-button"
-          onClick={() => messageACChannel.speak({message: {type: "DELETE", id: messageData.id}})}>
+          onClick={() => messageACChannel.speak({message: {type: "DELETE", id: message.id}})}>
           <i className="far fa-trash-alt fa-fw"></i>
         </div>
       );
   }
 
-  messageEditButton(messageData) {
-    let { current_user_id } = this.props;
-    if (messageData.user_id == current_user_id) 
+  messageEditButton() {
+    let { current_user_id, message } = this.props;
+    if (message.user_id == current_user_id) 
       return (
         <div className="message-button"
           onClick={() => this.setState({ editing: true })}>
@@ -174,8 +176,9 @@ class ChannelMessage extends React.Component {
   }
 
   render() {
-    let { messageData, saved } = this.props;
-    let { body } = messageData;
+    let { message } = this.props;
+    let { body } = message;
+    let saved = !!this.props.user_saved_messages[message.id];
 
     if (this.state.editing)
       return (
@@ -194,9 +197,9 @@ class ChannelMessage extends React.Component {
               {this.messageHeader()}
               <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
             </div>
-            { this.messageButtons(messageData, saved) }
+            { this.messageButtons(saved) }
           </div>
-          { this.messageReactsList(messageData) }
+          { this.messageReactsList() }
         </div>
       )
   }

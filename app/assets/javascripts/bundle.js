@@ -3130,7 +3130,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
 
         var _distanceFromBottom = _scrollHeight - _offsetHeight - _scrollTop;
 
-        if (_distanceFromBottom == 30 || _distanceFromBottom == 21) {
+        if (_distanceFromBottom < 30) {
           // from react/save elements pushing things down
           if (this.bottom.current) this.bottom.current.scrollIntoView();
         }
@@ -3189,7 +3189,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       var _messagesData$i = messagesData[i],
           created_at = _messagesData$i.created_at,
           created_date = _messagesData$i.created_date;
-      var saved = !!this.props.user_saved_messages[messagesData[i].id];
       var grouped = i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1]);
 
       if (i == 0 || created_date !== messagesData[i - 1].created_date) {
@@ -3208,7 +3207,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         status: this.props.status // decides whether you can interact with messages
         ,
         grouped: grouped,
-        saved: saved,
         messageData: messagesData[i],
         messageACChannel: this.messageACChannel,
         toggleUserPopup: this.toggleUserPopup
@@ -4145,19 +4143,22 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
 
   _createClass(ChannelMessage, [{
     key: "toggleMessageReact",
-    value: function toggleMessageReact(messageData, react_code) {
+    value: function toggleMessageReact(react_code) {
       var _this2 = this;
 
       return function (e) {
         e.preventDefault();
-        if (_this2.props.status.canJoin) return;
-        var current_user_id = _this2.props.current_user_id;
+        if (_this2.props.status.canJoin) return; // do not allow this action if not joined
+
         var _this2$props = _this2.props,
-            messageACChannel = _this2$props.messageACChannel,
-            deleteMessageReact = _this2$props.deleteMessageReact,
-            postMessageReact = _this2$props.postMessageReact;
-        if (messageData.user_reacts && messageData.user_reacts[current_user_id] && messageData.user_reacts[current_user_id][react_code]) deleteMessageReact({
-          message_id: messageData.id,
+            current_user_id = _this2$props.current_user_id,
+            message = _this2$props.message;
+        var _this2$props2 = _this2.props,
+            messageACChannel = _this2$props2.messageACChannel,
+            deleteMessageReact = _this2$props2.deleteMessageReact,
+            postMessageReact = _this2$props2.postMessageReact;
+        if (message.user_reacts && message.user_reacts[current_user_id] && message.user_reacts[current_user_id][react_code]) deleteMessageReact({
+          message_id: message.id,
           react_code: react_code
         }).then(function (_ref) {
           var message_react = _ref.message_react,
@@ -4169,7 +4170,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
             }
           });
         });else postMessageReact({
-          message_id: messageData.id,
+          message_id: message.id,
           react_code: react_code
         }).then(function (_ref2) {
           var message_react = _ref2.message_react,
@@ -4237,27 +4238,28 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "messageButtons",
-    value: function messageButtons(messageData, saved) {
+    value: function messageButtons(saved) {
+      var message = this.props.message;
       if (!this.props.status.canJoin) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-buttons"
-      }, this.messageEmojiButton(messageData, "\uD83D\uDCAF"), this.messageEmojiButton(messageData, "\uD83D\uDC4D"), this.messageEmojiButton(messageData, "\uD83D\uDE42"), this.messageEmojiButton(messageData, "\uD83D\uDE02"), this.messageEmojiButton(messageData, "\uD83D\uDE0D"), this.messageEmojiButton(messageData, "\uD83D\uDE22"), this.messageEmojiButton(messageData, "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.messageEmojiButton("\uD83D\uDCAF"), this.messageEmojiButton("\uD83D\uDC4D"), this.messageEmojiButton("\uD83D\uDE42"), this.messageEmojiButton("\uD83D\uDE02"), this.messageEmojiButton("\uD83D\uDE0D"), this.messageEmojiButton("\uD83D\uDE22"), this.messageEmojiButton("\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
-        onClick: this.toggleMessageSave(messageData.id)
+        onClick: this.toggleMessageSave(message.id)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
-      })), this.messageEditButton(messageData), this.messageDeleteButton(messageData));
+      })), this.messageEditButton(), this.messageDeleteButton());
     }
   }, {
     key: "messageEmojiButton",
-    value: function messageEmojiButton(messageData, react_code) {
+    value: function messageEmojiButton(react_code) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button emoji",
-        onClick: this.toggleMessageReact(messageData, react_code)
+        onClick: this.toggleMessageReact(react_code)
       }, react_code);
     }
   }, {
     key: "messageReactsList",
-    value: function messageReactsList(messageData) {
+    value: function messageReactsList() {
       var _this4 = this;
 
       var total_reacts = Object.entries(this.props.message.total_reacts);
@@ -4272,7 +4274,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-react",
           key: idx,
-          onClick: _this4.toggleMessageReact(messageData, react_code)
+          onClick: _this4.toggleMessageReact(react_code)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "emoji"
         }, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4282,17 +4284,18 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "messageDeleteButton",
-    value: function messageDeleteButton(messageData) {
+    value: function messageDeleteButton() {
       var _this$props = this.props,
           current_user_id = _this$props.current_user_id,
-          messageACChannel = _this$props.messageACChannel;
-      if (messageData.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          messageACChannel = _this$props.messageACChannel,
+          message = _this$props.message;
+      if (message.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
         onClick: function onClick() {
           return messageACChannel.speak({
             message: {
               type: "DELETE",
-              id: messageData.id
+              id: message.id
             }
           });
         }
@@ -4302,11 +4305,13 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "messageEditButton",
-    value: function messageEditButton(messageData) {
+    value: function messageEditButton() {
       var _this5 = this;
 
-      var current_user_id = this.props.current_user_id;
-      if (messageData.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var _this$props2 = this.props,
+          current_user_id = _this$props2.current_user_id,
+          message = _this$props2.message;
+      if (message.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
         onClick: function onClick() {
           return _this5.setState({
@@ -4320,10 +4325,10 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageHeader",
     value: function messageHeader() {
-      var _this$props2 = this.props,
-          grouped = _this$props2.grouped,
-          messageData = _this$props2.messageData,
-          toggleUserPopup = _this$props2.toggleUserPopup;
+      var _this$props3 = this.props,
+          grouped = _this$props3.grouped,
+          messageData = _this$props3.messageData,
+          toggleUserPopup = _this$props3.toggleUserPopup;
       var user_id = messageData.user_id,
           username = messageData.username,
           created_date = messageData.created_date,
@@ -4342,10 +4347,10 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageIcon",
     value: function messageIcon() {
-      var _this$props3 = this.props,
-          grouped = _this$props3.grouped,
-          messageData = _this$props3.messageData,
-          toggleUserPopup = _this$props3.toggleUserPopup;
+      var _this$props4 = this.props,
+          grouped = _this$props4.grouped,
+          messageData = _this$props4.messageData,
+          toggleUserPopup = _this$props4.toggleUserPopup;
       var created_date = messageData.created_date,
           created_at = messageData.created_at,
           photo_url = messageData.photo_url,
@@ -4364,10 +4369,9 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$props4 = this.props,
-          messageData = _this$props4.messageData,
-          saved = _this$props4.saved;
-      var body = messageData.body;
+      var message = this.props.message;
+      var body = message.body;
+      var saved = !!this.props.user_saved_messages[message.id];
       if (this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
         messageBody: this.props.message.body,
         messageACChannel: this.props.messageACChannel,
@@ -4383,7 +4387,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         dangerouslySetInnerHTML: {
           __html: body
         }
-      })), this.messageButtons(messageData, saved)), this.messageReactsList(messageData));
+      })), this.messageButtons(saved)), this.messageReactsList());
     }
   }]);
 
@@ -9616,7 +9620,7 @@ var MessageReducer = function MessageReducer() {
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE_SAVE"]:
       // receive saved_message data
       message_id = action.message_save.message_id;
-      newState[message_id] = action.message_save.message;
+      if (action.message_save.message) newState[message_id] = action.message_save.message;
       return newState;
 
     default:

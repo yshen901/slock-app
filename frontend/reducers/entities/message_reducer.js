@@ -46,7 +46,7 @@ const MessageReducer = (state = {}, action) => {
 
     case RECEIVE_MESSAGE_SAVE: // receive saved_message data
       message_id = action.message_save.message_id;
-      newState[message_id] = action.message_save.message;
+      if (action.message_save.message) newState[message_id] = action.message_save.message;
       return newState;
 
     default:
