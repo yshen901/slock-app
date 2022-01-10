@@ -1,8 +1,13 @@
 import React from 'react';
+import ChannelMessageForm from './channel_message_form';
 
 class ChannelMessage extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      editing: false
+    }
 
     this.toggleMessageReact = this.toggleMessageReact.bind(this);
     this.toggleMessageSave = this.toggleMessageSave.bind(this);
@@ -97,78 +102,75 @@ class ChannelMessage extends React.Component {
       );
   }
 
-  render() {
-    let { grouped, saved, messageData, toggleUserPopup } = this.props;
-    let { created_at, created_date, body, user_id, username, photo_url, id } = messageData;
+  messageHeader() {
+    let { grouped, messageData, toggleUserPopup } = this.props;
+    let { user_id, username, created_date, created_at } = messageData;
 
     if (grouped)
       return (
-        <div className={saved ? "message saved" : "message"}>
-          { this.messageSavedBanner(saved) }
-          <div className="message-content">
-            <div className="message-time-tag">
-              <div className="black-popup">
-                {created_date}
-              </div>
-              {created_at}
+        <div className="message-header">
+          <div className="message-user" onClick={toggleUserPopup(user_id)}>{username}</div>
+          <div className="message-time">
+            <div className="black-popup">
+              {created_date} at {created_at}
             </div>
-            <div className="message-text">
-              <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
-            </div>
-            <div className="message-buttons">
-              { this.messageEmojiButton(messageData, '\u{1F4AF}') } 
-              { this.messageEmojiButton(messageData, '\u{1F44D}') }
-              { this.messageEmojiButton(messageData, '\u{1F642}') }
-              { this.messageEmojiButton(messageData, '\u{1F602}') }
-              { this.messageEmojiButton(messageData, '\u{1F60D}') }
-              { this.messageEmojiButton(messageData, '\u{1F622}') }
-              { this.messageEmojiButton(messageData, '\u{1F620}') }
-              <div className="message-button" onClick={this.toggleMessageSave(id)}>
-                <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
-              </div>
-              {this.messageDeleteButton(messageData)}
-            </div>
+            {created_at}
           </div>
-          { this.messageReactsList(messageData) }
         </div>
       )
-    else 
+  }
+
+  messageIcon() {
+    let { grouped, messageData, toggleUserPopup } = this.props;
+    let { created_date, created_at, photo_url, user_id } = messageData;
+
+    if (grouped)
       return (
-        <div className={saved ? "message saved" : "message"}>
-          { this.messageSavedBanner(saved) }
-          <div className="message-content">
-            <div className="message-user-icon">
-              <img src={photo_url} onClick={toggleUserPopup(user_id)}/>
-            </div>
-            <div className="message-text">
-              <div className="message-header">
-                <div className="message-user" onClick={toggleUserPopup(user_id)}>{username}</div>
-                <div className="message-time">
-                  <div className="black-popup">
-                    {created_date} at {created_at}
-                  </div>
-                  {created_at}
-                </div>
-              </div>
-              <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
-            </div>
-            <div className="message-buttons">
-              { this.messageEmojiButton(messageData, '\u{1F4AF}') } 
-              { this.messageEmojiButton(messageData, '\u{1F44D}') }
-              { this.messageEmojiButton(messageData, '\u{1F642}') }
-              { this.messageEmojiButton(messageData, '\u{1F602}') }
-              { this.messageEmojiButton(messageData, '\u{1F60D}') }
-              { this.messageEmojiButton(messageData, '\u{1F622}') }
-              { this.messageEmojiButton(messageData, '\u{1F620}') }
-              <div className="message-button" onClick={this.toggleMessageSave(id)}>
-                <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
-              </div>
-              {this.messageDeleteButton(messageData)}
-            </div>
+        <div className="message-time-tag">
+          <div className="black-popup">
+            {created_date}
           </div>
-          { this.messageReactsList(messageData) }
+          {created_at}
         </div>
       )
+    else
+      return (
+        <div className="message-user-icon">
+          <img src={photo_url} onClick={toggleUserPopup(user_id)}/>
+        </div>
+      )
+  }
+
+  render() {
+    let { saved, messageData } = this.props;
+    let { body, id } = messageData;
+
+    return (
+      <div className={saved ? "message saved" : "message"}>
+        { this.messageSavedBanner(saved) }
+        <div className="message-content">
+          { this.messageIcon() }
+          <div className="message-text">
+            {this.messageHeader()}
+            <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
+          </div>
+          <div className="message-buttons">
+            { this.messageEmojiButton(messageData, '\u{1F4AF}') } 
+            { this.messageEmojiButton(messageData, '\u{1F44D}') }
+            { this.messageEmojiButton(messageData, '\u{1F642}') }
+            { this.messageEmojiButton(messageData, '\u{1F602}') }
+            { this.messageEmojiButton(messageData, '\u{1F60D}') }
+            { this.messageEmojiButton(messageData, '\u{1F622}') }
+            { this.messageEmojiButton(messageData, '\u{1F620}') }
+            <div className="message-button" onClick={this.toggleMessageSave(id)}>
+              <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
+            </div>
+            {this.messageDeleteButton(messageData)}
+          </div>
+        </div>
+        { this.messageReactsList(messageData) }
+      </div>
+    )
   }
 }
 

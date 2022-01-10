@@ -3006,18 +3006,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -3069,8 +3057,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     _this.loadMessages = _this.loadMessages.bind(_assertThisInitialized(_this));
     _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
     _this.toggleUserPopup = _this.toggleUserPopup.bind(_assertThisInitialized(_this));
-    _this.toggleMessageReact = _this.toggleMessageReact.bind(_assertThisInitialized(_this));
-    _this.toggleMessageSave = _this.toggleMessageSave.bind(_assertThisInitialized(_this));
     _this.calculatePos = _this.calculatePos.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -3183,139 +3169,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       return false;
     }
   }, {
-    key: "messageDeleteButton",
-    value: function messageDeleteButton(messageData) {
-      var _this2 = this;
-
-      if (messageData.user_id == this.props.current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button",
-        onClick: function onClick() {
-          return _this2.messageACChannel.speak({
-            message: {
-              type: "DELETE",
-              id: messageData.id
-            }
-          });
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "far fa-trash-alt fa-fw"
-      }));
-    }
-  }, {
-    key: "toggleMessageReact",
-    value: function toggleMessageReact(messageData, react_code) {
-      var _this3 = this;
-
-      return function (e) {
-        e.preventDefault();
-        var current_user_id = _this3.props.current_user_id;
-        if (messageData.user_reacts && messageData.user_reacts[current_user_id] && messageData.user_reacts[current_user_id][react_code]) _this3.props.deleteMessageReact({
-          message_id: messageData.id,
-          react_code: react_code
-        }).then(function (_ref) {
-          var message_react = _ref.message_react,
-              type = _ref.type;
-          return _this3.messageACChannel.speak({
-            message: {
-              type: type,
-              message_react: message_react
-            }
-          });
-        });else _this3.props.postMessageReact({
-          message_id: messageData.id,
-          react_code: react_code
-        }).then(function (_ref2) {
-          var message_react = _ref2.message_react,
-              type = _ref2.type;
-          return _this3.messageACChannel.speak({
-            message: {
-              type: type,
-              message_react: message_react
-            }
-          });
-        });
-      };
-    }
-  }, {
-    key: "toggleMessageSave",
-    value: function toggleMessageSave(messageId) {
-      var _this4 = this;
-
-      return function (e) {
-        if (e) e.preventDefault();
-        var messages = _this4.props.messages;
-        if (_this4.props.user_saved_messages[messageId]) _this4.props.deleteMessageSave({
-          message_id: messageId
-        }).then(function (_ref3) {
-          var message_save = _ref3.message_save,
-              type = _ref3.type;
-          return _this4.messageACChannel.speak({
-            message: {
-              type: type,
-              id: message_save.message_id
-            }
-          });
-        });else _this4.props.postMessageSave({
-          message_id: messageId,
-          workspace_id: _this4.props.workspace_id
-        }).then(function (_ref4) {
-          var message_save = _ref4.message_save,
-              type = _ref4.type;
-
-          _this4.messageACChannel.speak({
-            message: {
-              type: type,
-              id: message_save.message_id,
-              message_save_id: message_save.id,
-              message: messages[message_save.message_id]
-            }
-          });
-        });
-      };
-    }
-  }, {
-    key: "messageEmojiButton",
-    value: function messageEmojiButton(messageData, react_code) {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button emoji",
-        onClick: this.toggleMessageReact(messageData, react_code)
-      }, react_code);
-    }
-  }, {
-    key: "messageReactsList",
-    value: function messageReactsList(messageData) {
-      var _this5 = this;
-
-      var total_reacts = Object.entries(messageData.total_reacts);
-      if (total_reacts.length == 0) return;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-reacts-list"
-      }, total_reacts.map(function (_ref5, idx) {
-        var _ref6 = _slicedToArray(_ref5, 2),
-            react_code = _ref6[0],
-            num = _ref6[1];
-
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "message-react",
-          key: idx,
-          onClick: _this5.toggleMessageReact(messageData, react_code)
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "emoji"
-        }, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "number"
-        }, num));
-      }));
-    }
-  }, {
-    key: "messageSavedBanner",
-    value: function messageSavedBanner(saved) {
-      if (saved) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "saved-banner"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fas fa-bookmark fa-fw magenta"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Added to your saved items"));
-    }
-  }, {
     key: "processNewMessage",
     value: function processNewMessage(messagesData, messagesList, i) {
       i = i != null ? i : messagesData.length - 1;
@@ -3327,7 +3180,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           username = _messagesData$i.username,
           photo_url = _messagesData$i.photo_url;
       var saved = !!this.props.user_saved_messages[messagesData[i].id];
-      var grouped = this.groupMessages(messagesData[i], messagesData[i - 1]);
+      var grouped = i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1]);
 
       if (i == 0 || created_date !== messagesData[i - 1].created_date) {
         var date = created_date;
@@ -3348,90 +3201,34 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         messageACChannel: this.messageACChannel,
         toggleUserPopup: this.toggleUserPopup
       }));
-      return;
-      if (i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1])) messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: saved ? "message saved" : "message"
-      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-content"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-time-tag"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "black-popup"
-      }, created_date), created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-text"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-body",
-        dangerouslySetInnerHTML: {
-          __html: body
-        }
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-buttons"
-      }, this.messageEmojiButton(messagesData[i], "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i], "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE22"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button",
-        onClick: this.toggleMessageSave(messagesData[i].id)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
-      })), this.messageDeleteButton(messagesData[i]))), this.messageReactsList(messagesData[i])));else messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: saved ? "message saved" : "message"
-      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-content"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-user-icon"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: photo_url,
-        onClick: this.toggleUserPopup(user_id)
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-text"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-header"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-user",
-        onClick: this.toggleUserPopup(user_id)
-      }, username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-time"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "black-popup"
-      }, created_date, " at ", created_at), created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-body",
-        dangerouslySetInnerHTML: {
-          __html: body
-        }
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-buttons"
-      }, this.messageEmojiButton(messagesData[i], "\uD83D\uDCAF"), this.messageEmojiButton(messagesData[i], "\uD83D\uDC4D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE42"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE02"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE0D"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE22"), this.messageEmojiButton(messagesData[i], "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button",
-        onClick: this.toggleMessageSave(messagesData[i].id)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
-      })), this.messageDeleteButton(messagesData[i]))), this.messageReactsList(messagesData[i])));
     }
   }, {
     key: "loadMessages",
     value: function loadMessages() {
-      var _this6 = this;
+      var _this2 = this;
 
       var _this$props = this.props,
           getMessages = _this$props.getMessages,
           channel_id = _this$props.channel_id,
           users = _this$props.users;
-      getMessages(channel_id).then(function (_ref7) {
-        var messages = _ref7.messages;
+      getMessages(channel_id).then(function (_ref) {
+        var messages = _ref.messages;
         // update message data
         var messagesData = Object.values(messages).map(function (message) {
           message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
-          message.created_date = _this6.getMessageDate(message);
-          message.created_at = _this6.getMessageTimestamp(message);
-          message.username = _this6.profileName(users[message.user_id]);
+          message.created_date = _this2.getMessageDate(message);
+          message.created_at = _this2.getMessageTimestamp(message);
+          message.username = _this2.profileName(users[message.user_id]);
           return message;
         }); // popualate messagesList
 
         var messagesList = [];
 
         for (var i = 0; i < messagesData.length; i++) {
-          _this6.processNewMessage(messagesData, messagesList, i);
+          _this2.processNewMessage(messagesData, messagesList, i);
         }
 
-        _this6.setState({
+        _this2.setState({
           messagesList: messagesList,
           messagesData: messagesData
         });
@@ -3484,8 +3281,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
 
       messagesList = [];
 
-      for (var _i2 = 0; _i2 < messagesData.length; _i2++) {
-        this.processNewMessage(messagesData, messagesList, _i2);
+      for (var _i = 0; _i < messagesData.length; _i++) {
+        this.processNewMessage(messagesData, messagesList, _i);
       }
 
       this.setState({
@@ -3533,12 +3330,12 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleUserPopup",
     value: function toggleUserPopup(userId) {
-      var _this7 = this;
+      var _this3 = this;
 
       return function (e) {
         e.stopPropagation();
 
-        _this7.setState({
+        _this3.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
         });
@@ -3547,7 +3344,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderUserPopup",
     value: function renderUserPopup() {
-      var _this8 = this;
+      var _this4 = this;
 
       var _this$props2 = this.props,
           users = _this$props2.users,
@@ -3556,7 +3353,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: users[popupUserId],
         hidePopup: function hidePopup() {
-          return _this8.setState({
+          return _this4.setState({
             popupUserId: 0
           });
         },
@@ -4264,6 +4061,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _channel_message_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./channel_message_form */ "./frontend/components/channel/channel_message_form.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -4300,6 +4098,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelMessage, _React$Component);
 
@@ -4311,6 +4110,9 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, ChannelMessage);
 
     _this = _super.call(this, props);
+    _this.state = {
+      editing: false
+    };
     _this.toggleMessageReact = _this.toggleMessageReact.bind(_assertThisInitialized(_this));
     _this.toggleMessageSave = _this.toggleMessageSave.bind(_assertThisInitialized(_this));
     return _this;
@@ -4461,54 +4263,17 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       }));
     }
   }, {
-    key: "render",
-    value: function render() {
+    key: "messageHeader",
+    value: function messageHeader() {
       var _this$props2 = this.props,
           grouped = _this$props2.grouped,
-          saved = _this$props2.saved,
           messageData = _this$props2.messageData,
           toggleUserPopup = _this$props2.toggleUserPopup;
-      var created_at = messageData.created_at,
-          created_date = messageData.created_date,
-          body = messageData.body,
-          user_id = messageData.user_id,
+      var user_id = messageData.user_id,
           username = messageData.username,
-          photo_url = messageData.photo_url,
-          id = messageData.id;
+          created_date = messageData.created_date,
+          created_at = messageData.created_at;
       if (grouped) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: saved ? "message saved" : "message"
-      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-content"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-time-tag"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "black-popup"
-      }, created_date), created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-text"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-body",
-        dangerouslySetInnerHTML: {
-          __html: body
-        }
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-buttons"
-      }, this.messageEmojiButton(messageData, "\uD83D\uDCAF"), this.messageEmojiButton(messageData, "\uD83D\uDC4D"), this.messageEmojiButton(messageData, "\uD83D\uDE42"), this.messageEmojiButton(messageData, "\uD83D\uDE02"), this.messageEmojiButton(messageData, "\uD83D\uDE0D"), this.messageEmojiButton(messageData, "\uD83D\uDE22"), this.messageEmojiButton(messageData, "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button",
-        onClick: this.toggleMessageSave(id)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
-      })), this.messageDeleteButton(messageData))), this.messageReactsList(messageData));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: saved ? "message saved" : "message"
-      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-content"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-user-icon"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: photo_url,
-        onClick: toggleUserPopup(user_id)
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-text"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user",
@@ -4517,7 +4282,45 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         className: "message-time"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "black-popup"
-      }, created_date, " at ", created_at), created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, created_date, " at ", created_at), created_at));
+    }
+  }, {
+    key: "messageIcon",
+    value: function messageIcon() {
+      var _this$props3 = this.props,
+          grouped = _this$props3.grouped,
+          messageData = _this$props3.messageData,
+          toggleUserPopup = _this$props3.toggleUserPopup;
+      var created_date = messageData.created_date,
+          created_at = messageData.created_at,
+          photo_url = messageData.photo_url,
+          user_id = messageData.user_id;
+      if (grouped) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-time-tag"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, created_date), created_at);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-user-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: photo_url,
+        onClick: toggleUserPopup(user_id)
+      }));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props4 = this.props,
+          saved = _this$props4.saved,
+          messageData = _this$props4.messageData;
+      var body = messageData.body,
+          id = messageData.id;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: saved ? "message saved" : "message"
+      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-content"
+      }, this.messageIcon(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-text"
+      }, this.messageHeader(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-body",
         dangerouslySetInnerHTML: {
           __html: body
@@ -4590,7 +4393,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps))(_channel_message__WEBPACK_IMPORTED_MODULE_3__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_channel_message__WEBPACK_IMPORTED_MODULE_3__["default"])));
 
 /***/ }),
 
