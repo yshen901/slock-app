@@ -4178,7 +4178,18 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         e.preventDefault();
         var body = ref.current.innerHTML;
 
-        _this3.props.updateMessage({
+        if (ref.current.textContent.length == 0) {
+          _this3.props.messageACChannel.speak({
+            message: {
+              type: "DELETE",
+              id: _this3.props.message.id
+            }
+          });
+
+          _this3.setState({
+            editing: false
+          });
+        } else _this3.props.updateMessage({
           id: _this3.props.message.id,
           body: body
         }).then(function () {

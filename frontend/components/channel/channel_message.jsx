@@ -28,10 +28,15 @@ class ChannelMessage extends React.Component {
     return (e) => {
       e.preventDefault();
       let body = ref.current.innerHTML;
-      this.props.updateMessage({id: this.props.message.id, body})
-        .then(
-          () => this.setState( {editing: false} )
-        )
+      if (ref.current.textContent.length == 0) {
+        this.props.messageACChannel.speak({message: {type: "DELETE", id: this.props.message.id}});
+        this.setState({ editing: false });
+      }
+      else
+        this.props.updateMessage({id: this.props.message.id, body})
+          .then(
+            () => this.setState( {editing: false} )
+          )
     }
   }
 
