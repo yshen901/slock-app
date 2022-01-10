@@ -9,8 +9,24 @@ class ChannelMessage extends React.Component {
       editing: false
     }
 
+    this.toggleEditCancel = this.toggleEditCancel.bind(this);
+    this.toggleEditSave = this.toggleEditSave.bind(this);
     this.toggleMessageReact = this.toggleMessageReact.bind(this);
     this.toggleMessageSave = this.toggleMessageSave.bind(this);
+  }
+
+  toggleEditCancel() {
+    return (e) => {
+      e.preventDefault();
+      this.setState( {editing: false} );
+    }
+  }
+
+  toggleEditSave() {
+    return (e) => {
+      e.preventDefault();
+      this.setState( {editing: false} );
+    }
   }
 
   toggleMessageReact(react_code) {
@@ -175,33 +191,45 @@ class ChannelMessage extends React.Component {
       )
   }
 
-  render() {
-    let { message } = this.props;
+  messageBody() {
+    let { messageACChannel, status, message } = this.props;
     let { body } = message;
-    let saved = !!this.props.user_saved_messages[message.id];
 
     if (this.state.editing)
       return (
-        <ChannelMessageForm
-          messageBody={this.props.message.body}
-          messageACChannel={this.props.messageACChannel}
-          status={this.props.status}/>
-      )
+        <div className="message-edit-container">
+          <ChannelMessageForm
+            messageBody={body}
+            messageACChannel={messageACChannel}
+            status={status}
+            toggleEditCancel={this.toggleEditCancel}
+            toggleEditSave={this.toggleEditSave}/>
+        </div>
+      );
     else
       return (
-        <div className={saved ? "message saved" : "message"}>
-          { this.messageSavedBanner(saved) }
-          <div className="message-content">
-            { this.messageIcon() }
-            <div className="message-text">
-              {this.messageHeader()}
-              <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
-            </div>
-            { this.messageButtons(saved) }
+        <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
+      );
+  }
+
+  render() {
+    let { message } = this.props;
+    let saved = !!this.props.user_saved_messages[message.id];
+
+    return (
+      <div className={saved || this.state.editing ? "message saved" : "message"}>
+        { this.messageSavedBanner(saved) }
+        <div className="message-content">
+          { this.messageIcon() }
+          <div className="message-text">
+            {this.messageHeader()}
+            {this.messageBody()}
           </div>
-          { this.messageReactsList() }
+          { this.messageButtons(saved) }
         </div>
-      )
+        { this.messageReactsList() }
+      </div>
+    )
   }
 }
 

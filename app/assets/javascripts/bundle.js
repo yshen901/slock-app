@@ -4136,27 +4136,55 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       editing: false
     };
+    _this.toggleEditCancel = _this.toggleEditCancel.bind(_assertThisInitialized(_this));
+    _this.toggleEditSave = _this.toggleEditSave.bind(_assertThisInitialized(_this));
     _this.toggleMessageReact = _this.toggleMessageReact.bind(_assertThisInitialized(_this));
     _this.toggleMessageSave = _this.toggleMessageSave.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(ChannelMessage, [{
-    key: "toggleMessageReact",
-    value: function toggleMessageReact(react_code) {
+    key: "toggleEditCancel",
+    value: function toggleEditCancel() {
       var _this2 = this;
 
       return function (e) {
         e.preventDefault();
-        if (_this2.props.status.canJoin) return; // do not allow this action if not joined
 
-        var _this2$props = _this2.props,
-            current_user_id = _this2$props.current_user_id,
-            message = _this2$props.message;
-        var _this2$props2 = _this2.props,
-            messageACChannel = _this2$props2.messageACChannel,
-            deleteMessageReact = _this2$props2.deleteMessageReact,
-            postMessageReact = _this2$props2.postMessageReact;
+        _this2.setState({
+          editing: false
+        });
+      };
+    }
+  }, {
+    key: "toggleEditSave",
+    value: function toggleEditSave() {
+      var _this3 = this;
+
+      return function (e) {
+        e.preventDefault();
+
+        _this3.setState({
+          editing: false
+        });
+      };
+    }
+  }, {
+    key: "toggleMessageReact",
+    value: function toggleMessageReact(react_code) {
+      var _this4 = this;
+
+      return function (e) {
+        e.preventDefault();
+        if (_this4.props.status.canJoin) return; // do not allow this action if not joined
+
+        var _this4$props = _this4.props,
+            current_user_id = _this4$props.current_user_id,
+            message = _this4$props.message;
+        var _this4$props2 = _this4.props,
+            messageACChannel = _this4$props2.messageACChannel,
+            deleteMessageReact = _this4$props2.deleteMessageReact,
+            postMessageReact = _this4$props2.postMessageReact;
         if (message.user_reacts && message.user_reacts[current_user_id] && message.user_reacts[current_user_id][react_code]) deleteMessageReact({
           message_id: message.id,
           react_code: react_code
@@ -4187,18 +4215,18 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleMessageSave",
     value: function toggleMessageSave(messageId) {
-      var _this3 = this;
+      var _this5 = this;
 
       return function (e) {
         if (e) e.preventDefault();
-        var _this3$props = _this3.props,
-            messages = _this3$props.messages,
-            user_saved_messages = _this3$props.user_saved_messages,
-            workspace_id = _this3$props.workspace_id;
-        var _this3$props2 = _this3.props,
-            deleteMessageSave = _this3$props2.deleteMessageSave,
-            postMessageSave = _this3$props2.postMessageSave,
-            messageACChannel = _this3$props2.messageACChannel;
+        var _this5$props = _this5.props,
+            messages = _this5$props.messages,
+            user_saved_messages = _this5$props.user_saved_messages,
+            workspace_id = _this5$props.workspace_id;
+        var _this5$props2 = _this5.props,
+            deleteMessageSave = _this5$props2.deleteMessageSave,
+            postMessageSave = _this5$props2.postMessageSave,
+            messageACChannel = _this5$props2.messageACChannel;
         if (user_saved_messages[messageId]) deleteMessageSave({
           message_id: messageId
         }).then(function (_ref3) {
@@ -4260,7 +4288,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageReactsList",
     value: function messageReactsList() {
-      var _this4 = this;
+      var _this6 = this;
 
       var total_reacts = Object.entries(this.props.message.total_reacts);
       if (total_reacts.length == 0) return;
@@ -4274,7 +4302,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-react",
           key: idx,
-          onClick: _this4.toggleMessageReact(react_code)
+          onClick: _this6.toggleMessageReact(react_code)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "emoji"
         }, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4306,7 +4334,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageEditButton",
     value: function messageEditButton() {
-      var _this5 = this;
+      var _this7 = this;
 
       var _this$props2 = this.props,
           current_user_id = _this$props2.current_user_id,
@@ -4314,7 +4342,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       if (message.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
         onClick: function onClick() {
-          return _this5.setState({
+          return _this7.setState({
             editing: true
           });
         }
@@ -4367,27 +4395,40 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       }));
     }
   }, {
-    key: "render",
-    value: function render() {
-      var message = this.props.message;
+    key: "messageBody",
+    value: function messageBody() {
+      var _this$props5 = this.props,
+          messageACChannel = _this$props5.messageACChannel,
+          status = _this$props5.status,
+          message = _this$props5.message;
       var body = message.body;
-      var saved = !!this.props.user_saved_messages[message.id];
-      if (this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        messageBody: this.props.message.body,
-        messageACChannel: this.props.messageACChannel,
-        status: this.props.status
-      });else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: saved ? "message saved" : "message"
-      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-content"
-      }, this.messageIcon(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-text"
-      }, this.messageHeader(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-edit-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        messageBody: body,
+        messageACChannel: messageACChannel,
+        status: status,
+        toggleEditCancel: this.toggleEditCancel,
+        toggleEditSave: this.toggleEditSave
+      }));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-body",
         dangerouslySetInnerHTML: {
           __html: body
         }
-      })), this.messageButtons(saved)), this.messageReactsList());
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var message = this.props.message;
+      var saved = !!this.props.user_saved_messages[message.id];
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: saved || this.state.editing ? "message saved" : "message"
+      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-content"
+      }, this.messageIcon(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-text"
+      }, this.messageHeader(), this.messageBody()), this.messageButtons(saved)), this.messageReactsList());
     }
   }]);
 
@@ -4743,6 +4784,28 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         onClick: this.appendLink,
         disabled: this.state.linkUrl.length == 0 || this.state.linkText.length == 0
       }, "Save"))));
+    } // Only render footer when not editing
+
+  }, {
+    key: "renderMessageFooter",
+    value: function renderMessageFooter() {
+      if (!this.props.messageBody) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "message-footer"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Shift + Return"), " to add a new line."));
+    } // Determines whether we render an arrow button for form, or cancel/save buttons for editor
+
+  }, {
+    key: "renderMessageSend",
+    value: function renderMessageSend() {
+      if (this.props.messageBody) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "message-send-buttons"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button",
+        onClick: this.props.toggleEditCancel()
+      }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button green-button",
+        onClick: this.props.toggleEditSave()
+      }, "Save"));
     }
   }, {
     key: "render",
@@ -4781,7 +4844,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
           }
         }, "Back to Channel Browser"));
       } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "message-form-container"
+        id: "message-form-container",
+        className: this.props.messageBody ? "editor" : ""
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-box"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4794,7 +4858,10 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-toolbar",
-        className: this.state.formatBar ? "" : "hidden"
+        className: this.state.formatBar ? "" : "hidden",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button fa fa-bold fa-fw ".concat(bold ? "selected" : ""),
         "aria-hidden": "true",
@@ -4881,7 +4948,10 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         },
         onKeyDown: this.handleChatKeyDown
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "chat-footer"
+        id: "chat-footer",
+        onMouseDown: function onMouseDown(e) {
+          return e.preventDefault();
+        }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button",
         onMouseDown: function onMouseDown(e) {
@@ -4934,9 +5004,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
           return e.preventDefault();
         },
         onClick: this.format("insertHTML", "\uD83D\uDE20")
-      }, "\uD83D\uDE20"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "message-footer"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Shift + Return"), " to add a new line."))), this.renderLinkForm());
+      }, "\uD83D\uDE20"), this.renderMessageSend())), this.renderMessageFooter()), this.renderLinkForm());
     }
   }]);
 

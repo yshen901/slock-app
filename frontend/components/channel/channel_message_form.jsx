@@ -222,6 +222,29 @@ class ChannelMessageForm extends React.Component {
     )
   }
 
+  // Only render footer when not editing
+  renderMessageFooter() {
+    if (!this.props.messageBody)
+      return (
+        <div id="message-footer">
+          <div>
+            <b>Shift + Return</b> to add a new line.
+          </div>
+        </div>
+      );
+  }
+
+  // Determines whether we render an arrow button for form, or cancel/save buttons for editor
+  renderMessageSend() {
+    if (this.props.messageBody)
+      return (
+        <div id="message-send-buttons">
+          <div className="button" onClick={this.props.toggleEditCancel()}>Cancel</div>
+          <div className="button green-button" onClick={this.props.toggleEditSave()}>Save</div>
+        </div>
+      )
+  }
+
   render() {
     let { channels } = getState().entities;
     let { channel_id } = this.props.match.params;    
@@ -245,10 +268,10 @@ class ChannelMessageForm extends React.Component {
     }
     else
       return (
-        <div id="message-form-container">
+        <div id="message-form-container" className={this.props.messageBody ? "editor" : ""} >
           <div id="message-box">
             <div id="message-form" onMouseUp={this.updateToolbarState} onClick={() => {setTimeout(() => this.focusInput(), 0)}}>
-              <div id="chat-toolbar" className={this.state.formatBar ? "" : "hidden"}>
+              <div id="chat-toolbar" className={this.state.formatBar ? "" : "hidden"} onMouseDown={e => e.preventDefault()}>
                 <div 
                   className={`toolbar-button fa fa-bold fa-fw ${bold ? "selected" : ""}`}
                   aria-hidden="true" 
@@ -350,7 +373,7 @@ class ChannelMessageForm extends React.Component {
                 dangerouslySetInnerHTML={{__html: this.props.messageBody ? this.props.messageBody : ""}}
                 onKeyDown={this.handleChatKeyDown}>
               </div>
-              <div id="chat-footer">
+              <div id="chat-footer" onMouseDown={e => e.preventDefault()}>
                 {/* <div className="toolbar-button fa fa-upload fa-fw"></div>
                 <div className="toolbar-divider"></div> */}
                 <div className="toolbar-button" onMouseDown={e => { e.preventDefault(); document.getElementById("chat-toolbar").classList.toggle("hidden"); }}>
@@ -367,13 +390,10 @@ class ChannelMessageForm extends React.Component {
                 <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F60D}')}>{'\u{1F60D}'}</div>
                 <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F622}')}>{'\u{1F622}'}</div>
                 <div className="toolbar-button" onMouseDown={e => e.preventDefault()} onClick={this.format("insertHTML", '\u{1F620}')}>{'\u{1F620}'}</div>
+                { this.renderMessageSend() }
               </div>
             </div>
-            <div id="message-footer">
-              <div>
-                <b>Shift + Return</b> to add a new line.
-              </div>
-            </div>
+            { this.renderMessageFooter() }
           </div>
           { this.renderLinkForm() }
         </div>
