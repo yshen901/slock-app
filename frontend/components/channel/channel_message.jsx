@@ -83,6 +83,7 @@ class ChannelMessage extends React.Component {
           <div className="message-button" onClick={this.toggleMessageSave(messageData.id)}>
             <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
           </div>
+          {this.messageEditButton(messageData)}
           {this.messageDeleteButton(messageData)}
         </div>
       );
@@ -118,6 +119,17 @@ class ChannelMessage extends React.Component {
         <div className="message-button"
           onClick={() => messageACChannel.speak({message: {type: "DELETE", id: messageData.id}})}>
           <i className="far fa-trash-alt fa-fw"></i>
+        </div>
+      );
+  }
+
+  messageEditButton(messageData) {
+    let { current_user_id } = this.props;
+    if (messageData.user_id == current_user_id) 
+      return (
+        <div className="message-button"
+          onClick={() => this.setState({ editing: true })}>
+          <i className="far fa-edit fa-fw"></i>
         </div>
       );
   }

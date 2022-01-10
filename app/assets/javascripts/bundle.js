@@ -4232,7 +4232,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         onClick: this.toggleMessageSave(messageData.id)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
-      })), this.messageDeleteButton(messageData));
+      })), this.messageEditButton(messageData), this.messageDeleteButton(messageData));
     }
   }, {
     key: "messageEmojiButton",
@@ -4285,6 +4285,23 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-trash-alt fa-fw"
+      }));
+    }
+  }, {
+    key: "messageEditButton",
+    value: function messageEditButton(messageData) {
+      var _this5 = this;
+
+      var current_user_id = this.props.current_user_id;
+      if (messageData.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-button",
+        onClick: function onClick() {
+          return _this5.setState({
+            editing: true
+          });
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "far fa-edit fa-fw"
       }));
     }
   }, {
