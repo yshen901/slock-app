@@ -4287,7 +4287,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "messageButtons",
     value: function messageButtons(saved) {
       var message = this.props.message;
-      if (!this.props.status.canJoin) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (!this.props.status.canJoin && !this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-buttons"
       }, this.messageEmojiButton("\uD83D\uDCAF"), this.messageEmojiButton("\uD83D\uDC4D"), this.messageEmojiButton("\uD83D\uDE42"), this.messageEmojiButton("\uD83D\uDE02"), this.messageEmojiButton("\uD83D\uDE0D"), this.messageEmojiButton("\uD83D\uDE22"), this.messageEmojiButton("\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
@@ -4311,7 +4311,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
 
       var total_reacts = Object.entries(this.props.message.total_reacts);
       if (total_reacts.length == 0) return;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (!this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-reacts-list"
       }, total_reacts.map(function (_ref5, idx) {
         var _ref6 = _slicedToArray(_ref5, 2),
@@ -4602,6 +4602,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         canJoin: this.props.status.canJoin
       });
       if (oldState.formatBar != this.state.formatBar) document.getElementById("chat-input").focus();
+      if (this.chatInput.current && this.props.messageBody) this.chatInput.current.focus();
     }
   }, {
     key: "goToChannel",

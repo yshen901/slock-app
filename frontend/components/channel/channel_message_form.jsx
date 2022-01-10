@@ -42,6 +42,8 @@ class ChannelMessageForm extends React.Component {
       this.setState({ canJoin: this.props.status.canJoin })
     if (oldState.formatBar != this.state.formatBar)
       document.getElementById("chat-input").focus();
+    if (this.chatInput.current && this.props.messageBody)
+      this.chatInput.current.focus();
   }
 
   goToChannel(channel_id) {

@@ -94,7 +94,7 @@ class ChannelMessage extends React.Component {
 
   messageButtons(saved) {
     let { message } = this.props;
-    if (!this.props.status.canJoin)
+    if (!this.props.status.canJoin && !this.state.editing)
       return (
         <div className="message-buttons">
           { this.messageEmojiButton('\u{1F4AF}') } 
@@ -124,16 +124,17 @@ class ChannelMessage extends React.Component {
     let total_reacts = Object.entries(this.props.message.total_reacts);
     if (total_reacts.length == 0) return;
 
-    return (
-      <div className="message-reacts-list">
-        { total_reacts.map(([react_code, num], idx) => (
-          <div className="message-react" key={idx} onClick={this.toggleMessageReact(react_code)}>
-            <div className="emoji">{react_code}</div>
-            <div className="number">{num}</div>
-          </div>
-        ))}
-      </div>
-    )
+    if (!this.state.editing)
+      return (
+        <div className="message-reacts-list">
+          { total_reacts.map(([react_code, num], idx) => (
+            <div className="message-react" key={idx} onClick={this.toggleMessageReact(react_code)}>
+              <div className="emoji">{react_code}</div>
+              <div className="number">{num}</div>
+            </div>
+          ))}
+        </div>
+      )
   }
 
   messageDeleteButton() {
