@@ -155,7 +155,7 @@
     flex: none;
     overflow: visible;
   
-    padding: 0 20px;
+    padding: 0 16px;
     margin-top: 12px;
   
     #message-form {
@@ -415,7 +415,7 @@
   flex-direction: column;
   overflow: visible;
 
-  padding: 8px 20px 8px 20px;
+  padding: 6px 16px 6px 16px;
   box-sizing: border-box;
 
   .saved-banner {
@@ -601,12 +601,15 @@
       box-sizing: border-box;
   
       .message-button {
+        position: relative;
+
         width: 32px;
         height: 32px;
   
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: visible;
   
         border-radius: 6px;
   
@@ -622,12 +625,31 @@
         i.highlight {
           background: #E01E5A;
         }
+
+        .black-popup {
+          top: -40px;
+        }
+
+        .black-popup.medium {
+          width: 84px;
+          left: calc(100% - 58px);
+        }
+
+        .black-popup.thin {
+          width: 50px;
+          left: calc(100% - 41px);
+        }
       }
   
       .message-button:hover {
         transition: 0.3s;
         cursor: pointer;
         background: rgb(240, 240, 240);
+
+        .black-popup {
+          display: flex;
+          overflow: visible;
+        }
       }
     }
   }
@@ -643,7 +665,7 @@
       justify-content: center;
 
       padding: 4px 6px;
-      margin: 0 4px 4px 0;
+      margin: 0 4px 0 0;
       background: rgb(248, 248, 248);
       border: 1px solid rgba(0, 0, 0, 0);
       border-radius: 12px;

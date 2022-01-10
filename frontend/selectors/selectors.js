@@ -1,4 +1,13 @@
 export const DEFAULT_PHOTO_URL = '/images/profile/default.png';
+export const UTF_CODE_NAMES = {
+  '\u{1F4AF}': "100", 
+  '\u{1F44D}': "Sounds good",
+  '\u{1F642}': "Smiling",
+  '\u{1F602}': "Laughing",
+  '\u{1F60D}': "Heart eyes",
+  '\u{1F622}': "Crying",
+  '\u{1F620}': "Angry",
+};
 
 export const objectToArray = (object) => {
   return Object.keys(object).map((key) => {

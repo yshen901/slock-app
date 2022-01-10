@@ -1,4 +1,5 @@
 import React from 'react';
+import { UTF_CODE_NAMES } from '../../selectors/selectors';
 import ChannelMessageForm from './channel_message_form';
 
 class ChannelMessage extends React.Component {
@@ -111,6 +112,9 @@ class ChannelMessage extends React.Component {
           { this.messageEmojiButton('\u{1F620}') }
           <div className="message-button" onClick={this.toggleMessageSave(message.id)}>
             <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
+            <div className="black-popup">
+              <div>Add to saved items</div>
+            </div>
           </div>
           {this.messageEditButton()}
           {this.messageDeleteButton()}
@@ -120,8 +124,12 @@ class ChannelMessage extends React.Component {
 
   messageEmojiButton(react_code) {
     return (
-      <div className="message-button emoji" 
-        onClick={this.toggleMessageReact(react_code)}>{react_code}</div>
+      <div className="message-button emoji" onClick={this.toggleMessageReact(react_code)}>
+        {react_code}
+        <div className="black-popup medium">
+          <div>{UTF_CODE_NAMES[react_code]}</div>
+        </div>
+      </div>
     )
   }
 
@@ -149,6 +157,9 @@ class ChannelMessage extends React.Component {
         <div className="message-button"
           onClick={() => messageACChannel.speak({message: {type: "DELETE", id: message.id}})}>
           <i className="far fa-trash-alt fa-fw"></i>
+          <div className="black-popup thin">
+            <div>Delete</div>
+          </div>
         </div>
       );
   }
@@ -160,6 +171,9 @@ class ChannelMessage extends React.Component {
         <div className="message-button"
           onClick={() => this.setState({ editing: true })}>
           <i className="far fa-edit fa-fw"></i>
+          <div className="black-popup thin">
+            <div>Edit</div>
+          </div>
         </div>
       );
   }

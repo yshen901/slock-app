@@ -4095,7 +4095,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _channel_message_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./channel_message_form */ "./frontend/components/channel/channel_message_form.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _channel_message_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channel_message_form */ "./frontend/components/channel/channel_message_form.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -4129,6 +4130,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -4305,7 +4307,9 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         onClick: this.toggleMessageSave(message.id)
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
-      })), this.messageEditButton(), this.messageDeleteButton());
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Add to saved items"))), this.messageEditButton(), this.messageDeleteButton());
     }
   }, {
     key: "messageEmojiButton",
@@ -4313,7 +4317,9 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button emoji",
         onClick: this.toggleMessageReact(react_code)
-      }, react_code);
+      }, react_code, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup medium"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["UTF_CODE_NAMES"][react_code])));
     }
   }, {
     key: "messageReactsList",
@@ -4359,7 +4365,9 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-trash-alt fa-fw"
-      }));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup thin"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Delete")));
     }
   }, {
     key: "messageEditButton",
@@ -4378,7 +4386,9 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "far fa-edit fa-fw"
-      }));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup thin"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Edit")));
     }
   }, {
     key: "messageHeader",
@@ -4434,7 +4444,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       var body = message.body;
       if (this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-edit-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_2__["default"], {
         messageBody: body,
         messageACChannel: messageACChannel,
         status: status,
@@ -10108,12 +10118,13 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: DEFAULT_PHOTO_URL, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getUserPaused, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId */
+/*! exports provided: DEFAULT_PHOTO_URL, UTF_CODE_NAMES, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getUserPaused, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEFAULT_PHOTO_URL", function() { return DEFAULT_PHOTO_URL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UTF_CODE_NAMES", function() { return UTF_CODE_NAMES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "objectToArray", function() { return objectToArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "objectToNameArray", function() { return objectToNameArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "workspaceTitle", function() { return workspaceTitle; });
@@ -10128,6 +10139,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortedUsers", function() { return sortedUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dmChannelUserId", function() { return dmChannelUserId; });
 var DEFAULT_PHOTO_URL = '/images/profile/default.png';
+var UTF_CODE_NAMES = {
+  "\uD83D\uDCAF": "100",
+  "\uD83D\uDC4D": "Sounds good",
+  "\uD83D\uDE42": "Smiling",
+  "\uD83D\uDE02": "Laughing",
+  "\uD83D\uDE0D": "Heart eyes",
+  "\uD83D\uDE22": "Crying",
+  "\uD83D\uDE20": "Angry"
+};
 var objectToArray = function objectToArray(object) {
   return Object.keys(object).map(function (key) {
     return object[key];
