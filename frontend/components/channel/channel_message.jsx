@@ -24,10 +24,10 @@ class ChannelMessage extends React.Component {
   }
 
   // Update the message and stop editing
-  toggleEditSave() {
+  toggleEditSave(ref) {
     return (e) => {
       e.preventDefault();
-      let body = e.currentTarget.innerHTML;
+      let body = ref.current.innerHTML;
       this.props.updateMessage({id: this.props.message.id, body})
         .then(
           () => this.setState( {editing: false} )

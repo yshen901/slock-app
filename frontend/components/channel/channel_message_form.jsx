@@ -23,6 +23,9 @@ class ChannelMessageForm extends React.Component {
       }
     };
 
+    // Used to find chat input's content
+    this.chatInput = React.createRef();
+
     this.format = this.format.bind(this);
     this.focusInput = this.focusInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -47,7 +50,8 @@ class ChannelMessageForm extends React.Component {
   }
 
   handleSubmit(e) {
-    if (e.currentTarget.textContent.length != 0) {
+    e.preventDefault();
+    if (this.chatInput.current.textContent.length != 0) {
       let { users } = getState().entities;
       let { user_id } = getState().session;
 
@@ -55,14 +59,14 @@ class ChannelMessageForm extends React.Component {
         {
           message: { 
             type: "PUT",
-            body: DOMPurify.sanitize(e.currentTarget.innerHTML),
+            body: DOMPurify.sanitize(this.chatInput.current.innerHTML),
             user_id: getState().session.user_id,
             channel_id: getState().session.channel_id,
             created_at: new Date().toLocaleTimeString(),
           }
         }
       );
-      e.currentTarget.innerHTML = "";
+      this.chatInput.current.innerHTML = "";
     }
   }
 
@@ -243,7 +247,7 @@ class ChannelMessageForm extends React.Component {
       return (
         <div id="message-send-buttons">
           <div className="button" onClick={this.props.toggleEditCancel()}>Cancel</div>
-          {/* <div className="button green-button" onClick={this.props.toggleEditSave()}>Save</div> */}
+          <div className="button green-button" onClick={this.props.toggleEditSave(this.chatInput)}>Save</div>
         </div>
       )
   }
@@ -374,7 +378,8 @@ class ChannelMessageForm extends React.Component {
               <div id="chat-input" 
                 contentEditable 
                 dangerouslySetInnerHTML={{__html: this.props.messageBody ? this.props.messageBody : ""}}
-                onKeyDown={this.handleChatKeyDown}>
+                onKeyDown={this.handleChatKeyDown}
+                ref={this.chatInput}>
               </div>
               <div id="chat-footer" onMouseDown={e => e.preventDefault()}>
                 {/* <div className="toolbar-button fa fa-upload fa-fw"></div>

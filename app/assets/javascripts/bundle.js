@@ -4171,12 +4171,12 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
 
   }, {
     key: "toggleEditSave",
-    value: function toggleEditSave() {
+    value: function toggleEditSave(ref) {
       var _this3 = this;
 
       return function (e) {
         e.preventDefault();
-        var body = e.currentTarget.innerHTML;
+        var body = ref.current.innerHTML;
 
         _this3.props.updateMessage({
           id: _this3.props.message.id,
@@ -4580,7 +4580,9 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         insertUnorderedList: false,
         insertOrderedList: false
       }
-    };
+    }; // Used to find chat input's content
+
+    _this.chatInput = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.format = _this.format.bind(_assertThisInitialized(_this));
     _this.focusInput = _this.focusInput.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -4610,19 +4612,21 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      if (e.currentTarget.textContent.length != 0) {
+      e.preventDefault();
+
+      if (this.chatInput.current.textContent.length != 0) {
         var users = getState().entities.users;
         var user_id = getState().session.user_id;
         this.props.messageACChannel.speak({
           message: {
             type: "PUT",
-            body: dompurify__WEBPACK_IMPORTED_MODULE_3___default.a.sanitize(e.currentTarget.innerHTML),
+            body: dompurify__WEBPACK_IMPORTED_MODULE_3___default.a.sanitize(this.chatInput.current.innerHTML),
             user_id: getState().session.user_id,
             channel_id: getState().session.channel_id,
             created_at: new Date().toLocaleTimeString()
           }
         });
-        e.currentTarget.innerHTML = "";
+        this.chatInput.current.innerHTML = "";
       }
     }
   }, {
@@ -4824,7 +4828,10 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "button",
         onClick: this.props.toggleEditCancel()
-      }, "Cancel"));
+      }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button green-button",
+        onClick: this.props.toggleEditSave(this.chatInput)
+      }, "Save"));
     }
   }, {
     key: "render",
@@ -4965,7 +4972,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         dangerouslySetInnerHTML: {
           __html: this.props.messageBody ? this.props.messageBody : ""
         },
-        onKeyDown: this.handleChatKeyDown
+        onKeyDown: this.handleChatKeyDown,
+        ref: this.chatInput
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-footer",
         onMouseDown: function onMouseDown(e) {
