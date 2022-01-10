@@ -3002,7 +3002,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _channel_message_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_message_form */ "./frontend/components/channel/channel_message_form.jsx");
 /* harmony import */ var _modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modals/user_popup_modal.jsx */ "./frontend/components/modals/user_popup_modal.jsx");
-/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
+/* harmony import */ var _channel_message_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./channel_message_container */ "./frontend/components/channel/channel_message_container.jsx");
+/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -3036,6 +3037,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -3323,9 +3325,9 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           body = _messagesData$i.body,
           user_id = _messagesData$i.user_id,
           username = _messagesData$i.username,
-          photo_url = _messagesData$i.photo_url,
-          id = _messagesData$i.id;
+          photo_url = _messagesData$i.photo_url;
       var saved = !!this.props.user_saved_messages[messagesData[i].id];
+      var grouped = this.groupMessages(messagesData[i], messagesData[i - 1]);
 
       if (i == 0 || created_date !== messagesData[i - 1].created_date) {
         var date = created_date;
@@ -3339,6 +3341,14 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         }, date)));
       }
 
+      messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_container__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        grouped: grouped,
+        saved: saved,
+        messageData: messagesData[i],
+        messageACChannel: this.messageACChannel,
+        toggleUserPopup: this.toggleUserPopup
+      }));
+      return;
       if (i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1])) messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: saved ? "message saved" : "message"
       }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3439,7 +3449,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         if (messagesData[i].id == messageData.id) {
           if (messageData.type == "DELETE") {
             messagesData.splice(i, 1);
-          } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_REACT"]) {
+          } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["RECEIVE_MESSAGE_REACT"]) {
             var _messagesData$i$total, _messagesData$i$user_;
 
             var user_id = messageData.user_id,
@@ -3450,7 +3460,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
             messagesData[i].total_reacts[react_code] += 1; // increment/toggle values
 
             messagesData[i].user_reacts[user_id][react_code] = true;
-          } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_REACT"]) {
+          } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE_REACT"]) {
             var _user_id = messageData.user_id,
                 _react_code = messageData.react_code;
             messagesData[i].total_reacts[_react_code] -= 1;
@@ -3458,11 +3468,11 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               delete messagesData[i].total_reacts[_react_code];
             delete messagesData[i].user_reacts[_user_id][_react_code];
           } // called when user activates in another window
-          else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_SAVE"] && !this.props.user_saved_messages[messageData.id]) {
+          else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["RECEIVE_MESSAGE_SAVE"] && !this.props.user_saved_messages[messageData.id]) {
               this.props.receiveMessageSave({
                 message_id: messageData.id
               });
-            } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_SAVE"] && this.props.user_saved_messages[messageData.id]) {
+            } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE_SAVE"] && this.props.user_saved_messages[messageData.id]) {
               this.props.removeMessageSave({
                 message_id: messageData.id
               });
@@ -3562,7 +3572,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       var minOffset = 520;
       if (hasStatus) minOffset = 576;
       var viewHeight = $(window).innerHeight();
-      debugger;
       var top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - this.scrollBar.current.scrollTop;
       if (top > viewHeight - minOffset) top = viewHeight - minOffset;
       var left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + popupUserTarget.offsetParent.offsetLeft + 10;
@@ -3643,24 +3652,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     startDmChannel: function startDmChannel(dmChannel) {
       return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_4__["startDmChannel"])(dmChannel));
-    },
-    postMessageReact: function postMessageReact(message_react) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["postMessageReact"])(message_react));
-    },
-    deleteMessageReact: function deleteMessageReact(message_react) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["deleteMessageReact"])(message_react));
-    },
-    postMessageSave: function postMessageSave(message_save) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["postMessageSave"])(message_save));
-    },
-    deleteMessageSave: function deleteMessageSave(message_save) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["deleteMessageSave"])(message_save));
-    },
-    receiveMessageSave: function receiveMessageSave(message_save) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["receiveMessageSave"])(message_save));
-    },
-    removeMessageSave: function removeMessageSave(message_save) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["removeMessageSave"])(message_save));
     }
   };
 };
@@ -4259,6 +4250,347 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_channel__WEBPACK_IMPORTED_MODULE_3__["default"])));
+
+/***/ }),
+
+/***/ "./frontend/components/channel/channel_message.jsx":
+/*!*********************************************************!*\
+  !*** ./frontend/components/channel/channel_message.jsx ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var ChannelMessage = /*#__PURE__*/function (_React$Component) {
+  _inherits(ChannelMessage, _React$Component);
+
+  var _super = _createSuper(ChannelMessage);
+
+  function ChannelMessage(props) {
+    var _this;
+
+    _classCallCheck(this, ChannelMessage);
+
+    _this = _super.call(this, props);
+    _this.toggleMessageReact = _this.toggleMessageReact.bind(_assertThisInitialized(_this));
+    _this.toggleMessageSave = _this.toggleMessageSave.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(ChannelMessage, [{
+    key: "toggleMessageReact",
+    value: function toggleMessageReact(messageData, react_code) {
+      var _this2 = this;
+
+      return function (e) {
+        e.preventDefault();
+        var current_user_id = _this2.props.current_user_id;
+        var _this2$props = _this2.props,
+            messageACChannel = _this2$props.messageACChannel,
+            deleteMessageReact = _this2$props.deleteMessageReact,
+            postMessageReact = _this2$props.postMessageReact;
+        if (messageData.user_reacts && messageData.user_reacts[current_user_id] && messageData.user_reacts[current_user_id][react_code]) deleteMessageReact({
+          message_id: messageData.id,
+          react_code: react_code
+        }).then(function (_ref) {
+          var message_react = _ref.message_react,
+              type = _ref.type;
+          return messageACChannel.speak({
+            message: {
+              type: type,
+              message_react: message_react
+            }
+          });
+        });else postMessageReact({
+          message_id: messageData.id,
+          react_code: react_code
+        }).then(function (_ref2) {
+          var message_react = _ref2.message_react,
+              type = _ref2.type;
+          return messageACChannel.speak({
+            message: {
+              type: type,
+              message_react: message_react
+            }
+          });
+        });
+      };
+    }
+  }, {
+    key: "toggleMessageSave",
+    value: function toggleMessageSave(messageId) {
+      var _this3 = this;
+
+      return function (e) {
+        if (e) e.preventDefault();
+        var _this3$props = _this3.props,
+            messages = _this3$props.messages,
+            user_saved_messages = _this3$props.user_saved_messages,
+            workspace_id = _this3$props.workspace_id;
+        var _this3$props2 = _this3.props,
+            deleteMessageSave = _this3$props2.deleteMessageSave,
+            postMessageSave = _this3$props2.postMessageSave,
+            messageACChannel = _this3$props2.messageACChannel;
+        if (user_saved_messages[messageId]) deleteMessageSave({
+          message_id: messageId
+        }).then(function (_ref3) {
+          var message_save = _ref3.message_save,
+              type = _ref3.type;
+          return messageACChannel.speak({
+            message: {
+              type: type,
+              id: message_save.message_id
+            }
+          });
+        });else postMessageSave({
+          message_id: messageId,
+          workspace_id: workspace_id
+        }).then(function (_ref4) {
+          var message_save = _ref4.message_save,
+              type = _ref4.type;
+          messageACChannel.speak({
+            message: {
+              type: type,
+              id: message_save.message_id,
+              message_save_id: message_save.id,
+              message: messages[message_save.message_id]
+            }
+          });
+        });
+      };
+    }
+  }, {
+    key: "messageSavedBanner",
+    value: function messageSavedBanner(saved) {
+      if (saved) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "saved-banner"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fas fa-bookmark fa-fw magenta"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Added to your saved items"));
+    }
+  }, {
+    key: "messageEmojiButton",
+    value: function messageEmojiButton(messageData, react_code) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-button emoji",
+        onClick: this.toggleMessageReact(messageData, react_code)
+      }, react_code);
+    }
+  }, {
+    key: "messageReactsList",
+    value: function messageReactsList(messageData) {
+      var _this4 = this;
+
+      var total_reacts = Object.entries(messageData.total_reacts);
+      if (total_reacts.length == 0) return;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-reacts-list"
+      }, total_reacts.map(function (_ref5, idx) {
+        var _ref6 = _slicedToArray(_ref5, 2),
+            react_code = _ref6[0],
+            num = _ref6[1];
+
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-react",
+          key: idx,
+          onClick: _this4.toggleMessageReact(messageData, react_code)
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "emoji"
+        }, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "number"
+        }, num));
+      }));
+    }
+  }, {
+    key: "messageDeleteButton",
+    value: function messageDeleteButton(messageData) {
+      var _this$props = this.props,
+          current_user_id = _this$props.current_user_id,
+          messageACChannel = _this$props.messageACChannel;
+      if (messageData.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-button",
+        onClick: function onClick() {
+          return messageACChannel.speak({
+            message: {
+              type: "DELETE",
+              id: messageData.id
+            }
+          });
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "far fa-trash-alt fa-fw"
+      }));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props2 = this.props,
+          grouped = _this$props2.grouped,
+          saved = _this$props2.saved,
+          messageData = _this$props2.messageData,
+          toggleUserPopup = _this$props2.toggleUserPopup;
+      var created_at = messageData.created_at,
+          created_date = messageData.created_date,
+          body = messageData.body,
+          user_id = messageData.user_id,
+          username = messageData.username,
+          photo_url = messageData.photo_url,
+          id = messageData.id;
+      if (grouped) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: saved ? "message saved" : "message"
+      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-time-tag"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, created_date), created_at), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-text"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-body",
+        dangerouslySetInnerHTML: {
+          __html: body
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-buttons"
+      }, this.messageEmojiButton(messageData, "\uD83D\uDCAF"), this.messageEmojiButton(messageData, "\uD83D\uDC4D"), this.messageEmojiButton(messageData, "\uD83D\uDE42"), this.messageEmojiButton(messageData, "\uD83D\uDE02"), this.messageEmojiButton(messageData, "\uD83D\uDE0D"), this.messageEmojiButton(messageData, "\uD83D\uDE22"), this.messageEmojiButton(messageData, "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-button",
+        onClick: this.toggleMessageSave(id)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
+      })), this.messageDeleteButton(messageData))), this.messageReactsList(messageData));else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: saved ? "message saved" : "message"
+      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-user-icon"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: photo_url,
+        onClick: toggleUserPopup(user_id)
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-text"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-user",
+        onClick: toggleUserPopup(user_id)
+      }, username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-time"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, created_date, " at ", created_at), created_at)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-body",
+        dangerouslySetInnerHTML: {
+          __html: body
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-buttons"
+      }, this.messageEmojiButton(messageData, "\uD83D\uDCAF"), this.messageEmojiButton(messageData, "\uD83D\uDC4D"), this.messageEmojiButton(messageData, "\uD83D\uDE42"), this.messageEmojiButton(messageData, "\uD83D\uDE02"), this.messageEmojiButton(messageData, "\uD83D\uDE0D"), this.messageEmojiButton(messageData, "\uD83D\uDE22"), this.messageEmojiButton(messageData, "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-button",
+        onClick: this.toggleMessageSave(id)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
+      })), this.messageDeleteButton(messageData))), this.messageReactsList(messageData));
+    }
+  }]);
+
+  return ChannelMessage;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/* harmony default export */ __webpack_exports__["default"] = (ChannelMessage);
+
+/***/ }),
+
+/***/ "./frontend/components/channel/channel_message_container.jsx":
+/*!*******************************************************************!*\
+  !*** ./frontend/components/channel/channel_message_container.jsx ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
+/* harmony import */ var _channel_message__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_message */ "./frontend/components/channel/channel_message.jsx");
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  return {
+    current_user_id: state.session.user_id,
+    messages: state.entities.messages,
+    user_saved_messages: state.session.user_saved_messages,
+    workspace_id: state.session.workspace_id
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    postMessageReact: function postMessageReact(message_react) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["postMessageReact"])(message_react));
+    },
+    deleteMessageReact: function deleteMessageReact(message_react) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["deleteMessageReact"])(message_react));
+    },
+    postMessageSave: function postMessageSave(message_save) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["postMessageSave"])(message_save));
+    },
+    deleteMessageSave: function deleteMessageSave(message_save) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["deleteMessageSave"])(message_save));
+    },
+    receiveMessageSave: function receiveMessageSave(message_save) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["receiveMessageSave"])(message_save));
+    },
+    removeMessageSave: function removeMessageSave(message_save) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["removeMessageSave"])(message_save));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps))(_channel_message__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 

@@ -1,5 +1,14 @@
-import React from 'react';
-import withRouter from 'react-router'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { 
+  deleteMessageReact,
+  deleteMessageSave,
+  postMessageReact, 
+  postMessageSave,
+  receiveMessageSave,
+  removeMessageSave
+} from '../../actions/message_actions';
+import ChannelMessage from './channel_message'
 
 const mapStateToProps = (state, ownProps) => ({
   current_user_id: state.session.user_id,
@@ -20,4 +29,4 @@ const mapDispatchToProps = dispatch => ({
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-))(ChannelChat);
+))(ChannelMessage);
