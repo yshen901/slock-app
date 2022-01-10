@@ -129,9 +129,10 @@ class ChannelChat extends React.Component {
     return false;
   }
 
+  // Turns messagesData entries into messagesList display components
   processNewMessage(messagesData, messagesList, i) {
     i = i != null ? i : messagesData.length - 1;
-    let { created_at, created_date, body, user_id, username, photo_url } = messagesData[i];
+    let { created_at, created_date } = messagesData[i];
     let saved = !!this.props.user_saved_messages[messagesData[i].id];
     let grouped = i != 0 && this.groupMessages(messagesData[i], messagesData[i-1]);
 
@@ -157,6 +158,7 @@ class ChannelChat extends React.Component {
     )
   }
 
+  // Loads raw message data, and preloads message information to speed up future calculations
   loadMessages() {
     let { getMessages, channel_id, users } = this.props;
     getMessages(channel_id)
@@ -186,29 +188,26 @@ class ChannelChat extends React.Component {
     let { messagesData, messagesList } = this.state;
     for (let i = 0; i < messagesData.length; i++) {
       if (messagesData[i].id == messageData.id) {
-        if (messageData.type == "DELETE") {
+        if (messageData.type == "DELETE") {                                   // called when a message is deleted
           messagesData.splice(i, 1);
+          messagesList = [];
+          for (let i = 0; i < messagesData.length; i++)
+            this.processNewMessage(messagesData, messagesList, i);
+          this.setState({ messagesList, messagesData })
+        }                                                                     // called when another user reacts
+        else if (messageData.type == RECEIVE_MESSAGE_REACT && messageData.user_id != this.props.current_user_id) {
+          let message_react = { message_id: messageData.id, user_id: messageData.user_id, react_code: messageData.react_code};
+          this.props.receiveMessageReact(message_react);
         }
-        else if (messageData.type == RECEIVE_MESSAGE_REACT) {
-          let { user_id, react_code } = messageData;
-          messagesData[i].total_reacts[react_code] ||= 0; // lazily initialize if non-existant
-          messagesData[i].user_reacts[user_id] ||= {};
-
-          messagesData[i].total_reacts[react_code] += 1;  // increment/toggle values
-          messagesData[i].user_reacts[user_id][react_code] = true;
-        }
-        else if (messageData.type == REMOVE_MESSAGE_REACT) {
-          let { user_id, react_code } = messageData;
-          messagesData[i].total_reacts[react_code] -= 1;
-          if (messagesData[i].total_reacts[react_code] <= 0)  // decrement and delete entries if necessary
-            delete messagesData[i].total_reacts[react_code];
-          delete messagesData[i].user_reacts[user_id][react_code];
-        }                                                                    // called when user activates in another window
+        else if (messageData.type == REMOVE_MESSAGE_REACT && messageData.user_id != this.props.current_user_id) {
+          let message_react = { message_id: messageData.id, user_id: messageData.user_id, react_code: messageData.react_code};
+          this.props.receiveMessageReact(message_react);
+        }                                                                    // called when user saves in another window
         else if (messageData.type == RECEIVE_MESSAGE_SAVE && !this.props.user_saved_messages[messageData.id]) {
           this.props.receiveMessageSave({
               message_id: messageData.id,
           })
-        }                                                                   // called when user activates in another window
+        }
         else if (messageData.type == REMOVE_MESSAGE_SAVE && this.props.user_saved_messages[messageData.id]) {
           this.props.removeMessageSave({
               message_id: messageData.id
@@ -217,10 +216,6 @@ class ChannelChat extends React.Component {
         break;
       }
     }
-    messagesList = [];
-    for (let i = 0; i < messagesData.length; i++)
-        this.processNewMessage(messagesData, messagesList, i);
-    this.setState({ messagesList, messagesData })
   }
 
   receiveACData(data) {

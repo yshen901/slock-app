@@ -3167,18 +3167,15 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (message.created_date != prevMessage.created_date) return false;
       if (message.user_id == prevMessage.user_id) if (message.created_at.slice(0, 2) == prevMessage.created_at.slice(0, 2)) return true;
       return false;
-    }
+    } // Turns messagesData entries into messagesList display components
+
   }, {
     key: "processNewMessage",
     value: function processNewMessage(messagesData, messagesList, i) {
       i = i != null ? i : messagesData.length - 1;
       var _messagesData$i = messagesData[i],
           created_at = _messagesData$i.created_at,
-          created_date = _messagesData$i.created_date,
-          body = _messagesData$i.body,
-          user_id = _messagesData$i.user_id,
-          username = _messagesData$i.username,
-          photo_url = _messagesData$i.photo_url;
+          created_date = _messagesData$i.created_date;
       var saved = !!this.props.user_saved_messages[messagesData[i].id];
       var grouped = i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1]);
 
@@ -3201,7 +3198,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         messageACChannel: this.messageACChannel,
         toggleUserPopup: this.toggleUserPopup
       }));
-    }
+    } // Loads raw message data, and preloads message information to speed up future calculations
+
   }, {
     key: "loadMessages",
     value: function loadMessages() {
@@ -3245,32 +3243,39 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       for (var i = 0; i < messagesData.length; i++) {
         if (messagesData[i].id == messageData.id) {
           if (messageData.type == "DELETE") {
+            // called when a message is deleted
             messagesData.splice(i, 1);
-          } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["RECEIVE_MESSAGE_REACT"]) {
-            var _messagesData$i$total, _messagesData$i$user_;
+            messagesList = [];
 
-            var user_id = messageData.user_id,
-                react_code = messageData.react_code;
-            (_messagesData$i$total = messagesData[i].total_reacts)[react_code] || (_messagesData$i$total[react_code] = 0); // lazily initialize if non-existant
+            for (var _i = 0; _i < messagesData.length; _i++) {
+              this.processNewMessage(messagesData, messagesList, _i);
+            }
 
-            (_messagesData$i$user_ = messagesData[i].user_reacts)[user_id] || (_messagesData$i$user_[user_id] = {});
-            messagesData[i].total_reacts[react_code] += 1; // increment/toggle values
-
-            messagesData[i].user_reacts[user_id][react_code] = true;
-          } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE_REACT"]) {
-            var _user_id = messageData.user_id,
-                _react_code = messageData.react_code;
-            messagesData[i].total_reacts[_react_code] -= 1;
-            if (messagesData[i].total_reacts[_react_code] <= 0) // decrement and delete entries if necessary
-              delete messagesData[i].total_reacts[_react_code];
-            delete messagesData[i].user_reacts[_user_id][_react_code];
-          } // called when user activates in another window
-          else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["RECEIVE_MESSAGE_SAVE"] && !this.props.user_saved_messages[messageData.id]) {
-              this.props.receiveMessageSave({
-                message_id: messageData.id
-              });
-            } // called when user activates in another window
-            else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE_SAVE"] && this.props.user_saved_messages[messageData.id]) {
+            this.setState({
+              messagesList: messagesList,
+              messagesData: messagesData
+            });
+          } // called when another user reacts
+          else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["RECEIVE_MESSAGE_REACT"] && messageData.user_id != this.props.current_user_id) {
+              var message_react = {
+                message_id: messageData.id,
+                user_id: messageData.user_id,
+                react_code: messageData.react_code
+              };
+              this.props.receiveMessageReact(message_react);
+            } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE_REACT"] && messageData.user_id != this.props.current_user_id) {
+              var _message_react = {
+                message_id: messageData.id,
+                user_id: messageData.user_id,
+                react_code: messageData.react_code
+              };
+              this.props.receiveMessageReact(_message_react);
+            } // called when user saves in another window
+            else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["RECEIVE_MESSAGE_SAVE"] && !this.props.user_saved_messages[messageData.id]) {
+                this.props.receiveMessageSave({
+                  message_id: messageData.id
+                });
+              } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE_SAVE"] && this.props.user_saved_messages[messageData.id]) {
                 this.props.removeMessageSave({
                   message_id: messageData.id
                 });
@@ -3279,17 +3284,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           break;
         }
       }
-
-      messagesList = [];
-
-      for (var _i = 0; _i < messagesData.length; _i++) {
-        this.processNewMessage(messagesData, messagesList, _i);
-      }
-
-      this.setState({
-        messagesList: messagesList,
-        messagesData: messagesData
-      });
     }
   }, {
     key: "receiveACData",
@@ -3420,8 +3414,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _channel_chat__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channel_chat */ "./frontend/components/channel/channel_chat.jsx");
-/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
-/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+/* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 
 
 
@@ -3444,10 +3438,23 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getMessages: function getMessages(channel_id) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_3__["getMessages"])(channel_id));
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["getMessages"])(channel_id));
     },
     startDmChannel: function startDmChannel(dmChannel) {
-      return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_4__["startDmChannel"])(dmChannel));
+      return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["startDmChannel"])(dmChannel));
+    },
+    receiveMessageSave: function receiveMessageSave(message_save) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["receiveMessageSave"])(message_save));
+    },
+    // used to update local state due to other users/windows' actions
+    removeMessageSave: function removeMessageSave(message_save) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["removeMessageSave"])(message_save));
+    },
+    receiveMessageReact: function receiveMessageReact(message_react) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["receiveMessageReact"])(message_react));
+    },
+    removeMessageReact: function removeMessageReact(message_react) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["removeMessageReact"])(message_react));
     }
   };
 };
@@ -4221,7 +4228,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     value: function messageReactsList(messageData) {
       var _this4 = this;
 
-      var total_reacts = Object.entries(this.props.total_reacts);
+      var total_reacts = Object.entries(this.props.message.total_reacts);
       if (total_reacts.length == 0) return;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-reacts-list"
@@ -4366,8 +4373,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     messages: state.entities.messages,
     user_saved_messages: state.session.user_saved_messages,
     workspace_id: state.session.workspace_id,
-    total_reacts: state.entities.messages[ownProps.messageData.id].total_reacts,
-    user_reacts: state.entities.messages[ownProps.messageData.id].user_reacts
+    message: state.entities.messages[ownProps.messageData.id]
   };
 };
 
@@ -4384,12 +4390,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteMessageSave: function deleteMessageSave(message_save) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["deleteMessageSave"])(message_save));
-    },
-    receiveMessageSave: function receiveMessageSave(message_save) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["receiveMessageSave"])(message_save));
-    },
-    removeMessageSave: function removeMessageSave(message_save) {
-      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["removeMessageSave"])(message_save));
     }
   };
 };

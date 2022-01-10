@@ -76,7 +76,7 @@ class ChannelMessage extends React.Component {
   }
 
   messageReactsList(messageData) {
-    let total_reacts = Object.entries(this.props.total_reacts);
+    let total_reacts = Object.entries(this.props.message.total_reacts);
     if (total_reacts.length == 0) return;
 
     return (
