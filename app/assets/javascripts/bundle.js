@@ -3083,6 +3083,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       var channel_id = this.props.match.params.channel_id;
 
       if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
+        this.setState({
+          messagesList: [],
+          messagesData: []
+        });
         this.loadMessages();
       }
 

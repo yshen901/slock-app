@@ -47,6 +47,7 @@ class ChannelChat extends React.Component {
   componentDidUpdate(oldProps, oldState) {
     let {channel_id} = this.props.match.params;
     if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
+      this.setState({ messagesList: [], messagesData: [] });
       this.loadMessages();
     }
 
