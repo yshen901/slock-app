@@ -150,6 +150,7 @@ class ChannelChat extends React.Component {
 
     messagesList.push(
       <ChannelMessageContainer
+        status={this.props.status}  // decides whether you can interact with messages
         grouped={grouped}
         saved={saved}
         messageData={messagesData[i]}

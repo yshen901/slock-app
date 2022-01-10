@@ -16,6 +16,7 @@ class ChannelMessage extends React.Component {
   toggleMessageReact(messageData, react_code) {
     return (e) => {
       e.preventDefault();
+      if (this.props.status.canJoin) return;
       let { current_user_id } = this.props;
       let { messageACChannel, deleteMessageReact, postMessageReact } = this.props;
 
@@ -66,6 +67,25 @@ class ChannelMessage extends React.Component {
           <div>Added to your saved items</div>
         </div>
       )
+  }
+
+  messageButtons(messageData, saved) {
+    if (!this.props.status.canJoin)
+      return (
+        <div className="message-buttons">
+          { this.messageEmojiButton(messageData, '\u{1F4AF}') } 
+          { this.messageEmojiButton(messageData, '\u{1F44D}') }
+          { this.messageEmojiButton(messageData, '\u{1F642}') }
+          { this.messageEmojiButton(messageData, '\u{1F602}') }
+          { this.messageEmojiButton(messageData, '\u{1F60D}') }
+          { this.messageEmojiButton(messageData, '\u{1F622}') }
+          { this.messageEmojiButton(messageData, '\u{1F620}') }
+          <div className="message-button" onClick={this.toggleMessageSave(messageData.id)}>
+            <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
+          </div>
+          {this.messageDeleteButton(messageData)}
+        </div>
+      );
   }
 
   messageEmojiButton(messageData, react_code) {
@@ -142,9 +162,16 @@ class ChannelMessage extends React.Component {
   }
 
   render() {
-    let { saved, messageData } = this.props;
-    let { body, id } = messageData;
+    let { messageData, saved } = this.props;
+    let { body } = messageData;
 
+    if (this.state.editing)
+      return (
+        <ChannelMessageForm
+          messageBody={this.props.message.body}
+          messageACChannel={this.props.messageACChannel}
+          status={this.props.status}/>
+      )
     return (
       <div className={saved ? "message saved" : "message"}>
         { this.messageSavedBanner(saved) }
@@ -154,19 +181,7 @@ class ChannelMessage extends React.Component {
             {this.messageHeader()}
             <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
           </div>
-          <div className="message-buttons">
-            { this.messageEmojiButton(messageData, '\u{1F4AF}') } 
-            { this.messageEmojiButton(messageData, '\u{1F44D}') }
-            { this.messageEmojiButton(messageData, '\u{1F642}') }
-            { this.messageEmojiButton(messageData, '\u{1F602}') }
-            { this.messageEmojiButton(messageData, '\u{1F60D}') }
-            { this.messageEmojiButton(messageData, '\u{1F622}') }
-            { this.messageEmojiButton(messageData, '\u{1F620}') }
-            <div className="message-button" onClick={this.toggleMessageSave(id)}>
-              <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
-            </div>
-            {this.messageDeleteButton(messageData)}
-          </div>
+          { this.messageButtons(messageData, saved) }
         </div>
         { this.messageReactsList(messageData) }
       </div>

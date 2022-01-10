@@ -345,7 +345,10 @@ class ChannelMessageForm extends React.Component {
                     </div>
                   </div>
               </div>
-              <div id="chat-input" contentEditable onKeyDown={this.handleChatKeyDown}>
+              <div id="chat-input" 
+                contentEditable 
+                dangerouslySetInnerHTML={{__html: this.props.messageBody ? this.props.messageBody : ""}}
+                onKeyDown={this.handleChatKeyDown}>
               </div>
               <div id="chat-footer">
                 {/* <div className="toolbar-button fa fa-upload fa-fw"></div>

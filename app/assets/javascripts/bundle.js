@@ -3192,6 +3192,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       }
 
       messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_container__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        status: this.props.status // decides whether you can interact with messages
+        ,
         grouped: grouped,
         saved: saved,
         messageData: messagesData[i],
@@ -4131,6 +4133,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
 
       return function (e) {
         e.preventDefault();
+        if (_this2.props.status.canJoin) return;
         var current_user_id = _this2.props.current_user_id;
         var _this2$props = _this2.props,
             messageACChannel = _this2$props.messageACChannel,
@@ -4214,6 +4217,18 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-bookmark fa-fw magenta"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Added to your saved items"));
+    }
+  }, {
+    key: "messageButtons",
+    value: function messageButtons(messageData, saved) {
+      if (!this.props.status.canJoin) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-buttons"
+      }, this.messageEmojiButton(messageData, "\uD83D\uDCAF"), this.messageEmojiButton(messageData, "\uD83D\uDC4D"), this.messageEmojiButton(messageData, "\uD83D\uDE42"), this.messageEmojiButton(messageData, "\uD83D\uDE02"), this.messageEmojiButton(messageData, "\uD83D\uDE0D"), this.messageEmojiButton(messageData, "\uD83D\uDE22"), this.messageEmojiButton(messageData, "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-button",
+        onClick: this.toggleMessageSave(messageData.id)
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
+      })), this.messageDeleteButton(messageData));
     }
   }, {
     key: "messageEmojiButton",
@@ -4316,10 +4331,14 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this$props4 = this.props,
-          saved = _this$props4.saved,
-          messageData = _this$props4.messageData;
-      var body = messageData.body,
-          id = messageData.id;
+          messageData = _this$props4.messageData,
+          saved = _this$props4.saved;
+      var body = messageData.body;
+      if (this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        messageBody: this.props.message.body,
+        messageACChannel: this.props.messageACChannel,
+        status: this.props.status
+      });
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: saved ? "message saved" : "message"
       }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4331,14 +4350,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         dangerouslySetInnerHTML: {
           __html: body
         }
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-buttons"
-      }, this.messageEmojiButton(messageData, "\uD83D\uDCAF"), this.messageEmojiButton(messageData, "\uD83D\uDC4D"), this.messageEmojiButton(messageData, "\uD83D\uDE42"), this.messageEmojiButton(messageData, "\uD83D\uDE02"), this.messageEmojiButton(messageData, "\uD83D\uDE0D"), this.messageEmojiButton(messageData, "\uD83D\uDE22"), this.messageEmojiButton(messageData, "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button",
-        onClick: this.toggleMessageSave(id)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
-      })), this.messageDeleteButton(messageData))), this.messageReactsList(messageData));
+      })), this.messageButtons(messageData, saved)), this.messageReactsList(messageData));
     }
   }]);
 
@@ -4827,6 +4839,9 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Ctrl"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Shift"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "6"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-input",
         contentEditable: true,
+        dangerouslySetInnerHTML: {
+          __html: this.props.messageBody ? this.props.messageBody : ""
+        },
         onKeyDown: this.handleChatKeyDown
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-footer"
