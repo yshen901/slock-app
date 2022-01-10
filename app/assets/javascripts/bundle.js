@@ -3366,10 +3366,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     key: "calculatePos",
     value: function calculatePos(hasStatus) {
       var popupUserTarget = this.state.popupUserTarget;
-      var minOffset = 520;
-      if (hasStatus) minOffset = 576;
+      var minOffset = 524;
+      if (hasStatus) minOffset = 580;
       var viewHeight = $(window).innerHeight();
-      var top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - this.scrollBar.current.scrollTop;
+      var top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - this.scrollBar.current.scrollTop + 38;
       if (top > viewHeight - minOffset) top = viewHeight - minOffset;
       var left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + popupUserTarget.offsetParent.offsetLeft + 10;
       return {
@@ -3383,8 +3383,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chatroom-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-filler"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list",
         ref: this.scrollBar
       }, this.state.messagesList.map(function (item, idx) {
@@ -4273,7 +4271,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           username = messageData.username,
           created_date = messageData.created_date,
           created_at = messageData.created_at;
-      if (grouped) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (!grouped) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user",

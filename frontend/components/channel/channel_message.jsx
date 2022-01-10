@@ -106,7 +106,7 @@ class ChannelMessage extends React.Component {
     let { grouped, messageData, toggleUserPopup } = this.props;
     let { user_id, username, created_date, created_at } = messageData;
 
-    if (grouped)
+    if (!grouped)
       return (
         <div className="message-header">
           <div className="message-user" onClick={toggleUserPopup(user_id)}>{username}</div>

@@ -286,12 +286,12 @@ class ChannelChat extends React.Component {
   calculatePos(hasStatus) {
     let { popupUserTarget } = this.state;
 
-    let minOffset = 520;
+    let minOffset = 524;
     if (hasStatus)
-      minOffset = 576;
+      minOffset = 580;
     
       let viewHeight = $(window).innerHeight();
-      let top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - this.scrollBar.current.scrollTop;
+      let top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - this.scrollBar.current.scrollTop + 38;
       if (top > viewHeight - minOffset)
         top = viewHeight - minOffset;
       let left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + popupUserTarget.offsetParent.offsetLeft + 10;
@@ -305,7 +305,6 @@ class ChannelChat extends React.Component {
   render() {
     return (
       <div className="chatroom-container">
-        <div className="message-filler"></div>
         <div className="message-list" ref={this.scrollBar}>
           {this.state.messagesList.map((item, idx) => 
             <div key={idx} className="messages-wrapper">
