@@ -124,7 +124,10 @@ class ChannelMessageForm extends React.Component {
   handleChatKeyDown(e) {
     if (!e.shiftKey && e.key == "Enter") {
       e.preventDefault();
-      this.handleSubmit(e);
+      if (this.props.messageBody)
+        this.props.toggleEditSave()(e);
+      else
+        this.handleSubmit(e);
     } 
     else if (e.key == "Backspace") {
       let ele = document.getElementById("chat-input");
@@ -240,7 +243,7 @@ class ChannelMessageForm extends React.Component {
       return (
         <div id="message-send-buttons">
           <div className="button" onClick={this.props.toggleEditCancel()}>Cancel</div>
-          <div className="button green-button" onClick={this.props.toggleEditSave()}>Save</div>
+          {/* <div className="button green-button" onClick={this.props.toggleEditSave()}>Save</div> */}
         </div>
       )
   }

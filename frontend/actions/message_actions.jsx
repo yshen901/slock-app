@@ -21,6 +21,25 @@ export const receiveMessage = (message) => ({
   message
 });
 
+export const getMessages = channel_id => dispatch => (
+  MessageAPI
+    .getMessages(channel_id)
+    .then(
+      (messages) => dispatch(loadMessages(messages)),
+      (errors) => dispatch(receiveErrors(errors))
+    )
+);
+
+export const updateMessage = (message) => dispatch => (
+  MessageAPI
+    .updateMessage(message)
+    .then(
+      (message) => dispatch(receiveMessage(message)),
+      (errors) => dispatch(receiveErrors(errors))
+    )
+);
+
+// REACT ACTIONS
 export const receiveMessageReact = (message_react) => ({
   type: RECEIVE_MESSAGE_REACT,
   message_react
@@ -31,6 +50,26 @@ export const removeMessageReact = (message_react) => ({
   message_react
 });
 
+export const postMessageReact = message_react => dispatch => (
+  MessageReactAPI
+    .postMessageReact(message_react)
+    .then(
+      (message_react) => dispatch(receiveMessageReact(message_react)),
+      (errors) => dispatch(receiveErrors(errors))
+    )
+);
+
+export const deleteMessageReact = message_react => dispatch => (
+  MessageReactAPI
+    .deleteMessageReact(message_react)
+    .then(
+      (message_react) => dispatch(removeMessageReact(message_react)),
+      (errors) => dispatch(receiveErrors(errors))
+    )
+);
+
+
+// SAVE ACTIONS
 const receiveMessageSaves = ({message_saves, messages}) => ({
   type: RECEIVE_MESSAGE_SAVES,
   message_saves,
@@ -52,33 +91,6 @@ export const removeMessageSave = (message_save) => {
     message_save
   };
 };
-
-export const getMessages = channel_id => dispatch => (
-  MessageAPI
-    .getMessages(channel_id)
-    .then(
-      (messages) => dispatch(loadMessages(messages)),
-      (errors) => dispatch(receiveErrors(errors))
-    )
-);
-
-export const postMessageReact = message_react => dispatch => (
-  MessageReactAPI
-    .postMessageReact(message_react)
-    .then(
-      (message_react) => dispatch(receiveMessageReact(message_react)),
-      (errors) => dispatch(receiveErrors(errors))
-    )
-);
-
-export const deleteMessageReact = message_react => dispatch => (
-  MessageReactAPI
-    .deleteMessageReact(message_react)
-    .then(
-      (message_react) => dispatch(removeMessageReact(message_react)),
-      (errors) => dispatch(receiveErrors(errors))
-    )
-);
 
 export const getMessageSaves = workspace_id => dispatch => (
   MessageSaveAPI

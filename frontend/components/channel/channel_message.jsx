@@ -15,6 +15,7 @@ class ChannelMessage extends React.Component {
     this.toggleMessageSave = this.toggleMessageSave.bind(this);
   }
 
+  // Stop editing
   toggleEditCancel() {
     return (e) => {
       e.preventDefault();
@@ -22,10 +23,15 @@ class ChannelMessage extends React.Component {
     }
   }
 
+  // Update the message and stop editing
   toggleEditSave() {
     return (e) => {
       e.preventDefault();
-      this.setState( {editing: false} );
+      let body = e.currentTarget.innerHTML;
+      this.props.updateMessage({id: this.props.message.id, body})
+        .then(
+          () => this.setState( {editing: false} )
+        )
     }
   }
 

@@ -329,7 +329,7 @@ var refreshErrors = function refreshErrors() {
 /*!**********************************************!*\
   !*** ./frontend/actions/message_actions.jsx ***!
   \**********************************************/
-/*! exports provided: LOAD_MESSAGES, RECEIVE_MESSAGE, RECEIVE_MESSAGE_REACT, REMOVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVES, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_SAVE, receiveMessage, receiveMessageReact, removeMessageReact, receiveMessageSave, removeMessageSave, getMessages, postMessageReact, deleteMessageReact, getMessageSaves, postMessageSave, deleteMessageSave */
+/*! exports provided: LOAD_MESSAGES, RECEIVE_MESSAGE, RECEIVE_MESSAGE_REACT, REMOVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVES, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_SAVE, receiveMessage, getMessages, updateMessage, receiveMessageReact, removeMessageReact, postMessageReact, deleteMessageReact, receiveMessageSave, removeMessageSave, getMessageSaves, postMessageSave, deleteMessageSave */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -342,13 +342,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MESSAGE_SAVE", function() { return RECEIVE_MESSAGE_SAVE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_MESSAGE_SAVE", function() { return REMOVE_MESSAGE_SAVE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveMessage", function() { return receiveMessage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessages", function() { return getMessages; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMessage", function() { return updateMessage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveMessageReact", function() { return receiveMessageReact; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeMessageReact", function() { return removeMessageReact; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveMessageSave", function() { return receiveMessageSave; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeMessageSave", function() { return removeMessageSave; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessages", function() { return getMessages; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postMessageReact", function() { return postMessageReact; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMessageReact", function() { return deleteMessageReact; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveMessageSave", function() { return receiveMessageSave; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeMessageSave", function() { return removeMessageSave; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessageSaves", function() { return getMessageSaves; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postMessageSave", function() { return postMessageSave; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteMessageSave", function() { return deleteMessageSave; });
@@ -381,6 +382,25 @@ var receiveMessage = function receiveMessage(message) {
     message: message
   };
 };
+var getMessages = function getMessages(channel_id) {
+  return function (dispatch) {
+    return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["getMessages"](channel_id).then(function (messages) {
+      return dispatch(loadMessages(messages));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+    });
+  };
+};
+var updateMessage = function updateMessage(message) {
+  return function (dispatch) {
+    return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["updateMessage"](message).then(function (message) {
+      return dispatch(receiveMessage(message));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+    });
+  };
+}; // REACT ACTIONS
+
 var receiveMessageReact = function receiveMessageReact(message_react) {
   return {
     type: RECEIVE_MESSAGE_REACT,
@@ -393,6 +413,24 @@ var removeMessageReact = function removeMessageReact(message_react) {
     message_react: message_react
   };
 };
+var postMessageReact = function postMessageReact(message_react) {
+  return function (dispatch) {
+    return _util_message_react_api_util__WEBPACK_IMPORTED_MODULE_1__["postMessageReact"](message_react).then(function (message_react) {
+      return dispatch(receiveMessageReact(message_react));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+    });
+  };
+};
+var deleteMessageReact = function deleteMessageReact(message_react) {
+  return function (dispatch) {
+    return _util_message_react_api_util__WEBPACK_IMPORTED_MODULE_1__["deleteMessageReact"](message_react).then(function (message_react) {
+      return dispatch(removeMessageReact(message_react));
+    }, function (errors) {
+      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
+    });
+  };
+}; // SAVE ACTIONS
 
 var receiveMessageSaves = function receiveMessageSaves(_ref) {
   var message_saves = _ref.message_saves,
@@ -416,33 +454,6 @@ var removeMessageSave = function removeMessageSave(message_save) {
   return {
     type: REMOVE_MESSAGE_SAVE,
     message_save: message_save
-  };
-};
-var getMessages = function getMessages(channel_id) {
-  return function (dispatch) {
-    return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["getMessages"](channel_id).then(function (messages) {
-      return dispatch(loadMessages(messages));
-    }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
-    });
-  };
-};
-var postMessageReact = function postMessageReact(message_react) {
-  return function (dispatch) {
-    return _util_message_react_api_util__WEBPACK_IMPORTED_MODULE_1__["postMessageReact"](message_react).then(function (message_react) {
-      return dispatch(receiveMessageReact(message_react));
-    }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
-    });
-  };
-};
-var deleteMessageReact = function deleteMessageReact(message_react) {
-  return function (dispatch) {
-    return _util_message_react_api_util__WEBPACK_IMPORTED_MODULE_1__["deleteMessageReact"](message_react).then(function (message_react) {
-      return dispatch(removeMessageReact(message_react));
-    }, function (errors) {
-      return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
-    });
   };
 };
 var getMessageSaves = function getMessageSaves(workspace_id) {
@@ -4141,7 +4152,8 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     _this.toggleMessageReact = _this.toggleMessageReact.bind(_assertThisInitialized(_this));
     _this.toggleMessageSave = _this.toggleMessageSave.bind(_assertThisInitialized(_this));
     return _this;
-  }
+  } // Stop editing
+
 
   _createClass(ChannelMessage, [{
     key: "toggleEditCancel",
@@ -4155,7 +4167,8 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           editing: false
         });
       };
-    }
+    } // Update the message and stop editing
+
   }, {
     key: "toggleEditSave",
     value: function toggleEditSave() {
@@ -4163,9 +4176,15 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
 
       return function (e) {
         e.preventDefault();
+        var body = e.currentTarget.innerHTML;
 
-        _this3.setState({
-          editing: false
+        _this3.props.updateMessage({
+          id: _this3.props.message.id,
+          body: body
+        }).then(function () {
+          return _this3.setState({
+            editing: false
+          });
         });
       };
     }
@@ -4469,6 +4488,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
+    updateMessage: function updateMessage(message) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["updateMessage"])(message));
+    },
     postMessageReact: function postMessageReact(message_react) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["postMessageReact"])(message_react));
     },
@@ -4670,7 +4692,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
     value: function handleChatKeyDown(e) {
       if (!e.shiftKey && e.key == "Enter") {
         e.preventDefault();
-        this.handleSubmit(e);
+        if (this.props.messageBody) this.props.toggleEditSave()(e);else this.handleSubmit(e);
       } else if (e.key == "Backspace") {
         var ele = document.getElementById("chat-input");
 
@@ -4802,10 +4824,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "button",
         onClick: this.props.toggleEditCancel()
-      }, "Cancel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "button green-button",
-        onClick: this.props.toggleEditSave()
-      }, "Save"));
+      }, "Cancel"));
     }
   }, {
     key: "render",
@@ -10542,16 +10561,28 @@ var disableTestData = {
 /*!*******************************************!*\
   !*** ./frontend/util/message_api_util.js ***!
   \*******************************************/
-/*! exports provided: getMessages */
+/*! exports provided: getMessages, updateMessage */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessages", function() { return getMessages; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateMessage", function() { return updateMessage; });
 var getMessages = function getMessages(channel_id) {
   return $.ajax({
     method: "GET",
     url: "/api/channels/".concat(channel_id, "/messages")
+  });
+}; // message contains body and id
+
+var updateMessage = function updateMessage(message) {
+  debugger;
+  return $.ajax({
+    method: "PATCH",
+    url: "/api/messages/".concat(message.id),
+    data: {
+      message: message
+    }
   });
 };
 

@@ -15,13 +15,15 @@ Rails.application.routes.draw do
       resources :messages, only: [:index]
     end
 
+    resources :messages, only: [:update]
+    resources :message_reacts, only: [:create, :destroy]
+    resources :message_saves, only: [:index, :create, :destroy]
+
     resources :workspace_users, only: [:update, :create]
     resources :channel_users, only: [:create, :destroy, :update]
 
     resources :dm_channel_users, only: [:create, :update]
 
-    resources :message_reacts, only: [:create, :destroy]
-    resources :message_saves, only: [:index, :create, :destroy]
   end
   resources :calls, only: [:create]
 

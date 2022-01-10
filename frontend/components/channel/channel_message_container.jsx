@@ -5,6 +5,7 @@ import {
   deleteMessageSave,
   postMessageReact, 
   postMessageSave,
+  updateMessage
 } from '../../actions/message_actions';
 import ChannelMessage from './channel_message'
 
@@ -17,6 +18,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  updateMessage: (message) => dispatch(updateMessage(message)),
   postMessageReact: (message_react) => dispatch(postMessageReact(message_react)),
   deleteMessageReact: (message_react) => dispatch(deleteMessageReact(message_react)),
   postMessageSave: (message_save) => dispatch(postMessageSave(message_save)),

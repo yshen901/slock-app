@@ -4,3 +4,13 @@ export const getMessages = (channel_id) => (
     url: `/api/channels/${channel_id}/messages`
   })
 );
+
+// message contains body and id
+export const updateMessage = (message) => {
+  debugger
+  return $.ajax({
+    method: "PATCH",
+    url: `/api/messages/${message.id}`,
+    data: {message}
+  })
+};
