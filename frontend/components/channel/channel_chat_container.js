@@ -5,6 +5,7 @@ import ChannelChat from './channel_chat';
 import { startDmChannel } from '../../actions/dm_channel_actions';
 import { 
   getMessages, 
+  receiveMessage, 
   receiveMessageReact, 
   receiveMessageSave, 
   removeMessageReact, 
@@ -24,6 +25,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   getMessages: (channel_id) => dispatch(getMessages(channel_id)),
+  receiveMessage: (message) => dispatch(receiveMessage(message)),
   startDmChannel: (dmChannel) => dispatch(startDmChannel(dmChannel)),
   receiveMessageSave: (message_save) => dispatch(receiveMessageSave(message_save)), // used to update local state due to other users/windows' actions
   removeMessageSave: (message_save) => dispatch(removeMessageSave(message_save)),

@@ -4,6 +4,7 @@ import * as MessageSaveAPI from '../util/message_save_api_util';
 import { receiveErrors } from './error_actions'
 
 export const LOAD_MESSAGES = "LOAD_MESSAGES";
+export const RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
 export const RECEIVE_MESSAGE_REACT = "RECEIVE_MESSAGE_REACT";
 export const REMOVE_MESSAGE_REACT = "REMOVE_MESSAGE_REACT";
 export const RECEIVE_MESSAGE_SAVES = "RECEIVE_MESSAGE_SAVES";
@@ -13,6 +14,11 @@ export const REMOVE_MESSAGE_SAVE = "REMOVE_MESSAGE_SAVE";
 const loadMessages = (messages) => ({
   type: LOAD_MESSAGES,
   messages
+});
+
+export const receiveMessage = (message) => ({
+  type: RECEIVE_MESSAGE,
+  message
 });
 
 export const receiveMessageReact = (message_react) => ({

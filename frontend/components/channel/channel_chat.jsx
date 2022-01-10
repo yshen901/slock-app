@@ -231,6 +231,7 @@ class ChannelChat extends React.Component {
   
       // loads the message if its to the current channel
       if (channel_id == this.props.channel_id) {
+        this.props.receiveMessage(message)
         message.username = this.profileName(this.props.users[user_id]);
         message.photo_url = photoUrl(this.props.users[user_id]);
         message.created_date = this.getMessageDate(message);
@@ -238,7 +239,7 @@ class ChannelChat extends React.Component {
   
         let messagesData = this.state.messagesData.concat(message);
         let messagesList = this.state.messagesList;
-        this.processNewMessage(messagesData, messagesList);
+        this.processNewMessage(messagesData, messagesList, messagesData.length - 1);
   
         this.setState({
           messagesData,

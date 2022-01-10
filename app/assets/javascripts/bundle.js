@@ -329,17 +329,19 @@ var refreshErrors = function refreshErrors() {
 /*!**********************************************!*\
   !*** ./frontend/actions/message_actions.jsx ***!
   \**********************************************/
-/*! exports provided: LOAD_MESSAGES, RECEIVE_MESSAGE_REACT, REMOVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVES, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_SAVE, receiveMessageReact, removeMessageReact, receiveMessageSave, removeMessageSave, getMessages, postMessageReact, deleteMessageReact, getMessageSaves, postMessageSave, deleteMessageSave */
+/*! exports provided: LOAD_MESSAGES, RECEIVE_MESSAGE, RECEIVE_MESSAGE_REACT, REMOVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVES, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_SAVE, receiveMessage, receiveMessageReact, removeMessageReact, receiveMessageSave, removeMessageSave, getMessages, postMessageReact, deleteMessageReact, getMessageSaves, postMessageSave, deleteMessageSave */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOAD_MESSAGES", function() { return LOAD_MESSAGES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MESSAGE", function() { return RECEIVE_MESSAGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MESSAGE_REACT", function() { return RECEIVE_MESSAGE_REACT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_MESSAGE_REACT", function() { return REMOVE_MESSAGE_REACT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MESSAGE_SAVES", function() { return RECEIVE_MESSAGE_SAVES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_MESSAGE_SAVE", function() { return RECEIVE_MESSAGE_SAVE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_MESSAGE_SAVE", function() { return REMOVE_MESSAGE_SAVE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveMessage", function() { return receiveMessage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveMessageReact", function() { return receiveMessageReact; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeMessageReact", function() { return removeMessageReact; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveMessageSave", function() { return receiveMessageSave; });
@@ -359,6 +361,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var LOAD_MESSAGES = "LOAD_MESSAGES";
+var RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
 var RECEIVE_MESSAGE_REACT = "RECEIVE_MESSAGE_REACT";
 var REMOVE_MESSAGE_REACT = "REMOVE_MESSAGE_REACT";
 var RECEIVE_MESSAGE_SAVES = "RECEIVE_MESSAGE_SAVES";
@@ -372,6 +375,12 @@ var loadMessages = function loadMessages(messages) {
   };
 };
 
+var receiveMessage = function receiveMessage(message) {
+  return {
+    type: RECEIVE_MESSAGE,
+    message: message
+  };
+};
 var receiveMessageReact = function receiveMessageReact(message_react) {
   return {
     type: RECEIVE_MESSAGE_REACT,
@@ -3305,13 +3314,14 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
             activate_dm_channel = message.activate_dm_channel; // loads the message if its to the current channel
 
         if (channel_id == this.props.channel_id) {
+          this.props.receiveMessage(message);
           message.username = this.profileName(this.props.users[user_id]);
           message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.users[user_id]);
           message.created_date = this.getMessageDate(message);
           message.created_at = this.processTime(message.created_at);
           var messagesData = this.state.messagesData.concat(message);
           var messagesList = this.state.messagesList;
-          this.processNewMessage(messagesData, messagesList);
+          this.processNewMessage(messagesData, messagesList, messagesData.length - 1);
           this.setState({
             messagesData: messagesData,
             messagesList: messagesList
@@ -3445,6 +3455,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getMessages: function getMessages(channel_id) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["getMessages"])(channel_id));
+    },
+    receiveMessage: function receiveMessage(message) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["receiveMessage"])(message));
     },
     startDmChannel: function startDmChannel(dmChannel) {
       return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["startDmChannel"])(dmChannel));
@@ -4359,8 +4372,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         messageBody: this.props.message.body,
         messageACChannel: this.props.messageACChannel,
         status: this.props.status
-      });
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      });else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: saved ? "message saved" : "message"
       }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-content"
@@ -9572,6 +9584,10 @@ var MessageReducer = function MessageReducer() {
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE_SAVES"]:
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_MESSAGES"]:
       return action.messages;
+
+    case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE"]:
+      newState[action.message.id] = action.message;
+      return newState;
 
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE_REACT"]:
       // increment or start counting

@@ -184,20 +184,21 @@ class ChannelMessage extends React.Component {
           messageACChannel={this.props.messageACChannel}
           status={this.props.status}/>
       )
-    return (
-      <div className={saved ? "message saved" : "message"}>
-        { this.messageSavedBanner(saved) }
-        <div className="message-content">
-          { this.messageIcon() }
-          <div className="message-text">
-            {this.messageHeader()}
-            <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
+    else
+      return (
+        <div className={saved ? "message saved" : "message"}>
+          { this.messageSavedBanner(saved) }
+          <div className="message-content">
+            { this.messageIcon() }
+            <div className="message-text">
+              {this.messageHeader()}
+              <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
+            </div>
+            { this.messageButtons(messageData, saved) }
           </div>
-          { this.messageButtons(messageData, saved) }
+          { this.messageReactsList(messageData) }
         </div>
-        { this.messageReactsList(messageData) }
-      </div>
-    )
+      )
   }
 }
 

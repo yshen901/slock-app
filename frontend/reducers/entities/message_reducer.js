@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { LOAD_MESSAGES, RECEIVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVE, RECEIVE_MESSAGE_SAVES, REMOVE_MESSAGE_REACT, REMOVE_MESSAGE_SAVE } from '../../actions/message_actions';
+import { LOAD_MESSAGES, RECEIVE_MESSAGE, RECEIVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVE, RECEIVE_MESSAGE_SAVES, REMOVE_MESSAGE_REACT, REMOVE_MESSAGE_SAVE } from '../../actions/message_actions';
 
 const MessageReducer = (state = {}, action) => {
   Object.freeze(state);
@@ -10,6 +10,9 @@ const MessageReducer = (state = {}, action) => {
     case RECEIVE_MESSAGE_SAVES: 
     case LOAD_MESSAGES:
       return action.messages;
+    case RECEIVE_MESSAGE:
+      newState[action.message.id] = action.message;
+      return newState;
     case RECEIVE_MESSAGE_REACT: // increment or start counting
       react_code = action.message_react.react_code;
       user_id = action.message_react.user_id;
