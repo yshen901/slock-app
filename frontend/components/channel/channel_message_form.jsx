@@ -37,13 +37,17 @@ class ChannelMessageForm extends React.Component {
     this.goToChannel = this.goToChannel.bind(this);
   }
 
+  componentDidMount() {
+    if (this.chatInput.current && this.props.messageBody) {
+      this.focusInput();
+    }
+  }
+
   componentDidUpdate(oldProps, oldState) {
     if (oldProps.status.canJoin !== this.props.status.canJoin)
       this.setState({ canJoin: this.props.status.canJoin })
     if (oldState.formatBar != this.state.formatBar)
       document.getElementById("chat-input").focus();
-    if (this.chatInput.current && this.props.messageBody)
-      this.chatInput.current.focus();
   }
 
   goToChannel(channel_id) {
@@ -83,21 +87,23 @@ class ChannelMessageForm extends React.Component {
   }
 
   focusInput() {
-    let el = document.getElementById("chat-input");
-    el.focus();
-    if (typeof window.getSelection != "undefined"
-            && typeof document.createRange != "undefined") {
-      var range = document.createRange();
-      range.selectNodeContents(el);
-      range.collapse();
-      var sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-    } else if (typeof document.body.createTextRange != "undefined") {
-      var textRange = document.body.createTextRange();
-      textRange.moveToElementText(el);
-      textRange.collapse();
-      textRange.select();
+    let el = this.chatInput.current;
+    if (el && document.activeElement != el) {
+      el.focus();
+      if (typeof window.getSelection != "undefined"
+              && typeof document.createRange != "undefined") {
+        var range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse();
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      } else if (typeof document.body.createTextRange != "undefined") {
+        var textRange = document.body.createTextRange();
+        textRange.moveToElementText(el);
+        textRange.collapse();
+        textRange.select();
+      }
     }
   }
 
