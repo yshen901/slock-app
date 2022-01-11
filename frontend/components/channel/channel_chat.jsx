@@ -1,6 +1,5 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { photoUrl } from '../../selectors/selectors';
 
 import ChannelMessageForm from './channel_message_form';
 import UserPopupModal from "../modals/user_popup_modal.jsx";

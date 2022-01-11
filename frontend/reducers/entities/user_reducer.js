@@ -1,6 +1,7 @@
 import { RECEIVE_USER, LOGOUT } from '../../actions/session_actions';
 import { RECEIVE_WORKSPACE_USER, UPDATE_OTHER_USER_WORKSPACE_STATUS } from '../../actions/user_actions';
 import { LOAD_WORKSPACE } from '../../actions/workspace_actions';
+import { photoUrl } from '../../selectors/selectors';
 
 const UserReducer = (state = { }, action) => {
   Object.freeze(state);
@@ -17,10 +18,12 @@ const UserReducer = (state = { }, action) => {
         nextState[userIds[i]].status = action.workspace.users[userIds[i]].status;
         nextState[userIds[i]].active = action.workspace.users[userIds[i]].active;
         nextState[userIds[i]].paused = action.workspace.users[userIds[i]].paused;
+        nextState[userIds[i]].photo_url = photoUrl(nextState[userIds[i]]);
       }
       return nextState;
     case RECEIVE_USER:
       nextState[action.user.id] = action.user;
+      nextState[action.user.id].photo_url = photoUrl(nextState[action.user.id]);
       return nextState;
     case RECEIVE_WORKSPACE_USER:
       let { user_id, active, status, paused } = action.workspace_user;
