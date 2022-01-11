@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router";
 import { startDmChannel } from "../../actions/dm_channel_actions";
-import { getLocalTime, getUserActivity, getUserName, photoUrl } from "../../selectors/selectors";
+import { getLocalTime, getUserActivity, getUserName, getUserPaused } from "../../selectors/selectors";
 
 class UserPopupModal extends React.Component {
   constructor(props) {
@@ -87,7 +87,9 @@ class UserPopupModal extends React.Component {
           <div className="user-popup-header">
             <div className="user-popup-name">
               <div>{getUserName(user, true)}</div>
-              <i className={getUserActivity(user)}></i>
+              <i className={getUserActivity(user)}>
+                <div className={getUserPaused(user, true, true)}>z</div>
+              </i>
             </div>
             <div className="user-popup-title">{user.what_i_do}</div>
           </div>
