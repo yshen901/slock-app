@@ -68,6 +68,12 @@ const SessionReducer = (state = DEFAULT_SESSION, action) => {
       if (nextState.user_channels === undefined) nextState.user_channels = {} // in case that was the last channel
       return nextState;
 
+    // If message is removed and is part of saved messages, remove the relevant entry
+    case REMOVE_MESSAGE: 
+      if (nextState.user_saved_messages[action.message.id])
+        delete nextState.user_saved_messages[action.message.id];
+      return nextState;
+
     case RECEIVE_MESSAGE_SAVE:
       nextState.user_saved_messages[action.message_save.message_id] = {
         id: action.message_save.message_id,

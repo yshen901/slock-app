@@ -13,6 +13,10 @@ const MessageReducer = (state = {}, action) => {
     case RECEIVE_MESSAGE:
       newState[action.message.id] = action.message;
       return newState;
+    case REMOVE_MESSAGE:
+      delete newState[action.message.id];
+      return newState;
+      
     case RECEIVE_MESSAGE_REACT: // increment or start counting
       react_code = action.message_react.react_code;
       user_id = action.message_react.user_id;

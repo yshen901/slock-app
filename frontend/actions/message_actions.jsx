@@ -5,12 +5,16 @@ import { receiveErrors } from './error_actions'
 
 export const LOAD_MESSAGES = "LOAD_MESSAGES";
 export const RECEIVE_MESSAGE = "RECEIVE_MESSAGE";
+export const REMOVE_MESSAGE = "REMOVE_MESSAGE";
+
 export const RECEIVE_MESSAGE_REACT = "RECEIVE_MESSAGE_REACT";
 export const REMOVE_MESSAGE_REACT = "REMOVE_MESSAGE_REACT";
+
 export const RECEIVE_MESSAGE_SAVES = "RECEIVE_MESSAGE_SAVES";
 export const RECEIVE_MESSAGE_SAVE = "RECEIVE_MESSAGE_SAVE";
 export const REMOVE_MESSAGE_SAVE = "REMOVE_MESSAGE_SAVE";
 
+// MESSAGE ACTIONS
 const loadMessages = (messages) => ({
   type: LOAD_MESSAGES,
   messages
@@ -18,6 +22,11 @@ const loadMessages = (messages) => ({
 
 export const receiveMessage = (message) => ({
   type: RECEIVE_MESSAGE,
+  message
+});
+
+export const removeMessage = (message) => ({
+  type: REMOVE_MESSAGE,
   message
 });
 
@@ -30,11 +39,29 @@ export const getMessages = channel_id => dispatch => (
     )
 );
 
+export const createMessage = (message) => dispatch => (
+  MessageAPI
+    .createMessage(message)
+    .then(
+      (message) => dispatch(receiveMessage(message)),
+      (errors) => dispatch(receiveErrors(errors))
+    )
+);
+
 export const updateMessage = (message) => dispatch => (
   MessageAPI
     .updateMessage(message)
     .then(
       (message) => dispatch(receiveMessage(message)),
+      (errors) => dispatch(receiveErrors(errors))
+    )
+);
+
+export const deleteMessage = (message) => dispatch => (
+  MessageAPI
+    .deleteMessage(message)
+    .then(
+      (message) => dispatch(deleteMessage(message)),
       (errors) => dispatch(receiveErrors(errors))
     )
 );
