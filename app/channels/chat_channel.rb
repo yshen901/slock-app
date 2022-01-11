@@ -48,15 +48,13 @@ class ChatChannel < ApplicationCable::Channel
 
     # handles delete message request
     elsif message_data['type'] == "DELETE"
-      message = Message.find(message_data["id"])
-      if message.destroy
-        ChatChannel.broadcast_to('chat_channel', {
-          message: {
-            type: message_data['type'], 
-            id: message_data["id"]
-          }
-        })
-      end
+      ChatChannel.broadcast_to('chat_channel', {
+        message: {
+          type: message_data['type'], 
+          id: message_data["id"],
+          user_id: message_data["user_id"]
+        }
+      })
     elsif message_data['type'] == "RECEIVE_MESSAGE_REACT" || message_data['type'] == "REMOVE_MESSAGE_REACT"
       ChatChannel.broadcast_to('chat_channel', {
         message: {

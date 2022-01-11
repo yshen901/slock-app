@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { 
+  deleteMessage,
   deleteMessageReact,
   deleteMessageSave,
   postMessageReact, 
@@ -19,6 +20,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   updateMessage: (message) => dispatch(updateMessage(message)),
+  deleteMessage: (message) => dispatch(deleteMessage(message)),
   postMessageReact: (message_react) => dispatch(postMessageReact(message_react)),
   deleteMessageReact: (message_react) => dispatch(deleteMessageReact(message_react)),
   postMessageSave: (message_save) => dispatch(postMessageSave(message_save)),

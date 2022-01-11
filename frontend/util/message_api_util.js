@@ -17,7 +17,7 @@ export const updateMessage = (message) => {
 // message contains channel_id and body
 export const createMessage = (message) => {
   return $.ajax({
-    method: "PUT",
+    method: "POST",
     url: '/api/messages',
     data: {message}
   });

@@ -1,5 +1,14 @@
 import { cloneDeep } from 'lodash';
-import { LOAD_MESSAGES, RECEIVE_MESSAGE, RECEIVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVE, RECEIVE_MESSAGE_SAVES, REMOVE_MESSAGE_REACT, REMOVE_MESSAGE_SAVE } from '../../actions/message_actions';
+import { 
+  LOAD_MESSAGES, 
+  RECEIVE_MESSAGE, 
+  REMOVE_MESSAGE,
+  RECEIVE_MESSAGE_REACT, 
+  RECEIVE_MESSAGE_SAVE, 
+  RECEIVE_MESSAGE_SAVES, 
+  REMOVE_MESSAGE_REACT, 
+  REMOVE_MESSAGE_SAVE 
+} from '../../actions/message_actions';
 
 const MessageReducer = (state = {}, action) => {
   Object.freeze(state);

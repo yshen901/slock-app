@@ -4,7 +4,7 @@ import { LOAD_CHANNEL, RECEIVE_CHANNEL, JOIN_CHANNEL, LEAVE_CHANNEL } from '../a
 import { RECEIVE_DM_CHANNEL, LEAVE_DM_CHANNEL } from '../actions/dm_channel_actions';
 import { RECEIVE_ERRORS } from '../actions/error_actions';
 import cloneDeep from "lodash/cloneDeep"
-import { RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_SAVE } from '../actions/message_actions';
+import { REMOVE_MESSAGE, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_SAVE } from '../actions/message_actions';
 
 let DEFAULT_SESSION = {
   user_id: null, 

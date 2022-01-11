@@ -188,7 +188,7 @@ class ChannelChat extends React.Component {
     let { messagesData, messagesList } = this.state;
     for (let i = 0; i < messagesData.length; i++) {
       if (messagesData[i].id == messageData.id) {
-        if (messageData.type == "DELETE") {                                   // called when a message is deleted
+        if (messageData.type == "DELETE" && messageData.user_id != this.props.current_user_id) {  // called when another user deletes
           messagesData.splice(i, 1);
           messagesList = [];
           for (let i = 0; i < messagesData.length; i++)

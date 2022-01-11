@@ -12,6 +12,7 @@ class ChannelMessage extends React.Component {
 
     this.toggleEditCancel = this.toggleEditCancel.bind(this);
     this.toggleEditSave = this.toggleEditSave.bind(this);
+    this.toggleMessageDelete = this.toggleMessageDelete.bind(this);
     this.toggleMessageReact = this.toggleMessageReact.bind(this);
     this.toggleMessageSave = this.toggleMessageSave.bind(this);
   }
@@ -30,7 +31,7 @@ class ChannelMessage extends React.Component {
       e.preventDefault();
       let body = ref.current.innerHTML;
       if (ref.current.textContent.length == 0) {
-        this.props.messageACChannel.speak({message: {type: "DELETE", id: this.props.message.id}});
+        this.toggleMessageDelete()();
         this.setState({ editing: false });
       }
       else
@@ -86,6 +87,21 @@ class ChannelMessage extends React.Component {
             }})
         })
     }
+  }
+
+  toggleMessageDelete() {
+    return (e) => {
+      if (e) e.preventDefault();
+
+      let { message } = this.props;
+      let { deleteMessage, messageACChannel } = this.props;
+      deleteMessage(message)
+        .then(
+          ({message}) => {
+            messageACChannel.speak({message: {type: "DELETE", id: message.id, user_id: message.user_id}});
+          }
+        );
+    };
   }
 
   messageSavedBanner(saved) {
@@ -155,7 +171,7 @@ class ChannelMessage extends React.Component {
     if (message.user_id == current_user_id) 
       return (
         <div className="message-button"
-          onClick={() => messageACChannel.speak({message: {type: "DELETE", id: message.id}})}>
+          onClick={this.toggleMessageDelete()}>
           <i className="far fa-trash-alt fa-fw"></i>
           <div className="black-popup thin">
             <div>Delete</div>
@@ -239,9 +255,12 @@ class ChannelMessage extends React.Component {
   }
 
   render() {
+    // For when message is deleted
     let { message } = this.props;
-    let saved = !!this.props.user_saved_messages[message.id];
+    if (!message)
+      return <div className="message"></div>
 
+    let saved = !!this.props.user_saved_messages[message.id];
     return (
       <div className={saved || this.state.editing ? "message saved" : "message"}>
         { this.messageSavedBanner(saved) }

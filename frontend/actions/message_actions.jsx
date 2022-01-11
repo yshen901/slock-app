@@ -61,7 +61,7 @@ export const deleteMessage = (message) => dispatch => (
   MessageAPI
     .deleteMessage(message)
     .then(
-      (message) => dispatch(deleteMessage(message)),
+      (message) => dispatch(removeMessage(message)),
       (errors) => dispatch(receiveErrors(errors))
     )
 );
