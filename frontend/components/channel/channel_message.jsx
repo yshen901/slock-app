@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUserName, photoUrl, UTF_CODE_NAMES } from '../../selectors/selectors';
+import { getUserName, UTF_CODE_NAMES } from '../../selectors/selectors';
 import ChannelMessageForm from './channel_message_form';
 
 class ChannelMessage extends React.Component {

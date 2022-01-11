@@ -3096,7 +3096,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       messagesList: [],
       currentDate: new Date(Date()).toLocaleDateString(),
       popupUserId: 0,
-      popupUserTarget: null
+      popupUserTarget: null,
+      oldDistanceFromBottom: 0
     };
     _this.bottom = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.scrollBar = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
@@ -3166,16 +3167,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (messagesData[messagesData.length - 1].user_id == current_user_id) {
         // user creates new message
         if (this.bottom.current) this.bottom.current.scrollIntoView();
-      } else if (this.scrollBar.current) {
-        var _this$scrollBar$curre2 = this.scrollBar.current,
-            offsetHeight = _this$scrollBar$curre2.offsetHeight,
-            scrollTop = _this$scrollBar$curre2.scrollTop,
-            scrollHeight = _this$scrollBar$curre2.scrollHeight;
-        var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-
-        if (distanceFromBottom > messagesList[messagesList.length - 1].offsetHeight) {
-          if (this.bottom.current) this.bottom.current.scrollIntoView();
-        }
+      } else if (this.scrollBar.current && this.state.oldDistanceFromBottom == 0) {
+        if (this.bottom.current) this.bottom.current.scrollIntoView();
       }
     }
   }, {
@@ -3308,9 +3301,15 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           this.props.receiveMessage(message);
           var messagesData = this.props.messagesData;
           var messagesList = this.state.messagesList;
+          var _this$scrollBar$curre2 = this.scrollBar.current,
+              offsetHeight = _this$scrollBar$curre2.offsetHeight,
+              scrollTop = _this$scrollBar$curre2.scrollTop,
+              scrollHeight = _this$scrollBar$curre2.scrollHeight;
+          var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
           this.processNewMessage(messagesList, messagesData.length - 1);
           this.setState({
-            messagesList: messagesList
+            messagesList: messagesList,
+            oldDistanceFromBottom: distanceFromBottom
           });
           this.updateScroll();
         } else {

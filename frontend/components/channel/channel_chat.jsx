@@ -15,7 +15,8 @@ class ChannelChat extends React.Component {
       messagesList: [],
       currentDate: (new Date(Date())).toLocaleDateString(),
       popupUserId: 0,
-      popupUserTarget: null
+      popupUserTarget: null,
+      oldDistanceFromBottom: 0,
     };
 
     this.bottom = React.createRef();
@@ -71,12 +72,8 @@ class ChannelChat extends React.Component {
     if (messagesData[messagesData.length - 1].user_id == current_user_id) { // user creates new message
       if (this.bottom.current) this.bottom.current.scrollIntoView();
     }
-    else if (this.scrollBar.current) {
-      let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
-      let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-      if (distanceFromBottom > messagesList[messagesList.length - 1].offsetHeight) {
-        if (this.bottom.current) this.bottom.current.scrollIntoView();
-      }
+    else if (this.scrollBar.current && this.state.oldDistanceFromBottom == 0) {
+      if (this.bottom.current) this.bottom.current.scrollIntoView();
     }
   }
   
@@ -188,8 +185,11 @@ class ChannelChat extends React.Component {
         this.props.receiveMessage(message)
         let { messagesData } = this.props;
         let messagesList = this.state.messagesList;
+
+        let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
+        let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
         this.processNewMessage(messagesList, messagesData.length - 1);
-        this.setState({messagesList});
+        this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom});
         this.updateScroll();
       }
       else {
