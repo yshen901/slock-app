@@ -1,5 +1,5 @@
 import React from 'react';
-import { UTF_CODE_NAMES } from '../../selectors/selectors';
+import { getUserName, photoUrl, UTF_CODE_NAMES } from '../../selectors/selectors';
 import ChannelMessageForm from './channel_message_form';
 
 class ChannelMessage extends React.Component {
@@ -195,26 +195,26 @@ class ChannelMessage extends React.Component {
   }
 
   messageHeader() {
-    let { grouped, messageData, toggleUserPopup } = this.props;
-    let { user_id, username, created_date, created_at } = messageData;
+    let { grouped, message, toggleUserPopup, users } = this.props;
+    let { user_id, created_date, created_time } = message;
 
     if (!grouped)
       return (
         <div className="message-header">
-          <div className="message-user" onClick={toggleUserPopup(user_id)}>{username}</div>
+          <div className="message-user" onClick={toggleUserPopup(user_id)}>{getUserName(users[user_id])}</div>
           <div className="message-time">
             <div className="black-popup">
-              {created_date} at {created_at}
+              {created_date} at {created_time}
             </div>
-            {created_at}
+            {created_time}
           </div>
         </div>
       )
   }
 
   messageIcon() {
-    let { grouped, messageData, toggleUserPopup } = this.props;
-    let { created_date, created_at, photo_url, user_id } = messageData;
+    let { grouped, toggleUserPopup, message, users } = this.props;
+    let { created_date, created_time, user_id } = message;
 
     if (grouped)
       return (
@@ -222,13 +222,13 @@ class ChannelMessage extends React.Component {
           <div className="black-popup">
             {created_date}
           </div>
-          {created_at}
+          {created_time}
         </div>
       )
     else
       return (
         <div className="message-user-icon">
-          <img src={photo_url} onClick={toggleUserPopup(user_id)}/>
+          <img src={photoUrl(users[user_id])} onClick={toggleUserPopup(user_id)}/>
         </div>
       )
   }

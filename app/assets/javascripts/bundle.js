@@ -3096,7 +3096,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       messagesList: [],
-      messagesData: [],
       currentDate: new Date(Date()).toLocaleDateString(),
       popupUserId: 0,
       popupUserTarget: null
@@ -3128,26 +3127,22 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
 
   }, {
     key: "componentDidUpdate",
-    value: function componentDidUpdate(oldProps, oldState) {
+    value: function componentDidUpdate(oldProps) {
       var channel_id = this.props.match.params.channel_id;
 
       if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
         this.setState({
-          messagesList: [],
-          messagesData: []
+          messagesList: []
         });
         this.loadMessages();
       }
 
-      var _this$state = this.state,
-          messagesData = _this$state.messagesData,
-          messagesList = _this$state.messagesList;
-      var current_user_id = this.props.current_user_id;
+      var messagesList = this.state.messagesList;
+      var _this$props = this.props,
+          current_user_id = _this$props.current_user_id,
+          messagesData = _this$props.messagesData;
 
-      if (oldState.messagesData.length == 0) {
-        // initial load
-        if (this.bottom.current) this.bottom.current.scrollIntoView();
-      } else if (oldState.messagesData.length < messagesData.length) {
+      if (oldProps.messagesData.length < messagesData.length) {
         if (messagesData[messagesData.length - 1].user_id == current_user_id) {
           // user creates new message
           if (this.bottom.current) this.bottom.current.scrollIntoView();
@@ -3182,53 +3177,19 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (this.messageACChannel) this.messageACChannel.unsubscribe();
     }
   }, {
-    key: "profileName",
-    value: function profileName(user) {
-      if (user.display_name != "") return user.display_name;else if (user.full_name != "") return user.full_name;else return user.email.split("@")[0];
-    } // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
-
-  }, {
-    key: "getMessageTimestamp",
-    value: function getMessageTimestamp(message) {
-      var seconds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      var message_time = new Date(message.created_at);
-      if (message_time == "Invalid Date") message_time = message.created_at;
-      return this.processTime(message_time.toLocaleTimeString(), seconds);
-    }
-  }, {
-    key: "processTime",
-    value: function processTime(timeString, seconds) {
-      var len = timeString.length;
-      var status = timeString.slice(len - 2);
-      var timeData = timeString.split(" ")[0].split(":");
-      var timeDiff = status == "PM" ? 12 : 0;
-      if (seconds) return "".concat(parseInt(timeData[0]) + timeDiff, ":").concat(timeData[1], ":").concat(timeData[2]);
-      return "".concat(parseInt(timeData[0]) + timeDiff, ":").concat(timeData[1]);
-    }
-  }, {
-    key: "getMessageDate",
-    value: function getMessageDate(message) {
-      var currentDate = this.state.currentDate;
-      var messageDate = new Date(message.created_at);
-      messageDate = messageDate.toLocaleDateString();
-      if (messageDate == "Invalid Date") return currentDate;
-      return messageDate;
-    }
-  }, {
     key: "groupMessages",
     value: function groupMessages(message, prevMessage) {
       if (message.created_date != prevMessage.created_date) return false;
-      if (message.user_id == prevMessage.user_id) if (message.created_at.slice(0, 2) == prevMessage.created_at.slice(0, 2)) return true;
+      if (message.user_id == prevMessage.user_id) if (message.created_time.slice(0, 2) == prevMessage.created_time.slice(0, 2)) return true;
       return false;
     } // Turns messagesData entries into messagesList display components
 
   }, {
     key: "processNewMessage",
-    value: function processNewMessage(messagesData, messagesList, i) {
+    value: function processNewMessage(messagesList, i) {
+      var messagesData = this.props.messagesData;
       i = i != null ? i : messagesData.length - 1;
-      var _messagesData$i = messagesData[i],
-          created_at = _messagesData$i.created_at,
-          created_date = _messagesData$i.created_date;
+      var created_date = messagesData[i].created_date;
       var grouped = i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1]);
 
       if (i == 0 || created_date !== messagesData[i - 1].created_date) {
@@ -3258,40 +3219,31 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     value: function loadMessages() {
       var _this2 = this;
 
-      var _this$props = this.props,
-          getMessages = _this$props.getMessages,
-          channel_id = _this$props.channel_id,
-          users = _this$props.users;
-      getMessages(channel_id).then(function (_ref) {
-        var messages = _ref.messages;
-        // update message data
-        var messagesData = Object.values(messages).map(function (message) {
-          message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[message.user_id]);
-          message.created_date = _this2.getMessageDate(message);
-          message.created_at = _this2.getMessageTimestamp(message);
-          message.username = _this2.profileName(users[message.user_id]);
-          return message;
-        }); // popualate messagesList
-
+      var _this$props2 = this.props,
+          getMessages = _this$props2.getMessages,
+          channel_id = _this$props2.channel_id;
+      getMessages(channel_id).then(function () {
+        // popualate messagesList
+        var messagesData = _this2.props.messagesData;
         var messagesList = [];
 
         for (var i = 0; i < messagesData.length; i++) {
-          _this2.processNewMessage(messagesData, messagesList, i);
+          _this2.processNewMessage(messagesList, i);
         }
 
         _this2.setState({
-          messagesList: messagesList,
-          messagesData: messagesData
+          messagesList: messagesList
         });
+
+        if (_this2.bottom.current) _this2.bottom.current.scrollIntoView();
       });
     } // Updates the relevant message and if necessary repopulates messagesList to redo time groupings
 
   }, {
     key: "updateMessage",
     value: function updateMessage(messageData) {
-      var _this$state2 = this.state,
-          messagesData = _this$state2.messagesData,
-          messagesList = _this$state2.messagesList;
+      var messagesData = this.props.messagesData;
+      var messagesList = this.state.messagesList;
 
       for (var i = 0; i < messagesData.length; i++) {
         if (messagesData[i].id == messageData.id) {
@@ -3301,7 +3253,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
             messagesList = [];
 
             for (var _i = 0; _i < messagesData.length; _i++) {
-              this.processNewMessage(messagesData, messagesList, _i);
+              this.processNewMessage(messagesList, _i);
             }
 
             this.setState({
@@ -3353,15 +3305,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
 
         if (channel_id == this.props.channel_id) {
           this.props.receiveMessage(message);
-          message.username = this.profileName(this.props.users[user_id]);
-          message.photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.users[user_id]);
-          message.created_date = this.getMessageDate(message);
-          message.created_at = this.processTime(message.created_at);
-          var messagesData = this.state.messagesData.concat(message);
+          var messagesData = this.props.messagesData;
           var messagesList = this.state.messagesList;
-          this.processNewMessage(messagesData, messagesList, messagesData.length - 1);
+          this.processNewMessage(messagesList, messagesData.length - 1);
           this.setState({
-            messagesData: messagesData,
             messagesList: messagesList
           });
         } else {
@@ -3395,9 +3342,9 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     value: function renderUserPopup() {
       var _this4 = this;
 
-      var _this$props2 = this.props,
-          users = _this$props2.users,
-          showUser = _this$props2.showUser;
+      var _this$props3 = this.props,
+          users = _this$props3.users,
+          showUser = _this$props3.showUser;
       var popupUserId = this.state.popupUserId;
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: users[popupUserId],
@@ -3480,11 +3427,10 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     users: state.entities.users,
     messages: state.entities.messages,
+    messagesData: Object.values(state.entities.messages),
     current_user_id: state.session.user_id,
     workspace_id: state.session.workspace_id,
     channel_id: ownProps.match.params.channel_id,
-    joinChannels: ownProps.joinChannels,
-    status: ownProps.status,
     user_saved_messages: state.session.user_saved_messages
   };
 };
@@ -4436,42 +4382,42 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     value: function messageHeader() {
       var _this$props3 = this.props,
           grouped = _this$props3.grouped,
-          messageData = _this$props3.messageData,
-          toggleUserPopup = _this$props3.toggleUserPopup;
-      var user_id = messageData.user_id,
-          username = messageData.username,
-          created_date = messageData.created_date,
-          created_at = messageData.created_at;
+          message = _this$props3.message,
+          toggleUserPopup = _this$props3.toggleUserPopup,
+          users = _this$props3.users;
+      var user_id = message.user_id,
+          created_date = message.created_date,
+          created_time = message.created_time;
       if (!grouped) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user",
         onClick: toggleUserPopup(user_id)
-      }, username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["getUserName"])(users[user_id])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-time"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "black-popup"
-      }, created_date, " at ", created_at), created_at));
+      }, created_date, " at ", created_time), created_time));
     }
   }, {
     key: "messageIcon",
     value: function messageIcon() {
       var _this$props4 = this.props,
           grouped = _this$props4.grouped,
-          messageData = _this$props4.messageData,
-          toggleUserPopup = _this$props4.toggleUserPopup;
-      var created_date = messageData.created_date,
-          created_at = messageData.created_at,
-          photo_url = messageData.photo_url,
-          user_id = messageData.user_id;
+          toggleUserPopup = _this$props4.toggleUserPopup,
+          message = _this$props4.message,
+          users = _this$props4.users;
+      var created_date = message.created_date,
+          created_time = message.created_time,
+          user_id = message.user_id;
       if (grouped) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-time-tag"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "black-popup"
-      }, created_date), created_at);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, created_date), created_time);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: photo_url,
+        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["photoUrl"])(users[user_id]),
         onClick: toggleUserPopup(user_id)
       }));
     }
@@ -4545,10 +4491,11 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     current_user_id: state.session.user_id,
-    messages: state.entities.messages,
-    user_saved_messages: state.session.user_saved_messages,
     workspace_id: state.session.workspace_id,
-    message: state.entities.messages[ownProps.messageData.id]
+    user_saved_messages: state.session.user_saved_messages,
+    messages: state.entities.messages,
+    message: state.entities.messages[ownProps.messageData.id],
+    users: state.entities.users
   };
 };
 
@@ -9746,7 +9693,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -9756,15 +9705,29 @@ var MessageReducer = function MessageReducer() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
   var newState = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["cloneDeep"])(state);
-  var react_code, user_id, message_id;
+  var react_code, user_id, message_id, currentDate;
 
   switch (action.type) {
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE_SAVES"]:
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_MESSAGES"]:
-      return action.messages;
+      var messageIds = Object.keys(action.messages);
+      var messages = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["cloneDeep"])(action.messages);
+      currentDate = new Date(Date()).toLocaleDateString(); // initialized once to speed up the selector
+
+      for (var i = 0; i < messageIds.length; i++) {
+        messages[messageIds[i]].created_date = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getMessageDate"])(messages[messageIds[i]], currentDate);
+        messages[messageIds[i]].created_time = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getMessageTimestamp"])(messages[messageIds[i]]);
+      }
+
+      return messages;
 
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE"]:
-      newState[action.message.id] = action.message;
+      var message = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["cloneDeep"])(action.message);
+      currentDate = new Date(Date()).toLocaleDateString(); // initialized once to speed up the selector
+
+      message.created_date = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getMessageDate"])(message, currentDate);
+      message.created_time = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getMessageTimestamp"])(message);
+      newState[message.id] = message;
       return newState;
 
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_MESSAGE"]:
@@ -10175,7 +10138,7 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: DEFAULT_PHOTO_URL, UTF_CODE_NAMES, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getUserPaused, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId */
+/*! exports provided: DEFAULT_PHOTO_URL, UTF_CODE_NAMES, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getUserPaused, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId, getMessageTimestamp, processTime, getMessageDate */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10195,6 +10158,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortedChannelUsers", function() { return sortedChannelUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sortedUsers", function() { return sortedUsers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dmChannelUserId", function() { return dmChannelUserId; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessageTimestamp", function() { return getMessageTimestamp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "processTime", function() { return processTime; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessageDate", function() { return getMessageDate; });
 var DEFAULT_PHOTO_URL = '/images/profile/default.png';
 var UTF_CODE_NAMES = {
   "\uD83D\uDCAF": "100",
@@ -10297,11 +10263,32 @@ var sortedUsers = function sortedUsers(users) {
     return getUserName(first) > getUserName(second) ? 1 : -1;
   });
   return sortedUsers;
-}; // Selects a dm channels' user
+}; // SELECTS DM_CHANNEL'S OTHER USER
 
 var dmChannelUserId = function dmChannelUserId(dmChannel, currentUserId) {
   var channel_users = Object.keys(dmChannel.users);
   return channel_users[0] == currentUserId ? channel_users[1] : channel_users[0];
+}; // PROCESS MESSAGE TIMES
+
+var getMessageTimestamp = function getMessageTimestamp(message) {
+  var seconds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  var message_time = new Date(message.created_at);
+  if (message_time == "Invalid Date") message_time = message.created_at;else message_time = message_time.toLocaleTimeString();
+  return processTime(message_time, seconds);
+};
+var processTime = function processTime(timeString, seconds) {
+  var len = timeString.length;
+  var status = timeString.slice(len - 2);
+  var timeData = timeString.split(" ")[0].split(":");
+  var timeDiff = status == "PM" ? 12 : 0;
+  if (seconds) return "".concat(parseInt(timeData[0]) + timeDiff, ":").concat(timeData[1], ":").concat(timeData[2]);
+  return "".concat(parseInt(timeData[0]) + timeDiff, ":").concat(timeData[1]);
+};
+var getMessageDate = function getMessageDate(message, currentDate) {
+  var messageDate = new Date(message.created_at);
+  messageDate = messageDate.toLocaleDateString();
+  if (messageDate == "Invalid Date") return currentDate;
+  return messageDate;
 };
 
 /***/ }),

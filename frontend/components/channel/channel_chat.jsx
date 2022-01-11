@@ -14,7 +14,6 @@ class ChannelChat extends React.Component {
 
     this.state = { 
       messagesList: [],
-      messagesData: [],
       currentDate: (new Date(Date())).toLocaleDateString(),
       popupUserId: 0,
       popupUserTarget: null
@@ -44,19 +43,16 @@ class ChannelChat extends React.Component {
 
   // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
   // Only trigger for non-transitional channels (channel_id != 0)
-  componentDidUpdate(oldProps, oldState) {
+  componentDidUpdate(oldProps) {
     let {channel_id} = this.props.match.params;
     if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
-      this.setState({ messagesList: [], messagesData: [] });
+      this.setState({ messagesList: [] });
       this.loadMessages();
     }
 
-    let { messagesData, messagesList } = this.state;
-    let { current_user_id} = this.props;
-    if (oldState.messagesData.length == 0) { // initial load
-      if (this.bottom.current) this.bottom.current.scrollIntoView();
-    } 
-    else if (oldState.messagesData.length < messagesData.length) {
+    let { messagesList } = this.state;
+    let { current_user_id, messagesData } = this.props;
+    if (oldProps.messagesData.length < messagesData.length) {
       if (messagesData[messagesData.length - 1].user_id == current_user_id) { // user creates new message
         if (this.bottom.current) this.bottom.current.scrollIntoView();
       }
@@ -80,60 +76,22 @@ class ChannelChat extends React.Component {
   componentWillUnmount() {
     if (this.messageACChannel) this.messageACChannel.unsubscribe();
   }
-
-  profileName(user) {
-    if (user.display_name != "")
-      return user.display_name;
-    else if (user.full_name != "")
-      return user.full_name;
-    else
-      return user.email.split("@")[0];
-  }
-
-  // TODO1: CHANGE TIME, AND MAYBE SAVE DATE_NOW SOMEWHERE ELSE INSTEAD OF CONSTANTLY RECREATING IT
-  getMessageTimestamp(message, seconds=false) {
-    let message_time = new Date(message.created_at);
-    if (message_time == "Invalid Date") 
-      message_time = message.created_at;
-
-    return this.processTime(message_time.toLocaleTimeString(), seconds);
-  }
-
-  processTime(timeString, seconds) {
-    let len = timeString.length;
-    let status = timeString.slice(len - 2);
-    let timeData = timeString.split(" ")[0].split(":");
-
-    let timeDiff = status == "PM" ? 12 : 0;
-    
-    if (seconds)
-      return `${parseInt(timeData[0]) + timeDiff}:${timeData[1]}:${timeData[2]}`
-    return `${parseInt(timeData[0]) + timeDiff}:${timeData[1]}`
-  }
-
-  getMessageDate(message) {
-    let { currentDate } = this.state;
-    let messageDate = new Date(message.created_at);
-    messageDate = messageDate.toLocaleDateString();
-
-    if (messageDate == "Invalid Date")
-      return currentDate;
-    return messageDate;
-  }
-
+  
   groupMessages(message, prevMessage) {
     if (message.created_date != prevMessage.created_date) return false;
     
     if (message.user_id == prevMessage.user_id)
-      if (message.created_at.slice(0, 2) == prevMessage.created_at.slice(0, 2))
+      if (message.created_time.slice(0, 2) == prevMessage.created_time.slice(0, 2))
         return true;
     return false;
   }
 
   // Turns messagesData entries into messagesList display components
-  processNewMessage(messagesData, messagesList, i) {
+  processNewMessage(messagesList, i) {
+    let { messagesData } = this.props;
+
     i = i != null ? i : messagesData.length - 1;
-    let { created_at, created_date } = messagesData[i];
+    let { created_date } = messagesData[i];
     let grouped = i != 0 && this.groupMessages(messagesData[i], messagesData[i-1]);
 
     if (i == 0 || created_date !== messagesData[i-1].created_date) {
@@ -160,39 +118,34 @@ class ChannelChat extends React.Component {
 
   // Loads raw message data, and preloads message information to speed up future calculations
   loadMessages() {
-    let { getMessages, channel_id, users } = this.props;
+    let { getMessages, channel_id } = this.props;
     getMessages(channel_id)
       .then(
-        ({ messages }) => {
-          // update message data
-          let messagesData = Object.values(messages).map((message) => {
-            message.photo_url = photoUrl(users[message.user_id]);
-            message.created_date = this.getMessageDate(message);
-            message.created_at = this.getMessageTimestamp(message);
-            message.username = this.profileName(users[message.user_id]);
-            return message;
-          });
-
+        () => {
           // popualate messagesList
+          let { messagesData } = this.props;
           let messagesList = [];
           for (let i = 0; i < messagesData.length; i++)
-            this.processNewMessage(messagesData, messagesList, i);
+            this.processNewMessage(messagesList, i);
 
-          this.setState({ messagesList, messagesData })
+          this.setState({ messagesList });
+          if (this.bottom.current) this.bottom.current.scrollIntoView();
         }
       )
   }
 
   // Updates the relevant message and if necessary repopulates messagesList to redo time groupings
   updateMessage(messageData) {
-    let { messagesData, messagesList } = this.state;
+    let { messagesData } = this.props;
+    let { messagesList } = this.state;
+    
     for (let i = 0; i < messagesData.length; i++) {
       if (messagesData[i].id == messageData.id) {
         if (messageData.type == "DELETE" && messageData.user_id != this.props.current_user_id) {  // called when another user deletes
           messagesData.splice(i, 1);
           messagesList = [];
           for (let i = 0; i < messagesData.length; i++)
-            this.processNewMessage(messagesData, messagesList, i);
+            this.processNewMessage(messagesList, i);
           this.setState({ messagesList, messagesData })
         }                                                                     // called when another user reacts
         else if (messageData.type == RECEIVE_MESSAGE_REACT && messageData.user_id != this.props.current_user_id) {
@@ -230,17 +183,12 @@ class ChannelChat extends React.Component {
       // loads the message if its to the current channel
       if (channel_id == this.props.channel_id) {
         this.props.receiveMessage(message)
-        message.username = this.profileName(this.props.users[user_id]);
-        message.photo_url = photoUrl(this.props.users[user_id]);
-        message.created_date = this.getMessageDate(message);
-        message.created_at = this.processTime(message.created_at);
   
-        let messagesData = this.state.messagesData.concat(message);
+        let { messagesData } = this.props;
         let messagesList = this.state.messagesList;
-        this.processNewMessage(messagesData, messagesList, messagesData.length - 1);
+        this.processNewMessage(messagesList, messagesData.length - 1);
   
         this.setState({
-          messagesData,
           messagesList
         });
       }

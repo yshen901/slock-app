@@ -107,8 +107,40 @@ export const sortedUsers = (users) => {
   return sortedUsers;
 }
 
-// Selects a dm channels' user
+// SELECTS DM_CHANNEL'S OTHER USER
 export const dmChannelUserId = (dmChannel, currentUserId) => {
   let channel_users = Object.keys(dmChannel.users);
   return channel_users[0] == currentUserId ? channel_users[1] : channel_users[0];
+}
+
+// PROCESS MESSAGE TIMES
+export const getMessageTimestamp = (message, seconds=false) => {
+  let message_time = new Date(message.created_at);
+  if (message_time == "Invalid Date") 
+    message_time = message.created_at;
+  else
+    message_time = message_time.toLocaleTimeString();
+
+  return processTime(message_time, seconds);
+}
+
+export const processTime = (timeString, seconds) => {
+  let len = timeString.length;
+  let status = timeString.slice(len - 2);
+  let timeData = timeString.split(" ")[0].split(":");
+
+  let timeDiff = status == "PM" ? 12 : 0;
+  
+  if (seconds)
+    return `${parseInt(timeData[0]) + timeDiff}:${timeData[1]}:${timeData[2]}`
+  return `${parseInt(timeData[0]) + timeDiff}:${timeData[1]}`
+}
+
+export const getMessageDate = (message, currentDate) => {
+  let messageDate = new Date(message.created_at);
+  messageDate = messageDate.toLocaleDateString();
+
+  if (messageDate == "Invalid Date")
+    return currentDate;
+  return messageDate;
 }

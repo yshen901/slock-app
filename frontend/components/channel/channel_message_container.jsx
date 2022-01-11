@@ -12,10 +12,11 @@ import ChannelMessage from './channel_message'
 
 const mapStateToProps = (state, ownProps) => ({
   current_user_id: state.session.user_id,
-  messages: state.entities.messages,
-  user_saved_messages: state.session.user_saved_messages,
   workspace_id: state.session.workspace_id,
+  user_saved_messages: state.session.user_saved_messages,
+  messages: state.entities.messages,
   message: state.entities.messages[ownProps.messageData.id],
+  users: state.entities.users,
 });
 
 const mapDispatchToProps = dispatch => ({

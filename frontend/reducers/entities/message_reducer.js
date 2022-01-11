@@ -7,20 +7,33 @@ import {
   RECEIVE_MESSAGE_SAVE, 
   RECEIVE_MESSAGE_SAVES, 
   REMOVE_MESSAGE_REACT, 
-  REMOVE_MESSAGE_SAVE 
 } from '../../actions/message_actions';
+import { getMessageDate, getMessageTimestamp } from '../../selectors/selectors';
 
 const MessageReducer = (state = {}, action) => {
   Object.freeze(state);
   let newState = cloneDeep(state);
-  let react_code, user_id, message_id;
+  let react_code, user_id, message_id, currentDate;
 
   switch(action.type) {
     case RECEIVE_MESSAGE_SAVES: 
     case LOAD_MESSAGES:
-      return action.messages;
+      let messageIds = Object.keys(action.messages);
+      let messages = cloneDeep(action.messages);
+      currentDate = (new Date(Date())).toLocaleDateString(); // initialized once to speed up the selector
+
+      for (let i = 0; i < messageIds.length; i++) {
+        messages[messageIds[i]].created_date = getMessageDate(messages[messageIds[i]], currentDate);
+        messages[messageIds[i]].created_time = getMessageTimestamp(messages[messageIds[i]]);
+      }
+      return messages;
     case RECEIVE_MESSAGE:
-      newState[action.message.id] = action.message;
+      let message = cloneDeep(action.message);
+      currentDate = (new Date(Date())).toLocaleDateString(); // initialized once to speed up the selector
+
+      message.created_date = getMessageDate(message, currentDate);
+      message.created_time = getMessageTimestamp(message);
+      newState[message.id] = message;
       return newState;
     case REMOVE_MESSAGE:
       delete newState[action.message.id];

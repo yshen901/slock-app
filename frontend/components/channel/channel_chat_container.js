@@ -15,11 +15,10 @@ import {
 const mapStateToProps = (state, ownProps) => ({
   users: state.entities.users,
   messages: state.entities.messages,
+  messagesData: Object.values(state.entities.messages),
   current_user_id: state.session.user_id,
   workspace_id: state.session.workspace_id,
   channel_id: ownProps.match.params.channel_id,
-  joinChannels: ownProps.joinChannels,
-  status: ownProps.status,
   user_saved_messages: state.session.user_saved_messages
 })
 
