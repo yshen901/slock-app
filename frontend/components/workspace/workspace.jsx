@@ -173,7 +173,7 @@ class Workspace extends React.Component {
 
   // Creates a popup of a video call
   startVideoCall(workspace_address, channel_id, query="") {
-    let windowLink = `${window.location.ofrigin}/#/workspace/${workspace_address}/${channel_id}/video_call${query}`;
+    let windowLink = `${window.location.origin}/#/workspace/${workspace_address}/${channel_id}/video_call${query}`;
 
     let windowName = "Slock call";
     let windowFeatures = "popup, width=640, height=480";

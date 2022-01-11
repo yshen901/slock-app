@@ -1,5 +1,5 @@
 import React from 'react';
-import { dmChannelUserId, getUserActivity, getUserPaused, photoUrl } from '../../selectors/selectors';
+import { dmChannelUserId, getUserActivity, getUserPaused } from '../../selectors/selectors';
 import { toggleFocusElements } from '../../util/modal_api_util';
 
 class ChannelNav extends React.Component {
@@ -129,6 +129,7 @@ class ChannelNav extends React.Component {
       return (
         <div id="channel-nav" className="no-highlight">
           { this.left() }
+          { this.right() }
         </div>
       )
     } else {

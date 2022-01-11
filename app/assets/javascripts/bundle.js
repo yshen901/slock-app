@@ -5256,7 +5256,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "channel-nav",
           className: "no-highlight"
-        }, this.left());
+        }, this.left(), this.right());
       } else {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "channel-nav"
@@ -8775,7 +8775,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     key: "startVideoCall",
     value: function startVideoCall(workspace_address, channel_id) {
       var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
-      var windowLink = "".concat(window.location.ofrigin, "/#/workspace/").concat(workspace_address, "/").concat(channel_id, "/video_call").concat(query);
+      var windowLink = "".concat(window.location.origin, "/#/workspace/").concat(workspace_address, "/").concat(channel_id, "/video_call").concat(query);
       var windowName = "Slock call";
       var windowFeatures = "popup, width=640, height=480";
       window.open(windowLink, windowName, windowFeatures);
