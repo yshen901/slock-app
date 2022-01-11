@@ -9,6 +9,8 @@
     "css-loader": "^5.2.7",
     "dompurify": "^2.3.4",
     "draft-js": "^0.11.7",
+    "frontend-image-compress": "^3.0.2",
+    "image-conversion": "^2.1.1",
     "lodash": "^4.17.21",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",

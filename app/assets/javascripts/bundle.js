@@ -6977,6 +6977,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_user_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/user_api_util */ "./frontend/util/user_api_util.js");
+/* harmony import */ var image_conversion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! image-conversion */ "./node_modules/image-conversion/index.js");
+/* harmony import */ var image_conversion__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(image_conversion__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -7016,6 +7018,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+ // import imageCompression from 'browser-image-compression';
+// import { compressImageFile } from 'frontend-image-compress';
+
 
 
 var EditProfileModal = /*#__PURE__*/function (_React$Component) {
@@ -7034,6 +7039,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       imageFile: null,
       deleteImage: false,
       // if true, will upload blank imageFile
+      loadingFile: false,
       full_name: "",
       display_name: "",
       what_i_do: "",
@@ -7087,9 +7093,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
 
       var userForm = new FormData();
       userForm.append('id', this.props.user.id);
-      if (deleteImage) userForm.append('user[photo]', null);else if (imageFile) {
-        userForm.append('user[photo]', imageFile); // Nested!
-      }
+      if (deleteImage) userForm.append('user[photo]', null);else if (imageFile) userForm.append('user[photo]', imageFile);
       userForm.append('user[full_name]', full_name); // Nested!
 
       userForm.append('user[display_name]', display_name); // Nested!
@@ -7170,14 +7174,41 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       var file = e.currentTarget.files[0]; // Triggers when a file is done
 
       reader.onloadend = function () {
-        if (file.type === "image/jpeg" || file.type === "image/png") _this4.setState({
-          deleteImage: false,
-          imageUrl: reader.result,
-          imageFile: file,
-          errors: Object.assign(_this4.state.errors, {
-            imageFile: ""
-          })
-        });else {
+        if (file.type === "image/jpeg" || file.type === "image/png") {
+          _this4.setState({
+            loadingFile: true
+          });
+
+          if (file.size < 200000) _this4.setState({
+            loadingFile: false,
+            deleteImage: false,
+            imageUrl: URL.createObjectURL(file),
+            imageFile: file,
+            errors: Object.assign(_this4.state.errors, {
+              imageFile: ""
+            })
+          });else if (file.size < 20000000) {
+            var compressionRate = 0.1;
+            if (file.type == "image/png") compressionRate = 0.3;
+            Object(image_conversion__WEBPACK_IMPORTED_MODULE_4__["compress"])(file, compressionRate).then(function (data) {
+              _this4.setState({
+                loadingFile: false,
+                deleteImage: false,
+                imageUrl: URL.createObjectURL(data),
+                imageFile: new File([data], data.name),
+                errors: Object.assign(_this4.state.errors, {
+                  imageFile: ""
+                })
+              });
+            });
+          } else {
+            _this4.setState({
+              errors: Object.assign(_this4.state.errors, {
+                imageFile: "Invalid file format: profile photos must be 20MB or smaller."
+              })
+            });
+          }
+        } else {
           _this4.setState({
             errors: Object.assign(_this4.state.errors, {
               imageFile: "Invalid file format: profile photos must be jpg or png."
@@ -7188,8 +7219,8 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
 
       if (file) reader.readAsDataURL(file); // Triggers load
       else this.setState({
-          imageUrl: "",
-          imageFile: null
+          imageUrl: this.state.imageUrl ? this.state.imageUrl : "",
+          imageFile: this.state.imageFile ? this.state.imageFile : null
         });
     }
   }, {
@@ -7214,7 +7245,6 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
     value: function modalForm() {
       var _this5 = this;
 
-      debugger;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "edit-profile-modal-form"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -7266,7 +7296,9 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: this.photoUrl(),
         alt: ""
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.loadingFile ? "loading" : "loading hidden"
+      }, "Loading...")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "file",
         id: "selected-file",
         style: {
@@ -7275,12 +7307,14 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         onChange: this.readFile
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "button",
+        disabled: this.state.loadingFile,
         value: "Upload File",
         onClick: function onClick() {
           return document.getElementById('selected-file').click();
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "button",
+        disabled: this.state.loadingFile,
         value: "Clear Photo",
         onClick: function onClick() {
           return _this5.setState({
@@ -13840,6 +13874,29 @@ function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
 }
 
 module.exports = hoistNonReactStatics;
+
+
+/***/ }),
+
+/***/ "./node_modules/image-conversion/build/conversion.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/image-conversion/build/conversion.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}(this,(function(){return function(t){var e={};function n(r){if(e[r])return e[r].exports;var o=e[r]={i:r,l:!1,exports:{}};return t[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(r,o,function(e){return t[e]}.bind(null,o));return r},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=0)}([function(t,e,n){"use strict";var r;function o(t){return["image/png","image/jpeg","image/gif"].some(e=>e===t)}n.r(e),n.d(e,"canvastoDataURL",(function(){return a})),n.d(e,"canvastoFile",(function(){return c})),n.d(e,"dataURLtoFile",(function(){return s})),n.d(e,"dataURLtoImage",(function(){return l})),n.d(e,"downloadFile",(function(){return d})),n.d(e,"filetoDataURL",(function(){return f})),n.d(e,"imagetoCanvas",(function(){return g})),n.d(e,"urltoBlob",(function(){return w})),n.d(e,"urltoImage",(function(){return m})),n.d(e,"compress",(function(){return p})),n.d(e,"compressAccurately",(function(){return b})),n.d(e,"EImageType",(function(){return r})),function(t){t.PNG="image/png",t.JPEG="image/jpeg",t.GIF="image/gif"}(r||(r={}));var i=function(t,e,n,r){return new(n||(n=Promise))((function(o,i){function a(t){try{u(r.next(t))}catch(t){i(t)}}function c(t){try{u(r.throw(t))}catch(t){i(t)}}function u(t){var e;t.done?o(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(a,c)}u((r=r.apply(t,e||[])).next())}))};function a(t,e=.92,n=r.JPEG){return i(this,void 0,void 0,(function*(){return o(n)||(n=r.JPEG),t.toDataURL(n,e)}))}function c(t,e=.92,n=r.JPEG){return new Promise(r=>t.toBlob(t=>r(t),n,e))}var u=function(t,e,n,r){return new(n||(n=Promise))((function(o,i){function a(t){try{u(r.next(t))}catch(t){i(t)}}function c(t){try{u(r.throw(t))}catch(t){i(t)}}function u(t){var e;t.done?o(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(a,c)}u((r=r.apply(t,e||[])).next())}))};function s(t,e){return u(this,void 0,void 0,(function*(){const n=t.split(",");let r=n[0].match(/:(.*?);/)[1];const i=atob(n[1]);let a=i.length;const c=new Uint8Array(a);for(;a--;)c[a]=i.charCodeAt(a);return o(e)&&(r=e),new Blob([c],{type:r})}))}function l(t){return new Promise((e,n)=>{const r=new Image;r.onload=()=>e(r),r.onerror=()=>n(new Error("dataURLtoImage(): dataURL is illegal")),r.src=t})}function d(t,e){const n=document.createElement("a");n.href=window.URL.createObjectURL(t),n.download=e||Date.now().toString(36),document.body.appendChild(n);const r=document.createEvent("MouseEvents");r.initEvent("click",!1,!1),n.dispatchEvent(r),document.body.removeChild(n)}function f(t){return new Promise(e=>{const n=new FileReader;n.onloadend=t=>e(t.target.result),n.readAsDataURL(t)})}var h=function(t,e,n,r){return new(n||(n=Promise))((function(o,i){function a(t){try{u(r.next(t))}catch(t){i(t)}}function c(t){try{u(r.throw(t))}catch(t){i(t)}}function u(t){var e;t.done?o(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(a,c)}u((r=r.apply(t,e||[])).next())}))};function g(t,e={}){return h(this,void 0,void 0,(function*(){const n=Object.assign({},e),r=document.createElement("canvas"),o=r.getContext("2d");let i,a;for(const t in n)Object.prototype.hasOwnProperty.call(n,t)&&(n[t]=Number(n[t]));if(n.scale){const e=n.scale>0&&n.scale<10?n.scale:1;a=t.width*e,i=t.height*e}else a=n.width||n.height*t.width/t.height||t.width,i=n.height||n.width*t.height/t.width||t.height;switch([5,6,7,8].some(t=>t===n.orientation)?(r.height=a,r.width=i):(r.height=i,r.width=a),n.orientation){case 3:o.rotate(180*Math.PI/180),o.drawImage(t,-r.width,-r.height,r.width,r.height);break;case 6:o.rotate(90*Math.PI/180),o.drawImage(t,0,-r.width,r.height,r.width);break;case 8:o.rotate(270*Math.PI/180),o.drawImage(t,-r.height,0,r.height,r.width);break;case 2:o.translate(r.width,0),o.scale(-1,1),o.drawImage(t,0,0,r.width,r.height);break;case 4:o.translate(r.width,0),o.scale(-1,1),o.rotate(180*Math.PI/180),o.drawImage(t,-r.width,-r.height,r.width,r.height);break;case 5:o.translate(r.width,0),o.scale(-1,1),o.rotate(90*Math.PI/180),o.drawImage(t,0,-r.width,r.height,r.width);break;case 7:o.translate(r.width,0),o.scale(-1,1),o.rotate(270*Math.PI/180),o.drawImage(t,-r.height,0,r.height,r.width);break;default:o.drawImage(t,0,0,r.width,r.height)}return r}))}function w(t){return fetch(t).then(t=>t.blob())}function m(t){return new Promise((e,n)=>{const r=new Image;r.onload=()=>e(r),r.onerror=()=>n(new Error("urltoImage(): Image failed to load, please check the image URL")),r.src=t})}var y=function(t,e,n,r){return new(n||(n=Promise))((function(o,i){function a(t){try{u(r.next(t))}catch(t){i(t)}}function c(t){try{u(r.throw(t))}catch(t){i(t)}}function u(t){var e;t.done?o(t.value):(e=t.value,e instanceof n?e:new n((function(t){t(e)}))).then(a,c)}u((r=r.apply(t,e||[])).next())}))};function p(t,e={}){return y(this,void 0,void 0,(function*(){if(!(t instanceof Blob))throw new Error("compress(): First arg must be a Blob object or a File object.");if("object"!=typeof e&&(e=Object.assign({quality:e})),e.quality=Number(e.quality),Number.isNaN(e.quality))return t;const n=yield f(t);let i=n.split(",")[0].match(/:(.*?);/)[1],c=r.JPEG;o(e.type)&&(c=e.type,i=e.type);const u=yield l(n),d=yield g(u,Object.assign({},e)),h=yield a(d,e.quality,c),w=yield s(h,i);return w.size>t.size?t:w}))}function b(t,e={}){return y(this,void 0,void 0,(function*(){if(!(t instanceof Blob))throw new Error("compressAccurately(): First arg must be a Blob object or a File object.");if("object"!=typeof e&&(e=Object.assign({size:e})),e.size=Number(e.size),Number.isNaN(e.size))return t;if(1024*e.size>t.size)return t;e.accuracy=Number(e.accuracy),(!e.accuracy||e.accuracy<.8||e.accuracy>.99)&&(e.accuracy=.95);const n=e.size*(2-e.accuracy)*1024,i=1024*e.size,c=e.size*e.accuracy*1024,u=yield f(t);let d=u.split(",")[0].match(/:(.*?);/)[1],h=r.JPEG;o(e.type)&&(h=e.type,d=e.type);const w=yield l(u),m=yield g(w,Object.assign({},e));let y,p=.5;const b=[null,null];for(let t=1;t<=7;t++){y=yield a(m,p,h);const e=.75*y.length;if(7===t){(n<e||c>e)&&(y=[y,...b].filter(t=>t).sort((t,e)=>Math.abs(.75*t.length-i)-Math.abs(.75*e.length-i))[0]);break}if(n<e)b[1]=y,p-=Math.pow(.5,t+1);else{if(!(c>e))break;b[0]=y,p+=Math.pow(.5,t+1)}}const v=yield s(y,d);return v.size>t.size?t:v}))}}])}));
+
+/***/ }),
+
+/***/ "./node_modules/image-conversion/index.js":
+/*!************************************************!*\
+  !*** ./node_modules/image-conversion/index.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! ./build/conversion.js */ "./node_modules/image-conversion/build/conversion.js");
 
 
 /***/ }),

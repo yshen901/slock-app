@@ -2888,6 +2888,11 @@ from2@^2.1.0, from2@^2.1.1:
     inherits "^2.0.1"
     readable-stream "^2.0.0"
 
+frontend-image-compress@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/frontend-image-compress/-/frontend-image-compress-3.0.2.tgz#77b6e0e905b4eafc0841068fa3f7d46b1dfebf4d"
+  integrity sha512-N0bhieRcx8qapj7go+Y+mSvcMuHBbB1n+xCGopn1Uf+/P4u40UqkXhX3wxlxkDhZAfs/I2HQk8gAmgT6FkjIyg==
+
 fs-constants@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs-constants/-/fs-constants-1.0.0.tgz#6be0de9be998ce16af8afc24497b9ee9b7ccd9ad"
@@ -3295,6 +3300,11 @@ ignore@^5.1.1:
   version "5.1.9"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.9.tgz#9ec1a5cbe8e1446ec60d4420060d43aa6e7382fb"
   integrity sha512-2zeMQpbKz5dhZ9IwL0gbxSW5w0NK/MSAMtNuhgIHEPmaU3vPdKPL0UdvUCXs5SS4JAwsBxysK5sFMW8ocFiVjQ==
+
+image-conversion@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/image-conversion/-/image-conversion-2.1.1.tgz#8213fc19033f7dfdee20bb19792e8dcebd052417"
+  integrity sha512-hnMOmP7q2jxA+52FZ+wHNhg3fdFRlgfngsQH2JQHEQkafY7tj/8F15e6Rv/RxDegc872jvyaRHwMbkTZK1Cjbg==
 
 image-webpack-loader@^6.0.0:
   version "6.0.0"

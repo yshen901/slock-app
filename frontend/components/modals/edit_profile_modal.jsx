@@ -2,6 +2,9 @@ import React from "react";
 import { hideElements } from "../../util/modal_api_util";
 import { DEFAULT_PHOTO_URL, photoUrl } from "../../selectors/selectors";
 import { timeZones } from "../../util/user_api_util";
+// import imageCompression from 'browser-image-compression';
+// import { compressImageFile } from 'frontend-image-compress';
+import { compress } from "image-conversion";
 
 class EditProfileModal extends React.Component {
   constructor(props) {
@@ -11,6 +14,7 @@ class EditProfileModal extends React.Component {
       imageUrl: "",
       imageFile: null,
       deleteImage: false, // if true, will upload blank imageFile
+      loadingFile: false,
       full_name: "",
       display_name: "",
       what_i_do: "",
@@ -51,9 +55,8 @@ class EditProfileModal extends React.Component {
 
     if (deleteImage)
       userForm.append('user[photo]', null);
-    else if (imageFile) {
-      userForm.append('user[photo]', imageFile); // Nested!
-    }
+    else if (imageFile)
+        userForm.append('user[photo]', imageFile)
 
     userForm.append('user[full_name]', full_name); // Nested!
     userForm.append('user[display_name]', display_name); // Nested!
@@ -124,8 +127,23 @@ class EditProfileModal extends React.Component {
 
     // Triggers when a file is done
     reader.onloadend = () => {
-      if (file.type === "image/jpeg" || file.type === "image/png") 
-        this.setState({ deleteImage: false, imageUrl: reader.result, imageFile: file, errors: Object.assign(this.state.errors, {imageFile: ""}) });
+      if (file.type === "image/jpeg" || file.type === "image/png") {
+        this.setState({loadingFile: true});
+        if (file.size < 200000)
+          this.setState({ loadingFile: false, deleteImage: false, imageUrl: URL.createObjectURL(file), imageFile: file, errors: Object.assign(this.state.errors, {imageFile: ""}) });
+        else if (file.size < 20000000) { 
+          let compressionRate = 0.1;
+          if (file.type == "image/png")
+            compressionRate = 0.3;
+          compress(file, compressionRate)
+            .then((data) => {
+              this.setState({ loadingFile: false, deleteImage: false, imageUrl: URL.createObjectURL(data), imageFile: new File([data], data.name), errors: Object.assign(this.state.errors, {imageFile: ""}) });
+            })
+        }
+        else {
+          this.setState({ errors: Object.assign(this.state.errors, {imageFile: "Invalid file format: profile photos must be 20MB or smaller."})})
+        }
+      }
       else {
         this.setState({ errors: Object.assign(this.state.errors, {imageFile: "Invalid file format: profile photos must be jpg or png."})})
       }
@@ -134,7 +152,10 @@ class EditProfileModal extends React.Component {
     if (file) 
       reader.readAsDataURL(file); // Triggers load
     else
-      this.setState({ imageUrl: "", imageFile: null })
+      this.setState({ 
+        imageUrl: this.state.imageUrl ? this.state.imageUrl : "", 
+        imageFile: this.state.imageFile ? this.state.imageFile : null 
+      });
   }
 
   photoUrl() {
@@ -154,7 +175,6 @@ class EditProfileModal extends React.Component {
   }
 
   modalForm() {
-    debugger;
     return (
       <div id="edit-profile-modal-form">
         <div className="modal-header">
@@ -193,14 +213,15 @@ class EditProfileModal extends React.Component {
             <h2>Profile Photo</h2>
             <div className="img-container">
               <img src={this.photoUrl()} alt=""/>
+              <div className={this.state.loadingFile ? "loading" : "loading hidden"}>Loading...</div>
             </div>
             <input 
               type="file" 
               id="selected-file"
               style={{display: "none"}}
               onChange={this.readFile}/>
-            <input type="button" value="Upload File" onClick={() => document.getElementById('selected-file').click()} />
-            <input type="button" value="Clear Photo" onClick={() => this.setState({ deleteImage: true })} />
+            <input type="button" disabled={this.state.loadingFile} value="Upload File" onClick={() => document.getElementById('selected-file').click()} />
+            <input type="button" disabled={this.state.loadingFile} value="Clear Photo" onClick={() => this.setState({ deleteImage: true })} />
           </div>
         </div>
         <div className="form-buttons">

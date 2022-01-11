@@ -86,6 +86,7 @@
       flex-direction: column;
 
       .img-container {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -100,6 +101,27 @@
           border-radius: 5px;
 
           object-fit: cover;
+        }
+
+        .loading {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          z-index: 1;
+
+          height: 28px;
+          padding: 82px 0;
+          width: 100%;
+          background-color: rgba(29, 28, 29, 0.5);
+          border-radius: 5px;
+
+          color: white;
+          font-size: 24px;
+          font-weight: 700;
+          font-style: italic;
+          line-height: 28px;
+          text-align: center;
+          text-align: center;
         }
       }
 
@@ -124,6 +146,16 @@
         transition: 0.15s;
         cursor: pointer;
         background: rgb(245, 245, 245);
+      }
+
+      input:disabled {
+        background: lightgray;
+        color: white;
+      }
+
+      input:disabled:hover {
+        cursor: grab;
+        background: lightgray;
       }
     }
   }
