@@ -136,23 +136,23 @@ class ChannelVideoChatRoomExternal extends React.Component {
       target_user_id
     };
 
-    this.callACChannel.speak(joinCallData);
+    // this.callACChannel.speak(joinCallData);
 
-    // let i = 0;
-    // let times = 60;
-    // let callLoop = () => {
-    //   setTimeout(() => {
-    //     if (i < times && !this.state.remoteJoined && !this.state.callRejected) {
-    //       this.callACChannel.speak(joinCallData);
-    //       i++;
-    //       callLoop();
-    //     }
-    //     else if (i == times) {   // When the callee times out
-    //       this.cancelCall();
-    //     }
-    //   }, 500)
-    // }
-    // callLoop();
+    let i = 0;
+    let times = 60;
+    let callLoop = () => {
+      setTimeout(() => {
+        if (i < times && !this.state.remoteJoined && !this.state.callRejected) {
+          this.callACChannel.speak(joinCallData);
+          i++;
+          callLoop();
+        }
+        else if (i == times) {   // When the callee times out
+          this.cancelCall();
+        }
+      }, 500)
+    }
+    callLoop();
   }
 
   // No need to constantly fire when picking up

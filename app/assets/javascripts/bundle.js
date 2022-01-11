@@ -3646,6 +3646,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "joinCall",
     value: function joinCall(e) {
+      var _this3 = this;
+
       var user_id = getState().session.user_id;
       var channel_id = this.props.match.params.channel_id;
       var channels = getState().entities.channels;
@@ -3657,22 +3659,26 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         from: getState().session.user_id,
         channel_id: channel_id,
         target_user_id: target_user_id
+      }; // this.callACChannel.speak(joinCallData);
+
+      var i = 0;
+      var times = 60;
+
+      var callLoop = function callLoop() {
+        setTimeout(function () {
+          if (i < times && !_this3.state.remoteJoined && !_this3.state.callRejected) {
+            _this3.callACChannel.speak(joinCallData);
+
+            i++;
+            callLoop();
+          } else if (i == times) {
+            // When the callee times out
+            _this3.cancelCall();
+          }
+        }, 500);
       };
-      this.callACChannel.speak(joinCallData); // let i = 0;
-      // let times = 60;
-      // let callLoop = () => {
-      //   setTimeout(() => {
-      //     if (i < times && !this.state.remoteJoined && !this.state.callRejected) {
-      //       this.callACChannel.speak(joinCallData);
-      //       i++;
-      //       callLoop();
-      //     }
-      //     else if (i == times) {   // When the callee times out
-      //       this.cancelCall();
-      //     }
-      //   }, 500)
-      // }
-      // callLoop();
+
+      callLoop();
     } // No need to constantly fire when picking up
 
   }, {
@@ -3687,19 +3693,19 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "createPC",
     value: function createPC(userId, offerBool) {
-      var _this3 = this;
+      var _this4 = this;
 
       var pc = new RTCPeerConnection(_util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["ice"]);
       this.pcPeers[userId] = pc;
       this.localStream.getTracks().forEach(function (track) {
-        return pc.addTrack(track, _this3.localStream);
+        return pc.addTrack(track, _this4.localStream);
       });
 
       if (offerBool) {
         pc.createOffer().then(function (offer) {
           pc.setLocalDescription(offer).then(function () {
             setTimeout(function () {
-              _this3.callACChannel.speak({
+              _this4.callACChannel.speak({
                 type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"],
                 from: getState().session.user_id,
                 to: userId,
@@ -3711,7 +3717,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       }
 
       pc.onicecandidate = function (e) {
-        _this3.callACChannel.speak({
+        _this4.callACChannel.speak({
           type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"],
           from: getState().session.user_id,
           to: userId,
@@ -3720,17 +3726,17 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       };
 
       pc.ontrack = function (e) {
-        if (!_this3.appended) {
+        if (!_this4.appended) {
           var remoteVid = document.createElement("video");
           remoteVid.id = "remote-video-instance container-".concat(userId);
           remoteVid.autoplay = "autoplay";
           remoteVid.srcObject = e.streams[0];
 
-          _this3.remoteVideoContainer.appendChild(remoteVid);
+          _this4.remoteVideoContainer.appendChild(remoteVid);
 
-          _this3.appended = true;
+          _this4.appended = true;
 
-          _this3.setState({
+          _this4.setState({
             remoteJoined: true
           });
         }
@@ -3738,10 +3744,10 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
 
       pc.oniceconnectionstatechange = function (e) {
         if (pc.iceConnectionState === 'disconnected') {
-          _this3.callACChannel.speak({
+          _this4.callACChannel.speak({
             type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["LEAVE_CALL"],
             from: userId,
-            channel_id: _this3.props.match.params.channel_id
+            channel_id: _this4.props.match.params.channel_id
           });
         }
       };
@@ -3751,7 +3757,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "exchange",
     value: function exchange(data) {
-      var _this4 = this;
+      var _this5 = this;
 
       var pc;
 
@@ -3774,7 +3780,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
             if (sdp.type === 'offer') {
               pc.createAnswer().then(function (answer) {
                 pc.setLocalDescription(answer).then(function () {
-                  _this4.callACChannel.speak({
+                  _this5.callACChannel.speak({
                     type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"],
                     from: getState().session.user_id,
                     to: data.from,
@@ -3892,10 +3898,10 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "callButton",
     value: function callButton() {
-      var _this5 = this;
+      var _this6 = this;
 
       var action = function action() {
-        _this5.leaveCall();
+        _this6.leaveCall();
 
         window.close();
       };
