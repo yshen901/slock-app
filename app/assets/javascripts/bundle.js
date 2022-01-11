@@ -3163,19 +3163,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           messagesList: []
         });
         this.loadMessages();
-      } // from react/save elements pushing things down
-
-
-      if (this.scrollBar.current) {
-        var _this$scrollBar$curre = this.scrollBar.current,
-            offsetHeight = _this$scrollBar$curre.offsetHeight,
-            scrollTop = _this$scrollBar$curre.scrollTop,
-            scrollHeight = _this$scrollBar$curre.scrollHeight;
-        var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-
-        if (distanceFromBottom < 30) {
-          if (this.bottom.current) this.bottom.current.scrollIntoView();
-        }
       }
     }
   }, {
@@ -3294,7 +3281,17 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
                 user_id: messageData.user_id,
                 react_code: messageData.react_code
               };
+              var _this$scrollBar$curre = this.scrollBar.current,
+                  offsetHeight = _this$scrollBar$curre.offsetHeight,
+                  scrollTop = _this$scrollBar$curre.scrollTop,
+                  scrollHeight = _this$scrollBar$curre.scrollHeight;
+              var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
               this.props.receiveMessageReact(message_react);
+              this.setState({
+                messagesList: messagesList,
+                oldDistanceFromBottom: distanceFromBottom
+              });
+              this.updateScroll();
             } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_REACT"] && messageData.user_id != current_user_id) {
               var _message_react = {
                 message_id: messageData.id,
@@ -3304,9 +3301,21 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               this.props.removeMessageReact(_message_react);
             } // called when user saves in another window
             else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && !user_saved_messages[messageData.id]) {
+                var _this$scrollBar$curre2 = this.scrollBar.current,
+                    _offsetHeight = _this$scrollBar$curre2.offsetHeight,
+                    _scrollTop = _this$scrollBar$curre2.scrollTop,
+                    _scrollHeight = _this$scrollBar$curre2.scrollHeight;
+
+                var _distanceFromBottom = _scrollHeight - _offsetHeight - _scrollTop;
+
                 this.props.receiveMessageSave({
                   message_id: messageData.id
                 });
+                this.setState({
+                  messagesList: messagesList,
+                  oldDistanceFromBottom: _distanceFromBottom
+                });
+                this.updateScroll();
               } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && user_saved_messages[messageData.id]) {
                 this.props.removeMessageSave({
                   message_id: messageData.id
@@ -3334,10 +3343,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           this.props.receiveMessage(message);
           var messagesData = this.props.messagesData;
           var messagesList = this.state.messagesList;
-          var _this$scrollBar$curre2 = this.scrollBar.current,
-              offsetHeight = _this$scrollBar$curre2.offsetHeight,
-              scrollTop = _this$scrollBar$curre2.scrollTop,
-              scrollHeight = _this$scrollBar$curre2.scrollHeight;
+          var _this$scrollBar$curre3 = this.scrollBar.current,
+              offsetHeight = _this$scrollBar$curre3.offsetHeight,
+              scrollTop = _this$scrollBar$curre3.scrollTop,
+              scrollHeight = _this$scrollBar$curre3.scrollHeight;
           var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
           this.processNewMessage(messagesList, messagesData.length - 1);
           this.setState({

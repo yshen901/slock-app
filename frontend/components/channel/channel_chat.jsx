@@ -50,15 +50,6 @@ class ChannelChat extends React.Component {
       this.setState({ messagesList: [] });
       this.loadMessages();
     }
-
-    // from react/save elements pushing things down
-    if (this.scrollBar.current) {
-      let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
-        let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-        if (distanceFromBottom < 30) {     
-          if (this.bottom.current) this.bottom.current.scrollIntoView();
-        }
-    }
   }
 
   componentWillUnmount() {
@@ -151,16 +142,24 @@ class ChannelChat extends React.Component {
         }                                                                     // called when another user reacts
         else if (messageData.type == RECEIVE_MESSAGE_REACT && messageData.user_id != current_user_id) {
           let message_react = { message_id: messageData.id, user_id: messageData.user_id, react_code: messageData.react_code};
+          let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
+          let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
           this.props.receiveMessageReact(message_react);
+          this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom});
+          this.updateScroll();
         }
         else if (messageData.type == REMOVE_MESSAGE_REACT && messageData.user_id != current_user_id) {
           let message_react = { message_id: messageData.id, user_id: messageData.user_id, react_code: messageData.react_code};
           this.props.removeMessageReact(message_react);
         }                                                                    // called when user saves in another window
         else if (messageData.type == RECEIVE_MESSAGE_SAVE && messageData.user_id == current_user_id && !user_saved_messages[messageData.id]) {
+          let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
+          let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
           this.props.receiveMessageSave({
             message_id: messageData.id,
-          })
+          });
+          this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom});
+          this.updateScroll();
         }
         else if (messageData.type == REMOVE_MESSAGE_SAVE && messageData.user_id == current_user_id && user_saved_messages[messageData.id]) {
           this.props.removeMessageSave({
