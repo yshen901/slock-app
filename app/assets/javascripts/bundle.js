@@ -3675,7 +3675,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         setTimeout(function () {
           if (i < times && !_this3.state.remoteJoined && !_this3.state.callRejected) {
             if (!_this3.state.callReceived) _this3.callACChannel.speak(joinCallData); // only keep calling if not received
-            else console.log("received");
+
             i++;
             callLoop();
           } else if (i == times) {
@@ -7040,6 +7040,17 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       userForm.append('user[timezone_offset]', timezone_offset); // Nested!
 
       this.props.updateUser(userForm).then(function () {
+        debugger;
+
+        _this2.props.loginACChannel.speak({
+          workspace_data: {
+            user: _this2.props.user,
+            logged_in: true,
+            user_channel_ids: _this2.props.user_channel_ids,
+            workspace_id: _this2.props.workspace_id
+          }
+        });
+
         _this2.handleCancel();
       });
     } // Resets state and hides modal
@@ -7257,7 +7268,9 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   var userId = state.session.user_id;
   return {
-    user: state.entities.users[userId]
+    user: state.entities.users[userId],
+    user_channel_ids: state.session.user_channel_ids,
+    workspace_id: state.session.workspace_id
   };
 };
 
@@ -7374,7 +7387,16 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
       dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["updateWorkspaceUser"])(workspace_id, {
         status: this.state.status
       })).then(function () {
-        return _this2.handleCancel();
+        _this2.props.loginACChannel.speak({
+          workspace_data: {
+            user: getState().entities.users[getState().session.user_id],
+            logged_in: true,
+            user_channel_ids: getState().session.user_channel_ids,
+            workspace_id: getState().session.workspace_id
+          }
+        });
+
+        _this2.handleCancel();
       });
     }
   }, {
@@ -8724,7 +8746,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
           //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
 
-          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["JOIN_CALL"] && target_user_id == user.id && !_this3.state.inVideoCall) {
+          if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["JOIN_CALL"] && target_user_id == user.id && !_this3.state.inVideoCall && !_this3.state.incomingCall) {
             if (user_channel_ids.includes(channel_id)) {
               _this3.receiveCall(data);
             } else {
@@ -8984,7 +9006,11 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           return _this7.showUser(user_id);
         },
         user: users[user_id]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_10__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_status_modal__WEBPACK_IMPORTED_MODULE_11__["default"], null)));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_10__["default"], {
+        loginACChannel: this.loginACChannel
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_profile_status_modal__WEBPACK_IMPORTED_MODULE_11__["default"], {
+        loginACChannel: this.loginACChannel
+      })));
     }
   }]);
 

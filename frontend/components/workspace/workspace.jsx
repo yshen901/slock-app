@@ -118,7 +118,7 @@ class Workspace extends React.Component {
           // JOIN_CALL  : if the ping is for current user and user isn't busy   -> activate modal and channel
           // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
           //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
-          if (type == JOIN_CALL && target_user_id == user.id && !this.state.inVideoCall) {
+          if (type == JOIN_CALL && target_user_id == user.id && !this.state.inVideoCall && !this.state.incomingCall) {
             if (user_channel_ids.includes(channel_id)) {
               this.receiveCall(data);
             }
@@ -351,8 +351,10 @@ class Workspace extends React.Component {
 
           <InviteUserModal />
           <NewChannelModalContainer />
-          <EditProfileModalContainer />
-          <EditProfileStatusModal />
+          <EditProfileModalContainer 
+            loginACChannel={this.loginACChannel}/>
+          <EditProfileStatusModal 
+            loginACChannel={this.loginACChannel}/>
         </div>
       </div>
     )

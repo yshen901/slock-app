@@ -57,9 +57,18 @@ class EditProfileModal extends React.Component {
     userForm.append('user[timezone_offset]', timezone_offset); // Nested!
 
     this.props.updateUser(userForm)
-    .then(() => {
-      this.handleCancel();
-    });
+      .then(() => {
+        debugger;
+        this.props.loginACChannel.speak({
+          workspace_data: {
+            user: this.props.user,
+            logged_in: true,
+            user_channel_ids: this.props.user_channel_ids,
+            workspace_id: this.props.workspace_id
+          }
+        });
+        this.handleCancel();
+      });
   }
 
   // Resets state and hides modal

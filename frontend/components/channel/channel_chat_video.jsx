@@ -150,8 +150,6 @@ class ChannelVideoChatRoomExternal extends React.Component {
         if (i < times && !this.state.remoteJoined && !this.state.callRejected) {
           if (!this.state.callReceived) 
             this.callACChannel.speak(joinCallData); // only keep calling if not received
-          else
-            console.log("received");
           i++;
           callLoop();
         }
