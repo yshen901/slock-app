@@ -67,7 +67,6 @@ class Api::UsersController < ApplicationController
       )
       if @user.save
         demo_workspace = Workspace.find_by(address: "demo-workspace")
-        debugger;
         WorkspaceUser.create(user_id: @user.id, workspace_id: demo_workspace.id, logged_in: false)
 
         login!(@user)
@@ -83,7 +82,14 @@ class Api::UsersController < ApplicationController
     @user = User.includes(workspaces: [:connections]).find_by(id: params[:id])
 
     if (@user) 
-      @user.photo.attach(user_params[:photo]) if user_params[:photo]
+      if user_params[:photo]
+        if user_params[:photo] == 'null'
+          @user.photo.purge if @user.photo.attached?
+        else
+          @user.photo.attach(user_params[:photo])
+        end
+      end
+
       if @user.save
         if @user.update(user_params.except(:photo))
           render :show

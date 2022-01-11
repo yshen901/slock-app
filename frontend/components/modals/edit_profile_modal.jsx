@@ -1,6 +1,6 @@
 import React from "react";
 import { hideElements } from "../../util/modal_api_util";
-import { photoUrl } from "../../selectors/selectors";
+import { DEFAULT_PHOTO_URL, photoUrl } from "../../selectors/selectors";
 import { timeZones } from "../../util/user_api_util";
 
 class EditProfileModal extends React.Component {
@@ -10,6 +10,7 @@ class EditProfileModal extends React.Component {
     this.state = {
       imageUrl: "",
       imageFile: null,
+      deleteImage: false, // if true, will upload blank imageFile
       full_name: "",
       display_name: "",
       what_i_do: "",
@@ -42,14 +43,18 @@ class EditProfileModal extends React.Component {
   // Fires backend to update the user's attached photo
   handleUpload(e) {
     e.stopPropagation();
-    let { imageFile, full_name, display_name, what_i_do, phone_number, timezone_offset } = this.state;
+    let { deleteImage, imageFile, full_name, display_name, what_i_do, phone_number, timezone_offset } = this.state;
 
     // Necessary for uploading files
     let userForm = new FormData();
     userForm.append('id', this.props.user.id)
 
-    if (imageFile)
+    if (deleteImage)
+      userForm.append('user[photo]', null);
+    else if (imageFile) {
       userForm.append('user[photo]', imageFile); // Nested!
+    }
+
     userForm.append('user[full_name]', full_name); // Nested!
     userForm.append('user[display_name]', display_name); // Nested!
     userForm.append('user[what_i_do]', what_i_do); // Nested!
@@ -58,7 +63,6 @@ class EditProfileModal extends React.Component {
 
     this.props.updateUser(userForm)
       .then(() => {
-        debugger;
         this.props.loginACChannel.speak({
           workspace_data: {
             user: this.props.user,
@@ -121,7 +125,7 @@ class EditProfileModal extends React.Component {
     // Triggers when a file is done
     reader.onloadend = () => {
       if (file.type === "image/jpeg" || file.type === "image/png") 
-        this.setState({ imageUrl: reader.result, imageFile: file, errors: Object.assign(this.state.errors, {imageFile: ""}) });
+        this.setState({ deleteImage: false, imageUrl: reader.result, imageFile: file, errors: Object.assign(this.state.errors, {imageFile: ""}) });
       else {
         this.setState({ errors: Object.assign(this.state.errors, {imageFile: "Invalid file format: profile photos must be jpg or png."})})
       }
@@ -134,8 +138,10 @@ class EditProfileModal extends React.Component {
   }
 
   photoUrl() {
-    if (this.state.imageFile)
+    if (this.state.imageFile && !this.state.deleteImage)
       return this.state.imageUrl;
+    else if (this.state.deleteImage)
+      return DEFAULT_PHOTO_URL;
     else
       return this.props.user.photo_url;
   }
@@ -148,6 +154,7 @@ class EditProfileModal extends React.Component {
   }
 
   modalForm() {
+    debugger;
     return (
       <div id="edit-profile-modal-form">
         <div className="modal-header">
@@ -193,6 +200,7 @@ class EditProfileModal extends React.Component {
               style={{display: "none"}}
               onChange={this.readFile}/>
             <input type="button" value="Upload File" onClick={() => document.getElementById('selected-file').click()} />
+            <input type="button" value="Clear Photo" onClick={() => this.setState({ deleteImage: true })} />
           </div>
         </div>
         <div className="form-buttons">

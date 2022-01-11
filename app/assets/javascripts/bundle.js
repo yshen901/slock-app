@@ -3215,7 +3215,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         }, date)));
       }
 
-      debugger;
       messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
         status: this.props.status // decides whether you can interact with messages
         ,
@@ -3349,7 +3348,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               scrollTop = _this$scrollBar$curre3.scrollTop,
               scrollHeight = _this$scrollBar$curre3.scrollHeight;
           var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-          debugger;
           this.processNewMessage(messagesList, messagesData.length - 1);
           this.setState({
             messagesList: messagesList,
@@ -3421,7 +3419,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      debugger;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chatroom-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -7035,6 +7032,8 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       imageUrl: "",
       imageFile: null,
+      deleteImage: false,
+      // if true, will upload blank imageFile
       full_name: "",
       display_name: "",
       what_i_do: "",
@@ -7078,6 +7077,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
 
       e.stopPropagation();
       var _this$state = this.state,
+          deleteImage = _this$state.deleteImage,
           imageFile = _this$state.imageFile,
           full_name = _this$state.full_name,
           display_name = _this$state.display_name,
@@ -7087,8 +7087,9 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
 
       var userForm = new FormData();
       userForm.append('id', this.props.user.id);
-      if (imageFile) userForm.append('user[photo]', imageFile); // Nested!
-
+      if (deleteImage) userForm.append('user[photo]', null);else if (imageFile) {
+        userForm.append('user[photo]', imageFile); // Nested!
+      }
       userForm.append('user[full_name]', full_name); // Nested!
 
       userForm.append('user[display_name]', display_name); // Nested!
@@ -7100,8 +7101,6 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       userForm.append('user[timezone_offset]', timezone_offset); // Nested!
 
       this.props.updateUser(userForm).then(function () {
-        debugger;
-
         _this2.props.loginACChannel.speak({
           workspace_data: {
             user: _this2.props.user,
@@ -7172,6 +7171,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
 
       reader.onloadend = function () {
         if (file.type === "image/jpeg" || file.type === "image/png") _this4.setState({
+          deleteImage: false,
           imageUrl: reader.result,
           imageFile: file,
           errors: Object.assign(_this4.state.errors, {
@@ -7195,7 +7195,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "photoUrl",
     value: function photoUrl() {
-      if (this.state.imageFile) return this.state.imageUrl;else return this.props.user.photo_url;
+      if (this.state.imageFile && !this.state.deleteImage) return this.state.imageUrl;else if (this.state.deleteImage) return _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["DEFAULT_PHOTO_URL"];else return this.props.user.photo_url;
     }
   }, {
     key: "submitButton",
@@ -7212,6 +7212,9 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "modalForm",
     value: function modalForm() {
+      var _this5 = this;
+
+      debugger;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "edit-profile-modal-form"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -7275,6 +7278,14 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         value: "Upload File",
         onClick: function onClick() {
           return document.getElementById('selected-file').click();
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "button",
+        value: "Clear Photo",
+        onClick: function onClick() {
+          return _this5.setState({
+            deleteImage: true
+          });
         }
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-buttons"

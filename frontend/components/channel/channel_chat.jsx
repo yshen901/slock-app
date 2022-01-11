@@ -97,8 +97,6 @@ class ChannelChat extends React.Component {
       )        
     }
 
-    debugger;
-
     messagesList.push(
       <ChannelMessageContainer
         status={this.props.status}  // decides whether you can interact with messages
@@ -190,7 +188,6 @@ class ChannelChat extends React.Component {
 
         let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
         let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-        debugger;
         this.processNewMessage(messagesList, messagesData.length - 1);
         this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom});
         this.updateScroll();
@@ -250,7 +247,6 @@ class ChannelChat extends React.Component {
   }
 
   render() {
-    debugger;
     return (
       <div className="chatroom-container">
         <div className="message-list" ref={this.scrollBar}>
