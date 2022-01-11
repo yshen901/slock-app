@@ -11,7 +11,7 @@ class ChannelChat extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { 
+    this.state = {
       messagesList: [],
       currentDate: (new Date(Date())).toLocaleDateString(),
       popupUserId: 0,

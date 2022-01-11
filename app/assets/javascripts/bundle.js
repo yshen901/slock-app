@@ -7936,13 +7936,24 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "updateWorkspaceUser",
     value: function updateWorkspaceUser(workspace_user) {
+      var _this4 = this;
+
       var workspace_id = getState().session.workspace_id;
-      dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["updateWorkspaceUser"])(workspace_id, workspace_user));
+      dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["updateWorkspaceUser"])(workspace_id, workspace_user)).then(function () {
+        _this4.props.loginACChannel.speak({
+          workspace_data: {
+            user: getState().entities.users[getState().session.user_id],
+            logged_in: true,
+            user_channel_ids: getState().session.user_channel_ids,
+            workspace_id: workspace_id
+          }
+        });
+      });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var _this$props = this.props,
           user = _this$props.user,
@@ -7982,14 +7993,14 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       }, userStatus)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.toggleButton(function () {
-          return _this4.updateWorkspaceUser({
+          return _this5.updateWorkspaceUser({
             active: !user.active
           });
         })
       }, "Set yourself as ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", null, user.active ? "away" : "active")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.toggleButton(function () {
-          return _this4.updateWorkspaceUser({
+          return _this5.updateWorkspaceUser({
             paused: !user.paused
           });
         })

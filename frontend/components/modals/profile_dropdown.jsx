@@ -57,7 +57,17 @@ class ProfileDropdown extends React.Component {
 
   updateWorkspaceUser(workspace_user) {
     let { workspace_id } = getState().session;
-    dispatch(updateWorkspaceUser(workspace_id, workspace_user));
+    dispatch(updateWorkspaceUser(workspace_id, workspace_user))
+      .then(() => {
+        this.props.loginACChannel.speak({
+          workspace_data: {
+            user: getState().entities.users[getState().session.user_id],
+            logged_in: true,
+            user_channel_ids: getState().session.user_channel_ids,
+            workspace_id
+          }
+        });
+      })
   }
 
   render() {
