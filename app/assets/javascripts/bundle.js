@@ -4327,13 +4327,26 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
-    key: "messageSavedBanner",
-    value: function messageSavedBanner(saved) {
-      if (saved) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    key: "messageBanner",
+    value: function messageBanner(saved) {
+      var _this7 = this;
+
+      if (saved && this.props.match.params.channel_id != "saved-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "saved-banner"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-bookmark fa-fw magenta"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Added to your saved items"));
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Added to your saved items"));else if (this.props.match.params.channel_id == "saved-browser") {
+        var _this$props = this.props,
+            channels = _this$props.channels,
+            message = _this$props.message;
+        var channel = channels[message.channel_id];
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-channel-header",
+          onClick: function onClick() {
+            return _this7.goToChannel(channel.id);
+          }
+        }, channel.dm_channel ? "Direct Message" : "#".concat(channel.name));
+      }
     }
   }, {
     key: "messageButtons",
@@ -4363,7 +4376,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageReactsList",
     value: function messageReactsList() {
-      var _this7 = this;
+      var _this8 = this;
 
       var total_reacts = Object.entries(this.props.message.total_reacts);
       if (total_reacts.length == 0) return;
@@ -4377,7 +4390,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-react",
           key: idx,
-          onClick: _this7.toggleMessageReact(react_code)
+          onClick: _this8.toggleMessageReact(react_code)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "emoji"
         }, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4388,10 +4401,10 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageDeleteButton",
     value: function messageDeleteButton() {
-      var _this$props = this.props,
-          current_user_id = _this$props.current_user_id,
-          messageACChannel = _this$props.messageACChannel,
-          message = _this$props.message;
+      var _this$props2 = this.props,
+          current_user_id = _this$props2.current_user_id,
+          messageACChannel = _this$props2.messageACChannel,
+          message = _this$props2.message;
       if (message.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
         onClick: this.toggleMessageDelete()
@@ -4404,15 +4417,15 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageEditButton",
     value: function messageEditButton() {
-      var _this8 = this;
+      var _this9 = this;
 
-      var _this$props2 = this.props,
-          current_user_id = _this$props2.current_user_id,
-          message = _this$props2.message;
+      var _this$props3 = this.props,
+          current_user_id = _this$props3.current_user_id,
+          message = _this$props3.message;
       if (message.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
         onClick: function onClick() {
-          return _this8.setState({
+          return _this9.setState({
             editing: true
           });
         }
@@ -4425,11 +4438,11 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageHeader",
     value: function messageHeader() {
-      var _this$props3 = this.props,
-          grouped = _this$props3.grouped,
-          message = _this$props3.message,
-          toggleUserPopup = _this$props3.toggleUserPopup,
-          users = _this$props3.users;
+      var _this$props4 = this.props,
+          grouped = _this$props4.grouped,
+          message = _this$props4.message,
+          toggleUserPopup = _this$props4.toggleUserPopup,
+          users = _this$props4.users;
       var user_id = message.user_id,
           created_date = message.created_date,
           created_time = message.created_time;
@@ -4447,11 +4460,11 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageIcon",
     value: function messageIcon() {
-      var _this$props4 = this.props,
-          grouped = _this$props4.grouped,
-          toggleUserPopup = _this$props4.toggleUserPopup,
-          message = _this$props4.message,
-          users = _this$props4.users;
+      var _this$props5 = this.props,
+          grouped = _this$props5.grouped,
+          toggleUserPopup = _this$props5.toggleUserPopup,
+          message = _this$props5.message,
+          users = _this$props5.users;
       var created_date = message.created_date,
           created_time = message.created_time,
           user_id = message.user_id;
@@ -4469,10 +4482,10 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageBody",
     value: function messageBody() {
-      var _this$props5 = this.props,
-          messageACChannel = _this$props5.messageACChannel,
-          status = _this$props5.status,
-          message = _this$props5.message;
+      var _this$props6 = this.props,
+          messageACChannel = _this$props6.messageACChannel,
+          status = _this$props6.status,
+          message = _this$props6.message;
       var body = message.body;
       if (this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-edit-container"
@@ -4493,9 +4506,9 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       // For when message is deleted
-      var _this$props6 = this.props,
-          message = _this$props6.message,
-          key = _this$props6.key;
+      var _this$props7 = this.props,
+          message = _this$props7.message,
+          key = _this$props7.key;
       if (!message) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message"
       });
@@ -4503,7 +4516,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: saved || this.state.editing ? "message saved" : "message",
         key: key
-      }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.messageBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-content"
       }, this.messageIcon(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-text"
@@ -4543,7 +4556,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     user_saved_messages: state.session.user_saved_messages,
     messages: state.entities.messages,
     message: state.entities.messages[ownProps.messageData.id],
-    users: state.entities.users
+    users: state.entities.users,
+    channels: state.entities.channels // used for message banner in SavedBrowser
+
   };
 };
 

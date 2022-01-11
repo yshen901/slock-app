@@ -17,6 +17,7 @@ const mapStateToProps = (state, ownProps) => ({
   messages: state.entities.messages,
   message: state.entities.messages[ownProps.messageData.id],
   users: state.entities.users,
+  channels: state.entities.channels // used for message banner in SavedBrowser
 });
 
 const mapDispatchToProps = dispatch => ({

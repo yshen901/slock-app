@@ -104,14 +104,23 @@ class ChannelMessage extends React.Component {
     };
   }
 
-  messageSavedBanner(saved) {
-    if (saved)
+  messageBanner(saved) {
+    if (saved && this.props.match.params.channel_id != "saved-browser")
       return (
         <div className="saved-banner">
           <i className="fas fa-bookmark fa-fw magenta"></i>
           <div>Added to your saved items</div>
         </div>
       )
+    else if (this.props.match.params.channel_id == "saved-browser") {
+      let { channels, message } = this.props;
+      let channel = channels[message.channel_id];
+      return (
+        <div className="message-channel-header" onClick={() => this.goToChannel(channel.id)}>
+          {channel.dm_channel ? "Direct Message" : `#${channel.name}`}
+        </div>
+      )
+    }
   }
 
   messageButtons(saved) {
@@ -263,7 +272,7 @@ class ChannelMessage extends React.Component {
     let saved = !!this.props.user_saved_messages[message.id];
     return (
       <div className={saved || this.state.editing ? "message saved" : "message"} key={key}>
-        { this.messageSavedBanner(saved) }
+        { this.messageBanner(saved) }
         <div className="message-content">
           { this.messageIcon() }
           <div className="message-text">
