@@ -3215,6 +3215,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         }, date)));
       }
 
+      debugger;
       messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
         status: this.props.status // decides whether you can interact with messages
         ,
@@ -3348,6 +3349,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               scrollTop = _this$scrollBar$curre3.scrollTop,
               scrollHeight = _this$scrollBar$curre3.scrollHeight;
           var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
+          debugger;
           this.processNewMessage(messagesList, messagesData.length - 1);
           this.setState({
             messagesList: messagesList,
@@ -3419,12 +3421,15 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      debugger;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chatroom-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list",
         ref: this.scrollBar
-      }, this.state.messagesList, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.messagesList.map(function (message) {
+        return message;
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         ref: this.bottom
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_2__["default"], {
         messageACChannel: this.messageACChannel,
