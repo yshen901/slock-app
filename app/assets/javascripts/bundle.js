@@ -2393,7 +2393,7 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "browser-channel-title"
       }, "People"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "browser-channel-action no-highlight",
+        className: "browser-channel-action no-highlight people",
         onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__["toggleFocusElements"])("invite-user-modal", "invite-user-input")
       }, "Invite People")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel-search"

@@ -16,7 +16,7 @@
     position: absolute;
     top: 0px;
     left: 0px;
-    z-index: 2;
+    z-index: 1;
 
     .browser-channel-nav {
       width: 100%;
@@ -40,15 +40,21 @@
       }
   
       .browser-channel-action {
+        min-width: 115px;
         font-size: 13px;
         line-height: 28px;
         font-weight: bold;
+        text-align: center;
   
         padding: 1px 11px;
   
         border: 1px solid lightgray;
         border-radius: 5px;
         box-sizing: border-box;
+      }
+
+      .browser-channel-action.people {
+        min-width: 101px;
       }
 
       .browser-channel-action:hover {

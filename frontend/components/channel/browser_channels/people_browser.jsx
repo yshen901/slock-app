@@ -111,7 +111,7 @@ class PeopleBrowser extends React.Component {
         <div className="browser-channel-top">
           <div className="browser-channel-nav">
             <h1 className="browser-channel-title">People</h1>
-            <div className="browser-channel-action no-highlight" onClick={toggleFocusElements("invite-user-modal", "invite-user-input")}>Invite People</div>
+            <div className="browser-channel-action no-highlight people" onClick={toggleFocusElements("invite-user-modal", "invite-user-input")}>Invite People</div>
           </div>
           <div className="browser-channel-search">
             <i className='fas fa-search search-icon'></i> 
