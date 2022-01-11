@@ -4,7 +4,7 @@ import { getWorkspace } from '../../actions/workspace_actions';
 import { dmChannelUserId } from '../../selectors/selectors';
 
 // import Webcam from 'react-webcam';
-import { broadcastChannel, JOIN_CALL, LEAVE_CALL, EXCHANGE, REJECT_CALL, ice, PICKUP_CALL } from '../../util/call_api_util';
+import { JOIN_CALL, LEAVE_CALL, EXCHANGE, REJECT_CALL, ice, PICKUP_CALL, RECEIVED_CALL } from '../../util/call_api_util';
 import { hideElements, revealElements } from '../../util/modal_api_util';
 
 class ChannelVideoChatRoomExternal extends React.Component {
@@ -16,6 +16,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
       video: true,
       localJoined: false,
       remoteJoined: false,
+      callReceived: false,
       callRejected: false,
       callEnded: false,
       loaded: false
@@ -93,6 +94,10 @@ class ChannelVideoChatRoomExternal extends React.Component {
                         if (data.target_user_id == user_id && data.channel_id == channel_id)
                           this.cancelCall();
                         return;
+                      case RECEIVED_CALL:
+                        if (data.target_user_id == user_id && data.channel_id == channel_id)
+                          this.setState({callReceived: true});
+                        return;
                       default:
                         return;
                     }
@@ -143,7 +148,10 @@ class ChannelVideoChatRoomExternal extends React.Component {
     let callLoop = () => {
       setTimeout(() => {
         if (i < times && !this.state.remoteJoined && !this.state.callRejected) {
-          this.callACChannel.speak(joinCallData);
+          if (!this.state.callReceived) 
+            this.callACChannel.speak(joinCallData); // only keep calling if not received
+          else
+            console.log("received");
           i++;
           callLoop();
         }

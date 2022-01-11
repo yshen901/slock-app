@@ -20,7 +20,7 @@ import SidebarDropdown from '../modals/sidebar_dropdown';
 import ProfileDropdown from "../modals/profile_dropdown";
 
 // Utilities and constants
-import { JOIN_CALL, LEAVE_CALL, REJECT_CALL } from '../../util/call_api_util';
+import { JOIN_CALL, LEAVE_CALL, RECEIVED_CALL, REJECT_CALL } from '../../util/call_api_util';
 import { joinChannel } from '../../actions/channel_actions';
 
 class Workspace extends React.Component {
@@ -43,6 +43,7 @@ class Workspace extends React.Component {
     this.startVideoCall = this.startVideoCall.bind(this);
     this.pickupCall = this.pickupCall.bind(this);
     this.rejectCall = this.rejectCall.bind(this);
+    this.receiveCall = this.receiveCall.bind(this);
   }
 
   componentDidMount() {
@@ -119,7 +120,7 @@ class Workspace extends React.Component {
           //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
           if (type == JOIN_CALL && target_user_id == user.id && !this.state.inVideoCall) {
             if (user_channel_ids.includes(channel_id)) {
-              this.setState({ incomingCall: data })
+              this.receiveCall(data);
             }
             else {
               this.props.restartDmChannel({
@@ -242,6 +243,18 @@ class Workspace extends React.Component {
       });
       this.setState({ incomingCall: null });
     }
+  }
+
+  receiveCall(callData) {
+    this.setState({ incomingCall: callData });
+    
+    let { from, target_user_id, channel_id } = callData;
+    this.callACChannel.speak({
+      type: RECEIVED_CALL,
+      from: target_user_id,
+      target_user_id: from,
+      channel_id
+    });
   }
 
   // Makes sure you don't go to an invalid channel

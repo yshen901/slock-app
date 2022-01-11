@@ -3532,6 +3532,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       video: true,
       localJoined: false,
       remoteJoined: false,
+      callReceived: false,
       callRejected: false,
       callEnded: false,
       loaded: false
@@ -3614,6 +3615,12 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
                   if (data.target_user_id == user_id && data.channel_id == channel_id) _this2.cancelCall();
                   return;
 
+                case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["RECEIVED_CALL"]:
+                  if (data.target_user_id == user_id && data.channel_id == channel_id) _this2.setState({
+                    callReceived: true
+                  });
+                  return;
+
                 default:
                   return;
               }
@@ -3667,8 +3674,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       var callLoop = function callLoop() {
         setTimeout(function () {
           if (i < times && !_this3.state.remoteJoined && !_this3.state.callRejected) {
-            _this3.callACChannel.speak(joinCallData);
-
+            if (!_this3.state.callReceived) _this3.callACChannel.speak(joinCallData); // only keep calling if not received
+            else console.log("received");
             i++;
             callLoop();
           } else if (i == times) {
@@ -8633,6 +8640,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     _this.startVideoCall = _this.startVideoCall.bind(_assertThisInitialized(_this));
     _this.pickupCall = _this.pickupCall.bind(_assertThisInitialized(_this));
     _this.rejectCall = _this.rejectCall.bind(_assertThisInitialized(_this));
+    _this.receiveCall = _this.receiveCall.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -8718,9 +8726,7 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
 
           if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["JOIN_CALL"] && target_user_id == user.id && !_this3.state.inVideoCall) {
             if (user_channel_ids.includes(channel_id)) {
-              _this3.setState({
-                incomingCall: data
-              });
+              _this3.receiveCall(data);
             } else {
               _this3.props.restartDmChannel({
                 channel_id: channel_id,
@@ -8870,6 +8876,22 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           incomingCall: null
         });
       };
+    }
+  }, {
+    key: "receiveCall",
+    value: function receiveCall(callData) {
+      this.setState({
+        incomingCall: callData
+      });
+      var from = callData.from,
+          target_user_id = callData.target_user_id,
+          channel_id = callData.channel_id;
+      this.callACChannel.speak({
+        type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["RECEIVED_CALL"],
+        from: target_user_id,
+        target_user_id: from,
+        channel_id: channel_id
+      });
     } // Makes sure you don't go to an invalid channel
 
   }, {
@@ -10425,7 +10447,7 @@ var configureStore = function configureStore() {
 /*!****************************************!*\
   !*** ./frontend/util/call_api_util.js ***!
   \****************************************/
-/*! exports provided: JOIN_CALL, EXCHANGE, LEAVE_CALL, REJECT_CALL, PICKUP_CALL, ice, broadcastData */
+/*! exports provided: JOIN_CALL, EXCHANGE, LEAVE_CALL, REJECT_CALL, PICKUP_CALL, RECEIVED_CALL, ice, broadcastData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10435,13 +10457,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LEAVE_CALL", function() { return LEAVE_CALL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REJECT_CALL", function() { return REJECT_CALL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PICKUP_CALL", function() { return PICKUP_CALL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVED_CALL", function() { return RECEIVED_CALL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ice", function() { return ice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "broadcastData", function() { return broadcastData; });
 var JOIN_CALL = "JOIN_CALL";
 var EXCHANGE = "EXCHANGE";
 var LEAVE_CALL = "LEAVE_CALL";
 var REJECT_CALL = "REJECT_CALL";
-var PICKUP_CALL = "PICKUP_CALL"; // Public stun server you can ping to get your information
+var PICKUP_CALL = "PICKUP_CALL";
+var RECEIVED_CALL = "RECEIVED_CALL"; // Public stun server you can ping to get your information
 
 var ice = {
   iceServers: [{
