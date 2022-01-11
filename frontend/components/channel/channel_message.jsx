@@ -256,13 +256,13 @@ class ChannelMessage extends React.Component {
 
   render() {
     // For when message is deleted
-    let { message } = this.props;
+    let { message, key } = this.props;
     if (!message)
       return <div className="message"></div>
 
     let saved = !!this.props.user_saved_messages[message.id];
     return (
-      <div className={saved || this.state.editing ? "message saved" : "message"}>
+      <div className={saved || this.state.editing ? "message saved" : "message"} key={key}>
         { this.messageSavedBanner(saved) }
         <div className="message-content">
           { this.messageIcon() }

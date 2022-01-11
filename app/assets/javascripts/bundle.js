@@ -2438,6 +2438,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _modals_user_popup_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../modals/user_popup_modal */ "./frontend/components/modals/user_popup_modal.jsx");
+/* harmony import */ var _channel_message_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../channel_message_container */ "./frontend/components/channel/channel_message_container.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -2478,6 +2479,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   _inherits(SavedBrowser, _React$Component);
 
@@ -2491,7 +2493,8 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       popupUserId: 0,
-      popupUserTarget: null
+      popupUserTarget: null,
+      loaded: false
     };
     _this.toggleUserPopup = _this.toggleUserPopup.bind(_assertThisInitialized(_this));
     _this.calculatePos = _this.calculatePos.bind(_assertThisInitialized(_this));
@@ -2505,7 +2508,13 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   _createClass(SavedBrowser, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["getMessageSaves"])(getState().session.workspace_id));
+      var _this2 = this;
+
+      dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["getMessageSaves"])(getState().session.workspace_id)).then(function () {
+        return _this2.setState({
+          loaded: true
+        });
+      });
       this.messageACChannel = App.cable.subscriptions.create({
         channel: "ChatChannel"
       }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
@@ -2552,12 +2561,12 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleUserPopup",
     value: function toggleUserPopup(userId) {
-      var _this2 = this;
+      var _this3 = this;
 
       return function (e) {
         e.stopPropagation();
 
-        _this2.setState({
+        _this3.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
         });
@@ -2566,7 +2575,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderUserPopup",
     value: function renderUserPopup() {
-      var _this3 = this;
+      var _this4 = this;
 
       var users = getState().entities.users;
       var showUser = this.props.showUser;
@@ -2574,7 +2583,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: users[popupUserId],
         hidePopup: function hidePopup() {
-          return _this3.setState({
+          return _this4.setState({
             popupUserId: 0
           });
         },
@@ -2593,7 +2602,6 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
       var top = popupUserTarget.offsetTop + popupUserTarget.offsetParent.offsetTop - popupUserTarget.offsetParent.offsetParent.scrollTop + 40;
       if (top > viewHeight - minOffset) top = viewHeight - minOffset;
       var left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + popupUserTarget.offsetParent.offsetLeft + 260 + 10;
-      debugger;
       return {
         top: top,
         left: left
@@ -2608,7 +2616,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleMessageReact",
     value: function toggleMessageReact(messageData, react_code) {
-      var _this4 = this;
+      var _this5 = this;
 
       return function (e) {
         e.preventDefault();
@@ -2619,7 +2627,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
         })).then(function (_ref) {
           var message_react = _ref.message_react,
               type = _ref.type;
-          return _this4.messageACChannel.speak({
+          return _this5.messageACChannel.speak({
             message: {
               type: type,
               message_react: message_react
@@ -2631,7 +2639,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
         })).then(function (_ref2) {
           var message_react = _ref2.message_react,
               type = _ref2.type;
-          return _this4.messageACChannel.speak({
+          return _this5.messageACChannel.speak({
             message: {
               type: type,
               message_react: message_react
@@ -2643,7 +2651,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleMessageSave",
     value: function toggleMessageSave(messageId) {
-      var _this5 = this;
+      var _this6 = this;
 
       return function (e) {
         e.preventDefault();
@@ -2658,7 +2666,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
           })).then(function (_ref3) {
             var message_save = _ref3.message_save,
                 type = _ref3.type;
-            return _this5.messageACChannel.speak({
+            return _this6.messageACChannel.speak({
               message: {
                 type: type,
                 id: message_save.message_id
@@ -2672,7 +2680,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
         })).then(function (_ref4) {
           var message_save = _ref4.message_save,
               type = _ref4.type;
-          return _this5.messageACChannel.speak({
+          return _this6.messageACChannel.speak({
             message: {
               type: type,
               id: message_save.message_id
@@ -2692,7 +2700,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageReactsList",
     value: function messageReactsList(messageData) {
-      var _this6 = this;
+      var _this7 = this;
 
       var total_reacts = Object.entries(messageData.total_reacts);
       if (total_reacts.length == 0) return;
@@ -2706,70 +2714,77 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-react",
           key: idx,
-          onClick: _this6.toggleMessageReact(messageData, react_code)
+          onClick: _this7.toggleMessageReact(messageData, react_code)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "emoji"
         }, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "number"
         }, num));
       }));
-    }
+    } // renderMessage(messageId) {
+    //   let message = getState().entities.messages[messageId];
+    //   if (!message) return;
+    //   let { created_at, created_date, body, user_id, username, photo_url, id, channel_id} = message;
+    //   let { users } = getState().entities;
+    //   let user = users[user_id];
+    //   let {user_saved_messages} = getState().session;
+    //   let saved = !!user_saved_messages[id];
+    //   let { channels } = getState().entities;
+    //   let channel = channels[channel_id];
+    //   return (
+    //     <div className='message' key={message.id}>
+    //       <div className="message-channel-header" onClick={() => this.goToChannel(channel.id)}>
+    //         {channel.dm_channel ? "Direct Message" : `#${channel.name}`}
+    //       </div>
+    //       <div className="message-content">
+    //         <div className="message-user-icon">
+    //           <img src={user.photo_url} onClick={this.toggleUserPopup(user_id)}/>
+    //         </div>
+    //         <div className="message-text">
+    //           <div className="message-header">
+    //             <div className="message-user" onClick={this.toggleUserPopup(user_id)}>{getUserName(user)}</div>
+    //             {/* <div className="message-time">
+    //               <div className="black-popup">
+    //                 {created_date} at {created_at}
+    //               </div>
+    //               {created_at}
+    //             </div> */}
+    //           </div>
+    //           <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
+    //         </div>
+    //         <div className="message-buttons">
+    //           { this.messageEmojiButton(message, '\u{1F4AF}') } 
+    //           { this.messageEmojiButton(message, '\u{1F44D}') }
+    //           { this.messageEmojiButton(message, '\u{1F642}') }
+    //           { this.messageEmojiButton(message, '\u{1F602}') }
+    //           { this.messageEmojiButton(message, '\u{1F60D}') }
+    //           { this.messageEmojiButton(message, '\u{1F622}') }
+    //           { this.messageEmojiButton(message, '\u{1F620}') }
+    //           <div className="message-button" onClick={this.toggleMessageSave(message.id)}>
+    //             <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
+    //           </div>
+    //           {/* {this.messageDeleteButton(message)} */}
+    //         </div>
+    //       </div>
+    //       { this.messageReactsList(message) }
+    //     </div>
+    //   )
+    // }
+
   }, {
     key: "renderMessage",
-    value: function renderMessage(messageId) {
-      var _this7 = this;
-
-      var message = getState().entities.messages[messageId];
-      if (!message) return;
-      var created_at = message.created_at,
-          created_date = message.created_date,
-          body = message.body,
-          user_id = message.user_id,
-          username = message.username,
-          photo_url = message.photo_url,
-          id = message.id,
-          channel_id = message.channel_id;
-      var users = getState().entities.users;
-      var user = users[user_id];
-      var user_saved_messages = getState().session.user_saved_messages;
-      var saved = !!user_saved_messages[id];
-      var channels = getState().entities.channels;
-      var channel = channels[channel_id];
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message",
-        key: message.id
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-channel-header",
-        onClick: function onClick() {
-          return _this7.goToChannel(channel.id);
-        }
-      }, channel.dm_channel ? "Direct Message" : "#".concat(channel.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-content"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-user-icon"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: user.photo_url,
-        onClick: this.toggleUserPopup(user_id)
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-text"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-header"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-user",
-        onClick: this.toggleUserPopup(user_id)
-      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-body",
-        dangerouslySetInnerHTML: {
-          __html: body
-        }
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-buttons"
-      }, this.messageEmojiButton(message, "\uD83D\uDCAF"), this.messageEmojiButton(message, "\uD83D\uDC4D"), this.messageEmojiButton(message, "\uD83D\uDE42"), this.messageEmojiButton(message, "\uD83D\uDE02"), this.messageEmojiButton(message, "\uD83D\uDE0D"), this.messageEmojiButton(message, "\uD83D\uDE22"), this.messageEmojiButton(message, "\uD83D\uDE20"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-button",
-        onClick: this.toggleMessageSave(message.id)
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"
-      })))), this.messageReactsList(message));
+    value: function renderMessage(id) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_container__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        status: {
+          canJoin: false
+        } // decides whether you can interact with messages
+        ,
+        grouped: false,
+        messageData: getState().entities.messages[id],
+        messageACChannel: this.messageACChannel,
+        toggleUserPopup: this.toggleUserPopup,
+        key: id
+      });
     }
   }, {
     key: "render",
@@ -2780,7 +2795,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
       user_saved_messages.sort(function (a, b) {
         return a.message_save_id > b.message_save_id ? -1 : 1;
       });
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (this.state.loaded) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel",
         onClick: function onClick(e) {
           return e.stopPropagation();
@@ -2791,12 +2806,25 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
         className: "browser-channel-nav"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         className: "browser-channel-title"
-      }, "People"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Saved items"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list browser"
       }, user_saved_messages.map(function (_ref7) {
         var id = _ref7.id;
         return _this8.renderMessage(id);
-      })), this.renderUserPopup());
+      })), this.renderUserPopup());else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel",
+        onClick: function onClick(e) {
+          return e.stopPropagation();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel-top no-search"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "browser-channel-nav"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "browser-channel-title"
+      }, "Saved items"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-list browser"
+      }));
     }
   }]);
 
@@ -3191,7 +3219,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         var date = created_date;
         if (date == this.state.currentDate) date = "Today";
         messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "day-divider no-highlight"
+          className: "day-divider no-highlight",
+          key: messagesList.length
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "day-divider-line"
         }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3205,7 +3234,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         grouped: grouped,
         messageData: messagesData[i],
         messageACChannel: this.messageACChannel,
-        toggleUserPopup: this.toggleUserPopup
+        toggleUserPopup: this.toggleUserPopup,
+        key: messagesList.length
       }));
     } // Loads raw message data, and preloads message information to speed up future calculations
 
@@ -3385,12 +3415,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list",
         ref: this.scrollBar
-      }, this.state.messagesList.map(function (item, idx) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: idx,
-          className: "messages-wrapper"
-        }, item);
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.messagesList, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         ref: this.bottom
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_2__["default"], {
         messageACChannel: this.messageACChannel,
@@ -4468,13 +4493,16 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       // For when message is deleted
-      var message = this.props.message;
+      var _this$props6 = this.props,
+          message = _this$props6.message,
+          key = _this$props6.key;
       if (!message) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message"
       });
       var saved = !!this.props.user_saved_messages[message.id];
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: saved || this.state.editing ? "message saved" : "message"
+        className: saved || this.state.editing ? "message saved" : "message",
+        key: key
       }, this.messageSavedBanner(saved), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-content"
       }, this.messageIcon(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

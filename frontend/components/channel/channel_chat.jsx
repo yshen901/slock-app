@@ -99,7 +99,7 @@ class ChannelChat extends React.Component {
       if (date == this.state.currentDate)
         date = "Today";
       messagesList.push(
-        <div className="day-divider no-highlight">
+        <div className="day-divider no-highlight" key={messagesList.length}>
           <div className="day-divider-line"></div>
           <div className="day-divider-date">{date}</div>
         </div>
@@ -112,7 +112,8 @@ class ChannelChat extends React.Component {
         grouped={grouped}
         messageData={messagesData[i]}
         messageACChannel={this.messageACChannel}
-        toggleUserPopup={this.toggleUserPopup}/>
+        toggleUserPopup={this.toggleUserPopup}
+        key={messagesList.length}/>
     )
   }
 
@@ -250,11 +251,7 @@ class ChannelChat extends React.Component {
     return (
       <div className="chatroom-container">
         <div className="message-list" ref={this.scrollBar}>
-          {this.state.messagesList.map((item, idx) => 
-            <div key={idx} className="messages-wrapper">
-              {item}
-            </div>
-          )}
+          {this.state.messagesList}
           <div ref={this.bottom} />
         </div>
         <ChannelMessageForm messageACChannel={this.messageACChannel} joinChannel={this.props.joinChannel} status={this.props.status}/>

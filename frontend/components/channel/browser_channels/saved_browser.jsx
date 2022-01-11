@@ -17,6 +17,7 @@ import {
 } from "../../../actions/message_actions";
 import { getUserName, photoUrl } from "../../../selectors/selectors";
 import UserPopupModal from "../../modals/user_popup_modal";
+import ChannelMessageContainer from "../channel_message_container";
 
 class SavedBrowser extends React.Component {
   constructor(props) {
@@ -24,7 +25,8 @@ class SavedBrowser extends React.Component {
 
     this.state = {
       popupUserId: 0,
-      popupUserTarget: null
+      popupUserTarget: null, 
+      loaded: false
     }
 
     this.toggleUserPopup = this.toggleUserPopup.bind(this);
@@ -36,7 +38,8 @@ class SavedBrowser extends React.Component {
 
   // Load user's saved messages and begin listening for changes to reacts or saved
   componentDidMount() {
-    dispatch(getMessageSaves(getState().session.workspace_id));
+    dispatch(getMessageSaves(getState().session.workspace_id))
+      .then(() => this.setState({ loaded: true }));
     this.messageACChannel = App.cable.subscriptions.create(
       { channel: "ChatChannel" }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
       {
@@ -118,8 +121,6 @@ class SavedBrowser extends React.Component {
       top = viewHeight - minOffset;
     let left = popupUserTarget.offsetLeft + popupUserTarget.offsetWidth + popupUserTarget.offsetParent.offsetLeft + 260 + 10;
 
-    debugger;
-
     return {
       top,
       left
@@ -188,58 +189,70 @@ class SavedBrowser extends React.Component {
     )
   }
 
-  renderMessage(messageId) {
-    let message = getState().entities.messages[messageId];
-    if (!message) return;
+  // renderMessage(messageId) {
+  //   let message = getState().entities.messages[messageId];
+  //   if (!message) return;
 
-    let { created_at, created_date, body, user_id, username, photo_url, id, channel_id} = message;
+  //   let { created_at, created_date, body, user_id, username, photo_url, id, channel_id} = message;
 
-    let { users } = getState().entities;
-    let user = users[user_id];
+  //   let { users } = getState().entities;
+  //   let user = users[user_id];
 
-    let {user_saved_messages} = getState().session;
-    let saved = !!user_saved_messages[id];
+  //   let {user_saved_messages} = getState().session;
+  //   let saved = !!user_saved_messages[id];
 
-    let { channels } = getState().entities;
-    let channel = channels[channel_id];
+  //   let { channels } = getState().entities;
+  //   let channel = channels[channel_id];
 
+  //   return (
+  //     <div className='message' key={message.id}>
+  //       <div className="message-channel-header" onClick={() => this.goToChannel(channel.id)}>
+  //         {channel.dm_channel ? "Direct Message" : `#${channel.name}`}
+  //       </div>
+  //       <div className="message-content">
+  //         <div className="message-user-icon">
+  //           <img src={user.photo_url} onClick={this.toggleUserPopup(user_id)}/>
+  //         </div>
+  //         <div className="message-text">
+  //           <div className="message-header">
+  //             <div className="message-user" onClick={this.toggleUserPopup(user_id)}>{getUserName(user)}</div>
+  //             {/* <div className="message-time">
+  //               <div className="black-popup">
+  //                 {created_date} at {created_at}
+  //               </div>
+  //               {created_at}
+  //             </div> */}
+  //           </div>
+  //           <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
+  //         </div>
+  //         <div className="message-buttons">
+  //           { this.messageEmojiButton(message, '\u{1F4AF}') } 
+  //           { this.messageEmojiButton(message, '\u{1F44D}') }
+  //           { this.messageEmojiButton(message, '\u{1F642}') }
+  //           { this.messageEmojiButton(message, '\u{1F602}') }
+  //           { this.messageEmojiButton(message, '\u{1F60D}') }
+  //           { this.messageEmojiButton(message, '\u{1F622}') }
+  //           { this.messageEmojiButton(message, '\u{1F620}') }
+  //           <div className="message-button" onClick={this.toggleMessageSave(message.id)}>
+  //             <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
+  //           </div>
+  //           {/* {this.messageDeleteButton(message)} */}
+  //         </div>
+  //       </div>
+  //       { this.messageReactsList(message) }
+  //     </div>
+  //   )
+  // }
+
+  renderMessage(id) {
     return (
-      <div className='message' key={message.id}>
-        <div className="message-channel-header" onClick={() => this.goToChannel(channel.id)}>
-          {channel.dm_channel ? "Direct Message" : `#${channel.name}`}
-        </div>
-        <div className="message-content">
-          <div className="message-user-icon">
-            <img src={user.photo_url} onClick={this.toggleUserPopup(user_id)}/>
-          </div>
-          <div className="message-text">
-            <div className="message-header">
-              <div className="message-user" onClick={this.toggleUserPopup(user_id)}>{getUserName(user)}</div>
-              {/* <div className="message-time">
-                <div className="black-popup">
-                  {created_date} at {created_at}
-                </div>
-                {created_at}
-              </div> */}
-            </div>
-            <div className="message-body" dangerouslySetInnerHTML={{__html: body}}></div>
-          </div>
-          <div className="message-buttons">
-            { this.messageEmojiButton(message, '\u{1F4AF}') } 
-            { this.messageEmojiButton(message, '\u{1F44D}') }
-            { this.messageEmojiButton(message, '\u{1F642}') }
-            { this.messageEmojiButton(message, '\u{1F602}') }
-            { this.messageEmojiButton(message, '\u{1F60D}') }
-            { this.messageEmojiButton(message, '\u{1F622}') }
-            { this.messageEmojiButton(message, '\u{1F620}') }
-            <div className="message-button" onClick={this.toggleMessageSave(message.id)}>
-              <i className={saved ? "fas fa-bookmark fa-fw magenta" : "far fa-bookmark fa-fw"}></i>
-            </div>
-            {/* {this.messageDeleteButton(message)} */}
-          </div>
-        </div>
-        { this.messageReactsList(message) }
-      </div>
+      <ChannelMessageContainer
+          status={{canJoin: false}}  // decides whether you can interact with messages
+          grouped={false}
+          messageData={getState().entities.messages[id]}
+          messageACChannel={this.messageACChannel}
+          toggleUserPopup={this.toggleUserPopup}
+          key={id}/>
     )
   }
 
@@ -247,19 +260,32 @@ class SavedBrowser extends React.Component {
     let user_saved_messages = Object.values(getState().session.user_saved_messages);
     user_saved_messages.sort((a, b) => a.message_save_id > b.message_save_id ? -1 : 1);
 
-    return (
-      <div className="browser-channel" onClick={e => e.stopPropagation()}>
-        <div className="browser-channel-top no-search">
-          <div className="browser-channel-nav">
-            <h1 className="browser-channel-title">People</h1>
+    if (this.state.loaded)
+      return (
+        <div className="browser-channel" onClick={e => e.stopPropagation()}>
+          <div className="browser-channel-top no-search">
+            <div className="browser-channel-nav">
+              <h1 className="browser-channel-title">Saved items</h1>
+            </div>
+          </div>
+          <div className="message-list browser">
+            { user_saved_messages.map(({id}) => this.renderMessage(id)) }
+          </div>
+          { this.renderUserPopup() }
+        </div>
+      )
+    else 
+      return (
+        <div className="browser-channel" onClick={e => e.stopPropagation()}>
+          <div className="browser-channel-top no-search">
+            <div className="browser-channel-nav">
+              <h1 className="browser-channel-title">Saved items</h1>
+            </div>
+          </div>
+          <div className="message-list browser">
           </div>
         </div>
-        <div className="message-list browser">
-          { user_saved_messages.map(({id}) => this.renderMessage(id)) }
-        </div>
-        { this.renderUserPopup() }
-      </div>
-    )
+      )
   }
 }
 
