@@ -154,7 +154,7 @@ class ChannelChat extends React.Component {
         }
         else if (messageData.type == REMOVE_MESSAGE_REACT && messageData.user_id != this.props.current_user_id) {
           let message_react = { message_id: messageData.id, user_id: messageData.user_id, react_code: messageData.react_code};
-          this.props.receiveMessageReact(message_react);
+          this.props.removeMessageReact(message_react);
         }                                                                    // called when user saves in another window
         else if (messageData.type == RECEIVE_MESSAGE_SAVE && !this.props.user_saved_messages[messageData.id]) {
           this.props.receiveMessageSave({

@@ -3268,7 +3268,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
                 user_id: messageData.user_id,
                 react_code: messageData.react_code
               };
-              this.props.receiveMessageReact(_message_react);
+              this.props.removeMessageReact(_message_react);
             } // called when user saves in another window
             else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_SAVE"] && !this.props.user_saved_messages[messageData.id]) {
                 this.props.receiveMessageSave({
