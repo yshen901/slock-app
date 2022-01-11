@@ -1,5 +1,5 @@
 .dropdown-modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   height: 100vh;
@@ -183,14 +183,14 @@
 
 .sidebar.dropdown{
   position: absolute;
-  top: 83px;
-  left: 15px;
+  top: 88px;
+  left: 12px;
 }
 
 .profile.dropdown {
   position: absolute;
   top: 38px;
-  right: 16px;
+  right: 12px;
 }
 
 .workspaces.dropdown {

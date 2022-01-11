@@ -11,10 +11,12 @@ class WorkspaceSidebar extends React.Component {
       channel: "",
       DM: "",
       starred: "",
+      channelOptionsDropdown: null,
     }
 
     this.channelLink = this.channelLink.bind(this);
     this.toggleDropdown = this.toggleDropdown.bind(this);
+    this.toggleChannelOptionsDropdown = this.toggleChannelOptionsDropdown.bind(this);
     this.goToChannel = this.goToChannel.bind(this);
     this.leaveDmChannel = this.leaveDmChannel.bind(this);
 
@@ -26,9 +28,10 @@ class WorkspaceSidebar extends React.Component {
     return `/workspace/${this.props.workspace_address}/${channelId}`;
   }
   
-  goToChannel(channel_id) {
-    let workspace_address = this.props.match.params.workspace_address;
-    this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+  goToChannel(new_channel_id) {
+    let {workspace_address, channel_id} = this.props.match.params;
+    if (channel_id != new_channel_id)
+      this.props.history.push(`/workspace/${workspace_address}/${new_channel_id}`);
   }
 
   leaveDmChannel(channel_id) {
@@ -47,6 +50,37 @@ class WorkspaceSidebar extends React.Component {
       e.stopPropagation();
       this.setState({ [category]: this.state[category] == "" ? "hidden" : "" })
     }
+  }
+
+  toggleChannelOptionsDropdown() {
+    return (e) => {
+      e.stopPropagation()
+      e.preventDefault();
+      this.setState({
+        channelOptionsDropdown: {
+          top: e.currentTarget.offsetTop + e.currentTarget.offsetHeight,
+          left: e.currentTarget.offsetLeft > 29 ? e.currentTarget.offsetLeft : 29,
+          width: 200,
+          "paddingTop": 10,
+          "boxSizing": "border-box"
+        }
+      })
+    }
+  }
+
+  channelOptionsDropdown() {
+    if (this.state.channelOptionsDropdown)
+      return (
+        <div id="channel-options-dropdown">
+          <div className="dropdown-modal" onClick={ () => this.setState({ channelOptionsDropdown: null }) }></div>
+          <div className="dropdown" style={this.state.channelOptionsDropdown}>
+            <div 
+              className="dropdown-item" 
+              onClick={(e) => { this.setState({channelOptionsDropdown: null}); toggleFocusElements("new-channel-modal", "new-channel-input")(e)} }>Create a new channel</div>
+            <div className="dropdown-item" onClick={() => { this.setState({channelOptionsDropdown: null}); this.goToChannel("channel-browser")} }>Browse all channels</div>
+          </div>
+        </div>
+      )
   }
 
   getDmChannelName(channel) {
@@ -166,9 +200,9 @@ class WorkspaceSidebar extends React.Component {
                 {this.state.channel ? <i className="fas fa-caret-right"></i> : <i className="fas fa-caret-down"></i>}
               </div>
               <div className='sidebar-header-link hoverable' onClick={this.toggleDropdown("channel")}>Channels</div>
-              <Link className='sidebar-header-button' to={this.channelLink("channel-browser")}>
+              <div className='sidebar-header-button' onClick={this.toggleChannelOptionsDropdown()}>
                 +
-              </Link>
+              </div>
             </div>
             <div className="sidebar-list">
               {this.getChannels(false).map((channel, idx) => {
@@ -180,12 +214,12 @@ class WorkspaceSidebar extends React.Component {
                   </Link>
                 );
               })}
-              <Link className={`sidebar-item indented ${this.state.channel}`} to={this.channelLink("channel-browser")}>
+              <div className={`sidebar-item indented ${this.state.channel}`} onClick={this.toggleChannelOptionsDropdown()}>
                 <div className="sidebar-item-symbol-box">
                   +
                 </div>
                 <div className="channel-name">Add channels</div>
-              </Link>
+              </div>
             </div>
           </div>
 
@@ -217,6 +251,7 @@ class WorkspaceSidebar extends React.Component {
               </div>
             </div>
           </div>
+          { this.channelOptionsDropdown() }
         </div>
       )
       else 
