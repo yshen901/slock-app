@@ -96,26 +96,31 @@
         }
 
         i {
+          position: relative;
+          overflow: visible;
+
           font-size: 11px;
           line-height: 30px;
 
           padding: 2px 0 0 5px;
           box-sizing: border-box;
-        }
-
-        .user-paused-icon {
-          position: absolute;
-          right: 74px;
-          bottom: 15px;
-          z-index: 1;
           
-          font-size: 12px;
-          line-height: 7px;
-          font-weight: 900;
-          background-color: white;
-          padding: 0 1px 1.5px 0.5px;
-          box-sizing: border-box;
+          .user-paused-icon {
+            position: absolute;
+            right: -4px;
+            bottom: 16px;
+            z-index: 1;
+            
+            font-size: 12px;
+            line-height: 7px;
+            font-weight: 900;
+            background-color: white;
+            padding: 0 1px 1.5px 0.5px;
+            box-sizing: border-box;
+          }
         }
+        
+
       }
 
       #profile-sidebar-occupation, #profile-sidebar-status {

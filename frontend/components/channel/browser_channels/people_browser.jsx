@@ -57,10 +57,11 @@ class PeopleBrowser extends React.Component {
         {profileImage}
         <div className="browse-modal-user-info">
           <div className="browse-modal-username">
-            {getUserName(user)}
+            {getUserName(user)} {user.id == getState().session.user_id ? "(you)" : ""}
             <div className="user-activity-icon">
-              <i className={getUserActivity(user, true, true)}></i>
-              <div className={getUserPaused(user, true, true)}>z</div>
+              <i className={getUserActivity(user, true, true)}>
+                <div className={getUserPaused(user, true, true)}>z</div>
+              </i>
             </div>
           </div>
           <div className="browse-modal-occupation">
@@ -80,7 +81,7 @@ class PeopleBrowser extends React.Component {
     
     // if (this.state.search.length > 0) {
     for (let i = 0; i < usersArray.length && i < 50; i++) {
-      if (usersArray[i].id != currentUserId && userInSearch(usersArray[i], this.state.capSearch)) {
+      if (userInSearch(usersArray[i], this.state.capSearch)) {
         channelsDisplay.push(
           <div 
             key={i} 

@@ -2332,13 +2332,13 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
         className: "browse-modal-user-info"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-username"
-      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user), " ", user.id == getState().session.user_id ? "(you)" : "", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-activity-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserActivity"])(user, true, true)
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserPaused"])(user, true, true)
-      }, "z"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "z")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-occupation"
       }, user.what_i_do)));
     }
@@ -2353,7 +2353,7 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       var usersArray = this.state.capSearch ? Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["sortedUsers"])(users) : Object.values(users); // if (this.state.search.length > 0) {
 
       var _loop = function _loop(i) {
-        if (usersArray[i].id != currentUserId && Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["userInSearch"])(usersArray[i], _this3.state.capSearch)) {
+        if (Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["userInSearch"])(usersArray[i], _this3.state.capSearch)) {
           channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: i,
             onClick: function onClick() {
@@ -5542,9 +5542,9 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
         id: "profile-sidebar-name"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserName"])(user, true)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserActivity"])(user, true, true)
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["getUserPaused"])(user, true, true)
-      }, "z")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "z"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-occupation"
       }, user.what_i_do), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-status"
