@@ -20,6 +20,7 @@ class ChannelChat extends React.Component {
 
     this.bottom = React.createRef();
     this.scrollBar = React.createRef();
+    this.updateScroll = this.updateScroll.bind(this);
 
     this.loadMessages = this.loadMessages.bind(this);
     this.receiveACData = this.receiveACData.bind(this);
@@ -49,24 +50,11 @@ class ChannelChat extends React.Component {
       this.loadMessages();
     }
 
-    let { messagesList } = this.state;
-    let { current_user_id, messagesData } = this.props;
-    if (oldProps.messagesData.length < messagesData.length) {
-      if (messagesData[messagesData.length - 1].user_id == current_user_id) { // user creates new message
-        if (this.bottom.current) this.bottom.current.scrollIntoView();
-      }
-      else {
-        let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
-        let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-        if (distanceFromBottom != messagesList[messagesList.length - 1].offsetHeight) {
-          if (this.bottom.current) this.bottom.current.scrollIntoView();
-        }
-      }
-    }
-    else {
+    // from react/save elements pushing things down
+    if (this.scrollBar.current) {
       let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
         let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-        if (distanceFromBottom < 30) {     // from react/save elements pushing things down
+        if (distanceFromBottom < 30) {     
           if (this.bottom.current) this.bottom.current.scrollIntoView();
         }
     }
@@ -74,6 +62,22 @@ class ChannelChat extends React.Component {
 
   componentWillUnmount() {
     if (this.messageACChannel) this.messageACChannel.unsubscribe();
+  }
+
+  // Called when new messages are made, reacts and saves are handled in componentDidUpdate above
+  updateScroll() {
+    let { messagesList } = this.state;
+    let { current_user_id, messagesData } = this.props;
+    if (messagesData[messagesData.length - 1].user_id == current_user_id) { // user creates new message
+      if (this.bottom.current) this.bottom.current.scrollIntoView();
+    }
+    else if (this.scrollBar.current) {
+      let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
+      let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
+      if (distanceFromBottom > messagesList[messagesList.length - 1].offsetHeight) {
+        if (this.bottom.current) this.bottom.current.scrollIntoView();
+      }
+    }
   }
   
   groupMessages(message, prevMessage) {
@@ -141,11 +145,11 @@ class ChannelChat extends React.Component {
     for (let i = 0; i < messagesData.length; i++) {
       if (messagesData[i].id == messageData.id) {
         if (messageData.type == "DELETE" && messageData.user_id != this.props.current_user_id) {  // called when another user deletes
-          messagesData.splice(i, 1);
+          this.props.removeMessage(messageData)
           messagesList = [];
           for (let i = 0; i < messagesData.length; i++)
             this.processNewMessage(messagesList, i);
-          this.setState({ messagesList, messagesData })
+          this.setState({ messagesList });
         }                                                                     // called when another user reacts
         else if (messageData.type == RECEIVE_MESSAGE_REACT && messageData.user_id != this.props.current_user_id) {
           let message_react = { message_id: messageData.id, user_id: messageData.user_id, react_code: messageData.react_code};
@@ -182,14 +186,11 @@ class ChannelChat extends React.Component {
       // loads the message if its to the current channel
       if (channel_id == this.props.channel_id) {
         this.props.receiveMessage(message)
-  
         let { messagesData } = this.props;
         let messagesList = this.state.messagesList;
         this.processNewMessage(messagesList, messagesData.length - 1);
-  
-        this.setState({
-          messagesList
-        });
+        this.setState({messagesList});
+        this.updateScroll();
       }
       else {
         // joins the dm channel if not already in it

@@ -49,7 +49,7 @@ class PeopleBrowser extends React.Component {
 
   getUserInfo(user) {
     let profileImage = <div className="browse-modal-user-image">
-      <img src={photoUrl(user)}/>
+      <img src={user.photo_url}/>
     </div>
 
     return (

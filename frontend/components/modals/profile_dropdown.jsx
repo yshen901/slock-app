@@ -69,7 +69,7 @@ class ProfileDropdown extends React.Component {
         <div className="dropdown profile" onClick={e => e.stopPropagation()}>
           <div className="dropdown-header">
             <div className="dropdown-image-container">
-              <img src={photoUrl(user)}/>
+              <img src={user.photo_url}/>
             </div>
             <div className="dropdown-content">
               <div className="dropdown-content-top">{getUserName(user)}</div>

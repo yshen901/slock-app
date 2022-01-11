@@ -15,7 +15,7 @@ class WorkspaceTopbar extends React.Component {
       <div id="workspace-top-bar">
         <div className="user-icon">
           <div id="user-photo">
-            <img src={photoUrl(user)} onClick={toggleFocusElements("dropdown-modal profile")}/>
+            <img src={user.photo_url} onClick={toggleFocusElements("dropdown-modal profile")}/>
           </div>
           <div className={getUserPaused(user)}>z</div>
           <i className={getUserActivity(user)}></i>

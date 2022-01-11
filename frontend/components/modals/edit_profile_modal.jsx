@@ -128,7 +128,7 @@ class EditProfileModal extends React.Component {
     if (this.state.imageFile)
       return this.state.imageUrl;
     else
-      return photoUrl(this.props.user);
+      return this.props.user.photo_url;
   }
 
   submitButton() {

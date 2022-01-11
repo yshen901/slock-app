@@ -82,7 +82,7 @@ class UserPopupModal extends React.Component {
         <div className="part-modal-background no-background" onClick={ () => { hidePopup(); } }></div>
         <div className="user-popup" style={calculatePos(!!user.status)}>
           <div className="user-popup-img">
-            <img src={photoUrl(user)}/>
+            <img src={user.photo_url}/>
           </div>
           <div className="user-popup-header">
             <div className="user-popup-name">

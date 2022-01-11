@@ -58,7 +58,7 @@ class WorkspaceSidebar extends React.Component {
       userId = ids[1]
 
     let profileImage = <div className="workspace-sidebar-user-image">
-      <img src={photoUrl(users[userId])}/>
+      <img src={users[userId].photo_url}/>
     </div>
 
     return (

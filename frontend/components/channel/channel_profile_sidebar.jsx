@@ -154,7 +154,7 @@ class ProfileSidebar extends React.Component {
         </div>
         <div id="profile-sidebar-content">
           <div id="profile-sidebar-picture">
-            <img src={photoUrl(user)}/>
+            <img src={user.photo_url}/>
           </div>
           <div id="profile-sidebar-overview">
             <div id="profile-sidebar-name">

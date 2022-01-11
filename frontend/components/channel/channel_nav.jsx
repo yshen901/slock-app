@@ -42,7 +42,7 @@ class ChannelNav extends React.Component {
       let userId = dmChannelUserId(channel, user.id);
 
       let profileImage = <div className="channel-nav-user-image">
-        <img src={photoUrl(users[userId])}/>
+        <img src={users[userId].photo_url}/>
       </div>
 
       return (

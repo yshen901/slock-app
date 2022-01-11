@@ -250,7 +250,7 @@ class ChannelDetailsModal extends React.Component {
             <div className="modal-header">
               <div className="title">
                 <div className="title-image">
-                  <img src={photoUrl(otherUser)}/>
+                  <img src={otherUser.photo_url}/>
                 </div>
                 <div>{getUserName(otherUser)}</div>
               </div>

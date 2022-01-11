@@ -8,6 +8,15 @@ export const UTF_CODE_NAMES = {
   '\u{1F622}': "Crying",
   '\u{1F620}': "Angry",
 };
+export const DEFAULT_USER_PHOTO_URLS = {
+  "1": "/images/lotr/boromir.jpg",
+  "2": "/images/lotr/gandalf.png",
+  "3": "/images/lotr/legolas.jpg",
+  "4": "/images/lotr/gimli.png",
+  "5": "/images/lotr/frodo.jpg",
+  "6": "/images/lotr/aragorn.jpg",
+  "8": "/images/lotr/yuci.jpg",
+}
 
 export const objectToArray = (object) => {
   return Object.keys(object).map((key) => {
@@ -28,11 +37,16 @@ export const workspaceTitle = (address) => {
   return words.join(' ');
 }
 
-// Returns default photo if user is non-existant or doesn't have profile photo
+// Returns default photos for non-existant users, users with no profile photos, or default users
 export const photoUrl = (user) => {
-  if (!user || !user.photo_url)
+  if (!user)
     return DEFAULT_PHOTO_URL;
-  return user.photo_url;
+  else if (user.photo_url)
+    return user.photo_url;
+  else if (DEFAULT_USER_PHOTO_URLS[user.id])
+    return DEFAULT_USER_PHOTO_URLS[user.id];
+  else
+    return DEFAULT_PHOTO_URL;
 }
 
 // Returns username based on user data

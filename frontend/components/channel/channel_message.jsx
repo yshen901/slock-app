@@ -228,7 +228,7 @@ class ChannelMessage extends React.Component {
     else
       return (
         <div className="message-user-icon">
-          <img src={photoUrl(users[user_id])} onClick={toggleUserPopup(user_id)}/>
+          <img src={users[user_id].photo_url} onClick={toggleUserPopup(user_id)}/>
         </div>
       )
   }

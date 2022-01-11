@@ -210,7 +210,7 @@ class SavedBrowser extends React.Component {
         </div>
         <div className="message-content">
           <div className="message-user-icon">
-            <img src={photoUrl(user)} onClick={this.toggleUserPopup(user_id)}/>
+            <img src={user.photo_url} onClick={this.toggleUserPopup(user_id)}/>
           </div>
           <div className="message-text">
             <div className="message-header">

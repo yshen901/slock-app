@@ -2324,7 +2324,7 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       var profileImage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-user-image"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(user)
+        src: user.photo_url
       }));
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browse-modal-user no-highlight"
@@ -2748,7 +2748,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(user),
+        src: user.photo_url,
         onClick: this.toggleUserPopup(user_id)
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-text"
@@ -3100,6 +3100,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     };
     _this.bottom = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.scrollBar = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    _this.updateScroll = _this.updateScroll.bind(_assertThisInitialized(_this));
     _this.loadMessages = _this.loadMessages.bind(_assertThisInitialized(_this));
     _this.receiveACData = _this.receiveACData.bind(_assertThisInitialized(_this));
     _this.toggleUserPopup = _this.toggleUserPopup.bind(_assertThisInitialized(_this));
@@ -3133,38 +3134,17 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           messagesList: []
         });
         this.loadMessages();
-      }
+      } // from react/save elements pushing things down
 
-      var messagesList = this.state.messagesList;
-      var _this$props = this.props,
-          current_user_id = _this$props.current_user_id,
-          messagesData = _this$props.messagesData;
 
-      if (oldProps.messagesData.length < messagesData.length) {
-        if (messagesData[messagesData.length - 1].user_id == current_user_id) {
-          // user creates new message
-          if (this.bottom.current) this.bottom.current.scrollIntoView();
-        } else {
-          var _this$scrollBar$curre = this.scrollBar.current,
-              offsetHeight = _this$scrollBar$curre.offsetHeight,
-              scrollTop = _this$scrollBar$curre.scrollTop,
-              scrollHeight = _this$scrollBar$curre.scrollHeight;
-          var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
+      if (this.scrollBar.current) {
+        var _this$scrollBar$curre = this.scrollBar.current,
+            offsetHeight = _this$scrollBar$curre.offsetHeight,
+            scrollTop = _this$scrollBar$curre.scrollTop,
+            scrollHeight = _this$scrollBar$curre.scrollHeight;
+        var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
 
-          if (distanceFromBottom != messagesList[messagesList.length - 1].offsetHeight) {
-            if (this.bottom.current) this.bottom.current.scrollIntoView();
-          }
-        }
-      } else {
-        var _this$scrollBar$curre2 = this.scrollBar.current,
-            _offsetHeight = _this$scrollBar$curre2.offsetHeight,
-            _scrollTop = _this$scrollBar$curre2.scrollTop,
-            _scrollHeight = _this$scrollBar$curre2.scrollHeight;
-
-        var _distanceFromBottom = _scrollHeight - _offsetHeight - _scrollTop;
-
-        if (_distanceFromBottom < 30) {
-          // from react/save elements pushing things down
+        if (distanceFromBottom < 30) {
           if (this.bottom.current) this.bottom.current.scrollIntoView();
         }
       }
@@ -3173,6 +3153,30 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       if (this.messageACChannel) this.messageACChannel.unsubscribe();
+    } // Called when new messages are made, reacts and saves are handled in componentDidUpdate above
+
+  }, {
+    key: "updateScroll",
+    value: function updateScroll() {
+      var messagesList = this.state.messagesList;
+      var _this$props = this.props,
+          current_user_id = _this$props.current_user_id,
+          messagesData = _this$props.messagesData;
+
+      if (messagesData[messagesData.length - 1].user_id == current_user_id) {
+        // user creates new message
+        if (this.bottom.current) this.bottom.current.scrollIntoView();
+      } else if (this.scrollBar.current) {
+        var _this$scrollBar$curre2 = this.scrollBar.current,
+            offsetHeight = _this$scrollBar$curre2.offsetHeight,
+            scrollTop = _this$scrollBar$curre2.scrollTop,
+            scrollHeight = _this$scrollBar$curre2.scrollHeight;
+        var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
+
+        if (distanceFromBottom > messagesList[messagesList.length - 1].offsetHeight) {
+          if (this.bottom.current) this.bottom.current.scrollIntoView();
+        }
+      }
     }
   }, {
     key: "groupMessages",
@@ -3247,7 +3251,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         if (messagesData[i].id == messageData.id) {
           if (messageData.type == "DELETE" && messageData.user_id != this.props.current_user_id) {
             // called when another user deletes
-            messagesData.splice(i, 1);
+            this.props.removeMessage(messageData);
             messagesList = [];
 
             for (var _i = 0; _i < messagesData.length; _i++) {
@@ -3255,8 +3259,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
             }
 
             this.setState({
-              messagesList: messagesList,
-              messagesData: messagesData
+              messagesList: messagesList
             });
           } // called when another user reacts
           else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_REACT"] && messageData.user_id != this.props.current_user_id) {
@@ -3309,6 +3312,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           this.setState({
             messagesList: messagesList
           });
+          this.updateScroll();
         } else {
           // joins the dm channel if not already in it
           if (activate_dm_channel) {
@@ -3440,6 +3444,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     receiveMessage: function receiveMessage(message) {
       return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["receiveMessage"])(message));
+    },
+    removeMessage: function removeMessage(message) {
+      return dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_4__["removeMessage"])(message));
     },
     startDmChannel: function startDmChannel(dmChannel) {
       return dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["startDmChannel"])(dmChannel));
@@ -4415,7 +4422,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       }, created_date), created_time);else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["photoUrl"])(users[user_id]),
+        src: users[user_id].photo_url,
         onClick: toggleUserPopup(user_id)
       }));
     }
@@ -5162,7 +5169,7 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
         var profileImage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-nav-user-image"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["photoUrl"])(users[userId])
+          src: users[userId].photo_url
         }));
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-info",
@@ -5528,7 +5535,7 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-picture"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(user)
+        src: user.photo_url
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-overview"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6219,7 +6226,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "title-image"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(otherUser)
+          src: otherUser.photo_url
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserName"])(otherUser))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "modal-close-button",
           onClick: this.toggleHide
@@ -7105,7 +7112,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "photoUrl",
     value: function photoUrl() {
-      if (this.state.imageFile) return this.state.imageUrl;else return Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(this.props.user);
+      if (this.state.imageFile) return this.state.imageUrl;else return this.props.user.photo_url;
     }
   }, {
     key: "submitButton",
@@ -7957,7 +7964,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-image-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_5__["photoUrl"])(user)
+        src: user.photo_url
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -8323,7 +8330,7 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-popup-img"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(user)
+        src: user.photo_url
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-popup-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -9140,7 +9147,7 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       var profileImage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "workspace-sidebar-user-image"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(users[userId])
+        src: users[userId].photo_url
       }));
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dm-channel-info"
@@ -9452,7 +9459,7 @@ var WorkspaceTopbar = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "user-photo"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["photoUrl"])(user),
+        src: user.photo_url,
         onClick: Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["toggleFocusElements"])("dropdown-modal profile")
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserPaused"])(user)
@@ -10140,13 +10147,14 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: DEFAULT_PHOTO_URL, UTF_CODE_NAMES, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getUserPaused, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId, getMessageTimestamp, processTime, getMessageDate */
+/*! exports provided: DEFAULT_PHOTO_URL, UTF_CODE_NAMES, DEFAULT_USER_PHOTO_URLS, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getUserPaused, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId, getMessageTimestamp, processTime, getMessageDate */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEFAULT_PHOTO_URL", function() { return DEFAULT_PHOTO_URL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UTF_CODE_NAMES", function() { return UTF_CODE_NAMES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DEFAULT_USER_PHOTO_URLS", function() { return DEFAULT_USER_PHOTO_URLS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "objectToArray", function() { return objectToArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "objectToNameArray", function() { return objectToNameArray; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "workspaceTitle", function() { return workspaceTitle; });
@@ -10173,6 +10181,15 @@ var UTF_CODE_NAMES = {
   "\uD83D\uDE22": "Crying",
   "\uD83D\uDE20": "Angry"
 };
+var DEFAULT_USER_PHOTO_URLS = {
+  "1": "/images/lotr/boromir.jpg",
+  "2": "/images/lotr/gandalf.png",
+  "3": "/images/lotr/legolas.jpg",
+  "4": "/images/lotr/gimli.png",
+  "5": "/images/lotr/frodo.jpg",
+  "6": "/images/lotr/aragorn.jpg",
+  "8": "/images/lotr/yuci.jpg"
+};
 var objectToArray = function objectToArray(object) {
   return Object.keys(object).map(function (key) {
     return object[key];
@@ -10191,11 +10208,10 @@ var workspaceTitle = function workspaceTitle(address) {
   }
 
   return words.join(' ');
-}; // Returns default photo if user is non-existant or doesn't have profile photo
+}; // Returns default photos for non-existant users, users with no profile photos, or default users
 
 var photoUrl = function photoUrl(user) {
-  if (!user || !user.photo_url) return DEFAULT_PHOTO_URL;
-  return user.photo_url;
+  if (!user) return DEFAULT_PHOTO_URL;else if (user.photo_url) return user.photo_url;else if (DEFAULT_USER_PHOTO_URLS[user.id]) return DEFAULT_USER_PHOTO_URLS[user.id];else return DEFAULT_PHOTO_URL;
 }; // Returns username based on user data
 
 var getUserName = function getUserName(user) {
