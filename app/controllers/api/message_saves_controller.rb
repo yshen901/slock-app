@@ -16,7 +16,7 @@ class Api::MessageSavesController < ApplicationController
     if @message_save.save 
       render :show
     else
-      render json: @message_save.errors.full_messages, status: 402
+      render json: @message_save.errors.full_messages, status: 409
     end
   end
 
@@ -29,10 +29,10 @@ class Api::MessageSavesController < ApplicationController
       if @message_save.destroy 
         render :show
       else
-        render json: @message_save.errors.full_messages, status: 402
+        render json: @message_save.errors.full_messages, status: 409
       end
     else 
-      render json: ["Message save not found."], status: 400
+      render json: ["Message save not found."], status: 404
     end
   end
 

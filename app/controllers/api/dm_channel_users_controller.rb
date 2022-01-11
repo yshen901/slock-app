@@ -21,7 +21,7 @@ class Api::DmChannelUsersController < ApplicationController
       if updated
         render :show
       else
-        render json: ["DM chatroom reactivation failed"]
+        render json: ["DM chatroom reactivation failed"], status: 409
       end
     else
       @channel = Channel.new(
@@ -43,10 +43,10 @@ class Api::DmChannelUsersController < ApplicationController
         if @dm_channel_user.save
           render :show
         else
-          render json: ["Failed to create link to DMChannel."]
+          render json: ["Failed to create link to DMChannel."], status: 409
         end
       else
-        render json: ["Failed to create DMChannel."]
+        render json: ["Failed to create DMChannel."], status: 409
       end
     end
   end
@@ -69,10 +69,10 @@ class Api::DmChannelUsersController < ApplicationController
       if @dm_channel_user.update(update_active)
         render :show
       else
-        render json: ["DM chatroom toggle failed"], status: 401
+        render json: ["DM chatroom toggle failed"], status: 409
       end
     else
-      render json: ["DM chatroom not found!"], status: 401
+      render json: ["DM chatroom not found!"], status: 404
     end
   end
 

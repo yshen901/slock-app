@@ -59,7 +59,7 @@ class Api::UsersController < ApplicationController
   def create
     @user = User.includes(workspaces: [:connections]).find_by(email: user_params[:email])
     if @user
-      render json: ["User already exists"], status: 401
+      render json: ["User already exists"], status: 409
     else
       @user = User.new(
         email: user_params[:email],
@@ -73,7 +73,7 @@ class Api::UsersController < ApplicationController
         login!(@user)
         render '/api/users/show'
       else
-        render json: @user.errors.full_messages, status: 401
+        render json: @user.errors.full_messages, status: 409
       end
     end
   end
@@ -88,13 +88,13 @@ class Api::UsersController < ApplicationController
         if @user.update(user_params.except(:photo))
           render :show
         else
-          render json: @user.errors.full_messages, status: 401
+          render json: @user.errors.full_messages, status: 409
         end
       else
-        render json: @user.errors.full_messages, status: 401
+        render json: @user.errors.full_messages, status: 409
       end
     else
-      render json: ["User not found!"], status: 400
+      render json: ["User not found!"], status: 404
     end
   end
 

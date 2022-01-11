@@ -2,7 +2,7 @@ class Api::SessionsController < ApplicationController
   def create 
     workspace = Workspace.includes(users: [workspaces: [:connections]]).find_by_address(params[:user][:workspace_address])
     if !workspace
-      render json: ["Workspace doesn't exist"], status: 401
+      render json: ["Workspace doesn't exist"], status: 404
     else
       @user = workspace.users.find_by_credentials(
         params[:user][:email],
@@ -12,7 +12,7 @@ class Api::SessionsController < ApplicationController
         login!(@user, workspace)
         render 'api/users/show'
       else
-        render json: ["Email/Password combination doesn't exist on this workspace"], status: 401
+        render json: ["Email/Password combination doesn't exist on this workspace"], status: 404
       end
     end
   end

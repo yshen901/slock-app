@@ -18,7 +18,7 @@ class Api::WorkspacesController < ApplicationController
       end
       render '/api/workspaces/show'
     else
-      render json: ["Workspace does not exist"], status: 400
+      render json: ["Workspace does not exist"], status: 404
     end
   end
 
@@ -38,7 +38,7 @@ class Api::WorkspacesController < ApplicationController
     # @workspace.address = new_address.join('-');
 
     if !logged_in?
-      render json: ["I don't know how you did this but this is illegal"], status: 402
+      render json: ["User must be logged in to create a workspace."], status: 401
     elsif @workspace.save
       connection = WorkspaceUser.create(user_id: current_user.id, workspace_id: @workspace.id, logged_in: true)
 
@@ -52,7 +52,7 @@ class Api::WorkspacesController < ApplicationController
 
       render '/api/workspaces/show'
     else
-      render json: ["Workspace name is invalid or already taken"], status: 402
+      render json: ["Workspace name is invalid or already taken"], status: 409
     end
   end
 

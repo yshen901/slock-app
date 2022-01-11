@@ -15,7 +15,7 @@ class Api::MessagesController < ApplicationController
     if @message.save
       render :show
     else
-      render json: @message.errors.full_messages, status: 402
+      render json: @message.errors.full_messages, status: 409
     end
   end
 
@@ -25,10 +25,10 @@ class Api::MessagesController < ApplicationController
       if @message.destroy
         render :show
       else
-        render json: ["Message destroy failed."], status: 402
+        render json: ["Message destroy failed."], status: 409
       end
     else
-      render json: ["Message not found."], status: 400
+      render json: ["Message not found."], status: 404
     end
   end
 
@@ -37,7 +37,7 @@ class Api::MessagesController < ApplicationController
     if @message.update(message_params)
       render :show
     else
-      render json: @message.errors.full_messages, status: 402
+      render json: @message.errors.full_messages, status: 409
     end
   end
 

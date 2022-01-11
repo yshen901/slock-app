@@ -9,7 +9,7 @@ class Api::MessageReactsController < ApplicationController
     if @message_react.save
       render :show
     else
-      render json: @message_react.errors.full_messages, status: 402
+      render json: @message_react.errors.full_messages, status: 409
     end
   end
 
@@ -24,10 +24,10 @@ class Api::MessageReactsController < ApplicationController
       if @message_react.destroy
         render :show
       else
-        render json: @message_react.errors.full_messages, status: 402
+        render json: @message_react.errors.full_messages, status: 409
       end
     else
-      render json: ["Delete failed: message react not found."], status: 400
+      render json: ["Delete failed: message react not found."], status: 404
     end
   end
 

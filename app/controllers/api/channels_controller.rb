@@ -13,7 +13,7 @@ class Api::ChannelsController < ApplicationController
     if @channel
       render 'api/channels/show'
     else
-      render json: ["Channel doesn't exist"], status: 401
+      render json: ["Channel doesn't exist"], status: 404
     end
   end
 
@@ -23,13 +23,13 @@ class Api::ChannelsController < ApplicationController
     @channel = Channel.new(channel_params)
     old_channel = Channel.find_by(channel_params)
     if old_channel
-      render json: ["Channel name already exists"], status: 401
+      render json: ["Channel name already exists"], status: 409
     elsif @channel.save
       @single_channel_connection = ChannelUser.create(channel_id: @channel.id, user_id: current_user.id)
       @no_messages = true         # to tell partial to not load messages and only one user
       render 'api/channels/show'
     else
-      render json: ["Other error occurred"], status: 401
+      render json: ["Other error occurred"], status: 409
     end
   end
 

@@ -8,7 +8,7 @@ class Api::ChannelUsersController < ApplicationController
     # Activate channel_user if its already existing
     if @channel_user
       if @channel_user.active
-        render json: ["User is already in the channel"], status: 401
+        render json: ["User is already in the channel"], status: 409
       else
         @channel_user.update(active: true)
         render :show
@@ -22,7 +22,7 @@ class Api::ChannelUsersController < ApplicationController
       if @channel_user.save
         render 'api/channel_users/show'
       else
-        render json: ["Failed to join channel"], status: 401
+        render json: ["Failed to join channel"], status: 409
       end
     end
   end
@@ -38,7 +38,7 @@ class Api::ChannelUsersController < ApplicationController
       @channel_user.destroy
       render 'api/channel_users/show'
     else
-      render json: ["User has already left the channel"], status: 401
+      render json: ["User has already left the channel"], status: 404
     end
   end
 
@@ -52,10 +52,10 @@ class Api::ChannelUsersController < ApplicationController
       if @channel_user.update(channel_user_params)
         render 'api/channel_users/show'
       else
-        render json: ["Channel update failed!"]
+        render json: ["Channel update failed!"], status: 409
       end
     else
-      render json: ["User is not in the channel."]
+      render json: ["User is not in the channel."], status: 404
     end
   end
 
