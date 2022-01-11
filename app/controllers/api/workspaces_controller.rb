@@ -5,7 +5,7 @@ class Api::WorkspacesController < ApplicationController
     # include channels:[:users] for channels partial (dm_user_1 and dm_user_2 isn't necessary because they would need 2 either way)
     # include users and connections also for convenience
     @workspace = Workspace
-      .includes(:connections, :users, channels: [:users])
+      .includes(:connections, :users, channels: [:users, :dm_channel_connection])
       .find_by_address(params[:id])
     if @workspace 
       if logged_in?
