@@ -136,32 +136,32 @@ class ChannelChat extends React.Component {
 
   // Updates the relevant message and if necessary repopulates messagesList to redo time groupings
   updateMessage(messageData) {
-    let { messagesData } = this.props;
+    let { messagesData, current_user_id, user_saved_messages } = this.props;
     let { messagesList } = this.state;
     
     for (let i = 0; i < messagesData.length; i++) {
       if (messagesData[i].id == messageData.id) {
-        if (messageData.type == "DELETE" && messageData.user_id != this.props.current_user_id) {  // called when another user deletes
+        if (messageData.type == "DELETE" && messageData.user_id != current_user_id) {  // called when another user deletes
           this.props.removeMessage(messageData)
           messagesList = [];
           for (let i = 0; i < messagesData.length; i++)
             this.processNewMessage(messagesList, i);
           this.setState({ messagesList });
         }                                                                     // called when another user reacts
-        else if (messageData.type == RECEIVE_MESSAGE_REACT && messageData.user_id != this.props.current_user_id) {
+        else if (messageData.type == RECEIVE_MESSAGE_REACT && messageData.user_id != current_user_id) {
           let message_react = { message_id: messageData.id, user_id: messageData.user_id, react_code: messageData.react_code};
           this.props.receiveMessageReact(message_react);
         }
-        else if (messageData.type == REMOVE_MESSAGE_REACT && messageData.user_id != this.props.current_user_id) {
+        else if (messageData.type == REMOVE_MESSAGE_REACT && messageData.user_id != current_user_id) {
           let message_react = { message_id: messageData.id, user_id: messageData.user_id, react_code: messageData.react_code};
           this.props.removeMessageReact(message_react);
         }                                                                    // called when user saves in another window
-        else if (messageData.type == RECEIVE_MESSAGE_SAVE && !this.props.user_saved_messages[messageData.id]) {
+        else if (messageData.type == RECEIVE_MESSAGE_SAVE && messageData.user_id == current_user_id && !user_saved_messages[messageData.id]) {
           this.props.receiveMessageSave({
             message_id: messageData.id,
           })
         }
-        else if (messageData.type == REMOVE_MESSAGE_SAVE && this.props.user_saved_messages[messageData.id]) {
+        else if (messageData.type == REMOVE_MESSAGE_SAVE && messageData.user_id == current_user_id && user_saved_messages[messageData.id]) {
           this.props.removeMessageSave({
             message_id: messageData.id
           });

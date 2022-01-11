@@ -3237,12 +3237,15 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "updateMessage",
     value: function updateMessage(messageData) {
-      var messagesData = this.props.messagesData;
+      var _this$props3 = this.props,
+          messagesData = _this$props3.messagesData,
+          current_user_id = _this$props3.current_user_id,
+          user_saved_messages = _this$props3.user_saved_messages;
       var messagesList = this.state.messagesList;
 
       for (var i = 0; i < messagesData.length; i++) {
         if (messagesData[i].id == messageData.id) {
-          if (messageData.type == "DELETE" && messageData.user_id != this.props.current_user_id) {
+          if (messageData.type == "DELETE" && messageData.user_id != current_user_id) {
             // called when another user deletes
             this.props.removeMessage(messageData);
             messagesList = [];
@@ -3255,14 +3258,14 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               messagesList: messagesList
             });
           } // called when another user reacts
-          else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_REACT"] && messageData.user_id != this.props.current_user_id) {
+          else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_REACT"] && messageData.user_id != current_user_id) {
               var message_react = {
                 message_id: messageData.id,
                 user_id: messageData.user_id,
                 react_code: messageData.react_code
               };
               this.props.receiveMessageReact(message_react);
-            } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_REACT"] && messageData.user_id != this.props.current_user_id) {
+            } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_REACT"] && messageData.user_id != current_user_id) {
               var _message_react = {
                 message_id: messageData.id,
                 user_id: messageData.user_id,
@@ -3270,11 +3273,11 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               };
               this.props.removeMessageReact(_message_react);
             } // called when user saves in another window
-            else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_SAVE"] && !this.props.user_saved_messages[messageData.id]) {
+            else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && !user_saved_messages[messageData.id]) {
                 this.props.receiveMessageSave({
                   message_id: messageData.id
                 });
-              } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_SAVE"] && this.props.user_saved_messages[messageData.id]) {
+              } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && user_saved_messages[messageData.id]) {
                 this.props.removeMessageSave({
                   message_id: messageData.id
                 });
@@ -3343,9 +3346,9 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     value: function renderUserPopup() {
       var _this4 = this;
 
-      var _this$props3 = this.props,
-          users = _this$props3.users,
-          showUser = _this$props3.showUser;
+      var _this$props4 = this.props,
+          users = _this$props4.users,
+          showUser = _this$props4.showUser;
       var popupUserId = this.state.popupUserId;
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
         user: users[popupUserId],
