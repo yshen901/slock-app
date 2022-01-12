@@ -44,12 +44,14 @@ class EditProfileStatusModal extends React.Component {
     dispatch(updateWorkspaceUser(workspace_id, {status: this.state.status}))
       .then(
         () => {
+          let { users } = getState().entities;
+          let { user_id, user_channel_ids, workspace_id } = getState().session;
           this.props.loginACChannel.speak({
             workspace_data: {
-              user: getState().entities.users[getState().session.user_id],
+              user: users[user_id],
               logged_in: true,
-              user_channel_ids: getState().session.user_channel_ids,
-              workspace_id: getState().session.workspace_id
+              user_channel_ids: user_channel_ids,
+              workspace_id: workspace_id
             }
           });
           this.handleCancel();

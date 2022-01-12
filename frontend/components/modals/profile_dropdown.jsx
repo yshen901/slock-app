@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { logout } from '../../actions/session_actions';
 import { updateWorkspaceUser } from '../../actions/user_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
-import { getUserActivity, getUserName, photoUrl, workspaceTitle } from '../../selectors/selectors';
+import { getUserActivity, getUserName, workspaceTitle } from '../../selectors/selectors';
 import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
 
 class ProfileDropdown extends React.Component {
@@ -27,7 +27,7 @@ class ProfileDropdown extends React.Component {
 
   logoutWorkspace(e) {
     e.stopPropagation();
-    let { workspace_id, user_id } = getState().session;
+    let { workspace_id } = getState().session;
     let { user } = this.props;  
     dispatch(logoutWorkspace(workspace_id))
     .then(
@@ -56,14 +56,15 @@ class ProfileDropdown extends React.Component {
   }
 
   updateWorkspaceUser(workspace_user) {
-    let { workspace_id } = getState().session;
+    let { users } = getState().entities;
+    let { workspace_id, user_id, user_channel_ids } = getState().session;
     dispatch(updateWorkspaceUser(workspace_id, workspace_user))
       .then(() => {
         this.props.loginACChannel.speak({
           workspace_data: {
-            user: getState().entities.users[getState().session.user_id],
+            user: users[user_id],
             logged_in: true,
-            user_channel_ids: getState().session.user_channel_ids,
+            user_channel_ids: user_channel_ids,
             workspace_id
           }
         });

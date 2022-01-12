@@ -2939,7 +2939,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _channel_nav_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channel_nav_container */ "./frontend/components/channel/channel_nav_container.js");
 /* harmony import */ var _channel_chat_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_chat_container */ "./frontend/components/channel/channel_chat_container.js");
-/* harmony import */ var _modals_channel_details_modal_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modals/channel_details_modal_container */ "./frontend/components/modals/channel_details_modal_container.jsx");
+/* harmony import */ var _modals_channel_details_modal_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modals/channel_details_modal_container */ "./frontend/components/modals/channel_details_modal_container.js");
 /* harmony import */ var _modals_edit_channel_name_modal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modals/edit_channel_name_modal */ "./frontend/components/modals/edit_channel_name_modal.jsx");
 /* harmony import */ var _modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modals/edit_channel_topic_modal */ "./frontend/components/modals/edit_channel_topic_modal.jsx");
 /* harmony import */ var _modals_edit_channel_description_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modals/edit_channel_description_modal */ "./frontend/components/modals/edit_channel_description_modal.jsx");
@@ -6442,10 +6442,10 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/modals/channel_details_modal_container.jsx":
-/*!************************************************************************!*\
-  !*** ./frontend/components/modals/channel_details_modal_container.jsx ***!
-  \************************************************************************/
+/***/ "./frontend/components/modals/channel_details_modal_container.js":
+/*!***********************************************************************!*\
+  !*** ./frontend/components/modals/channel_details_modal_container.js ***!
+  \***********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -6469,14 +6469,16 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
       channels = _state$entities.channels,
       users = _state$entities.users;
   var user_id = state.session.user_id;
-  var channel_id = ownProps.match.params.channel_id;
+  var _ownProps$match$param = ownProps.match.params,
+      channel_id = _ownProps$match$param.channel_id,
+      workspace_address = _ownProps$match$param.workspace_address;
   return {
-    channel_id: channel_id,
-    channel: channels[channel_id],
     users: users,
+    channel: channels[channel_id],
     channel_users: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["sortedChannelUsers"])(channels[channel_id], users),
-    current_user_id: user_id,
-    workspace_address: ownProps.match.params.workspace_address
+    channel_id: channel_id,
+    workspace_address: workspace_address,
+    current_user_id: user_id
   };
 };
 
@@ -7431,10 +7433,10 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/modals/edit_profile_modal_container.jsx":
-/*!*********************************************************************!*\
-  !*** ./frontend/components/modals/edit_profile_modal_container.jsx ***!
-  \*********************************************************************/
+/***/ "./frontend/components/modals/edit_profile_modal_container.js":
+/*!********************************************************************!*\
+  !*** ./frontend/components/modals/edit_profile_modal_container.js ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -7571,12 +7573,18 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
       dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["updateWorkspaceUser"])(workspace_id, {
         status: this.state.status
       })).then(function () {
+        var users = getState().entities.users;
+        var _getState$session = getState().session,
+            user_id = _getState$session.user_id,
+            user_channel_ids = _getState$session.user_channel_ids,
+            workspace_id = _getState$session.workspace_id;
+
         _this2.props.loginACChannel.speak({
           workspace_data: {
-            user: getState().entities.users[getState().session.user_id],
+            user: users[user_id],
             logged_in: true,
-            user_channel_ids: getState().session.user_channel_ids,
-            workspace_id: getState().session.workspace_id
+            user_channel_ids: user_channel_ids,
+            workspace_id: workspace_id
           }
         });
 
@@ -7829,8 +7837,7 @@ var InviteUserModal = /*#__PURE__*/function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
+/* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -7854,7 +7861,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 
 
 
@@ -7935,7 +7941,7 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
       };
       this.props.postChannel(channel).then(function (_ref) {
         var channel = _ref.channel;
-        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("new-channel-modal");
+        Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("new-channel-modal");
 
         _this3.setState({
           name: "",
@@ -7960,7 +7966,7 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Create a channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-close-button",
         onClick: function onClick() {
-          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("new-channel-modal");
+          return Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("new-channel-modal");
         }
       }, "\u2715")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h6", null, "Channels are where your members communicate. They\u2019re best when organized around a topic - #proj-budget, for example."), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "create-form-header"
@@ -7988,7 +7994,7 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
-          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("new-channel-modal");
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("new-channel-modal");
 
           _this4.setState({
             name: ""
@@ -8005,10 +8011,10 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/modals/new_channel_modal_container.jsx":
-/*!********************************************************************!*\
-  !*** ./frontend/components/modals/new_channel_modal_container.jsx ***!
-  \********************************************************************/
+/***/ "./frontend/components/modals/new_channel_modal_container.js":
+/*!*******************************************************************!*\
+  !*** ./frontend/components/modals/new_channel_modal_container.js ***!
+  \*******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -8126,9 +8132,7 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       e.stopPropagation();
-      var _getState$session = getState().session,
-          workspace_id = _getState$session.workspace_id,
-          user_id = _getState$session.user_id;
+      var workspace_id = getState().session.workspace_id;
       var user = this.props.user;
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_4__["logoutWorkspace"])(workspace_id)).then(function () {
         _this3.props.loginACChannel.speak({
@@ -8157,13 +8161,17 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
     value: function updateWorkspaceUser(workspace_user) {
       var _this4 = this;
 
-      var workspace_id = getState().session.workspace_id;
+      var users = getState().entities.users;
+      var _getState$session = getState().session,
+          workspace_id = _getState$session.workspace_id,
+          user_id = _getState$session.user_id,
+          user_channel_ids = _getState$session.user_channel_ids;
       dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["updateWorkspaceUser"])(workspace_id, workspace_user)).then(function () {
         _this4.props.loginACChannel.speak({
           workspace_data: {
-            user: getState().entities.users[getState().session.user_id],
+            user: users[user_id],
             logged_in: true,
-            user_channel_ids: getState().session.user_channel_ids,
+            user_channel_ids: user_channel_ids,
             workspace_id: workspace_id
           }
         });
@@ -8478,10 +8486,13 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
 
         _this2.props.hidePopup();
 
+        var _getState$session = getState().session,
+            user_id = _getState$session.user_id,
+            workspace_id = _getState$session.workspace_id;
         dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"])({
-          user_1_id: getState().session.user_id,
+          user_1_id: user_id,
           user_2_id: userId,
-          workspace_id: getState().session.workspace_id
+          workspace_id: workspace_id
         })).then(function (_ref) {
           var dmChannelUser = _ref.dmChannelUser;
           var channel_id = dmChannelUser.channel_id;
@@ -8501,10 +8512,13 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
 
         _this3.props.hidePopup();
 
+        var _getState$session2 = getState().session,
+            user_id = _getState$session2.user_id,
+            workspace_id = _getState$session2.workspace_id;
         dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"])({
-          user_1_id: getState().session.user_id,
+          user_1_id: user_id,
           user_2_id: userId,
-          workspace_id: getState().session.workspace_id
+          workspace_id: workspace_id
         })).then(function (_ref2) {
           var dmChannelUser = _ref2.dmChannelUser;
           var channel_id = dmChannelUser.channel_id;
@@ -8770,9 +8784,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _channel_browser_channels_channel_browser_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../channel/browser_channels/channel_browser_container */ "./frontend/components/channel/browser_channels/channel_browser_container.js");
 /* harmony import */ var _channel_browser_channels_people_browser_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../channel/browser_channels/people_browser_container */ "./frontend/components/channel/browser_channels/people_browser_container.js");
 /* harmony import */ var _channel_browser_channels_saved_browser_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../channel/browser_channels/saved_browser_container */ "./frontend/components/channel/browser_channels/saved_browser_container.js");
-/* harmony import */ var _modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modals/new_channel_modal_container */ "./frontend/components/modals/new_channel_modal_container.jsx");
+/* harmony import */ var _modals_new_channel_modal_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modals/new_channel_modal_container */ "./frontend/components/modals/new_channel_modal_container.js");
 /* harmony import */ var _modals_invite_user_modal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../modals/invite_user_modal */ "./frontend/components/modals/invite_user_modal.jsx");
-/* harmony import */ var _modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modals/edit_profile_modal_container */ "./frontend/components/modals/edit_profile_modal_container.jsx");
+/* harmony import */ var _modals_edit_profile_modal_container__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modals/edit_profile_modal_container */ "./frontend/components/modals/edit_profile_modal_container.js");
 /* harmony import */ var _modals_edit_profile_status_modal__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../modals/edit_profile_status_modal */ "./frontend/components/modals/edit_profile_status_modal.jsx");
 /* harmony import */ var _modals_sidebar_dropdown__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modals/sidebar_dropdown */ "./frontend/components/modals/sidebar_dropdown.jsx");
 /* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../modals/profile_dropdown */ "./frontend/components/modals/profile_dropdown.jsx");

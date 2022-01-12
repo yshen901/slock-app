@@ -24,10 +24,12 @@ class UserPopupModal extends React.Component {
     return e => {     
       e.stopPropagation();
       this.props.hidePopup();
+
+      let { user_id, workspace_id } = getState().session;
       dispatch(startDmChannel({
-        user_1_id: getState().session.user_id,
+        user_1_id: user_id,
         user_2_id: userId,
-        workspace_id: getState().session.workspace_id
+        workspace_id: workspace_id
       })).then(
         ({dmChannelUser}) => {
           let {channel_id} = dmChannelUser;
@@ -42,10 +44,11 @@ class UserPopupModal extends React.Component {
     return e => {
       e.stopPropagation();
       this.props.hidePopup();
+      let { user_id, workspace_id } = getState().session;
       dispatch(startDmChannel({
-        user_1_id: getState().session.user_id,
+        user_1_id: user_id,
         user_2_id: userId,
-        workspace_id: getState().session.workspace_id
+        workspace_id: workspace_id
       })).then(
         ({dmChannelUser}) => {
           let {channel_id} = dmChannelUser;

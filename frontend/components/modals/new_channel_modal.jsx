@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { hideElements } from '../../util/modal_api_util';
 
 class NewChannelModal extends React.Component {

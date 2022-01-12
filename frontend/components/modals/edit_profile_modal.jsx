@@ -1,6 +1,6 @@
 import React from "react";
 import { hideElements } from "../../util/modal_api_util";
-import { DEFAULT_PHOTO_URL, photoUrl } from "../../selectors/selectors";
+import { DEFAULT_PHOTO_URL } from "../../selectors/selectors";
 import { timeZones } from "../../util/user_api_util";
 // import imageCompression from 'browser-image-compression';
 // import { compressImageFile } from 'frontend-image-compress';
