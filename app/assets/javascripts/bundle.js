@@ -6162,9 +6162,11 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_popup_modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: users[popupUserId],
         hidePopup: function hidePopup() {
-          return _this5.setState({
+          _this5.setState({
             popupUserId: 0
           });
+
+          Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
         },
         showUser: showUser,
         startVideoCall: this.props.startVideoCall,

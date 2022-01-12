@@ -92,7 +92,7 @@ class ChannelDetailsModal extends React.Component {
       return (
         <UserPopupModal 
           user={users[popupUserId]} 
-          hidePopup={() => this.setState({popupUserId: 0})}
+          hidePopup={() => { this.setState({popupUserId: 0}); hideElements("channel-details-modal"); } }
           showUser={showUser}
           startVideoCall={this.props.startVideoCall}
           calculatePos={this.calculatePos}/>
