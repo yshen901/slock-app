@@ -217,10 +217,10 @@ class EditProfileModal extends React.Component {
             </div>
             <input 
               type="file" 
-              id="selected-file"
+              id="profile-photo-file"
               style={{display: "none"}}
               onChange={this.readFile}/>
-            <input type="button" disabled={this.state.loadingFile} value="Upload File" onClick={() => document.getElementById('selected-file').click()} />
+            <input type="button" disabled={this.state.loadingFile} value="Upload File" onClick={() => document.getElementById('profile-photo-file').click()} />
             <input type="button" disabled={this.state.loadingFile} value="Clear Photo" onClick={() => this.setState({ deleteImage: true })} />
           </div>
         </div>

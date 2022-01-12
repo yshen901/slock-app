@@ -189,12 +189,6 @@
         }
       }
   
-      .toolbar-button:hover {
-        transition: 0.3s;
-        cursor: pointer;
-        background: rgb(220, 220, 220);
-      }
-  
       .toolbar-button.selected {
         background: rgb(220, 220, 220);
       }
@@ -277,6 +271,16 @@
           }
         }
 
+        .toolbar-button:hover {
+          transition: 0.3s;
+          cursor: pointer;
+          background: rgb(220, 220, 220);
+
+          .black-popup {
+            display: flex;
+          }
+        }
+
         #message-send-buttons {
           display: flex;
           justify-content: flex-end;
@@ -348,6 +352,10 @@
     }
   
     .toolbar-button:hover {
+      transition: 0.3s;
+      cursor: pointer;
+      background: rgb(220, 220, 220);
+
       .black-popup {
         display: flex;
       }

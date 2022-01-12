@@ -4708,6 +4708,18 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -4761,11 +4773,13 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         insertOrderedList: false
       },
       files: [],
-      fileUrls: []
+      fileUrls: [],
+      fileError: ""
     }; // Used to find chat input's content
 
     _this.chatInput = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.format = _this.format.bind(_assertThisInitialized(_this));
+    _this.readFile = _this.readFile.bind(_assertThisInitialized(_this));
     _this.focusInput = _this.focusInput.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.updateToolbarState = _this.updateToolbarState.bind(_assertThisInitialized(_this));
@@ -4815,12 +4829,37 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         });
         this.chatInput.current.innerHTML = "";
       }
+    } // Reads in the elements using FileReader, and set state when successful
+
+  }, {
+    key: "readFile",
+    value: function readFile(e) {
+      var _this2 = this;
+
+      var reader = new FileReader();
+      var file = e.currentTarget.files[0]; // Triggers when a file is done
+
+      reader.onloadend = function () {
+        if (file.size < 30000000) _this2.setState({
+          fileUrls: [].concat(_toConsumableArray(fileUrls), [URL.createObjectURL(file)]),
+          files: [].concat(_toConsumableArray(files), [file]),
+          fileError: ""
+        });else _this2.setState({
+          fileError: "Files must be 30MB or smaller."
+        });
+      };
+
+      if (file) reader.readAsDataURL(file); // Triggers load
+      else this.setState({
+        files: this.state.imageUrl,
+        fileUrls: this.state.imageFile,
+        fileError: ""
+      });
     }
   }, {
     key: "getDmChannelName",
     value: function getDmChannelName(channel) {
       var user_id = getState().session.user_id;
-      var users = getState().entities.users;
       var id = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["dmChannelUserId"])(channel, user_id);
       return getState().entities.users[id].email;
     }
@@ -4851,15 +4890,15 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "format",
     value: function format(command, value) {
-      var _this2 = this;
+      var _this3 = this;
 
       return function (e) {
         e.preventDefault();
         e.stopPropagation();
         document.execCommand(command, false, value);
 
-        _this2.setState({
-          isActivated: Object.assign(_this2.state.isActivated, _defineProperty({}, command, !_this2.state.isActivated[command]))
+        _this3.setState({
+          isActivated: Object.assign(_this3.state.isActivated, _defineProperty({}, command, !_this3.state.isActivated[command]))
         });
       };
     } // Handles events that updates the toolbar states
@@ -4910,19 +4949,19 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleLinkForm",
     value: function toggleLinkForm(linkModal) {
-      var _this3 = this;
+      var _this4 = this;
 
       return function (e) {
         if (e) e.stopPropagation();
 
-        _this3.setState({
+        _this4.setState({
           linkModal: linkModal,
           linkText: "",
           linkUrl: ""
         });
 
         if (!linkModal) {
-          _this3.focusInput();
+          _this4.focusInput();
         }
       };
     } // Append the link to the chat input field
@@ -4942,7 +4981,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderLinkForm",
     value: function renderLinkForm() {
-      var _this4 = this;
+      var _this5 = this;
 
       if (!this.state.linkModal) return;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4965,7 +5004,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         autoFocus: true,
         type: "text",
         onChange: function onChange(e) {
-          return _this4.setState({
+          return _this5.setState({
             linkText: e.currentTarget.value
           });
         },
@@ -4981,7 +5020,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         type: "text",
         className: "with-prefix",
         onChange: function onChange(e) {
-          return _this4.setState({
+          return _this5.setState({
             linkUrl: e.currentTarget.value
           });
         },
@@ -5025,7 +5064,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this6 = this;
 
       var channels = getState().entities.channels;
       var channel_id = this.props.match.params.channel_id;
@@ -5055,7 +5094,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         }, "See More Details")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-preview-link",
           onClick: function onClick() {
-            return _this5.goToChannel("channel-browser");
+            return _this6.goToChannel("channel-browser");
           }
         }, "Back to Channel Browser"));
       } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5068,7 +5107,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         onMouseUp: this.updateToolbarState,
         onClick: function onClick() {
           setTimeout(function () {
-            return _this5.focusInput();
+            return _this6.focusInput();
           }, 0);
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5169,6 +5208,20 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
           return e.preventDefault();
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button fas fa-upload fa-fw",
+        onClick: function onClick() {
+          return document.getElementById("message-file-input").click();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "file",
+        id: "message-file-input",
+        onChange: this.readFile,
+        className: "hidden"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Upload file"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-divider"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button",
         onMouseDown: function onMouseDown(e) {
           e.preventDefault();
@@ -7385,7 +7438,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         className: this.state.loadingFile ? "loading" : "loading hidden"
       }, "Loading...")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "file",
-        id: "selected-file",
+        id: "profile-photo-file",
         style: {
           display: "none"
         },
@@ -7395,7 +7448,7 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         disabled: this.state.loadingFile,
         value: "Upload File",
         onClick: function onClick() {
-          return document.getElementById('selected-file').click();
+          return document.getElementById('profile-photo-file').click();
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "button",

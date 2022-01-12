@@ -23,13 +23,15 @@ class ChannelMessageForm extends React.Component {
         insertOrderedList: false
       },
       files: [],
-      fileUrls: []
+      fileUrls: [],
+      fileError: ""
     };
 
     // Used to find chat input's content
     this.chatInput = React.createRef();
 
     this.format = this.format.bind(this);
+    this.readFile = this.readFile.bind(this);
     this.focusInput = this.focusInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateToolbarState = this.updateToolbarState.bind(this);
@@ -77,9 +79,35 @@ class ChannelMessageForm extends React.Component {
     }
   }
 
+  // Reads in the elements using FileReader, and set state when successful
+  readFile(e) {
+    const reader = new FileReader();
+    const file = e.currentTarget.files[0];
+
+    // Triggers when a file is done
+    reader.onloadend = () => {
+      if (file.size < 30000000)
+        this.setState({ 
+          fileUrls: [...fileUrls, URL.createObjectURL(file)], 
+          files: [...files, file], 
+          fileError: ""
+        });
+      else
+        this.setState({fileError: "Files must be 30MB or smaller."});
+    };
+
+    if (file) 
+      reader.readAsDataURL(file); // Triggers load
+    else
+      this.setState({ 
+        files: this.state.imageUrl, 
+        fileUrls: this.state.imageFile,
+        fileError: ""
+      });
+  }
+      
   getDmChannelName(channel) {
     let { user_id } = getState().session;
-    let { users } = getState().entities;
     let id = dmChannelUserId(channel, user_id);
     return getState().entities.users[id].email;
   }
@@ -390,6 +418,18 @@ class ChannelMessageForm extends React.Component {
               <div id="chat-footer" onMouseDown={e => e.preventDefault()}>
                 {/* <div className="toolbar-button fa fa-upload fa-fw"></div>
                 <div className="toolbar-divider"></div> */}
+                <div className="toolbar-button fas fa-upload fa-fw" onClick={() => document.getElementById("message-file-input").click()}>
+                  <input 
+                    type="file" 
+                    id="message-file-input"
+                    onChange={this.readFile}
+                    className="hidden">
+                  </input>
+                  <div className="black-popup">
+                    <div>Upload file</div>
+                  </div>
+                </div>
+                <div className="toolbar-divider"></div>
                 <div className="toolbar-button" onMouseDown={e => { e.preventDefault(); document.getElementById("chat-toolbar").classList.toggle("hidden"); }}>
                   Aa
                   <div className="black-popup">
