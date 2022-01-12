@@ -4759,7 +4759,9 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         createLink: false,
         insertUnorderedList: false,
         insertOrderedList: false
-      }
+      },
+      files: [],
+      fileUrls: []
     }; // Used to find chat input's content
 
     _this.chatInput = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();

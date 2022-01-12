@@ -1,7 +1,6 @@
 class Api::MessagesController < ApplicationController
   def index 
-    channel = Channel.includes(messages: [:message_reacts]).find_by_id(params[:channel_id]);
-    @messages = channel.messages;
+    @messages = Message.includes(:message_reacts).where(channel_id: params[:channel_id]).with_attached_files
     render "api/messages/index"
   end
 
@@ -43,6 +42,6 @@ class Api::MessagesController < ApplicationController
 
   private
   def message_params
-    params.require(:message).permit(:body, :channel_id)
+    params.require(:message).permit(:body, :channel_id, files: [])
   end
 end

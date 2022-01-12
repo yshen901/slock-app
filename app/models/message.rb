@@ -12,4 +12,7 @@ class Message < ApplicationRecord
     class_name: :MessageSave,
     foreign_key: :message_id,
     dependent: :destroy
+
+  # AWS S3
+  has_many_attached :files
 end

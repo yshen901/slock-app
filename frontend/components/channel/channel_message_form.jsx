@@ -21,7 +21,9 @@ class ChannelMessageForm extends React.Component {
         createLink: false,
         insertUnorderedList: false,
         insertOrderedList: false
-      }
+      },
+      files: [],
+      fileUrls: []
     };
 
     // Used to find chat input's content
