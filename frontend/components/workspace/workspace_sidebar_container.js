@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import WorkspaceSidebar from './workspace_sidebar';
-import { objectToArray } from '../../selectors/selectors';
-import { logout } from '../../actions/session_actions';
 import { endDmChannel } from '../../actions/dm_channel_actions';
 
 const mapStateToProps = (state, ownProps) => ({
@@ -17,7 +15,6 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(logout()),
   endDmChannel: (dmChannelInfo) => dispatch(endDmChannel(dmChannelInfo))
 })
 

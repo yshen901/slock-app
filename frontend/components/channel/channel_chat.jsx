@@ -58,7 +58,6 @@ class ChannelChat extends React.Component {
 
   // Called when new messages are made, reacts and saves are handled in componentDidUpdate above
   updateScroll() {
-    let { messagesList } = this.state;
     let { current_user_id, messagesData } = this.props;
     if (messagesData[messagesData.length - 1].user_id == current_user_id) { // user creates new message
       if (this.bottom.current) this.bottom.current.scrollIntoView();

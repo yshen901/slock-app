@@ -5,9 +5,9 @@ import WorkspaceTopbar from './workspace_topbar';
 import WorkspaceSidebarContainer from "./workspace_sidebar_container"
 import ChannelContainer from '../channel/channel_container';
 import ChannelProfileSidebar from "../channel/channel_profile_sidebar";
-import ChannelBrowser from "../channel/browser_channels/channel_browser";
-import PeopleBrowser from "../channel/browser_channels/people_browser";
-import SavedBrowser from "../channel/browser_channels/saved_browser";
+import ChannelBrowserContainer from "../channel/browser_channels/channel_browser_container";
+import PeopleBrowserContainer from "../channel/browser_channels/people_browser_container";
+import SavedBrowserContainer from "../channel/browser_channels/saved_browser_container";
 
 // Modals
 import NewChannelModalContainer from '../modals/new_channel_modal_container';
@@ -290,17 +290,17 @@ class Workspace extends React.Component {
     let {channel_id} = this.props;
     if (channel_id == "channel-browser")
       return (
-        <ChannelBrowser
+        <ChannelBrowserContainer
           loginACChannel={this.loginACChannel}/>
       )
     else if (channel_id == "people-browser")
       return (
-        <PeopleBrowser
+        <PeopleBrowserContainer
           showUser={this.showUser}/>
       )
     else if (channel_id == "saved-browser")
       return (
-        <SavedBrowser
+        <SavedBrowserContainer
           showUser={this.showUser}
           startVideoCall={this.startVideoCall}/>
       )

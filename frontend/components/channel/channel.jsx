@@ -4,10 +4,6 @@ import { withRouter } from 'react-router-dom';
 import ChannelNavContainer from './channel_nav_container';
 import ChannelChatContainer from './channel_chat_container';
 
-import { hideElements } from '../../util/modal_api_util';
-import { joinChannel, leaveChannel } from '../../actions/channel_actions';
-import { restartDmChannel, endDmChannel } from "../../actions/dm_channel_actions";
-
 // Modals
 import ChannelDetailsModalContainer from "../modals/channel_details_modal_container";
 import EditChannelNameModal from '../modals/edit_channel_name_modal';
@@ -52,7 +48,7 @@ class Channel extends React.Component {
 
     if (!channel.dm_channel) {
       if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
-        dispatch(leaveChannel(parseInt(channel_id)))
+        this.props.leaveChannel(parseInt(channel_id))
           .then(
             () => {
               this.props.loginACChannel.speak(
@@ -98,18 +94,18 @@ class Channel extends React.Component {
     let user_id = this.props.user_id;
 
     if (channel.dm_channel) {
-      dispatch(restartDmChannel({
+      this.props.restartDmChannel({
         user_id,
         channel_id: channel.id,
         active: true
-      })).then(
+      }).then(
         () => {
           this.setState({ canJoin: false, canLeave: true })
         }
       );
     }
     else {
-      dispatch(joinChannel({channel_id: channel.id, workspace_id}))
+      this.props.joinChannel({channel_id: channel.id, workspace_id})
         .then(
           () => {
             this.props.loginACChannel.speak(

@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { joinChannel, leaveChannel } from "../../../actions/channel_actions";
 import { toggleFocusElements } from "../../../util/modal_api_util";
 
 class ChannelBrowser extends React.Component {
@@ -23,14 +22,14 @@ class ChannelBrowser extends React.Component {
       e.stopPropagation();
 
       if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
-        dispatch(leaveChannel(channel.id))
+        this.props.leaveChannel(channel.id)
           .then(
             () => {
               this.props.loginACChannel.speak(
                 {
                   channel_data: {
                     login: false,
-                    user_id: getState().session.user_id,
+                    user_id: this.props.user_id,
                     channel_id: channel.id
                   }
                 }
@@ -45,15 +44,15 @@ class ChannelBrowser extends React.Component {
     return (e) => {
       e.stopPropagation();
 
-      let { workspace_id } = getState().session;
-      dispatch(joinChannel({channel_id: channel.id, workspace_id}))
+      let { workspace_id, user_id } = this.props;
+      this.props.joinChannel({channel_id: channel.id, workspace_id})
         .then(
           () => {
             this.props.loginACChannel.speak(
               {
                 channel_data: {
                   login: true,
-                  user_id: getState().session.user_id,
+                  user_id: user_id,
                   channel_id: channel.id
                 }
               }
@@ -65,8 +64,11 @@ class ChannelBrowser extends React.Component {
   }
 
   channelsList(searchString) {
-    let { user_id } = getState().session;
-    let channels = Object.values(getState().entities.channels).filter((channel) => !channel.dm_channel);
+    let { user_id } = this.props;
+    let channels = [];
+    if (this.props.channels)
+      channels = Object.values(this.props.channels).filter((channel) => !channel.dm_channel);
+      
     if (searchString)
       channels.sort((a, b) => a.name > b.name ? 1 : -1);
 

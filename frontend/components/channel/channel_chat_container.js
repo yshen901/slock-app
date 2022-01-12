@@ -15,7 +15,6 @@ import {
 
 const mapStateToProps = (state, ownProps) => ({
   users: state.entities.users,
-  messages: state.entities.messages,
   messagesData: Object.values(state.entities.messages),
   current_user_id: state.session.user_id,
   workspace_id: state.session.workspace_id,

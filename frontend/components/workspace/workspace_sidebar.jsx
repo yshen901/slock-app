@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getUserActivity, getUserPaused, photoUrl, workspaceTitle } from '../../selectors/selectors'
+import { getUserActivity, getUserPaused, workspaceTitle } from '../../selectors/selectors'
 import { toggleFocusElements } from '../../util/modal_api_util';
 
 class WorkspaceSidebar extends React.Component {

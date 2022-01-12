@@ -378,9 +378,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     let {user_id} = getState().session;
     let {channel_id} = this.props.match.params;
     let {users, channels} = getState().entities;
-    let channelUserIds = Object.keys(channels[channel_id].users);
 
-    let localUser = users[user_id];
     let remoteUser = users[dmChannelUserId(channels[channel_id], user_id)];
 
     if (this.state.callRejected || this.state.callEnded) {

@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { toggleFocusElements } from '../../util/modal_api_util';
 import DOMPurify from 'dompurify';
+import { dmChannelUserId } from '../../selectors/selectors';
 
 class ChannelMessageForm extends React.Component {
   constructor(props) {
@@ -58,8 +59,6 @@ class ChannelMessageForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.chatInput.current.textContent.length != 0) {
-      let { users } = getState().entities;
-      let { user_id } = getState().session;
 
       this.props.messageACChannel.speak(
         {
@@ -67,7 +66,7 @@ class ChannelMessageForm extends React.Component {
             type: "PUT",
             body: DOMPurify.sanitize(this.chatInput.current.innerHTML),
             user_id: getState().session.user_id,
-            channel_id: getState().session.channel_id,
+            channel_id: this.props.match.params.channel_id,
             created_at: new Date().toLocaleTimeString(),
           }
         }
@@ -77,13 +76,10 @@ class ChannelMessageForm extends React.Component {
   }
 
   getDmChannelName(channel) {
-    let { currentUserId } = getState().session.user_id;
+    let { user_id } = getState().session;
     let { users } = getState().entities;
-    let ids = Object.keys(channel.users);
-
-    if (ids[0] == currentUserId)
-      return users[ids[1]].email
-    return users[ids[0]].email
+    let id = dmChannelUserId(channel, user_id);
+    return getState().entities.users[id].email;
   }
 
   focusInput() {
@@ -268,11 +264,11 @@ class ChannelMessageForm extends React.Component {
     let { bold, italic, underline, strikethrough, createLink, insertUnorderedList, insertOrderedList } = this.state.isActivated;
 
     if (this.state.canJoin && channel) {
-      let channelName = channels.dm_channel ? this.getDmChannelName(channel) : `#${channel.name}`;
-      let buttonText = channels.dm_channel ? "Join Chat" : "Join Channel";
+      let channelName = channel.dm_channel ? this.getDmChannelName(channel) : `#${channel.name}`;
+      let buttonText = channel.dm_channel ? "Join Chat" : "Join Channel";
       return (
         <div className="channel-preview-panel">
-          <h1>You are viewing {channels.dm_channel ? "your chat with " : ""} <strong>{channelName}</strong> </h1>
+          <h1>You are viewing {channel.dm_channel ? "your chat with " : ""} <strong>{channelName}</strong> </h1>
           <div className="buttons">
             <div className="channel-preview-button green" onClick={this.props.joinChannel}>{buttonText}</div>
             <div className="channel-preview-button" onClick={toggleFocusElements("channel-details-modal")}>See More Details</div>

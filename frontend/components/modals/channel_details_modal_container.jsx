@@ -7,7 +7,8 @@ import { updateDmChannel } from "../../actions/dm_channel_actions";
 
 const mapStateToProps = (state, ownProps) => {
   let { channels, users } = state.entities;
-  let { channel_id, user_id } = state.session;
+  let { user_id } = state.session;
+  let { channel_id } = ownProps.match.params;
 
   return {
     channel_id,

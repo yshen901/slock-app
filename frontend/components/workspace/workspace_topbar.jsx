@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { getUserActivity, getUserPaused, photoUrl } from "../../selectors/selectors";
+import { getUserActivity, getUserPaused } from "../../selectors/selectors";
 import { toggleFocusElements } from "../../util/modal_api_util";
 
 class WorkspaceTopbar extends React.Component {

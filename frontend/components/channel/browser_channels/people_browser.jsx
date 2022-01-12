@@ -1,7 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
-import { startDmChannel } from "../../../actions/dm_channel_actions";
-import { getUserActivity, getUserName, getUserPaused, photoUrl, sortedUsers, userInSearch } from "../../../selectors/selectors";
+import { getUserActivity, getUserName, getUserPaused, sortedUsers, userInSearch } from "../../../selectors/selectors";
 import { toggleFocusElements } from "../../../util/modal_api_util";
 
 class PeopleBrowser extends React.Component {
@@ -29,11 +28,11 @@ class PeopleBrowser extends React.Component {
   }
 
   createDmChannel(userIds, workspaceId) {
-    dispatch(startDmChannel({
+    this.props.startDmChannel({
       user_1_id: userIds[0], 
       user_2_id: userIds[1],
       workspace_id: workspaceId
-    })).then(({dmChannelUser}) => {  // REMEMBER THE THING PASSED BACK IS ACTION
+    }).then(({dmChannelUser}) => {  // REMEMBER THE THING PASSED BACK IS ACTION
       this.goToChannel(dmChannelUser.channel_id);
       this.setState({
         search: "",
@@ -57,7 +56,7 @@ class PeopleBrowser extends React.Component {
         {profileImage}
         <div className="browse-modal-user-info">
           <div className="browse-modal-username">
-            {getUserName(user)} {user.id == getState().session.user_id ? "(you)" : ""}
+            {getUserName(user)} {user.id == this.props.user_id ? "(you)" : ""}
             <div className="user-activity-icon">
               <i className={getUserActivity(user, true, true)}>
                 <div className={getUserPaused(user, true, true)}>z</div>
@@ -74,8 +73,7 @@ class PeopleBrowser extends React.Component {
 
   allUsers() {
     let channelsDisplay = [];
-    let users = getState().entities.users;
-    let currentUserId = getState().session.user_id;
+    let { users } = this.props;
 
     let usersArray = this.state.capSearch ? sortedUsers(users) : Object.values(users);
     

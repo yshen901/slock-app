@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { joinChannel, leaveChannel } from '../../actions/channel_actions';
 import { endDmChannel, restartDmChannel } from '../../actions/dm_channel_actions';
 
 import Channel from './channel';
@@ -13,6 +14,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  joinChannel: (channelInfo) => dispatch(joinChannel(channelInfo)),
+  leaveChannel: (channel_id) => dispatch(leaveChannel(channel_id)),
   restartDmChannel: (dmChannelInfo) => dispatch(restartDmChannel(dmChannelInfo)),
   endDmChannel: (dmChannelInfo) => dispatch(endDmChannel(dmChannelInfo))
 });

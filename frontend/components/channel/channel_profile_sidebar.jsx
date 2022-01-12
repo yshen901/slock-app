@@ -42,20 +42,6 @@ class ProfileSidebar extends React.Component {
   }
 
   // RENDER HELPER FUNCTIONS
-  profileName(user) {
-    let name;
-    if (user.full_name != "")
-      name = user.full_name;
-    else if (user.display_name != "")
-      name = user.display_name;
-    else
-      name = user.email;
-
-    return (
-      <div>{name}</div>
-    )
-  }
-
   phoneNumber(user) {
     if (user.phone_number) {
       let phoneNum = user.phone_number.slice(0, 3) + "-" + user.phone_number.slice(3, 6) + user.phone_number.slice(6, 10);
