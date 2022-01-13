@@ -87,23 +87,26 @@ class ChannelMessageForm extends React.Component {
     const file = e.currentTarget.files[0];
 
     // Triggers when a file is done
-    reader.onloadend = () => {
+    reader.onload = () => {
       this.setState({ 
         fileUrls: [...this.state.fileUrls, URL.createObjectURL(file)], 
         files: [...this.state.files, file], 
         fileError: ""
       });
       this.props.updateScroll(84);
+      document.getElementById("message-file-input").value = '';
     };
 
-    if (file) 
+    if (file) {
       reader.readAsDataURL(file); // Triggers load
-    else
+    }
+    else {
       this.setState({ 
         files: this.state.files, 
         fileUrls: this.state.fileUrls,
         fileError: ""
       });
+    }
   }
 
   removeFile(idx) {

@@ -4849,7 +4849,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       var reader = new FileReader();
       var file = e.currentTarget.files[0]; // Triggers when a file is done
 
-      reader.onloadend = function () {
+      reader.onload = function () {
         _this2.setState({
           fileUrls: [].concat(_toConsumableArray(_this2.state.fileUrls), [URL.createObjectURL(file)]),
           files: [].concat(_toConsumableArray(_this2.state.files), [file]),
@@ -4857,14 +4857,19 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         });
 
         _this2.props.updateScroll(84);
+
+        document.getElementById("message-file-input").value = '';
       };
 
-      if (file) reader.readAsDataURL(file); // Triggers load
-      else this.setState({
-        files: this.state.files,
-        fileUrls: this.state.fileUrls,
-        fileError: ""
-      });
+      if (file) {
+        reader.readAsDataURL(file); // Triggers load
+      } else {
+        this.setState({
+          files: this.state.files,
+          fileUrls: this.state.fileUrls,
+          fileError: ""
+        });
+      }
     }
   }, {
     key: "removeFile",
