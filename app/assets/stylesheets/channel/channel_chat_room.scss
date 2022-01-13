@@ -148,12 +148,15 @@
 
 #message-form-container {
   overflow: visible;
+  flex: 1;
+  max-width: calc(100vw - 260px);
   
   #message-box {
     display: flex;
     flex-direction: column;
-    flex: none;
+    flex: 1;
     overflow: visible;
+    max-width: calc(100% - 32px);
   
     padding: 0 16px;
     margin-top: 12px;
@@ -163,12 +166,16 @@
       border: 1px solid rgba(29,28,29,0.3);
       border-radius: 6px;
 
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+
       #files-list {
         display: flex;
         align-items: center;
         overflow-x: scroll;
         
-        width: 100%;
+        max-width: 100%;
         padding: 8px;
         box-sizing: border-box;
 
@@ -227,13 +234,13 @@
           align-items: center;
           overflow: hidden;
           
-          height: 62px;
+          height: 64px;
           width: fit-content;
-          max-width: 62px;
+          max-width: 64px;
           border-radius: 4px;
 
           img {
-            height: 62px;
+            height: 64px;
             width: auto;
             object-fit: cover;
           }
@@ -293,7 +300,7 @@
             .file-type {
               color: #616061;
               font-size: 13px;
-              line-height: 15.5px;
+              line-height: 15px;
               margin-top: 4px; 
             }
           }

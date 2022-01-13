@@ -3254,15 +3254,23 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     value: function componentWillUnmount() {
       if (this.messageACChannel) this.messageACChannel.unsubscribe();
     } // Called when new messages are made, reacts and saves are handled in componentDidUpdate above
+    // Also can be called using scrollThrehold, where it will scroll to bottom if moved by a certain amount
 
   }, {
     key: "updateScroll",
-    value: function updateScroll() {
+    value: function updateScroll(scrollThreshold) {
       var _this$props = this.props,
           current_user_id = _this$props.current_user_id,
           messagesData = _this$props.messagesData;
 
-      if (messagesData[messagesData.length - 1].user_id == current_user_id) {
+      if (scrollThreshold && this.scrollBar.current) {
+        var _this$scrollBar$curre = this.scrollBar.current,
+            offsetHeight = _this$scrollBar$curre.offsetHeight,
+            scrollTop = _this$scrollBar$curre.scrollTop,
+            scrollHeight = _this$scrollBar$curre.scrollHeight;
+        var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
+        if (distanceFromBottom == scrollThreshold) if (this.bottom.current) this.bottom.current.scrollIntoView();
+      } else if (messagesData[messagesData.length - 1].user_id == current_user_id) {
         // user creates new message
         if (this.bottom.current) this.bottom.current.scrollIntoView();
       } else if (this.scrollBar.current && this.state.oldDistanceFromBottom == 0) {
@@ -3364,10 +3372,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               user_id: messageData.user_id,
               react_code: messageData.react_code
             };
-            var _this$scrollBar$curre = this.scrollBar.current,
-                offsetHeight = _this$scrollBar$curre.offsetHeight,
-                scrollTop = _this$scrollBar$curre.scrollTop,
-                scrollHeight = _this$scrollBar$curre.scrollHeight;
+            var _this$scrollBar$curre2 = this.scrollBar.current,
+                offsetHeight = _this$scrollBar$curre2.offsetHeight,
+                scrollTop = _this$scrollBar$curre2.scrollTop,
+                scrollHeight = _this$scrollBar$curre2.scrollHeight;
             var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
             this.props.receiveMessageReact(message_react);
             this.setState({
@@ -3384,10 +3392,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
             this.props.removeMessageReact(_message_react);
           } // called when user saves in another window
           else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && !user_saved_messages[messageData.id]) {
-            var _this$scrollBar$curre2 = this.scrollBar.current,
-                _offsetHeight = _this$scrollBar$curre2.offsetHeight,
-                _scrollTop = _this$scrollBar$curre2.scrollTop,
-                _scrollHeight = _this$scrollBar$curre2.scrollHeight;
+            var _this$scrollBar$curre3 = this.scrollBar.current,
+                _offsetHeight = _this$scrollBar$curre3.offsetHeight,
+                _scrollTop = _this$scrollBar$curre3.scrollTop,
+                _scrollHeight = _this$scrollBar$curre3.scrollHeight;
 
             var _distanceFromBottom = _scrollHeight - _offsetHeight - _scrollTop;
 
@@ -3426,10 +3434,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           this.props.receiveMessage(message);
           var messagesData = this.props.messagesData;
           var messagesList = this.state.messagesList;
-          var _this$scrollBar$curre3 = this.scrollBar.current,
-              offsetHeight = _this$scrollBar$curre3.offsetHeight,
-              scrollTop = _this$scrollBar$curre3.scrollTop,
-              scrollHeight = _this$scrollBar$curre3.scrollHeight;
+          var _this$scrollBar$curre4 = this.scrollBar.current,
+              offsetHeight = _this$scrollBar$curre4.offsetHeight,
+              scrollTop = _this$scrollBar$curre4.scrollTop,
+              scrollHeight = _this$scrollBar$curre4.scrollHeight;
           var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
           this.processNewMessage(messagesList, messagesData.length - 1);
           this.setState({
@@ -3514,7 +3522,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_2__["default"], {
         messageACChannel: this.messageACChannel,
         joinChannel: this.props.joinChannel,
-        status: this.props.status
+        status: this.props.status,
+        updateScroll: this.updateScroll
       }), this.renderUserPopup());
     }
   }]);
@@ -4841,13 +4850,13 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       var file = e.currentTarget.files[0]; // Triggers when a file is done
 
       reader.onloadend = function () {
-        if (file.size < 30000000) _this2.setState({
+        _this2.setState({
           fileUrls: [].concat(_toConsumableArray(_this2.state.fileUrls), [URL.createObjectURL(file)]),
           files: [].concat(_toConsumableArray(_this2.state.files), [file]),
           fileError: ""
-        });else _this2.setState({
-          fileError: "Files must be 30MB or smaller."
         });
+
+        _this2.props.updateScroll(84);
       };
 
       if (file) reader.readAsDataURL(file); // Triggers load

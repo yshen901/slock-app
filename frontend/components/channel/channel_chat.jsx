@@ -57,9 +57,16 @@ class ChannelChat extends React.Component {
   }
 
   // Called when new messages are made, reacts and saves are handled in componentDidUpdate above
-  updateScroll() {
+  // Also can be called using scrollThrehold, where it will scroll to bottom if moved by a certain amount
+  updateScroll(scrollThreshold) {
     let { current_user_id, messagesData } = this.props;
-    if (messagesData[messagesData.length - 1].user_id == current_user_id) { // user creates new message
+    if (scrollThreshold && this.scrollBar.current) {
+      let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
+      let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
+      if (distanceFromBottom == scrollThreshold)
+        if (this.bottom.current) this.bottom.current.scrollIntoView();
+    }
+    else if (messagesData[messagesData.length - 1].user_id == current_user_id) { // user creates new message
       if (this.bottom.current) this.bottom.current.scrollIntoView();
     }
     else if (this.scrollBar.current && this.state.oldDistanceFromBottom == 0) {
@@ -252,7 +259,11 @@ class ChannelChat extends React.Component {
           {this.state.messagesList.map((message) => message)}
           <div ref={this.bottom} />
         </div>
-        <ChannelMessageForm messageACChannel={this.messageACChannel} joinChannel={this.props.joinChannel} status={this.props.status}/>
+        <ChannelMessageForm 
+          messageACChannel={this.messageACChannel} 
+          joinChannel={this.props.joinChannel} 
+          status={this.props.status}
+          updateScroll={this.updateScroll}/>
         { this.renderUserPopup() }
       </div>
     );

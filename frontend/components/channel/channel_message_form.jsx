@@ -88,14 +88,12 @@ class ChannelMessageForm extends React.Component {
 
     // Triggers when a file is done
     reader.onloadend = () => {
-      if (file.size < 30000000)
-        this.setState({ 
-          fileUrls: [...this.state.fileUrls, URL.createObjectURL(file)], 
-          files: [...this.state.files, file], 
-          fileError: ""
-        });
-      else
-        this.setState({fileError: "Files must be 30MB or smaller."});
+      this.setState({ 
+        fileUrls: [...this.state.fileUrls, URL.createObjectURL(file)], 
+        files: [...this.state.files, file], 
+        fileError: ""
+      });
+      this.props.updateScroll(84);
     };
 
     if (file) 
