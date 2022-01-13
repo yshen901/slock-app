@@ -16,7 +16,7 @@ export const DEFAULT_USER_PHOTO_URLS = {
   "5": "/images/lotr/frodo.jpg",
   "6": "/images/lotr/aragorn.jpg",
   "8": "/images/lotr/yuci.jpg",
-}
+};
 
 export const objectToArray = (object) => {
   return Object.keys(object).map((key) => {
@@ -157,4 +157,46 @@ export const getMessageDate = (message, currentDate) => {
   if (messageDate == "Invalid Date")
     return currentDate;
   return messageDate;
+}
+
+export const getFileTypeInfo = (file) => {
+  let fileName = file.name.slice(file.name.indexOf(".") + 1);
+  if (fileName.length == file.name.length)
+    fileName = "";
+
+  switch (fileName) {
+    case "doc":
+    case "docx":
+      return {name: "Word Document", iconSymbol: "far fa-file-word fa-fw", iconBackground: "file-darkblue-back"};
+    case "ppt":
+    case "pptx":
+      return {name: "Powerpoint Presentation", iconSymbol: "far fa-file-powerpoint fa-fw", iconBackground: "file-orange-back"};
+    case "xls":
+    case "xlsx":
+      return {name: "Excel Spreadsheet", iconSymbol: "far fa-file-excel fa-fw", iconBackground: "file-green-back"};
+    case "":
+    case "txt":
+    case "rtf":
+      return {name: "Plain Text", iconSymbol: "far fa-file-alt fa-fw", iconBackground: "file-lightblue-back"};
+    case "pdf":
+      return {name: "PDF", iconSymbol: "far fa-file-pdf fa-fw", iconBackground: "file-red-back"};
+    case "zip":
+      return {name: "Zip", iconSymbol: "far fa-file-archive fa-fw", iconBackground: "file-darkblue-back"}
+    case "mp4":
+    case "wmv":
+    case "mov":
+    case "avi":
+    case "mpg":
+    case "mpg2":
+      return {name: "Video", iconSymbol: "far fa-file-video fa-fw", iconBackground: "file-grey-back"}
+    case "mp3":
+    case "m4a":
+    case "flac":
+    case "wav":
+    case "wma":
+    case "aac":
+      return {name: "Audio", iconSymbol: "far fa-file-audio fa-fw", iconBackground: "file-grey-back"}
+    default:
+      return {name: fileName ? fileName: "File", iconSymbol: "far fa-file fa-fw", iconBackground: "file-lightblue-back"}
+  }
 }

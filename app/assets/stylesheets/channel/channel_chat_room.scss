@@ -162,7 +162,143 @@
       overflow: visible;
       border: 1px solid rgba(29,28,29,0.3);
       border-radius: 6px;
-      opacity: 0.5;
+
+      #files-list {
+        display: flex;
+        align-items: center;
+        overflow-x: scroll;
+        
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+
+        .image-file, .file { 
+          position: relative;
+          overflow: visible;
+          margin-right: 12px; 
+
+          .file-delete-button {
+            display: none;
+
+            position: absolute;
+            overflow: visible;
+            top: -8px;
+            right: -8px;
+            z-index: 1;
+
+            width: 18px;
+            height: 18px;
+            background: white;
+            border: 2px solid white;
+            border-radius: 11px;
+
+            color: rgba(29, 28, 29, 0.7);
+            font-size: 18px;
+          }
+
+          .file-delete-button:hover {
+            transition: 0.3s;
+            cursor: pointer;
+            color: rgba(29, 28, 29, 1);
+          }
+        }
+
+        .image-file:hover, .file:hover {
+          .file-delete-button {
+            display: inline;
+          }
+        }
+        
+        .image-file:hover {
+          transition: 0.3s;
+          cursor: pointer;
+          background:rgba(29, 28, 29, 0.1);
+
+          .image-container {
+            .foreground {
+              display: inline;
+            }
+          }
+        }
+
+        .image-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          
+          height: 62px;
+          width: fit-content;
+          max-width: 62px;
+          border-radius: 4px;
+
+          img {
+            height: 62px;
+            width: auto;
+            object-fit: cover;
+          }
+
+          .foreground {
+            display: none;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+
+            height: 62px;
+            width: 100%;
+            background-color: rgba(29,28,29,0.1);
+          }
+        }
+
+        .file {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          padding: 12px;
+          border-radius: 12px;
+          border: 1px solid rgba(29,28,29,0.1);
+
+          .file-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+
+            user-select: none;
+            margin-right: 12px;
+            
+            color: white;
+            font-size: 18px;
+            line-height: 36px;
+            text-align: center;
+          }
+
+          .file-info {
+            display: flex;
+            flex-direction: column;
+
+            inline-size: 160px;
+            text-overflow: clip;
+            word-break: break-all;
+            white-space: nowrap;
+
+            .file-name {
+              font-size: 16px;
+              line-height: 19px;
+              font-weight: bold;
+              padding: 4px 0;
+              margin: -4px 0;
+            }
+
+            .file-type {
+              color: #616061;
+              font-size: 13px;
+              line-height: 15.5px;
+              margin-top: 4px; 
+            }
+          }
+        }
+      }
   
       .toolbar-button {
         position: relative;
@@ -212,6 +348,7 @@
         height: 30px;
         background: rgb(248,248,248);
         border-radius: 6px 6px 0 0;
+        opacity: 0.5;
       }
   
       #chat-toolbar.hidden {
@@ -342,8 +479,10 @@
   
   #message-box:focus-within {
     #message-form {
-      transition: 0.2;
-      opacity: 1;
+      #chat-toolbar {
+        transition: 0.2;
+        opacity: 1;
+      }
     }
   
     #message-footer {

@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { toggleFocusElements } from '../../util/modal_api_util';
 import DOMPurify from 'dompurify';
-import { dmChannelUserId } from '../../selectors/selectors';
+import { dmChannelUserId, getFileTypeInfo } from '../../selectors/selectors';
 
 class ChannelMessageForm extends React.Component {
   constructor(props) {
@@ -30,8 +30,10 @@ class ChannelMessageForm extends React.Component {
     // Used to find chat input's content
     this.chatInput = React.createRef();
 
-    this.format = this.format.bind(this);
     this.readFile = this.readFile.bind(this);
+    this.removeFile = this.removeFile.bind(this);
+
+    this.format = this.format.bind(this);
     this.focusInput = this.focusInput.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateToolbarState = this.updateToolbarState.bind(this);
@@ -88,8 +90,8 @@ class ChannelMessageForm extends React.Component {
     reader.onloadend = () => {
       if (file.size < 30000000)
         this.setState({ 
-          fileUrls: [...fileUrls, URL.createObjectURL(file)], 
-          files: [...files, file], 
+          fileUrls: [...this.state.fileUrls, URL.createObjectURL(file)], 
+          files: [...this.state.files, file], 
           fileError: ""
         });
       else
@@ -100,10 +102,22 @@ class ChannelMessageForm extends React.Component {
       reader.readAsDataURL(file); // Triggers load
     else
       this.setState({ 
-        files: this.state.imageUrl, 
-        fileUrls: this.state.imageFile,
+        files: this.state.files, 
+        fileUrls: this.state.fileUrls,
         fileError: ""
       });
+  }
+
+  removeFile(idx) {
+    return e => {
+      e.preventDefault();
+      this.state.fileUrls.splice(idx, 1);
+      this.state.files.splice(idx, 1);
+      this.setState({
+        fileUrls: this.state.fileUrls,
+        files: this.state.files
+      });
+    }
   }
       
   getDmChannelName(channel) {
@@ -219,6 +233,43 @@ class ChannelMessageForm extends React.Component {
     let anchorEle = `<a href="http://${linkUrl}" target="_blank">${linkText}</a>`;
     $(document.getElementById("chat-input")).append(anchorEle);
     this.toggleLinkForm(false)();
+  }
+
+  // Renders list of files depending on what kind of file
+  renderFilesList() {
+    let { fileUrls, files } = this.state;
+    let fileTypeInfo;
+    if (fileUrls.length > 0) {
+      return (
+        <div id="files-list" onClick={e => e.stopPropagation()}>
+          { files.map((file, i) => {
+            if (file.type.includes("image"))
+              return (
+                <div className="image-file" key={i}>
+                  <div className="file-delete-button fas fa-times-circle fa-fw" onClick={this.removeFile(i)}></div>
+                  <div className="image-container">
+                    <div className="foreground"></div>
+                    <img src={fileUrls[i]}/>
+                  </div>
+                </div>
+              );
+            else {
+              fileTypeInfo = getFileTypeInfo(file);
+              return (
+                <div className="file" key={i}>
+                  <div className="file-delete-button fas fa-times-circle fa-fw" onClick={this.removeFile(i)}></div>
+                  <div className={`file-icon ${fileTypeInfo.iconSymbol} ${fileTypeInfo.iconBackground}`}></div>
+                  <div className="file-info">
+                    <div className="file-name">{file.name.split(".")[0].slice(0, 19)}</div>
+                    <div className="file-type">{fileTypeInfo.name}</div>
+                  </div>
+                </div>
+              );
+            }
+          })}
+        </div>
+      )
+    }
   }
 
   // Generates a link form modal that will update the 
@@ -415,6 +466,7 @@ class ChannelMessageForm extends React.Component {
                 onKeyDown={this.handleChatKeyDown}
                 ref={this.chatInput}>
               </div>
+              { this.renderFilesList() }
               <div id="chat-footer" onMouseDown={e => e.preventDefault()}>
                 {/* <div className="toolbar-button fa fa-upload fa-fw"></div>
                 <div className="toolbar-divider"></div> */}

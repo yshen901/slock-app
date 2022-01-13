@@ -4778,8 +4778,9 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
     }; // Used to find chat input's content
 
     _this.chatInput = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
-    _this.format = _this.format.bind(_assertThisInitialized(_this));
     _this.readFile = _this.readFile.bind(_assertThisInitialized(_this));
+    _this.removeFile = _this.removeFile.bind(_assertThisInitialized(_this));
+    _this.format = _this.format.bind(_assertThisInitialized(_this));
     _this.focusInput = _this.focusInput.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.updateToolbarState = _this.updateToolbarState.bind(_assertThisInitialized(_this));
@@ -4841,8 +4842,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
 
       reader.onloadend = function () {
         if (file.size < 30000000) _this2.setState({
-          fileUrls: [].concat(_toConsumableArray(fileUrls), [URL.createObjectURL(file)]),
-          files: [].concat(_toConsumableArray(files), [file]),
+          fileUrls: [].concat(_toConsumableArray(_this2.state.fileUrls), [URL.createObjectURL(file)]),
+          files: [].concat(_toConsumableArray(_this2.state.files), [file]),
           fileError: ""
         });else _this2.setState({
           fileError: "Files must be 30MB or smaller."
@@ -4851,10 +4852,28 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
 
       if (file) reader.readAsDataURL(file); // Triggers load
       else this.setState({
-        files: this.state.imageUrl,
-        fileUrls: this.state.imageFile,
+        files: this.state.files,
+        fileUrls: this.state.fileUrls,
         fileError: ""
       });
+    }
+  }, {
+    key: "removeFile",
+    value: function removeFile(idx) {
+      var _this3 = this;
+
+      return function (e) {
+        e.preventDefault();
+
+        _this3.state.fileUrls.splice(idx, 1);
+
+        _this3.state.files.splice(idx, 1);
+
+        _this3.setState({
+          fileUrls: _this3.state.fileUrls,
+          files: _this3.state.files
+        });
+      };
     }
   }, {
     key: "getDmChannelName",
@@ -4890,15 +4909,15 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "format",
     value: function format(command, value) {
-      var _this3 = this;
+      var _this4 = this;
 
       return function (e) {
         e.preventDefault();
         e.stopPropagation();
         document.execCommand(command, false, value);
 
-        _this3.setState({
-          isActivated: Object.assign(_this3.state.isActivated, _defineProperty({}, command, !_this3.state.isActivated[command]))
+        _this4.setState({
+          isActivated: Object.assign(_this4.state.isActivated, _defineProperty({}, command, !_this4.state.isActivated[command]))
         });
       };
     } // Handles events that updates the toolbar states
@@ -4949,19 +4968,19 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleLinkForm",
     value: function toggleLinkForm(linkModal) {
-      var _this4 = this;
+      var _this5 = this;
 
       return function (e) {
         if (e) e.stopPropagation();
 
-        _this4.setState({
+        _this5.setState({
           linkModal: linkModal,
           linkText: "",
           linkUrl: ""
         });
 
         if (!linkModal) {
-          _this4.focusInput();
+          _this5.focusInput();
         }
       };
     } // Append the link to the chat input field
@@ -4976,12 +4995,63 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       var anchorEle = "<a href=\"http://".concat(linkUrl, "\" target=\"_blank\">").concat(linkText, "</a>");
       $(document.getElementById("chat-input")).append(anchorEle);
       this.toggleLinkForm(false)();
+    } // Renders list of files depending on what kind of file
+
+  }, {
+    key: "renderFilesList",
+    value: function renderFilesList() {
+      var _this6 = this;
+
+      var _this$state2 = this.state,
+          fileUrls = _this$state2.fileUrls,
+          files = _this$state2.files;
+      var fileTypeInfo;
+
+      if (fileUrls.length > 0) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "files-list",
+          onClick: function onClick(e) {
+            return e.stopPropagation();
+          }
+        }, files.map(function (file, i) {
+          if (file.type.includes("image")) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "image-file",
+            key: i
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "file-delete-button fas fa-times-circle fa-fw",
+            onClick: _this6.removeFile(i)
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "image-container"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "foreground"
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+            src: fileUrls[i]
+          })));else {
+            fileTypeInfo = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["getFileTypeInfo"])(file);
+            return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file",
+              key: i
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-delete-button fas fa-times-circle fa-fw",
+              onClick: _this6.removeFile(i)
+            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-icon ".concat(fileTypeInfo.iconSymbol, " ").concat(fileTypeInfo.iconBackground)
+            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-info"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-name"
+            }, file.name.split(".")[0].slice(0, 19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-type"
+            }, fileTypeInfo.name)));
+          }
+        }));
+      }
     } // Generates a link form modal that will update the 
 
   }, {
     key: "renderLinkForm",
     value: function renderLinkForm() {
-      var _this5 = this;
+      var _this7 = this;
 
       if (!this.state.linkModal) return;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5004,7 +5074,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         autoFocus: true,
         type: "text",
         onChange: function onChange(e) {
-          return _this5.setState({
+          return _this7.setState({
             linkText: e.currentTarget.value
           });
         },
@@ -5020,7 +5090,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         type: "text",
         className: "with-prefix",
         onChange: function onChange(e) {
-          return _this5.setState({
+          return _this7.setState({
             linkUrl: e.currentTarget.value
           });
         },
@@ -5064,7 +5134,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this8 = this;
 
       var channels = getState().entities.channels;
       var channel_id = this.props.match.params.channel_id;
@@ -5094,7 +5164,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         }, "See More Details")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-preview-link",
           onClick: function onClick() {
-            return _this6.goToChannel("channel-browser");
+            return _this8.goToChannel("channel-browser");
           }
         }, "Back to Channel Browser"));
       } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5107,7 +5177,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         onMouseUp: this.updateToolbarState,
         onClick: function onClick() {
           setTimeout(function () {
-            return _this6.focusInput();
+            return _this8.focusInput();
           }, 0);
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5202,7 +5272,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         },
         onKeyDown: this.handleChatKeyDown,
         ref: this.chatInput
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.renderFilesList(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "chat-footer",
         onMouseDown: function onMouseDown(e) {
           return e.preventDefault();
@@ -10512,7 +10582,7 @@ var SessionReducer = function SessionReducer() {
 /*!*****************************************!*\
   !*** ./frontend/selectors/selectors.js ***!
   \*****************************************/
-/*! exports provided: DEFAULT_PHOTO_URL, UTF_CODE_NAMES, DEFAULT_USER_PHOTO_URLS, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getUserPaused, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId, getMessageTimestamp, processTime, getMessageDate */
+/*! exports provided: DEFAULT_PHOTO_URL, UTF_CODE_NAMES, DEFAULT_USER_PHOTO_URLS, objectToArray, objectToNameArray, workspaceTitle, photoUrl, getUserName, getUserActivity, getUserPaused, getLocalTime, userInSearch, channelUsers, sortedChannelUsers, sortedUsers, dmChannelUserId, getMessageTimestamp, processTime, getMessageDate, getFileTypeInfo */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10536,6 +10606,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessageTimestamp", function() { return getMessageTimestamp; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "processTime", function() { return processTime; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMessageDate", function() { return getMessageDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getFileTypeInfo", function() { return getFileTypeInfo; });
 var DEFAULT_PHOTO_URL = '/images/profile/default.png';
 var UTF_CODE_NAMES = {
   "\uD83D\uDCAF": "100",
@@ -10672,6 +10743,90 @@ var getMessageDate = function getMessageDate(message, currentDate) {
   messageDate = messageDate.toLocaleDateString();
   if (messageDate == "Invalid Date") return currentDate;
   return messageDate;
+};
+var getFileTypeInfo = function getFileTypeInfo(file) {
+  var fileName = file.name.slice(file.name.indexOf(".") + 1);
+  if (fileName.length == file.name.length) fileName = "";
+
+  switch (fileName) {
+    case "doc":
+    case "docx":
+      return {
+        name: "Word Document",
+        iconSymbol: "far fa-file-word fa-fw",
+        iconBackground: "file-darkblue-back"
+      };
+
+    case "ppt":
+    case "pptx":
+      return {
+        name: "Powerpoint Presentation",
+        iconSymbol: "far fa-file-powerpoint fa-fw",
+        iconBackground: "file-orange-back"
+      };
+
+    case "xls":
+    case "xlsx":
+      return {
+        name: "Excel Spreadsheet",
+        iconSymbol: "far fa-file-excel fa-fw",
+        iconBackground: "file-green-back"
+      };
+
+    case "":
+    case "txt":
+    case "rtf":
+      return {
+        name: "Plain Text",
+        iconSymbol: "far fa-file-alt fa-fw",
+        iconBackground: "file-lightblue-back"
+      };
+
+    case "pdf":
+      return {
+        name: "PDF",
+        iconSymbol: "far fa-file-pdf fa-fw",
+        iconBackground: "file-red-back"
+      };
+
+    case "zip":
+      return {
+        name: "Zip",
+        iconSymbol: "far fa-file-archive fa-fw",
+        iconBackground: "file-darkblue-back"
+      };
+
+    case "mp4":
+    case "wmv":
+    case "mov":
+    case "avi":
+    case "mpg":
+    case "mpg2":
+      return {
+        name: "Video",
+        iconSymbol: "far fa-file-video fa-fw",
+        iconBackground: "file-grey-back"
+      };
+
+    case "mp3":
+    case "m4a":
+    case "flac":
+    case "wav":
+    case "wma":
+    case "aac":
+      return {
+        name: "Audio",
+        iconSymbol: "far fa-file-audio fa-fw",
+        iconBackground: "file-grey-back"
+      };
+
+    default:
+      return {
+        name: fileName ? fileName : "File",
+        iconSymbol: "far fa-file fa-fw",
+        iconBackground: "file-lightblue-back"
+      };
+  }
 };
 
 /***/ }),

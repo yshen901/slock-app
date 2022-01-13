@@ -28,19 +28,25 @@ em { font-style: italic }
 .no-left-border { border-left: none }
 .no-right-border { border-right: none }
 
+// General colors
 .red { color: red }
 .magenta { color: #e01e5a }
 .pink { color: rgb(255, 70, 255) }
 .orange { color: rgb(241, 157, 0) }
-
 .green { color: green }
 .dark-green { color: rgb(48,162,76) }
 .light-green { color: rgb(0, 255, 0) }
-
 .blue { color: rgb(33, 33, 245) }
-
 .dark-gray { color: darkgray }
 .gray { color: #1d1c1db3}
+
+// File background colors
+.file-lightblue-back { background-color: rgb(26,155,209)}
+.file-darkblue-back { background-color: rgb(17,100,163) }
+.file-orange-back { background-color: rgb(222,78,42) }
+.file-green-back { background-color: rgb(0,122,91) }
+.file-red-back { background-color: rgb(224,31,90) }
+.file-grey-back { background-color: rgb(97,96,97)}
 
 .bold-900 { font-weight: 900 }
 .bold-700 { font-weight: 700 }
