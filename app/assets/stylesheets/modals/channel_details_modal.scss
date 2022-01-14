@@ -133,8 +133,11 @@
     .tab-content {
       flex: 1;
       background-color: rgb(248,248,248);
-      padding-bottom: 50px;
+      padding-bottom: 12px;
       box-sizing: border-box;
+
+      overflow-y: auto;
+      overflow-x: hidden;
 
       border-top: 1px solid lightgray;
 
@@ -209,6 +212,8 @@
         }
 
         .section.files {
+          display: flex;
+          flex-direction: column;
           padding: 0px;
 
           .section-header {
@@ -220,15 +225,13 @@
           }
 
           .channel-files-list {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            overflow-y: scroll;
-            
-            padding-bottom: 22px;
-            max-width: 100%;
+            overflow-y: hidden;
+
             box-sizing: border-box;
+
+            margin-bottom: 12px;
+            max-width: 100%;
+            max-height: 248px;
         
             .file {
               position: relative;
@@ -238,7 +241,6 @@
               justify-content: flex-start;
               align-items: center;
         
-              overflow: visible;
         
               padding: 12px 22px;
               background: none;
@@ -257,7 +259,9 @@
                 box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.8);
                 border-radius: 6px;
         
-                a, div {
+                .file-button  {
+                  position: relative;
+
                   height: 32px;
                   width: 32px;
                   border-radius: 6px;
@@ -268,7 +272,7 @@
                   text-decoration: none;
                 }
         
-                a:hover, div:hover {
+                .file-button:hover {
                   transition: 0.3s;
                   cursor: pointer;
                   background: rgb(240, 240, 240);
@@ -333,6 +337,12 @@
               }
             }
           }
+
+          .channel-files-list:hover {
+            overflow-y: auto;
+            overflow-y: overlay;
+            overflow-x: hidden;
+          }
         }
 
         .section.files:hover {
@@ -396,7 +406,7 @@
       .members-list {
         width: 100%;
         height: calc(100% - 50px);
-        overflow-y: scroll;
+        overflow-y: auto;
         overflow-x: hidden;
 
         .member {

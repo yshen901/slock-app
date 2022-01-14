@@ -165,8 +165,16 @@ class ChannelDetailsModal extends React.Component {
                     <div className="file-type">{fileTypeInfo.name}</div>
                   </div>
                   <div className="file-buttons">
-                    <div className="far fa-trash-alt fa-fw"></div>
-                    <div className="fas fa-cloud-download-alt fa-fw"></div>
+                    <div className="far fa-trash-alt fa-fw" onClick={this.toggleFileDelete(file.id)}>
+                      <div className="black-popup">
+                        <div>Delete</div>
+                      </div>
+                    </div>
+                    <a className="fas fa-cloud-download-alt fa-fw" href={file.url} target="_blank">
+                      <div className="black-popup">
+                        <div>Download</div>
+                      </div>
+                    </a>
                   </div>
                 </div>
               );
@@ -180,10 +188,16 @@ class ChannelDetailsModal extends React.Component {
                     <div className="file-type">{fileTypeInfo.name}</div>
                   </div>
                   <div className="file-buttons">
-                    <div className="far fa-trash-alt fa-fw" onClick={this.toggleFileDelete(file.id, file.message_id)}>
-                      
+                    <div className="file-button far fa-trash-alt fa-fw" onClick={this.toggleFileDelete(file.id)}>
+                      <div className="black-popup">
+                        <div>Delete</div>
+                      </div>
                     </div>
-                    <a className="fas fa-cloud-download-alt fa-fw" href={file.url} target="_blank"></a>
+                    <a className="file-button fas fa-cloud-download-alt fa-fw" href={file.url} target="_blank">
+                      <div className="black-popup">
+                        <div>Download</div>
+                      </div>
+                    </a>
                   </div>
                 </div>
               );
@@ -338,7 +352,7 @@ class ChannelDetailsModal extends React.Component {
     else if (channel.dm_channel) {
       let otherUser = users[dmChannelUserId(channel, current_user_id)];
       return (
-        <div className="channel-details-modal">
+        <div className="channel-details-modal hidden">
           <div className="part-modal-background" onClick={this.toggleHide}></div>
           <div className="channel-details">
             <div className="modal-header">
@@ -367,7 +381,7 @@ class ChannelDetailsModal extends React.Component {
     }
     else
       return (
-        <div className="channel-details-modal">
+        <div className="channel-details-modal hidden">
           <div className="part-modal-background" onClick={this.toggleHide}></div>
           <div className="channel-details">
             <div className="modal-header">

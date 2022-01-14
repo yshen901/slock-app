@@ -332,8 +332,16 @@ class ChannelMessage extends React.Component {
                         <div className="file-type">{fileTypeInfo.name}</div>
                       </div>
                       <div className="file-buttons">
-                        <div className="far fa-trash-alt fa-fw" onClick={this.toggleFileDelete(file.id)}></div>
-                        <a className="fas fa-cloud-download-alt fa-fw" href={file.url} target="_blank"></a>
+                        <div className="far fa-trash-alt fa-fw" onClick={this.toggleFileDelete(file.id)}>
+                          <div className="black-popup">
+                            <div>Delete</div>
+                          </div>
+                        </div>
+                        <a className="fas fa-cloud-download-alt fa-fw" href={file.url} target="_blank">
+                          <div className="black-popup">
+                            <div>Download</div>
+                          </div>
+                        </a>
                       </div>
                     </div>
                   );

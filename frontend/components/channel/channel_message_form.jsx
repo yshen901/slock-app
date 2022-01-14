@@ -259,7 +259,11 @@ class ChannelMessageForm extends React.Component {
             if (file.type.includes("image"))
               return (
                 <div className="image-file" key={i}>
-                  <div className="file-delete-button fas fa-times-circle fa-fw" onClick={this.removeFile(i)}></div>
+                  <div className="file-delete-button fas fa-times-circle fa-fw" onClick={this.removeFile(i)}>
+                    <div className="black-popup">
+                      <div>Remove file</div>
+                    </div>
+                  </div>
                   <div className="image-container">
                     <div className="foreground"></div>
                     <img src={fileUrls[i]}/>

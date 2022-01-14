@@ -4,11 +4,12 @@
 }
 
 .message-list {
-  width: 100%;
+  max-width: calc(100vw - 260px);
   max-height: calc(100% - 154px);
   
-  overflow-x: hidden;
   overflow-y: auto;
+  overflow-y: overlay;
+  overflow-x: hidden;
 
   vertical-align: text-bottom;
 
@@ -177,7 +178,10 @@
       .files-list {
         display: flex;
         align-items: center;
-        overflow-x: scroll;
+        overflow-x: overlay;
+        overflow-x: auto;
+        overflow-y: hidden;
+
         
         max-width: 100%;
         padding: 8px;
@@ -563,7 +567,7 @@
 .message {
   position: relative;
 
-  width: 100%;
+  max-width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -598,6 +602,7 @@
   .message-content {
     display: flex;
     overflow: visible;
+    max-width: 100%;
 
     // FOR RICHTEXT MESSAGE EDITOR
     b { font-weight: 700 }
@@ -680,7 +685,7 @@
     .message-text {
       display: flex;
       flex-direction: column;
-      width: calc(100% - 52px);
+      max-width: calc(100% - 52px);
       overflow: visible;
     
       .message-header {
@@ -737,6 +742,7 @@
       .message-files {
         display: flex;
         flex-direction: column;
+        max-width: 100%;
 
         .message-files-toggle {
           display: flex;
@@ -744,8 +750,8 @@
 
           color: rgba(29,28,29,0.7);
           font-size: 13px;
-          line-height: 22px;
-          margin: 4px 0;
+          line-height: 13px;
+          margin-top: 4px;
 
           .fas:hover {
             transition: 0.3s;
@@ -756,7 +762,7 @@
         .files-list {
           display: flex;
           align-items: center;
-          overflow-x: scroll;
+          flex-wrap: wrap;
           
           max-width: 100%;
           box-sizing: border-box;
@@ -770,7 +776,7 @@
             align-items: center;
 
             overflow: visible;
-            margin-right: 12px; 
+            margin: 8px 8px 0 0;
   
             padding: 12px;
             border-radius: 12px;

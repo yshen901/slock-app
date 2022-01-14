@@ -4710,11 +4710,15 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "far fa-trash-alt fa-fw",
               onClick: _this11.toggleFileDelete(file.id)
-            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "black-popup"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Delete"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
               className: "fas fa-cloud-download-alt fa-fw",
               href: file.url,
               target: "_blank"
-            })));
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "black-popup"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Download")))));
           }
         })));
       }
@@ -5162,7 +5166,9 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "file-delete-button fas fa-times-circle fa-fw",
             onClick: _this7.removeFile(i)
-          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "black-popup"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Remove file"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "image-container"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "foreground"
@@ -6531,10 +6537,17 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             }, fileTypeInfo.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file-buttons"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-              className: "far fa-trash-alt fa-fw"
-            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-              className: "fas fa-cloud-download-alt fa-fw"
-            })));
+              className: "far fa-trash-alt fa-fw",
+              onClick: _this7.toggleFileDelete(file.id)
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "black-popup"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Delete"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+              className: "fas fa-cloud-download-alt fa-fw",
+              href: file.url,
+              target: "_blank"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "black-popup"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Download")))));
           } else {
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file",
@@ -6550,13 +6563,17 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             }, fileTypeInfo.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file-buttons"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-              className: "far fa-trash-alt fa-fw",
-              onClick: _this7.toggleFileDelete(file.id, file.message_id)
-            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-              className: "fas fa-cloud-download-alt fa-fw",
+              className: "file-button far fa-trash-alt fa-fw",
+              onClick: _this7.toggleFileDelete(file.id)
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "black-popup"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Delete"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+              className: "file-button fas fa-cloud-download-alt fa-fw",
               href: file.url,
               target: "_blank"
-            })));
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "black-popup"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Download")))));
           }
         }));
       } else {
@@ -6748,7 +6765,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       });else if (channel.dm_channel) {
         var otherUser = users[Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["dmChannelUserId"])(channel, current_user_id)];
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "channel-details-modal"
+          className: "channel-details-modal hidden"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "part-modal-background",
           onClick: this.toggleHide
@@ -6785,7 +6802,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           }
         }, "About")), this.dmTabContent()));
       } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "channel-details-modal"
+        className: "channel-details-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: this.toggleHide
