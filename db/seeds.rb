@@ -457,4 +457,4 @@ MessageSave.create(
 )
 
 file = File.open("app/assets/pdfs/Resume - Yuci Shen.pdf")
-message.files.attach([{io: file, filename: "Resume - Yuci Shen.jpg"}])
+message.files.attach([{io: file, filename: "Resume - Yuci Shen.pdf"}])
