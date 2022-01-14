@@ -6739,7 +6739,13 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
 
               _this9.toggleHide(e);
             }
-          }, "View full profile"))));
+          }, "View full profile"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "block"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "section files"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "section-header"
+          }, "Files"), this.channelFiles())));
 
         default:
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

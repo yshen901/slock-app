@@ -333,6 +333,12 @@ class ChannelDetailsModal extends React.Component {
                 <div className="section-link dm" onClick={(e)=> { this.props.showUser(otherUser.id); this.toggleHide(e); }}>View full profile</div>
               </div>
             </div>
+            <div className="block">
+              <div className="section files">
+                <div className="section-header">Files</div>
+                { this.channelFiles() }
+              </div>
+            </div>
           </div>
         )
       default:
