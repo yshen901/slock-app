@@ -192,20 +192,20 @@ export const getFileTypeInfo = (file) => {
     case "avi":
     case "mpg":
     case "mpg2":
-      return {name: "Video", iconSymbol: "far fa-file-video fa-fw", iconBackground: "file-grey-back"}
+      return {name: "Video", iconSymbol: "far fa-file-video fa-fw", iconBackground: "file-yellow-back"}
     case "mp3":
     case "m4a":
     case "flac":
     case "wav":
     case "wma":
     case "aac":
-      return {name: "Audio", iconSymbol: "far fa-file-audio fa-fw", iconBackground: "file-grey-back"}
+      return {name: "Audio", iconSymbol: "far fa-file-audio fa-fw", iconBackground: "file-deeppink-back"}
     case "png":
     case "jpg":
     case "jpeg":
     case "gif":
     case "bmp":
-      return {name: fileName.toUpperCase(), iconSymbol: "far fa-file-image fa-fw", iconBackground: "file-grey-back"}
+      return {name: fileName.toUpperCase(), iconSymbol: "far fa-file-image fa-fw", iconBackground: "file-darkblue-back"}
       // return { name: fileName.toUpperCase(), iconSymbol: "image" }
     default:
       return {name: fileName ? fileName.toUpperCase() : "File", iconSymbol: "far fa-file fa-fw", iconBackground: "file-lightblue-back"}

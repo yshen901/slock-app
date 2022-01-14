@@ -11097,7 +11097,7 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
       return {
         name: "Video",
         iconSymbol: "far fa-file-video fa-fw",
-        iconBackground: "file-grey-back"
+        iconBackground: "file-yellow-back"
       };
 
     case "mp3":
@@ -11109,7 +11109,7 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
       return {
         name: "Audio",
         iconSymbol: "far fa-file-audio fa-fw",
-        iconBackground: "file-grey-back"
+        iconBackground: "file-deeppink-back"
       };
 
     case "png":
@@ -11120,7 +11120,7 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
       return {
         name: fileName.toUpperCase(),
         iconSymbol: "far fa-file-image fa-fw",
-        iconBackground: "file-grey-back"
+        iconBackground: "file-darkblue-back"
       };
     // return { name: fileName.toUpperCase(), iconSymbol: "image" }
 
