@@ -3421,8 +3421,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     key: "receiveACData",
     value: function receiveACData(data) {
       var message_data = data.message_data; //extract the data
-
-      debugger; // For message updates and deletions
+      // For message updates and deletions
 
       if (message_data.type != "PUT") {
         this.updateMessage(message_data);
@@ -4835,7 +4834,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
 
       if (this.chatInput.current.textContent.length != 0 || this.state.files.length != 0) {
         var messageFormData = new FormData();
-        messageFormData.append("message[body]", dompurify__WEBPACK_IMPORTED_MODULE_3___default.a.sanitize(this.chatInput.current.innerHTML));
+        var body = dompurify__WEBPACK_IMPORTED_MODULE_3___default.a.sanitize(this.chatInput.current.innerHTML);
+        messageFormData.append("message[body]", body ? body : "");
         messageFormData.append("message[channel_id]", this.props.match.params.channel_id);
 
         for (var i = 0; i < this.state.files.length; i++) {

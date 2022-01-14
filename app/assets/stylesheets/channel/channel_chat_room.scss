@@ -153,9 +153,7 @@
 
 #message-form-container {
   overflow: visible;
-  flex: 1;
   max-width: calc(100vw - 260px);
-  max-height: 154px;
   
   #message-box {
     display: flex;

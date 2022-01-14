@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2022_01_07_132540) do
   create_table "channels", force: :cascade do |t|
     t.string "name", null: false
     t.integer "workspace_id", null: false
-    t.string "description", null: false
+    t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "channel_type", default: "channel"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 2022_01_07_132540) do
     t.datetime "updated_at", null: false
     t.integer "workspace_id", null: false
     t.index ["message_id"], name: "index_message_saves_on_message_id"
+    t.index ["user_id", "message_id"], name: "index_message_saves_on_user_id_and_message_id", unique: true
     t.index ["user_id"], name: "index_message_saves_on_user_id"
   end
 

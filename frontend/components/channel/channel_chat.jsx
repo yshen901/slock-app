@@ -179,7 +179,6 @@ class ChannelChat extends React.Component {
 
   receiveACData(data) {
     let { message_data } = data;     //extract the data
-    debugger;
     // For message updates and deletions
     if (message_data.type != "PUT") { 
       this.updateMessage(message_data);

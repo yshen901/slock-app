@@ -67,7 +67,8 @@ class ChannelMessageForm extends React.Component {
     e.preventDefault();
     if (this.chatInput.current.textContent.length != 0 || this.state.files.length != 0) {
       let messageFormData = new FormData();
-      messageFormData.append("message[body]", DOMPurify.sanitize(this.chatInput.current.innerHTML));
+      let body = DOMPurify.sanitize(this.chatInput.current.innerHTML);
+      messageFormData.append("message[body]", body ? body : "");
       messageFormData.append("message[channel_id]", this.props.match.params.channel_id);
       for (let i = 0; i < this.state.files.length; i++)
         messageFormData.append("message[files][]", this.state.files[i]);
