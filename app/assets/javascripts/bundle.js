@@ -4913,7 +4913,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   _createClass(ChannelMessageForm, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      if (this.chatInput.current && this.props.messageBody) {
+      if (this.chatInput.current && this.props.toggleEditSave) {
         this.focusInput();
       }
     }
@@ -5083,7 +5083,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
     value: function handleChatKeyDown(e) {
       if (!e.shiftKey && e.key == "Enter") {
         e.preventDefault();
-        if (this.props.messageBody) this.props.toggleEditSave()(e);else this.handleSubmit(e);
+        if (this.props.toggleEditSave) this.props.toggleEditSave()(e);else this.handleSubmit(e);
       } else if (e.key == "Backspace") {
         var ele = document.getElementById("chat-input");
 
@@ -5253,7 +5253,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderMessageFooter",
     value: function renderMessageFooter() {
-      if (!this.props.messageBody) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (!this.props.toggleEditSave) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-footer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Shift + Return"), " to add a new line."));
     } // Determines whether we render an arrow button for form, or cancel/save buttons for editor
@@ -5261,7 +5261,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderMessageSend",
     value: function renderMessageSend() {
-      if (this.props.messageBody) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (this.props.toggleEditSave) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-send-buttons"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "button",
@@ -5270,6 +5270,24 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         className: "button green-button",
         onClick: this.props.toggleEditSave(this.chatInput)
       }, "Save"));
+    } // Only renders upload button if we aren't editing
+
+  }, {
+    key: "renderMessageUpload",
+    value: function renderMessageUpload() {
+      if (!this.props.toggleEditSave) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-button fas fa-upload fa-fw ".concat(this.props.toggleEditCancel ? "hidden" : ""),
+        onClick: function onClick() {
+          return document.getElementById("message-file-input").click();
+        }
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "file",
+        id: "message-file-input",
+        onChange: this.readFile,
+        className: "hidden"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "black-popup"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Upload file")));
     }
   }, {
     key: "render",
@@ -5309,7 +5327,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         }, "Back to Channel Browser"));
       } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-form-container",
-        className: this.props.messageBody ? "editor" : ""
+        className: this.props.toggleEditSave ? "editor" : ""
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "message-box"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5417,20 +5435,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         onMouseDown: function onMouseDown(e) {
           return e.preventDefault();
         }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "toolbar-button fas fa-upload fa-fw",
-        onClick: function onClick() {
-          return document.getElementById("message-file-input").click();
-        }
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "file",
-        id: "message-file-input",
-        onChange: this.readFile,
-        className: "hidden"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "black-popup"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Upload file"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "toolbar-divider"
+      }, this.renderMessageUpload(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "toolbar-divider ".concat(this.props.toggleEditCancel ? "hidden" : "")
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "toolbar-button",
         onMouseDown: function onMouseDown(e) {

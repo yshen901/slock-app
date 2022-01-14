@@ -46,7 +46,7 @@ class ChannelMessageForm extends React.Component {
   }
 
   componentDidMount() {
-    if (this.chatInput.current && this.props.messageBody) {
+    if (this.chatInput.current && this.props.toggleEditSave) {
       this.focusInput();
     }
   }
@@ -189,7 +189,7 @@ class ChannelMessageForm extends React.Component {
   handleChatKeyDown(e) {
     if (!e.shiftKey && e.key == "Enter") {
       e.preventDefault();
-      if (this.props.messageBody)
+      if (this.props.toggleEditSave)
         this.props.toggleEditSave()(e);
       else
         this.handleSubmit(e);
@@ -329,7 +329,7 @@ class ChannelMessageForm extends React.Component {
 
   // Only render footer when not editing
   renderMessageFooter() {
-    if (!this.props.messageBody)
+    if (!this.props.toggleEditSave)
       return (
         <div id="message-footer">
           <div>
@@ -341,13 +341,33 @@ class ChannelMessageForm extends React.Component {
 
   // Determines whether we render an arrow button for form, or cancel/save buttons for editor
   renderMessageSend() {
-    if (this.props.messageBody)
+    if (this.props.toggleEditSave)
       return (
         <div id="message-send-buttons">
           <div className="button" onClick={this.props.toggleEditCancel()}>Cancel</div>
           <div className="button green-button" onClick={this.props.toggleEditSave(this.chatInput)}>Save</div>
         </div>
       )
+  }
+
+  // Only renders upload button if we aren't editing
+  renderMessageUpload() {
+    if (!this.props.toggleEditSave)
+      return (
+        <div 
+          className={`toolbar-button fas fa-upload fa-fw ${this.props.toggleEditCancel ? "hidden" : ""}`} 
+          onClick={() => document.getElementById("message-file-input").click()}>
+          <input 
+            type="file" 
+            id="message-file-input"
+            onChange={this.readFile}
+            className="hidden">
+          </input>
+          <div className="black-popup">
+            <div>Upload file</div>
+          </div>
+        </div>
+      );
   }
 
   render() {
@@ -373,7 +393,7 @@ class ChannelMessageForm extends React.Component {
     }
     else
       return (
-        <div id="message-form-container" className={this.props.messageBody ? "editor" : ""} >
+        <div id="message-form-container" className={this.props.toggleEditSave ? "editor" : ""} >
           <div id="message-box">
             <div id="message-form" onMouseUp={this.updateToolbarState} onClick={() => {setTimeout(() => this.focusInput(), 0)}}>
               <div id="chat-toolbar" className={this.state.formatBar ? "" : "hidden"} onMouseDown={e => e.preventDefault()}>
@@ -483,18 +503,8 @@ class ChannelMessageForm extends React.Component {
               <div id="chat-footer" onMouseDown={e => e.preventDefault()}>
                 {/* <div className="toolbar-button fa fa-upload fa-fw"></div>
                 <div className="toolbar-divider"></div> */}
-                <div className="toolbar-button fas fa-upload fa-fw" onClick={() => document.getElementById("message-file-input").click()}>
-                  <input 
-                    type="file" 
-                    id="message-file-input"
-                    onChange={this.readFile}
-                    className="hidden">
-                  </input>
-                  <div className="black-popup">
-                    <div>Upload file</div>
-                  </div>
-                </div>
-                <div className="toolbar-divider"></div>
+                { this.renderMessageUpload() }
+                <div className={`toolbar-divider ${this.props.toggleEditCancel ? "hidden" : ""}`}></div>
                 <div className="toolbar-button" onMouseDown={e => { e.preventDefault(); document.getElementById("chat-toolbar").classList.toggle("hidden"); }}>
                   Aa
                   <div className="black-popup">
