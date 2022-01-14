@@ -18,4 +18,4 @@ end
 json.total_reacts total_reacts
 json.user_reacts user_reacts
 
-json.file_urls message.files.map{ |file| file.service_url }
+json.files message.files.map{ |file| { name: file.filename.to_s, url: file.service_url } }

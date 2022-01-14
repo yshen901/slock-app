@@ -196,7 +196,13 @@ export const getFileTypeInfo = (file) => {
     case "wma":
     case "aac":
       return {name: "Audio", iconSymbol: "far fa-file-audio fa-fw", iconBackground: "file-grey-back"}
+    case "png":
+    case "jpg":
+    case "jpeg":
+    case "gif":
+    case "bmp":
+      return {name: fileName.toUpperCase(), iconSymbol: "image"}
     default:
-      return {name: fileName ? fileName: "File", iconSymbol: "far fa-file fa-fw", iconBackground: "file-lightblue-back"}
+      return {name: fileName ? fileName.toUpperCase() : "File", iconSymbol: "far fa-file fa-fw", iconBackground: "file-lightblue-back"}
   }
 }

@@ -254,7 +254,7 @@ class ChannelMessageForm extends React.Component {
     let fileTypeInfo;
     if (fileUrls.length > 0) {
       return (
-        <div id="files-list" onClick={e => e.stopPropagation()}>
+        <div className="files-list" onClick={e => e.stopPropagation()}>
           { files.map((file, i) => {
             if (file.type.includes("image"))
               return (

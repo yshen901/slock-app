@@ -12,7 +12,9 @@ class Api::MessagesController < ApplicationController
     })
 
     if @message.save
-      @message.files.attach(message_params[:files]) if message_params[:files]
+      if message_params[:files]
+        @message.files.attach(message_params[:files])
+      end
       render :show
     else
       render json: @message.errors.full_messages, status: 409

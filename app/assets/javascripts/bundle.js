@@ -4276,7 +4276,8 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      editing: false
+      editing: false,
+      filesOpen: true
     };
     _this.toggleEditCancel = _this.toggleEditCancel.bind(_assertThisInitialized(_this));
     _this.toggleEditSave = _this.toggleEditSave.bind(_assertThisInitialized(_this));
@@ -4512,7 +4513,6 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     value: function messageDeleteButton() {
       var _this$props2 = this.props,
           current_user_id = _this$props2.current_user_id,
-          messageACChannel = _this$props2.messageACChannel,
           message = _this$props2.message;
       if (message.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
@@ -4612,6 +4612,67 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "messageFiles",
+    value: function messageFiles() {
+      var _this10 = this;
+
+      var files = this.props.message.files;
+      var fileTypeInfo;
+
+      if (files.length > 0) {
+        var fileNum = files.length;
+        var filesOpen = this.state.filesOpen;
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-files"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-files-toggle"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "message-files-num"
+        }, fileNum == 1 ? "1 file" : "".concat(fileNum, " files")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: filesOpen ? "fas fa-caret-down fa-fw" : "fas fa-caret-right fa-fw",
+          onClick: function onClick() {
+            return _this10.setState({
+              filesOpen: !filesOpen
+            });
+          }
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "files-list"
+        }, files.map(function (file, i) {
+          fileTypeInfo = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["getFileTypeInfo"])(file);
+
+          if (filesOpen && fileTypeInfo.iconSymbol == "image") {
+            return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file",
+              key: i
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-icon"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+              src: file.url
+            })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-info"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-name"
+            }, file.name.split(".")[0].slice(0, 19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-type"
+            }, fileTypeInfo.name)));
+          } else if (filesOpen) {
+            return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file",
+              key: i
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-icon ".concat(fileTypeInfo.iconSymbol, " ").concat(fileTypeInfo.iconBackground)
+            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-info"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-name"
+            }, file.name.split(".")[0].slice(0, 19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-type"
+            }, fileTypeInfo.name)));
+          }
+        })));
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       // For when message is deleted
@@ -4629,7 +4690,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         className: "message-content"
       }, this.messageIcon(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-text"
-      }, this.messageHeader(), this.messageBody()), this.messageButtons(saved)), this.messageReactsList());
+      }, this.messageHeader(), this.messageBody(), this.messageFiles()), this.messageButtons(saved)), this.messageReactsList());
     }
   }]);
 
@@ -5043,7 +5104,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
 
       if (fileUrls.length > 0) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          id: "files-list",
+          className: "files-list",
           onClick: function onClick(e) {
             return e.stopPropagation();
           }
@@ -10854,9 +10915,19 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
         iconBackground: "file-grey-back"
       };
 
+    case "png":
+    case "jpg":
+    case "jpeg":
+    case "gif":
+    case "bmp":
+      return {
+        name: fileName.toUpperCase(),
+        iconSymbol: "image"
+      };
+
     default:
       return {
-        name: fileName ? fileName : "File",
+        name: fileName ? fileName.toUpperCase() : "File",
         iconSymbol: "far fa-file fa-fw",
         iconBackground: "file-lightblue-back"
       };

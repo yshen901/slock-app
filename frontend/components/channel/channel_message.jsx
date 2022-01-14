@@ -1,5 +1,5 @@
 import React from 'react';
-import { getUserName, UTF_CODE_NAMES } from '../../selectors/selectors';
+import { getFileTypeInfo, getUserName, UTF_CODE_NAMES } from '../../selectors/selectors';
 import ChannelMessageForm from './channel_message_form';
 
 class ChannelMessage extends React.Component {
@@ -7,7 +7,8 @@ class ChannelMessage extends React.Component {
     super(props);
 
     this.state = {
-      editing: false
+      editing: false,
+      filesOpen: true
     }
 
     this.toggleEditCancel = this.toggleEditCancel.bind(this);
@@ -176,7 +177,7 @@ class ChannelMessage extends React.Component {
   }
 
   messageDeleteButton() {
-    let { current_user_id, messageACChannel, message } = this.props;
+    let { current_user_id, message } = this.props;
     if (message.user_id == current_user_id) 
       return (
         <div className="message-button"
@@ -263,6 +264,57 @@ class ChannelMessage extends React.Component {
       );
   }
 
+  messageFiles() {
+    let { files } = this.props.message;
+    let fileTypeInfo;
+
+    if (files.length > 0) {
+      let fileNum = files.length;
+      let { filesOpen } = this.state;
+      return (
+        <div className='message-files'>
+          <div className="message-files-toggle">
+            <div className='message-files-num'>
+              {fileNum == 1 ? "1 file" : `${fileNum} files`}
+            </div>
+            <div 
+              className={filesOpen ? "fas fa-caret-down fa-fw" : "fas fa-caret-right fa-fw"}
+              onClick={() => this.setState({filesOpen: !filesOpen})}></div>
+          </div>
+          <div className="files-list">
+            { files.map((file, i) => {
+                fileTypeInfo = getFileTypeInfo(file);
+                if (filesOpen && fileTypeInfo.iconSymbol == "image") {
+                  return (
+                    <div className="file" key={i}>
+                      <div className="file-icon">
+                        <img src={file.url}/>
+                      </div>
+                      <div className="file-info">
+                        <div className="file-name">{file.name.split(".")[0].slice(0, 19)}</div>
+                        <div className="file-type">{fileTypeInfo.name}</div>
+                      </div>
+                    </div>
+                  );
+                }
+                else if (filesOpen) {
+                  return (
+                    <div className="file" key={i}>
+                      <div className={`file-icon ${fileTypeInfo.iconSymbol} ${fileTypeInfo.iconBackground}`}></div>
+                      <div className="file-info">
+                        <div className="file-name">{file.name.split(".")[0].slice(0, 19)}</div>
+                        <div className="file-type">{fileTypeInfo.name}</div>
+                      </div>
+                    </div>
+                  );
+                }
+            })}
+          </div>
+        </div>
+      )
+    }
+  }
+
   render() {
     // For when message is deleted
     let { message, key } = this.props;
@@ -278,6 +330,7 @@ class ChannelMessage extends React.Component {
           <div className="message-text">
             {this.messageHeader()}
             {this.messageBody()}
+            { this.messageFiles() }
           </div>
           { this.messageButtons(saved) }
         </div>
