@@ -77,7 +77,7 @@ class ChannelMessageForm extends React.Component {
           ({message}) => { 
             this.props.messageACChannel.speak(
               { 
-                message:
+                message_data:
                   {
                     type: "PUT",
                     message,

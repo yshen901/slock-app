@@ -5,13 +5,13 @@ class ChatChannel < ApplicationCable::Channel
   end
 
   def speak(data)
-    message_data = data['message']
+    message_data = data['message_data']
 
     # handles new message post request
     # passes up activate_dm_channel to tell the app to fire startDmChannel, which loads the channel
     if message_data['type'] == "PUT"
         socket = { 
-          message: {
+          message_data: {
             type: message_data["type"],
             message: message_data["message"],
             dm_channel: message_data["dm_channel"]
@@ -22,7 +22,7 @@ class ChatChannel < ApplicationCable::Channel
     # handles delete message request
     elsif message_data['type'] == "DELETE"
       ChatChannel.broadcast_to('chat_channel', {
-        message: {
+        message_data: {
           type: message_data['type'], 
           id: message_data["id"],
           user_id: message_data["user_id"]
@@ -30,7 +30,7 @@ class ChatChannel < ApplicationCable::Channel
       })
     elsif message_data['type'] == "RECEIVE_MESSAGE_REACT" || message_data['type'] == "REMOVE_MESSAGE_REACT"
       ChatChannel.broadcast_to('chat_channel', {
-        message: {
+        message_data: {
           type: message_data['type'], 
           id: message_data["message_react"]["message_id"],
           user_id: message_data["message_react"]["user_id"],
@@ -39,7 +39,7 @@ class ChatChannel < ApplicationCable::Channel
       })
     elsif message_data['type'] == "RECEIVE_MESSAGE_SAVE" || message_data['type'] == "REMOVE_MESSAGE_SAVE"
       ChatChannel.broadcast_to('chat_channel', {
-        message: {
+        message_data: {
           type: message_data['type'], 
           id: message_data["id"],
           message_save_id: message_data["message_save_id"],

@@ -54,12 +54,12 @@ class ChannelMessage extends React.Component {
         deleteMessageReact({
           message_id: message.id,
           react_code
-        }).then(({message_react, type}) => messageACChannel.speak({message: { type, message_react }}));
+        }).then(({message_react, type}) => messageACChannel.speak({message_data: { type, message_react }}));
       else
         postMessageReact({
           message_id: message.id,
           react_code
-        }).then(({message_react, type}) => messageACChannel.speak({message: { type, message_react }}));
+        }).then(({message_react, type}) => messageACChannel.speak({message_data: { type, message_react }}));
     };
   }
 
@@ -72,14 +72,14 @@ class ChannelMessage extends React.Component {
       if (user_saved_messages[messageId])
         deleteMessageSave({
           message_id: messageId,
-        }).then(({message_save, type}) => messageACChannel.speak({message: { type, id: message_save.message_id }}))
+        }).then(({message_save, type}) => messageACChannel.speak({message_data: { type, id: message_save.message_id }}))
       else
         postMessageSave({
           message_id: messageId,
           workspace_id: workspace_id
         }).then(({message_save, type}) => {
           messageACChannel.speak({
-            message: { 
+            message_data: { 
               type, 
               id: message_save.message_id, 
               message_save_id: message_save.id, 
@@ -93,12 +93,12 @@ class ChannelMessage extends React.Component {
     return (e) => {
       if (e) e.preventDefault();
 
-      let { message } = this.props;
+    let { message } = this.props;
       let { deleteMessage, messageACChannel } = this.props;
       deleteMessage(message)
         .then(
           ({message}) => {
-            messageACChannel.speak({message: {type: "DELETE", id: message.id, user_id: message.user_id}});
+            messageACChannel.speak({message_data: {type: "DELETE", id: message.id, user_id: message.user_id}});
           }
         );
     };

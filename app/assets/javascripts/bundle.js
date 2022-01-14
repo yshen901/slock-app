@@ -3420,16 +3420,18 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "receiveACData",
     value: function receiveACData(data) {
-      var message = data.message; //extract the data
-      // For message updates and deletions
+      var message_data = data.message_data; //extract the data
 
-      if (message.type != "PUT") {
-        this.updateMessage(message);
+      debugger; // For message updates and deletions
+
+      if (message_data.type != "PUT") {
+        this.updateMessage(message_data);
       } else {
-        debugger; // loads the message if its to the current channel
+        var message = message_data.message,
+            dm_channel = message_data.dm_channel; // loads the message if its to the current channel
 
-        if (message.message.channel_id == this.props.channel_id) {
-          this.props.receiveMessage(message.message);
+        if (message.channel_id == this.props.channel_id) {
+          this.props.receiveMessage(message);
           var messagesData = this.props.messagesData;
           var messagesList = this.state.messagesList;
           var _this$scrollBar$curre4 = this.scrollBar.current,
@@ -3443,12 +3445,12 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
             oldDistanceFromBottom: distanceFromBottom
           });
           this.updateScroll();
-        } else if (message.dm_channel) {
+        } else if (dm_channel) {
           // joins the dm channel if not already in it
-          if (!getState().entities.channels[message.message.channel_id]) {
+          if (!getState().entities.channels[message.channel_id]) {
             this.props.startDmChannel({
               user_1_id: this.props.current_user_id,
-              user_2_id: user_id,
+              user_2_id: message.user_id,
               workspace_id: this.props.workspace_id
             });
           }
@@ -4348,7 +4350,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           var message_react = _ref.message_react,
               type = _ref.type;
           return messageACChannel.speak({
-            message: {
+            message_data: {
               type: type,
               message_react: message_react
             }
@@ -4360,7 +4362,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           var message_react = _ref2.message_react,
               type = _ref2.type;
           return messageACChannel.speak({
-            message: {
+            message_data: {
               type: type,
               message_react: message_react
             }
@@ -4389,7 +4391,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           var message_save = _ref3.message_save,
               type = _ref3.type;
           return messageACChannel.speak({
-            message: {
+            message_data: {
               type: type,
               id: message_save.message_id
             }
@@ -4401,7 +4403,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           var message_save = _ref4.message_save,
               type = _ref4.type;
           messageACChannel.speak({
-            message: {
+            message_data: {
               type: type,
               id: message_save.message_id,
               message_save_id: message_save.id,
@@ -4425,7 +4427,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         deleteMessage(message).then(function (_ref5) {
           var message = _ref5.message;
           messageACChannel.speak({
-            message: {
+            message_data: {
               type: "DELETE",
               id: message.id,
               user_id: message.user_id
@@ -4844,7 +4846,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
           var message = _ref.message;
 
           _this2.props.messageACChannel.speak({
-            message: {
+            message_data: {
               type: "PUT",
               message: message,
               dm_channel: getState().entities.channels[message.channel_id].dm_channel

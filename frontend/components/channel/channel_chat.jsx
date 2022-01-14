@@ -178,16 +178,18 @@ class ChannelChat extends React.Component {
   }
 
   receiveACData(data) {
-    let { message } = data;     //extract the data
+    let { message_data } = data;     //extract the data
+    debugger;
     // For message updates and deletions
-    if (message.type != "PUT") { 
-      this.updateMessage(message);
+    if (message_data.type != "PUT") { 
+      this.updateMessage(message_data);
     }
     else {
-      debugger;  
+      let { message, dm_channel } = message_data;
+
       // loads the message if its to the current channel
-      if (message.message.channel_id == this.props.channel_id) {
-        this.props.receiveMessage(message.message)
+      if (message.channel_id == this.props.channel_id) {
+        this.props.receiveMessage(message)
         let { messagesData } = this.props;
         let messagesList = this.state.messagesList;
 
@@ -197,12 +199,12 @@ class ChannelChat extends React.Component {
         this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom});
         this.updateScroll();
       }
-      else if (message.dm_channel) {
+      else if (dm_channel) {
         // joins the dm channel if not already in it
-        if (!getState().entities.channels[message.message.channel_id]) {
+        if (!getState().entities.channels[message.channel_id]) {
           this.props.startDmChannel({
             user_1_id: this.props.current_user_id,
-            user_2_id: user_id,
+            user_2_id: message.user_id,
             workspace_id: this.props.workspace_id
           })
         }
