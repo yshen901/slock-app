@@ -3351,71 +3351,71 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           user_saved_messages = _this$props3.user_saved_messages;
       var messagesList = this.state.messagesList;
 
-      for (var i = 0; i < messagesData.length; i++) {
-        if (messagesData[i].id == messageData.id) {
-          if (messageData.type == "DELETE" && messageData.user_id != current_user_id) {
-            // called when another user deletes
-            this.props.removeMessage(messageData);
-            messagesList = [];
+      if (messageData.type == "DELETE") {
+        if (messageData.user_id != current_user_id) // only need to do this for other users
+          this.props.removeMessage(messageData);
+        messagesList = [];
 
-            for (var _i = 0; _i < messagesData.length; _i++) {
-              this.processNewMessage(messagesList, _i);
+        for (var i = 0; i < messagesData.length; i++) {
+          this.processNewMessage(messagesList, i);
+        }
+
+        this.setState({
+          messagesList: messagesList
+        });
+      } else // for updates, reacts, and saves
+        for (var _i = 0; _i < messagesData.length; _i++) {
+          if (messagesData[_i].id == messageData.id) {
+            if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_REACT"] && messageData.user_id != current_user_id) {
+              var message_react = {
+                message_id: messageData.id,
+                user_id: messageData.user_id,
+                react_code: messageData.react_code
+              };
+              var _this$scrollBar$curre2 = this.scrollBar.current,
+                  offsetHeight = _this$scrollBar$curre2.offsetHeight,
+                  scrollTop = _this$scrollBar$curre2.scrollTop,
+                  scrollHeight = _this$scrollBar$curre2.scrollHeight;
+              var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
+              this.props.receiveMessageReact(message_react);
+              this.setState({
+                messagesList: messagesList,
+                oldDistanceFromBottom: distanceFromBottom
+              });
+              this.updateScroll();
+            } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_REACT"] && messageData.user_id != current_user_id) {
+              var _message_react = {
+                message_id: messageData.id,
+                user_id: messageData.user_id,
+                react_code: messageData.react_code
+              };
+              this.props.removeMessageReact(_message_react);
+            } // called when user saves in another window
+            else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && !user_saved_messages[messageData.id]) {
+              var _this$scrollBar$curre3 = this.scrollBar.current,
+                  _offsetHeight = _this$scrollBar$curre3.offsetHeight,
+                  _scrollTop = _this$scrollBar$curre3.scrollTop,
+                  _scrollHeight = _this$scrollBar$curre3.scrollHeight;
+
+              var _distanceFromBottom = _scrollHeight - _offsetHeight - _scrollTop;
+
+              this.props.receiveMessageSave({
+                message_id: messageData.id
+              });
+              this.setState({
+                messagesList: messagesList,
+                oldDistanceFromBottom: _distanceFromBottom
+              });
+              this.updateScroll();
+            } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && user_saved_messages[messageData.id]) {
+              this.props.removeMessageSave({
+                message_id: messageData.id
+              });
             }
 
-            this.setState({
-              messagesList: messagesList
-            });
-          } // called when another user reacts
-          else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_REACT"] && messageData.user_id != current_user_id) {
-            var message_react = {
-              message_id: messageData.id,
-              user_id: messageData.user_id,
-              react_code: messageData.react_code
-            };
-            var _this$scrollBar$curre2 = this.scrollBar.current,
-                offsetHeight = _this$scrollBar$curre2.offsetHeight,
-                scrollTop = _this$scrollBar$curre2.scrollTop,
-                scrollHeight = _this$scrollBar$curre2.scrollHeight;
-            var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
-            this.props.receiveMessageReact(message_react);
-            this.setState({
-              messagesList: messagesList,
-              oldDistanceFromBottom: distanceFromBottom
-            });
-            this.updateScroll();
-          } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_REACT"] && messageData.user_id != current_user_id) {
-            var _message_react = {
-              message_id: messageData.id,
-              user_id: messageData.user_id,
-              react_code: messageData.react_code
-            };
-            this.props.removeMessageReact(_message_react);
-          } // called when user saves in another window
-          else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["RECEIVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && !user_saved_messages[messageData.id]) {
-            var _this$scrollBar$curre3 = this.scrollBar.current,
-                _offsetHeight = _this$scrollBar$curre3.offsetHeight,
-                _scrollTop = _this$scrollBar$curre3.scrollTop,
-                _scrollHeight = _this$scrollBar$curre3.scrollHeight;
-
-            var _distanceFromBottom = _scrollHeight - _offsetHeight - _scrollTop;
-
-            this.props.receiveMessageSave({
-              message_id: messageData.id
-            });
-            this.setState({
-              messagesList: messagesList,
-              oldDistanceFromBottom: _distanceFromBottom
-            });
-            this.updateScroll();
-          } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["REMOVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && user_saved_messages[messageData.id]) {
-            this.props.removeMessageSave({
-              message_id: messageData.id
-            });
+            break;
           }
-
-          break;
         }
-      }
     }
   }, {
     key: "receiveACData",
@@ -4224,8 +4224,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
-/* harmony import */ var _channel_message_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channel_message_form */ "./frontend/components/channel/channel_message_form.jsx");
+/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
+/* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _channel_message_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_message_form */ "./frontend/components/channel/channel_message_form.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -4264,6 +4265,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelMessage, _React$Component);
 
@@ -4281,6 +4283,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     };
     _this.toggleEditCancel = _this.toggleEditCancel.bind(_assertThisInitialized(_this));
     _this.toggleEditSave = _this.toggleEditSave.bind(_assertThisInitialized(_this));
+    _this.toggleFileDelete = _this.toggleFileDelete.bind(_assertThisInitialized(_this));
     _this.toggleMessageDelete = _this.toggleMessageDelete.bind(_assertThisInitialized(_this));
     _this.toggleMessageReact = _this.toggleMessageReact.bind(_assertThisInitialized(_this));
     _this.toggleMessageSave = _this.toggleMessageSave.bind(_assertThisInitialized(_this));
@@ -4437,9 +4440,33 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       };
     }
   }, {
+    key: "toggleFileDelete",
+    value: function toggleFileDelete(id) {
+      var _this7 = this;
+
+      return function (e) {
+        if (e) e.preventDefault();
+        var message = _this7.props.message;
+        if (message.files.length > 1 || message.body != "") _this7.props.updateMessage({
+          deleted_file_id: id,
+          id: message.id
+        });else _this7.props.deleteMessage(message).then(function (_ref6) {
+          var message = _ref6.message;
+
+          _this7.props.messageACChannel.speak({
+            message_data: {
+              type: "DELETE",
+              id: message.id,
+              user_id: message.user_id
+            }
+          });
+        });
+      };
+    }
+  }, {
     key: "messageBanner",
     value: function messageBanner(saved) {
-      var _this7 = this;
+      var _this8 = this;
 
       if (saved && this.props.match.params.channel_id != "saved-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "saved-banner"
@@ -4453,7 +4480,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-channel-header",
           onClick: function onClick() {
-            return _this7.goToChannel(channel.id);
+            return _this8.goToChannel(channel.id);
           }
         }, channel.dm_channel ? "Direct Message" : "#".concat(channel.name));
       }
@@ -4481,26 +4508,26 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         onClick: this.toggleMessageReact(react_code)
       }, react_code, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "black-popup medium"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["UTF_CODE_NAMES"][react_code])));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["UTF_CODE_NAMES"][react_code])));
     }
   }, {
     key: "messageReactsList",
     value: function messageReactsList() {
-      var _this8 = this;
+      var _this9 = this;
 
       var total_reacts = Object.entries(this.props.message.total_reacts);
       if (total_reacts.length == 0) return;
       if (!this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-reacts-list"
-      }, total_reacts.map(function (_ref6, idx) {
-        var _ref7 = _slicedToArray(_ref6, 2),
-            react_code = _ref7[0],
-            num = _ref7[1];
+      }, total_reacts.map(function (_ref7, idx) {
+        var _ref8 = _slicedToArray(_ref7, 2),
+            react_code = _ref8[0],
+            num = _ref8[1];
 
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-react",
           key: idx,
-          onClick: _this8.toggleMessageReact(react_code)
+          onClick: _this9.toggleMessageReact(react_code)
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "emoji"
         }, react_code), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4526,7 +4553,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageEditButton",
     value: function messageEditButton() {
-      var _this9 = this;
+      var _this10 = this;
 
       var _this$props3 = this.props,
           current_user_id = _this$props3.current_user_id,
@@ -4534,7 +4561,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       if (message.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
         onClick: function onClick() {
-          return _this9.setState({
+          return _this10.setState({
             editing: true
           });
         }
@@ -4560,7 +4587,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-user",
         onClick: toggleUserPopup(user_id)
-      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["getUserName"])(users[user_id])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserName"])(users[user_id])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-time"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "black-popup"
@@ -4599,7 +4626,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       var body = message.body;
       if (this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-edit-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_form__WEBPACK_IMPORTED_MODULE_3__["default"], {
         messageBody: body,
         messageACChannel: messageACChannel,
         status: status,
@@ -4615,7 +4642,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageFiles",
     value: function messageFiles() {
-      var _this10 = this;
+      var _this11 = this;
 
       var files = this.props.message.files;
       var fileTypeInfo;
@@ -4632,14 +4659,14 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         }, fileNum == 1 ? "1 file" : "".concat(fileNum, " files")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: filesOpen ? "fas fa-caret-down fa-fw" : "fas fa-caret-right fa-fw",
           onClick: function onClick() {
-            return _this10.setState({
+            return _this11.setState({
               filesOpen: !filesOpen
             });
           }
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "files-list"
         }, files.map(function (file, i) {
-          fileTypeInfo = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["getFileTypeInfo"])(file);
+          fileTypeInfo = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getFileTypeInfo"])(file);
 
           if (filesOpen && fileTypeInfo.iconSymbol == "image") {
             // irrelevant as we are currently using icons
@@ -4679,12 +4706,12 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
             }, fileTypeInfo.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file-buttons"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-              className: "far fa-trash-alt fa-fw"
+              className: "far fa-trash-alt fa-fw",
+              onClick: _this11.toggleFileDelete(file.id)
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
               className: "fas fa-cloud-download-alt fa-fw",
               href: file.url,
-              download: true,
-              id: i
+              target: "_blank"
             })));
           }
         })));

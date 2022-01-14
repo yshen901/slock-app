@@ -1,4 +1,5 @@
 import React from 'react';
+import { deleteMessage } from '../../actions/message_actions';
 import { getFileTypeInfo, getUserName, UTF_CODE_NAMES } from '../../selectors/selectors';
 import ChannelMessageForm from './channel_message_form';
 
@@ -13,6 +14,7 @@ class ChannelMessage extends React.Component {
 
     this.toggleEditCancel = this.toggleEditCancel.bind(this);
     this.toggleEditSave = this.toggleEditSave.bind(this);
+    this.toggleFileDelete = this.toggleFileDelete.bind(this);
     this.toggleMessageDelete = this.toggleMessageDelete.bind(this);
     this.toggleMessageReact = this.toggleMessageReact.bind(this);
     this.toggleMessageSave = this.toggleMessageSave.bind(this);
@@ -94,15 +96,35 @@ class ChannelMessage extends React.Component {
     return (e) => {
       if (e) e.preventDefault();
 
-    let { message } = this.props;
-      let { deleteMessage, messageACChannel } = this.props;
-      deleteMessage(message)
-        .then(
-          ({message}) => {
-            messageACChannel.speak({message_data: {type: "DELETE", id: message.id, user_id: message.user_id}});
-          }
-        );
+      let { message } = this.props;
+        let { deleteMessage, messageACChannel } = this.props;
+        deleteMessage(message)
+          .then(
+            ({message}) => {
+              messageACChannel.speak({message_data: {type: "DELETE", id: message.id, user_id: message.user_id}});
+            }
+          );
     };
+  }
+
+  toggleFileDelete(id) {
+    return (e) => {
+      if (e) e.preventDefault();
+
+      let { message } = this.props;
+      if (message.files.length > 1 || message.body != "")
+        this.props.updateMessage({
+          deleted_file_id: id,
+          id: message.id
+        });
+      else
+        this.props.deleteMessage(message)
+          .then(
+            ({message}) => {
+              this.props.messageACChannel.speak({message_data: {type: "DELETE", id: message.id, user_id: message.user_id}});
+            }
+          );
+    }
   }
 
   messageBanner(saved) {
@@ -310,8 +332,8 @@ class ChannelMessage extends React.Component {
                         <div className="file-type">{fileTypeInfo.name}</div>
                       </div>
                       <div className="file-buttons">
-                        <div className="far fa-trash-alt fa-fw"></div>
-                        <a className="fas fa-cloud-download-alt fa-fw" href={file.url} download id={i}></a>
+                        <div className="far fa-trash-alt fa-fw" onClick={this.toggleFileDelete(file.id)}></div>
+                        <a className="fas fa-cloud-download-alt fa-fw" href={file.url} target="_blank"></a>
                       </div>
                     </div>
                   );

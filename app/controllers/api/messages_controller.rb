@@ -36,7 +36,10 @@ class Api::MessagesController < ApplicationController
 
   def update
     @message = Message.find_by(id: params[:id])
-    if @message.update(message_params)
+    if message_params[:deleted_file_id]
+      @message.files.find(message_params[:deleted_file_id]).purge
+      render :show
+    elsif @message.update(message_params)
       render :show
     else
       render json: @message.errors.full_messages, status: 409
@@ -45,6 +48,6 @@ class Api::MessagesController < ApplicationController
 
   private
   def message_params
-    params.require(:message).permit(:body, :channel_id, files: [])
+    params.require(:message).permit(:body, :channel_id, :deleted_file_id, files: [])
   end
 end
