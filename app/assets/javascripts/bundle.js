@@ -3293,7 +3293,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         var date = created_date;
         if (date == this.state.currentDate) date = "Today";
         messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "day-divider no-highlight",
+          className: "day-divider no-highlight ".concat(messagesList.length == 0 ? "first" : ""),
           key: messagesList.length
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "day-divider-line"
@@ -3508,8 +3508,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chatroom-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "message-empty-space"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list",
         ref: this.scrollBar
       }, this.state.messagesList.map(function (message) {
@@ -5099,7 +5097,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       } else if (e.ctrlKey && !e.shiftKey) {
         if (e.key == "b") this.format("bold")(e);else if (e.key == "i") this.format("italic")(e);else if (e.key == "u") this.format("underline")(e);else if (e.key == "l") this.toggleLinkForm(true)(e);
       } else if (e.ctrlKey && e.shiftKey) {
-        if (e.key == "X") this.format("strikethrough")(e);else if (e.key == "%") this.format("insertunorderedlist")(e);else if (e.key == "^") this.format("insertorderedlist");
+        if (e.key == "X") this.format("strikethrough")(e);else if (e.key == "%") this.format("insertunorderedlist")(e);else if (e.key == "^") this.format("insertorderedlist")(e);
       }
 
       this.updateToolbarState();
@@ -10908,13 +10906,17 @@ var UTF_CODE_NAMES = {
   "\uD83D\uDE20": "Angry"
 };
 var DEFAULT_USER_PHOTO_URLS = {
-  "1": "/images/lotr/boromir.jpg",
-  "2": "/images/lotr/gandalf.png",
-  "3": "/images/lotr/legolas.jpg",
-  "4": "/images/lotr/gimli.png",
-  "5": "/images/lotr/frodo.jpg",
-  "6": "/images/lotr/aragorn.jpg",
-  "8": "/images/lotr/yuci.jpg"
+  "1": "/images/lotr/yuci.jpg",
+  "2": "/images/lotr/elrond.jpg",
+  "3": "/images/lotr/boromir.jpg",
+  "4": "/images/lotr/gandalf.png",
+  "5": "/images/lotr/legolas.jpg",
+  "6": "/images/lotr/gimli.png",
+  "7": "/images/lotr/frodo.jpg",
+  "8": "/images/lotr/aragorn.jpg",
+  "9": "/images/lotr/sam.jpeg",
+  "10": "/images/lotr/merry.jpg",
+  "11": "/images/lotr/pippin.jpg"
 };
 var objectToArray = function objectToArray(object) {
   return Object.keys(object).map(function (key) {

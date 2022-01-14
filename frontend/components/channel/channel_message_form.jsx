@@ -216,7 +216,7 @@ class ChannelMessageForm extends React.Component {
       else if (e.key == "%")
         this.format("insertunorderedlist")(e);
       else if (e.key == "^")
-        this.format("insertorderedlist")
+        this.format("insertorderedlist")(e);
     }
     this.updateToolbarState();
   }

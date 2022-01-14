@@ -102,7 +102,7 @@ class ChannelChat extends React.Component {
       if (date == this.state.currentDate)
         date = "Today";
       messagesList.push(
-        <div className="day-divider no-highlight" key={messagesList.length}>
+        <div className={`day-divider no-highlight ${messagesList.length == 0 ? "first" : ""}`} key={messagesList.length}>
           <div className="day-divider-line"></div>
           <div className="day-divider-date">{date}</div>
         </div>
@@ -263,7 +263,6 @@ class ChannelChat extends React.Component {
   render() {
     return (
       <div className="chatroom-container">
-        <div className="message-empty-space"></div>
         <div className="message-list" ref={this.scrollBar}>
           {this.state.messagesList.map((message) => message)}
           <div ref={this.bottom} />

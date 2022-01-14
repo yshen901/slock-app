@@ -9,13 +9,17 @@ export const UTF_CODE_NAMES = {
   '\u{1F620}': "Angry",
 };
 export const DEFAULT_USER_PHOTO_URLS = {
-  "1": "/images/lotr/boromir.jpg",
-  "2": "/images/lotr/gandalf.png",
-  "3": "/images/lotr/legolas.jpg",
-  "4": "/images/lotr/gimli.png",
-  "5": "/images/lotr/frodo.jpg",
-  "6": "/images/lotr/aragorn.jpg",
-  "8": "/images/lotr/yuci.jpg",
+  "1": "/images/lotr/yuci.jpg",
+  "2": "/images/lotr/elrond.jpg",
+  "3": "/images/lotr/boromir.jpg",
+  "4": "/images/lotr/gandalf.png",
+  "5": "/images/lotr/legolas.jpg",
+  "6": "/images/lotr/gimli.png",
+  "7": "/images/lotr/frodo.jpg",
+  "8": "/images/lotr/aragorn.jpg",
+  "9": "/images/lotr/sam.jpeg",
+  "10": "/images/lotr/merry.jpg",
+  "11": "/images/lotr/pippin.jpg",
 };
 
 export const objectToArray = (object) => {

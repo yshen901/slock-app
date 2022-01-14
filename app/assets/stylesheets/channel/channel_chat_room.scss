@@ -4,6 +4,7 @@
 }
 
 .message-list {
+
   max-width: calc(100vw - 260px);
   max-height: calc(100% - 154px);
   
@@ -17,20 +18,19 @@
   b { font-weight: 700 }
   i { font-style: italic }
   ul { 
-    list-style-position: inside;
+    list-style-position: outside;
     list-style-type: disc;
   }
   ol { 
-    list-style-position: inside;
+    list-style-position: outside;
     list-style-type: decimal;
-    li::before {
-      content: "";
-      padding-left: 5px;
-    }
   }
   ol, ul {
     li {
       line-height: 22px;
+      overflow: visible;
+      margin-left: 32px;
+      padding-left: 10px;
     }
   }
 
@@ -378,20 +378,19 @@
         b { font-weight: 700 }
         i { font-style: italic }
         ul { 
-          list-style-position: inside;
+          list-style-position: outside;
           list-style-type: disc;
         }
         ol { 
-          list-style-position: inside;
+          list-style-position: outside;
           list-style-type: decimal;
-          li::before {
-            content: "";
-            padding-left: 5px;
-          }
         }
         ol, ul {
           li {
             line-height: 22px;
+            overflow: visible;
+            margin-left: 32px;
+            padding-left: 10px;
           }
         }
       }
@@ -526,7 +525,6 @@
   }
 }
 
-
 .day-divider {
   position: relative;
   display: flex;
@@ -562,6 +560,10 @@
     border: 1px solid lightgray;
     border-radius: 15px;
   }
+}
+
+.day-divider.first {
+  margin-top: 25px;
 }
 
 .message {
@@ -608,20 +610,20 @@
     b { font-weight: 700 }
     i { font-style: italic }
     ul { 
-      list-style-position: inside;
+      list-style-position: outside;
       list-style-type: disc;
     }
     ol { 
-      list-style-position: inside;
+      overflow: visible;
+      list-style-position: outside;
       list-style-type: decimal;
-      li::before {
-        content: "";
-        padding-left: 5px;
-      }
     }
     ol, ul {
       li {
         line-height: 22px;
+        overflow: visible;
+        margin-left: 32px;
+        padding-left: 10px;
       }
     }
 
@@ -743,6 +745,7 @@
         display: flex;
         flex-direction: column;
         max-width: 100%;
+        padding-bottom: 4px;
 
         .message-files-toggle {
           display: flex;
