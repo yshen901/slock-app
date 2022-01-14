@@ -4657,7 +4657,13 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
               className: "file-name"
             }, file.name.split(".")[0].slice(0, 19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file-type"
-            }, fileTypeInfo.name)));
+            }, fileTypeInfo.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "file-buttons"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "far fa-trash-alt fa-fw"
+            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "fas fa-cloud-download-alt fa-fw"
+            })));
           } else if (filesOpen) {
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file",
@@ -4671,8 +4677,15 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
             }, file.name.split(".")[0].slice(0, 19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file-type"
             }, fileTypeInfo.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-              className: ""
-            }));
+              className: "file-buttons"
+            }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "far fa-trash-alt fa-fw"
+            }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+              className: "fas fa-cloud-download-alt fa-fw",
+              href: file.url,
+              download: true,
+              id: i
+            })));
           }
         })));
       }
@@ -10930,6 +10943,7 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
         iconSymbol: "far fa-file-image fa-fw",
         iconBackground: "file-grey-back"
       };
+    // return { name: fileName.toUpperCase(), iconSymbol: "image" }
 
     default:
       return {

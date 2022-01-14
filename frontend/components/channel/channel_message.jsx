@@ -294,6 +294,10 @@ class ChannelMessage extends React.Component {
                         <div className="file-name">{file.name.split(".")[0].slice(0, 19)}</div>
                         <div className="file-type">{fileTypeInfo.name}</div>
                       </div>
+                      <div className="file-buttons">
+                        <div className="far fa-trash-alt fa-fw"></div>
+                        <div className="fas fa-cloud-download-alt fa-fw"></div>
+                      </div>
                     </div>
                   );
                 }
@@ -305,7 +309,10 @@ class ChannelMessage extends React.Component {
                         <div className="file-name">{file.name.split(".")[0].slice(0, 19)}</div>
                         <div className="file-type">{fileTypeInfo.name}</div>
                       </div>
-                      <div className=""></div>
+                      <div className="file-buttons">
+                        <div className="far fa-trash-alt fa-fw"></div>
+                        <a className="fas fa-cloud-download-alt fa-fw" href={file.url} download id={i}></a>
+                      </div>
                     </div>
                   );
                 }

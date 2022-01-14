@@ -202,6 +202,7 @@ export const getFileTypeInfo = (file) => {
     case "gif":
     case "bmp":
       return {name: fileName.toUpperCase(), iconSymbol: "far fa-file-image fa-fw", iconBackground: "file-grey-back"}
+      // return { name: fileName.toUpperCase(), iconSymbol: "image" }
     default:
       return {name: fileName ? fileName.toUpperCase() : "File", iconSymbol: "far fa-file fa-fw", iconBackground: "file-lightblue-back"}
   }
