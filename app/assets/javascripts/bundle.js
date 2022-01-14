@@ -4585,7 +4585,8 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         className: "message-user-icon"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: users[user_id].photo_url,
-        onClick: toggleUserPopup(user_id)
+        onClick: toggleUserPopup(user_id),
+        loading: "lazy"
       }));
     }
   }, {
@@ -4647,7 +4648,8 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file-icon"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-              src: file.url
+              src: file.url,
+              loading: "lazy"
             })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file-info"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

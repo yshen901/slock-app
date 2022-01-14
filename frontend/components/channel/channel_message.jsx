@@ -238,7 +238,7 @@ class ChannelMessage extends React.Component {
     else
       return (
         <div className="message-user-icon">
-          <img src={users[user_id].photo_url} onClick={toggleUserPopup(user_id)}/>
+          <img src={users[user_id].photo_url} onClick={toggleUserPopup(user_id)} loading="lazy"/>
         </div>
       )
   }
@@ -288,7 +288,7 @@ class ChannelMessage extends React.Component {
                   return (
                     <div className="file" key={i}>
                       <div className="file-icon">
-                        <img src={file.url}/>
+                        <img src={file.url} loading="lazy"/>
                       </div>
                       <div className="file-info">
                         <div className="file-name">{file.name.split(".")[0].slice(0, 19)}</div>
