@@ -4,12 +4,6 @@ import { withRouter } from 'react-router-dom';
 import ChannelNavContainer from './channel_nav_container';
 import ChannelChatContainer from './channel_chat_container';
 
-// Modals
-import ChannelDetailsModalContainer from "../modals/channel_details_modal_container";
-import EditChannelNameModal from '../modals/edit_channel_name_modal';
-import EditChannelTopicModal from '../modals/edit_channel_topic_modal';
-import EditChannelDescriptionModal from '../modals/edit_channel_description_modal';
-
 class Channel extends React.Component {
   constructor(props) {
     super(props);
@@ -146,19 +140,10 @@ class Channel extends React.Component {
           
         <ChannelChatContainer 
           joinChannel={this.joinChannel}
+          leaveChannel={this.leaveChannel}
           status={this.state}
           showUser={this.props.showUser}
           startVideoCall={this.props.startVideoCall}/>
-
-        <ChannelDetailsModalContainer 
-          canLeave={this.state.canLeave} 
-          leaveChannel={this.leaveChannel}
-          showUser={this.props.showUser}
-          startVideoCall={this.props.startVideoCall}/>
-
-        <EditChannelNameModal/>
-        <EditChannelTopicModal/>
-        <EditChannelDescriptionModal/>
       </div>
     )
   }

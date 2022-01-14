@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import { DEFAULT_PHOTO_URL, dmChannelUserId, getLocalTime, getUserActivity, getUserName, userInSearch } from '../../selectors/selectors';
+import { DEFAULT_PHOTO_URL, dmChannelUserId, getFileTypeInfo, getLocalTime, getUserActivity, getUserName, userInSearch } from '../../selectors/selectors';
 import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
 import UserPopupModal from "./user_popup_modal";
 
@@ -113,6 +113,94 @@ class ChannelDetailsModal extends React.Component {
       left: "calc(50vw - 290px + 28px)"
     };
   }
+
+  // Deletes a file from a message
+  toggleFileDelete(fileId, messageId) {
+    return (e) => {
+      if (e) e.preventDefault();
+
+      let message = this.props.messages[messageId];
+      if (message) {
+        if (message.files.length > 1 || message.body != "")
+          this.props.updateMessage({
+            deleted_file_id: fileId,
+            id: message.id
+          });
+        else
+          this.props.deleteMessage({id: message.id})
+            .then(
+              ({message}) => {
+                this.props.messageACChannel.speak({message_data: {type: "DELETE", id: message.id, user_id: message.user_id}});
+              }
+            );
+      }
+    }
+  }
+
+  // Renders all files in the channel
+  channelFiles() {
+    let files = [];
+    let messages = Object.values(this.props.messages);
+    let fileTypeInfo; 
+
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].files.length > 0) {
+        files = files.concat(messages[i].files);
+      }
+    }
+
+    if (files.length > 0) {
+      return (
+        <div className="channel-files-list">
+          { files.map((file, i) => {
+            fileTypeInfo = getFileTypeInfo(file);
+            if (fileTypeInfo.iconSymbol == "image") { // irrelevant as we are currently using icons
+              return (
+                <div className="file" key={i}>
+                  <div className="file-icon">
+                    <img src={file.url} loading="lazy"/>
+                  </div>
+                  <div className="file-info">
+                    <div className="file-name">{file.name}</div>
+                    <div className="file-type">{fileTypeInfo.name}</div>
+                  </div>
+                  <div className="file-buttons">
+                    <div className="far fa-trash-alt fa-fw"></div>
+                    <div className="fas fa-cloud-download-alt fa-fw"></div>
+                  </div>
+                </div>
+              );
+            }
+            else {
+              return (
+                <div className="file" key={i}>
+                  <div className={`file-icon ${fileTypeInfo.iconSymbol} ${fileTypeInfo.iconBackground}`}></div>
+                  <div className="file-info">
+                    <div className="file-name">{file.name}</div>
+                    <div className="file-type">{fileTypeInfo.name}</div>
+                  </div>
+                  <div className="file-buttons">
+                    <div className="far fa-trash-alt fa-fw" onClick={this.toggleFileDelete(file.id, file.message_id)}>
+                      
+                    </div>
+                    <a className="fas fa-cloud-download-alt fa-fw" href={file.url} target="_blank"></a>
+                  </div>
+                </div>
+              );
+            }
+          })}
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="section-content">
+          There aren’t any files to see here right now. But there could be — upload
+          any file by clicking the upload button on the chat form.
+        </div>
+      )
+    }
+  }
   
   channelTabContent() {
     let { channel, channel_users, current_user_id } = this.props;
@@ -123,7 +211,7 @@ class ChannelDetailsModal extends React.Component {
         return (
           <div className="tab-content">
             <div className="block">
-            <div className="section" onClick={toggleFocusElements("edit-channel-name-modal", "channel-name-input")}>
+              <div className="section" onClick={toggleFocusElements("edit-channel-name-modal", "channel-name-input")}>
                 <div className="section-header">
                   <div className="section-name">Channel name</div>
                   <div className="section-edit" onClick={toggleFocusElements("edit-channel-name-modal", "channel-name-input")}>Edit</div>
@@ -163,6 +251,12 @@ class ChannelDetailsModal extends React.Component {
                 </div>
               </div>
               { this.leaveSection() }
+            </div>
+            <div className="block">
+              <div className="section files">
+                <div className="section-header">Files</div>
+                { this.channelFiles() }
+              </div>
             </div>
           </div>
         )
@@ -244,7 +338,7 @@ class ChannelDetailsModal extends React.Component {
     else if (channel.dm_channel) {
       let otherUser = users[dmChannelUserId(channel, current_user_id)];
       return (
-        <div className="channel-details-modal hidden">
+        <div className="channel-details-modal">
           <div className="part-modal-background" onClick={this.toggleHide}></div>
           <div className="channel-details">
             <div className="modal-header">
@@ -273,7 +367,7 @@ class ChannelDetailsModal extends React.Component {
     }
     else
       return (
-        <div className="channel-details-modal hidden">
+        <div className="channel-details-modal">
           <div className="part-modal-background" onClick={this.toggleHide}></div>
           <div className="channel-details">
             <div className="modal-header">

@@ -208,6 +208,138 @@
           cursor: pointer;
         }
 
+        .section.files {
+          padding: 0px;
+
+          .section-header {
+            padding: 16px 20px 8px 20px;
+          }
+
+          .section-content {
+            padding: 0 20px 16px 20px;
+          }
+
+          .channel-files-list {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-y: scroll;
+            
+            padding-bottom: 22px;
+            max-width: 100%;
+            box-sizing: border-box;
+        
+            .file {
+              position: relative;
+              width: 478px;
+              
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+        
+              overflow: visible;
+        
+              padding: 12px 22px;
+              background: none;
+        
+              .file-buttons {
+                display: none;
+                position: absolute;
+                right: 12px;
+                top: calc(50% - 18px);
+        
+                width: 64px;
+                height: 32px;
+                padding: 2px;
+        
+                background: white;
+                box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.8);
+                border-radius: 6px;
+        
+                a, div {
+                  height: 32px;
+                  width: 32px;
+                  border-radius: 6px;
+        
+                  color: rgba(29, 28, 29, 0.7);
+                  font-size: 16px;
+                  line-height: 32px;
+                  text-decoration: none;
+                }
+        
+                a:hover, div:hover {
+                  transition: 0.3s;
+                  cursor: pointer;
+                  background: rgb(240, 240, 240);
+                }
+              }
+        
+              .file-icon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+        
+                width: 36px;
+                height: 36px;
+                border-radius: 12px;
+                overflow: hidden;
+        
+                user-select: none;
+                margin-right: 12px;
+                
+                color: white;
+                font-size: 18px;
+                line-height: 36px;
+                text-align: center;
+        
+                img {
+                  height: 36px;
+                  width: auto;
+                  object-fit: cover;
+                }
+              }
+        
+              .file-info {
+                display: flex;
+                flex-direction: column;
+        
+                inline-size: 416px;
+                text-overflow: clip;
+                word-break: break-all;
+                white-space: nowrap;
+        
+                .file-name {
+                  font-size: 16px;
+                  line-height: 19px;
+                  font-weight: bold;
+                  padding: 4px 0;
+                  margin: -4px 0;
+                }
+        
+                .file-type {
+                  color: #616061;
+                  font-size: 13px;
+                  line-height: 15px;
+                  margin-top: 4px; 
+                }
+              }
+            }
+            .file:hover {
+              background: rgb(248, 248, 248);
+          
+              .file-buttons {
+                display: inline;
+              }
+            }
+          }
+        }
+
+        .section.files:hover {
+          background-color: white;
+          cursor:grab;
+        }
+
         .horizontal-divider {
           border: lightgray solid 0.5px;
           margin: 0px;

@@ -787,6 +787,7 @@
               height: 32px;
               padding: 2px;
     
+              background: white;
               box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.8);
               border-radius: 6px;
     
@@ -837,7 +838,7 @@
               display: flex;
               flex-direction: column;
   
-              inline-size: 160px;
+              inline-size: 272px;
               text-overflow: clip;
               word-break: break-all;
               white-space: nowrap;
@@ -859,7 +860,7 @@
             }
           }
         }
-
+        
         .file:hover {
           .file-buttons {
             display: inline;

@@ -313,7 +313,7 @@ class ChannelMessage extends React.Component {
                         <img src={file.url} loading="lazy"/>
                       </div>
                       <div className="file-info">
-                        <div className="file-name">{file.name.split(".")[0].slice(0, 19)}</div>
+                        <div className="file-name">{file.name}</div>
                         <div className="file-type">{fileTypeInfo.name}</div>
                       </div>
                       <div className="file-buttons">
@@ -328,7 +328,7 @@ class ChannelMessage extends React.Component {
                     <div className="file" key={i}>
                       <div className={`file-icon ${fileTypeInfo.iconSymbol} ${fileTypeInfo.iconBackground}`}></div>
                       <div className="file-info">
-                        <div className="file-name">{file.name.split(".")[0].slice(0, 19)}</div>
+                        <div className="file-name">{file.name}</div>
                         <div className="file-type">{fileTypeInfo.name}</div>
                       </div>
                       <div className="file-buttons">

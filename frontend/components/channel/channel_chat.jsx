@@ -5,6 +5,12 @@ import ChannelMessageForm from './channel_message_form';
 import UserPopupModal from "../modals/user_popup_modal.jsx";
 import ChannelMessageContainer from "./channel_message_container";
 
+// Modals
+import ChannelDetailsModalContainer from "../modals/channel_details_modal_container";
+import EditChannelNameModal from '../modals/edit_channel_name_modal';
+import EditChannelTopicModal from '../modals/edit_channel_topic_modal';
+import EditChannelDescriptionModal from '../modals/edit_channel_description_modal';
+
 import { RECEIVE_MESSAGE_REACT, RECEIVE_MESSAGE_SAVE, REMOVE_MESSAGE_REACT, REMOVE_MESSAGE_SAVE } from '../../actions/message_actions';
 
 class ChannelChat extends React.Component {
@@ -268,6 +274,16 @@ class ChannelChat extends React.Component {
           status={this.props.status}
           updateScroll={this.updateScroll}/>
         { this.renderUserPopup() }
+
+        <ChannelDetailsModalContainer 
+          status={this.props.status} 
+          leaveChannel={this.props.leaveChannel}
+          showUser={this.props.showUser}
+          startVideoCall={this.props.startVideoCall}
+          messageACChannel={this.messageACChannel}/>
+        <EditChannelNameModal/>
+        <EditChannelTopicModal/>
+        <EditChannelDescriptionModal/>
       </div>
     );
   }
