@@ -184,11 +184,10 @@ class ChannelChat extends React.Component {
       this.updateMessage(message);
     }
     else {
-      let { user_id, channel_id, activate_dm_channel } = message;
-  
+      debugger;  
       // loads the message if its to the current channel
-      if (channel_id == this.props.channel_id) {
-        this.props.receiveMessage(message)
+      if (message.message.channel_id == this.props.channel_id) {
+        this.props.receiveMessage(message.message)
         let { messagesData } = this.props;
         let messagesList = this.state.messagesList;
 
@@ -198,9 +197,9 @@ class ChannelChat extends React.Component {
         this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom});
         this.updateScroll();
       }
-      else {
+      else if (message.dm_channel) {
         // joins the dm channel if not already in it
-        if (activate_dm_channel) {
+        if (!getState().entities.channels[message.message.channel_id]) {
           this.props.startDmChannel({
             user_1_id: this.props.current_user_id,
             user_2_id: user_id,
@@ -255,6 +254,7 @@ class ChannelChat extends React.Component {
   render() {
     return (
       <div className="chatroom-container">
+        <div className="message-empty-space"></div>
         <div className="message-list" ref={this.scrollBar}>
           {this.state.messagesList.map((message) => message)}
           <div ref={this.bottom} />

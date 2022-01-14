@@ -15,11 +15,13 @@ export const updateMessage = (message) => {
 };
 
 // message contains channel_id and body
-export const createMessage = (message) => {
+export const createMessage = (formData) => {
   return $.ajax({
     method: "POST",
     url: '/api/messages',
-    data: {message}
+    data: formData,
+    contentType: false,
+    processData: false
   });
 };
 

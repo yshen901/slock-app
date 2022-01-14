@@ -402,9 +402,9 @@ var getMessages = function getMessages(channel_id) {
     });
   };
 };
-var createMessage = function createMessage(message) {
+var createMessage = function createMessage(messageFormData) {
   return function (dispatch) {
-    return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["createMessage"](message).then(function (message) {
+    return _util_message_api_util__WEBPACK_IMPORTED_MODULE_0__["createMessage"](messageFormData).then(function (message) {
       return dispatch(receiveMessage(message));
     }, function (errors) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
@@ -3426,12 +3426,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (message.type != "PUT") {
         this.updateMessage(message);
       } else {
-        var user_id = message.user_id,
-            channel_id = message.channel_id,
-            activate_dm_channel = message.activate_dm_channel; // loads the message if its to the current channel
+        debugger; // loads the message if its to the current channel
 
-        if (channel_id == this.props.channel_id) {
-          this.props.receiveMessage(message);
+        if (message.message.channel_id == this.props.channel_id) {
+          this.props.receiveMessage(message.message);
           var messagesData = this.props.messagesData;
           var messagesList = this.state.messagesList;
           var _this$scrollBar$curre4 = this.scrollBar.current,
@@ -3445,9 +3443,9 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
             oldDistanceFromBottom: distanceFromBottom
           });
           this.updateScroll();
-        } else {
+        } else if (message.dm_channel) {
           // joins the dm channel if not already in it
-          if (activate_dm_channel) {
+          if (!getState().entities.channels[message.message.channel_id]) {
             this.props.startDmChannel({
               user_1_id: this.props.current_user_id,
               user_2_id: user_id,
@@ -3513,6 +3511,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "chatroom-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "message-empty-space"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-list",
         ref: this.scrollBar
       }, this.state.messagesList.map(function (message) {
@@ -4713,6 +4713,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! dompurify */ "./node_modules/dompurify/dist/purify.js");
 /* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -4748,6 +4749,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -4825,38 +4827,54 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this2 = this;
+
       e.preventDefault();
 
-      if (this.chatInput.current.textContent.length != 0) {
-        this.props.messageACChannel.speak({
-          message: {
-            type: "PUT",
-            body: dompurify__WEBPACK_IMPORTED_MODULE_3___default.a.sanitize(this.chatInput.current.innerHTML),
-            user_id: getState().session.user_id,
-            channel_id: this.props.match.params.channel_id,
-            created_at: new Date().toLocaleTimeString()
-          }
+      if (this.chatInput.current.textContent.length != 0 || this.state.files.length != 0) {
+        var messageFormData = new FormData();
+        messageFormData.append("message[body]", dompurify__WEBPACK_IMPORTED_MODULE_3___default.a.sanitize(this.chatInput.current.innerHTML));
+        messageFormData.append("message[channel_id]", this.props.match.params.channel_id);
+
+        for (var i = 0; i < this.state.files.length; i++) {
+          messageFormData.append("message[files][]", this.state.files[i]);
+        }
+
+        dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["createMessage"])(messageFormData)).then(function (_ref) {
+          var message = _ref.message;
+
+          _this2.props.messageACChannel.speak({
+            message: {
+              type: "PUT",
+              message: message,
+              dm_channel: getState().entities.channels[message.channel_id].dm_channel
+            }
+          });
         });
         this.chatInput.current.innerHTML = "";
+        this.setState({
+          files: [],
+          fileUrls: []
+        });
       }
     } // Reads in the elements using FileReader, and set state when successful
 
   }, {
     key: "readFile",
     value: function readFile(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       var reader = new FileReader();
       var file = e.currentTarget.files[0]; // Triggers when a file is done
 
       reader.onload = function () {
-        _this2.setState({
-          fileUrls: [].concat(_toConsumableArray(_this2.state.fileUrls), [URL.createObjectURL(file)]),
-          files: [].concat(_toConsumableArray(_this2.state.files), [file]),
+        _this3.setState({
+          fileUrls: [].concat(_toConsumableArray(_this3.state.fileUrls), [URL.createObjectURL(file)]),
+          files: [].concat(_toConsumableArray(_this3.state.files), [file]),
           fileError: ""
         });
 
-        _this2.props.updateScroll(84);
+        _this3.props.updateScroll(84);
 
         document.getElementById("message-file-input").value = '';
       };
@@ -4874,18 +4892,18 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "removeFile",
     value: function removeFile(idx) {
-      var _this3 = this;
+      var _this4 = this;
 
       return function (e) {
         e.preventDefault();
 
-        _this3.state.fileUrls.splice(idx, 1);
+        _this4.state.fileUrls.splice(idx, 1);
 
-        _this3.state.files.splice(idx, 1);
+        _this4.state.files.splice(idx, 1);
 
-        _this3.setState({
-          fileUrls: _this3.state.fileUrls,
-          files: _this3.state.files
+        _this4.setState({
+          fileUrls: _this4.state.fileUrls,
+          files: _this4.state.files
         });
       };
     }
@@ -4923,15 +4941,15 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "format",
     value: function format(command, value) {
-      var _this4 = this;
+      var _this5 = this;
 
       return function (e) {
         e.preventDefault();
         e.stopPropagation();
         document.execCommand(command, false, value);
 
-        _this4.setState({
-          isActivated: Object.assign(_this4.state.isActivated, _defineProperty({}, command, !_this4.state.isActivated[command]))
+        _this5.setState({
+          isActivated: Object.assign(_this5.state.isActivated, _defineProperty({}, command, !_this5.state.isActivated[command]))
         });
       };
     } // Handles events that updates the toolbar states
@@ -4982,19 +5000,19 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleLinkForm",
     value: function toggleLinkForm(linkModal) {
-      var _this5 = this;
+      var _this6 = this;
 
       return function (e) {
         if (e) e.stopPropagation();
 
-        _this5.setState({
+        _this6.setState({
           linkModal: linkModal,
           linkText: "",
           linkUrl: ""
         });
 
         if (!linkModal) {
-          _this5.focusInput();
+          _this6.focusInput();
         }
       };
     } // Append the link to the chat input field
@@ -5014,7 +5032,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderFilesList",
     value: function renderFilesList() {
-      var _this6 = this;
+      var _this7 = this;
 
       var _this$state2 = this.state,
           fileUrls = _this$state2.fileUrls,
@@ -5033,7 +5051,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
             key: i
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "file-delete-button fas fa-times-circle fa-fw",
-            onClick: _this6.removeFile(i)
+            onClick: _this7.removeFile(i)
           }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "image-container"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5047,7 +5065,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
               key: i
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file-delete-button fas fa-times-circle fa-fw",
-              onClick: _this6.removeFile(i)
+              onClick: _this7.removeFile(i)
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file-icon ".concat(fileTypeInfo.iconSymbol, " ").concat(fileTypeInfo.iconBackground)
             }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5065,7 +5083,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderLinkForm",
     value: function renderLinkForm() {
-      var _this7 = this;
+      var _this8 = this;
 
       if (!this.state.linkModal) return;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5088,7 +5106,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         autoFocus: true,
         type: "text",
         onChange: function onChange(e) {
-          return _this7.setState({
+          return _this8.setState({
             linkText: e.currentTarget.value
           });
         },
@@ -5104,7 +5122,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         type: "text",
         className: "with-prefix",
         onChange: function onChange(e) {
-          return _this7.setState({
+          return _this8.setState({
             linkUrl: e.currentTarget.value
           });
         },
@@ -5148,7 +5166,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this8 = this;
+      var _this9 = this;
 
       var channels = getState().entities.channels;
       var channel_id = this.props.match.params.channel_id;
@@ -5178,7 +5196,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         }, "See More Details")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-preview-link",
           onClick: function onClick() {
-            return _this8.goToChannel("channel-browser");
+            return _this9.goToChannel("channel-browser");
           }
         }, "Back to Channel Browser"));
       } else return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5191,7 +5209,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         onMouseUp: this.updateToolbarState,
         onClick: function onClick() {
           setTimeout(function () {
-            return _this8.focusInput();
+            return _this9.focusInput();
           }, 0);
         }
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -11234,13 +11252,13 @@ var updateMessage = function updateMessage(message) {
   });
 }; // message contains channel_id and body
 
-var createMessage = function createMessage(message) {
+var createMessage = function createMessage(formData) {
   return $.ajax({
     method: "POST",
     url: '/api/messages',
-    data: {
-      message: message
-    }
+    data: formData,
+    contentType: false,
+    processData: false
   });
 }; // message only contains the id
 

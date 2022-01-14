@@ -1,3 +1,8 @@
+.message-empty-space {
+  width: 100%;
+  flex: 1;
+}
+
 .message-list {
   width: 100%;
   max-height: calc(100% - 154px);
@@ -150,6 +155,7 @@
   overflow: visible;
   flex: 1;
   max-width: calc(100vw - 260px);
+  max-height: 154px;
   
   #message-box {
     display: flex;

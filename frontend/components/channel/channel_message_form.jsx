@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { toggleFocusElements } from '../../util/modal_api_util';
 import DOMPurify from 'dompurify';
 import { dmChannelUserId, getFileTypeInfo } from '../../selectors/selectors';
+import { createMessage } from '../../actions/message_actions';
 
 class ChannelMessageForm extends React.Component {
   constructor(props) {
@@ -64,20 +65,30 @@ class ChannelMessageForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    if (this.chatInput.current.textContent.length != 0) {
+    if (this.chatInput.current.textContent.length != 0 || this.state.files.length != 0) {
+      let messageFormData = new FormData();
+      messageFormData.append("message[body]", DOMPurify.sanitize(this.chatInput.current.innerHTML));
+      messageFormData.append("message[channel_id]", this.props.match.params.channel_id);
+      for (let i = 0; i < this.state.files.length; i++)
+        messageFormData.append("message[files][]", this.state.files[i]);
 
-      this.props.messageACChannel.speak(
-        {
-          message: { 
-            type: "PUT",
-            body: DOMPurify.sanitize(this.chatInput.current.innerHTML),
-            user_id: getState().session.user_id,
-            channel_id: this.props.match.params.channel_id,
-            created_at: new Date().toLocaleTimeString(),
+      dispatch(createMessage(messageFormData))
+        .then(
+          ({message}) => { 
+            this.props.messageACChannel.speak(
+              { 
+                message:
+                  {
+                    type: "PUT",
+                    message,
+                    dm_channel: getState().entities.channels[message.channel_id].dm_channel
+                  }
+              }
+            )
           }
-        }
-      );
+        );
       this.chatInput.current.innerHTML = "";
+      this.setState({ files: [], fileUrls: [] })
     }
   }
 

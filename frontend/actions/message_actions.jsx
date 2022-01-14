@@ -39,9 +39,9 @@ export const getMessages = channel_id => dispatch => (
     )
 );
 
-export const createMessage = (message) => dispatch => (
+export const createMessage = (messageFormData) => dispatch => (
   MessageAPI
-    .createMessage(message)
+    .createMessage(messageFormData)
     .then(
       (message) => dispatch(receiveMessage(message)),
       (errors) => dispatch(receiveErrors(errors))
