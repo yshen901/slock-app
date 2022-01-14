@@ -284,7 +284,7 @@ class ChannelMessage extends React.Component {
           <div className="files-list">
             { files.map((file, i) => {
                 fileTypeInfo = getFileTypeInfo(file);
-                if (filesOpen && fileTypeInfo.iconSymbol == "image") {
+                if (filesOpen && fileTypeInfo.iconSymbol == "image") { // irrelevant as we are currently using icons
                   return (
                     <div className="file" key={i}>
                       <div className="file-icon">
@@ -305,6 +305,7 @@ class ChannelMessage extends React.Component {
                         <div className="file-name">{file.name.split(".")[0].slice(0, 19)}</div>
                         <div className="file-type">{fileTypeInfo.name}</div>
                       </div>
+                      <div className=""></div>
                     </div>
                   );
                 }

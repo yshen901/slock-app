@@ -4642,6 +4642,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           fileTypeInfo = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["getFileTypeInfo"])(file);
 
           if (filesOpen && fileTypeInfo.iconSymbol == "image") {
+            // irrelevant as we are currently using icons
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file",
               key: i
@@ -4669,7 +4670,9 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
               className: "file-name"
             }, file.name.split(".")[0].slice(0, 19)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "file-type"
-            }, fileTypeInfo.name)));
+            }, fileTypeInfo.name)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: ""
+            }));
           }
         })));
       }
@@ -10924,7 +10927,8 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
     case "bmp":
       return {
         name: fileName.toUpperCase(),
-        iconSymbol: "image"
+        iconSymbol: "far fa-file-image fa-fw",
+        iconBackground: "file-grey-back"
       };
 
     default:

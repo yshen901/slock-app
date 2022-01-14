@@ -744,7 +744,8 @@
 
           color: rgba(29,28,29,0.7);
           font-size: 13px;
-          line-height: 16px;
+          line-height: 22px;
+          margin: 4px 0;
 
           .fas:hover {
             transition: 0.3s;
@@ -758,7 +759,6 @@
           overflow-x: scroll;
           
           max-width: 100%;
-          padding: 8px;
           box-sizing: border-box;
   
           .file { 
