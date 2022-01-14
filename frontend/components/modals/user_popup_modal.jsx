@@ -73,7 +73,7 @@ class UserPopupModal extends React.Component {
       return (
         <div className="user-popup-section">
             <div className='section-title'>Status</div>
-            <div className='section-content'>{user.status}</div>
+            <div className='section-content'>{'\u{1F4AC}'} {user.status}</div>
           </div>
       )
   }

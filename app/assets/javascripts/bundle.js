@@ -5166,9 +5166,7 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "file-delete-button fas fa-times-circle fa-fw",
             onClick: _this7.removeFile(i)
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "black-popup"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Remove file"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "image-container"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "foreground"
@@ -5976,7 +5974,7 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
         id: "profile-sidebar-occupation"
       }, user.what_i_do), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-status"
-      }, user.status)), this.sidebarButtons(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, user.status ? "\uD83D\uDCAC" : "", " ", user.status)), this.sidebarButtons(user), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "profile-sidebar-sections"
       }, this.displayName(user), this.email(user), this.phoneNumber(user), this.localTime(user))));
     }
@@ -8964,7 +8962,7 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
         className: "section-title"
       }, "Status"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "section-content"
-      }, user.status));
+      }, "\uD83D\uDCAC", " ", user.status));
     }
   }, {
     key: "render",

@@ -150,7 +150,7 @@ class ProfileSidebar extends React.Component {
               </i>
             </div>
             <div id="profile-sidebar-occupation">{user.what_i_do}</div>
-            <div id="profile-sidebar-status">{user.status}</div>
+            <div id="profile-sidebar-status">{user.status ? '\u{1F4AC}' : ""} {user.status}</div>
           </div>
           {this.sidebarButtons(user)}
           <div id="profile-sidebar-sections">

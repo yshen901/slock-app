@@ -260,9 +260,6 @@ class ChannelMessageForm extends React.Component {
               return (
                 <div className="image-file" key={i}>
                   <div className="file-delete-button fas fa-times-circle fa-fw" onClick={this.removeFile(i)}>
-                    <div className="black-popup">
-                      <div>Remove file</div>
-                    </div>
                   </div>
                   <div className="image-container">
                     <div className="foreground"></div>
@@ -274,7 +271,8 @@ class ChannelMessageForm extends React.Component {
               fileTypeInfo = getFileTypeInfo(file);
               return (
                 <div className="file" key={i}>
-                  <div className="file-delete-button fas fa-times-circle fa-fw" onClick={this.removeFile(i)}></div>
+                  <div className="file-delete-button fas fa-times-circle fa-fw" onClick={this.removeFile(i)}>
+                  </div>
                   <div className={`file-icon ${fileTypeInfo.iconSymbol} ${fileTypeInfo.iconBackground}`}></div>
                   <div className="file-info">
                     <div className="file-name">{file.name.split(".")[0].slice(0, 19)}</div>
