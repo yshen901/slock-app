@@ -78,8 +78,8 @@ class ChannelVideoChatRoomExternal extends React.Component {
                     let { channel_id } = this.props.match.params;
 
                     if (data.from == user_id) return;
-                    console.log("RECEIVED: ", data.type);
-                    console.log(data);
+                    // console.log("RECEIVED: ", data.type);
+                    // console.log(data);
                     switch(data.type){
                       case PICKUP_CALL:
                       case JOIN_CALL:

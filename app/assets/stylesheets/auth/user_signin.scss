@@ -48,6 +48,22 @@
   button:hover {
     background: rgb(75, 1, 75)
   }
+
+  .alt-demo-login {
+    width: 400px;
+    
+    color: rgba(29,28,29,0.7);
+    font-size: 15px;
+    line-height: 18px;
+    text-decoration: underline;
+    text-align: end;
+  }
+
+  .alt-demo-login {
+    transition: 0.3;
+    cursor: pointer;
+    color: black;
+  }
 }
 
 #user-signin .auth-box-footer {

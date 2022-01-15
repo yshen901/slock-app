@@ -88,28 +88,34 @@ class UserSigninForm extends React.Component {
   }
 
   // Can only be triggered by demoButton
-  demoAction(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    let demoEmail = "demoUser@slock.com";
-    let demoPassword = "demoPassword";
-
-    this.setState({ email: "", password: ""});
-    
-    for (let i = 0; i < demoEmail.length; i++)
+  demoAction(action) {
+    return (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+  
+      let demoEmail = "demoUser@slock.com";
+      let demoPassword = "demoPassword";
+      if (action == 2) {
+        demoEmail = "gandalf@slock.com";
+        demoPassword = "zunera";
+      }
+  
+      this.setState({ email: "", password: ""});
+      
+      for (let i = 0; i < demoEmail.length; i++)
+        setTimeout(() => {
+          this.setState({email: this.state.email + demoEmail[i]})
+        }, i*30);
+  
+      for (let i = 0; i < demoPassword.length; i++)
+        setTimeout(() => {
+          this.setState({password: this.state.password + demoPassword[i]})
+        }, i*30 + demoEmail.length * 30);
+  
       setTimeout(() => {
-        this.setState({email: this.state.email + demoEmail[i]})
-      }, i*30);
-
-    for (let i = 0; i < demoPassword.length; i++)
-      setTimeout(() => {
-        this.setState({password: this.state.password + demoPassword[i]})
-      }, i*30 + demoEmail.length * 30);
-
-    setTimeout(() => {
-      this.handleSubmit();
-    }, (demoEmail.length + demoPassword.length) * 31);
+        this.handleSubmit();
+      }, (demoEmail.length + demoPassword.length) * 31);
+    }
   }
 
   // Only shows for the demo workspace
@@ -118,7 +124,16 @@ class UserSigninForm extends React.Component {
       return "";
     else
       return (
-        <button onClick={this.demoAction}>Demo Login</button>
+        <button onClick={this.demoAction(1)}>Demo Login</button>
+      )
+  }
+
+  demoButtonAlt() {
+    if (this.state.workspace_address !== DEMO_WORKSPACE)
+      return "";
+    else
+      return (
+        <div className="alt-demo-login" onClick={this.demoAction(2)}>Demo Login (alt)</div>
       )
   }
 
@@ -193,6 +208,7 @@ class UserSigninForm extends React.Component {
               disabled={disabled}/>
           </form>
           {this.demoButton()}
+          {this.demoButtonAlt()}
           {/* <h4 className="auth-box-footer">
             <Link to='/tbd' className='auth-form-link'>Forgot your password?</Link>
             &bull;

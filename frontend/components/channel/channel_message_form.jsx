@@ -25,7 +25,8 @@ class ChannelMessageForm extends React.Component {
       },
       files: [],
       fileUrls: [],
-      fileError: ""
+      fileError: "",
+      uploading: false,
     };
 
     // Used to find chat input's content
@@ -73,9 +74,11 @@ class ChannelMessageForm extends React.Component {
       for (let i = 0; i < this.state.files.length; i++)
         messageFormData.append("message[files][]", this.state.files[i]);
 
+      if (this.state.files.length > 0) this.setState({uploading: true});
       dispatch(createMessage(messageFormData))
         .then(
           ({message}) => { 
+            this.setState({uploading: false});
             this.props.messageACChannel.speak(
               { 
                 message_data:
@@ -396,6 +399,10 @@ class ChannelMessageForm extends React.Component {
     else
       return (
         <div id="message-form-container" className={this.props.toggleEditSave ? "editor" : ""} >
+          <div className={this.state.uploading ? "uploading" : "hidden"}>
+            <div>Uploading</div> 
+            <img src="/images/uploading.gif"/>
+          </div>
           <div id="message-box">
             <div id="message-form" onMouseUp={this.updateToolbarState} onClick={() => {setTimeout(() => this.focusInput(), 0)}}>
               <div id="chat-toolbar" className={this.state.formatBar ? "" : "hidden"} onMouseDown={e => e.preventDefault()}>
