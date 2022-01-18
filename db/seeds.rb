@@ -443,7 +443,7 @@ MessageSave.create(
 message = Message.create(
   user_id: yuci.id,
   channel_id: general_channel.id,
-  body: "Thank you for taking the time to check out my work! If you don't have it already, feel free to take a copy of my resume!"
+  body: "Thank you for taking the time to check out my work! If you don't have it already, please take a copy of my resume!"
 )
 MessageReact.create(
   user_id: demo_user.id,
