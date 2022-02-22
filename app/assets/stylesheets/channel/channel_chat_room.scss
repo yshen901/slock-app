@@ -542,8 +542,9 @@
   background: white;
 
   #message-box {
-    padding: 0px;
+    padding: 0;
     margin: 0px;
+    max-width: calc(100% - 2px)
   }
 }
 
@@ -709,6 +710,7 @@
     .message-text {
       display: flex;
       flex-direction: column;
+      width: calc(100% - 52px);
       max-width: calc(100% - 52px);
       overflow: visible;
     
