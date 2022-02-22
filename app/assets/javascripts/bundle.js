@@ -2150,7 +2150,7 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
             }
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: joined ? "hidden" : "button",
-            onClick: _this4.joinChannel(channels[i])
+            onClick: _this4.goToChannel(channels[i].id)
           }, "View"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: joined ? "button" : "button green",
             onClick: joined ? _this4.leaveChannel(channels[i]) : _this4.joinChannel(channels[i])

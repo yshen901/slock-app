@@ -160,6 +160,7 @@
     position: fixed;
     top: 100px;
     left: calc(50vw - 65px + 130px);
+    z-index: 1000;
     width: 130px;
 
     display: flex;

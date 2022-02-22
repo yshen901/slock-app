@@ -92,7 +92,7 @@ class ChannelBrowser extends React.Component {
         buttons = (
           <div className="buttons" onClick={() => this.goToChannel(channels[i].id)}>
             <div className={ joined ? "hidden" : "button"}
-              onClick={ this.joinChannel(channels[i]) }>
+              onClick={ this.goToChannel(channels[i].id) }>
                 View
             </div>
             <div 
