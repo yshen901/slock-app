@@ -8839,7 +8839,12 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-item",
         onClick: this.logoutWorkspace
-      }, "Sign out of ", this.state.workspaceTitle)));
+      }, "Sign out of ", this.state.workspaceTitle), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-item",
+        onClick: function onClick() {
+          return _this4.props.history.push("/");
+        }
+      }, "Back to homepage")));
     }
   }]);
 

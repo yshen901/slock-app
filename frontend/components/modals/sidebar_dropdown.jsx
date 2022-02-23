@@ -77,6 +77,9 @@ class SidebarDropdown extends React.Component {
           <div className="dropdown-item" onClick={this.logoutWorkspace}>
             Sign out of {this.state.workspaceTitle}
           </div>
+          <div className="dropdown-item" onClick={() => this.props.history.push("/")}>
+            Back to homepage
+          </div>
         </div>
       </div>
       )

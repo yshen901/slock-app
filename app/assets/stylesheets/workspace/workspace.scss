@@ -10,6 +10,8 @@
 
   width: 100%;
   height: 38px;
+  padding: 4px 16px;
+  box-sizing: border-box;
 
   display: flex;
   justify-content: flex-end;
@@ -27,7 +29,6 @@
     height: 28px;
     width: 28px;
 
-    margin: 4px 16px 4px 0;
     overflow: visible;
 
     #user-photo {
