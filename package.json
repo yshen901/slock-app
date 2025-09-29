@@ -32,11 +32,11 @@
     "react-router-dom": "6.27.0",
     "redux": "4.2.1",
     "redux-thunk": "2.4.2",
-    "redux-logger": "^3.0.6",
     "react-new-window": "1.0.1",
+    "redux-logger": "^3.0.6",
     "react-webcam": "^6.0.0",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "webpack": "5.101.3",
+    "webpack-cli": "5.1.4"
   },
   "directories": {
     "lib": "lib",
