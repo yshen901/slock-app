@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => ({
   refreshErrors: () => dispatch(refreshErrors())
 });
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserAuthForm))
+)(UserAuthForm)

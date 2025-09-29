@@ -1,8 +1,10 @@
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { postWorkspace, getWorkspace } from '../../actions/workspace_actions';
 import { focus } from '../../util/modal_api_util';
 import { findWorkspace } from '../../actions/workspace_actions';
+
+import withNavigate from '../../withNavigate';
 
 class WorkspaceForm extends React.Component {
   constructor() {
@@ -59,7 +61,7 @@ class WorkspaceForm extends React.Component {
       case "finish": //TODO1: FLASH ERRORS UPON RE-RENDER
         dispatch(postWorkspace(this.state))
           .then(
-            ({workspace}) => this.props.history.push(`/workspace/${workspace.address}`),
+            ({workspace}) => this.props.navigate(`/workspace/${workspace.address}`),
             (errors) => {
               this.setState({page: "address", address: "", channel: ""})
             }
@@ -155,4 +157,4 @@ class WorkspaceForm extends React.Component {
   }
 }
 
-export default withRouter(WorkspaceForm);
+export default withNavigate(WorkspaceForm);

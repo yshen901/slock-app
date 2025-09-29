@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import AuthNav from './auth_nav';
 import AuthFooter from './auth_footer';
@@ -7,6 +7,8 @@ import WorkspaceDropdown from '../modals/workspace_dropdown'
 import { hideElements, focus } from '../../util/modal_api_util';
 
 import {DEMO_WORKSPACE} from "../../actions/session_actions";
+
+import withNavigate from "../../withNavigate";
 
 class UserSigninForm extends React.Component {
   constructor(props) {
@@ -31,7 +33,11 @@ class UserSigninForm extends React.Component {
     this.props.findWorkspace(address)
       .then(
         null,
-        () => this.props.history.replace('/signin')
+        // REACT_UPDATE: Must use navigate wrapper for class components
+        //               Hooks can be used for functional components
+        // () => this.props.history.replace('/signin')
+        () => this.props.navigate('/signin', { replace: true })
+
       )
   }
 
@@ -68,9 +74,9 @@ class UserSigninForm extends React.Component {
       .then( 
         () => {
           if (this.props.formType === 'Sign in')
-            this.props.history.push(`/workspace/${this.state.workspace_address}/0`)
+            this.props.navigate(`/workspace/${this.state.workspace_address}/0`)
           else
-            this.props.history.push("/")
+            this.props.navigate("/")
         },
       );
   }
@@ -221,4 +227,4 @@ class UserSigninForm extends React.Component {
   }
 }
 
-export default UserSigninForm;
+export default withNavigate(UserSigninForm);

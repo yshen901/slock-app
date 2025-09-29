@@ -1,6 +1,8 @@
 import React from "react";
-import { withRouter } from "react-router";
 import { toggleFocusElements } from "../../../util/modal_api_util";
+
+import withNavigate from "../../../withNavigate";
+import withParams from "../../../withParams";
 
 class ChannelBrowser extends React.Component {
   constructor(props) {
@@ -57,7 +59,7 @@ class ChannelBrowser extends React.Component {
                 }
               }
             );
-            this.props.history.push(`/workspace/${this.props.match.params.workspace_address}/${channel.id}`);
+            this.props.navigate(`/workspace/${this.props.params.workspace_address}/${channel.id}`);
           }
         )
     }
@@ -127,8 +129,8 @@ class ChannelBrowser extends React.Component {
   }
 
   goToChannel(channel_id) {
-    let workspace_address = this.props.match.params.workspace_address;
-    this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+    let workspace_address = this.props.params.workspace_address;
+    this.props.navigate(`/workspace/${workspace_address}/${channel_id}`);
   }
 
   render() {
@@ -160,4 +162,4 @@ class ChannelBrowser extends React.Component {
   }
 }
 
-export default withRouter(ChannelBrowser);
+export default withNavigate(withParams(ChannelBrowser));
