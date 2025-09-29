@@ -1,5 +1,4 @@
 import React from "react";
-import { withRouter } from "react-router";
 import { 
   RECEIVE_MESSAGE_REACT,
   REMOVE_MESSAGE_REACT,
@@ -8,6 +7,8 @@ import {
 } from "../../../actions/message_actions";
 import UserPopupModal from "../../modals/user_popup_modal";
 import ChannelMessageContainer from "../channel_message_container";
+
+import { withRouter } from "../../../withRouter";
 
 class SavedBrowser extends React.Component {
   constructor(props) {
@@ -117,8 +118,8 @@ class SavedBrowser extends React.Component {
   }
 
   goToChannel(channel_id) {
-    let workspace_address = this.props.match.params.workspace_address;
-    this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+    let workspace_address = this.props.params.workspace_address;
+    this.props.navigate(`/workspace/${workspace_address}/${channel_id}`);
   }
 
   toggleMessageReact(messageData, react_code) {

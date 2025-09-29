@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { startDmChannel } from '../../../actions/dm_channel_actions';
 import PeopleBrowser from "./people_browser";
 

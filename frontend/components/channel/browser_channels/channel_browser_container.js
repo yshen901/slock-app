@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { joinChannel, leaveChannel } from '../../../actions/channel_actions';
 import ChannelBrowser from "./channel_browser";
 

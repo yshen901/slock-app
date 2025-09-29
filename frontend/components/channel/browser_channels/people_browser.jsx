@@ -2,7 +2,7 @@ import React from "react";
 import { getUserActivity, getUserName, getUserPaused, sortedUsers, userInSearch } from "../../../selectors/selectors";
 import { toggleFocusElements } from "../../../util/modal_api_util";
 
-import { withNavigate, withParams } from "../../../withRouter";
+import { withRouter } from "../../../withRouter";
 
 class PeopleBrowser extends React.Component {
   constructor(props) {
@@ -134,4 +134,4 @@ class PeopleBrowser extends React.Component {
   }
 }
 
-export default withNavigate(PeopleBrowser);
+export default withRouter(PeopleBrowser);

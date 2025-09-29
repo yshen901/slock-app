@@ -1,9 +1,10 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { toggleFocusElements } from '../../util/modal_api_util';
 import DOMPurify from 'dompurify';
 import { dmChannelUserId, getFileTypeInfo } from '../../selectors/selectors';
 import { createMessage } from '../../actions/message_actions';
+
+import { withRouter } from '../../withRouter';
 
 class ChannelMessageForm extends React.Component {
   constructor(props) {
@@ -60,8 +61,8 @@ class ChannelMessageForm extends React.Component {
   }
 
   goToChannel(channel_id) {
-    let workspace_address = this.props.match.params.workspace_address;
-    this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+    let workspace_address = this.props.params.workspace_address;
+    this.props.navigate(`/workspace/${workspace_address}/${channel_id}`);
   }
 
   handleSubmit(e) {
@@ -70,7 +71,7 @@ class ChannelMessageForm extends React.Component {
       let messageFormData = new FormData();
       let body = DOMPurify.sanitize(this.chatInput.current.innerHTML);
       messageFormData.append("message[body]", body ? body : "");
-      messageFormData.append("message[channel_id]", this.props.match.params.channel_id);
+      messageFormData.append("message[channel_id]", this.props.params.channel_id);
       for (let i = 0; i < this.state.files.length; i++)
         messageFormData.append("message[files][]", this.state.files[i]);
 
@@ -377,7 +378,7 @@ class ChannelMessageForm extends React.Component {
 
   render() {
     let { channels } = getState().entities;
-    let { channel_id } = this.props.match.params;    
+    let { channel_id } = this.props.params;    
     let channel = channels[channel_id];
 
     let { bold, italic, underline, strikethrough, createLink, insertUnorderedList, insertOrderedList } = this.state.isActivated;

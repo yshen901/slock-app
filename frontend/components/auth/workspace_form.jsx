@@ -4,7 +4,7 @@ import { postWorkspace, getWorkspace } from '../../actions/workspace_actions';
 import { focus } from '../../util/modal_api_util';
 import { findWorkspace } from '../../actions/workspace_actions';
 
-import { withNavigate } from '../../withRouter';
+import { withRouter } from '../../withRouter';
 
 class WorkspaceForm extends React.Component {
   constructor() {
@@ -157,4 +157,4 @@ class WorkspaceForm extends React.Component {
   }
 }
 
-export default withNavigate(WorkspaceForm);
+export default withRouter(WorkspaceForm);

@@ -20,3 +20,12 @@ export function withParams(Component) {
         return <Component {...props} params={params} />
     };
 }
+
+export function withRouter(Component) {
+    return function WrappedComponent(props) {
+        const location = useLocation();
+        const params = useParams();
+        const navigate = useNavigate();
+        return <Component {...props} params={params} location={location} navigate={navigate}/>
+    };
+}

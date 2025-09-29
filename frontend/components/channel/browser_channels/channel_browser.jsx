@@ -1,7 +1,7 @@
 import React from "react";
 import { toggleFocusElements } from "../../../util/modal_api_util";
 
-import { withNavigate, withParams } from "../../../withRouter";
+import { withRouter } from "../../../withRouter";
 
 class ChannelBrowser extends React.Component {
   constructor(props) {
@@ -161,4 +161,4 @@ class ChannelBrowser extends React.Component {
   }
 }
 
-export default withNavigate(withParams(ChannelBrowser));
+export default withRouter(ChannelBrowser);

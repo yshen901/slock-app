@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import ChannelNav from './channel_nav';
 import { updateChannelUser } from "../../actions/channel_actions";
@@ -21,7 +20,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateChannelUser: (channel_user) => dispatch(updateChannelUser(channel_user))
 });
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ChannelNav))
+)(ChannelNav)

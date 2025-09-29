@@ -1,8 +1,9 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 import { startDmChannel } from "../../actions/dm_channel_actions";
 import { getLocalTime, getUserActivity, getUserName, getUserPaused } from '../../selectors/selectors';
 import { toggleFocusElements } from '../../util/modal_api_util';
+
+import { withRouter } from "../../withRouter"
 
 class ProfileSidebar extends React.Component {
   constructor(props) {
@@ -21,8 +22,8 @@ class ProfileSidebar extends React.Component {
     })).then(
       ({dmChannelUser}) => {
         let {channel_id} = dmChannelUser;
-        let {workspace_address} = this.props.match.params;
-        this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+        let {workspace_address} = this.props.params;
+        this.props.navigate(`/workspace/${workspace_address}/${channel_id}`);
       }
     )
   }
@@ -35,7 +36,7 @@ class ProfileSidebar extends React.Component {
     })).then(
       ({dmChannelUser}) => {
         let {channel_id} = dmChannelUser;
-        let {workspace_address} = this.props.match.params;
+        let {workspace_address} = this.props.params;
         this.props.startVideoCall(workspace_address, channel_id);
       }
     )
@@ -165,4 +166,4 @@ class ProfileSidebar extends React.Component {
   }
 }
 
-export default withRouter(ProfileSidebar);
+export default withRouter(withParams(ProfileSidebar));

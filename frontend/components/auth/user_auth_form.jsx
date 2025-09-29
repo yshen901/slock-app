@@ -8,7 +8,7 @@ import { hideElements, focus } from '../../util/modal_api_util';
 
 import {DEMO_WORKSPACE} from "../../actions/session_actions";
 
-import { withNavigate } from "../../withRouter";
+import { withRouter } from "../../withRouter";
 
 class UserSigninForm extends React.Component {
   constructor(props) {
@@ -227,4 +227,4 @@ class UserSigninForm extends React.Component {
   }
 }
 
-export default withNavigate(UserSigninForm);
+export default withRouter(UserSigninForm);

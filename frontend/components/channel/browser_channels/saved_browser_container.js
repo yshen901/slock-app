@@ -35,9 +35,7 @@ const mapDispatchToProps = (dispatch) => ({
   deleteMessageSave: (message_save) => dispatch(deleteMessageSave(message_save)),
 });
 
-export default withRouter(
-  connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(SavedBrowser)
-);
+  )(SavedBrowser);
