@@ -1,13 +1,14 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { hideElements } from '../../util/modal_api_util';
 import { updateChannel } from '../../actions/channel_actions';
+
+import { withRouter } from "../../withRouter"
 
 class EditChannelDescriptionModal extends React.Component {
   constructor(props) {
     super(props);
 
-    let channel = getState().entities.channels[props.match.params.channel_id];
+    let channel = getState().entities.channels[props.params.channel_id];
     this.state = {
       description: channel ? channel.description : "",
       disabled: true,
@@ -21,10 +22,10 @@ class EditChannelDescriptionModal extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-    let {channel_id} = this.props.match.params;
+    let {channel_id} = this.props.params;
 
     // Ignore changes during channel transition, and ignore invalid channels
-    if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
+    if (channel_id != "0" && channel_id !== oldProps.params.channel_id) {
       if (getState().entities.channels[channel_id])
         this.setState({description: getState().entities.channels[channel_id].description})
     }
@@ -32,7 +33,7 @@ class EditChannelDescriptionModal extends React.Component {
 
   handleCancel(e) {
     e.stopPropagation();
-    let {channel_id} = this.props.match.params;
+    let {channel_id} = this.props.params;
     this.setState({description: getState().entities.channels[channel_id].description});
     hideElements("edit-channel-description-modal");
   }
@@ -62,7 +63,7 @@ class EditChannelDescriptionModal extends React.Component {
   submitForm(e) {
     e.preventDefault();
 
-    dispatch(updateChannel({ description: this.state.description, id: this.props.match.params.channel_id }))
+    dispatch(updateChannel({ description: this.state.description, id: this.props.params.channel_id }))
       .then(
         () => {
           this.setState({ description: this.state.description, disabled: true, error: "" });
@@ -104,4 +105,4 @@ class EditChannelDescriptionModal extends React.Component {
   }
 }
 
-export default withRouter(EditChannelDescriptionModal);
+export default EditChannelDescriptionModal;

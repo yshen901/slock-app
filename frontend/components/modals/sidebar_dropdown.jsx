@@ -1,17 +1,18 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 import { logout } from '../../actions/session_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
 import { workspaceTitle } from '../../selectors/selectors';
 import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
 
+import { withRouter } from '../../withRouter';
+
 class SidebarDropdown extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      workspaceTitle: workspaceTitle(this.props.match.params.workspace_address)
+      workspaceTitle: workspaceTitle(this.props.params.workspace_address)
     };
 
     this.logoutUser = this.logoutUser.bind(this);
@@ -22,7 +23,7 @@ class SidebarDropdown extends React.Component {
     e.stopPropagation();
     dispatch(logout())
       .then(
-        () => this.props.history.push('/')
+        () => this.props.navigate('/')
       )
   }
 
@@ -41,7 +42,7 @@ class SidebarDropdown extends React.Component {
             }
           }
         )
-        this.props.history.push('/');
+        this.props.navigate('/');
         }
       )
   }
@@ -56,7 +57,7 @@ class SidebarDropdown extends React.Component {
             </div>
             <div className="dropdown-content">
               <div className="dropdown-content-top">{this.state.workspaceTitle}</div>
-              <div className="dropdown-content-bottom">{this.props.match.params.workspace_address}</div>
+              <div className="dropdown-content-bottom">{this.props.params.workspace_address}</div>
             </div>
           </div>
           <div className="horizontal-divider"></div>
@@ -67,17 +68,17 @@ class SidebarDropdown extends React.Component {
             Create a channel
           </div>
           <div className="horizontal-divider"></div>
-          <div className="dropdown-item" onClick={() => this.props.history.push("/create")}>
+          <div className="dropdown-item" onClick={() => this.props.navigate("/create")}>
             Create a new workspace
           </div>
-          <div className="dropdown-item" onClick={() => this.props.history.push("/signin")}>
+          <div className="dropdown-item" onClick={() => this.props.navigate("/signin")}>
             Sign into another workspace
           </div>
           <div className="horizontal-divider"></div>
           <div className="dropdown-item" onClick={this.logoutWorkspace}>
             Sign out of {this.state.workspaceTitle}
           </div>
-          <div className="dropdown-item" onClick={() => this.props.history.push("/")}>
+          <div className="dropdown-item" onClick={() => this.props.navigate("/")}>
             Back to homepage
           </div>
         </div>

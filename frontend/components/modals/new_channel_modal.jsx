@@ -1,6 +1,8 @@
 import React from 'react';
 import { hideElements } from '../../util/modal_api_util';
 
+import { withRouter } from '../../withRouter';
+
 class NewChannelModal extends React.Component {
   constructor() {
     super();
@@ -65,7 +67,7 @@ class NewChannelModal extends React.Component {
         ({channel}) => {
           hideElements("new-channel-modal");
           this.setState({name: "", disabled: true, error: "none"});
-          this.props.history.push(`/workspace/${this.props.workspace_address}/${channel.id}`);
+          this.props.navigate(`/workspace/${this.props.workspace_address}/${channel.id}`);
         }
       )
   }
@@ -110,4 +112,4 @@ class NewChannelModal extends React.Component {
   }
 }
 
-export default NewChannelModal;
+export default withRouter(NewChannelModal);

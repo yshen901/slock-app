@@ -1,4 +1,3 @@
-import { withRouter } from "react-router";
 import { connect } from "react-redux";
 import { updateChannelUser } from "../../actions/channel_actions";
 import ChannelDetailsModal from "./channel_details_modal";
@@ -30,9 +29,7 @@ const mapDispatchToProps = (dispatch) => ({
   deleteMessage: (message) => dispatch(deleteMessage(message))
 });
 
-export default withRouter(
-  connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
   )(ChannelDetailsModal)
-)

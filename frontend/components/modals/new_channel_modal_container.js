@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import NewChannelModal from './new_channel_modal';
 import { postChannel } from '../../actions/channel_actions';
 import { objectToNameArray } from '../../selectors/selectors';
@@ -14,7 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
   postChannel: (channel) => dispatch(postChannel(channel))
 })
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewChannelModal));
+)(NewChannelModal);

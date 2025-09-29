@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { objectToArray, workspaceTitle } from '../../selectors/selectors';
 import { logout } from '../../actions/session_actions';
 import { hideElements } from '../../util/modal_api_util';
+
+import { withRouter } from '../../withRouter';
 
 class WorkspaceDropdown extends React.Component {
   constructor(props) {
@@ -21,7 +23,7 @@ class WorkspaceDropdown extends React.Component {
         <div className="dropdown-workspaces">
           {workspaces.map((workspace, idx) => {
             return (
-              <div key={idx} className="dropdown-item" onClick={() => this.props.history.push(`/workspace/${workspace.address}/0`)}>
+              <div key={idx} className="dropdown-item" onClick={() => this.props.navigate(`/workspace/${workspace.address}/0`)}>
                 &#9824; {workspaceTitle(workspace.address)}
               </div>
             )
@@ -35,7 +37,7 @@ class WorkspaceDropdown extends React.Component {
     dispatch(logout())
     .then(
       () => {
-        this.props.history.push('/');
+        this.props.navigate('/');
       }
     )
   }

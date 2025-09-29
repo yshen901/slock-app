@@ -1,11 +1,12 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 import { logout } from '../../actions/session_actions';
 import { updateWorkspaceUser } from '../../actions/user_actions';
 import { logoutWorkspace } from '../../actions/workspace_actions';
 import { getUserActivity, getUserName, workspaceTitle } from '../../selectors/selectors';
 import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
+
+import { withRouter } from '../../withRouter';
 
 class ProfileDropdown extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class ProfileDropdown extends React.Component {
     e.stopPropagation();
     dispatch(logout())
       .then(
-        () => this.props.history.push('/')
+        () => this.props.navigate('/')
       )
   }
 
@@ -41,7 +42,7 @@ class ProfileDropdown extends React.Component {
             }
           }
         )
-        this.props.history.push('/');
+        this.props.navigate('/');
         }
       )
   }
@@ -106,7 +107,7 @@ class ProfileDropdown extends React.Component {
           </div>
           <div className="horizontal-divider"></div>
           <div className="dropdown-item" onClick={this.logoutWorkspace}>
-            Sign out of <em>{workspaceTitle(this.props.match.params.workspace_address)}</em>
+            Sign out of <em>{workspaceTitle(this.props.params.workspace_address)}</em>
           </div>
         </div>
       </div>

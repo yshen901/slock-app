@@ -1,8 +1,9 @@
 import React from 'react';
-import { withRouter } from 'react-router';
 import { DEFAULT_PHOTO_URL, dmChannelUserId, getFileTypeInfo, getLocalTime, getUserActivity, getUserName, userInSearch } from '../../selectors/selectors';
 import { hideElements, toggleFocusElements } from '../../util/modal_api_util';
 import UserPopupModal from "./user_popup_modal";
+
+import { withRouter } from "../../withRouter"
 
 class ChannelDetailsModal extends React.Component {
   constructor(props) {

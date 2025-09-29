@@ -1,7 +1,8 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { hideElements } from '../../util/modal_api_util';
 import { inviteUser } from '../../util/connection_api_util';
+
+import { withRouter } from '../../withRouter';
 
 class InviteUserModal extends React.Component {
   constructor() {
@@ -45,7 +46,7 @@ class InviteUserModal extends React.Component {
   submitForm(e) {
     e.preventDefault();
 
-    inviteUser(this.state.name, this.props.match.params.workspace_address)
+    inviteUser(this.state.name, this.props.params.workspace_address)
       .then(
         () => {
           this.setState({ name: "", disabled: true, error: "User Added!" });

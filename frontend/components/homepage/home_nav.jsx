@@ -1,6 +1,8 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { logout } from '../../actions/session_actions';
+
+import { withRouter } from "../../withRouter"
 
 class HomeNav extends React.Component {
   constructor(props) {
@@ -14,7 +16,7 @@ class HomeNav extends React.Component {
     dispatch(logout())
     .then(
       () => {
-        this.props.history.push('/');
+        this.props.navigate('/');
       }
     )
   }
@@ -32,7 +34,7 @@ class HomeNav extends React.Component {
       return (
         <div className="right">
           <Link className="home-link no-hightlight" to="/signin">Sign In</Link>
-          <button className="nav-button" onClick={() => this.props.history.push('/signup')}>
+          <button className="nav-button" onClick={() => this.props.navigate('/signup')}>
             <div>Get Started</div>
           </button>
         </div>

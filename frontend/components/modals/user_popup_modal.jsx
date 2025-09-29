@@ -1,7 +1,8 @@
 import React from "react";
-import { withRouter } from "react-router";
 import { startDmChannel } from "../../actions/dm_channel_actions";
 import { getLocalTime, getUserActivity, getUserName, getUserPaused } from "../../selectors/selectors";
+
+import { withRouter } from "../../withRouter";
 
 class UserPopupModal extends React.Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class UserPopupModal extends React.Component {
         ({dmChannelUser}) => {
           let {channel_id} = dmChannelUser;
           let {workspace_address} = this.props.match.params;
-          this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+          this.props.navigate(`/workspace/${workspace_address}/${channel_id}`);
         }
       )
     }
@@ -52,7 +53,7 @@ class UserPopupModal extends React.Component {
       })).then(
         ({dmChannelUser}) => {
           let {channel_id} = dmChannelUser;
-          let {workspace_address} = this.props.match.params;
+          let {workspace_address} = this.props.params;
           this.props.startVideoCall(workspace_address, channel_id);
         }
       )

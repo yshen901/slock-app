@@ -1,5 +1,4 @@
 import React from "react";
-import { withRouter } from "react-router";
 import { updateWorkspaceUser } from "../../actions/user_actions";
 import { hideElements } from "../../util/modal_api_util";
 
@@ -103,4 +102,4 @@ class EditProfileStatusModal extends React.Component {
   }
 }
 
-export default withRouter(EditProfileStatusModal);
+export default EditProfileStatusModal;

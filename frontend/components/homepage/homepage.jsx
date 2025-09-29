@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import HomeNav from './home_nav';
 import WorkspaceDropdown from '../modals/workspace_dropdown';
 import { hideElements } from '../../util/modal_api_util';
 import { DEMO_WORKSPACE } from '../../actions/session_actions';
 import { objectToArray, workspaceTitle } from '../../selectors/selectors';
+
+import { withRouter } from "../../withRouter"
 
 class Homepage extends React.Component {
   constructor() {
@@ -34,7 +36,7 @@ class Homepage extends React.Component {
           </div>
           <button 
             className="home-button" 
-            onClick={() => this.props.history.push(`/workspace/${workspace.address}/0`)}
+            onClick={() => this.props.navigate(`/workspace/${workspace.address}/0`)}
           >Launch Slock</button>
         </div>
       ))
@@ -95,7 +97,7 @@ class Homepage extends React.Component {
               <h4>Slock gives your team the power and alignment you need to do your best work.</h4>
             </div>
 
-            <button className="home-button" onClick={(e) => { this.props.history.push(`/signin`) }}>Demo Login</button>
+            <button className="home-button" onClick={(e) => { this.props.navigate(`/signin`) }}>Demo Login</button>
           </div>
         </div>
       )

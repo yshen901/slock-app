@@ -1,13 +1,14 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { hideElements } from '../../util/modal_api_util';
 import { updateChannel } from '../../actions/channel_actions';
+
+import { withRouter } from '../../withRouter';
 
 class EditChannelNameModal extends React.Component {
   constructor(props) {
     super(props);
 
-    let channel = getState().entities.channels[props.match.params.channel_id];
+    let channel = getState().entities.channels[props.params.channel_id];
     this.state = {
       name: channel ? channel.name : "",
       disabled: true,
@@ -21,10 +22,10 @@ class EditChannelNameModal extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-    let {channel_id} = this.props.match.params;
+    let {channel_id} = this.props.params;
 
     // Ignore changes during channel transition, and ignore invalid channels
-    if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
+    if (channel_id != "0" && channel_id !== oldProps.params.channel_id) {
       if (getState().entities.channels[channel_id])
         this.setState({name: getState().entities.channels[channel_id].name})
     }
@@ -32,7 +33,7 @@ class EditChannelNameModal extends React.Component {
 
   handleCancel(e) {
     e.stopPropagation();
-    let {channel_id} = this.props.match.params;
+    let {channel_id} = this.props.params;
     this.setState({name: getState().entities.channels[channel_id].name});
     hideElements("edit-channel-name-modal");
   }
@@ -62,7 +63,7 @@ class EditChannelNameModal extends React.Component {
   submitForm(e) {
     e.preventDefault();
 
-    dispatch(updateChannel({ name: this.state.name, id: this.props.match.params.channel_id }))
+    dispatch(updateChannel({ name: this.state.name, id: this.props.params.channel_id }))
       .then(
         () => {
           this.setState({ name: this.state.name, disabled: true, error: "" });
