@@ -1,8 +1,9 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 import ChannelNavContainer from './channel_nav_container';
 import ChannelChatContainer from './channel_chat_container';
+
+import { withRouter } from '../../withRouter';
 
 class Channel extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class Channel extends React.Component {
     e.stopPropagation();
 
     let { channel, channel_id, user_id } = this.props;
-    let { workspace_address } = this.props.match.params;
+    let { workspace_address } = this.props.params;
 
     if (!channel.dm_channel) {
       if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
@@ -55,7 +56,7 @@ class Channel extends React.Component {
                 }
               );
 
-              this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
+              this.props.navigate(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
               this.setState({ canJoin: true, canLeave: false });
             },
             null
@@ -71,7 +72,7 @@ class Channel extends React.Component {
         .then(
           () => {
             () => {
-              this.props.history.push(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
+              this.props.navigate(`/workspace/${workspace_address}/${this.props.generalChannelId}`);
               this.setState({ canJoin: true, canLeave: false });
             },
             null

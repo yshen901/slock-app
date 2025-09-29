@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { joinChannel, leaveChannel } from '../../actions/channel_actions';
 import { endDmChannel, restartDmChannel } from '../../actions/dm_channel_actions';
 
@@ -20,7 +19,7 @@ const mapDispatchToProps = (dispatch) => ({
   endDmChannel: (dmChannelInfo) => dispatch(endDmChannel(dmChannelInfo))
 });
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Channel))
+)(Channel)

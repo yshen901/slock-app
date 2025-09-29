@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import ChannelChat from './channel_chat';
 import { startDmChannel } from '../../actions/dm_channel_actions';
@@ -33,7 +32,7 @@ const mapDispatchToProps = dispatch => ({
   removeMessageReact: (message_react) => dispatch(removeMessageReact(message_react)),
 })
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChannelChat))
+)(ChannelChat)

@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 import { getWorkspace } from '../../actions/workspace_actions';
 import { dmChannelUserId } from '../../selectors/selectors';
 
@@ -38,14 +37,14 @@ class ChannelVideoChatRoomExternal extends React.Component {
     window.addEventListener("beforeunload", this.leaveCall);
 
     // load workspace
-    dispatch(getWorkspace(this.props.match.params.workspace_address))
+    dispatch(getWorkspace(this.props.params.workspace_address))
       .then(
         ({channels}) => {
           // Prevents illegal access to video call rooms
           let user_channels = Object.keys(getState().session.user_channels);
-          let {channel_id, workspace_address} = this.props.match.params;
+          let {channel_id, workspace_address} = this.props.params;
           if (!user_channels.includes(channel_id) || !channels[channel_id].dm_channel)
-            this.props.history.push(`/workspace/${workspace_address}/0`)
+            this.props.navigate(`/workspace/${workspace_address}/0`)
 
           // Set loaded to true once workspace loaded
           this.setState({ loaded: true });
@@ -75,7 +74,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
                   },
                   received: data => {
                     let { user_id } = getState().session;
-                    let { channel_id } = this.props.match.params;
+                    let { channel_id } = this.props.params;
 
                     if (data.from == user_id) return;
                     // console.log("RECEIVED: ", data.type);
@@ -126,7 +125,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
   // Also includes channel_id and target_user_id to arrange ping
   joinCall(e) {
     let { user_id } = getState().session;
-    let { channel_id } = this.props.match.params;
+    let { channel_id } = this.props.params;
     let { channels } = getState().entities;
     let channel_users = Object.keys(channels[channel_id].users);
     
@@ -210,7 +209,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     }; 
     pc.oniceconnectionstatechange = (e) => {
         if (pc.iceConnectionState === 'disconnected'){
-            this.callACChannel.speak({ type: LEAVE_CALL, from: userId, channel_id: this.props.match.params.channel_id });
+            this.callACChannel.speak({ type: LEAVE_CALL, from: userId, channel_id: this.props.params.channel_id });
         }
     };
     return pc;   
@@ -261,7 +260,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     this.localStream.srcObject = null;
     App.cable.subscriptions.subscriptions = [];
     this.remoteVideoContainer.innerHTML = "";
-    this.callACChannel.speak({ type: LEAVE_CALL, from: getState().session.user_id, channel_id: this.props.match.params.channel_id });    
+    this.callACChannel.speak({ type: LEAVE_CALL, from: getState().session.user_id, channel_id: this.props.params.channel_id });    
 
     this.appended = false;
     this.callACChannel.unsubscribe();
@@ -376,7 +375,7 @@ class ChannelVideoChatRoomExternal extends React.Component {
     }
 
     let {user_id} = getState().session;
-    let {channel_id} = this.props.match.params;
+    let {channel_id} = this.props.params;
     let {users, channels} = getState().entities;
 
     let remoteUser = users[dmChannelUserId(channels[channel_id], user_id)];

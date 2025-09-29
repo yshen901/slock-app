@@ -23,6 +23,8 @@ import ProfileDropdown from "../modals/profile_dropdown";
 import { JOIN_CALL, LEAVE_CALL, RECEIVED_CALL, REJECT_CALL } from '../../util/call_api_util';
 import { joinChannel } from '../../actions/channel_actions';
 
+import { withRouter } from '../../withRouter';
+
 class Workspace extends React.Component {
   constructor() {
     super();
@@ -62,7 +64,7 @@ class Workspace extends React.Component {
             ({channels, workspace}) => {
               this.first_channel = Object.keys(channels)[0];  // goes to first channel if url is invalid
               if (channel_id != "saved-browser" && channel_id != "channel-browser" && channel_id != "people-browser" && channels[channel_id] === undefined)
-                this.props.history.replace(`/workspace/${workspace_address}/${this.first_channel}`)
+                this.props.navigate(`/workspace/${workspace_address}/${this.first_channel}`, { replace: true })
 
               this.loginACChannel.speak({ // announces login through ActionCable
                 workspace_data: {
@@ -100,7 +102,7 @@ class Workspace extends React.Component {
     }
 
     if (!valid) 
-      this.props.history.replace('/signin');
+      this.props.navigate('/signin', { replace: true });
     else if (channel_id != "0")
       this.props.loadChannel(channel_id)
   }
@@ -221,7 +223,7 @@ class Workspace extends React.Component {
     return (e) => {
       e.stopPropagation();
   
-      let { workspace_address } = this.props.match.params;
+      let { workspace_address } = this.props.params;
       let { channel_id } = callData;
   
       this.startVideoCall(workspace_address, channel_id, "?pickup");
@@ -259,12 +261,12 @@ class Workspace extends React.Component {
 
   // Makes sure you don't go to an invalid channel
   componentDidUpdate(oldProps) {
-    let { channel_id } = this.props.match.params;
-    if (oldProps.match.params.channel_id !== channel_id) {
+    let { channel_id } = this.props.params;
+    if (oldProps.params.channel_id !== channel_id) {
       if (channel_id == "channel-browser" || channel_id == 'people-browser' || channel_id == 'saved-browser')
         this.props.loadChannel(parseInt(channel_id));
       else if (getState().entities.channels[channel_id] === undefined)
-        this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
+        this.props.navigate(-1); //NOTE: BASICALLY GOES BACK TO BEFORE
       else
         this.props.loadChannel(parseInt(channel_id));
     }
@@ -361,4 +363,4 @@ class Workspace extends React.Component {
   }
 }
 
-export default Workspace;
+export default withRouter(Workspace);

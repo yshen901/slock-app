@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter } from '../../withRouter.jsx';
 
 import ChannelMessageForm from './channel_message_form';
 import UserPopupModal from "../modals/user_popup_modal.jsx";
@@ -51,8 +51,8 @@ class ChannelChat extends React.Component {
   // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
   // Only trigger for non-transitional channels (channel_id != 0)
   componentDidUpdate(oldProps) {
-    let {channel_id} = this.props.match.params;
-    if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
+    let {channel_id} = this.props.params;
+    if (channel_id != "0" && channel_id !== oldProps.params.channel_id) {
       this.setState({ messagesList: [] });
       this.loadMessages();
     }

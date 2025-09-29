@@ -3,6 +3,8 @@ import { deleteMessage } from '../../actions/message_actions';
 import { getFileTypeInfo, getUserName, UTF_CODE_NAMES } from '../../selectors/selectors';
 import ChannelMessageForm from './channel_message_form';
 
+import { withRouter } from '../../withRouter';
+
 class ChannelMessage extends React.Component {
   constructor(props) {
     super(props);
@@ -128,14 +130,14 @@ class ChannelMessage extends React.Component {
   }
 
   messageBanner(saved) {
-    if (saved && this.props.match.params.channel_id != "saved-browser")
+    if (saved && this.props.params.channel_id != "saved-browser")
       return (
         <div className="saved-banner">
           <i className="fas fa-bookmark fa-fw magenta"></i>
           <div>Added to your saved items</div>
         </div>
       )
-    else if (this.props.match.params.channel_id == "saved-browser") {
+    else if (this.props.params.channel_id == "saved-browser") {
       let { channels, message } = this.props;
       let channel = channels[message.channel_id];
       return (
@@ -378,4 +380,4 @@ class ChannelMessage extends React.Component {
   }
 }
 
-export default ChannelMessage;
+export default withRouter(ChannelMessage);

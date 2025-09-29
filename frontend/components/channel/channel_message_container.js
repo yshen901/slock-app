@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { 
   deleteMessage,
   deleteMessageReact,
@@ -29,7 +28,7 @@ const mapDispatchToProps = dispatch => ({
   deleteMessageSave: (message_save) => dispatch(deleteMessageSave(message_save)),
 });
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChannelMessage));
+)(ChannelMessage);

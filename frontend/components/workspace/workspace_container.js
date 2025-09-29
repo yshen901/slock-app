@@ -1,5 +1,4 @@
 import { connect  } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import Workspace from './workspace';
 import { loadChannel } from '../../actions/channel_actions';
@@ -27,7 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateOtherUserChannelStatus: (userData) => dispatch(updateOtherUserChannelStatus(userData))
 });
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Workspace))
+)(Workspace)

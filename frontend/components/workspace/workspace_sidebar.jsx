@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { getUserActivity, getUserPaused, workspaceTitle } from '../../selectors/selectors'
 import { toggleFocusElements } from '../../util/modal_api_util';
 
+import { withRouter } from '../../withRouter';
+
 class WorkspaceSidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -29,9 +31,9 @@ class WorkspaceSidebar extends React.Component {
   }
   
   goToChannel(new_channel_id) {
-    let {workspace_address, channel_id} = this.props.match.params;
+    let {workspace_address, channel_id} = this.props.params;
     if (channel_id != new_channel_id)
-      this.props.history.push(`/workspace/${workspace_address}/${new_channel_id}`);
+      this.props.navigate(`/workspace/${workspace_address}/${new_channel_id}`);
   }
 
   leaveDmChannel(channel_id) {
@@ -127,7 +129,7 @@ class WorkspaceSidebar extends React.Component {
   starred() {
     let starred = this.getChannels(true);
     starred = starred.concat(this.getChannels(true, true))
-    let { channel_id } = this.props.match.params;
+    let { channel_id } = this.props.params;
 
     if (starred.length > 0) 
       return (
@@ -159,7 +161,7 @@ class WorkspaceSidebar extends React.Component {
   }
 
   render() {
-    let { channel_id } = this.props.match.params;
+    let { channel_id } = this.props.params;
 
     if (this.props.user) 
       return (
@@ -259,4 +261,4 @@ class WorkspaceSidebar extends React.Component {
   }
 }
 
-export default WorkspaceSidebar;
+export default withRouter(WorkspaceSidebar);

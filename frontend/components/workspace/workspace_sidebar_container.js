@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 
 import WorkspaceSidebar from './workspace_sidebar';
 import { endDmChannel } from '../../actions/dm_channel_actions';
@@ -18,10 +17,10 @@ const mapDispatchToProps = (dispatch) => ({
   endDmChannel: (dmChannelInfo) => dispatch(endDmChannel(dmChannelInfo))
 })
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(WorkspaceSidebar))
+)(WorkspaceSidebar)
 
 
 
