@@ -1,7 +1,8 @@
 import React from "react";
-import { withRouter } from "react-router";
 import { getUserActivity, getUserName, getUserPaused, sortedUsers, userInSearch } from "../../../selectors/selectors";
 import { toggleFocusElements } from "../../../util/modal_api_util";
+
+import { withNavigate, withParams } from "../../../withRouter";
 
 class PeopleBrowser extends React.Component {
   constructor(props) {
@@ -42,8 +43,8 @@ class PeopleBrowser extends React.Component {
   }
 
   goToChannel(channel_id) {
-    let workspace_address = this.props.match.params.workspace_address;
-    this.props.history.push(`/workspace/${workspace_address}/${channel_id}`);
+    let workspace_address = this.props.params.workspace_address;
+    this.props.navigate(`/workspace/${workspace_address}/${channel_id}`);
   }
 
   getUserInfo(user) {
@@ -133,4 +134,4 @@ class PeopleBrowser extends React.Component {
   }
 }
 
-export default withRouter(PeopleBrowser);
+export default withNavigate(PeopleBrowser);

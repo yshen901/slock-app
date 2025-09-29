@@ -4,7 +4,7 @@ import { postWorkspace, getWorkspace } from '../../actions/workspace_actions';
 import { focus } from '../../util/modal_api_util';
 import { findWorkspace } from '../../actions/workspace_actions';
 
-import withNavigate from '../../withNavigate';
+import { withNavigate } from '../../withRouter';
 
 class WorkspaceForm extends React.Component {
   constructor() {

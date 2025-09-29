@@ -14,9 +14,7 @@ const mapDispatchToProps = (dispatch) => ({
   joinChannel: (channelId) => dispatch(joinChannel(channelId)),
 });
 
-export default withRouter(
-  connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(ChannelBrowser)
-);
+  )(ChannelBrowser);

@@ -13,9 +13,7 @@ const mapDispatchToProps = (dispatch) => ({
   startDmChannel: (dmChannelInfo) => dispatch(startDmChannel(dmChannelInfo)),
 });
 
-export default withRouter(
-  connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(PeopleBrowser)
-);
+  )(PeopleBrowser);

@@ -8,7 +8,7 @@ import { hideElements, focus } from '../../util/modal_api_util';
 
 import {DEMO_WORKSPACE} from "../../actions/session_actions";
 
-import withNavigate from "../../withNavigate";
+import { withNavigate } from "../../withRouter";
 
 class UserSigninForm extends React.Component {
   constructor(props) {
