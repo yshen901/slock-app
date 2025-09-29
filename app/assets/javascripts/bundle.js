@@ -116,43 +116,39 @@ var LOAD_CHANNEL = "LOAD_CHANNEL";
 var RECEIVE_CHANNEL = "RECEIVE_CHANNEL";
 var JOIN_CHANNEL = "JOIN_CHANNEL";
 var LEAVE_CHANNEL = "LEAVE_CHANNEL";
-var RECEIVE_CHANNEL_USER = "RECEIVE_CHANNEL_USER"; // DESIGN: SIMPLY CHANGES SESSION.CHANNEL_ID
+var RECEIVE_CHANNEL_USER = "RECEIVE_CHANNEL_USER";
 
+// DESIGN: SIMPLY CHANGES SESSION.CHANNEL_ID
 var loadChannel = function loadChannel(channel_id) {
   return {
     type: LOAD_CHANNEL,
     channel_id: channel_id
   };
 };
-
 var receiveChannel = function receiveChannel(channel) {
   return {
     type: RECEIVE_CHANNEL,
     channel: channel
   };
 };
-
 var loginChannel = function loginChannel(channel_user) {
   return {
     type: JOIN_CHANNEL,
     channel_user: channel_user
   };
 };
-
 var logoutChannel = function logoutChannel(channel_user) {
   return {
     type: LEAVE_CHANNEL,
     channel_user: channel_user
   };
 };
-
 var receiveChannelUser = function receiveChannelUser(channel_user) {
   return {
     type: RECEIVE_CHANNEL_USER,
     channel_user: channel_user
   };
 };
-
 var postChannel = function postChannel(channel) {
   return function (dispatch) {
     return _util_channel_api_util__WEBPACK_IMPORTED_MODULE_0__["postChannel"](channel).then(function (channel) {
@@ -161,8 +157,9 @@ var postChannel = function postChannel(channel) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-}; // passes up channel_id and workspace_id
+};
 
+// passes up channel_id and workspace_id
 var joinChannel = function joinChannel(data) {
   return function (dispatch) {
     return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["postChannelUser"](data).then(function (channel_user) {
@@ -171,8 +168,9 @@ var joinChannel = function joinChannel(data) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-}; // Instead of deleting channel_user, make active false
+};
 
+// Instead of deleting channel_user, make active false
 var leaveChannel = function leaveChannel(channel_id) {
   return function (dispatch) {
     return _util_channel_user_api_util__WEBPACK_IMPORTED_MODULE_1__["updateChannelUser"]({
@@ -227,28 +225,24 @@ __webpack_require__.r(__webpack_exports__);
 
 var RECEIVE_DM_CHANNEL = "RECEIVE_DM_CHANNEL";
 var LEAVE_DM_CHANNEL = "LEAVE_DM_CHANNEL";
-
 var joinDmChannel = function joinDmChannel(dmChannelUser) {
   return {
     type: RECEIVE_DM_CHANNEL,
     dmChannelUser: dmChannelUser
   };
 };
-
 var leaveDmChannel = function leaveDmChannel(dmChannelUser) {
   return {
     type: LEAVE_DM_CHANNEL,
     dmChannelUser: dmChannelUser
   };
 };
-
 var receiveDmChannel = function receiveDmChannel(dmChannelUser) {
   return {
     type: RECEIVE_DM_CHANNEL,
     dmChannelUser: dmChannelUser
   };
 };
-
 var startDmChannel = function startDmChannel(channelInfo) {
   return function (dispatch) {
     return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["startDmChannel"](channelInfo).then(function (dmChannelUser) {
@@ -266,8 +260,9 @@ var endDmChannel = function endDmChannel(channelInfo) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_1__["receiveErrors"])(errors));
     });
   };
-}; // Join dmChannel that has already been created
+};
 
+// Join dmChannel that has already been created
 var restartDmChannel = function restartDmChannel(channelInfo) {
   return function (dispatch) {
     return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["endDmChannel"](channelInfo).then(function (dmChannelUser) {
@@ -276,8 +271,9 @@ var restartDmChannel = function restartDmChannel(channelInfo) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_1__["receiveErrors"])(errors));
     });
   };
-}; // Update dmChannel's starred status
+};
 
+// Update dmChannel's starred status
 var updateDmChannel = function updateDmChannel(channelInfo) {
   return function (dispatch) {
     return _util_dm_channel_user_util__WEBPACK_IMPORTED_MODULE_0__["updateDmChannel"](channelInfo).then(function (dmChannelUser) {
@@ -372,15 +368,15 @@ var RECEIVE_MESSAGE_REACT = "RECEIVE_MESSAGE_REACT";
 var REMOVE_MESSAGE_REACT = "REMOVE_MESSAGE_REACT";
 var RECEIVE_MESSAGE_SAVES = "RECEIVE_MESSAGE_SAVES";
 var RECEIVE_MESSAGE_SAVE = "RECEIVE_MESSAGE_SAVE";
-var REMOVE_MESSAGE_SAVE = "REMOVE_MESSAGE_SAVE"; // MESSAGE ACTIONS
+var REMOVE_MESSAGE_SAVE = "REMOVE_MESSAGE_SAVE";
 
+// MESSAGE ACTIONS
 var loadMessages = function loadMessages(messages) {
   return {
     type: LOAD_MESSAGES,
     messages: messages
   };
 };
-
 var receiveMessage = function receiveMessage(message) {
   return {
     type: RECEIVE_MESSAGE,
@@ -428,8 +424,9 @@ var deleteMessage = function deleteMessage(message) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
     });
   };
-}; // REACT ACTIONS
+};
 
+// REACT ACTIONS
 var receiveMessageReact = function receiveMessageReact(message_react) {
   return {
     type: RECEIVE_MESSAGE_REACT,
@@ -459,18 +456,18 @@ var deleteMessageReact = function deleteMessageReact(message_react) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_3__["receiveErrors"])(errors));
     });
   };
-}; // SAVE ACTIONS
+};
 
+// SAVE ACTIONS
 var receiveMessageSaves = function receiveMessageSaves(_ref) {
   var message_saves = _ref.message_saves,
-      messages = _ref.messages;
+    messages = _ref.messages;
   return {
     type: RECEIVE_MESSAGE_SAVES,
     message_saves: message_saves,
     messages: messages
   };
 };
-
 var receiveMessageSave = function receiveMessageSave(message_save) {
   message_save.message_save_id = message_save.id;
   return {
@@ -539,16 +536,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var RECEIVE_USER = 'RECEIVE_USER';
-var LOGOUT = 'LOGOUT'; // DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
+var LOGOUT = 'LOGOUT';
 
+// DEFAULT WORKSPACE EVERYONE IS PLACED INTO UPON SIGNUP
 var DEMO_WORKSPACE = 'demo-workspace';
+
 /* NOTE: How actions (thunk and creater) work
        1) Receives currentUser, as this action is the same regardless of signin/logout
              the change to the state is the same!
        2) This action after dispatched will go through each reducer, so an action
              like this can actually affect both session and user! 
 */
-
 var receiveUser = function receiveUser(currentUser) {
   return {
     type: RECEIVE_USER,
@@ -682,19 +680,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var RECEIVE_WORKSPACE = "RECEIVE_WORKSPACE"; //adds workspace to state
-
 var RECEIVE_WORKSPACES = "RECEIVE_WORKSPACES"; //adds all workspaces to state
-
 var REMOVE_WORKSPACE = "REMOVE_WORKSPACE"; //removes workspace from state
-
 var LOAD_WORKSPACE = "LOAD_WORKSPACE"; //adds workspace info (users, id, and current_user_channels) to state
 
 var receiveWorkspace = function receiveWorkspace(_ref) {
   var workspace = _ref.workspace,
-      users = _ref.users,
-      user_channels = _ref.user_channels,
-      channels = _ref.channels,
-      user_saved_messages = _ref.user_saved_messages;
+    users = _ref.users,
+    user_channels = _ref.user_channels,
+    channels = _ref.channels,
+    user_saved_messages = _ref.user_saved_messages;
   return {
     type: RECEIVE_WORKSPACE,
     workspace: workspace,
@@ -703,15 +698,15 @@ var receiveWorkspace = function receiveWorkspace(_ref) {
     user_channels: user_channels,
     user_saved_messages: user_saved_messages
   };
-}; // Loads workspace info into other slices
+};
 
-
+// Loads workspace info into other slices
 var loadWorkspace = function loadWorkspace(_ref2) {
   var workspace = _ref2.workspace,
-      users = _ref2.users,
-      user_channels = _ref2.user_channels,
-      channels = _ref2.channels,
-      user_saved_messages = _ref2.user_saved_messages;
+    users = _ref2.users,
+    user_channels = _ref2.user_channels,
+    channels = _ref2.channels,
+    user_saved_messages = _ref2.user_saved_messages;
   return {
     type: LOAD_WORKSPACE,
     workspace: workspace,
@@ -721,29 +716,27 @@ var loadWorkspace = function loadWorkspace(_ref2) {
     user_saved_messages: user_saved_messages
   };
 };
-
 var removeWorkspace = function removeWorkspace(workspace) {
   return {
     type: REMOVE_WORKSPACE,
     workspace: workspace
   };
 };
-
 var receiveWorkspaces = function receiveWorkspaces(workspaces) {
   return {
     type: RECEIVE_WORKSPACES,
     workspaces: workspaces
   };
 };
-
 var findWorkspace = function findWorkspace(workspace_address) {
   return function (dispatch) {
     return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["getWorkspace"](workspace_address).then(null, function (errors) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-}; // Gets workspaces of current user into workspaces slice
+};
 
+// Gets workspaces of current user into workspaces slice
 var getWorkspaces = function getWorkspaces() {
   return function (dispatch) {
     return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["getWorkspaces"]().then(function (workspaces) {
@@ -752,8 +745,9 @@ var getWorkspaces = function getWorkspaces() {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-}; // Loads workspace's info into other entities slices
+};
 
+// Loads workspace's info into other entities slices
 var getWorkspace = function getWorkspace(workspace_address) {
   return function (dispatch) {
     return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["getWorkspace"](workspace_address).then(function (workspaceInfo) {
@@ -762,8 +756,9 @@ var getWorkspace = function getWorkspace(workspace_address) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-}; // After creating workspaces, load the workspace  as well
+};
 
+// After creating workspaces, load the workspace  as well
 var postWorkspace = function postWorkspace(workspace) {
   return function (dispatch) {
     return _util_workspace_api_util__WEBPACK_IMPORTED_MODULE_0__["postWorkspace"](workspace).then(function (workspace) {
@@ -772,9 +767,10 @@ var postWorkspace = function postWorkspace(workspace) {
       return dispatch(Object(_error_actions__WEBPACK_IMPORTED_MODULE_2__["receiveErrors"])(errors));
     });
   };
-}; // Logs out of a single workspace by setting connection logged_in flag to false
-// Then removes it from state
+};
 
+// Logs out of a single workspace by setting connection logged_in flag to false
+// Then removes it from state
 var logoutWorkspace = function logoutWorkspace(workspace_id) {
   return function (dispatch) {
     return _util_connection_api_util__WEBPACK_IMPORTED_MODULE_1__["logoutWorkspace"](workspace_id).then(function (workspace) {
@@ -808,29 +804,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _workspace_workspace_container__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./workspace/workspace_container */ "./frontend/components/workspace/workspace_container.js");
 /* harmony import */ var _auth_workspace_form__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./auth/workspace_form */ "./frontend/components/auth/workspace_form.jsx");
 /* harmony import */ var _channel_channel_chat_video__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./channel/channel_chat_video */ "./frontend/components/channel/channel_chat_video.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -844,18 +830,13 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var App = /*#__PURE__*/function (_React$Component) {
   _inherits(App, _React$Component);
-
   var _super = _createSuper(App);
-
   function App() {
     _classCallCheck(this, App);
-
     return _super.apply(this, arguments);
   }
-
   _createClass(App, [{
     key: "render",
-
     /* NOTE: How to route to a path with params
                a) component must be wraped in withRouter
                b) Route must be wrapped in Router (done already in root.jsx)
@@ -900,10 +881,8 @@ var App = /*#__PURE__*/function (_React$Component) {
       }));
     }
   }]);
-
   return App;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (App);
 
 /***/ }),
@@ -920,42 +899,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 var AuthFooter = /*#__PURE__*/function (_React$Component) {
   _inherits(AuthFooter, _React$Component);
-
   var _super = _createSuper(AuthFooter);
-
   function AuthFooter() {
     _classCallCheck(this, AuthFooter);
-
     return _super.apply(this, arguments);
   }
-
   _createClass(AuthFooter, [{
     key: "render",
     value: function render() {
@@ -1043,10 +1008,8 @@ var AuthFooter = /*#__PURE__*/function (_React$Component) {
       }, "Status")));
     }
   }]);
-
   return AuthFooter;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (AuthFooter);
 
 /***/ }),
@@ -1064,43 +1027,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 var AuthNav = /*#__PURE__*/function (_React$Component) {
   _inherits(AuthNav, _React$Component);
-
   var _super = _createSuper(AuthNav);
-
   function AuthNav() {
     _classCallCheck(this, AuthNav);
-
     return _super.apply(this, arguments);
   }
-
   _createClass(AuthNav, [{
     key: "right",
     value: function right() {
@@ -1116,12 +1065,10 @@ var AuthNav = /*#__PURE__*/function (_React$Component) {
         // Returns either signin or signup button depending on the page
         var link = '/signin';
         var linkName = "Sign In";
-
         if (window.location.href.indexOf('signin') >= 0) {
           link = '/signup';
           linkName = "Sign Up";
         }
-
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "right"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
@@ -1145,10 +1092,8 @@ var AuthNav = /*#__PURE__*/function (_React$Component) {
       }))), this.right());
     }
   }]);
-
   return AuthNav;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (AuthNav);
 
 /***/ }),
@@ -1170,31 +1115,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_workspace_dropdown__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modals/workspace_dropdown */ "./frontend/components/modals/workspace_dropdown.jsx");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -1204,17 +1138,14 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var UserSigninForm = /*#__PURE__*/function (_React$Component) {
   _inherits(UserSigninForm, _React$Component);
-
   var _super = _createSuper(UserSigninForm);
-
   function UserSigninForm(props) {
     var _this;
-
     _classCallCheck(this, UserSigninForm);
+    _this = _super.call(this, props);
 
-    _this = _super.call(this, props); // this.props.workspace_address is from the url params and is taken in using withRouter.
+    // this.props.workspace_address is from the url params and is taken in using withRouter.
     //     to dry up code, I have moved this prop into the container
-
     _this.state = {
       workspace_address: _this.props.workspace_address,
       email: "",
@@ -1227,17 +1158,14 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
     _this.demoAction = _this.demoAction.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(UserSigninForm, [{
     key: "checkWorkspace",
     value: function checkWorkspace(address) {
       var _this2 = this;
-
       this.props.findWorkspace(address).then(null, function () {
         return _this2.props.history.replace('/signin');
       });
     } // Only check workspace when looking at signin form
-
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
@@ -1253,12 +1181,10 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
     */
     //NOTE: CHAIN DISPATCH(SOMETHING).THEN(...) TO ENSURE SYNCRONOUS BEHAVIOR
     //INTERESTING BUG: IF INFO IN THEN ISN'T A CALLBACK, IT IS RUN IMMEDIATELY RATHER THAN AFTER THE PROMISE IS DONE
-
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       var _this3 = this;
-
       // this.props.processForm(this.state)
       //   .then(
       //     () => this.props.getWorkspaces()
@@ -1276,10 +1202,8 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
     key: "updateForm",
     value: function updateForm(type) {
       var _this4 = this;
-
       return function (e) {
         if (getState().errors.session.length > 0) _this4.props.refreshErrors();
-
         _this4.setState(_defineProperty({}, type, e.currentTarget.value));
       };
     }
@@ -1288,28 +1212,23 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
     value: function createGreeting() {
       return "".concat(this.props.formType, " to ").concat(this.state.workspace_address, ".slock.com");
     } // Can only be triggered by demoButton
-
   }, {
     key: "demoAction",
     value: function demoAction(action) {
       var _this5 = this;
-
       return function (e) {
         e.preventDefault();
         e.stopPropagation();
         var demoEmail = "demoUser@slock.com";
         var demoPassword = "demoPassword";
-
         if (action == 2) {
           demoEmail = "gandalf@slock.com";
           demoPassword = "zunera";
         }
-
         _this5.setState({
           email: "",
           password: ""
         });
-
         var _loop = function _loop(i) {
           setTimeout(function () {
             _this5.setState({
@@ -1317,11 +1236,9 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
             });
           }, i * 30);
         };
-
         for (var i = 0; i < demoEmail.length; i++) {
           _loop(i);
         }
-
         var _loop2 = function _loop2(_i) {
           setTimeout(function () {
             _this5.setState({
@@ -1329,17 +1246,14 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
             });
           }, _i * 30 + demoEmail.length * 30);
         };
-
         for (var _i = 0; _i < demoPassword.length; _i++) {
           _loop2(_i);
         }
-
         setTimeout(function () {
           _this5.handleSubmit();
         }, (demoEmail.length + demoPassword.length) * 31);
       };
     } // Only shows for the demo workspace
-
   }, {
     key: "demoButton",
     value: function demoButton() {
@@ -1359,24 +1273,20 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this6 = this;
-
       var greeting = this.createGreeting();
       var _this$state = this.state,
-          password = _this$state.password,
-          password_confirm = _this$state.password_confirm,
-          email = _this$state.email; // Renders user auth errors
-
+        password = _this$state.password,
+        password_confirm = _this$state.password_confirm,
+        email = _this$state.email; // Renders user auth errors
       var error_class = "auth-errors hidden";
       var error_messages = [];
-
       if (getState().errors.session.length > 0) {
         error_class = "auth-errors";
         error_messages.push(0);
-      } // Checks for password confirmation when signing in
+      }
 
-
+      // Checks for password confirmation when signing in
       var passwordConfirm = "";
-
       if (this.props.formType == "Sign up") {
         passwordConfirm = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "password",
@@ -1384,7 +1294,6 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
           placeholder: "confirm password",
           value: this.state.password_confirm
         });
-
         if (password && password.length < 6) {
           error_class = "auth-errors";
           error_messages.push(2);
@@ -1392,9 +1301,9 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
           error_class = "auth-errors";
           error_messages.push(1);
         }
-      } // Disables the button if conditions aren't met
+      }
 
-
+      // Disables the button if conditions aren't met
       var disabled = "";
       if (password == "" || email == "") disabled = "disabled";else if (this.props.formType == "Sign up" && (password_confirm == "" || password_confirm != password)) disabled = "disabled";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1435,10 +1344,8 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
       })), this.demoButton(), this.demoButtonAlt()));
     }
   }]);
-
   return UserSigninForm;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (UserSigninForm);
 
 /***/ }),
@@ -1464,10 +1371,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /* NOTE: How to access the link params (/signin/:workspace_address)
             ...must use withRouter to be able to access
 */
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     formType: "Sign in",
@@ -1475,7 +1382,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     error_messages: ["Invalid username/password. Please try again or contact workspace owner."]
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
     processForm: function processForm(user) {
@@ -1492,7 +1398,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_user_auth_form__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
@@ -1518,7 +1423,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state) {
   return {
     formType: "Sign up",
@@ -1527,7 +1431,6 @@ var mapStateToProps = function mapStateToProps(state) {
     workspace_address: ""
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     processForm: function processForm(user) {
@@ -1544,7 +1447,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_user_auth_form__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
@@ -1563,31 +1465,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -1595,14 +1486,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
   _inherits(WorkspaceForm, _React$Component);
-
   var _super = _createSuper(WorkspaceForm);
-
   function WorkspaceForm() {
     var _this;
-
     _classCallCheck(this, WorkspaceForm);
-
     _this = _super.call(this);
     _this.state = {
       page: "address",
@@ -1619,7 +1506,6 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
     _this.handleKeyPress = _this.handleKeyPress.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(WorkspaceForm, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
@@ -1629,7 +1515,6 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
     key: "nextButton",
     value: function nextButton(type) {
       var _this2 = this;
-
       if (this.state.disabled) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick() {
           return _this2.handleSubmit(type);
@@ -1641,12 +1526,10 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
         }
       }, "Next");
     } // Listens for enter key to submit
-
   }, {
     key: "handleKeyPress",
     value: function handleKeyPress(type) {
       var _this3 = this;
-
       return function (e) {
         if (e.key === 'Enter' && !_this3.state.disabled) {
           _this3.handleSubmit(type);
@@ -1657,7 +1540,6 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(type) {
       var _this4 = this;
-
       switch (type) {
         case "address":
           dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["findWorkspace"])(this.state.address)).then(function () {
@@ -1674,13 +1556,11 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
             });
           });
           break;
-
         case "channel":
           this.setState({
             page: "finish"
           });
           break;
-
         case "finish":
           //TODO1: FLASH ERRORS UPON RE-RENDER
           dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["postWorkspace"])(this.state)).then(function (_ref) {
@@ -1699,19 +1579,15 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
     key: "updateField",
     value: function updateField(type) {
       var _this5 = this;
-
       return function (e) {
         var _this5$setState;
-
         var value = e.currentTarget.value;
         if (value === '') _this5.setState((_this5$setState = {}, _defineProperty(_this5$setState, type, value), _defineProperty(_this5$setState, "disabled", true), _this5$setState));else {
           var _this5$setState2;
-
           if (value.length == 1 && (value[0] == " " || value[0] == "-")) return;
           var currentVal = value.split('');
           var lastVal = currentVal.pop();
           lastVal === ' ' ? currentVal.push('-') : currentVal.push(lastVal);
-
           _this5.setState((_this5$setState2 = {}, _defineProperty(_this5$setState2, type, currentVal.join('')), _defineProperty(_this5$setState2, "disabled", false), _defineProperty(_this5$setState2, "errors", _defineProperty({}, type, "")), _this5$setState2));
         }
       };
@@ -1727,7 +1603,6 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this6 = this;
-
       switch (this.state.page) {
         case "address":
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1750,7 +1625,6 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
             placeholder: "Ex. aa or app-academy",
             value: this.state.address
           }), this.nextButton("address"), this.renderErrors("address")));
-
         case "channel":
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-create",
@@ -1771,7 +1645,6 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
             placeholder: "Ex. Q1 Budget, User Authentication",
             value: this.state.channel
           }), this.nextButton("channel")));
-
         case "finish":
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "workspace-create",
@@ -1794,10 +1667,8 @@ var WorkspaceForm = /*#__PURE__*/function (_React$Component) {
       }
     }
   }]);
-
   return WorkspaceForm;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(WorkspaceForm));
 
 /***/ }),
@@ -1821,29 +1692,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_error_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../actions/error_actions */ "./frontend/actions/error_actions.jsx");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -1855,14 +1716,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
   _inherits(WorkspaceSigninForm, _React$Component);
-
   var _super = _createSuper(WorkspaceSigninForm);
-
   function WorkspaceSigninForm() {
     var _this;
-
     _classCallCheck(this, WorkspaceSigninForm);
-
     _this = _super.call(this);
     _this.state = {
       workspace_address: ""
@@ -1872,19 +1729,17 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
     _this.demoAction = _this.demoAction.bind(_assertThisInitialized(_this));
     return _this;
   }
+
   /* NOTE: Dispatch returns a PROMISE, reload =/= re-render
       1) Promises are code that are "promised" to run to completion before
          the callbacks in .then(successCallback, errorCallback) are called
       2) Use window.location.reload() to reload the page - this clears the state.
       3) For this case, you don't need to re-direct at all...just force a re-render
   */
-
-
   _createClass(WorkspaceSigninForm, [{
     key: "handleSubmit",
     value: function handleSubmit(e) {
       var _this2 = this;
-
       if (e) e.preventDefault();
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_5__["findWorkspace"])(this.state.workspace_address)).then(function () {
         return _this2.props.history.push("/signin/".concat(_this2.state.workspace_address));
@@ -1906,19 +1761,16 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
         workspace_address: currentVal.join('')
       });
     } // Can only be triggered by demoButton
-
   }, {
     key: "demoAction",
     value: function demoAction(e) {
       var _this3 = this;
-
       e.preventDefault();
       e.stopPropagation();
       var demoWorkspaceAddress = _actions_session_actions__WEBPACK_IMPORTED_MODULE_8__["DEMO_WORKSPACE"];
       this.setState({
         workspace_address: ""
       });
-
       var _loop = function _loop(i) {
         setTimeout(function () {
           _this3.setState({
@@ -1926,16 +1778,13 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
           });
         }, i * 30);
       };
-
       for (var i = 0; i < demoWorkspaceAddress.length; i++) {
         _loop(i);
       }
-
       setTimeout(function () {
         _this3.handleSubmit();
       }, demoWorkspaceAddress.length * 31);
     } // Only shows for the demo workspace
-
   }, {
     key: "demoButton",
     value: function demoButton() {
@@ -1948,12 +1797,10 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var errors = getState().errors.session;
       var error_class = "auth-errors hidden";
-
       if (errors.length > 0) {
         error_class = "auth-errors";
         dispatch(Object(_actions_error_actions__WEBPACK_IMPORTED_MODULE_6__["refreshErrors"])());
       }
-
       var disabled = "";
       if (this.state.workspace_address == "") disabled = "disabled";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1983,10 +1830,8 @@ var WorkspaceSigninForm = /*#__PURE__*/function (_React$Component) {
       }), this.demoButton())));
     }
   }]);
-
   return WorkspaceSigninForm;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (WorkspaceSigninForm);
 
 /***/ }),
@@ -2004,54 +1849,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelBrowser, _React$Component);
-
   var _super = _createSuper(ChannelBrowser);
-
   function ChannelBrowser(props) {
     var _this;
-
     _classCallCheck(this, ChannelBrowser);
-
     _this = _super.call(this, props);
     _this.state = {
       search: ""
@@ -2062,15 +1887,14 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(ChannelBrowser, [{
     key: "leaveChannel",
     value: function leaveChannel(channel) {
       var _this2 = this;
-
       return function (e) {
         e.stopPropagation();
-        if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
+        if (channel.name !== "general")
+          //PREVENTS ACTION (DOUBLE PRECAUTION)
           _this2.props.leaveChannel(channel.id).then(function () {
             _this2.props.loginACChannel.speak({
               channel_data: {
@@ -2086,13 +1910,11 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
     key: "joinChannel",
     value: function joinChannel(channel) {
       var _this3 = this;
-
       return function (e) {
         e.stopPropagation();
         var _this3$props = _this3.props,
-            workspace_id = _this3$props.workspace_id,
-            user_id = _this3$props.user_id;
-
+          workspace_id = _this3$props.workspace_id,
+          user_id = _this3$props.user_id;
         _this3.props.joinChannel({
           channel_id: channel.id,
           workspace_id: workspace_id
@@ -2104,7 +1926,6 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
               channel_id: channel.id
             }
           });
-
           _this3.props.history.push("/workspace/".concat(_this3.props.match.params.workspace_address, "/").concat(channel.id));
         });
       };
@@ -2113,7 +1934,6 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
     key: "channelsList",
     value: function channelsList(searchString) {
       var _this4 = this;
-
       var user_id = this.props.user_id;
       var channels = [];
       if (this.props.channels) channels = Object.values(this.props.channels).filter(function (channel) {
@@ -2132,7 +1952,6 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
         className: "fas fa-check"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Joined"));
       var displayed_channels = [];
-
       var _loop = function _loop(i) {
         if (searchString.length === 0 || channels[i].name.includes(searchString)) {
           numMembers = Object.keys(channels[i].users).length;
@@ -2155,7 +1974,7 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
             className: joined ? "button" : "button green",
             onClick: joined ? _this4.leaveChannel(channels[i]) : _this4.joinChannel(channels[i])
           }, joined ? "Leave" : "Join"));
-          displayed_channels.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          displayed_channels.push(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "browser-list-item",
             key: i,
             onClick: function onClick() {
@@ -2168,11 +1987,9 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
           }, joined ? channelStatus : "", joined ? divider : "", channelMembers, channelTopic ? divider : "", channelTopic), channels[i].name == "general" ? "" : buttons));
         }
       };
-
       for (var i = 0; i < channels.length && i < 50; i++) {
         _loop(i);
       }
-
       return [displayed_channels, displayed_channels.length];
     }
   }, {
@@ -2192,10 +2009,9 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this$channelsList = this.channelsList(this.state.search),
-          _this$channelsList2 = _slicedToArray(_this$channelsList, 2),
-          channelsList = _this$channelsList2[0],
-          numChannels = _this$channelsList2[1];
-
+        _this$channelsList2 = _slicedToArray(_this$channelsList, 2),
+        channelsList = _this$channelsList2[0],
+        numChannels = _this$channelsList2[1];
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "browser-channel"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2227,10 +2043,8 @@ var ChannelBrowser = /*#__PURE__*/function (_React$Component) {
       }, channelsList)));
     }
   }]);
-
   return ChannelBrowser;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ChannelBrowser));
 
 /***/ }),
@@ -2252,7 +2066,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     user_id: state.session.user_id,
@@ -2260,7 +2073,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     channels: state.entities.channels
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     leaveChannel: function leaveChannel(channelId) {
@@ -2271,7 +2083,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_channel_browser__WEBPACK_IMPORTED_MODULE_3__["default"])));
 
 /***/ }),
@@ -2290,45 +2101,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
   _inherits(PeopleBrowser, _React$Component);
-
   var _super = _createSuper(PeopleBrowser);
-
   function PeopleBrowser(props) {
     var _this;
-
     _classCallCheck(this, PeopleBrowser);
+    _this = _super.call(this, props);
 
-    _this = _super.call(this, props); // capSearch is so we don't have to do uppercase on caps everytime
-
+    // capSearch is so we don't have to do uppercase on caps everytime
     _this.state = {
       search: "",
       capSearch: ""
@@ -2339,7 +2137,6 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
     _this.allUsers = _this.allUsers.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(PeopleBrowser, [{
     key: "update",
     value: function update(e) {
@@ -2352,17 +2149,14 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
     key: "createDmChannel",
     value: function createDmChannel(userIds, workspaceId) {
       var _this2 = this;
-
       this.props.startDmChannel({
         user_1_id: userIds[0],
         user_2_id: userIds[1],
         workspace_id: workspaceId
       }).then(function (_ref) {
         var dmChannelUser = _ref.dmChannelUser;
-
         // REMEMBER THE THING PASSED BACK IS ACTION
         _this2.goToChannel(dmChannelUser.channel_id);
-
         _this2.setState({
           search: "",
           capSearch: ""
@@ -2403,14 +2197,14 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
     key: "allUsers",
     value: function allUsers() {
       var _this3 = this;
-
       var channelsDisplay = [];
       var users = this.props.users;
-      var usersArray = this.state.capSearch ? Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["sortedUsers"])(users) : Object.values(users); // if (this.state.search.length > 0) {
+      var usersArray = this.state.capSearch ? Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["sortedUsers"])(users) : Object.values(users);
 
+      // if (this.state.search.length > 0) {
       var _loop = function _loop(i) {
         if (Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["userInSearch"])(usersArray[i], _this3.state.capSearch)) {
-          channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          channelsDisplay.push(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: i,
             onClick: function onClick() {
               return _this3.props.showUser(usersArray[i].id);
@@ -2418,19 +2212,16 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
           }, _this3.getUserInfo(usersArray[i])));
         }
       };
-
       for (var i = 0; i < usersArray.length && i < 50; i++) {
         _loop(i);
       }
-
       for (var _i = 0; _i < 10; _i++) {
-        channelsDisplay.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        channelsDisplay.push(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: _i + usersArray.length
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "browse-modal-user placeholder"
         })));
       }
-
       return channelsDisplay;
     }
   }, {
@@ -2471,10 +2262,8 @@ var PeopleBrowser = /*#__PURE__*/function (_React$Component) {
       }, channelsDisplay)));
     }
   }]);
-
   return PeopleBrowser;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(PeopleBrowser));
 
 /***/ }),
@@ -2496,7 +2285,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     user_id: state.session.user_id,
@@ -2504,7 +2292,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     users: state.entities.users
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     startDmChannel: function startDmChannel(dmChannelInfo) {
@@ -2512,7 +2299,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_people_browser__WEBPACK_IMPORTED_MODULE_3__["default"])));
 
 /***/ }),
@@ -2532,41 +2318,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 /* harmony import */ var _modals_user_popup_modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../modals/user_popup_modal */ "./frontend/components/modals/user_popup_modal.jsx");
 /* harmony import */ var _channel_message_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../channel_message_container */ "./frontend/components/channel/channel_message_container.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -2574,14 +2344,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var SavedBrowser = /*#__PURE__*/function (_React$Component) {
   _inherits(SavedBrowser, _React$Component);
-
   var _super = _createSuper(SavedBrowser);
-
   function SavedBrowser(props) {
     var _this;
-
     _classCallCheck(this, SavedBrowser);
-
     _this = _super.call(this, props);
     _this.state = {
       popupUserId: 0,
@@ -2594,14 +2360,13 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
     _this.updateMessage = _this.updateMessage.bind(_assertThisInitialized(_this));
     _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
     return _this;
-  } // Load user's saved messages and begin listening for changes to reacts or saved
+  }
 
-
+  // Load user's saved messages and begin listening for changes to reacts or saved
   _createClass(SavedBrowser, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
-
       this.props.getMessageSaves(this.props.workspace_id).then(function () {
         return _this2.setState({
           loaded: true
@@ -2609,7 +2374,8 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
       });
       this.messageACChannel = App.cable.subscriptions.create({
         channel: "ChatChannel"
-      }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
+      },
+      //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
       {
         received: this.receiveACData,
         speak: function speak(data) {
@@ -2617,21 +2383,18 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
         }
       });
     } // No need to listen for new messages
-
   }, {
     key: "receiveACData",
     value: function receiveACData(data) {
       var message = data.message;
       if (message.type != "PUT") this.updateMessage(message);
     } // Updates message when other users react to my saved message
-
   }, {
     key: "updateMessage",
     value: function updateMessage(message) {
       var _this$props = this.props,
-          user_id = _this$props.user_id,
-          user_saved_messages = _this$props.user_saved_messages;
-
+        user_id = _this$props.user_id,
+        user_saved_messages = _this$props.user_saved_messages;
       if (message.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_MESSAGE_REACT"] && user_id != message.user_id && user_saved_messages[message.id]) {
         message.message_id = message.id;
         this.props.receiveMessageReact(message);
@@ -2653,10 +2416,8 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
     key: "toggleUserPopup",
     value: function toggleUserPopup(userId) {
       var _this3 = this;
-
       return function (e) {
         e.stopPropagation();
-
         _this3.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
@@ -2667,7 +2428,6 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
     key: "renderUserPopup",
     value: function renderUserPopup() {
       var _this4 = this;
-
       var users = this.props.users;
       var showUser = this.props.showUser;
       var popupUserId = this.state.popupUserId;
@@ -2708,7 +2468,6 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
     key: "toggleMessageReact",
     value: function toggleMessageReact(messageData, react_code) {
       var _this5 = this;
-
       return function (e) {
         e.preventDefault();
         var user_id = _this5.props.user_id;
@@ -2717,7 +2476,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
           react_code: react_code
         }).then(function (_ref) {
           var message_react = _ref.message_react,
-              type = _ref.type;
+            type = _ref.type;
           return _this5.messageACChannel.speak({
             message: {
               type: type,
@@ -2729,7 +2488,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
           react_code: react_code
         }).then(function (_ref2) {
           var message_react = _ref2.message_react,
-              type = _ref2.type;
+            type = _ref2.type;
           return _this5.messageACChannel.speak({
             message: {
               type: type,
@@ -2743,20 +2502,18 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
     key: "toggleMessageSave",
     value: function toggleMessageSave(messageId) {
       var _this6 = this;
-
       return function (e) {
         e.preventDefault();
         var _this6$props = _this6.props,
-            user_saved_messages = _this6$props.user_saved_messages,
-            workspace_id = _this6$props.workspace_id;
-
+          user_saved_messages = _this6$props.user_saved_messages,
+          workspace_id = _this6$props.workspace_id;
         if (user_saved_messages[messageId]) {
           _this6.props.deleteMessageSave({
             // updates channel chat
             message_id: messageId
           }).then(function (_ref3) {
             var message_save = _ref3.message_save,
-                type = _ref3.type;
+              type = _ref3.type;
             return _this6.messageACChannel.speak({
               message: {
                 type: type,
@@ -2770,7 +2527,7 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
           workspace_id: workspace_id
         }).then(function (_ref4) {
           var message_save = _ref4.message_save,
-              type = _ref4.type;
+            type = _ref4.type;
           return _this6.messageACChannel.speak({
             message: {
               type: type,
@@ -2792,16 +2549,14 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
     key: "messageReactsList",
     value: function messageReactsList(messageData) {
       var _this7 = this;
-
       var total_reacts = Object.entries(messageData.total_reacts);
       if (total_reacts.length == 0) return;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-reacts-list"
       }, total_reacts.map(function (_ref5, idx) {
         var _ref6 = _slicedToArray(_ref5, 2),
-            react_code = _ref6[0],
-            num = _ref6[1];
-
+          react_code = _ref6[0],
+          num = _ref6[1];
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-react",
           key: idx,
@@ -2832,7 +2587,6 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this8 = this;
-
       var user_saved_messages = Object.values(this.props.user_saved_messages);
       user_saved_messages.sort(function (a, b) {
         return a.message_save_id > b.message_save_id ? -1 : 1;
@@ -2869,10 +2623,8 @@ var SavedBrowser = /*#__PURE__*/function (_React$Component) {
       }));
     }
   }]);
-
   return SavedBrowser;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(SavedBrowser));
 
 /***/ }),
@@ -2894,7 +2646,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     users: state.entities.users,
@@ -2904,7 +2655,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     workspace_id: state.session.workspace_id
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getMessageSaves: function getMessageSaves(workspace_id) {
@@ -2936,7 +2686,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_saved_browser__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
@@ -2955,43 +2704,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _channel_nav_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./channel_nav_container */ "./frontend/components/channel/channel_nav_container.js");
 /* harmony import */ var _channel_chat_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_chat_container */ "./frontend/components/channel/channel_chat_container.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var Channel = /*#__PURE__*/function (_React$Component) {
   _inherits(Channel, _React$Component);
-
   var _super = _createSuper(Channel);
-
   function Channel(props) {
     var _this;
-
     _classCallCheck(this, Channel);
-
     _this = _super.call(this, props);
     _this.state = {
       canJoin: _this.canJoin(),
@@ -3000,9 +2735,9 @@ var Channel = /*#__PURE__*/function (_React$Component) {
     _this.leaveChannel = _this.leaveChannel.bind(_assertThisInitialized(_this));
     _this.joinChannel = _this.joinChannel.bind(_assertThisInitialized(_this));
     return _this;
-  } // Ignore transition channel
+  }
 
-
+  // Ignore transition channel
   _createClass(Channel, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
@@ -3016,21 +2751,19 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         canLeave: this.canLeave()
       });
     } // Leaves channel - different logic for dm channel and general channel
-
   }, {
     key: "leaveChannel",
     value: function leaveChannel(e) {
       var _this2 = this;
-
       e.stopPropagation();
       var _this$props = this.props,
-          channel = _this$props.channel,
-          channel_id = _this$props.channel_id,
-          user_id = _this$props.user_id;
+        channel = _this$props.channel,
+        channel_id = _this$props.channel_id,
+        user_id = _this$props.user_id;
       var workspace_address = this.props.match.params.workspace_address;
-
       if (!channel.dm_channel) {
-        if (channel.name !== "general") //PREVENTS ACTION (DOUBLE PRECAUTION)
+        if (channel.name !== "general")
+          //PREVENTS ACTION (DOUBLE PRECAUTION)
           this.props.leaveChannel(parseInt(channel_id)).then(function () {
             _this2.props.loginACChannel.speak({
               channel_data: {
@@ -3039,9 +2772,7 @@ var Channel = /*#__PURE__*/function (_React$Component) {
                 channel_id: channel_id
               }
             });
-
             _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(_this2.props.generalChannelId));
-
             _this2.setState({
               canJoin: true,
               canLeave: false
@@ -3057,7 +2788,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         this.props.endDmChannel(channelInfo).then(function () {
           (function () {
             _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(_this2.props.generalChannelId));
-
             _this2.setState({
               canJoin: true,
               canLeave: false
@@ -3066,17 +2796,14 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         });
       }
     } // Joins channel - different logic for dm channel and general channel
-
   }, {
     key: "joinChannel",
     value: function joinChannel(e) {
       var _this3 = this;
-
       e.stopPropagation();
       var channel = this.props.channel;
       var workspace_id = this.props.channel.workspace_id;
       var user_id = this.props.user_id;
-
       if (channel.dm_channel) {
         this.props.restartDmChannel({
           user_id: user_id,
@@ -3100,7 +2827,6 @@ var Channel = /*#__PURE__*/function (_React$Component) {
               channel_id: channel.id
             }
           });
-
           _this3.setState({
             canJoin: false,
             canLeave: true
@@ -3108,14 +2834,13 @@ var Channel = /*#__PURE__*/function (_React$Component) {
         });
       }
     } // Determines whether a user can join/leave a certain channel
-
   }, {
     key: "canLeave",
     value: function canLeave() {
       var user_channels = getState().session.user_channels;
       var _this$props2 = this.props,
-          channel = _this$props2.channel,
-          channel_id = _this$props2.channel_id;
+        channel = _this$props2.channel,
+        channel_id = _this$props2.channel_id;
       return user_channels[channel_id] !== undefined && channel.name != "general";
     }
   }, {
@@ -3143,10 +2868,8 @@ var Channel = /*#__PURE__*/function (_React$Component) {
       }));
     }
   }]);
-
   return Channel;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Channel));
 
 /***/ }),
@@ -3171,35 +2894,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modals/edit_channel_topic_modal */ "./frontend/components/modals/edit_channel_topic_modal.jsx");
 /* harmony import */ var _modals_edit_channel_description_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modals/edit_channel_description_modal */ "./frontend/components/modals/edit_channel_description_modal.jsx");
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 
- // Modals
 
-
+// Modals
 
 
 
@@ -3207,14 +2921,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var ChannelChat = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelChat, _React$Component);
-
   var _super = _createSuper(ChannelChat);
-
   function ChannelChat(props) {
     var _this;
-
     _classCallCheck(this, ChannelChat);
-
     _this = _super.call(this, props);
     _this.state = {
       messagesList: [],
@@ -3232,13 +2942,13 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     _this.calculatePos = _this.calculatePos.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(ChannelChat, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.messageACChannel = App.cable.subscriptions.create({
         channel: "ChatChannel"
-      }, //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
+      },
+      //AC: MUST MATCH THE NAME OF THE CLASS IN CHAT_CHANNEL.RB
       {
         received: this.receiveACData,
         speak: function speak(data) {
@@ -3248,12 +2958,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       this.loadMessages();
     } // NOTE: CURRENT REFERS TO THE LAST ELEMENT WITH PROPERTY ref={this.bottom}
     // Only trigger for non-transitional channels (channel_id != 0)
-
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       var channel_id = this.props.match.params.channel_id;
-
       if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
         this.setState({
           messagesList: []
@@ -3267,19 +2975,17 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (this.messageACChannel) this.messageACChannel.unsubscribe();
     } // Called when new messages are made, reacts and saves are handled in componentDidUpdate above
     // Also can be called using scrollThrehold, where it will scroll to bottom if moved by a certain amount
-
   }, {
     key: "updateScroll",
     value: function updateScroll(scrollThreshold) {
       var _this$props = this.props,
-          current_user_id = _this$props.current_user_id,
-          messagesData = _this$props.messagesData;
-
+        current_user_id = _this$props.current_user_id,
+        messagesData = _this$props.messagesData;
       if (scrollThreshold && this.scrollBar.current) {
         var _this$scrollBar$curre = this.scrollBar.current,
-            offsetHeight = _this$scrollBar$curre.offsetHeight,
-            scrollTop = _this$scrollBar$curre.scrollTop,
-            scrollHeight = _this$scrollBar$curre.scrollHeight;
+          offsetHeight = _this$scrollBar$curre.offsetHeight,
+          scrollTop = _this$scrollBar$curre.scrollTop,
+          scrollHeight = _this$scrollBar$curre.scrollHeight;
         var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
         if (distanceFromBottom == scrollThreshold) if (this.bottom.current) this.bottom.current.scrollIntoView();
       } else if (messagesData[messagesData.length - 1].user_id == current_user_id) {
@@ -3296,7 +3002,6 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (message.user_id == prevMessage.user_id) if (message.created_time.slice(0, 2) == prevMessage.created_time.slice(0, 2)) return true;
       return false;
     } // Turns messagesData entries into messagesList display components
-
   }, {
     key: "processNewMessage",
     value: function processNewMessage(messagesList, i) {
@@ -3304,11 +3009,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       i = i != null ? i : messagesData.length - 1;
       var created_date = messagesData[i].created_date;
       var grouped = i != 0 && this.groupMessages(messagesData[i], messagesData[i - 1]);
-
       if (i == 0 || created_date !== messagesData[i - 1].created_date) {
         var date = created_date;
         if (date == this.state.currentDate) date = "Today";
-        messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        messagesList.push(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "day-divider no-highlight ".concat(messagesList.length == 0 ? "first" : ""),
           key: messagesList.length
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3317,8 +3021,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           className: "day-divider-date"
         }, date)));
       }
-
-      messagesList.push( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      messagesList.push(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_channel_message_container__WEBPACK_IMPORTED_MODULE_4__["default"], {
         status: this.props.status // decides whether you can interact with messages
         ,
         grouped: grouped,
@@ -3328,54 +3031,47 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
         key: messagesList.length
       }));
     } // Loads raw message data, and preloads message information to speed up future calculations
-
   }, {
     key: "loadMessages",
     value: function loadMessages() {
       var _this2 = this;
-
       var _this$props2 = this.props,
-          getMessages = _this$props2.getMessages,
-          channel_id = _this$props2.channel_id;
+        getMessages = _this$props2.getMessages,
+        channel_id = _this$props2.channel_id;
       getMessages(channel_id).then(function () {
         // popualate messagesList
         var messagesData = _this2.props.messagesData;
         var messagesList = [];
-
         for (var i = 0; i < messagesData.length; i++) {
           _this2.processNewMessage(messagesList, i);
         }
-
         _this2.setState({
           messagesList: messagesList
         });
-
         if (_this2.bottom.current) _this2.bottom.current.scrollIntoView();
       });
     } // Updates the relevant message and if necessary repopulates messagesList to redo time groupings
-
   }, {
     key: "updateMessage",
     value: function updateMessage(messageData) {
       var _this$props3 = this.props,
-          messagesData = _this$props3.messagesData,
-          current_user_id = _this$props3.current_user_id,
-          user_saved_messages = _this$props3.user_saved_messages;
+        messagesData = _this$props3.messagesData,
+        current_user_id = _this$props3.current_user_id,
+        user_saved_messages = _this$props3.user_saved_messages;
       var messagesList = this.state.messagesList;
-
       if (messageData.type == "DELETE") {
-        if (messageData.user_id != current_user_id) // only need to do this for other users
+        if (messageData.user_id != current_user_id)
+          // only need to do this for other users
           this.props.removeMessage(messageData);
         messagesList = [];
-
         for (var i = 0; i < messagesData.length; i++) {
           this.processNewMessage(messagesList, i);
         }
-
         this.setState({
           messagesList: messagesList
         });
-      } else // for updates, reacts, and saves
+      } else
+        // for updates, reacts, and saves
         for (var _i = 0; _i < messagesData.length; _i++) {
           if (messagesData[_i].id == messageData.id) {
             if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_9__["RECEIVE_MESSAGE_REACT"] && messageData.user_id != current_user_id) {
@@ -3385,9 +3081,9 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
                 react_code: messageData.react_code
               };
               var _this$scrollBar$curre2 = this.scrollBar.current,
-                  offsetHeight = _this$scrollBar$curre2.offsetHeight,
-                  scrollTop = _this$scrollBar$curre2.scrollTop,
-                  scrollHeight = _this$scrollBar$curre2.scrollHeight;
+                offsetHeight = _this$scrollBar$curre2.offsetHeight,
+                scrollTop = _this$scrollBar$curre2.scrollTop,
+                scrollHeight = _this$scrollBar$curre2.scrollHeight;
               var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
               this.props.receiveMessageReact(message_react);
               this.setState({
@@ -3404,27 +3100,24 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               this.props.removeMessageReact(_message_react);
             } // called when user saves in another window
             else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_9__["RECEIVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && !user_saved_messages[messageData.id]) {
-                var _this$scrollBar$curre3 = this.scrollBar.current,
-                    _offsetHeight = _this$scrollBar$curre3.offsetHeight,
-                    _scrollTop = _this$scrollBar$curre3.scrollTop,
-                    _scrollHeight = _this$scrollBar$curre3.scrollHeight;
-
-                var _distanceFromBottom = _scrollHeight - _offsetHeight - _scrollTop;
-
-                this.props.receiveMessageSave({
-                  message_id: messageData.id
-                });
-                this.setState({
-                  messagesList: messagesList,
-                  oldDistanceFromBottom: _distanceFromBottom
-                });
-                this.updateScroll();
-              } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_9__["REMOVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && user_saved_messages[messageData.id]) {
-                this.props.removeMessageSave({
-                  message_id: messageData.id
-                });
-              }
-
+              var _this$scrollBar$curre3 = this.scrollBar.current,
+                _offsetHeight = _this$scrollBar$curre3.offsetHeight,
+                _scrollTop = _this$scrollBar$curre3.scrollTop,
+                _scrollHeight = _this$scrollBar$curre3.scrollHeight;
+              var _distanceFromBottom = _scrollHeight - _offsetHeight - _scrollTop;
+              this.props.receiveMessageSave({
+                message_id: messageData.id
+              });
+              this.setState({
+                messagesList: messagesList,
+                oldDistanceFromBottom: _distanceFromBottom
+              });
+              this.updateScroll();
+            } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_9__["REMOVE_MESSAGE_SAVE"] && messageData.user_id == current_user_id && user_saved_messages[messageData.id]) {
+              this.props.removeMessageSave({
+                message_id: messageData.id
+              });
+            }
             break;
           }
         }
@@ -3434,21 +3127,19 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     value: function receiveACData(data) {
       var message_data = data.message_data; //extract the data
       // For message updates and deletions
-
       if (message_data.type != "PUT") {
         this.updateMessage(message_data);
       } else {
         var message = message_data.message,
-            dm_channel = message_data.dm_channel; // loads the message if its to the current channel
-
+          dm_channel = message_data.dm_channel; // loads the message if its to the current channel
         if (message.channel_id == this.props.channel_id) {
           this.props.receiveMessage(message);
           var messagesData = this.props.messagesData;
           var messagesList = this.state.messagesList;
           var _this$scrollBar$curre4 = this.scrollBar.current,
-              offsetHeight = _this$scrollBar$curre4.offsetHeight,
-              scrollTop = _this$scrollBar$curre4.scrollTop,
-              scrollHeight = _this$scrollBar$curre4.scrollHeight;
+            offsetHeight = _this$scrollBar$curre4.offsetHeight,
+            scrollTop = _this$scrollBar$curre4.scrollTop,
+            scrollHeight = _this$scrollBar$curre4.scrollHeight;
           var distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
           this.processNewMessage(messagesList, messagesData.length - 1);
           this.setState({
@@ -3472,10 +3163,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     key: "toggleUserPopup",
     value: function toggleUserPopup(userId) {
       var _this3 = this;
-
       return function (e) {
         e.stopPropagation();
-
         _this3.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
@@ -3486,10 +3175,9 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     key: "renderUserPopup",
     value: function renderUserPopup() {
       var _this4 = this;
-
       var _this$props4 = this.props,
-          users = _this$props4.users,
-          showUser = _this$props4.showUser;
+        users = _this$props4.users,
+        showUser = _this$props4.showUser;
       var popupUserId = this.state.popupUserId;
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
         user: users[popupUserId],
@@ -3544,10 +3232,8 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_name_modal__WEBPACK_IMPORTED_MODULE_6__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_topic_modal__WEBPACK_IMPORTED_MODULE_7__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_edit_channel_description_modal__WEBPACK_IMPORTED_MODULE_8__["default"], null));
     }
   }]);
-
   return ChannelChat;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ChannelChat));
 
 /***/ }),
@@ -3571,7 +3257,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     users: state.entities.users,
@@ -3582,7 +3267,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     user_saved_messages: state.session.user_saved_messages
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getMessages: function getMessages(channel_id) {
@@ -3612,7 +3296,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_channel_chat__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
@@ -3633,46 +3316,33 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
- // import Webcam from 'react-webcam';
 
-
+// import Webcam from 'react-webcam';
 
 
 var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelVideoChatRoomExternal, _React$Component);
-
   var _super = _createSuper(ChannelVideoChatRoomExternal);
-
   function ChannelVideoChatRoomExternal(props) {
     var _this;
-
     _classCallCheck(this, ChannelVideoChatRoomExternal);
-
     _this = _super.call(this, props);
     _this.state = {
       audio: true,
@@ -3691,32 +3361,33 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     _this.leaveCall = _this.leaveCall.bind(_assertThisInitialized(_this));
     _this.cancelCall = _this.cancelCall.bind(_assertThisInitialized(_this));
     return _this;
-  } // Called when the component is rendered
+  }
+
+  // Called when the component is rendered
   // Instead of webcam, this directly uses navigator to place media into container
-
-
   _createClass(ChannelVideoChatRoomExternal, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
-
       // establish cleanup behavior if the window is closed 
-      window.addEventListener("beforeunload", this.leaveCall); // load workspace
+      window.addEventListener("beforeunload", this.leaveCall);
 
+      // load workspace
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["getWorkspace"])(this.props.match.params.workspace_address)).then(function (_ref) {
         var channels = _ref.channels;
         // Prevents illegal access to video call rooms
         var user_channels = Object.keys(getState().session.user_channels);
         var _this2$props$match$pa = _this2.props.match.params,
-            channel_id = _this2$props$match$pa.channel_id,
-            workspace_address = _this2$props$match$pa.workspace_address;
-        if (!user_channels.includes(channel_id) || !channels[channel_id].dm_channel) _this2.props.history.push("/workspace/".concat(workspace_address, "/0")); // Set loaded to true once workspace loaded
+          channel_id = _this2$props$match$pa.channel_id,
+          workspace_address = _this2$props$match$pa.workspace_address;
+        if (!user_channels.includes(channel_id) || !channels[channel_id].dm_channel) _this2.props.history.push("/workspace/".concat(workspace_address, "/0"));
 
+        // Set loaded to true once workspace loaded
         _this2.setState({
           loaded: true
-        }); // Get user media and setup action cable
+        });
 
-
+        // Get user media and setup action cable
         _this2.remoteVideoContainer = document.getElementById("remote-video-container");
         navigator.mediaDevices.getUserMedia({
           audio: _this2.state.audio,
@@ -3741,32 +3412,27 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
             received: function received(data) {
               var user_id = getState().session.user_id;
               var channel_id = _this2.props.match.params.channel_id;
-              if (data.from == user_id) return; // console.log("RECEIVED: ", data.type);
+              if (data.from == user_id) return;
+              // console.log("RECEIVED: ", data.type);
               // console.log(data);
-
               switch (data.type) {
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["PICKUP_CALL"]:
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["JOIN_CALL"]:
                   return _this2.join(data);
-
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"]:
                   if (data.to != "".concat(user_id)) return;
                   return _this2.exchange(data);
-
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["LEAVE_CALL"]:
                   return _this2.endCall();
                 // return this.removeUser(data); // no need to remove user if we only have one
-
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["REJECT_CALL"]:
                   if (data.target_user_id == user_id && data.channel_id == channel_id) _this2.cancelCall();
                   return;
-
                 case _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["RECEIVED_CALL"]:
                   if (data.target_user_id == user_id && data.channel_id == channel_id) _this2.setState({
                     callReceived: true
                   });
                   return;
-
                 default:
                   return;
               }
@@ -3777,30 +3443,25 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         });
       });
     } // Only needs to be unmounted if loading has finished
-
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       window.removeEventListener("beforeunload", this.leaveCall);
-
       if (this.state.loaded) {
         this.leaveCall();
         window.close();
       }
     } // Triggered when another user joins
-
   }, {
     key: "join",
     value: function join(data) {
       this.createPC(data.from, true);
     } // Triggered to join call on local side (start broadcasting)
     // Also includes channel_id and target_user_id to arrange ping
-
   }, {
     key: "joinCall",
     value: function joinCall(e) {
       var _this3 = this;
-
       var user_id = getState().session.user_id;
       var channel_id = this.props.match.params.channel_id;
       var channels = getState().entities.channels;
@@ -3812,16 +3473,16 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         from: getState().session.user_id,
         channel_id: channel_id,
         target_user_id: target_user_id
-      }; // this.callACChannel.speak(joinCallData);
+      };
+
+      // this.callACChannel.speak(joinCallData);
 
       var i = 0;
       var times = 60;
-
       var callLoop = function callLoop() {
         setTimeout(function () {
           if (i < times && !_this3.state.remoteJoined && !_this3.state.callRejected) {
             if (!_this3.state.callReceived) _this3.callACChannel.speak(joinCallData); // only keep calling if not received
-
             i++;
             callLoop();
           } else if (i == times) {
@@ -3830,10 +3491,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           }
         }, 500);
       };
-
       callLoop();
     } // No need to constantly fire when picking up
-
   }, {
     key: "pickupCall",
     value: function pickupCall(e) {
@@ -3847,13 +3506,11 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     key: "createPC",
     value: function createPC(userId, offerBool) {
       var _this4 = this;
-
       var pc = new RTCPeerConnection(_util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["ice"]);
       this.pcPeers[userId] = pc;
       this.localStream.getTracks().forEach(function (track) {
         return pc.addTrack(track, _this4.localStream);
       });
-
       if (offerBool) {
         pc.createOffer().then(function (offer) {
           pc.setLocalDescription(offer).then(function () {
@@ -3868,7 +3525,6 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           });
         });
       }
-
       pc.onicecandidate = function (e) {
         _this4.callACChannel.speak({
           type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_4__["EXCHANGE"],
@@ -3877,24 +3533,19 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           sdp: JSON.stringify(e.candidate)
         });
       };
-
       pc.ontrack = function (e) {
         if (!_this4.appended) {
           var remoteVid = document.createElement("video");
           remoteVid.id = "remote-video-instance container-".concat(userId);
           remoteVid.autoplay = "autoplay";
           remoteVid.srcObject = e.streams[0];
-
           _this4.remoteVideoContainer.appendChild(remoteVid);
-
           _this4.appended = true;
-
           _this4.setState({
             remoteJoined: true
           });
         }
       };
-
       pc.oniceconnectionstatechange = function (e) {
         if (pc.iceConnectionState === 'disconnected') {
           _this4.callACChannel.speak({
@@ -3904,30 +3555,24 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           });
         }
       };
-
       return pc;
     }
   }, {
     key: "exchange",
     value: function exchange(data) {
       var _this5 = this;
-
       var pc;
-
       if (this.pcPeers[data.from]) {
         pc = this.pcPeers[data.from];
       } else {
         pc = this.createPC(data.from, false);
       }
-
       if (data.candidate) {
         var candidate = JSON.parse(data.candidate);
         pc.addIceCandidate(new RTCIceCandidate(candidate));
       }
-
       if (data.sdp) {
         var sdp = JSON.parse(data.sdp);
-
         if (sdp && !sdp.candidate) {
           pc.setRemoteDescription(sdp).then(function () {
             if (sdp.type === 'offer') {
@@ -3950,11 +3595,9 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     key: "leaveCall",
     value: function leaveCall(e) {
       var pcKeys = Object.keys(this.pcPeers);
-
       for (var i = 0; i < pcKeys.length; i++) {
         this.pcPeers[pcKeys[i]].close();
       }
-
       this.pcPeers = {};
       this.localStream.getTracks().forEach(function (track) {
         track.stop();
@@ -3970,7 +3613,6 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       this.appended = false;
       this.callACChannel.unsubscribe();
     } // When other user ends call
-
   }, {
     key: "endCall",
     value: function endCall() {
@@ -3979,7 +3621,6 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         callEnded: true
       });
     } // When other user doesn't pick up
-
   }, {
     key: "cancelCall",
     value: function cancelCall() {
@@ -4000,7 +3641,6 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         remoteJoined: false
       });
     } // Changes the audio stream by toggled enabled tag
-
   }, {
     key: "toggleAudio",
     value: function toggleAudio() {
@@ -4023,7 +3663,6 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         onClick: this.toggleAudio
       }, action);
     } // Changes the video stream by toggled enabled tag
-
   }, {
     key: "toggleVideo",
     value: function toggleVideo() {
@@ -4047,18 +3686,14 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       }, action);
     } // Adds a leave/join call button to the video chat interface
     // Right now only leave call makes sense...join is tied to other buttons
-
   }, {
     key: "callButton",
     value: function callButton() {
       var _this6 = this;
-
       var action = function action() {
         _this6.leaveCall();
-
         window.close();
       };
-
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "video-chatroom-setting",
         onClick: action
@@ -4066,14 +3701,12 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
         className: "fas fa-phone-slash"
       }));
     } // selects the correct username
-
   }, {
     key: "getUserName",
     value: function getUserName(user) {
       if (user.display_name) return user.display_name;else if (user.full_name) return user.full_name;else return user.email;
     } // Must always render otherwise there will be nowhere to mount the remote video to
     // Name is blank until remoteJoined
-
   }, {
     key: "remoteVideo",
     value: function remoteVideo(remoteUser) {
@@ -4105,14 +3738,12 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
           autoPlay: true
         }))));
       }
-
       var user_id = getState().session.user_id;
       var channel_id = this.props.match.params.channel_id;
       var _getState$entities = getState().entities,
-          users = _getState$entities.users,
-          channels = _getState$entities.channels;
+        users = _getState$entities.users,
+        channels = _getState$entities.channels;
       var remoteUser = users[Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["dmChannelUserId"])(channels[channel_id], user_id)];
-
       if (this.state.callRejected || this.state.callEnded) {
         var message = "Call Ended";
         if (this.state.callRejected) message = "".concat(this.getUserName(remoteUser), " did not pick up");
@@ -4169,10 +3800,8 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
       }
     }
   }]);
-
   return ChannelVideoChatRoomExternal;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ChannelVideoChatRoomExternal));
 
 /***/ }),
@@ -4196,7 +3825,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspace_address: ownProps.match.params.workspace_address,
@@ -4206,7 +3834,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     user_id: state.session.user_id
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     joinChannel: function joinChannel(channelInfo) {
@@ -4223,7 +3850,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_channel__WEBPACK_IMPORTED_MODULE_4__["default"])));
 
 /***/ }),
@@ -4242,55 +3868,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _channel_message_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel_message_form */ "./frontend/components/channel/channel_message_form.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelMessage, _React$Component);
-
   var _super = _createSuper(ChannelMessage);
-
   function ChannelMessage(props) {
     var _this;
-
     _classCallCheck(this, ChannelMessage);
-
     _this = _super.call(this, props);
     _this.state = {
       editing: false,
@@ -4303,35 +3909,29 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     _this.toggleMessageReact = _this.toggleMessageReact.bind(_assertThisInitialized(_this));
     _this.toggleMessageSave = _this.toggleMessageSave.bind(_assertThisInitialized(_this));
     return _this;
-  } // Stop editing
+  }
 
-
+  // Stop editing
   _createClass(ChannelMessage, [{
     key: "toggleEditCancel",
     value: function toggleEditCancel() {
       var _this2 = this;
-
       return function (e) {
         e.preventDefault();
-
         _this2.setState({
           editing: false
         });
       };
     } // Update the message and stop editing
-
   }, {
     key: "toggleEditSave",
     value: function toggleEditSave(ref) {
       var _this3 = this;
-
       return function (e) {
         e.preventDefault();
         var body = ref.current.innerHTML;
-
         if (ref.current.textContent.length == 0) {
           _this3.toggleMessageDelete()();
-
           _this3.setState({
             editing: false
           });
@@ -4349,24 +3949,22 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "toggleMessageReact",
     value: function toggleMessageReact(react_code) {
       var _this4 = this;
-
       return function (e) {
         e.preventDefault();
         if (_this4.props.status.canJoin) return; // do not allow this action if not joined
-
         var _this4$props = _this4.props,
-            current_user_id = _this4$props.current_user_id,
-            message = _this4$props.message;
+          current_user_id = _this4$props.current_user_id,
+          message = _this4$props.message;
         var _this4$props2 = _this4.props,
-            messageACChannel = _this4$props2.messageACChannel,
-            deleteMessageReact = _this4$props2.deleteMessageReact,
-            postMessageReact = _this4$props2.postMessageReact;
+          messageACChannel = _this4$props2.messageACChannel,
+          deleteMessageReact = _this4$props2.deleteMessageReact,
+          postMessageReact = _this4$props2.postMessageReact;
         if (message.user_reacts && message.user_reacts[current_user_id] && message.user_reacts[current_user_id][react_code]) deleteMessageReact({
           message_id: message.id,
           react_code: react_code
         }).then(function (_ref) {
           var message_react = _ref.message_react,
-              type = _ref.type;
+            type = _ref.type;
           return messageACChannel.speak({
             message_data: {
               type: type,
@@ -4378,7 +3976,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           react_code: react_code
         }).then(function (_ref2) {
           var message_react = _ref2.message_react,
-              type = _ref2.type;
+            type = _ref2.type;
           return messageACChannel.speak({
             message_data: {
               type: type,
@@ -4392,22 +3990,21 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "toggleMessageSave",
     value: function toggleMessageSave(messageId) {
       var _this5 = this;
-
       return function (e) {
         if (e) e.preventDefault();
         var _this5$props = _this5.props,
-            messages = _this5$props.messages,
-            user_saved_messages = _this5$props.user_saved_messages,
-            workspace_id = _this5$props.workspace_id;
+          messages = _this5$props.messages,
+          user_saved_messages = _this5$props.user_saved_messages,
+          workspace_id = _this5$props.workspace_id;
         var _this5$props2 = _this5.props,
-            deleteMessageSave = _this5$props2.deleteMessageSave,
-            postMessageSave = _this5$props2.postMessageSave,
-            messageACChannel = _this5$props2.messageACChannel;
+          deleteMessageSave = _this5$props2.deleteMessageSave,
+          postMessageSave = _this5$props2.postMessageSave,
+          messageACChannel = _this5$props2.messageACChannel;
         if (user_saved_messages[messageId]) deleteMessageSave({
           message_id: messageId
         }).then(function (_ref3) {
           var message_save = _ref3.message_save,
-              type = _ref3.type;
+            type = _ref3.type;
           return messageACChannel.speak({
             message_data: {
               type: type,
@@ -4419,7 +4016,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           workspace_id: workspace_id
         }).then(function (_ref4) {
           var message_save = _ref4.message_save,
-              type = _ref4.type;
+            type = _ref4.type;
           messageACChannel.speak({
             message_data: {
               type: type,
@@ -4435,13 +4032,12 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "toggleMessageDelete",
     value: function toggleMessageDelete() {
       var _this6 = this;
-
       return function (e) {
         if (e) e.preventDefault();
         var message = _this6.props.message;
         var _this6$props = _this6.props,
-            deleteMessage = _this6$props.deleteMessage,
-            messageACChannel = _this6$props.messageACChannel;
+          deleteMessage = _this6$props.deleteMessage,
+          messageACChannel = _this6$props.messageACChannel;
         deleteMessage(message).then(function (_ref5) {
           var message = _ref5.message;
           messageACChannel.speak({
@@ -4458,7 +4054,6 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "toggleFileDelete",
     value: function toggleFileDelete(id) {
       var _this7 = this;
-
       return function (e) {
         if (e) e.preventDefault();
         var message = _this7.props.message;
@@ -4467,7 +4062,6 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           id: message.id
         });else _this7.props.deleteMessage(message).then(function (_ref6) {
           var message = _ref6.message;
-
           _this7.props.messageACChannel.speak({
             message_data: {
               type: "DELETE",
@@ -4482,15 +4076,14 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "messageBanner",
     value: function messageBanner(saved) {
       var _this8 = this;
-
       if (saved && this.props.match.params.channel_id != "saved-browser") return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "saved-banner"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-bookmark fa-fw magenta"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Added to your saved items"));else if (this.props.match.params.channel_id == "saved-browser") {
         var _this$props = this.props,
-            channels = _this$props.channels,
-            message = _this$props.message;
+          channels = _this$props.channels,
+          message = _this$props.message;
         var channel = channels[message.channel_id];
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-channel-header",
@@ -4529,16 +4122,14 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "messageReactsList",
     value: function messageReactsList() {
       var _this9 = this;
-
       var total_reacts = Object.entries(this.props.message.total_reacts);
       if (total_reacts.length == 0) return;
       if (!this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-reacts-list"
       }, total_reacts.map(function (_ref7, idx) {
         var _ref8 = _slicedToArray(_ref7, 2),
-            react_code = _ref8[0],
-            num = _ref8[1];
-
+          react_code = _ref8[0],
+          num = _ref8[1];
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "message-react",
           key: idx,
@@ -4554,8 +4145,8 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "messageDeleteButton",
     value: function messageDeleteButton() {
       var _this$props2 = this.props,
-          current_user_id = _this$props2.current_user_id,
-          message = _this$props2.message;
+        current_user_id = _this$props2.current_user_id,
+        message = _this$props2.message;
       if (message.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
         onClick: this.toggleMessageDelete()
@@ -4568,15 +4159,14 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageEditButton",
     value: function messageEditButton() {
-      var _this10 = this;
-
+      var _this0 = this;
       var _this$props3 = this.props,
-          current_user_id = _this$props3.current_user_id,
-          message = _this$props3.message;
+        current_user_id = _this$props3.current_user_id,
+        message = _this$props3.message;
       if (message.user_id == current_user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-button",
         onClick: function onClick() {
-          return _this10.setState({
+          return _this0.setState({
             editing: true
           });
         }
@@ -4590,13 +4180,13 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "messageHeader",
     value: function messageHeader() {
       var _this$props4 = this.props,
-          grouped = _this$props4.grouped,
-          message = _this$props4.message,
-          toggleUserPopup = _this$props4.toggleUserPopup,
-          users = _this$props4.users;
+        grouped = _this$props4.grouped,
+        message = _this$props4.message,
+        toggleUserPopup = _this$props4.toggleUserPopup,
+        users = _this$props4.users;
       var user_id = message.user_id,
-          created_date = message.created_date,
-          created_time = message.created_time;
+        created_date = message.created_date,
+        created_time = message.created_time;
       if (!grouped) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-header"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4612,13 +4202,13 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "messageIcon",
     value: function messageIcon() {
       var _this$props5 = this.props,
-          grouped = _this$props5.grouped,
-          toggleUserPopup = _this$props5.toggleUserPopup,
-          message = _this$props5.message,
-          users = _this$props5.users;
+        grouped = _this$props5.grouped,
+        toggleUserPopup = _this$props5.toggleUserPopup,
+        message = _this$props5.message,
+        users = _this$props5.users;
       var created_date = message.created_date,
-          created_time = message.created_time,
-          user_id = message.user_id;
+        created_time = message.created_time,
+        user_id = message.user_id;
       if (grouped) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-time-tag"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4635,9 +4225,9 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     key: "messageBody",
     value: function messageBody() {
       var _this$props6 = this.props,
-          messageACChannel = _this$props6.messageACChannel,
-          status = _this$props6.status,
-          message = _this$props6.message;
+        messageACChannel = _this$props6.messageACChannel,
+        status = _this$props6.status,
+        message = _this$props6.message;
       var body = message.body;
       if (this.state.editing) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message-edit-container"
@@ -4657,11 +4247,9 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "messageFiles",
     value: function messageFiles() {
-      var _this11 = this;
-
+      var _this1 = this;
       var files = this.props.message.files;
       var fileTypeInfo;
-
       if (files.length > 0) {
         var fileNum = files.length;
         var filesOpen = this.state.filesOpen;
@@ -4674,7 +4262,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
         }, fileNum == 1 ? "1 file" : "".concat(fileNum, " files")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: filesOpen ? "fas fa-caret-down fa-fw" : "fas fa-caret-right fa-fw",
           onClick: function onClick() {
-            return _this11.setState({
+            return _this1.setState({
               filesOpen: !filesOpen
             });
           }
@@ -4682,7 +4270,6 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
           className: "files-list"
         }, files.map(function (file, i) {
           fileTypeInfo = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getFileTypeInfo"])(file);
-
           if (filesOpen && fileTypeInfo.iconSymbol == "image") {
             // irrelevant as we are currently using icons
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -4722,7 +4309,7 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
               className: "file-buttons"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "far fa-trash-alt fa-fw",
-              onClick: _this11.toggleFileDelete(file.id)
+              onClick: _this1.toggleFileDelete(file.id)
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               className: "black-popup"
             }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Delete"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
@@ -4741,8 +4328,8 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       // For when message is deleted
       var _this$props7 = this.props,
-          message = _this$props7.message,
-          key = _this$props7.key;
+        message = _this$props7.message,
+        key = _this$props7.key;
       if (!message) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "message"
       });
@@ -4757,10 +4344,8 @@ var ChannelMessage = /*#__PURE__*/function (_React$Component) {
       }, this.messageHeader(), this.messageBody(), this.messageFiles()), this.messageButtons(saved)), this.messageReactsList());
     }
   }]);
-
   return ChannelMessage;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (ChannelMessage);
 
 /***/ }),
@@ -4782,7 +4367,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     current_user_id: state.session.user_id,
@@ -4792,10 +4376,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     message: state.entities.messages[ownProps.messageData.id],
     users: state.entities.users,
     channels: state.entities.channels // used for message banner in SavedBrowser
-
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     updateMessage: function updateMessage(message) {
@@ -4818,7 +4400,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_channel_message__WEBPACK_IMPORTED_MODULE_3__["default"])));
 
 /***/ }),
@@ -4840,43 +4421,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dompurify__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(dompurify__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -4885,14 +4449,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelMessageForm, _React$Component);
-
   var _super = _createSuper(ChannelMessageForm);
-
   function ChannelMessageForm(props) {
     var _this;
-
     _classCallCheck(this, ChannelMessageForm);
-
     _this = _super.call(this, props);
     _this.state = {
       canJoin: props.status.canJoin,
@@ -4913,8 +4473,9 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       fileUrls: [],
       fileError: "",
       uploading: false
-    }; // Used to find chat input's content
+    };
 
+    // Used to find chat input's content
     _this.chatInput = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
     _this.readFile = _this.readFile.bind(_assertThisInitialized(_this));
     _this.removeFile = _this.removeFile.bind(_assertThisInitialized(_this));
@@ -4929,7 +4490,6 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
     _this.goToChannel = _this.goToChannel.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(ChannelMessageForm, [{
     key: "componentDidMount",
     value: function componentDidMount() {
@@ -4955,29 +4515,23 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       var _this2 = this;
-
       e.preventDefault();
-
       if (this.chatInput.current.textContent.length != 0 || this.state.files.length != 0) {
         var messageFormData = new FormData();
         var body = dompurify__WEBPACK_IMPORTED_MODULE_3___default.a.sanitize(this.chatInput.current.innerHTML);
         messageFormData.append("message[body]", body ? body : "");
         messageFormData.append("message[channel_id]", this.props.match.params.channel_id);
-
         for (var i = 0; i < this.state.files.length; i++) {
           messageFormData.append("message[files][]", this.state.files[i]);
         }
-
         if (this.state.files.length > 0) this.setState({
           uploading: true
         });
         dispatch(Object(_actions_message_actions__WEBPACK_IMPORTED_MODULE_5__["createMessage"])(messageFormData)).then(function (_ref) {
           var message = _ref.message;
-
           _this2.setState({
             uploading: false
           });
-
           _this2.props.messageACChannel.speak({
             message_data: {
               type: "PUT",
@@ -4993,27 +4547,23 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         });
       }
     } // Reads in the elements using FileReader, and set state when successful
-
   }, {
     key: "readFile",
     value: function readFile(e) {
       var _this3 = this;
-
       var reader = new FileReader();
-      var file = e.currentTarget.files[0]; // Triggers when a file is done
+      var file = e.currentTarget.files[0];
 
+      // Triggers when a file is done
       reader.onload = function () {
         _this3.setState({
           fileUrls: [].concat(_toConsumableArray(_this3.state.fileUrls), [URL.createObjectURL(file)]),
           files: [].concat(_toConsumableArray(_this3.state.files), [file]),
           fileError: ""
         });
-
         _this3.props.updateScroll(84);
-
         document.getElementById("message-file-input").value = '';
       };
-
       if (file) {
         reader.readAsDataURL(file); // Triggers load
       } else {
@@ -5028,14 +4578,10 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
     key: "removeFile",
     value: function removeFile(idx) {
       var _this4 = this;
-
       return function (e) {
         e.preventDefault();
-
         _this4.state.fileUrls.splice(idx, 1);
-
         _this4.state.files.splice(idx, 1);
-
         _this4.setState({
           fileUrls: _this4.state.fileUrls,
           files: _this4.state.files
@@ -5053,10 +4599,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
     key: "focusInput",
     value: function focusInput() {
       var el = this.chatInput.current;
-
       if (el && document.activeElement != el) {
         el.focus();
-
         if (typeof window.getSelection != "undefined" && typeof document.createRange != "undefined") {
           var range = document.createRange();
           range.selectNodeContents(el);
@@ -5072,23 +4616,19 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         }
       }
     } // Executes commands on contentEditable chat-input
-
   }, {
     key: "format",
     value: function format(command, value) {
       var _this5 = this;
-
       return function (e) {
         e.preventDefault();
         e.stopPropagation();
         document.execCommand(command, false, value);
-
         _this5.setState({
           isActivated: Object.assign(_this5.state.isActivated, _defineProperty({}, command, !_this5.state.isActivated[command]))
         });
       };
     } // Handles events that updates the toolbar states
-
   }, {
     key: "updateToolbarState",
     value: function updateToolbarState() {
@@ -5104,7 +4644,6 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         }
       });
     } // Handles key press on contentEditable chat-input
-
   }, {
     key: "handleChatKeyDown",
     value: function handleChatKeyDown(e) {
@@ -5113,7 +4652,6 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         if (this.props.toggleEditSave) this.props.toggleEditSave()(e);else this.handleSubmit(e);
       } else if (e.key == "Backspace") {
         var ele = document.getElementById("chat-input");
-
         if (ele.textContent.length == 1) {
           ele.innerHTML = "";
         }
@@ -5122,58 +4660,48 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       } else if (e.ctrlKey && e.shiftKey) {
         if (e.key == "X") this.format("strikethrough")(e);else if (e.key == "%") this.format("insertunorderedlist")(e);else if (e.key == "^") this.format("insertorderedlist")(e);
       }
-
       this.updateToolbarState();
     } // Handles key press on link form
-
   }, {
     key: "handleLinkKeyDown",
     value: function handleLinkKeyDown(e) {
       if (e.key == "Enter" && this.state.linkUrl.length > 0 && this.state.linkText.length > 0) this.appendLink(e);
     } // Toggles link form, clears linkText/linkUrl, and resets focus and cursor location
-
   }, {
     key: "toggleLinkForm",
     value: function toggleLinkForm(linkModal) {
       var _this6 = this;
-
       return function (e) {
         if (e) e.stopPropagation();
-
         _this6.setState({
           linkModal: linkModal,
           linkText: "",
           linkUrl: ""
         });
-
         if (!linkModal) {
           _this6.focusInput();
         }
       };
     } // Append the link to the chat input field
-
   }, {
     key: "appendLink",
     value: function appendLink(e) {
       e.preventDefault();
       var _this$state = this.state,
-          linkUrl = _this$state.linkUrl,
-          linkText = _this$state.linkText;
+        linkUrl = _this$state.linkUrl,
+        linkText = _this$state.linkText;
       var anchorEle = "<a href=\"http://".concat(linkUrl, "\" target=\"_blank\">").concat(linkText, "</a>");
       $(document.getElementById("chat-input")).append(anchorEle);
       this.toggleLinkForm(false)();
     } // Renders list of files depending on what kind of file
-
   }, {
     key: "renderFilesList",
     value: function renderFilesList() {
       var _this7 = this;
-
       var _this$state2 = this.state,
-          fileUrls = _this$state2.fileUrls,
-          files = _this$state2.files;
+        fileUrls = _this$state2.fileUrls,
+        files = _this$state2.files;
       var fileTypeInfo;
-
       if (fileUrls.length > 0) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "files-list",
@@ -5214,12 +4742,10 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         }));
       }
     } // Generates a link form modal that will update the 
-
   }, {
     key: "renderLinkForm",
     value: function renderLinkForm() {
       var _this8 = this;
-
       if (!this.state.linkModal) return;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "link-form-modal"
@@ -5276,7 +4802,6 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         disabled: this.state.linkUrl.length == 0 || this.state.linkText.length == 0
       }, "Save"))));
     } // Only render footer when not editing
-
   }, {
     key: "renderMessageFooter",
     value: function renderMessageFooter() {
@@ -5284,7 +4809,6 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         id: "message-footer"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("b", null, "Shift + Return"), " to add a new line."));
     } // Determines whether we render an arrow button for form, or cancel/save buttons for editor
-
   }, {
     key: "renderMessageSend",
     value: function renderMessageSend() {
@@ -5298,7 +4822,6 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
         onClick: this.props.toggleEditSave(this.chatInput)
       }, "Save"));
     } // Only renders upload button if we aren't editing
-
   }, {
     key: "renderMessageUpload",
     value: function renderMessageUpload() {
@@ -5320,19 +4843,17 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this9 = this;
-
       var channels = getState().entities.channels;
       var channel_id = this.props.match.params.channel_id;
       var channel = channels[channel_id];
       var _this$state$isActivat = this.state.isActivated,
-          bold = _this$state$isActivat.bold,
-          italic = _this$state$isActivat.italic,
-          underline = _this$state$isActivat.underline,
-          strikethrough = _this$state$isActivat.strikethrough,
-          createLink = _this$state$isActivat.createLink,
-          insertUnorderedList = _this$state$isActivat.insertUnorderedList,
-          insertOrderedList = _this$state$isActivat.insertOrderedList;
-
+        bold = _this$state$isActivat.bold,
+        italic = _this$state$isActivat.italic,
+        underline = _this$state$isActivat.underline,
+        strikethrough = _this$state$isActivat.strikethrough,
+        createLink = _this$state$isActivat.createLink,
+        insertUnorderedList = _this$state$isActivat.insertUnorderedList,
+        insertOrderedList = _this$state$isActivat.insertOrderedList;
       if (this.state.canJoin && channel) {
         var channelName = channel.dm_channel ? this.getDmChannelName(channel) : "#".concat(channel.name);
         var buttonText = channel.dm_channel ? "Join Chat" : "Join Channel";
@@ -5523,10 +5044,8 @@ var ChannelMessageForm = /*#__PURE__*/function (_React$Component) {
       }, "\uD83D\uDE20"), this.renderMessageSend())), this.renderMessageFooter()), this.renderLinkForm());
     }
   }]);
-
   return ChannelMessageForm;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ChannelMessageForm));
 
 /***/ }),
@@ -5544,52 +5063,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 var ChannelNav = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelNav, _React$Component);
-
   var _super = _createSuper(ChannelNav);
-
   function ChannelNav(props) {
     var _this;
-
     _classCallCheck(this, ChannelNav);
-
     _this = _super.call(this, props);
     _this.starClick = _this.starClick.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(ChannelNav, [{
     key: "starClick",
     value: function starClick(e) {
       var _this2 = this;
-
       var channel = this.props.channel;
       this.props.updateChannelUser({
         starred: !channel.starred,
@@ -5618,10 +5121,9 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
     key: "getChannelName",
     value: function getChannelName() {
       var _this$props = this.props,
-          user = _this$props.user,
-          users = _this$props.users,
-          channel = _this$props.channel;
-
+        user = _this$props.user,
+        users = _this$props.users,
+        channel = _this$props.channel;
       if (channel.dm_channel) {
         var userId = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_1__["dmChannelUserId"])(channel, user.id);
         var profileImage = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5659,10 +5161,10 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
     value: function left() {
       var channel = this.props.channel;
       var name = channel.name,
-          description = channel.description,
-          topic = channel.topic,
-          users = channel.users,
-          dm_channel = channel.dm_channel;
+        description = channel.description,
+        topic = channel.topic,
+        users = channel.users,
+        dm_channel = channel.dm_channel;
       if (!dm_channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "left"
       }, this.getChannelName(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5677,10 +5179,9 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
     value: function right() {
       var leaveButton, videoCallButton;
       var _this$props2 = this.props,
-          workspace_address = _this$props2.workspace_address,
-          channel_id = _this$props2.channel_id,
-          startVideoCall = _this$props2.startVideoCall;
-
+        workspace_address = _this$props2.workspace_address,
+        channel_id = _this$props2.channel_id,
+        startVideoCall = _this$props2.startVideoCall;
       if (this.props.status.canLeave) {
         if (!this.props.channel.dm_channel) {
           leaveButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -5703,7 +5204,6 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
           }));
         }
       }
-
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "right"
       }, videoCallButton);
@@ -5723,10 +5223,8 @@ var ChannelNav = /*#__PURE__*/function (_React$Component) {
       }
     }
   }]);
-
   return ChannelNav;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (ChannelNav);
 
 /***/ }),
@@ -5748,14 +5246,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   var _ownProps$match$param = ownProps.match.params,
-      channel_id = _ownProps$match$param.channel_id,
-      workspace_address = _ownProps$match$param.workspace_address;
+    channel_id = _ownProps$match$param.channel_id,
+    workspace_address = _ownProps$match$param.workspace_address;
   var _state$entities = state.entities,
-      users = _state$entities.users,
-      channels = _state$entities.channels;
+    users = _state$entities.users,
+    channels = _state$entities.channels;
   var user_id = state.session.user_id;
   return {
     channel_id: parseInt(channel_id),
@@ -5765,7 +5262,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     workspace_address: workspace_address
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     updateChannelUser: function updateChannelUser(channel_user) {
@@ -5773,7 +5269,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_channel_nav__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
@@ -5793,29 +5288,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -5823,26 +5308,21 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
   _inherits(ProfileSidebar, _React$Component);
-
   var _super = _createSuper(ProfileSidebar);
-
   function ProfileSidebar(props) {
     var _this;
-
     _classCallCheck(this, ProfileSidebar);
-
     _this = _super.call(this, props);
     _this.startChat = _this.startChat.bind(_assertThisInitialized(_this));
     _this.startCall = _this.startCall.bind(_assertThisInitialized(_this));
     return _this;
-  } // BUTTON ACTIONS
+  }
 
-
+  // BUTTON ACTIONS
   _createClass(ProfileSidebar, [{
     key: "startChat",
     value: function startChat() {
       var _this2 = this;
-
       dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"])({
         user_1_id: getState().session.user_id,
         user_2_id: this.props.userId,
@@ -5851,7 +5331,6 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
         var dmChannelUser = _ref.dmChannelUser;
         var channel_id = dmChannelUser.channel_id;
         var workspace_address = _this2.props.match.params.workspace_address;
-
         _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
       });
     }
@@ -5859,7 +5338,6 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
     key: "startCall",
     value: function startCall() {
       var _this3 = this;
-
       dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"])({
         user_1_id: getState().session.user_id,
         user_2_id: this.props.userId,
@@ -5868,11 +5346,9 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
         var dmChannelUser = _ref2.dmChannelUser;
         var channel_id = dmChannelUser.channel_id;
         var workspace_address = _this3.props.match.params.workspace_address;
-
         _this3.props.startVideoCall(workspace_address, channel_id);
       });
     } // RENDER HELPER FUNCTIONS
-
   }, {
     key: "phoneNumber",
     value: function phoneNumber(user) {
@@ -5972,8 +5448,8 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this$props = this.props,
-          hideUser = _this$props.hideUser,
-          userId = _this$props.userId;
+        hideUser = _this$props.hideUser,
+        userId = _this$props.userId;
       var user = getState().entities.users[userId];
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-profile-sidebar"
@@ -6004,10 +5480,8 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
       }, this.displayName(user), this.email(user), this.phoneNumber(user), this.localTime(user))));
     }
   }]);
-
   return ProfileSidebar;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ProfileSidebar));
 
 /***/ }),
@@ -6025,52 +5499,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 var HomeNav = /*#__PURE__*/function (_React$Component) {
   _inherits(HomeNav, _React$Component);
-
   var _super = _createSuper(HomeNav);
-
   function HomeNav(props) {
     var _this;
-
     _classCallCheck(this, HomeNav);
-
     _this = _super.call(this, props);
     _this.logoutUser = _this.logoutUser.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(HomeNav, [{
     key: "logoutUser",
     value: function logoutUser(e) {
       var _this2 = this;
-
       e.stopPropagation();
       dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["logout"])()).then(function () {
         _this2.props.history.push('/');
@@ -6080,7 +5538,6 @@ var HomeNav = /*#__PURE__*/function (_React$Component) {
     key: "generateRight",
     value: function generateRight() {
       var _this3 = this;
-
       if (getState().session.user_id) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "right"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -6130,10 +5587,8 @@ var HomeNav = /*#__PURE__*/function (_React$Component) {
       }), " Linkedin")), this.generateRight());
     }
   }]);
-
   return HomeNav;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(HomeNav));
 
 /***/ }),
@@ -6155,29 +5610,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -6187,23 +5632,18 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var Homepage = /*#__PURE__*/function (_React$Component) {
   _inherits(Homepage, _React$Component);
-
   var _super = _createSuper(Homepage);
-
   function Homepage() {
     var _this;
-
     _classCallCheck(this, Homepage);
-
     _this = _super.call(this);
     _this.state = {
       email: ""
     };
-    _this.changeField = _this.changeField.bind(_assertThisInitialized(_this)); // this.newUser = this.newUser.bind(this);
-
+    _this.changeField = _this.changeField.bind(_assertThisInitialized(_this));
+    // this.newUser = this.newUser.bind(this);
     return _this;
   }
-
   _createClass(Homepage, [{
     key: "changeField",
     value: function changeField(e) {
@@ -6215,9 +5655,7 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
     key: "workspaceList",
     value: function workspaceList() {
       var _this2 = this;
-
       var workspaces = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_6__["objectToArray"])(getState().entities.workspaces);
-
       if (workspaces.length > 0) {
         return workspaces.map(function (workspace, key) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6248,9 +5686,7 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this3 = this;
-
       var user_id = getState().session.user_id; // When user is signed in, display workspaces and create/join buttons
-
       if (user_id) {
         var user = getState().entities.users[user_id];
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6274,29 +5710,29 @@ var Homepage = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Workspaces for ", user.email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           id: "home-workspaces-list"
         }, this.workspaceList()))));
-      } // When user isn't signed in, display try now button
+      }
+
+      // When user isn't signed in, display try now button
       else {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            id: "homepage"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_home_nav__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_workspace_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
-            dropdownClass: "dropdown hidden"
-          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            id: "home-box"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            id: "home-greeting"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Whatever work you do,"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "you can do it in Slock"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Slock gives your team the power and alignment you need to do your best work.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-            className: "home-button",
-            onClick: function onClick(e) {
-              _this3.props.history.push("/signin");
-            }
-          }, "Demo Login")));
-        }
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "homepage"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_home_nav__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_modals_workspace_dropdown__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          dropdownClass: "dropdown hidden"
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "home-box"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          id: "home-greeting"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Whatever work you do,"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "you can do it in Slock"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Slock gives your team the power and alignment you need to do your best work.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "home-button",
+          onClick: function onClick(e) {
+            _this3.props.history.push("/signin");
+          }
+        }, "Demo Login")));
+      }
     }
   }]);
-
   return Homepage;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Homepage));
 
 /***/ }),
@@ -6316,29 +5752,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 /* harmony import */ var _user_popup_modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./user_popup_modal */ "./frontend/components/modals/user_popup_modal.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -6346,14 +5772,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   _inherits(ChannelDetailsModal, _React$Component);
-
   var _super = _createSuper(ChannelDetailsModal);
-
   function ChannelDetailsModal(props) {
     var _this;
-
     _classCallCheck(this, ChannelDetailsModal);
-
     _this = _super.call(this, props);
     _this.state = {
       tab: "About",
@@ -6368,7 +5790,6 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     _this.calculatePos = _this.calculatePos.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(ChannelDetailsModal, [{
     key: "toggleHide",
     value: function toggleHide(e) {
@@ -6383,10 +5804,8 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     key: "userClick",
     value: function userClick(userId) {
       var _this2 = this;
-
       return function (e) {
         e.stopPropagation();
-
         _this2.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
@@ -6397,7 +5816,6 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     key: "starClick",
     value: function starClick(e) {
       var _this3 = this;
-
       var channel = this.props.channel;
       if (channel.dm_channel) this.props.updateDmChannelUser({
         channel_id: channel.id,
@@ -6431,10 +5849,8 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     key: "leaveChannel",
     value: function leaveChannel() {
       var _this4 = this;
-
       return function (e) {
         _this4.props.leaveChannel(e);
-
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
       };
     }
@@ -6456,10 +5872,9 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     key: "renderUserPopup",
     value: function renderUserPopup() {
       var _this5 = this;
-
       var _this$props = this.props,
-          users = _this$props.users,
-          showUser = _this$props.showUser;
+        users = _this$props.users,
+        showUser = _this$props.showUser;
       var popupUserId = this.state.popupUserId;
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_user_popup_modal__WEBPACK_IMPORTED_MODULE_4__["default"], {
         user: users[popupUserId],
@@ -6467,7 +5882,6 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           _this5.setState({
             popupUserId: 0
           });
-
           Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["hideElements"])("channel-details-modal");
         },
         showUser: showUser,
@@ -6476,7 +5890,6 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       });
     } // offsetTop is from its parent, rather than from the top
     // must add parent offsetTop to make up for this
-
   }, {
     key: "calculatePos",
     value: function calculatePos() {
@@ -6489,16 +5902,13 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         left: "calc(50vw - 290px + 28px)"
       };
     } // Deletes a file from a message
-
   }, {
     key: "toggleFileDelete",
     value: function toggleFileDelete(fileId, messageId) {
       var _this6 = this;
-
       return function (e) {
         if (e) e.preventDefault();
         var message = _this6.props.messages[messageId];
-
         if (message) {
           if (message.files.length > 1 || message.body != "") _this6.props.updateMessage({
             deleted_file_id: fileId,
@@ -6507,7 +5917,6 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             id: message.id
           }).then(function (_ref) {
             var message = _ref.message;
-
             _this6.props.messageACChannel.speak({
               message_data: {
                 type: "DELETE",
@@ -6519,28 +5928,23 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         }
       };
     } // Renders all files in the channel
-
   }, {
     key: "channelFiles",
     value: function channelFiles() {
       var _this7 = this;
-
       var files = [];
       var messages = Object.values(this.props.messages);
       var fileTypeInfo;
-
       for (var i = messages.length - 1; i >= 0; i--) {
         if (messages[i].files.length > 0) {
           files = files.concat(messages[i].files);
         }
       }
-
       if (files.length > 0) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "channel-files-list"
         }, files.map(function (file, i) {
           fileTypeInfo = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getFileTypeInfo"])(file);
-
           if (fileTypeInfo.iconSymbol == "image") {
             // irrelevant as we are currently using icons
             return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6609,13 +6013,11 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     key: "channelTabContent",
     value: function channelTabContent() {
       var _this8 = this;
-
       var _this$props2 = this.props,
-          channel = _this$props2.channel,
-          channel_users = _this$props2.channel_users,
-          current_user_id = _this$props2.current_user_id;
+        channel = _this$props2.channel,
+        channel_users = _this$props2.channel_users,
+        current_user_id = _this$props2.current_user_id;
       var search = this.state.search;
-
       switch (this.state.tab) {
         case "About":
           // all of the channel's information
@@ -6684,7 +6086,6 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "section-header"
           }, "Files"), this.channelFiles())));
-
         case "Members":
           // search bar with members list
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6723,7 +6124,6 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
               className: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getUserActivity"])(channel_user)
             })));
           })));
-
         default:
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "tab-content"
@@ -6734,13 +6134,11 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
     key: "dmTabContent",
     value: function dmTabContent() {
       var _this9 = this;
-
       var _this$props3 = this.props,
-          channel = _this$props3.channel,
-          users = _this$props3.users,
-          current_user_id = _this$props3.current_user_id;
+        channel = _this$props3.channel,
+        users = _this$props3.users,
+        current_user_id = _this$props3.current_user_id;
       var otherUser = users[Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["dmChannelUserId"])(channel, current_user_id)];
-
       switch (this.state.tab) {
         case "About":
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6761,7 +6159,6 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
             className: "section-link dm",
             onClick: function onClick(e) {
               _this9.props.showUser(otherUser.id);
-
               _this9.toggleHide(e);
             }
           }, "View full profile"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -6771,7 +6168,6 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "section-header"
           }, "Files"), this.channelFiles())));
-
         default:
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "tab-content"
@@ -6781,14 +6177,13 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this10 = this;
-
+      var _this0 = this;
       var _this$props4 = this.props,
-          channel = _this$props4.channel,
-          users = _this$props4.users,
-          current_user_id = _this$props4.current_user_id,
-          workspace_address = _this$props4.workspace_address,
-          startVideoCall = _this$props4.startVideoCall;
+        channel = _this$props4.channel,
+        users = _this$props4.users,
+        current_user_id = _this$props4.current_user_id,
+        workspace_address = _this$props4.workspace_address,
+        startVideoCall = _this$props4.startVideoCall;
       if (!channel) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "channel-details-modal hidden"
       });else if (channel.dm_channel) {
@@ -6825,7 +6220,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: this.state.tab == "About" ? "selected" : "",
           onClick: function onClick(e) {
-            return _this10.setState({
+            return _this0.setState({
               tab: "About"
             });
           }
@@ -6851,7 +6246,7 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "About" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this10.setState({
+          return _this0.setState({
             tab: "About",
             search: ""
           });
@@ -6859,17 +6254,15 @@ var ChannelDetailsModal = /*#__PURE__*/function (_React$Component) {
       }, "About"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.tab == "Members" ? "selected" : "",
         onClick: function onClick(e) {
-          return _this10.setState({
+          return _this0.setState({
             tab: "Members"
           });
         }
       }, "Members")), this.channelTabContent()), this.renderUserPopup());
     }
   }]);
-
   return ChannelDetailsModal;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ChannelDetailsModal));
 
 /***/ }),
@@ -6897,16 +6290,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   var _state$entities = state.entities,
-      channels = _state$entities.channels,
-      users = _state$entities.users,
-      messages = _state$entities.messages;
+    channels = _state$entities.channels,
+    users = _state$entities.users,
+    messages = _state$entities.messages;
   var user_id = state.session.user_id;
   var _ownProps$match$param = ownProps.match.params,
-      channel_id = _ownProps$match$param.channel_id,
-      workspace_address = _ownProps$match$param.workspace_address;
+    channel_id = _ownProps$match$param.channel_id,
+    workspace_address = _ownProps$match$param.workspace_address;
   return {
     users: users,
     channel: channels[channel_id],
@@ -6917,7 +6309,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     current_user_id: user_id
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     updateChannelUser: function updateChannelUser(channel_user) {
@@ -6934,7 +6325,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_0__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(_channel_details_modal__WEBPACK_IMPORTED_MODULE_3__["default"])));
 
 /***/ }),
@@ -6953,45 +6343,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
   _inherits(EditChannelDescriptionModal, _React$Component);
-
   var _super = _createSuper(EditChannelDescriptionModal);
-
   function EditChannelDescriptionModal(props) {
     var _this;
-
     _classCallCheck(this, EditChannelDescriptionModal);
-
     _this = _super.call(this, props);
     var channel = getState().entities.channels[props.match.params.channel_id];
     _this.state = {
@@ -7005,12 +6380,10 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
     _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(EditChannelDescriptionModal, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       var channel_id = this.props.match.params.channel_id; // Ignore changes during channel transition, and ignore invalid channels
-
       if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
         if (getState().entities.channels[channel_id]) this.setState({
           description: getState().entities.channels[channel_id].description
@@ -7043,24 +6416,19 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
         className: "orange"
       }, this.state.error);
     } // updates a field, and either enables or disables the button
-
   }, {
     key: "updateField",
     value: function updateField(type) {
       var _this2 = this;
-
       return function (e) {
         var _this2$setState, _this2$setState2;
-
         if (e.currentTarget.value.length >= 250) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "(".concat(250 - e.currentTarget.value.length, ") Description must be 250 characters or less.")), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
       };
     } // submits the information, and updates channel
-
   }, {
     key: "submitForm",
     value: function submitForm(e) {
       var _this3 = this;
-
       e.preventDefault();
       dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["updateChannel"])({
         description: this.state.description,
@@ -7071,11 +6439,9 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
           disabled: true,
           error: ""
         });
-
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-description-modal");
       });
     } // form this modal will output
-
   }, {
     key: "modalForm",
     value: function modalForm() {
@@ -7111,10 +6477,8 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
       }), this.modalForm());
     }
   }]);
-
   return EditChannelDescriptionModal;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(EditChannelDescriptionModal));
 
 /***/ }),
@@ -7133,45 +6497,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
   _inherits(EditChannelNameModal, _React$Component);
-
   var _super = _createSuper(EditChannelNameModal);
-
   function EditChannelNameModal(props) {
     var _this;
-
     _classCallCheck(this, EditChannelNameModal);
-
     _this = _super.call(this, props);
     var channel = getState().entities.channels[props.match.params.channel_id];
     _this.state = {
@@ -7185,12 +6534,10 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
     _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(EditChannelNameModal, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       var channel_id = this.props.match.params.channel_id; // Ignore changes during channel transition, and ignore invalid channels
-
       if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
         if (getState().entities.channels[channel_id]) this.setState({
           name: getState().entities.channels[channel_id].name
@@ -7223,24 +6570,19 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
         className: "orange"
       }, this.state.error);
     } // updates a field, and either enables or disables the button
-
   }, {
     key: "updateField",
     value: function updateField(type) {
       var _this2 = this;
-
       return function (e) {
         var _this2$setState, _this2$setState2;
-
         if (e.currentTarget.value.length >= 80) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value.toLowerCase()), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "Name must be 80 characters or less."), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value.toLowerCase()), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
       };
     } // submits the information, and updates channel
-
   }, {
     key: "submitForm",
     value: function submitForm(e) {
       var _this3 = this;
-
       e.preventDefault();
       dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["updateChannel"])({
         name: this.state.name,
@@ -7251,11 +6593,9 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
           disabled: true,
           error: ""
         });
-
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-name-modal");
       });
     } // form this modal will output
-
   }, {
     key: "modalForm",
     value: function modalForm() {
@@ -7297,10 +6637,8 @@ var EditChannelNameModal = /*#__PURE__*/function (_React$Component) {
       }), this.modalForm());
     }
   }]);
-
   return EditChannelNameModal;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(EditChannelNameModal));
 
 /***/ }),
@@ -7319,45 +6657,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
   _inherits(EditChannelTopicModal, _React$Component);
-
   var _super = _createSuper(EditChannelTopicModal);
-
   function EditChannelTopicModal(props) {
     var _this;
-
     _classCallCheck(this, EditChannelTopicModal);
-
     _this = _super.call(this, props);
     var channel = getState().entities.channels[props.match.params.channel_id];
     _this.state = {
@@ -7372,12 +6695,10 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
     _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(EditChannelTopicModal, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       var channel_id = this.props.match.params.channel_id; // Ignore changes during channel transition, and ignore invalid channels
-
       if (channel_id != "0" && channel_id !== oldProps.match.params.channel_id) {
         if (getState().entities.channels[channel_id]) this.setState({
           topic: getState().entities.channels[channel_id].topic
@@ -7410,24 +6731,19 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
         className: "orange"
       }, this.state.error);
     } // updates a field, and either enables or disables the button
-
   }, {
     key: "updateField",
     value: function updateField(type) {
       var _this2 = this;
-
       return function (e) {
         var _this2$setState, _this2$setState2;
-
         if (e.currentTarget.value.length >= 250) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "(".concat(250 - e.currentTarget.value.length, ") Topic must be 250 characters or less.")), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
       };
     } // submits the information, and updates channel
-
   }, {
     key: "submitForm",
     value: function submitForm(e) {
       var _this3 = this;
-
       e.preventDefault();
       dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_3__["updateChannel"])({
         topic: this.state.topic,
@@ -7438,11 +6754,9 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
           disabled: true,
           error: ""
         });
-
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("edit-channel-topic-modal");
       });
     } // form this modal will output
-
   }, {
     key: "modalForm",
     value: function modalForm() {
@@ -7478,10 +6792,8 @@ var EditChannelTopicModal = /*#__PURE__*/function (_React$Component) {
       }), this.modalForm());
     }
   }]);
-
   return EditChannelTopicModal;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(EditChannelTopicModal));
 
 /***/ }),
@@ -7502,60 +6814,39 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _util_user_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/user_api_util */ "./frontend/util/user_api_util.js");
 /* harmony import */ var image_conversion__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! image-conversion */ "./node_modules/image-conversion/index.js");
 /* harmony import */ var image_conversion__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(image_conversion__WEBPACK_IMPORTED_MODULE_4__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
- // import imageCompression from 'browser-image-compression';
+// import imageCompression from 'browser-image-compression';
 // import { compressImageFile } from 'frontend-image-compress';
-
-
 
 var EditProfileModal = /*#__PURE__*/function (_React$Component) {
   _inherits(EditProfileModal, _React$Component);
-
   var _super = _createSuper(EditProfileModal);
-
   function EditProfileModal(props) {
     var _this;
-
     _classCallCheck(this, EditProfileModal);
-
     _this = _super.call(this, props);
     _this.state = {
       imageUrl: "",
@@ -7580,16 +6871,15 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(EditProfileModal, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this$props$user = this.props.user,
-          full_name = _this$props$user.full_name,
-          display_name = _this$props$user.display_name,
-          what_i_do = _this$props$user.what_i_do,
-          phone_number = _this$props$user.phone_number,
-          timezone_offset = _this$props$user.timezone_offset;
+        full_name = _this$props$user.full_name,
+        display_name = _this$props$user.display_name,
+        what_i_do = _this$props$user.what_i_do,
+        phone_number = _this$props$user.phone_number,
+        timezone_offset = _this$props$user.timezone_offset;
       this.setState({
         full_name: full_name,
         display_name: display_name,
@@ -7598,33 +6888,26 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         timezone_offset: timezone_offset
       });
     } // Fires backend to update the user's attached photo
-
   }, {
     key: "handleUpload",
     value: function handleUpload(e) {
       var _this2 = this;
-
       e.stopPropagation();
       var _this$state = this.state,
-          deleteImage = _this$state.deleteImage,
-          imageFile = _this$state.imageFile,
-          full_name = _this$state.full_name,
-          display_name = _this$state.display_name,
-          what_i_do = _this$state.what_i_do,
-          phone_number = _this$state.phone_number,
-          timezone_offset = _this$state.timezone_offset; // Necessary for uploading files
-
+        deleteImage = _this$state.deleteImage,
+        imageFile = _this$state.imageFile,
+        full_name = _this$state.full_name,
+        display_name = _this$state.display_name,
+        what_i_do = _this$state.what_i_do,
+        phone_number = _this$state.phone_number,
+        timezone_offset = _this$state.timezone_offset; // Necessary for uploading files
       var userForm = new FormData();
       userForm.append('id', this.props.user.id);
       if (deleteImage) userForm.append('user[photo]', null);else if (imageFile) userForm.append('user[photo]', imageFile);
       userForm.append('user[full_name]', full_name); // Nested!
-
       userForm.append('user[display_name]', display_name); // Nested!
-
       userForm.append('user[what_i_do]', what_i_do); // Nested!
-
       userForm.append('user[phone_number]', phone_number); // Nested!
-
       userForm.append('user[timezone_offset]', timezone_offset); // Nested!
 
       this.props.updateUser(userForm).then(function () {
@@ -7636,21 +6919,19 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
             workspace_id: _this2.props.workspace_id
           }
         });
-
         _this2.handleCancel();
       });
     } // Resets state and hides modal
-
   }, {
     key: "handleCancel",
     value: function handleCancel(e) {
       if (e) e.stopPropagation();
       var _this$props$user2 = this.props.user,
-          full_name = _this$props$user2.full_name,
-          display_name = _this$props$user2.display_name,
-          what_i_do = _this$props$user2.what_i_do,
-          phone_number = _this$props$user2.phone_number,
-          timezone_offset = _this$props$user2.timezone_offset;
+        full_name = _this$props$user2.full_name,
+        display_name = _this$props$user2.display_name,
+        what_i_do = _this$props$user2.what_i_do,
+        phone_number = _this$props$user2.phone_number,
+        timezone_offset = _this$props$user2.timezone_offset;
       this.setState({
         imageUrl: "",
         imageFile: null,
@@ -7664,16 +6945,13 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("edit-profile-modal");
     } // Updates the field
     // Special case for phone number where it will insert dashes at the right places
-
   }, {
     key: "handleChange",
     value: function handleChange(type) {
       var _this3 = this;
-
       return function (e) {
         if (type == "full_name") {
           var _this3$setState;
-
           _this3.setState((_this3$setState = {}, _defineProperty(_this3$setState, type, e.currentTarget.value), _defineProperty(_this3$setState, "errors", Object.assign(_this3.state.errors, {
             full_name: e.currentTarget.value ? "" : "Full name can't be left blank!"
           })), _this3$setState));
@@ -7682,26 +6960,23 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
           number = number.split("").filter(function (_char) {
             return parseInt(_char);
           }).join("");
-
           _this3.setState(_defineProperty({}, type, number.slice(0, 10)));
         }
       };
     } // Reads in the elements using FileReader, and set state when successful
-
   }, {
     key: "readFile",
     value: function readFile(e) {
       var _this4 = this;
-
       var reader = new FileReader();
-      var file = e.currentTarget.files[0]; // Triggers when a file is done
+      var file = e.currentTarget.files[0];
 
+      // Triggers when a file is done
       reader.onloadend = function () {
         if (file.type === "image/jpeg" || file.type === "image/png") {
           _this4.setState({
             loadingFile: true
           });
-
           if (file.size < 200000) _this4.setState({
             loadingFile: false,
             deleteImage: false,
@@ -7739,12 +7014,11 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
           });
         }
       };
-
       if (file) reader.readAsDataURL(file); // Triggers load
       else this.setState({
-          imageUrl: this.state.imageUrl ? this.state.imageUrl : "",
-          imageFile: this.state.imageFile ? this.state.imageFile : null
-        });
+        imageUrl: this.state.imageUrl ? this.state.imageUrl : "",
+        imageFile: this.state.imageFile ? this.state.imageFile : null
+      });
     }
   }, {
     key: "photoUrl",
@@ -7767,7 +7041,6 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
     key: "modalForm",
     value: function modalForm() {
       var _this5 = this;
-
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "edit-profile-modal-form"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -7805,9 +7078,8 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
         onChange: this.handleChange("timezone_offset")
       }, _util_user_api_util__WEBPACK_IMPORTED_MODULE_3__["timeZones"].map(function (_ref, idx) {
         var _ref2 = _slicedToArray(_ref, 2),
-            offset = _ref2[0],
-            description = _ref2[1];
-
+          offset = _ref2[0],
+          description = _ref2[1];
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: parseInt(offset),
           key: idx
@@ -7867,10 +7139,8 @@ var EditProfileModal = /*#__PURE__*/function (_React$Component) {
       }), this.modalForm());
     }
   }]);
-
   return EditProfileModal;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (EditProfileModal);
 
 /***/ }),
@@ -7892,7 +7162,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   var userId = state.session.user_id;
   return {
@@ -7901,7 +7170,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     workspace_id: state.session.workspace_id
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     updateUser: function updateUser(user) {
@@ -7909,7 +7177,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_edit_profile_modal__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
@@ -7928,43 +7195,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.jsx");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
   _inherits(EditProfileStatusModal, _React$Component);
-
   var _super = _createSuper(EditProfileStatusModal);
-
   function EditProfileStatusModal(props) {
     var _this;
-
     _classCallCheck(this, EditProfileStatusModal);
-
     _this = _super.call(this, props);
     _this.state = {
       status: ""
@@ -7974,7 +7227,6 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
     _this.handleCancel = _this.handleCancel.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(EditProfileStatusModal, [{
     key: "componentDidMount",
     value: function componentDidMount() {
@@ -7984,7 +7236,6 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
         status: user.status
       });
     } // updates a field, and either enables or disables the button
-
   }, {
     key: "updateField",
     value: function updateField(e) {
@@ -7993,7 +7244,6 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
         status: e.currentTarget.value
       });
     } // handle cancel
-
   }, {
     key: "handleCancel",
     value: function handleCancel(e) {
@@ -8009,7 +7259,6 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
     key: "submitForm",
     value: function submitForm(e) {
       var _this2 = this;
-
       e.stopPropagation();
       var workspace_id = getState().session.workspace_id;
       dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["updateWorkspaceUser"])(workspace_id, {
@@ -8017,10 +7266,9 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
       })).then(function () {
         var users = getState().entities.users;
         var _getState$session = getState().session,
-            user_id = _getState$session.user_id,
-            user_channel_ids = _getState$session.user_channel_ids,
-            workspace_id = _getState$session.workspace_id;
-
+          user_id = _getState$session.user_id,
+          user_channel_ids = _getState$session.user_channel_ids,
+          workspace_id = _getState$session.workspace_id;
         _this2.props.loginACChannel.speak({
           workspace_data: {
             user: users[user_id],
@@ -8029,7 +7277,6 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
             workspace_id: workspace_id
           }
         });
-
         _this2.handleCancel();
       });
     }
@@ -8089,10 +7336,8 @@ var EditProfileStatusModal = /*#__PURE__*/function (_React$Component) {
       }, 100 - this.state.status.length)), this.buttons()));
     }
   }]);
-
   return EditProfileStatusModal;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(EditProfileStatusModal));
 
 /***/ }),
@@ -8111,45 +7356,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
 /* harmony import */ var _util_connection_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/connection_api_util */ "./frontend/util/connection_api_util.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var InviteUserModal = /*#__PURE__*/function (_React$Component) {
   _inherits(InviteUserModal, _React$Component);
-
   var _super = _createSuper(InviteUserModal);
-
   function InviteUserModal() {
     var _this;
-
     _classCallCheck(this, InviteUserModal);
-
     _this = _super.call(this);
     _this.state = {
       name: "",
@@ -8163,7 +7393,6 @@ var InviteUserModal = /*#__PURE__*/function (_React$Component) {
     _this.warning = _this.warning.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(InviteUserModal, [{
     key: "button",
     value: function button() {
@@ -8180,24 +7409,19 @@ var InviteUserModal = /*#__PURE__*/function (_React$Component) {
         className: "orange"
       }, this.state.error);
     } // updates a field, and either enables or disables the button
-
   }, {
     key: "updateField",
     value: function updateField(type) {
       var _this2 = this;
-
       return function (e) {
         var _this2$setState, _this2$setState2;
-
         if (e.currentTarget.value === "") _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, e.currentTarget.value), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "Email can't be blank."), _this2$setState));else _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, e.currentTarget.value), _defineProperty(_this2$setState2, "disabled", false), _defineProperty(_this2$setState2, "error", ""), _this2$setState2));
       };
     } // submits the information, and creates something
-
   }, {
     key: "submitForm",
     value: function submitForm(e) {
       var _this3 = this;
-
       e.preventDefault();
       Object(_util_connection_api_util__WEBPACK_IMPORTED_MODULE_3__["inviteUser"])(this.state.name, this.props.match.params.workspace_address).then(function () {
         _this3.setState({
@@ -8213,7 +7437,6 @@ var InviteUserModal = /*#__PURE__*/function (_React$Component) {
         });
       });
     } // form this modal will output
-
   }, {
     key: "modalForm",
     value: function modalForm() {
@@ -8245,14 +7468,12 @@ var InviteUserModal = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this4 = this;
-
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "invite-user-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
           Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_2__["hideElements"])("invite-user-modal");
-
           _this4.setState({
             name: ""
           });
@@ -8260,10 +7481,8 @@ var InviteUserModal = /*#__PURE__*/function (_React$Component) {
       }), this.modalForm());
     }
   }]);
-
   return InviteUserModal;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(InviteUserModal));
 
 /***/ }),
@@ -8280,43 +7499,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 var NewChannelModal = /*#__PURE__*/function (_React$Component) {
   _inherits(NewChannelModal, _React$Component);
-
   var _super = _createSuper(NewChannelModal);
-
   function NewChannelModal() {
     var _this;
-
     _classCallCheck(this, NewChannelModal);
-
     _this = _super.call(this);
     _this.state = {
       name: "",
@@ -8331,7 +7535,6 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
     _this.warning = _this.warning.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(NewChannelModal, [{
     key: "button",
     value: function button() {
@@ -8354,15 +7557,12 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
         className: "orange"
       }, text);
     } // updates a field, and either enables or disables the button
-
   }, {
     key: "updateField",
     value: function updateField(type) {
       var _this2 = this;
-
       return function (e) {
         var _this2$setState, _this2$setState2, _this2$setState3, _this2$setState4;
-
         var currentVal = e.currentTarget.value.split('');
         currentVal = currentVal.map(function (ele) {
           return ele === " " ? '-' : ele.toLowerCase();
@@ -8370,12 +7570,10 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
         if (currentVal.length > 80) _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, type, currentVal.join('')), _defineProperty(_this2$setState, "disabled", true), _defineProperty(_this2$setState, "error", "long"), _this2$setState));else if (currentVal.length === 0) _this2.setState((_this2$setState2 = {}, _defineProperty(_this2$setState2, type, currentVal.join('')), _defineProperty(_this2$setState2, "disabled", true), _defineProperty(_this2$setState2, "error", "empty"), _this2$setState2));else if (_this2.props.channels.includes(currentVal.join(''))) _this2.setState((_this2$setState3 = {}, _defineProperty(_this2$setState3, type, currentVal.join('')), _defineProperty(_this2$setState3, "disabled", true), _defineProperty(_this2$setState3, "error", "taken"), _this2$setState3));else _this2.setState((_this2$setState4 = {}, _defineProperty(_this2$setState4, type, currentVal.join('')), _defineProperty(_this2$setState4, "disabled", false), _defineProperty(_this2$setState4, "error", "none"), _this2$setState4));
       };
     } // submits the information, and creates something
-
   }, {
     key: "submitForm",
     value: function submitForm(e) {
       var _this3 = this;
-
       e.preventDefault();
       var channel = {
         name: this.state.name,
@@ -8384,17 +7582,14 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
       this.props.postChannel(channel).then(function (_ref) {
         var channel = _ref.channel;
         Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("new-channel-modal");
-
         _this3.setState({
           name: "",
           disabled: true,
           error: "none"
         });
-
         _this3.props.history.push("/workspace/".concat(_this3.props.workspace_address, "/").concat(channel.id));
       });
     } // form this modal will output
-
   }, {
     key: "modalForm",
     value: function modalForm() {
@@ -8430,14 +7625,12 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this4 = this;
-
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "new-channel-modal hidden"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "part-modal-background",
         onClick: function onClick() {
           Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_1__["hideElements"])("new-channel-modal");
-
           _this4.setState({
             name: ""
           });
@@ -8445,10 +7638,8 @@ var NewChannelModal = /*#__PURE__*/function (_React$Component) {
       }), this.modalForm());
     }
   }]);
-
   return NewChannelModal;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (NewChannelModal);
 
 /***/ }),
@@ -8472,7 +7663,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspace_id: state.session.workspace_id,
@@ -8480,7 +7670,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     channels: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["objectToNameArray"])(state.entities.channels)
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     postChannel: function postChannel(channel) {
@@ -8488,7 +7677,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_new_channel_modal__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
@@ -8510,29 +7698,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -8542,14 +7720,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
   _inherits(ProfileDropdown, _React$Component);
-
   var _super = _createSuper(ProfileDropdown);
-
   function ProfileDropdown(props) {
     var _this;
-
     _classCallCheck(this, ProfileDropdown);
-
     _this = _super.call(this, props);
     _this.logoutUser = _this.logoutUser.bind(_assertThisInitialized(_this));
     _this.logoutWorkspace = _this.logoutWorkspace.bind(_assertThisInitialized(_this));
@@ -8557,12 +7731,10 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
     _this.updateWorkspaceUser = _this.updateWorkspaceUser.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(ProfileDropdown, [{
     key: "logoutUser",
     value: function logoutUser(e) {
       var _this2 = this;
-
       e.stopPropagation();
       dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["logout"])()).then(function () {
         return _this2.props.history.push('/');
@@ -8572,7 +7744,6 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
     key: "logoutWorkspace",
     value: function logoutWorkspace(e) {
       var _this3 = this;
-
       e.stopPropagation();
       var workspace_id = getState().session.workspace_id;
       var user = this.props.user;
@@ -8584,11 +7755,9 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
             workspace_id: workspace_id
           }
         });
-
         _this3.props.history.push('/');
       });
     } // stops propagation and executes a function
-
   }, {
     key: "toggleButton",
     value: function toggleButton(cb) {
@@ -8602,12 +7771,11 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
     key: "updateWorkspaceUser",
     value: function updateWorkspaceUser(workspace_user) {
       var _this4 = this;
-
       var users = getState().entities.users;
       var _getState$session = getState().session,
-          workspace_id = _getState$session.workspace_id,
-          user_id = _getState$session.user_id,
-          user_channel_ids = _getState$session.user_channel_ids;
+        workspace_id = _getState$session.workspace_id,
+        user_id = _getState$session.user_id,
+        user_channel_ids = _getState$session.user_channel_ids;
       dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["updateWorkspaceUser"])(workspace_id, workspace_user)).then(function () {
         _this4.props.loginACChannel.speak({
           workspace_data: {
@@ -8623,10 +7791,9 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this5 = this;
-
       var _this$props = this.props,
-          user = _this$props.user,
-          showUser = _this$props.showUser;
+        user = _this$props.user,
+        showUser = _this$props.showUser;
       var userStatus = user.status ? user.status.slice(0, 22) + (user.status.length > 23 ? "..." : user.status.slice(22, 23)) : "Set your status";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-modal profile hidden",
@@ -8686,10 +7853,8 @@ var ProfileDropdown = /*#__PURE__*/function (_React$Component) {
       }, "Sign out of ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("em", null, Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_5__["workspaceTitle"])(this.props.match.params.workspace_address)))));
     }
   }]);
-
   return ProfileDropdown;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(ProfileDropdown));
 
 /***/ }),
@@ -8710,29 +7875,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -8741,14 +7896,10 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
   _inherits(SidebarDropdown, _React$Component);
-
   var _super = _createSuper(SidebarDropdown);
-
   function SidebarDropdown(props) {
     var _this;
-
     _classCallCheck(this, SidebarDropdown);
-
     _this = _super.call(this, props);
     _this.state = {
       workspaceTitle: Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_4__["workspaceTitle"])(_this.props.match.params.workspace_address)
@@ -8757,12 +7908,10 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
     _this.logoutWorkspace = _this.logoutWorkspace.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(SidebarDropdown, [{
     key: "logoutUser",
     value: function logoutUser(e) {
       var _this2 = this;
-
       e.stopPropagation();
       dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["logout"])()).then(function () {
         return _this2.props.history.push('/');
@@ -8772,11 +7921,10 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
     key: "logoutWorkspace",
     value: function logoutWorkspace(e) {
       var _this3 = this;
-
       e.stopPropagation();
       var _getState$session = getState().session,
-          workspace_id = _getState$session.workspace_id,
-          user_id = _getState$session.user_id;
+        workspace_id = _getState$session.workspace_id,
+        user_id = _getState$session.user_id;
       dispatch(Object(_actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__["logoutWorkspace"])(workspace_id)).then(function () {
         _this3.props.loginACChannel.speak({
           workspace_data: {
@@ -8785,7 +7933,6 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
             workspace_id: workspace_id
           }
         });
-
         _this3.props.history.push('/');
       });
     }
@@ -8793,7 +7940,6 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this4 = this;
-
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-modal sidebar hidden",
         onClick: function onClick() {
@@ -8847,10 +7993,8 @@ var SidebarDropdown = /*#__PURE__*/function (_React$Component) {
       }, "Back to homepage")));
     }
   }]);
-
   return SidebarDropdown;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(SidebarDropdown));
 
 /***/ }),
@@ -8869,50 +8013,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var UserPopupModal = /*#__PURE__*/function (_React$Component) {
   _inherits(UserPopupModal, _React$Component);
-
   var _super = _createSuper(UserPopupModal);
-
   function UserPopupModal(props) {
     var _this;
-
     _classCallCheck(this, UserPopupModal);
-
     _this = _super.call(this, props);
     _this.openProfile = _this.openProfile.bind(_assertThisInitialized(_this));
     _this.startChat = _this.startChat.bind(_assertThisInitialized(_this));
     _this.startCall = _this.startCall.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(UserPopupModal, [{
     key: "componentDidMount",
     value: function componentDidMount() {
@@ -8927,15 +8056,12 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
     key: "startChat",
     value: function startChat(userId) {
       var _this2 = this;
-
       return function (e) {
         e.stopPropagation();
-
         _this2.props.hidePopup();
-
         var _getState$session = getState().session,
-            user_id = _getState$session.user_id,
-            workspace_id = _getState$session.workspace_id;
+          user_id = _getState$session.user_id,
+          workspace_id = _getState$session.workspace_id;
         dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"])({
           user_1_id: user_id,
           user_2_id: userId,
@@ -8944,7 +8070,6 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
           var dmChannelUser = _ref.dmChannelUser;
           var channel_id = dmChannelUser.channel_id;
           var workspace_address = _this2.props.match.params.workspace_address;
-
           _this2.props.history.push("/workspace/".concat(workspace_address, "/").concat(channel_id));
         });
       };
@@ -8953,15 +8078,12 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
     key: "startCall",
     value: function startCall(userId) {
       var _this3 = this;
-
       return function (e) {
         e.stopPropagation();
-
         _this3.props.hidePopup();
-
         var _getState$session2 = getState().session,
-            user_id = _getState$session2.user_id,
-            workspace_id = _getState$session2.workspace_id;
+          user_id = _getState$session2.user_id,
+          workspace_id = _getState$session2.workspace_id;
         dispatch(Object(_actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__["startDmChannel"])({
           user_1_id: user_id,
           user_2_id: userId,
@@ -8970,7 +8092,6 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
           var dmChannelUser = _ref2.dmChannelUser;
           var channel_id = dmChannelUser.channel_id;
           var workspace_address = _this3.props.match.params.workspace_address;
-
           _this3.props.startVideoCall(workspace_address, channel_id);
         });
       };
@@ -8979,12 +8100,9 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
     key: "openProfile",
     value: function openProfile(userId) {
       var _this4 = this;
-
       return function (e) {
         e.stopPropagation();
-
         _this4.props.showUser(userId);
-
         _this4.props.hidePopup();
       };
     }
@@ -9004,9 +8122,9 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this$props = this.props,
-          hidePopup = _this$props.hidePopup,
-          user = _this$props.user,
-          calculatePos = _this$props.calculatePos;
+        hidePopup = _this$props.hidePopup,
+        user = _this$props.user,
+        calculatePos = _this$props.calculatePos;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "user-popup-modal"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -9051,10 +8169,8 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
       }, "Call"))));
     }
   }]);
-
   return UserPopupModal;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(UserPopupModal));
 
 /***/ }),
@@ -9074,29 +8190,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.jsx");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
@@ -9104,26 +8210,21 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 var WorkspaceDropdown = /*#__PURE__*/function (_React$Component) {
   _inherits(WorkspaceDropdown, _React$Component);
-
   var _super = _createSuper(WorkspaceDropdown);
-
   function WorkspaceDropdown(props) {
     var _this;
-
     _classCallCheck(this, WorkspaceDropdown);
-
     _this = _super.call(this, props);
     _this.workspaceList = _this.workspaceList.bind(_assertThisInitialized(_this));
     _this.logoutUser = _this.logoutUser.bind(_assertThisInitialized(_this));
     return _this;
-  } // NOTE: this.props.history IS SHARED...IF YOU WANT TO REDIRECT DON'T PASS AROUND THE REDIRECT JUST DO IT DIRECTLY HERE
+  }
 
-
+  // NOTE: this.props.history IS SHARED...IF YOU WANT TO REDIRECT DON'T PASS AROUND THE REDIRECT JUST DO IT DIRECTLY HERE
   _createClass(WorkspaceDropdown, [{
     key: "workspaceList",
     value: function workspaceList() {
       var _this2 = this;
-
       var workspaces = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["objectToArray"])(getState().entities.workspaces);
       if (workspaces.length > 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "dropdown-workspaces"
@@ -9141,7 +8242,6 @@ var WorkspaceDropdown = /*#__PURE__*/function (_React$Component) {
     key: "logoutUser",
     value: function logoutUser(e) {
       var _this3 = this;
-
       e.stopPropagation();
       dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["logout"])()).then(function () {
         _this3.props.history.push('/');
@@ -9175,10 +8275,8 @@ var WorkspaceDropdown = /*#__PURE__*/function (_React$Component) {
       }, "Sign Out")));
     }
   }]);
-
   return WorkspaceDropdown;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(WorkspaceDropdown));
 
 /***/ }),
@@ -9201,14 +8299,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var Root = function Root(_ref) {
   var store = _ref.store;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_1__["Provider"], {
     store: store
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["HashRouter"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_app__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Root);
 
 /***/ }),
@@ -9239,29 +8335,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modals_profile_dropdown__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../modals/profile_dropdown */ "./frontend/components/modals/profile_dropdown.jsx");
 /* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
- // Subcomponents
+// Subcomponents
 
 
 
@@ -9269,29 +8358,26 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
- // Modals
+
+// Modals
 
 
 
 
- // Dropdowns
+
+// Dropdowns
 
 
- // Utilities and constants
 
-
+// Utilities and constants
 
 
 var Workspace = /*#__PURE__*/function (_React$Component) {
   _inherits(Workspace, _React$Component);
-
   var _super = _createSuper(Workspace);
-
   function Workspace() {
     var _this;
-
     _classCallCheck(this, Workspace);
-
     _this = _super.call(this);
     _this.state = {
       loaded: false,
@@ -9300,7 +8386,6 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       shownUserId: 0,
       inVideoCall: false,
       incomingCall: null // contains incoming call information
-
     };
     _this.showUser = _this.showUser.bind(_assertThisInitialized(_this));
     _this.hideUser = _this.hideUser.bind(_assertThisInitialized(_this));
@@ -9310,30 +8395,26 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     _this.receiveCall = _this.receiveCall.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(Workspace, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
-
       var _this$props = this.props,
-          workspaces = _this$props.workspaces,
-          workspace_address = _this$props.workspace_address,
-          channel_id = _this$props.channel_id;
+        workspaces = _this$props.workspaces,
+        workspace_address = _this$props.workspace_address,
+        channel_id = _this$props.channel_id;
       var valid = false;
       this.setupLoginACChannel();
-
       for (var i = 0; i < workspaces.length; i++) {
         if (workspaces[i].address === workspace_address) {
-          valid = true; // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS/CHANNELS
+          valid = true;
 
+          // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS/CHANNELS
           this.props.getWorkspace(workspace_address).then(function (_ref) {
             var channels = _ref.channels,
-                workspace = _ref.workspace;
+              workspace = _ref.workspace;
             _this2.first_channel = Object.keys(channels)[0]; // goes to first channel if url is invalid
-
             if (channel_id != "saved-browser" && channel_id != "channel-browser" && channel_id != "people-browser" && channels[channel_id] === undefined) _this2.props.history.replace("/workspace/".concat(workspace_address, "/").concat(_this2.first_channel));
-
             _this2.loginACChannel.speak({
               // announces login through ActionCable
               workspace_data: {
@@ -9342,9 +8423,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
                 user_channel_ids: _this2.props.user_channel_ids,
                 workspace_id: workspace.id
               }
-            }); // For new users that aren't logged into the general channel, log them in 
+            });
 
-
+            // For new users that aren't logged into the general channel, log them in 
             if (!_this2.props.user_channel_ids.includes(_this2.first_channel)) {
               dispatch(Object(_actions_channel_actions__WEBPACK_IMPORTED_MODULE_15__["joinChannel"])({
                 channel_id: _this2.first_channel,
@@ -9359,38 +8440,32 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
                 });
               });
             }
-
             _this2.setupCallACChannel();
-
             _this2.setState({
               loaded: true
             });
           });
         }
       }
-
       if (!valid) this.props.history.replace('/signin');else if (channel_id != "0") this.props.loadChannel(channel_id);
     } // Begins listening for videocall pings
-
   }, {
     key: "setupCallACChannel",
     value: function setupCallACChannel() {
       var _this3 = this;
-
       var _this$props2 = this.props,
-          user = _this$props2.user,
-          user_channel_ids = _this$props2.user_channel_ids;
+        user = _this$props2.user,
+        user_channel_ids = _this$props2.user_channel_ids;
       this.callACChannel = App.cable.subscriptions.create({
         channel: "CallChannel"
       }, {
         received: function received(data) {
           var from = data.from,
-              channel_id = data.channel_id,
-              type = data.type,
-              target_user_id = data.target_user_id; // JOIN_CALL  : if the ping is for current user and user isn't busy   -> activate modal and channel
+            channel_id = data.channel_id,
+            type = data.type,
+            target_user_id = data.target_user_id; // JOIN_CALL  : if the ping is for current user and user isn't busy   -> activate modal and channel
           // LEAVE_CALL : if ping is from current user                          -> set inVideoCall to false
           //              if ping is from the caller (same channel_id as ping)  -> remove the current incoming ping
-
           if (type == _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["JOIN_CALL"] && target_user_id == user.id && !_this3.state.inVideoCall && !_this3.state.incomingCall) {
             if (user_channel_ids.includes(channel_id)) {
               _this3.receiveCall(data);
@@ -9421,19 +8496,16 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     } // Listens for login for workspace and channel
     // workspace_data : { user_id, logged_in }
     // channel_data   : { user_id, channel_id, action }
-
   }, {
     key: "setupLoginACChannel",
     value: function setupLoginACChannel() {
       var _this4 = this;
-
       this.loginACChannel = App.cable.subscriptions.create({
         channel: "LoginChannel"
       }, {
         received: function received(_ref2) {
           var workspace_data = _ref2.workspace_data,
-              channel_data = _ref2.channel_data;
-
+            channel_data = _ref2.channel_data;
           if (workspace_data) {
             if (workspace_data.user.id != _this4.props.user_id) {
               _this4.props.updateOtherUserWorkspaceStatus(workspace_data);
@@ -9449,7 +8521,6 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         }
       });
     } // Creates a popup of a video call
-
   }, {
     key: "startVideoCall",
     value: function startVideoCall(workspace_address, channel_id) {
@@ -9467,7 +8538,6 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     value: function getUserName(user) {
       if (user.display_name) return user.display_name;else if (user.full_name) return user.full_name;else return user.email;
     } // handles incoming video call pings (pings have type, user_id, and channel_id)
-
   }, {
     key: "renderVideoCallPing",
     value: function renderVideoCallPing() {
@@ -9502,43 +8572,35 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         type: "audio/mp3"
       })));
     } // Builds the link using callData, then starts video call
-
   }, {
     key: "pickupCall",
     value: function pickupCall(callData) {
       var _this5 = this;
-
       return function (e) {
         e.stopPropagation();
         var workspace_address = _this5.props.match.params.workspace_address;
         var channel_id = callData.channel_id;
-
         _this5.startVideoCall(workspace_address, channel_id, "?pickup");
-
         _this5.setState({
           incomingCall: null
         });
       };
     } // Sends a reject call action to the caller, and removes the modal
-
   }, {
     key: "rejectCall",
     value: function rejectCall(callData) {
       var _this6 = this;
-
       return function (e) {
         e.stopPropagation();
         var from = callData.from,
-            target_user_id = callData.target_user_id,
-            channel_id = callData.channel_id;
-
+          target_user_id = callData.target_user_id,
+          channel_id = callData.channel_id;
         _this6.callACChannel.speak({
           type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["REJECT_CALL"],
           from: target_user_id,
           target_user_id: from,
           channel_id: channel_id
         });
-
         _this6.setState({
           incomingCall: null
         });
@@ -9551,8 +8613,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         incomingCall: callData
       });
       var from = callData.from,
-          target_user_id = callData.target_user_id,
-          channel_id = callData.channel_id;
+        target_user_id = callData.target_user_id,
+        channel_id = callData.channel_id;
       this.callACChannel.speak({
         type: _util_call_api_util__WEBPACK_IMPORTED_MODULE_14__["RECEIVED_CALL"],
         from: target_user_id,
@@ -9560,12 +8622,10 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
         channel_id: channel_id
       });
     } // Makes sure you don't go to an invalid channel
-
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       var channel_id = this.props.match.params.channel_id;
-
       if (oldProps.match.params.channel_id !== channel_id) {
         if (channel_id == "channel-browser" || channel_id == 'people-browser' || channel_id == 'saved-browser') this.props.loadChannel(parseInt(channel_id));else if (getState().entities.channels[channel_id] === undefined) this.props.history.goBack(); //NOTE: BASICALLY GOES BACK TO BEFORE
         else this.props.loadChannel(parseInt(channel_id));
@@ -9577,7 +8637,6 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       if (this.loginACChannel) this.loginACChannel.unsubscribe();
       if (this.callACChannel) this.callACChannel.unsubscribe();
     } // handles profile sidebar of channel
-
   }, {
     key: "renderProfile",
     value: function renderProfile() {
@@ -9624,15 +8683,14 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this7 = this;
-
       if (!this.state.loaded) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "loading-page"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/images/orb.gif"
       }));
       var _this$props3 = this.props,
-          user_id = _this$props3.user_id,
-          users = _this$props3.users;
+        user_id = _this$props3.user_id,
+        users = _this$props3.users;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_workspace_topbar__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -9658,10 +8716,8 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       })));
     }
   }]);
-
   return Workspace;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Workspace);
 
 /***/ }),
@@ -9689,7 +8745,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspaces: Object.values(state.entities.workspaces),
@@ -9703,7 +8758,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     user_channel_ids: Object.keys(state.session.user_channels)
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getWorkspace: function getWorkspace(workspace_address) {
@@ -9723,7 +8777,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_workspace__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
@@ -9742,45 +8795,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
   _inherits(WorkspaceSidebar, _React$Component);
-
   var _super = _createSuper(WorkspaceSidebar);
-
   function WorkspaceSidebar(props) {
     var _this;
-
     _classCallCheck(this, WorkspaceSidebar);
-
     _this = _super.call(this, props);
     _this.state = {
       channel: "",
@@ -9797,7 +8835,6 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     _this.getChannels = _this.getChannels.bind(_assertThisInitialized(_this));
     return _this;
   }
-
   _createClass(WorkspaceSidebar, [{
     key: "channelLink",
     value: function channelLink(channelId) {
@@ -9807,15 +8844,14 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     key: "goToChannel",
     value: function goToChannel(new_channel_id) {
       var _this$props$match$par = this.props.match.params,
-          workspace_address = _this$props$match$par.workspace_address,
-          channel_id = _this$props$match$par.channel_id;
+        workspace_address = _this$props$match$par.workspace_address,
+        channel_id = _this$props$match$par.channel_id;
       if (channel_id != new_channel_id) this.props.history.push("/workspace/".concat(workspace_address, "/").concat(new_channel_id));
     }
   }, {
     key: "leaveDmChannel",
     value: function leaveDmChannel(channel_id) {
       var _this2 = this;
-
       return function (e) {
         e.stopPropagation();
         var channelInfo = {
@@ -9823,7 +8859,6 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
           user_id: _this2.props.user.id,
           active: false
         };
-
         _this2.props.endDmChannel(channelInfo).then(function () {
           return _this2.goToChannel(Object.keys(_this2.props.channels)[0]);
         });
@@ -9833,10 +8868,8 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     key: "toggleDropdown",
     value: function toggleDropdown(category) {
       var _this3 = this;
-
       return function (e) {
         e.stopPropagation();
-
         _this3.setState(_defineProperty({}, category, _this3.state[category] == "" ? "hidden" : ""));
       };
     }
@@ -9844,11 +8877,9 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     key: "toggleChannelOptionsDropdown",
     value: function toggleChannelOptionsDropdown() {
       var _this4 = this;
-
       return function (e) {
         e.stopPropagation();
         e.preventDefault();
-
         _this4.setState({
           channelOptionsDropdown: {
             top: e.currentTarget.offsetTop + e.currentTarget.offsetHeight,
@@ -9864,7 +8895,6 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     key: "channelOptionsDropdown",
     value: function channelOptionsDropdown() {
       var _this5 = this;
-
       if (this.state.channelOptionsDropdown) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "channel-options-dropdown"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -9883,7 +8913,6 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
           _this5.setState({
             channelOptionsDropdown: null
           });
-
           Object(_util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__["toggleFocusElements"])("new-channel-modal", "new-channel-input")(e);
         }
       }, "Create a new channel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -9892,7 +8921,6 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
           _this5.setState({
             channelOptionsDropdown: null
           });
-
           _this5.goToChannel("channel-browser");
         }
       }, "Browse all channels")));
@@ -9901,8 +8929,8 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     key: "getDmChannelName",
     value: function getDmChannelName(channel) {
       var _this$props = this.props,
-          user = _this$props.user,
-          users = _this$props.users;
+        user = _this$props.user,
+        users = _this$props.users;
       var ids = Object.keys(channel.users);
       var userId = ids[0];
       if (ids[0] == user.id) userId = ids[1];
@@ -9928,19 +8956,17 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     value: function getChannels(starStatus) {
       var dmStatus = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var _this$props2 = this.props,
-          channels = _this$props2.channels,
-          user_channels = _this$props2.user_channels,
-          channel_id = _this$props2.channel_id;
+        channels = _this$props2.channels,
+        user_channels = _this$props2.user_channels,
+        channel_id = _this$props2.channel_id;
       if (Object.keys(channels).length === 0) return [];
       var filteredChannels = [];
       var channelList = user_channels.map(function (id) {
         return channels[id];
       });
-
       for (var i = 0; i < channelList.length; i++) {
         if (channelList[i].starred === starStatus && channelList[i].dm_channel == dmStatus) filteredChannels.push(channelList[i]);
       }
-
       return filteredChannels.sort(function (a, b) {
         return a.name > b.name ? 1 : -1;
       });
@@ -9949,7 +8975,6 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     key: "starred",
     value: function starred() {
       var _this6 = this;
-
       var starred = this.getChannels(true);
       starred = starred.concat(this.getChannels(true, true));
       var channel_id = this.props.match.params.channel_id;
@@ -9988,7 +9013,6 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
     key: "render",
     value: function render() {
       var _this7 = this;
-
       var channel_id = this.props.match.params.channel_id;
       if (this.props.user) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "workspace-sidebar"
@@ -10102,10 +9126,8 @@ var WorkspaceSidebar = /*#__PURE__*/function (_React$Component) {
       });
     }
   }]);
-
   return WorkspaceSidebar;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (WorkspaceSidebar);
 
 /***/ }),
@@ -10127,7 +9149,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     user: state.entities.users[state.session.user_id],
@@ -10138,7 +9159,6 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     channel_id: parseInt(ownProps.match.params.channel_id)
   };
 };
-
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     endDmChannel: function endDmChannel(dmChannelInfo) {
@@ -10146,7 +9166,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_workspace_sidebar__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
@@ -10165,44 +9184,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
 
 
 var WorkspaceTopbar = /*#__PURE__*/function (_React$Component) {
   _inherits(WorkspaceTopbar, _React$Component);
-
   var _super = _createSuper(WorkspaceTopbar);
-
   function WorkspaceTopbar(props) {
     _classCallCheck(this, WorkspaceTopbar);
-
     return _super.call(this, props);
   }
-
   _createClass(WorkspaceTopbar, [{
     key: "render",
     value: function render() {
@@ -10223,10 +9228,8 @@ var WorkspaceTopbar = /*#__PURE__*/function (_React$Component) {
       })));
     }
   }]);
-
   return WorkspaceTopbar;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(WorkspaceTopbar));
 
 /***/ }),
@@ -10243,43 +9246,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 
 
- // TODO2: CHANGE THIS FROM A COMPONENT TO A CUSTOM ROUTE
+
+// TODO2: CHANGE THIS FROM A COMPONENT TO A CUSTOM ROUTE
 // NOTE : ESSENTIALLY PROVIDES A REDIRECT
-
 var WorkspaceTransition = /*#__PURE__*/function (_React$Component) {
   _inherits(WorkspaceTransition, _React$Component);
-
   var _super = _createSuper(WorkspaceTransition);
-
   function WorkspaceTransition() {
     _classCallCheck(this, WorkspaceTransition);
-
     return _super.apply(this, arguments);
   }
-
   _createClass(WorkspaceTransition, [{
     key: "loadWorkspace",
     value: function loadWorkspace(address) {
@@ -10301,10 +9292,8 @@ var WorkspaceTransition = /*#__PURE__*/function (_React$Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Loading");
     }
   }]);
-
   return WorkspaceTransition;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
-
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(WorkspaceTransition));
 
 /***/ }),
@@ -10325,9 +9314,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.jsx");
 /* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/cloneDeep */ "./node_modules/lodash/cloneDeep.js");
 /* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
 
@@ -10339,21 +9329,18 @@ var ChannelReducer = function ChannelReducer() {
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
   var nextState, channel_id, user_id, channel_users;
-
   switch (action.type) {
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_WORKSPACE"]:
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["LOGOUT"]:
       return {};
-    //EDIT THIS
 
+    //EDIT THIS
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_WORKSPACE"]:
       return action.channels;
-
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL"]:
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       nextState[action.channel.id] = action.channel;
       return nextState;
-
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["JOIN_CHANNEL"]:
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       _channel_id = action.channel_user.channel_id;
@@ -10363,7 +9350,6 @@ var ChannelReducer = function ChannelReducer() {
         id: _user_id
       });
       return nextState;
-
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["LEAVE_CHANNEL"]:
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       _channel_id = action.channel_user.channel_id;
@@ -10371,43 +9357,41 @@ var ChannelReducer = function ChannelReducer() {
       if (nextState[_channel_id].users) delete nextState[_channel_id].users[_user_id];
       if (nextState[_channel_id].users === undefined) nextState[_channel_id].users = {};
       return nextState;
-    // primarily pull out starred information, can add more later
 
+    // primarily pull out starred information, can add more later
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CHANNEL_USER"]:
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       _channel_id = action.channel_user.channel_id;
       nextState[_channel_id].starred = action.channel_user.starred;
       return nextState;
-    // same as ReceiveChannel since we don't need to change users
 
+    // same as ReceiveChannel since we don't need to change users
     case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_DM_CHANNEL"]:
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;
-    // Not needed, since we don't need to edit channel
 
+    // Not needed, since we don't need to edit channel
     case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["LEAVE_DM_CHANNEL"]:
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       nextState[action.dmChannelUser.channel.id] = action.dmChannelUser.channel;
       return nextState;
-    // Update the channel's user list depending on whether its a login or logout action
 
+    // Update the channel's user list depending on whether its a login or logout action
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_4__["UPDATE_OTHER_USER_CHANNEL_STATUS"]:
       var _action$userData = action.userData,
-          _user_id = _action$userData.user_id,
-          _channel_id = _action$userData.channel_id,
-          login = _action$userData.login;
+        _user_id = _action$userData.user_id,
+        _channel_id = _action$userData.channel_id,
+        login = _action$userData.login;
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
       if (login) nextState[_channel_id].users[_user_id] = {
         id: _user_id
       };else delete nextState[_channel_id].users[_user_id];
       return nextState;
-
     default:
       return state;
   }
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (ChannelReducer);
 
 /***/ }),
@@ -10454,9 +9438,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
 
@@ -10466,7 +9451,6 @@ var MessageReducer = function MessageReducer() {
   Object.freeze(state);
   var newState = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["cloneDeep"])(state);
   var react_code, user_id, message_id, currentDate;
-
   switch (action.type) {
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE_SAVES"]:
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_MESSAGES"]:
@@ -10478,9 +9462,7 @@ var MessageReducer = function MessageReducer() {
         messages[messageIds[i]].created_date = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getMessageDate"])(messages[messageIds[i]], currentDate);
         messages[messageIds[i]].created_time = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getMessageTimestamp"])(messages[messageIds[i]]);
       }
-
       return messages;
-
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE"]:
       var message = Object(lodash__WEBPACK_IMPORTED_MODULE_0__["cloneDeep"])(action.message);
       currentDate = new Date(Date()).toLocaleDateString(); // initialized once to speed up the selector
@@ -10489,46 +9471,44 @@ var MessageReducer = function MessageReducer() {
       message.created_time = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_2__["getMessageTimestamp"])(message);
       newState[message.id] = message;
       return newState;
-
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_MESSAGE"]:
       delete newState[action.message.id];
       return newState;
-
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE_REACT"]:
       // increment or start counting
       react_code = action.message_react.react_code;
       user_id = action.message_react.user_id;
       message_id = action.message_react.message_id;
-      if (newState[message_id].total_reacts[react_code]) // update total_reacts count
+      if (newState[message_id].total_reacts[react_code])
+        // update total_reacts count
         newState[message_id].total_reacts[react_code] += 1;else newState[message_id].total_reacts[react_code] = 1;
-      if (newState[message_id].user_reacts[user_id]) // update user_reacts flag
+      if (newState[message_id].user_reacts[user_id])
+        // update user_reacts flag
         newState[message_id].user_reacts[user_id][react_code] = true;else newState[message_id].user_reacts[user_id] = _defineProperty({}, react_code, true);
       return newState;
-
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_MESSAGE_REACT"]:
       // only changes if it is greater than 0
       react_code = action.message_react.react_code;
       user_id = action.message_react.user_id;
-      message_id = action.message_react.message_id; // should never happen, safety
+      message_id = action.message_react.message_id;
 
-      if (!newState[message_id].total_reacts[react_code] || !newState[message_id].user_reacts[user_id]) return newState; // decrement/delete total_reacts and user_react entries
+      // should never happen, safety
+      if (!newState[message_id].total_reacts[react_code] || !newState[message_id].user_reacts[user_id]) return newState;
 
+      // decrement/delete total_reacts and user_react entries
       newState[message_id].total_reacts[react_code] -= 1;
       if (newState[message_id].total_reacts[react_code] <= 0) delete newState[message_id].total_reacts[react_code];
       delete newState[message_id].user_reacts[user_id][react_code];
       return newState;
-
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_MESSAGE_SAVE"]:
       // receive saved_message data
       message_id = action.message_save.message_id;
       if (action.message_save.message) newState[message_id] = action.message_save.message;
       return newState;
-
     default:
       return state;
   }
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (MessageReducer);
 
 /***/ }),
@@ -10550,22 +9530,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var UserReducer = function UserReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
   var nextState = Object.assign({}, state);
-
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
       return {};
-
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["LOAD_WORKSPACE"]:
       nextState = Object.assign({}, action.users); // add user login information from workspace
-
       var userIds = Object.keys(nextState);
-
       for (var i = 0; i < userIds.length; i++) {
         nextState[userIds[i]].logged_in = action.workspace.users[userIds[i]].logged_in;
         nextState[userIds[i]].status = action.workspace.users[userIds[i]].status;
@@ -10573,44 +9548,39 @@ var UserReducer = function UserReducer() {
         nextState[userIds[i]].paused = action.workspace.users[userIds[i]].paused;
         nextState[userIds[i]].photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(nextState[userIds[i]]);
       }
-
       return nextState;
-
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
       nextState[action.user.id] = action.user;
       nextState[action.user.id].photo_url = Object(_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__["photoUrl"])(nextState[action.user.id]);
       return nextState;
-
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_WORKSPACE_USER"]:
       var _action$workspace_use = action.workspace_user,
-          user_id = _action$workspace_use.user_id,
-          active = _action$workspace_use.active,
-          status = _action$workspace_use.status,
-          paused = _action$workspace_use.paused;
+        user_id = _action$workspace_use.user_id,
+        active = _action$workspace_use.active,
+        status = _action$workspace_use.status,
+        paused = _action$workspace_use.paused;
       Object.assign(nextState[user_id], {
         active: active,
         status: status,
         paused: paused
       });
       return nextState;
-
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_OTHER_USER_WORKSPACE_STATUS"]:
       var _action$userData = action.userData,
-          user = _action$userData.user,
-          logged_in = _action$userData.logged_in,
-          workspace_id = _action$userData.workspace_id;
-      nextState = Object.assign({}, state); // Copy over all of the user's data that they passed up
+        user = _action$userData.user,
+        logged_in = _action$userData.logged_in,
+        workspace_id = _action$userData.workspace_id;
+      nextState = Object.assign({}, state);
 
-      nextState[user.id] = user; // Update workspace user login information (not deprecated for logout)
-
+      // Copy over all of the user's data that they passed up
+      nextState[user.id] = user;
+      // Update workspace user login information (not deprecated for logout)
       nextState[user.id].logged_in = logged_in;
       return nextState;
-
     default:
       return state;
   }
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (UserReducer);
 
 /***/ }),
@@ -10633,43 +9603,37 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var WorkspaceReducer = function WorkspaceReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
   var nextState;
-
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["LOGOUT"]:
       return {};
-
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACES"]:
       return action.workspaces;
-
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_USER"]:
       return action.user.workspaces;
-
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["LOAD_WORKSPACE"]:
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_WORKSPACE"]:
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(state);
       nextState[action.workspace.id] = action.workspace;
       return nextState;
-
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_0__["REMOVE_WORKSPACE"]:
       nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(state);
       delete nextState[action.workspace.workspace_id];
       if (nextState === undefined) nextState = {};
       return nextState;
-
     case _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__["UPDATE_OTHER_USER_WORKSPACE_STATUS"]:
       var _action$userData = action.userData,
-          user = _action$userData.user,
-          logged_in = _action$userData.logged_in,
-          workspace_id = _action$userData.workspace_id;
-      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(state); // Updates workspace login info
-      // Adds user if user doesn't already exist (automatically increments)
+        user = _action$userData.user,
+        logged_in = _action$userData.logged_in,
+        workspace_id = _action$userData.workspace_id;
+      nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(state);
 
+      // Updates workspace login info
+      // Adds user if user doesn't already exist (automatically increments)
       if (!nextState[workspace_id].users[user.id]) {
         nextState[workspace_id].users[user.id] = {
           id: user.id,
@@ -10680,14 +9644,11 @@ var WorkspaceReducer = function WorkspaceReducer() {
         nextState[workspace_id].users[user.id].logged_in = logged_in;
         if (logged_in) nextState[workspace_id].num_logged_in_users += 1;else nextState[workspace_id].num_logged_in_users -= 1;
       }
-
       return nextState;
-
     default:
       return state;
   }
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (WorkspaceReducer);
 
 /***/ }),
@@ -10727,28 +9688,23 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var SessionErrorsReducer = function SessionErrorsReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
-
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_WORKSPACE"]:
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
     case _actions_error_actions__WEBPACK_IMPORTED_MODULE_1__["CLEAR_ERRORS"]:
       return [];
-
     case _actions_error_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_ERRORS"]:
       return action.errors.responseJSON;
     //NOTE: Errors is an object, actual messages are mapped to responseJSON
-
     default:
       return state;
   }
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (SessionErrorsReducer);
 
 /***/ }),
@@ -10796,8 +9752,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash/cloneDeep */ "./node_modules/lodash/cloneDeep.js");
 /* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../actions/message_actions */ "./frontend/actions/message_actions.jsx");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
 
@@ -10811,89 +9769,75 @@ var DEFAULT_SESSION = {
   channel_id: null,
   user_channels: {}
 };
-
 var SessionReducer = function SessionReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_SESSION;
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(state);
   var nextState = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_5___default()(state);
   var channel_id, message;
-
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_USER"]:
       nextState.user_id = action.user.id;
       return nextState;
-
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["LOAD_WORKSPACE"]:
       nextState.user_channels = action.user_channels ? action.user_channels : {};
       nextState.user_saved_messages = action.user_saved_messages ? action.user_saved_messages : {};
       nextState.workspace_id = action.workspace.id;
       return nextState;
-
     case _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_1__["REMOVE_WORKSPACE"]:
       nextState.workspace_id = null;
       nextState.channel_id = null;
       nextState.user_channels = {};
       return nextState;
-
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_CHANNEL"]:
       channel_id = action.channel.id;
       nextState.user_channels[channel_id] = _defineProperty({}, channel_id, channel_id);
       return nextState;
-
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["LOAD_CHANNEL"]:
       nextState.channel_id = action.channel_id;
       return nextState;
-
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["JOIN_CHANNEL"]:
       channel_id = action.channel_user.channel_id;
       nextState.user_channels[channel_id] = _defineProperty({}, channel_id, channel_id);
       return nextState;
-
     case _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__["LEAVE_CHANNEL"]:
       channel_id = action.channel_user.channel_id;
       delete nextState.user_channels[channel_id];
       if (nextState.user_channels === undefined) nextState.user_channels = {};
       return nextState;
-    // Same as join channel, we just add it to the list
 
+    // Same as join channel, we just add it to the list
     case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_DM_CHANNEL"]:
       channel_id = action.dmChannelUser.channel.id;
       nextState.user_channels[channel_id] = _defineProperty({}, channel_id, channel_id);
       return nextState;
-    // Same as leave channel, we just add it to the list
 
+    // Same as leave channel, we just add it to the list
     case _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_3__["LEAVE_DM_CHANNEL"]:
       channel_id = action.dmChannelUser.channel.id;
       delete nextState.user_channels[channel_id];
       if (nextState.user_channels === undefined) nextState.user_channels = {}; // in case that was the last channel
-
       return nextState;
-    // If message is removed and is part of saved messages, remove the relevant entry
 
+    // If message is removed and is part of saved messages, remove the relevant entry
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE"]:
       if (nextState.user_saved_messages[action.message.id]) delete nextState.user_saved_messages[action.message.id];
       return nextState;
-
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["RECEIVE_MESSAGE_SAVE"]:
       nextState.user_saved_messages[action.message_save.message_id] = {
         id: action.message_save.message_id,
         message_save_id: action.message_save.message_save_id
       };
       return nextState;
-
     case _actions_message_actions__WEBPACK_IMPORTED_MODULE_6__["REMOVE_MESSAGE_SAVE"]:
       delete nextState.user_saved_messages[action.message_save.message_id];
       return nextState;
-
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT"]:
       return DEFAULT_SESSION;
-
     default:
       return state;
   }
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (SessionReducer);
 
 /***/ }),
@@ -10962,43 +9906,43 @@ var objectToNameArray = function objectToNameArray(object) {
 };
 var workspaceTitle = function workspaceTitle(address) {
   var words = address.split('-');
-
   for (var i = 0; i < words.length; i++) {
     words[i] = words[i].slice(0, 1).toUpperCase() + words[i].slice(1);
   }
-
   return words.join(' ');
-}; // Returns default photos for non-existant users, users with no profile photos, or default users
+};
 
+// Returns default photos for non-existant users, users with no profile photos, or default users
 var photoUrl = function photoUrl(user) {
   if (!user) return DEFAULT_PHOTO_URL;else if (user.photo_url) return user.photo_url;else if (DEFAULT_USER_PHOTO_URLS[user.id]) return DEFAULT_USER_PHOTO_URLS[user.id];else return DEFAULT_PHOTO_URL;
-}; // Returns username based on user data
+};
 
+// Returns username based on user data
 var getUserName = function getUserName(user) {
   var fullNameFirst = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var _ref = [user.display_name, user.full_name, user.email],
-      first = _ref[0],
-      second = _ref[1],
-      third = _ref[2];
-
+    first = _ref[0],
+    second = _ref[1],
+    third = _ref[2];
   if (fullNameFirst) {
     var _ref2 = [second, first];
     first = _ref2[0];
     second = _ref2[1];
   }
-
   if (first) return first;
   if (second) return second;
   if (third) return third;
-}; // Returns user activity symbol classname
+};
 
+// Returns user activity symbol classname
 var getUserActivity = function getUserActivity(user) {
   var darkGreen = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
   var darkGray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   if (user.logged_in && user.active) return "fas fa-circle active-circle".concat(darkGreen ? "-dark" : "");
   return "fas fa-circle inactive-circle ".concat(darkGray ? "gray" : "");
-}; // Returns user paused symbol classname
+};
 
+// Returns user paused symbol classname
 var getUserPaused = function getUserPaused(user) {
   var darkGreen = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
   var darkGray = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
@@ -11006,48 +9950,55 @@ var getUserPaused = function getUserPaused(user) {
   var color = darkGray ? "gray" : "dark-gray";
   if (user.logged_in && user.active) color = darkGreen ? "dark-green" : "light-green";
   return "user-paused-icon ".concat(color);
-}; // Returns user's local time based on their time offset
+};
 
+// Returns user's local time based on their time offset
 var getLocalTime = function getLocalTime(user) {
   var date = new Date();
   var hours = date.getUTCHours() + user.timezone_offset;
   var minutes = date.getUTCMinutes();
   return "".concat(hours % 12, ":").concat(minutes, " ").concat(hours >= 12 ? "PM" : "AM");
-}; // Returns whether a user should show up in search based on its getUserName
+};
 
+// Returns whether a user should show up in search based on its getUserName
 var userInSearch = function userInSearch(user, searchParam) {
   var name = getUserName(user).toUpperCase();
   return name.includes(searchParam.toUpperCase());
-}; // Takes in channel and users, return array of users
+};
 
+// Takes in channel and users, return array of users
 var channelUsers = function channelUsers(channel, users) {
   if (!channel || !users) return [];
   return Object.keys(channel.users).map(function (id, idx) {
     return users[id];
   });
-}; // Takes in channel and users object, returns array of sorted users
+};
 
+// Takes in channel and users object, returns array of sorted users
 var sortedChannelUsers = function sortedChannelUsers(channel, users) {
   var channel_users = channelUsers(channel, users);
   channel_users.sort(function (first, second) {
     return getUserName(first) > getUserName(second) ? 1 : -1;
   });
   return channel_users;
-}; // Takes in users object, returns an array of sorted users
+};
 
+// Takes in users object, returns an array of sorted users
 var sortedUsers = function sortedUsers(users) {
   var sortedUsers = Object.values(users);
   sortedUsers.sort(function (first, second) {
     return getUserName(first) > getUserName(second) ? 1 : -1;
   });
   return sortedUsers;
-}; // SELECTS DM_CHANNEL'S OTHER USER
+};
 
+// SELECTS DM_CHANNEL'S OTHER USER
 var dmChannelUserId = function dmChannelUserId(dmChannel, currentUserId) {
   var channel_users = Object.keys(dmChannel.users);
   return channel_users[0] == currentUserId ? channel_users[1] : channel_users[0];
-}; // PROCESS MESSAGE TIMES
+};
 
+// PROCESS MESSAGE TIMES
 var getMessageTimestamp = function getMessageTimestamp(message) {
   var seconds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   var message_time = new Date(message.created_at);
@@ -11071,7 +10022,6 @@ var getMessageDate = function getMessageDate(message, currentDate) {
 var getFileTypeInfo = function getFileTypeInfo(file) {
   var fileName = file.name.slice(file.name.indexOf(".") + 1);
   if (fileName.length == file.name.length) fileName = "";
-
   switch (fileName) {
     case "doc":
     case "docx":
@@ -11080,7 +10030,6 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
         iconSymbol: "far fa-file-word fa-fw",
         iconBackground: "file-darkblue-back"
       };
-
     case "ppt":
     case "pptx":
       return {
@@ -11088,7 +10037,6 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
         iconSymbol: "far fa-file-powerpoint fa-fw",
         iconBackground: "file-orange-back"
       };
-
     case "xls":
     case "xlsx":
       return {
@@ -11096,7 +10044,6 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
         iconSymbol: "far fa-file-excel fa-fw",
         iconBackground: "file-green-back"
       };
-
     case "":
     case "txt":
     case "rtf":
@@ -11105,21 +10052,18 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
         iconSymbol: "far fa-file-alt fa-fw",
         iconBackground: "file-lightblue-back"
       };
-
     case "pdf":
       return {
         name: "PDF",
         iconSymbol: "far fa-file-pdf fa-fw",
         iconBackground: "file-red-back"
       };
-
     case "zip":
       return {
         name: "Zip",
         iconSymbol: "far fa-file-archive fa-fw",
         iconBackground: "file-darkblue-back"
       };
-
     case "mp4":
     case "wmv":
     case "mov":
@@ -11131,7 +10075,6 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
         iconSymbol: "far fa-file-video fa-fw",
         iconBackground: "file-yellow-back"
       };
-
     case "mp3":
     case "m4a":
     case "flac":
@@ -11143,7 +10086,6 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
         iconSymbol: "far fa-file-audio fa-fw",
         iconBackground: "file-deeppink-back"
       };
-
     case "png":
     case "jpg":
     case "jpeg":
@@ -11155,7 +10097,6 @@ var getFileTypeInfo = function getFileTypeInfo(file) {
         iconBackground: "file-darkblue-back"
       };
     // return { name: fileName.toUpperCase(), iconSymbol: "image" }
-
     default:
       return {
         name: fileName ? fileName.toUpperCase() : "File",
@@ -11183,8 +10124,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
 
@@ -11193,7 +10136,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 document.addEventListener('DOMContentLoaded', function () {
   var root = document.getElementById('root');
   var store;
-
   if (window.currentUser) {
     var preloadedState = {
       entities: {
@@ -11212,15 +10154,13 @@ document.addEventListener('DOMContentLoaded', function () {
   } else {
     store = Object(_store_store__WEBPACK_IMPORTED_MODULE_4__["default"])();
   }
-
   delete window.currentUser;
   delete window.currentWorkspaces;
   loadWindowFuncs(store);
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
     store: store
   }), root);
 });
-
 var loadWindowFuncs = function loadWindowFuncs(store) {
   window.getState = store.getState;
   window.dispatch = store.dispatch;
@@ -11247,14 +10187,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var configureStore = function configureStore() {
   var preloadedState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var production = true;
   if (production) return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"]));
   return Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(_reducers_root_reducer__WEBPACK_IMPORTED_MODULE_3__["default"], preloadedState, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_1___default.a));
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
 
 /***/ }),
@@ -11281,15 +10219,17 @@ var EXCHANGE = "EXCHANGE";
 var LEAVE_CALL = "LEAVE_CALL";
 var REJECT_CALL = "REJECT_CALL";
 var PICKUP_CALL = "PICKUP_CALL";
-var RECEIVED_CALL = "RECEIVED_CALL"; // Public stun server you can ping to get your information
+var RECEIVED_CALL = "RECEIVED_CALL";
 
+// Public stun server you can ping to get your information
 var ice = {
   iceServers: [{
     urls: "stun:stun2.l.google.com:19302"
-  }] // iceTransportPolicy: "relay"
+  }]
+  // iceTransportPolicy: "relay"
+};
 
-}; // Sends data to the calls controller, similar to AJAX
-
+// Sends data to the calls controller, similar to AJAX
 var broadcastData = function broadcastData(data) {
   fetch("calls", {
     method: "POST",
@@ -11377,10 +10317,11 @@ var postChannelUser = function postChannelUser(channel_user) {
       channel_user: channel_user
     }
   });
-}; // Find using channel_id and current_user.id in rails
+};
+
+// Find using channel_id and current_user.id in rails
 // params id is 0 as a placeholder
 // deprecated
-
 var deleteChannelUser = function deleteChannelUser(channel_id) {
   return $.ajax({
     method: "DELETE",
@@ -11391,9 +10332,10 @@ var deleteChannelUser = function deleteChannelUser(channel_id) {
       }
     }
   });
-}; // Find using channel_id and current_user.id in rails
-// params id is 0 as a placeholder
+};
 
+// Find using channel_id and current_user.id in rails
+// params id is 0 as a placeholder
 var updateChannelUser = function updateChannelUser(channel_user) {
   return $.ajax({
     method: "PATCH",
@@ -11452,8 +10394,9 @@ var inviteUser = function inviteUser(user_email, workspace_address) {
       }
     }
   });
-}; // Data is nested under workspace_user, and contains activity, status, and paused values
+};
 
+// Data is nested under workspace_user, and contains activity, status, and paused values
 var updateWorkspaceUser = function updateWorkspaceUser(workspace_id, workspace_user) {
   return $.ajax({
     method: "PATCH",
@@ -11490,9 +10433,10 @@ var startDmChannel = function startDmChannel(dm_channel_user) {
       dm_channel_user: dm_channel_user
     }
   });
-}; // Updates the channel using the channel_id, user_id, and active
-// Which user is toggled is determined in controller
+};
 
+// Updates the channel using the channel_id, user_id, and active
+// Which user is toggled is determined in controller
 var endDmChannel = function endDmChannel(dm_channel_user) {
   return $.ajax({
     method: "PATCH",
@@ -11501,9 +10445,10 @@ var endDmChannel = function endDmChannel(dm_channel_user) {
       dm_channel_user: dm_channel_user
     }
   });
-}; // Updates the channel using the channel_id, user_id
-// Which user is toggled is determined in controller
+};
 
+// Updates the channel using the channel_id, user_id
+// Which user is toggled is determined in controller
 var updateDmChannel = function updateDmChannel(dm_channel_user) {
   return $.ajax({
     method: "PATCH",
@@ -11512,8 +10457,9 @@ var updateDmChannel = function updateDmChannel(dm_channel_user) {
       dm_channel_user: dm_channel_user
     }
   });
-}; // FOR TESTING
+};
 
+// FOR TESTING
 var createTestData = {
   user_1_id: 2,
   user_2_id: 7,
@@ -11544,8 +10490,9 @@ var getMessages = function getMessages(channel_id) {
     method: "GET",
     url: "/api/channels/".concat(channel_id, "/messages")
   });
-}; // message contains body and id
+};
 
+// message contains body and id
 var updateMessage = function updateMessage(message) {
   return $.ajax({
     method: "PATCH",
@@ -11554,8 +10501,9 @@ var updateMessage = function updateMessage(message) {
       message: message
     }
   });
-}; // message contains channel_id and body
+};
 
+// message contains channel_id and body
 var createMessage = function createMessage(formData) {
   return $.ajax({
     method: "POST",
@@ -11564,8 +10512,9 @@ var createMessage = function createMessage(formData) {
     contentType: false,
     processData: false
   });
-}; // message only contains the id
+};
 
+// message only contains the id
 var deleteMessage = function deleteMessage(message) {
   return $.ajax({
     method: "DELETE",
@@ -11595,8 +10544,9 @@ var postMessageReact = function postMessageReact(message_react) {
       message_react: message_react
     }
   });
-}; // Placeholder url id, found with message_id and react_code
+};
 
+// Placeholder url id, found with message_id and react_code
 var deleteMessageReact = function deleteMessageReact(message_react) {
   return $.ajax({
     method: "DELETE",
@@ -11632,8 +10582,9 @@ var getMessageSaves = function getMessageSaves(workspace_id) {
       }
     }
   });
-}; // Creates using message_id and react_code
+};
 
+// Creates using message_id and react_code
 var postMessageSave = function postMessageSave(message_save) {
   return $.ajax({
     method: "POST",
@@ -11642,8 +10593,9 @@ var postMessageSave = function postMessageSave(message_save) {
       message_save: message_save
     }
   });
-}; // Placeholder url id, found with message_id and react_code
+};
 
+// Placeholder url id, found with message_id and react_code
 var deleteMessageSave = function deleteMessageSave(message_save) {
   return $.ajax({
     method: "DELETE",
@@ -11693,14 +10645,14 @@ var revealElements = function revealElements(className) {
 };
 var focus = function focus(id) {
   var element = document.getElementById(id);
-
   if (element) {
     element.focus();
     var length = element.value.length;
     element.setSelectionRange(length, length);
   }
-}; // Used to activate modals
+};
 
+// Used to activate modals
 var toggleFocusElements = function toggleFocusElements(className, id) {
   return function (e) {
     if (e) e.stopPropagation();
@@ -11729,13 +10681,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-/* NOTE: How to create routes with additional conditions (i.e. Protected/Auth) */
 
+/* NOTE: How to create routes with additional conditions (i.e. Protected/Auth) */
 var Protected = function Protected(_ref) {
   var Component = _ref.component,
-      path = _ref.path,
-      loggedIn = _ref.loggedIn,
-      exact = _ref.exact;
+    path = _ref.path,
+    loggedIn = _ref.loggedIn,
+    exact = _ref.exact;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: path,
     exact: exact,
@@ -11746,12 +10698,11 @@ var Protected = function Protected(_ref) {
     }
   });
 };
-
 var Auth = function Auth(_ref2) {
   var Component = _ref2.component,
-      path = _ref2.path,
-      loggedIn = _ref2.loggedIn,
-      exact = _ref2.exact;
+    path = _ref2.path,
+    loggedIn = _ref2.loggedIn,
+    exact = _ref2.exact;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: path,
     exact: exact,
@@ -11762,13 +10713,11 @@ var Auth = function Auth(_ref2) {
     }
   });
 };
-
 var mapStateProtected = function mapStateProtected(state) {
   return {
     loggedIn: Boolean(state.session.user_id)
   };
 };
-
 var ProtectedRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateProtected, null)(Protected));
 var AuthRoute = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateProtected, null)(Auth));
 
@@ -11885,22 +10834,15 @@ var postWorkspace = function postWorkspace(workspace) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _extends; });
 function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
+  return _extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
     }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
+    return n;
+  }, _extends.apply(null, arguments);
 }
+
 
 /***/ }),
 
@@ -11914,11 +10856,12 @@ function _extends() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _inheritsLoose; });
-function _inheritsLoose(subClass, superClass) {
-  subClass.prototype = Object.create(superClass.prototype);
-  subClass.prototype.constructor = subClass;
-  subClass.__proto__ = superClass;
+/* harmony import */ var _setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./setPrototypeOf.js */ "./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js");
+
+function _inheritsLoose(t, o) {
+  t.prototype = Object.create(o.prototype), t.prototype.constructor = t, Object(_setPrototypeOf_js__WEBPACK_IMPORTED_MODULE_0__["default"])(t, o);
 }
+
 
 /***/ }),
 
@@ -11932,20 +10875,35 @@ function _inheritsLoose(subClass, superClass) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectWithoutPropertiesLoose; });
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
+function _objectWithoutPropertiesLoose(r, e) {
+  if (null == r) return {};
+  var t = {};
+  for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
+    if (-1 !== e.indexOf(n)) continue;
+    t[n] = r[n];
   }
-
-  return target;
+  return t;
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/setPrototypeOf.js ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _setPrototypeOf; });
+function _setPrototypeOf(t, e) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) {
+    return t.__proto__ = e, t;
+  }, _setPrototypeOf(t, e);
+}
+
 
 /***/ }),
 
@@ -11956,127 +10914,177 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-/*! @license DOMPurify 2.3.4 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.4/LICENSE */
+/*! @license DOMPurify 2.5.8 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.5.8/LICENSE */
 
 (function (global, factory) {
    true ? module.exports = factory() :
   undefined;
-}(this, function () { 'use strict';
+})(this, (function () { 'use strict';
 
-  function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+  function _typeof(obj) {
+    "@babel/helpers - typeof";
+
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+      return typeof obj;
+    } : function (obj) {
+      return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    }, _typeof(obj);
+  }
+  function _setPrototypeOf(o, p) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+      o.__proto__ = p;
+      return o;
+    };
+    return _setPrototypeOf(o, p);
+  }
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+      Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  function _construct(Parent, args, Class) {
+    if (_isNativeReflectConstruct()) {
+      _construct = Reflect.construct;
+    } else {
+      _construct = function _construct(Parent, args, Class) {
+        var a = [null];
+        a.push.apply(a, args);
+        var Constructor = Function.bind.apply(Parent, a);
+        var instance = new Constructor();
+        if (Class) _setPrototypeOf(instance, Class.prototype);
+        return instance;
+      };
+    }
+    return _construct.apply(null, arguments);
+  }
+  function _toConsumableArray(arr) {
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+  }
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+  }
+  function _iterableToArray(iter) {
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+  }
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+    return arr2;
+  }
+  function _nonIterableSpread() {
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
 
   var hasOwnProperty = Object.hasOwnProperty,
-      setPrototypeOf = Object.setPrototypeOf,
-      isFrozen = Object.isFrozen,
-      getPrototypeOf = Object.getPrototypeOf,
-      getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+    setPrototypeOf = Object.setPrototypeOf,
+    isFrozen = Object.isFrozen,
+    getPrototypeOf = Object.getPrototypeOf,
+    getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
   var freeze = Object.freeze,
-      seal = Object.seal,
-      create = Object.create; // eslint-disable-line import/no-mutable-exports
-
+    seal = Object.seal,
+    create = Object.create; // eslint-disable-line import/no-mutable-exports
   var _ref = typeof Reflect !== 'undefined' && Reflect,
-      apply = _ref.apply,
-      construct = _ref.construct;
-
+    apply = _ref.apply,
+    construct = _ref.construct;
   if (!apply) {
     apply = function apply(fun, thisValue, args) {
       return fun.apply(thisValue, args);
     };
   }
-
   if (!freeze) {
     freeze = function freeze(x) {
       return x;
     };
   }
-
   if (!seal) {
     seal = function seal(x) {
       return x;
     };
   }
-
   if (!construct) {
     construct = function construct(Func, args) {
-      return new (Function.prototype.bind.apply(Func, [null].concat(_toConsumableArray(args))))();
+      return _construct(Func, _toConsumableArray(args));
     };
   }
-
   var arrayForEach = unapply(Array.prototype.forEach);
   var arrayPop = unapply(Array.prototype.pop);
   var arrayPush = unapply(Array.prototype.push);
-
   var stringToLowerCase = unapply(String.prototype.toLowerCase);
+  var stringToString = unapply(String.prototype.toString);
   var stringMatch = unapply(String.prototype.match);
   var stringReplace = unapply(String.prototype.replace);
   var stringIndexOf = unapply(String.prototype.indexOf);
   var stringTrim = unapply(String.prototype.trim);
-
   var regExpTest = unapply(RegExp.prototype.test);
-
   var typeErrorCreate = unconstruct(TypeError);
-
   function unapply(func) {
     return function (thisArg) {
-      for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
         args[_key - 1] = arguments[_key];
       }
-
       return apply(func, thisArg, args);
     };
   }
-
   function unconstruct(func) {
     return function () {
-      for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
         args[_key2] = arguments[_key2];
       }
-
       return construct(func, args);
     };
   }
 
   /* Add properties to a lookup table */
-  function addToSet(set, array) {
+  function addToSet(set, array, transformCaseFunc) {
+    var _transformCaseFunc;
+    transformCaseFunc = (_transformCaseFunc = transformCaseFunc) !== null && _transformCaseFunc !== void 0 ? _transformCaseFunc : stringToLowerCase;
     if (setPrototypeOf) {
       // Make 'in' and truthy checks like Boolean(set.constructor)
       // independent of any properties defined on Object.prototype.
       // Prevent prototype setters from intercepting set as a this value.
       setPrototypeOf(set, null);
     }
-
     var l = array.length;
     while (l--) {
       var element = array[l];
       if (typeof element === 'string') {
-        var lcElement = stringToLowerCase(element);
+        var lcElement = transformCaseFunc(element);
         if (lcElement !== element) {
           // Config presets (e.g. tags.js, attrs.js) are immutable.
           if (!isFrozen(array)) {
             array[l] = lcElement;
           }
-
           element = lcElement;
         }
       }
-
       set[element] = true;
     }
-
     return set;
   }
 
   /* Shallow clone an object */
   function clone(object) {
     var newObject = create(null);
-
-    var property = void 0;
+    var property;
     for (property in object) {
-      if (apply(hasOwnProperty, object, [property])) {
+      if (apply(hasOwnProperty, object, [property]) === true) {
         newObject[property] = object[property];
       }
     }
-
     return newObject;
   }
 
@@ -12091,28 +11099,23 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         if (desc.get) {
           return unapply(desc.get);
         }
-
         if (typeof desc.value === 'function') {
           return unapply(desc.value);
         }
       }
-
       object = getPrototypeOf(object);
     }
-
     function fallbackValue(element) {
       console.warn('fallback value for', element);
       return null;
     }
-
     return fallbackValue;
   }
 
-  var html = freeze(['a', 'abbr', 'acronym', 'address', 'area', 'article', 'aside', 'audio', 'b', 'bdi', 'bdo', 'big', 'blink', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'content', 'data', 'datalist', 'dd', 'decorator', 'del', 'details', 'dfn', 'dialog', 'dir', 'div', 'dl', 'dt', 'element', 'em', 'fieldset', 'figcaption', 'figure', 'font', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'img', 'input', 'ins', 'kbd', 'label', 'legend', 'li', 'main', 'map', 'mark', 'marquee', 'menu', 'menuitem', 'meter', 'nav', 'nobr', 'ol', 'optgroup', 'option', 'output', 'p', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'section', 'select', 'shadow', 'small', 'source', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th', 'thead', 'time', 'tr', 'track', 'tt', 'u', 'ul', 'var', 'video', 'wbr']);
+  var html$1 = freeze(['a', 'abbr', 'acronym', 'address', 'area', 'article', 'aside', 'audio', 'b', 'bdi', 'bdo', 'big', 'blink', 'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'content', 'data', 'datalist', 'dd', 'decorator', 'del', 'details', 'dfn', 'dialog', 'dir', 'div', 'dl', 'dt', 'element', 'em', 'fieldset', 'figcaption', 'figure', 'font', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hgroup', 'hr', 'html', 'i', 'img', 'input', 'ins', 'kbd', 'label', 'legend', 'li', 'main', 'map', 'mark', 'marquee', 'menu', 'menuitem', 'meter', 'nav', 'nobr', 'ol', 'optgroup', 'option', 'output', 'p', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby', 's', 'samp', 'section', 'select', 'shadow', 'small', 'source', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th', 'thead', 'time', 'tr', 'track', 'tt', 'u', 'ul', 'var', 'video', 'wbr']);
 
   // SVG
-  var svg = freeze(['svg', 'a', 'altglyph', 'altglyphdef', 'altglyphitem', 'animatecolor', 'animatemotion', 'animatetransform', 'circle', 'clippath', 'defs', 'desc', 'ellipse', 'filter', 'font', 'g', 'glyph', 'glyphref', 'hkern', 'image', 'line', 'lineargradient', 'marker', 'mask', 'metadata', 'mpath', 'path', 'pattern', 'polygon', 'polyline', 'radialgradient', 'rect', 'stop', 'style', 'switch', 'symbol', 'text', 'textpath', 'title', 'tref', 'tspan', 'view', 'vkern']);
-
+  var svg$1 = freeze(['svg', 'a', 'altglyph', 'altglyphdef', 'altglyphitem', 'animatecolor', 'animatemotion', 'animatetransform', 'circle', 'clippath', 'defs', 'desc', 'ellipse', 'filter', 'font', 'g', 'glyph', 'glyphref', 'hkern', 'image', 'line', 'lineargradient', 'marker', 'mask', 'metadata', 'mpath', 'path', 'pattern', 'polygon', 'polyline', 'radialgradient', 'rect', 'stop', 'style', 'switch', 'symbol', 'text', 'textpath', 'title', 'tref', 'tspan', 'view', 'vkern']);
   var svgFilters = freeze(['feBlend', 'feColorMatrix', 'feComponentTransfer', 'feComposite', 'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap', 'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR', 'feGaussianBlur', 'feImage', 'feMerge', 'feMergeNode', 'feMorphology', 'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile', 'feTurbulence']);
 
   // List of SVG elements that are disallowed by default.
@@ -12120,37 +11123,31 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   // checks properly in case one wants to add them to
   // allow-list.
   var svgDisallowed = freeze(['animate', 'color-profile', 'cursor', 'discard', 'fedropshadow', 'font-face', 'font-face-format', 'font-face-name', 'font-face-src', 'font-face-uri', 'foreignobject', 'hatch', 'hatchpath', 'mesh', 'meshgradient', 'meshpatch', 'meshrow', 'missing-glyph', 'script', 'set', 'solidcolor', 'unknown', 'use']);
-
-  var mathMl = freeze(['math', 'menclose', 'merror', 'mfenced', 'mfrac', 'mglyph', 'mi', 'mlabeledtr', 'mmultiscripts', 'mn', 'mo', 'mover', 'mpadded', 'mphantom', 'mroot', 'mrow', 'ms', 'mspace', 'msqrt', 'mstyle', 'msub', 'msup', 'msubsup', 'mtable', 'mtd', 'mtext', 'mtr', 'munder', 'munderover']);
+  var mathMl$1 = freeze(['math', 'menclose', 'merror', 'mfenced', 'mfrac', 'mglyph', 'mi', 'mlabeledtr', 'mmultiscripts', 'mn', 'mo', 'mover', 'mpadded', 'mphantom', 'mroot', 'mrow', 'ms', 'mspace', 'msqrt', 'mstyle', 'msub', 'msup', 'msubsup', 'mtable', 'mtd', 'mtext', 'mtr', 'munder', 'munderover']);
 
   // Similarly to SVG, we want to know all MathML elements,
   // even those that we disallow by default.
   var mathMlDisallowed = freeze(['maction', 'maligngroup', 'malignmark', 'mlongdiv', 'mscarries', 'mscarry', 'msgroup', 'mstack', 'msline', 'msrow', 'semantics', 'annotation', 'annotation-xml', 'mprescripts', 'none']);
-
   var text = freeze(['#text']);
 
-  var html$1 = freeze(['accept', 'action', 'align', 'alt', 'autocapitalize', 'autocomplete', 'autopictureinpicture', 'autoplay', 'background', 'bgcolor', 'border', 'capture', 'cellpadding', 'cellspacing', 'checked', 'cite', 'class', 'clear', 'color', 'cols', 'colspan', 'controls', 'controlslist', 'coords', 'crossorigin', 'datetime', 'decoding', 'default', 'dir', 'disabled', 'disablepictureinpicture', 'disableremoteplayback', 'download', 'draggable', 'enctype', 'enterkeyhint', 'face', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'inputmode', 'integrity', 'ismap', 'kind', 'label', 'lang', 'list', 'loading', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'muted', 'name', 'nonce', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'playsinline', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'translate', 'type', 'usemap', 'valign', 'value', 'width', 'xmlns', 'slot']);
-
-  var svg$1 = freeze(['accent-height', 'accumulate', 'additive', 'alignment-baseline', 'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseline-shift', 'begin', 'bias', 'by', 'class', 'clip', 'clippathunits', 'clip-path', 'clip-rule', 'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction', 'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'filterunits', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform', 'height', 'href', 'id', 'image-rendering', 'in', 'in2', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints', 'keysplines', 'keytimes', 'lang', 'lengthadjust', 'letter-spacing', 'kernelmatrix', 'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid', 'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits', 'maskunits', 'max', 'mask', 'media', 'method', 'mode', 'min', 'name', 'numoctaves', 'offset', 'operator', 'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order', 'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits', 'points', 'preservealpha', 'preserveaspectratio', 'primitiveunits', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount', 'repeatdur', 'restart', 'result', 'rotate', 'scale', 'seed', 'shape-rendering', 'specularconstant', 'specularexponent', 'spreadmethod', 'startoffset', 'stddeviation', 'stitchtiles', 'stop-color', 'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width', 'style', 'surfacescale', 'systemlanguage', 'tabindex', 'targetx', 'targety', 'transform', 'text-anchor', 'text-decoration', 'text-rendering', 'textlength', 'type', 'u1', 'u2', 'unicode', 'values', 'viewbox', 'visibility', 'version', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'width', 'word-spacing', 'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2', 'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan']);
-
-  var mathMl$1 = freeze(['accent', 'accentunder', 'align', 'bevelled', 'close', 'columnsalign', 'columnlines', 'columnspan', 'denomalign', 'depth', 'dir', 'display', 'displaystyle', 'encoding', 'fence', 'frame', 'height', 'href', 'id', 'largeop', 'length', 'linethickness', 'lspace', 'lquote', 'mathbackground', 'mathcolor', 'mathsize', 'mathvariant', 'maxsize', 'minsize', 'movablelimits', 'notation', 'numalign', 'open', 'rowalign', 'rowlines', 'rowspacing', 'rowspan', 'rspace', 'rquote', 'scriptlevel', 'scriptminsize', 'scriptsizemultiplier', 'selection', 'separator', 'separators', 'stretchy', 'subscriptshift', 'supscriptshift', 'symmetric', 'voffset', 'width', 'xmlns']);
-
+  var html = freeze(['accept', 'action', 'align', 'alt', 'autocapitalize', 'autocomplete', 'autopictureinpicture', 'autoplay', 'background', 'bgcolor', 'border', 'capture', 'cellpadding', 'cellspacing', 'checked', 'cite', 'class', 'clear', 'color', 'cols', 'colspan', 'controls', 'controlslist', 'coords', 'crossorigin', 'datetime', 'decoding', 'default', 'dir', 'disabled', 'disablepictureinpicture', 'disableremoteplayback', 'download', 'draggable', 'enctype', 'enterkeyhint', 'face', 'for', 'headers', 'height', 'hidden', 'high', 'href', 'hreflang', 'id', 'inputmode', 'integrity', 'ismap', 'kind', 'label', 'lang', 'list', 'loading', 'loop', 'low', 'max', 'maxlength', 'media', 'method', 'min', 'minlength', 'multiple', 'muted', 'name', 'nonce', 'noshade', 'novalidate', 'nowrap', 'open', 'optimum', 'pattern', 'placeholder', 'playsinline', 'poster', 'preload', 'pubdate', 'radiogroup', 'readonly', 'rel', 'required', 'rev', 'reversed', 'role', 'rows', 'rowspan', 'spellcheck', 'scope', 'selected', 'shape', 'size', 'sizes', 'span', 'srclang', 'start', 'src', 'srcset', 'step', 'style', 'summary', 'tabindex', 'title', 'translate', 'type', 'usemap', 'valign', 'value', 'width', 'xmlns', 'slot']);
+  var svg = freeze(['accent-height', 'accumulate', 'additive', 'alignment-baseline', 'ascent', 'attributename', 'attributetype', 'azimuth', 'basefrequency', 'baseline-shift', 'begin', 'bias', 'by', 'class', 'clip', 'clippathunits', 'clip-path', 'clip-rule', 'color', 'color-interpolation', 'color-interpolation-filters', 'color-profile', 'color-rendering', 'cx', 'cy', 'd', 'dx', 'dy', 'diffuseconstant', 'direction', 'display', 'divisor', 'dur', 'edgemode', 'elevation', 'end', 'fill', 'fill-opacity', 'fill-rule', 'filter', 'filterunits', 'flood-color', 'flood-opacity', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style', 'font-variant', 'font-weight', 'fx', 'fy', 'g1', 'g2', 'glyph-name', 'glyphref', 'gradientunits', 'gradienttransform', 'height', 'href', 'id', 'image-rendering', 'in', 'in2', 'k', 'k1', 'k2', 'k3', 'k4', 'kerning', 'keypoints', 'keysplines', 'keytimes', 'lang', 'lengthadjust', 'letter-spacing', 'kernelmatrix', 'kernelunitlength', 'lighting-color', 'local', 'marker-end', 'marker-mid', 'marker-start', 'markerheight', 'markerunits', 'markerwidth', 'maskcontentunits', 'maskunits', 'max', 'mask', 'media', 'method', 'mode', 'min', 'name', 'numoctaves', 'offset', 'operator', 'opacity', 'order', 'orient', 'orientation', 'origin', 'overflow', 'paint-order', 'path', 'pathlength', 'patterncontentunits', 'patterntransform', 'patternunits', 'points', 'preservealpha', 'preserveaspectratio', 'primitiveunits', 'r', 'rx', 'ry', 'radius', 'refx', 'refy', 'repeatcount', 'repeatdur', 'restart', 'result', 'rotate', 'scale', 'seed', 'shape-rendering', 'specularconstant', 'specularexponent', 'spreadmethod', 'startoffset', 'stddeviation', 'stitchtiles', 'stop-color', 'stop-opacity', 'stroke-dasharray', 'stroke-dashoffset', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-opacity', 'stroke', 'stroke-width', 'style', 'surfacescale', 'systemlanguage', 'tabindex', 'targetx', 'targety', 'transform', 'transform-origin', 'text-anchor', 'text-decoration', 'text-rendering', 'textlength', 'type', 'u1', 'u2', 'unicode', 'values', 'viewbox', 'visibility', 'version', 'vert-adv-y', 'vert-origin-x', 'vert-origin-y', 'width', 'word-spacing', 'wrap', 'writing-mode', 'xchannelselector', 'ychannelselector', 'x', 'x1', 'x2', 'xmlns', 'y', 'y1', 'y2', 'z', 'zoomandpan']);
+  var mathMl = freeze(['accent', 'accentunder', 'align', 'bevelled', 'close', 'columnsalign', 'columnlines', 'columnspan', 'denomalign', 'depth', 'dir', 'display', 'displaystyle', 'encoding', 'fence', 'frame', 'height', 'href', 'id', 'largeop', 'length', 'linethickness', 'lspace', 'lquote', 'mathbackground', 'mathcolor', 'mathsize', 'mathvariant', 'maxsize', 'minsize', 'movablelimits', 'notation', 'numalign', 'open', 'rowalign', 'rowlines', 'rowspacing', 'rowspan', 'rspace', 'rquote', 'scriptlevel', 'scriptminsize', 'scriptsizemultiplier', 'selection', 'separator', 'separators', 'stretchy', 'subscriptshift', 'supscriptshift', 'symmetric', 'voffset', 'width', 'xmlns']);
   var xml = freeze(['xlink:href', 'xml:id', 'xlink:title', 'xml:space', 'xmlns:xlink']);
 
   // eslint-disable-next-line unicorn/better-regex
-  var MUSTACHE_EXPR = seal(/\{\{[\s\S]*|[\s\S]*\}\}/gm); // Specify template detection regex for SAFE_FOR_TEMPLATES mode
-  var ERB_EXPR = seal(/<%[\s\S]*|[\s\S]*%>/gm);
-  var DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]/); // eslint-disable-line no-useless-escape
+  var MUSTACHE_EXPR = seal(/\{\{[\w\W]*|[\w\W]*\}\}/gm); // Specify template detection regex for SAFE_FOR_TEMPLATES mode
+  var ERB_EXPR = seal(/<%[\w\W]*|[\w\W]*%>/gm);
+  var TMPLIT_EXPR = seal(/\${[\w\W]*}/gm);
+  var DATA_ATTR = seal(/^data-[\-\w.\u00B7-\uFFFF]+$/); // eslint-disable-line no-useless-escape
   var ARIA_ATTR = seal(/^aria-[\-\w]+$/); // eslint-disable-line no-useless-escape
   var IS_ALLOWED_URI = seal(/^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i // eslint-disable-line no-useless-escape
   );
   var IS_SCRIPT_OR_DATA = seal(/^(?:\w+script|data):/i);
   var ATTR_WHITESPACE = seal(/[\u0000-\u0020\u00A0\u1680\u180E\u2000-\u2029\u205F\u3000]/g // eslint-disable-line no-control-regex
   );
-
-  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-  function _toConsumableArray$1(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+  var DOCTYPE_NAME = seal(/^html$/i);
+  var CUSTOM_ELEMENT = seal(/^[a-z][.\w]*(-[.\w]+)+$/i);
 
   var getGlobal = function getGlobal() {
     return typeof window === 'undefined' ? null : window;
@@ -12165,7 +11162,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
    * are not supported).
    */
   var _createTrustedTypesPolicy = function _createTrustedTypesPolicy(trustedTypes, document) {
-    if ((typeof trustedTypes === 'undefined' ? 'undefined' : _typeof(trustedTypes)) !== 'object' || typeof trustedTypes.createPolicy !== 'function') {
+    if (_typeof(trustedTypes) !== 'object' || typeof trustedTypes.createPolicy !== 'function') {
       return null;
     }
 
@@ -12177,13 +11174,14 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     if (document.currentScript && document.currentScript.hasAttribute(ATTR_NAME)) {
       suffix = document.currentScript.getAttribute(ATTR_NAME);
     }
-
     var policyName = 'dompurify' + (suffix ? '#' + suffix : '');
-
     try {
       return trustedTypes.createPolicy(policyName, {
-        createHTML: function createHTML(html$$1) {
-          return html$$1;
+        createHTML: function createHTML(html) {
+          return html;
+        },
+        createScriptURL: function createScriptURL(scriptUrl) {
+          return scriptUrl;
         }
       });
     } catch (_) {
@@ -12194,10 +11192,8 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       return null;
     }
   };
-
   function createDOMPurify() {
     var window = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : getGlobal();
-
     var DOMPurify = function DOMPurify(root) {
       return createDOMPurify(root);
     };
@@ -12206,39 +11202,32 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * Version label, exposed for easier checks
      * if DOMPurify is up to date or not
      */
-    DOMPurify.version = '2.3.4';
+    DOMPurify.version = '2.5.8';
 
     /**
      * Array of elements that DOMPurify removed during sanitation.
      * Empty if nothing was removed.
      */
     DOMPurify.removed = [];
-
     if (!window || !window.document || window.document.nodeType !== 9) {
       // Not running in a browser, provide a factory function
       // so that you can pass your own Window
       DOMPurify.isSupported = false;
-
       return DOMPurify;
     }
-
     var originalDocument = window.document;
-
     var document = window.document;
     var DocumentFragment = window.DocumentFragment,
-        HTMLTemplateElement = window.HTMLTemplateElement,
-        Node = window.Node,
-        Element = window.Element,
-        NodeFilter = window.NodeFilter,
-        _window$NamedNodeMap = window.NamedNodeMap,
-        NamedNodeMap = _window$NamedNodeMap === undefined ? window.NamedNodeMap || window.MozNamedAttrMap : _window$NamedNodeMap,
-        HTMLFormElement = window.HTMLFormElement,
-        DOMParser = window.DOMParser,
-        trustedTypes = window.trustedTypes;
-
-
+      HTMLTemplateElement = window.HTMLTemplateElement,
+      Node = window.Node,
+      Element = window.Element,
+      NodeFilter = window.NodeFilter,
+      _window$NamedNodeMap = window.NamedNodeMap,
+      NamedNodeMap = _window$NamedNodeMap === void 0 ? window.NamedNodeMap || window.MozNamedAttrMap : _window$NamedNodeMap,
+      HTMLFormElement = window.HTMLFormElement,
+      DOMParser = window.DOMParser,
+      trustedTypes = window.trustedTypes;
     var ElementPrototype = Element.prototype;
-
     var cloneNode = lookupGetter(ElementPrototype, 'cloneNode');
     var getNextSibling = lookupGetter(ElementPrototype, 'nextSibling');
     var getChildNodes = lookupGetter(ElementPrototype, 'childNodes');
@@ -12256,37 +11245,33 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         document = template.content.ownerDocument;
       }
     }
-
     var trustedTypesPolicy = _createTrustedTypesPolicy(trustedTypes, originalDocument);
-    var emptyHTML = trustedTypesPolicy && RETURN_TRUSTED_TYPE ? trustedTypesPolicy.createHTML('') : '';
-
+    var emptyHTML = trustedTypesPolicy ? trustedTypesPolicy.createHTML('') : '';
     var _document = document,
-        implementation = _document.implementation,
-        createNodeIterator = _document.createNodeIterator,
-        createDocumentFragment = _document.createDocumentFragment,
-        getElementsByTagName = _document.getElementsByTagName;
+      implementation = _document.implementation,
+      createNodeIterator = _document.createNodeIterator,
+      createDocumentFragment = _document.createDocumentFragment,
+      getElementsByTagName = _document.getElementsByTagName;
     var importNode = originalDocument.importNode;
-
-
     var documentMode = {};
     try {
       documentMode = clone(document).documentMode ? document.documentMode : {};
     } catch (_) {}
-
     var hooks = {};
 
     /**
      * Expose whether this browser supports running the full DOMPurify.
      */
-    DOMPurify.isSupported = typeof getParentNode === 'function' && implementation && typeof implementation.createHTMLDocument !== 'undefined' && documentMode !== 9;
-
-    var MUSTACHE_EXPR$$1 = MUSTACHE_EXPR,
-        ERB_EXPR$$1 = ERB_EXPR,
-        DATA_ATTR$$1 = DATA_ATTR,
-        ARIA_ATTR$$1 = ARIA_ATTR,
-        IS_SCRIPT_OR_DATA$$1 = IS_SCRIPT_OR_DATA,
-        ATTR_WHITESPACE$$1 = ATTR_WHITESPACE;
-    var IS_ALLOWED_URI$$1 = IS_ALLOWED_URI;
+    DOMPurify.isSupported = typeof getParentNode === 'function' && implementation && implementation.createHTMLDocument !== undefined && documentMode !== 9;
+    var MUSTACHE_EXPR$1 = MUSTACHE_EXPR,
+      ERB_EXPR$1 = ERB_EXPR,
+      TMPLIT_EXPR$1 = TMPLIT_EXPR,
+      DATA_ATTR$1 = DATA_ATTR,
+      ARIA_ATTR$1 = ARIA_ATTR,
+      IS_SCRIPT_OR_DATA$1 = IS_SCRIPT_OR_DATA,
+      ATTR_WHITESPACE$1 = ATTR_WHITESPACE,
+      CUSTOM_ELEMENT$1 = CUSTOM_ELEMENT;
+    var IS_ALLOWED_URI$1 = IS_ALLOWED_URI;
 
     /**
      * We consider the elements and attributes below to be safe. Ideally
@@ -12294,13 +11279,12 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      */
 
     /* allowed element names */
-
     var ALLOWED_TAGS = null;
-    var DEFAULT_ALLOWED_TAGS = addToSet({}, [].concat(_toConsumableArray$1(html), _toConsumableArray$1(svg), _toConsumableArray$1(svgFilters), _toConsumableArray$1(mathMl), _toConsumableArray$1(text)));
+    var DEFAULT_ALLOWED_TAGS = addToSet({}, [].concat(_toConsumableArray(html$1), _toConsumableArray(svg$1), _toConsumableArray(svgFilters), _toConsumableArray(mathMl$1), _toConsumableArray(text)));
 
     /* Allowed attribute names */
     var ALLOWED_ATTR = null;
-    var DEFAULT_ALLOWED_ATTR = addToSet({}, [].concat(_toConsumableArray$1(html$1), _toConsumableArray$1(svg$1), _toConsumableArray$1(mathMl$1), _toConsumableArray$1(xml)));
+    var DEFAULT_ALLOWED_ATTR = addToSet({}, [].concat(_toConsumableArray(html), _toConsumableArray(svg), _toConsumableArray(mathMl), _toConsumableArray(xml)));
 
     /*
      * Configure how DOMPUrify should handle custom elements and their attributes as well as customized built-in elements.
@@ -12344,10 +11328,19 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     /* Decide if unknown protocols are okay */
     var ALLOW_UNKNOWN_PROTOCOLS = false;
 
+    /* Decide if self-closing tags in attributes are allowed.
+     * Usually removed due to a mXSS issue in jQuery 3.0 */
+    var ALLOW_SELF_CLOSE_IN_ATTR = true;
+
     /* Output should be safe for common template engines.
      * This means, DOMPurify removes data attributes, mustaches and ERB
      */
     var SAFE_FOR_TEMPLATES = false;
+
+    /* Output should be safe even for XML used within HTML and alike.
+     * This means, DOMPurify removes comments when containing risky content.
+     */
+    var SAFE_FOR_XML = true;
 
     /* Decide if document with <html>... should be returned */
     var WHOLE_DOCUMENT = false;
@@ -12373,8 +11366,26 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * case Trusted Types are not supported  */
     var RETURN_TRUSTED_TYPE = false;
 
-    /* Output should be free from DOM clobbering attacks? */
+    /* Output should be free from DOM clobbering attacks?
+     * This sanitizes markups named with colliding, clobberable built-in DOM APIs.
+     */
     var SANITIZE_DOM = true;
+
+    /* Achieve full DOM Clobbering protection by isolating the namespace of named
+     * properties and JS variables, mitigating attacks that abuse the HTML/DOM spec rules.
+     *
+     * HTML/DOM spec rules that enable DOM Clobbering:
+     *   - Named Access on Window (§7.3.3)
+     *   - DOM Tree Accessors (§3.1.5)
+     *   - Form Element Parent-Child Relations (§4.10.3)
+     *   - Iframe srcdoc / Nested WindowProxies (§4.8.5)
+     *   - HTMLCollection (§4.2.10.2)
+     *
+     * Namespace isolation is implemented by prefixing `id` and `name` attributes
+     * with a constant string, i.e., `user-content-`
+     */
+    var SANITIZE_NAMED_PROPS = false;
+    var SANITIZE_NAMED_PROPS_PREFIX = 'user-content-';
 
     /* Keep element content when removing element? */
     var KEEP_CONTENT = true;
@@ -12397,7 +11408,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     /* Attributes safe for values like "javascript:" */
     var URI_SAFE_ATTRIBUTES = null;
     var DEFAULT_URI_SAFE_ATTRIBUTES = addToSet({}, ['alt', 'class', 'for', 'id', 'label', 'name', 'pattern', 'placeholder', 'role', 'summary', 'title', 'value', 'style', 'xmlns']);
-
     var MATHML_NAMESPACE = 'http://www.w3.org/1998/Math/MathML';
     var SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
     var HTML_NAMESPACE = 'http://www.w3.org/1999/xhtml';
@@ -12405,11 +11415,15 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     var NAMESPACE = HTML_NAMESPACE;
     var IS_EMPTY_INPUT = false;
 
+    /* Allowed XHTML+XML namespaces */
+    var ALLOWED_NAMESPACES = null;
+    var DEFAULT_ALLOWED_NAMESPACES = addToSet({}, [MATHML_NAMESPACE, SVG_NAMESPACE, HTML_NAMESPACE], stringToString);
+
     /* Parsing of strict XHTML documents */
-    var PARSER_MEDIA_TYPE = void 0;
+    var PARSER_MEDIA_TYPE;
     var SUPPORTED_PARSER_MEDIA_TYPES = ['application/xhtml+xml', 'text/html'];
     var DEFAULT_PARSER_MEDIA_TYPE = 'text/html';
-    var transformCaseFunc = void 0;
+    var transformCaseFunc;
 
     /* Keep a reference to config to pass to hooks */
     var CONFIG = null;
@@ -12418,7 +11432,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     /* ______________________________________________ */
 
     var formElement = document.createElement('form');
-
     var isRegexOrFunction = function isRegexOrFunction(testValue) {
       return testValue instanceof RegExp || testValue instanceof Function;
     };
@@ -12435,89 +11448,96 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       }
 
       /* Shield configuration object from tampering */
-      if (!cfg || (typeof cfg === 'undefined' ? 'undefined' : _typeof(cfg)) !== 'object') {
+      if (!cfg || _typeof(cfg) !== 'object') {
         cfg = {};
       }
 
       /* Shield configuration object from prototype pollution */
       cfg = clone(cfg);
+      PARSER_MEDIA_TYPE =
+      // eslint-disable-next-line unicorn/prefer-includes
+      SUPPORTED_PARSER_MEDIA_TYPES.indexOf(cfg.PARSER_MEDIA_TYPE) === -1 ? PARSER_MEDIA_TYPE = DEFAULT_PARSER_MEDIA_TYPE : PARSER_MEDIA_TYPE = cfg.PARSER_MEDIA_TYPE;
+
+      // HTML tags and attributes are not case-sensitive, converting to lowercase. Keeping XHTML as is.
+      transformCaseFunc = PARSER_MEDIA_TYPE === 'application/xhtml+xml' ? stringToString : stringToLowerCase;
 
       /* Set configuration parameters */
-      ALLOWED_TAGS = 'ALLOWED_TAGS' in cfg ? addToSet({}, cfg.ALLOWED_TAGS) : DEFAULT_ALLOWED_TAGS;
-      ALLOWED_ATTR = 'ALLOWED_ATTR' in cfg ? addToSet({}, cfg.ALLOWED_ATTR) : DEFAULT_ALLOWED_ATTR;
-      URI_SAFE_ATTRIBUTES = 'ADD_URI_SAFE_ATTR' in cfg ? addToSet(clone(DEFAULT_URI_SAFE_ATTRIBUTES), cfg.ADD_URI_SAFE_ATTR) : DEFAULT_URI_SAFE_ATTRIBUTES;
-      DATA_URI_TAGS = 'ADD_DATA_URI_TAGS' in cfg ? addToSet(clone(DEFAULT_DATA_URI_TAGS), cfg.ADD_DATA_URI_TAGS) : DEFAULT_DATA_URI_TAGS;
-      FORBID_CONTENTS = 'FORBID_CONTENTS' in cfg ? addToSet({}, cfg.FORBID_CONTENTS) : DEFAULT_FORBID_CONTENTS;
-      FORBID_TAGS = 'FORBID_TAGS' in cfg ? addToSet({}, cfg.FORBID_TAGS) : {};
-      FORBID_ATTR = 'FORBID_ATTR' in cfg ? addToSet({}, cfg.FORBID_ATTR) : {};
+      ALLOWED_TAGS = 'ALLOWED_TAGS' in cfg ? addToSet({}, cfg.ALLOWED_TAGS, transformCaseFunc) : DEFAULT_ALLOWED_TAGS;
+      ALLOWED_ATTR = 'ALLOWED_ATTR' in cfg ? addToSet({}, cfg.ALLOWED_ATTR, transformCaseFunc) : DEFAULT_ALLOWED_ATTR;
+      ALLOWED_NAMESPACES = 'ALLOWED_NAMESPACES' in cfg ? addToSet({}, cfg.ALLOWED_NAMESPACES, stringToString) : DEFAULT_ALLOWED_NAMESPACES;
+      URI_SAFE_ATTRIBUTES = 'ADD_URI_SAFE_ATTR' in cfg ? addToSet(clone(DEFAULT_URI_SAFE_ATTRIBUTES),
+      // eslint-disable-line indent
+      cfg.ADD_URI_SAFE_ATTR,
+      // eslint-disable-line indent
+      transformCaseFunc // eslint-disable-line indent
+      ) // eslint-disable-line indent
+      : DEFAULT_URI_SAFE_ATTRIBUTES;
+      DATA_URI_TAGS = 'ADD_DATA_URI_TAGS' in cfg ? addToSet(clone(DEFAULT_DATA_URI_TAGS),
+      // eslint-disable-line indent
+      cfg.ADD_DATA_URI_TAGS,
+      // eslint-disable-line indent
+      transformCaseFunc // eslint-disable-line indent
+      ) // eslint-disable-line indent
+      : DEFAULT_DATA_URI_TAGS;
+      FORBID_CONTENTS = 'FORBID_CONTENTS' in cfg ? addToSet({}, cfg.FORBID_CONTENTS, transformCaseFunc) : DEFAULT_FORBID_CONTENTS;
+      FORBID_TAGS = 'FORBID_TAGS' in cfg ? addToSet({}, cfg.FORBID_TAGS, transformCaseFunc) : {};
+      FORBID_ATTR = 'FORBID_ATTR' in cfg ? addToSet({}, cfg.FORBID_ATTR, transformCaseFunc) : {};
       USE_PROFILES = 'USE_PROFILES' in cfg ? cfg.USE_PROFILES : false;
       ALLOW_ARIA_ATTR = cfg.ALLOW_ARIA_ATTR !== false; // Default true
       ALLOW_DATA_ATTR = cfg.ALLOW_DATA_ATTR !== false; // Default true
       ALLOW_UNKNOWN_PROTOCOLS = cfg.ALLOW_UNKNOWN_PROTOCOLS || false; // Default false
+      ALLOW_SELF_CLOSE_IN_ATTR = cfg.ALLOW_SELF_CLOSE_IN_ATTR !== false; // Default true
       SAFE_FOR_TEMPLATES = cfg.SAFE_FOR_TEMPLATES || false; // Default false
+      SAFE_FOR_XML = cfg.SAFE_FOR_XML !== false; // Default true
       WHOLE_DOCUMENT = cfg.WHOLE_DOCUMENT || false; // Default false
       RETURN_DOM = cfg.RETURN_DOM || false; // Default false
       RETURN_DOM_FRAGMENT = cfg.RETURN_DOM_FRAGMENT || false; // Default false
       RETURN_TRUSTED_TYPE = cfg.RETURN_TRUSTED_TYPE || false; // Default false
       FORCE_BODY = cfg.FORCE_BODY || false; // Default false
       SANITIZE_DOM = cfg.SANITIZE_DOM !== false; // Default true
+      SANITIZE_NAMED_PROPS = cfg.SANITIZE_NAMED_PROPS || false; // Default false
       KEEP_CONTENT = cfg.KEEP_CONTENT !== false; // Default true
       IN_PLACE = cfg.IN_PLACE || false; // Default false
-      IS_ALLOWED_URI$$1 = cfg.ALLOWED_URI_REGEXP || IS_ALLOWED_URI$$1;
+      IS_ALLOWED_URI$1 = cfg.ALLOWED_URI_REGEXP || IS_ALLOWED_URI$1;
       NAMESPACE = cfg.NAMESPACE || HTML_NAMESPACE;
+      CUSTOM_ELEMENT_HANDLING = cfg.CUSTOM_ELEMENT_HANDLING || {};
       if (cfg.CUSTOM_ELEMENT_HANDLING && isRegexOrFunction(cfg.CUSTOM_ELEMENT_HANDLING.tagNameCheck)) {
         CUSTOM_ELEMENT_HANDLING.tagNameCheck = cfg.CUSTOM_ELEMENT_HANDLING.tagNameCheck;
       }
-
       if (cfg.CUSTOM_ELEMENT_HANDLING && isRegexOrFunction(cfg.CUSTOM_ELEMENT_HANDLING.attributeNameCheck)) {
         CUSTOM_ELEMENT_HANDLING.attributeNameCheck = cfg.CUSTOM_ELEMENT_HANDLING.attributeNameCheck;
       }
-
       if (cfg.CUSTOM_ELEMENT_HANDLING && typeof cfg.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements === 'boolean') {
         CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements = cfg.CUSTOM_ELEMENT_HANDLING.allowCustomizedBuiltInElements;
       }
-
-      PARSER_MEDIA_TYPE =
-      // eslint-disable-next-line unicorn/prefer-includes
-      SUPPORTED_PARSER_MEDIA_TYPES.indexOf(cfg.PARSER_MEDIA_TYPE) === -1 ? PARSER_MEDIA_TYPE = DEFAULT_PARSER_MEDIA_TYPE : PARSER_MEDIA_TYPE = cfg.PARSER_MEDIA_TYPE;
-
-      // HTML tags and attributes are not case-sensitive, converting to lowercase. Keeping XHTML as is.
-      transformCaseFunc = PARSER_MEDIA_TYPE === 'application/xhtml+xml' ? function (x) {
-        return x;
-      } : stringToLowerCase;
-
       if (SAFE_FOR_TEMPLATES) {
         ALLOW_DATA_ATTR = false;
       }
-
       if (RETURN_DOM_FRAGMENT) {
         RETURN_DOM = true;
       }
 
       /* Parse profile info */
       if (USE_PROFILES) {
-        ALLOWED_TAGS = addToSet({}, [].concat(_toConsumableArray$1(text)));
+        ALLOWED_TAGS = addToSet({}, _toConsumableArray(text));
         ALLOWED_ATTR = [];
         if (USE_PROFILES.html === true) {
-          addToSet(ALLOWED_TAGS, html);
-          addToSet(ALLOWED_ATTR, html$1);
+          addToSet(ALLOWED_TAGS, html$1);
+          addToSet(ALLOWED_ATTR, html);
         }
-
         if (USE_PROFILES.svg === true) {
-          addToSet(ALLOWED_TAGS, svg);
-          addToSet(ALLOWED_ATTR, svg$1);
+          addToSet(ALLOWED_TAGS, svg$1);
+          addToSet(ALLOWED_ATTR, svg);
           addToSet(ALLOWED_ATTR, xml);
         }
-
         if (USE_PROFILES.svgFilters === true) {
           addToSet(ALLOWED_TAGS, svgFilters);
-          addToSet(ALLOWED_ATTR, svg$1);
+          addToSet(ALLOWED_ATTR, svg);
           addToSet(ALLOWED_ATTR, xml);
         }
-
         if (USE_PROFILES.mathMl === true) {
-          addToSet(ALLOWED_TAGS, mathMl);
-          addToSet(ALLOWED_ATTR, mathMl$1);
+          addToSet(ALLOWED_TAGS, mathMl$1);
+          addToSet(ALLOWED_ATTR, mathMl);
           addToSet(ALLOWED_ATTR, xml);
         }
       }
@@ -12527,28 +11547,22 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         if (ALLOWED_TAGS === DEFAULT_ALLOWED_TAGS) {
           ALLOWED_TAGS = clone(ALLOWED_TAGS);
         }
-
-        addToSet(ALLOWED_TAGS, cfg.ADD_TAGS);
+        addToSet(ALLOWED_TAGS, cfg.ADD_TAGS, transformCaseFunc);
       }
-
       if (cfg.ADD_ATTR) {
         if (ALLOWED_ATTR === DEFAULT_ALLOWED_ATTR) {
           ALLOWED_ATTR = clone(ALLOWED_ATTR);
         }
-
-        addToSet(ALLOWED_ATTR, cfg.ADD_ATTR);
+        addToSet(ALLOWED_ATTR, cfg.ADD_ATTR, transformCaseFunc);
       }
-
       if (cfg.ADD_URI_SAFE_ATTR) {
-        addToSet(URI_SAFE_ATTRIBUTES, cfg.ADD_URI_SAFE_ATTR);
+        addToSet(URI_SAFE_ATTRIBUTES, cfg.ADD_URI_SAFE_ATTR, transformCaseFunc);
       }
-
       if (cfg.FORBID_CONTENTS) {
         if (FORBID_CONTENTS === DEFAULT_FORBID_CONTENTS) {
           FORBID_CONTENTS = clone(FORBID_CONTENTS);
         }
-
-        addToSet(FORBID_CONTENTS, cfg.FORBID_CONTENTS);
+        addToSet(FORBID_CONTENTS, cfg.FORBID_CONTENTS, transformCaseFunc);
       }
 
       /* Add #text in case KEEP_CONTENT is set to true */
@@ -12572,22 +11586,24 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       if (freeze) {
         freeze(cfg);
       }
-
       CONFIG = cfg;
     };
-
     var MATHML_TEXT_INTEGRATION_POINTS = addToSet({}, ['mi', 'mo', 'mn', 'ms', 'mtext']);
+    var HTML_INTEGRATION_POINTS = addToSet({}, ['annotation-xml']);
 
-    var HTML_INTEGRATION_POINTS = addToSet({}, ['foreignobject', 'desc', 'title', 'annotation-xml']);
+    // Certain elements are allowed in both SVG and HTML
+    // namespace. We need to specify them explicitly
+    // so that they don't get erroneously deleted from
+    // HTML namespace.
+    var COMMON_SVG_AND_HTML_ELEMENTS = addToSet({}, ['title', 'style', 'font', 'a', 'script']);
 
     /* Keep track of all possible SVG and MathML tags
      * so that we can perform the namespace checks
      * correctly. */
-    var ALL_SVG_TAGS = addToSet({}, svg);
+    var ALL_SVG_TAGS = addToSet({}, svg$1);
     addToSet(ALL_SVG_TAGS, svgFilters);
     addToSet(ALL_SVG_TAGS, svgDisallowed);
-
-    var ALL_MATHML_TAGS = addToSet({}, mathMl);
+    var ALL_MATHML_TAGS = addToSet({}, mathMl$1);
     addToSet(ALL_MATHML_TAGS, mathMlDisallowed);
 
     /**
@@ -12605,14 +11621,15 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       // can be null. We just simulate parent in this case.
       if (!parent || !parent.tagName) {
         parent = {
-          namespaceURI: HTML_NAMESPACE,
+          namespaceURI: NAMESPACE,
           tagName: 'template'
         };
       }
-
       var tagName = stringToLowerCase(element.tagName);
       var parentTagName = stringToLowerCase(parent.tagName);
-
+      if (!ALLOWED_NAMESPACES[element.namespaceURI]) {
+        return false;
+      }
       if (element.namespaceURI === SVG_NAMESPACE) {
         // The only way to switch from HTML namespace to SVG
         // is via <svg>. If it happens via any other tag, then
@@ -12621,7 +11638,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
           return tagName === 'svg';
         }
 
-        // The only way to switch from MathML to SVG is via
+        // The only way to switch from MathML to SVG is via`
         // svg if parent is either <annotation-xml> or MathML
         // text integration points.
         if (parent.namespaceURI === MATHML_NAMESPACE) {
@@ -12632,7 +11649,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         // spec. All others are disallowed in SVG namespace.
         return Boolean(ALL_SVG_TAGS[tagName]);
       }
-
       if (element.namespaceURI === MATHML_NAMESPACE) {
         // The only way to switch from HTML namespace to MathML
         // is via <math>. If it happens via any other tag, then
@@ -12651,7 +11667,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         // spec. All others are disallowed in MathML namespace.
         return Boolean(ALL_MATHML_TAGS[tagName]);
       }
-
       if (element.namespaceURI === HTML_NAMESPACE) {
         // The only way to switch from SVG to HTML is via
         // HTML integration points, and from MathML to HTML
@@ -12659,25 +11674,24 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         if (parent.namespaceURI === SVG_NAMESPACE && !HTML_INTEGRATION_POINTS[parentTagName]) {
           return false;
         }
-
         if (parent.namespaceURI === MATHML_NAMESPACE && !MATHML_TEXT_INTEGRATION_POINTS[parentTagName]) {
           return false;
         }
 
-        // Certain elements are allowed in both SVG and HTML
-        // namespace. We need to specify them explicitly
-        // so that they don't get erronously deleted from
-        // HTML namespace.
-        var commonSvgAndHTMLElements = addToSet({}, ['title', 'style', 'font', 'a', 'script']);
-
         // We disallow tags that are specific for MathML
         // or SVG and should never appear in HTML namespace
-        return !ALL_MATHML_TAGS[tagName] && (commonSvgAndHTMLElements[tagName] || !ALL_SVG_TAGS[tagName]);
+        return !ALL_MATHML_TAGS[tagName] && (COMMON_SVG_AND_HTML_ELEMENTS[tagName] || !ALL_SVG_TAGS[tagName]);
+      }
+
+      // For XHTML and XML documents that support custom namespaces
+      if (PARSER_MEDIA_TYPE === 'application/xhtml+xml' && ALLOWED_NAMESPACES[element.namespaceURI]) {
+        return true;
       }
 
       // The code should never reach this place (this means
       // that the element somehow got namespace that is not
-      // HTML, SVG or MathML). Return false just in case.
+      // HTML, SVG, MathML or allowed via ALLOWED_NAMESPACES).
+      // Return false just in case.
       return false;
     };
 
@@ -12687,7 +11701,9 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * @param  {Node} node a DOM node
      */
     var _forceRemove = function _forceRemove(node) {
-      arrayPush(DOMPurify.removed, { element: node });
+      arrayPush(DOMPurify.removed, {
+        element: node
+      });
       try {
         // eslint-disable-next-line unicorn/prefer-dom-node-remove
         node.parentNode.removeChild(node);
@@ -12718,7 +11734,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
           from: node
         });
       }
-
       node.removeAttribute(name);
 
       // We void attribute values for unremovable "is"" attributes
@@ -12743,9 +11758,8 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      */
     var _initDocument = function _initDocument(dirty) {
       /* Create a HTML document */
-      var doc = void 0;
-      var leadingWhitespace = void 0;
-
+      var doc;
+      var leadingWhitespace;
       if (FORCE_BODY) {
         dirty = '<remove></remove>' + dirty;
       } else {
@@ -12753,12 +11767,10 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         var matches = stringMatch(dirty, /^[\r\n\t ]+/);
         leadingWhitespace = matches && matches[0];
       }
-
-      if (PARSER_MEDIA_TYPE === 'application/xhtml+xml') {
+      if (PARSER_MEDIA_TYPE === 'application/xhtml+xml' && NAMESPACE === HTML_NAMESPACE) {
         // Root of XHTML doc must contain xmlns declaration (see https://www.w3.org/TR/xhtml1/normative.html#strict)
         dirty = '<html xmlns="http://www.w3.org/1999/xhtml"><head></head><body>' + dirty + '</body></html>';
       }
-
       var dirtyPayload = trustedTypesPolicy ? trustedTypesPolicy.createHTML(dirty) : dirty;
       /*
        * Use the DOMParser API by default, fallback later if needs be
@@ -12774,14 +11786,12 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       if (!doc || !doc.documentElement) {
         doc = implementation.createDocument(NAMESPACE, 'template', null);
         try {
-          doc.documentElement.innerHTML = IS_EMPTY_INPUT ? '' : dirtyPayload;
+          doc.documentElement.innerHTML = IS_EMPTY_INPUT ? emptyHTML : dirtyPayload;
         } catch (_) {
           // Syntax error if dirtyPayload is invalid xml
         }
       }
-
       var body = doc.body || doc.documentElement;
-
       if (dirty && leadingWhitespace) {
         body.insertBefore(document.createTextNode(leadingWhitespace), body.childNodes[0] || null);
       }
@@ -12790,7 +11800,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       if (NAMESPACE === HTML_NAMESPACE) {
         return getElementsByTagName.call(doc, WHOLE_DOCUMENT ? 'html' : 'body')[0];
       }
-
       return WHOLE_DOCUMENT ? doc.documentElement : body;
     };
 
@@ -12801,7 +11810,9 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * @return {Iterator} iterator instance
      */
     var _createIterator = function _createIterator(root) {
-      return createNodeIterator.call(root.ownerDocument || root, root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_TEXT, null, false);
+      return createNodeIterator.call(root.ownerDocument || root, root,
+      // eslint-disable-next-line no-bitwise
+      NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT | NodeFilter.SHOW_TEXT | NodeFilter.SHOW_PROCESSING_INSTRUCTION | NodeFilter.SHOW_CDATA_SECTION, null, false);
     };
 
     /**
@@ -12811,7 +11822,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * @return {Boolean} true if clobbered, false if safe
      */
     var _isClobbered = function _isClobbered(elm) {
-      return elm instanceof HTMLFormElement && (typeof elm.nodeName !== 'string' || typeof elm.textContent !== 'string' || typeof elm.removeChild !== 'function' || !(elm.attributes instanceof NamedNodeMap) || typeof elm.removeAttribute !== 'function' || typeof elm.setAttribute !== 'function' || typeof elm.namespaceURI !== 'string' || typeof elm.insertBefore !== 'function');
+      return elm instanceof HTMLFormElement && (typeof elm.nodeName !== 'string' || typeof elm.textContent !== 'string' || typeof elm.removeChild !== 'function' || !(elm.attributes instanceof NamedNodeMap) || typeof elm.removeAttribute !== 'function' || typeof elm.setAttribute !== 'function' || typeof elm.namespaceURI !== 'string' || typeof elm.insertBefore !== 'function' || typeof elm.hasChildNodes !== 'function');
     };
 
     /**
@@ -12821,7 +11832,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * @return {Boolean} true is object is a DOM node
      */
     var _isNode = function _isNode(object) {
-      return (typeof Node === 'undefined' ? 'undefined' : _typeof(Node)) === 'object' ? object instanceof Node : object && (typeof object === 'undefined' ? 'undefined' : _typeof(object)) === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string';
+      return _typeof(Node) === 'object' ? object instanceof Node : object && _typeof(object) === 'object' && typeof object.nodeType === 'number' && typeof object.nodeName === 'string';
     };
 
     /**
@@ -12836,7 +11847,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       if (!hooks[entryPoint]) {
         return;
       }
-
       arrayForEach(hooks[entryPoint], function (hook) {
         hook.call(DOMPurify, currentNode, data, CONFIG);
       });
@@ -12853,7 +11863,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * @return  {Boolean} true if node was killed, false if left alive
      */
     var _sanitizeElements = function _sanitizeElements(currentNode) {
-      var content = void 0;
+      var content;
 
       /* Execute a hook if present */
       _executeHook('beforeSanitizeElements', currentNode, null);
@@ -12865,7 +11875,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       }
 
       /* Check if tagname contains Unicode */
-      if (stringMatch(currentNode.nodeName, /[\u0080-\uFFFF]/)) {
+      if (regExpTest(/[\u0080-\uFFFF]/, currentNode.nodeName)) {
         _forceRemove(currentNode);
         return true;
       }
@@ -12880,7 +11890,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       });
 
       /* Detect mXSS attempts abusing namespace confusion */
-      if (!_isNode(currentNode.firstElementChild) && (!_isNode(currentNode.content) || !_isNode(currentNode.content.firstElementChild)) && regExpTest(/<[/\w]/g, currentNode.innerHTML) && regExpTest(/<[/\w]/g, currentNode.textContent)) {
+      if (currentNode.hasChildNodes() && !_isNode(currentNode.firstElementChild) && (!_isNode(currentNode.content) || !_isNode(currentNode.content.firstElementChild)) && regExpTest(/<[/\w]/g, currentNode.innerHTML) && regExpTest(/<[/\w]/g, currentNode.textContent)) {
         _forceRemove(currentNode);
         return true;
       }
@@ -12891,27 +11901,39 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         return true;
       }
 
+      /* Remove any ocurrence of processing instructions */
+      if (currentNode.nodeType === 7) {
+        _forceRemove(currentNode);
+        return true;
+      }
+
+      /* Remove any kind of possibly harmful comments */
+      if (SAFE_FOR_XML && currentNode.nodeType === 8 && regExpTest(/<[/\w]/g, currentNode.data)) {
+        _forceRemove(currentNode);
+        return true;
+      }
+
       /* Remove element if anything forbids its presence */
       if (!ALLOWED_TAGS[tagName] || FORBID_TAGS[tagName]) {
-        /* Keep content except for bad-listed elements */
-        if (KEEP_CONTENT && !FORBID_CONTENTS[tagName]) {
-          var parentNode = getParentNode(currentNode) || currentNode.parentNode;
-          var childNodes = getChildNodes(currentNode) || currentNode.childNodes;
-
-          if (childNodes && parentNode) {
-            var childCount = childNodes.length;
-
-            for (var i = childCount - 1; i >= 0; --i) {
-              parentNode.insertBefore(cloneNode(childNodes[i], true), getNextSibling(currentNode));
-            }
-          }
-        }
-
+        /* Check if we have a custom element to handle */
         if (!FORBID_TAGS[tagName] && _basicCustomElementTest(tagName)) {
           if (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof RegExp && regExpTest(CUSTOM_ELEMENT_HANDLING.tagNameCheck, tagName)) return false;
           if (CUSTOM_ELEMENT_HANDLING.tagNameCheck instanceof Function && CUSTOM_ELEMENT_HANDLING.tagNameCheck(tagName)) return false;
         }
 
+        /* Keep content except for bad-listed elements */
+        if (KEEP_CONTENT && !FORBID_CONTENTS[tagName]) {
+          var parentNode = getParentNode(currentNode) || currentNode.parentNode;
+          var childNodes = getChildNodes(currentNode) || currentNode.childNodes;
+          if (childNodes && parentNode) {
+            var childCount = childNodes.length;
+            for (var i = childCount - 1; i >= 0; --i) {
+              var childClone = cloneNode(childNodes[i], true);
+              childClone.__removalCount = (currentNode.__removalCount || 0) + 1;
+              parentNode.insertBefore(childClone, getNextSibling(currentNode));
+            }
+          }
+        }
         _forceRemove(currentNode);
         return true;
       }
@@ -12922,7 +11944,8 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         return true;
       }
 
-      if ((tagName === 'noscript' || tagName === 'noembed') && regExpTest(/<\/no(script|embed)/i, currentNode.innerHTML)) {
+      /* Make sure that older browsers don't get fallback-tag mXSS */
+      if ((tagName === 'noscript' || tagName === 'noembed' || tagName === 'noframes') && regExpTest(/<\/no(script|embed|frames)/i, currentNode.innerHTML)) {
         _forceRemove(currentNode);
         return true;
       }
@@ -12931,17 +11954,19 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       if (SAFE_FOR_TEMPLATES && currentNode.nodeType === 3) {
         /* Get the element's text content */
         content = currentNode.textContent;
-        content = stringReplace(content, MUSTACHE_EXPR$$1, ' ');
-        content = stringReplace(content, ERB_EXPR$$1, ' ');
+        content = stringReplace(content, MUSTACHE_EXPR$1, ' ');
+        content = stringReplace(content, ERB_EXPR$1, ' ');
+        content = stringReplace(content, TMPLIT_EXPR$1, ' ');
         if (currentNode.textContent !== content) {
-          arrayPush(DOMPurify.removed, { element: currentNode.cloneNode() });
+          arrayPush(DOMPurify.removed, {
+            element: currentNode.cloneNode()
+          });
           currentNode.textContent = content;
         }
       }
 
       /* Execute a hook if present */
       _executeHook('afterSanitizeElements', currentNode, null);
-
       return false;
     };
 
@@ -12964,7 +11989,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
           (https://html.spec.whatwg.org/multipage/dom.html#embedding-custom-non-visible-data-with-the-data-*-attributes)
           XML-compatible (https://html.spec.whatwg.org/multipage/infrastructure.html#xml-compatible and http://www.w3.org/TR/xml/#d0e804)
           We don't need to check the value; it's always URI safe. */
-      if (ALLOW_DATA_ATTR && !FORBID_ATTR[lcName] && regExpTest(DATA_ATTR$$1, lcName)) ; else if (ALLOW_ARIA_ATTR && regExpTest(ARIA_ATTR$$1, lcName)) ; else if (!ALLOWED_ATTR[lcName] || FORBID_ATTR[lcName]) {
+      if (ALLOW_DATA_ATTR && !FORBID_ATTR[lcName] && regExpTest(DATA_ATTR$1, lcName)) ; else if (ALLOW_ARIA_ATTR && regExpTest(ARIA_ATTR$1, lcName)) ; else if (!ALLOWED_ATTR[lcName] || FORBID_ATTR[lcName]) {
         if (
         // First condition does a very basic check if a) it's basically a valid custom element tagname AND
         // b) if the tagName passes whatever the user has configured for CUSTOM_ELEMENT_HANDLING.tagNameCheck
@@ -12976,10 +12001,9 @@ function _objectWithoutPropertiesLoose(source, excluded) {
           return false;
         }
         /* Check value is safe. First, is attr inert? If so, is safe */
-      } else if (URI_SAFE_ATTRIBUTES[lcName]) ; else if (regExpTest(IS_ALLOWED_URI$$1, stringReplace(value, ATTR_WHITESPACE$$1, ''))) ; else if ((lcName === 'src' || lcName === 'xlink:href' || lcName === 'href') && lcTag !== 'script' && stringIndexOf(value, 'data:') === 0 && DATA_URI_TAGS[lcTag]) ; else if (ALLOW_UNKNOWN_PROTOCOLS && !regExpTest(IS_SCRIPT_OR_DATA$$1, stringReplace(value, ATTR_WHITESPACE$$1, ''))) ; else if (!value) ; else {
+      } else if (URI_SAFE_ATTRIBUTES[lcName]) ; else if (regExpTest(IS_ALLOWED_URI$1, stringReplace(value, ATTR_WHITESPACE$1, ''))) ; else if ((lcName === 'src' || lcName === 'xlink:href' || lcName === 'href') && lcTag !== 'script' && stringIndexOf(value, 'data:') === 0 && DATA_URI_TAGS[lcTag]) ; else if (ALLOW_UNKNOWN_PROTOCOLS && !regExpTest(IS_SCRIPT_OR_DATA$1, stringReplace(value, ATTR_WHITESPACE$1, ''))) ; else if (value) {
         return false;
-      }
-
+      } else ;
       return true;
     };
 
@@ -12990,7 +12014,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * @param {string} tagName name of the tag of the node to sanitize
      */
     var _basicCustomElementTest = function _basicCustomElementTest(tagName) {
-      return tagName.indexOf('-') > 0;
+      return tagName !== 'annotation-xml' && stringMatch(tagName, CUSTOM_ELEMENT$1);
     };
 
     /**
@@ -13004,21 +12028,18 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * @param  {Node} currentNode to sanitize
      */
     var _sanitizeAttributes = function _sanitizeAttributes(currentNode) {
-      var attr = void 0;
-      var value = void 0;
-      var lcName = void 0;
-      var l = void 0;
+      var attr;
+      var value;
+      var lcName;
+      var l;
       /* Execute a hook if present */
       _executeHook('beforeSanitizeAttributes', currentNode, null);
-
       var attributes = currentNode.attributes;
 
       /* Check if we have attributes; if not we might have a text node */
-
-      if (!attributes) {
+      if (!attributes || _isClobbered(currentNode)) {
         return;
       }
-
       var hookEvent = {
         attrName: '',
         attrValue: '',
@@ -13031,10 +12052,9 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       while (l--) {
         attr = attributes[l];
         var _attr = attr,
-            name = _attr.name,
-            namespaceURI = _attr.namespaceURI;
-
-        value = stringTrim(attr.value);
+          name = _attr.name,
+          namespaceURI = _attr.namespaceURI;
+        value = name === 'value' ? attr.value : stringTrim(attr.value);
         lcName = transformCaseFunc(name);
 
         /* Execute a hook if present */
@@ -13044,6 +12064,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         hookEvent.forceKeepAttr = undefined; // Allows developers to see this is a property they can set
         _executeHook('uponSanitizeAttribute', currentNode, hookEvent);
         value = hookEvent.attrValue;
+
         /* Did the hooks approve of the attribute? */
         if (hookEvent.forceKeepAttr) {
           continue;
@@ -13058,21 +12079,57 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         }
 
         /* Work around a security issue in jQuery 3.0 */
-        if (regExpTest(/\/>/i, value)) {
+        if (!ALLOW_SELF_CLOSE_IN_ATTR && regExpTest(/\/>/i, value)) {
           _removeAttribute(name, currentNode);
           continue;
         }
 
         /* Sanitize attribute content to be template-safe */
         if (SAFE_FOR_TEMPLATES) {
-          value = stringReplace(value, MUSTACHE_EXPR$$1, ' ');
-          value = stringReplace(value, ERB_EXPR$$1, ' ');
+          value = stringReplace(value, MUSTACHE_EXPR$1, ' ');
+          value = stringReplace(value, ERB_EXPR$1, ' ');
+          value = stringReplace(value, TMPLIT_EXPR$1, ' ');
         }
 
         /* Is `value` valid for this attribute? */
         var lcTag = transformCaseFunc(currentNode.nodeName);
         if (!_isValidAttribute(lcTag, lcName, value)) {
           continue;
+        }
+
+        /* Full DOM Clobbering protection via namespace isolation,
+         * Prefix id and name attributes with `user-content-`
+         */
+        if (SANITIZE_NAMED_PROPS && (lcName === 'id' || lcName === 'name')) {
+          // Remove the attribute with this value
+          _removeAttribute(name, currentNode);
+
+          // Prefix the value and later re-create the attribute with the sanitized value
+          value = SANITIZE_NAMED_PROPS_PREFIX + value;
+        }
+
+        /* Work around a security issue with comments inside attributes */
+        if (SAFE_FOR_XML && regExpTest(/((--!?|])>)|<\/(style|title)/i, value)) {
+          _removeAttribute(name, currentNode);
+          continue;
+        }
+
+        /* Handle attributes that require Trusted Types */
+        if (trustedTypesPolicy && _typeof(trustedTypes) === 'object' && typeof trustedTypes.getAttributeType === 'function') {
+          if (namespaceURI) ; else {
+            switch (trustedTypes.getAttributeType(lcTag, lcName)) {
+              case 'TrustedHTML':
+                {
+                  value = trustedTypesPolicy.createHTML(value);
+                  break;
+                }
+              case 'TrustedScriptURL':
+                {
+                  value = trustedTypesPolicy.createScriptURL(value);
+                  break;
+                }
+            }
+          }
         }
 
         /* Handle invalid data-* attribute set by try-catching it */
@@ -13083,8 +12140,11 @@ function _objectWithoutPropertiesLoose(source, excluded) {
             /* Fallback to setAttribute() for browser-unrecognized namespaces e.g. "x-schema". */
             currentNode.setAttribute(name, value);
           }
-
-          arrayPop(DOMPurify.removed);
+          if (_isClobbered(currentNode)) {
+            _forceRemove(currentNode);
+          } else {
+            arrayPop(DOMPurify.removed);
+          }
         } catch (_) {}
       }
 
@@ -13098,28 +12158,24 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * @param  {DocumentFragment} fragment to iterate over recursively
      */
     var _sanitizeShadowDOM = function _sanitizeShadowDOM(fragment) {
-      var shadowNode = void 0;
+      var shadowNode;
       var shadowIterator = _createIterator(fragment);
 
       /* Execute a hook if present */
       _executeHook('beforeSanitizeShadowDOM', fragment, null);
-
       while (shadowNode = shadowIterator.nextNode()) {
         /* Execute a hook if present */
         _executeHook('uponSanitizeShadowNode', shadowNode, null);
-
         /* Sanitize tags and elements */
-        if (_sanitizeElements(shadowNode)) {
-          continue;
-        }
+        _sanitizeElements(shadowNode);
+
+        /* Check attributes next */
+        _sanitizeAttributes(shadowNode);
 
         /* Deep shadow DOM detected */
         if (shadowNode.content instanceof DocumentFragment) {
           _sanitizeShadowDOM(shadowNode.content);
         }
-
-        /* Check attributes, sanitize if necessary */
-        _sanitizeAttributes(shadowNode);
       }
 
       /* Execute a hook if present */
@@ -13134,12 +12190,13 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * @param {Object} configuration object
      */
     // eslint-disable-next-line complexity
-    DOMPurify.sanitize = function (dirty, cfg) {
-      var body = void 0;
-      var importedNode = void 0;
-      var currentNode = void 0;
-      var oldNode = void 0;
-      var returnNode = void 0;
+    DOMPurify.sanitize = function (dirty) {
+      var cfg = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var body;
+      var importedNode;
+      var currentNode;
+      var oldNode;
+      var returnNode;
       /* Make sure we have a string to sanitize.
         DO NOT return early, as this will return the wrong type if
         the user has requested a DOM object rather than a string */
@@ -13150,14 +12207,13 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
       /* Stringify, in case dirty is an object */
       if (typeof dirty !== 'string' && !_isNode(dirty)) {
-        // eslint-disable-next-line no-negated-condition
-        if (typeof dirty.toString !== 'function') {
-          throw typeErrorCreate('toString is not a function');
-        } else {
+        if (typeof dirty.toString === 'function') {
           dirty = dirty.toString();
           if (typeof dirty !== 'string') {
             throw typeErrorCreate('dirty is not a string, aborting');
           }
+        } else {
+          throw typeErrorCreate('toString is not a function');
         }
       }
 
@@ -13167,12 +12223,10 @@ function _objectWithoutPropertiesLoose(source, excluded) {
           if (typeof dirty === 'string') {
             return window.toStaticHTML(dirty);
           }
-
           if (_isNode(dirty)) {
             return window.toStaticHTML(dirty.outerHTML);
           }
         }
-
         return dirty;
       }
 
@@ -13188,8 +12242,15 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       if (typeof dirty === 'string') {
         IN_PLACE = false;
       }
-
-      if (IN_PLACE) ; else if (dirty instanceof Node) {
+      if (IN_PLACE) {
+        /* Do some early pre-sanitization to avoid unsafe root nodes */
+        if (dirty.nodeName) {
+          var tagName = transformCaseFunc(dirty.nodeName);
+          if (!ALLOWED_TAGS[tagName] || FORBID_TAGS[tagName]) {
+            throw typeErrorCreate('root node is forbidden and cannot be sanitized in-place');
+          }
+        }
+      } else if (dirty instanceof Node) {
         /* If dirty is a DOM element, append to an empty document to avoid
            elements being stripped by the parser */
         body = _initDocument('<!---->');
@@ -13216,7 +12277,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
         /* Check we have a DOM node from the data */
         if (!body) {
-          return RETURN_DOM ? null : emptyHTML;
+          return RETURN_DOM ? null : RETURN_TRUSTED_TYPE ? emptyHTML : '';
         }
       }
 
@@ -13236,21 +12297,17 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         }
 
         /* Sanitize tags and elements */
-        if (_sanitizeElements(currentNode)) {
-          continue;
-        }
+        _sanitizeElements(currentNode);
+
+        /* Check attributes next */
+        _sanitizeAttributes(currentNode);
 
         /* Shadow DOM detected, sanitize it */
         if (currentNode.content instanceof DocumentFragment) {
           _sanitizeShadowDOM(currentNode.content);
         }
-
-        /* Check attributes, sanitize if necessary */
-        _sanitizeAttributes(currentNode);
-
         oldNode = currentNode;
       }
-
       oldNode = null;
 
       /* If we sanitized `dirty` in-place, return it. */
@@ -13262,7 +12319,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       if (RETURN_DOM) {
         if (RETURN_DOM_FRAGMENT) {
           returnNode = createDocumentFragment.call(body.ownerDocument);
-
           while (body.firstChild) {
             // eslint-disable-next-line unicorn/prefer-dom-node-append
             returnNode.appendChild(body.firstChild);
@@ -13270,8 +12326,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
         } else {
           returnNode = body;
         }
-
-        if (ALLOWED_ATTR.shadowroot) {
+        if (ALLOWED_ATTR.shadowroot || ALLOWED_ATTR.shadowrootmod) {
           /*
             AdoptNode() is not used because internal state is not reset
             (e.g. the past names map of a HTMLFormElement), this is safe
@@ -13281,18 +12336,21 @@ function _objectWithoutPropertiesLoose(source, excluded) {
           */
           returnNode = importNode.call(originalDocument, returnNode, true);
         }
-
         return returnNode;
       }
-
       var serializedHTML = WHOLE_DOCUMENT ? body.outerHTML : body.innerHTML;
+
+      /* Serialize doctype if allowed */
+      if (WHOLE_DOCUMENT && ALLOWED_TAGS['!doctype'] && body.ownerDocument && body.ownerDocument.doctype && body.ownerDocument.doctype.name && regExpTest(DOCTYPE_NAME, body.ownerDocument.doctype.name)) {
+        serializedHTML = '<!DOCTYPE ' + body.ownerDocument.doctype.name + '>\n' + serializedHTML;
+      }
 
       /* Sanitize final string template-safe */
       if (SAFE_FOR_TEMPLATES) {
-        serializedHTML = stringReplace(serializedHTML, MUSTACHE_EXPR$$1, ' ');
-        serializedHTML = stringReplace(serializedHTML, ERB_EXPR$$1, ' ');
+        serializedHTML = stringReplace(serializedHTML, MUSTACHE_EXPR$1, ' ');
+        serializedHTML = stringReplace(serializedHTML, ERB_EXPR$1, ' ');
+        serializedHTML = stringReplace(serializedHTML, TMPLIT_EXPR$1, ' ');
       }
-
       return trustedTypesPolicy && RETURN_TRUSTED_TYPE ? trustedTypesPolicy.createHTML(serializedHTML) : serializedHTML;
     };
 
@@ -13332,7 +12390,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       if (!CONFIG) {
         _parseConfig({});
       }
-
       var lcTag = transformCaseFunc(tag);
       var lcName = transformCaseFunc(attr);
       return _isValidAttribute(lcTag, lcName, value);
@@ -13349,7 +12406,6 @@ function _objectWithoutPropertiesLoose(source, excluded) {
       if (typeof hookFunction !== 'function') {
         return;
       }
-
       hooks[entryPoint] = hooks[entryPoint] || [];
       arrayPush(hooks[entryPoint], hookFunction);
     };
@@ -13360,10 +12416,11 @@ function _objectWithoutPropertiesLoose(source, excluded) {
      * (pops it from the stack of hooks if more are present)
      *
      * @param {String} entryPoint entry point for the hook to remove
+     * @return {Function} removed(popped) hook
      */
     DOMPurify.removeHook = function (entryPoint) {
       if (hooks[entryPoint]) {
-        arrayPop(hooks[entryPoint]);
+        return arrayPop(hooks[entryPoint]);
       }
     };
 
@@ -13387,10 +12444,8 @@ function _objectWithoutPropertiesLoose(source, excluded) {
     DOMPurify.removeAllHooks = function () {
       hooks = {};
     };
-
     return DOMPurify;
   }
-
   var purify = createDOMPurify();
 
   return purify;
@@ -35900,8 +34955,9 @@ function parse (str, options) {
     var partial = prefix != null && next != null && next !== prefix
     var repeat = modifier === '+' || modifier === '*'
     var optional = modifier === '?' || modifier === '*'
-    var delimiter = res[2] || defaultDelimiter
+    var delimiter = prefix || defaultDelimiter
     var pattern = capture || group
+    var prevText = prefix || (typeof tokens[tokens.length - 1] === 'string' ? tokens[tokens.length - 1] : '')
 
     tokens.push({
       name: name || key++,
@@ -35911,7 +34967,7 @@ function parse (str, options) {
       repeat: repeat,
       partial: partial,
       asterisk: !!asterisk,
-      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : '[^' + escapeString(delimiter) + ']+?')
+      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : restrictBacktrack(delimiter, prevText))
     })
   }
 
@@ -35926,6 +34982,14 @@ function parse (str, options) {
   }
 
   return tokens
+}
+
+function restrictBacktrack(delimiter, prevText) {
+  if (!prevText || prevText.indexOf(delimiter) > -1) {
+    return '[^' + escapeString(delimiter) + ']+?'
+  }
+
+  return escapeString(prevText) + '|(?:(?!' + escapeString(prevText) + ')[^' + escapeString(delimiter) + '])+?'
 }
 
 /**
