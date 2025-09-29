@@ -768,41 +768,10 @@ var App = /*#__PURE__*/function (_React$Component) {
     function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
         id: "app-component"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
-        exact: true,
-        path: "/signin",
-        component: _auth_workspace_signin_form_jsx__WEBPACK_IMPORTED_MODULE_6__["default"]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__.AuthRoute, {
-        exact: true,
-        path: "/signup",
-        component: _auth_user_signup_container__WEBPACK_IMPORTED_MODULE_5__["default"]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
-        exact: true,
-        path: "/signin/:workspace_address",
-        component: _auth_user_signin_container__WEBPACK_IMPORTED_MODULE_4__["default"]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__.ProtectedRoute, {
-        exact: true,
-        path: "/create",
-        component: _auth_workspace_form__WEBPACK_IMPORTED_MODULE_9__["default"]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__.ProtectedRoute, {
-        exact: true,
-        path: "/workspace/:workspace_address",
-        component: _workspace_workspace_transition__WEBPACK_IMPORTED_MODULE_7__["default"]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__.ProtectedRoute, {
-        exact: true,
-        path: "/workspace/:workspace_address/:channel_id",
-        component: _workspace_workspace_container__WEBPACK_IMPORTED_MODULE_8__["default"]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__.ProtectedRoute, {
-        exact: true,
-        path: "/workspace/:workspace_address/:channel_id/video_call",
-        component: _channel_channel_chat_video__WEBPACK_IMPORTED_MODULE_10__["default"]
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
-        exact: true,
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
         path: "/",
-        render: function render() {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_homepage_homepage__WEBPACK_IMPORTED_MODULE_3__["default"], null);
-        }
-      }));
+        element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_homepage_homepage__WEBPACK_IMPORTED_MODULE_3__["default"], null)
+      })));
     }
   }]);
 }((react__WEBPACK_IMPORTED_MODULE_0___default().Component));
@@ -10929,39 +10898,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   withParams: () => (/* binding */ withParams),
 /* harmony export */   withRouter: () => (/* binding */ withRouter)
 /* harmony export */ });
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+
 
 function withLocation(Component) {
   return function WrappedComponent(props) {
-    var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_0__.useLocation)();
-    return /*#__PURE__*/React.createElement(Component, _extends({}, props, {
+    var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useLocation)();
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Component, _extends({}, props, {
       location: location
     }));
   };
 }
 function withNavigate(Component) {
   return function WrappedComponent(props) {
-    var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_0__.useNavigate)();
-    return /*#__PURE__*/React.createElement(Component, _extends({}, props, {
+    var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useNavigate)();
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Component, _extends({}, props, {
       navigate: navigate
     }));
   };
 }
 function withParams(Component) {
   return function WrappedComponent(props) {
-    var params = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_0__.useParams)();
-    return /*#__PURE__*/React.createElement(Component, _extends({}, props, {
+    var params = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useParams)();
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Component, _extends({}, props, {
       params: params
     }));
   };
 }
 function withRouter(Component) {
   return function WrappedComponent(props) {
-    var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_0__.useLocation)();
-    var params = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_0__.useParams)();
-    var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_0__.useNavigate)();
-    return /*#__PURE__*/React.createElement(Component, _extends({}, props, {
+    var location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useLocation)();
+    var params = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useParams)();
+    var navigate = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_1__.useNavigate)();
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Component, _extends({}, props, {
       params: params,
       location: location,
       navigate: navigate
@@ -68723,6 +68695,40 @@ if (
 
 /***/ }),
 
+/***/ "./node_modules/react-dom/client.js":
+/*!******************************************!*\
+  !*** ./node_modules/react-dom/client.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+var m = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+if (false) // removed by dead control flow
+{} else {
+  var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+  exports.createRoot = function(c, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.createRoot(c, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+  exports.hydrateRoot = function(c, h, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.hydrateRoot(c, h, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/react-dom/index.js":
 /*!*****************************************!*\
   !*** ./node_modules/react-dom/index.js ***!
@@ -78646,7 +78652,7 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
@@ -78660,7 +78666,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 document.addEventListener('DOMContentLoaded', function () {
-  var root = document.getElementById('root');
+  var rootElement = document.getElementById('root');
+  var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(rootElement);
+  console.log("HI");
   var store;
   if (window.currentUser) {
     var preloadedState = {
@@ -78683,9 +78691,9 @@ document.addEventListener('DOMContentLoaded', function () {
   delete window.currentUser;
   delete window.currentWorkspaces;
   loadWindowFuncs(store);
-  react_dom__WEBPACK_IMPORTED_MODULE_1__.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
+  root.render(/*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
     store: store
-  }), root);
+  }));
 });
 var loadWindowFuncs = function loadWindowFuncs(store) {
   window.getState = store.getState;

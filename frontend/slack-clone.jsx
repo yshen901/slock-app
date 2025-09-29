@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import Root from './components/root'
 
 import { logoutWorkspace } from './actions/workspace_actions';
@@ -7,7 +7,11 @@ import { logoutWorkspace } from './actions/workspace_actions';
 import configureStore from './store/store'
 
 document.addEventListener('DOMContentLoaded', () => {
-  const root = document.getElementById('root');
+  const rootElement = document.getElementById('root');
+  const root = createRoot(rootElement)
+
+  console.log("HI")
+
   let store;
 
   if (window.currentUser) {
@@ -35,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadWindowFuncs(store);
 
-  ReactDOM.render(<Root store={store}/>, root)
+  root.render(<Root store={store}/>)
 });
 
 const loadWindowFuncs = (store) => {

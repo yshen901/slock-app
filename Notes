@@ -4,6 +4,8 @@ Backend
 
     sudo apt-get install postgresql
     sudo service postgresql start
+    sudo -u postgres createuser -s yuci
+
     rails db:reset
     rails s
 

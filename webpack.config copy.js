@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   context: __dirname,
   entry: './frontend/slack-clone.jsx',
   output: {
@@ -18,8 +18,6 @@ module.exports = {
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
-          // query: { 
-            // presets: ['@babel/env', '@babel/react']
           options: {
             presets: [
               '@babel/preset-env',
@@ -29,19 +27,12 @@ module.exports = {
         },
       },
       {
-        // test: /\.jpeg?$/,
-        test: /\.jpe?g$/, // matches jpg and jpeg
+        test: /\.jpe?g$/,
         use: 'url-loader'
       },
       {
         test: /\.css$/,
-        // use: {
-        //   loader: 'css-loader',
-        //   options: {
-        //     url: false
-        //   }
-        use: ['style-loader', 'css-loader'] // adds style-loader to inject css into DOM
-        }
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
