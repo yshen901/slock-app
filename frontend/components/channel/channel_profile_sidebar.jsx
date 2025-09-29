@@ -166,4 +166,4 @@ class ProfileSidebar extends React.Component {
   }
 }
 
-export default withRouter(withParams(ProfileSidebar));
+export default withRouter(ProfileSidebar);

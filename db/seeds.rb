@@ -456,5 +456,5 @@ MessageSave.create(
   workspace_id: demo_workspace.id
 )
 
-file = File.open("app/assets/pdfs/Resume - Yuci Shen.pdf")
-message.files.attach([{io: file, filename: "Resume - Yuci Shen.pdf"}])
+# file = File.open("app/assets/pdfs/Resume - Yuci Shen.pdf")
+# message.files.attach([{io: file, filename: "Resume - Yuci Shen.pdf"}])

@@ -3283,6 +3283,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _util_call_api_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../util/call_api_util */ "./frontend/util/call_api_util.js");
 /* harmony import */ var _util_modal_api_util__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../util/modal_api_util */ "./frontend/util/modal_api_util.jsx");
+/* harmony import */ var _withRouter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../withRouter */ "./frontend/withRouter.jsx");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
 function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
@@ -3301,6 +3302,7 @@ function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf 
 
 
 // import Webcam from 'react-webcam';
+
 
 
 var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
@@ -3788,7 +3790,7 @@ var ChannelVideoChatRoomExternal = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 }((react__WEBPACK_IMPORTED_MODULE_0___default().Component));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (withRouter(ChannelVideoChatRoomExternal));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_5__.withRouter)(ChannelVideoChatRoomExternal));
 
 /***/ }),
 
@@ -5497,7 +5499,7 @@ var ProfileSidebar = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 }((react__WEBPACK_IMPORTED_MODULE_0___default().Component));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_4__.withRouter)(withParams(ProfileSidebar)));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_4__.withRouter)(ProfileSidebar));
 
 /***/ }),
 

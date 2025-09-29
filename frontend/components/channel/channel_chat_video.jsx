@@ -6,6 +6,8 @@ import { dmChannelUserId } from '../../selectors/selectors';
 import { JOIN_CALL, LEAVE_CALL, EXCHANGE, REJECT_CALL, ice, PICKUP_CALL, RECEIVED_CALL } from '../../util/call_api_util';
 import { hideElements, revealElements } from '../../util/modal_api_util';
 
+import { withRouter } from '../../withRouter';
+
 class ChannelVideoChatRoomExternal extends React.Component {
   constructor(props) {
     super(props);

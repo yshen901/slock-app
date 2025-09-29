@@ -1,0 +1,11 @@
+Backend
+    remove old Gemfile.lock to prevent deprecated packages from causing problems
+    bundle install
+
+    sudo apt-get install postgresql
+    sudo service postgresql start
+    rails db:reset
+    rails s
+
+Frontend
+    npm run start
