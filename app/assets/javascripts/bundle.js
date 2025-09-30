@@ -772,6 +772,11 @@ var App = /*#__PURE__*/function (_React$Component) {
         path: "/signin",
         element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_auth_workspace_signin_form_jsx__WEBPACK_IMPORTED_MODULE_6__["default"], null)
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
+        path: "/signup",
+        element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__.AuthRoute, {
+          element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_auth_user_signup_container__WEBPACK_IMPORTED_MODULE_5__["default"], null)
+        })
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
         exact: true,
         path: "/signin/:workspace_address",
         element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_auth_user_signin_container__WEBPACK_IMPORTED_MODULE_4__["default"], null)
@@ -10747,16 +10752,23 @@ __webpack_require__.r(__webpack_exports__);
 // removed props, since component can use withLocation, withNavigation, etc
 // removed exact, since all are exact now
 // changed render to element
+// const Protected = ({ component: Component, path, loggedIn }) => {
+//   return (
+//     <Route
+//       path={path}
+//       element= { 
+//         !loggedIn ? <Navigate to="/signin" /> : <Component /> 
+//       }
+//     />
+//   );
+// }
+
 var Protected = function Protected(_ref) {
-  var Component = _ref.component,
-    path = _ref.path,
+  var element = _ref.element,
     loggedIn = _ref.loggedIn;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Route, {
-    path: path,
-    element: !loggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Navigate, {
-      to: "/signin"
-    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Component, null)
-  });
+  return !loggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Navigate, {
+    to: "/signin"
+  }) : element;
 };
 
 // const Auth = ({ component: Component, path, loggedIn, exact }) => {
@@ -10771,15 +10783,11 @@ var Protected = function Protected(_ref) {
 //     )
 // }
 var Auth = function Auth(_ref2) {
-  var Component = _ref2.component,
-    path = _ref2.path,
+  var element = _ref2.element,
     loggedIn = _ref2.loggedIn;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Route, {
-    path: path,
-    element: loggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Navigate, {
-      to: "/"
-    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Component, null)
-  });
+  return loggedIn ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Navigate, {
+    to: "/"
+  }) : element;
 };
 var mapStateProtected = function mapStateProtected(state) {
   return {

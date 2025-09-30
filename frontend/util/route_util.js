@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect, Navigate } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 
 import { withRouter } from '../withRouter';
 
@@ -20,15 +20,21 @@ import { withRouter } from '../withRouter';
 // removed props, since component can use withLocation, withNavigation, etc
 // removed exact, since all are exact now
 // changed render to element
-const Protected = ({ component: Component, path, loggedIn }) => {
+// const Protected = ({ component: Component, path, loggedIn }) => {
+//   return (
+//     <Route
+//       path={path}
+//       element= { 
+//         !loggedIn ? <Navigate to="/signin" /> : <Component /> 
+//       }
+//     />
+//   );
+// }
+
+const Protected = ({ element, loggedIn }) => {
   return (
-    <Route
-      path={path}
-      element= { 
-        !loggedIn ? <Navigate to="/signin" /> : <Component /> 
-      }
-    />
-  );
+    !loggedIn ? <Navigate to="/signin"/> : element
+  )
 }
 
 // const Auth = ({ component: Component, path, loggedIn, exact }) => {
@@ -42,15 +48,10 @@ const Protected = ({ component: Component, path, loggedIn }) => {
 //     />
 //     )
 // }
-const Auth = ({ component: Component, path, loggedIn }) => {
+const Auth = ({ element, loggedIn }) => {
   return (
-    <Route 
-    path={path}
-    element={
-      loggedIn ? <Navigate to="/"/> : <Component />
-    }
-    />
-    )
+    loggedIn ? <Navigate to="/"/> : element
+  )
 }
 
 
