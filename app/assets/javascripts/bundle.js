@@ -781,6 +781,26 @@ var App = /*#__PURE__*/function (_React$Component) {
         path: "/signin/:workspace_address",
         element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_auth_user_signin_container__WEBPACK_IMPORTED_MODULE_4__["default"], null)
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
+        path: "/create",
+        element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__.ProtectedRoute, {
+          element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_auth_workspace_form__WEBPACK_IMPORTED_MODULE_9__["default"], null)
+        })
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
+        path: "/workspace/:workspace_address",
+        element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__.ProtectedRoute, {
+          element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_workspace_workspace_transition__WEBPACK_IMPORTED_MODULE_7__["default"], null)
+        })
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
+        path: "/workspace/:workspace_address/:channel_id",
+        element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__.ProtectedRoute, {
+          element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_workspace_workspace_container__WEBPACK_IMPORTED_MODULE_8__["default"], null)
+        })
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
+        path: "/workspace/:workspace_address/:channel_id/video_call",
+        element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__.ProtectedRoute, {
+          element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_channel_channel_chat_video__WEBPACK_IMPORTED_MODULE_10__["default"], null)
+        })
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Route, {
         path: "/",
         element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_homepage_homepage__WEBPACK_IMPORTED_MODULE_3__["default"], null)
       })));

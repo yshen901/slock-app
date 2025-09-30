@@ -23,10 +23,10 @@ class App extends React.Component {
           <Route path="/signin" element={ <WorkspaceSigninForm /> }/>
           <Route path="/signup" element={ <AuthRoute element={< UserSignupContainer />}/> }/>
           <Route exact path="/signin/:workspace_address" element={ <UserSigninContainer /> }/>
-          {/* <ProtectedRoute exact path="/create" component={ WorkspaceForm }/> */}
-          {/* <ProtectedRoute exact path="/workspace/:workspace_address" component={ WorkspaceTransition }/> */}
-          {/* <ProtectedRoute exact path="/workspace/:workspace_address/:channel_id" component={ WorkspaceContainer }/> */}
-          {/* <ProtectedRoute exact path="/workspace/:workspace_address/:channel_id/video_call" component={ ChannelChatVideo }/> */}
+          <Route path="/create" element={ <ProtectedRoute element={ < WorkspaceForm /> } /> }/>
+          <Route path="/workspace/:workspace_address" element={ <ProtectedRoute element={ < WorkspaceTransition /> } /> }/>
+          <Route path="/workspace/:workspace_address/:channel_id" element={ <ProtectedRoute element={ < WorkspaceContainer /> } /> }/>
+          <Route path="/workspace/:workspace_address/:channel_id/video_call" element={ <ProtectedRoute element={ < ChannelChatVideo /> } /> }/>
           <Route path="/" element={<Homepage></Homepage>}/>
         </Routes>
       </div>
