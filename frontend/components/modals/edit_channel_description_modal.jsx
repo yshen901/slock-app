@@ -105,4 +105,4 @@ class EditChannelDescriptionModal extends React.Component {
   }
 }
 
-export default EditChannelDescriptionModal;
+export default withRouter(EditChannelDescriptionModal);

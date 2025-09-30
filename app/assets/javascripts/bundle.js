@@ -6527,7 +6527,7 @@ var EditChannelDescriptionModal = /*#__PURE__*/function (_React$Component) {
     }
   }]);
 }((react__WEBPACK_IMPORTED_MODULE_0___default().Component));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (EditChannelDescriptionModal);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_3__.withRouter)(EditChannelDescriptionModal));
 
 /***/ }),
 
@@ -9279,7 +9279,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     users: state.entities.users,
     channels: state.entities.channels,
     user_channels: Object.keys(state.session.user_channels),
-    workspace_address: ownProps.arams.workspace_address,
+    workspace_address: ownProps.params.workspace_address,
     channel_id: parseInt(ownProps.params.channel_id)
   };
 };

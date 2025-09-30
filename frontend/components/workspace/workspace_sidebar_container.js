@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => ({
   channels: state.entities.channels,
   user_channels: Object.keys(state.session.user_channels),
 
-  workspace_address: ownProps.arams.workspace_address,
+  workspace_address: ownProps.params.workspace_address,
   channel_id: parseInt(ownProps.params.channel_id),
 })
 
