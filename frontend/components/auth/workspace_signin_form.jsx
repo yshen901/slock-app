@@ -9,6 +9,8 @@ import { refreshErrors } from '../../actions/error_actions';
 import { hideElements } from '../../util/modal_api_util'; 
 import { DEMO_WORKSPACE } from '../../actions/session_actions';
 
+import { withRouter } from '../../withRouter';
+
 class WorkspaceSigninForm extends React.Component {
   constructor() {
     super();
@@ -33,7 +35,7 @@ class WorkspaceSigninForm extends React.Component {
       e.preventDefault();
     dispatch(findWorkspace(this.state.workspace_address))
       .then(
-        () => this.props.history.push(`/signin/${ this.state.workspace_address }`),
+        () => this.props.navigate(`/signin/${ this.state.workspace_address }`),
         () => this.setState({state: this.state})
       );
   }
@@ -128,4 +130,4 @@ class WorkspaceSigninForm extends React.Component {
   }
 }
 
-export default WorkspaceSigninForm;
+export default withRouter(WorkspaceSigninForm);

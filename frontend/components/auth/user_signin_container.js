@@ -1,17 +1,18 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import UserAuthForm from './user_auth_form'
 
 import { login } from '../../actions/session_actions';
 import { findWorkspace, getWorkspaces } from '../../actions/workspace_actions';
 import { refreshErrors } from '../../actions/error_actions';
 
+import { withRouter } from '../../withRouter';
+
 /* NOTE: How to access the link params (/signin/:workspace_address)
             ...must use withRouter to be able to access
 */
 const mapStateToProps = (state, ownProps) => ({
   formType: "Sign in",
-  workspace_address: ownProps.match.params.workspace_address,
+  workspace_address: ownProps.params.workspace_address,
   error_messages: ["Invalid username/password. Please try again or contact workspace owner."],
 });
 
@@ -22,7 +23,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   refreshErrors: () => dispatch(refreshErrors())
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserAuthForm)
+)(UserAuthForm))

@@ -20,9 +20,9 @@ class App extends React.Component {
     return (
       <div id="app-component">
         <Routes>
-          {/* <Route exact path="/signin" component={ WorkspaceSigninForm }/> */}
+          <Route path="/signin" element={ <WorkspaceSigninForm /> }/>
           {/* <AuthRoute exact path="/signup" component={ UserSignupContainer }/> */}
-          {/* <Route exact path="/signin/:workspace_address" component={ UserSigninContainer }/> */}
+          <Route exact path="/signin/:workspace_address" element={ <UserSigninContainer /> }/>
           {/* <ProtectedRoute exact path="/create" component={ WorkspaceForm }/> */}
           {/* <ProtectedRoute exact path="/workspace/:workspace_address" component={ WorkspaceTransition }/> */}
           {/* <ProtectedRoute exact path="/workspace/:workspace_address/:channel_id" component={ WorkspaceContainer }/> */}
