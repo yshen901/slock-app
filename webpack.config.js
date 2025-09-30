@@ -41,7 +41,6 @@ module.exports = {
         //     url: false
         //   }
         use: ['style-loader', 'css-loader'] // adds style-loader to inject css into DOM
-        }
       }
     ]
   },
