@@ -34,7 +34,7 @@ class UserPopupModal extends React.Component {
       })).then(
         ({dmChannelUser}) => {
           let {channel_id} = dmChannelUser;
-          let {workspace_address} = this.props.match.params;
+          let {workspace_address} = this.props.params;
           this.props.navigate(`/workspace/${workspace_address}/${channel_id}`);
         }
       )

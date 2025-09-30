@@ -11,3 +11,7 @@ Backend
 
 Frontend
     npm run start
+
+
+TODO
+    Remove excessive withRouter where both container and jsx has it

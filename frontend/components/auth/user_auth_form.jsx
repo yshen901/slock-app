@@ -48,8 +48,8 @@ class UserSigninForm extends React.Component {
   }
 
   componentDidUpdate(oldProps) {
-    if (this.props.match.params.workspace_address !== oldProps.match.params.workspace_address)
-      this.checkWorkspace(this.props.match.params.workspace_address)
+    if (this.props.params.workspace_address !== oldProps.params.workspace_address)
+      this.checkWorkspace(this.props.params.workspace_address)
   }
 
   /* NOTE: REDIRECT AFTER UPDATING THE STATE TO AVOID HAVING TO DO IT IN COMPONENTDIDMOUNT 

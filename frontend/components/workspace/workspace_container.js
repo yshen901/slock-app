@@ -6,11 +6,13 @@ import { getWorkspace } from '../../actions/workspace_actions';
 import { updateOtherUserChannelStatus, updateOtherUserWorkspaceStatus } from '../../actions/user_actions';
 import { restartDmChannel } from '../../actions/dm_channel_actions';
 
+import { withRouter } from '../../withRouter';
+
 const mapStateToProps = (state, ownProps) => ({
   workspaces: Object.values(state.entities.workspaces),
-  workspace_address: ownProps.match.params.workspace_address,
+  workspace_address: ownProps.params.workspace_address,
   workspace_id: state.session.workspace_id,
-  channel_id: ownProps.match.params.channel_id,
+  channel_id: ownProps.params.channel_id,
   channels: state.entities.channels,
   user: state.entities.users[state.session.user_id],
   users: state.entities.users,
@@ -26,7 +28,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateOtherUserChannelStatus: (userData) => dispatch(updateOtherUserChannelStatus(userData))
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Workspace)
+)(Workspace))

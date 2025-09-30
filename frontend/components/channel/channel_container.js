@@ -4,10 +4,12 @@ import { endDmChannel, restartDmChannel } from '../../actions/dm_channel_actions
 
 import Channel from './channel';
 
+import { withRouter } from '../../withRouter';
+
 const mapStateToProps = (state, ownProps) => ({
-  workspace_address: ownProps.match.params.workspace_address,
-  channel: state.entities.channels[ownProps.match.params.channel_id],
-  channel_id: ownProps.match.params.channel_id,
+  workspace_address: ownProps.params.workspace_address,
+  channel: state.entities.channels[ownProps.params.channel_id],
+  channel_id: ownProps.params.channel_id,
   messages: state.entities.messages,
   user_id: state.session.user_id
 })
@@ -19,7 +21,7 @@ const mapDispatchToProps = (dispatch) => ({
   endDmChannel: (dmChannelInfo) => dispatch(endDmChannel(dmChannelInfo))
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Channel)
+)(Channel))

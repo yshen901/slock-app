@@ -5,10 +5,12 @@ import { sortedChannelUsers } from "../../selectors/selectors";
 import { updateDmChannel } from "../../actions/dm_channel_actions";
 import { deleteMessage, updateMessage } from "../../actions/message_actions";
 
+import { withRouter } from "../../withRouter";
+
 const mapStateToProps = (state, ownProps) => {
   let { channels, users, messages } = state.entities;
   let { user_id } = state.session;
-  let { channel_id, workspace_address } = ownProps.match.params;
+  let { channel_id, workspace_address } = ownProps.params;
 
   return {
     users,
@@ -29,7 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
   deleteMessage: (message) => dispatch(deleteMessage(message))
 });
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-  )(ChannelDetailsModal)
+  )(ChannelDetailsModal))

@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import ChannelNav from './channel_nav';
 import { updateChannelUser } from "../../actions/channel_actions";
 
+import { withRouter } from "../../withRouter"
+
 const mapStateToProps = (state, ownProps) => {
-  let { channel_id, workspace_address } = ownProps.match.params;
+  let { channel_id, workspace_address } = ownProps.params;
   let { users, channels } = state.entities;
   let { user_id } = state.session;
   return {
@@ -20,7 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateChannelUser: (channel_user) => dispatch(updateChannelUser(channel_user))
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ChannelNav)
+)(ChannelNav))

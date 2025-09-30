@@ -12,12 +12,14 @@ import {
   removeMessageSave
 } from '../../actions/message_actions';
 
+import { withRouter } from '../../withRouter';
+
 const mapStateToProps = (state, ownProps) => ({
   users: state.entities.users,
   messagesData: Object.values(state.entities.messages),
   current_user_id: state.session.user_id,
   workspace_id: state.session.workspace_id,
-  channel_id: ownProps.match.params.channel_id,
+  channel_id: ownProps.params.channel_id,
   user_saved_messages: state.session.user_saved_messages
 })
 
@@ -32,7 +34,7 @@ const mapDispatchToProps = dispatch => ({
   removeMessageReact: (message_react) => dispatch(removeMessageReact(message_react)),
 })
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChannelChat)
+)(ChannelChat))

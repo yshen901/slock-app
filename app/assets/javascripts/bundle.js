@@ -1108,7 +1108,7 @@ var UserSigninForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
-      if (this.props.match.params.workspace_address !== oldProps.match.params.workspace_address) this.checkWorkspace(this.props.match.params.workspace_address);
+      if (this.props.params.workspace_address !== oldProps.params.workspace_address) this.checkWorkspace(this.props.params.workspace_address);
     }
 
     /* NOTE: REDIRECT AFTER UPDATING THE STATE TO AVOID HAVING TO DO IT IN COMPONENTDIDMOUNT 
@@ -3223,6 +3223,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _channel_chat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./channel_chat */ "./frontend/components/channel/channel_chat.jsx");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
+/* harmony import */ var _withRouter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../withRouter */ "./frontend/withRouter.jsx");
+
 
 
 
@@ -3233,7 +3235,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     messagesData: Object.values(state.entities.messages),
     current_user_id: state.session.user_id,
     workspace_id: state.session.workspace_id,
-    channel_id: ownProps.match.params.channel_id,
+    channel_id: ownProps.params.channel_id,
     user_saved_messages: state.session.user_saved_messages
   };
 };
@@ -3266,7 +3268,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_channel_chat__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_4__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_channel_chat__WEBPACK_IMPORTED_MODULE_1__["default"])));
 
 /***/ }),
 
@@ -3813,15 +3815,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 /* harmony import */ var _channel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./channel */ "./frontend/components/channel/channel.jsx");
+/* harmony import */ var _withRouter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../withRouter */ "./frontend/withRouter.jsx");
+
 
 
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    workspace_address: ownProps.match.params.workspace_address,
-    channel: state.entities.channels[ownProps.match.params.channel_id],
-    channel_id: ownProps.match.params.channel_id,
+    workspace_address: ownProps.params.workspace_address,
+    channel: state.entities.channels[ownProps.params.channel_id],
+    channel_id: ownProps.params.channel_id,
     messages: state.entities.messages,
     user_id: state.session.user_id
   };
@@ -3842,7 +3846,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_channel__WEBPACK_IMPORTED_MODULE_3__["default"]));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_4__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_channel__WEBPACK_IMPORTED_MODULE_3__["default"])));
 
 /***/ }),
 
@@ -5262,13 +5266,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _channel_nav__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./channel_nav */ "./frontend/components/channel/channel_nav.jsx");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
+/* harmony import */ var _withRouter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../withRouter */ "./frontend/withRouter.jsx");
+
 
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  var _ownProps$match$param = ownProps.match.params,
-    channel_id = _ownProps$match$param.channel_id,
-    workspace_address = _ownProps$match$param.workspace_address;
+  var _ownProps$params = ownProps.params,
+    channel_id = _ownProps$params.channel_id,
+    workspace_address = _ownProps$params.workspace_address;
   var _state$entities = state.entities,
     users = _state$entities.users,
     channels = _state$entities.channels;
@@ -5288,7 +5294,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_channel_nav__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_3__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_channel_nav__WEBPACK_IMPORTED_MODULE_1__["default"])));
 
 /***/ }),
 
@@ -6317,6 +6323,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
 /* harmony import */ var _actions_message_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/message_actions */ "./frontend/actions/message_actions.jsx");
+/* harmony import */ var _withRouter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../withRouter */ "./frontend/withRouter.jsx");
+
 
 
 
@@ -6329,9 +6337,9 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     users = _state$entities.users,
     messages = _state$entities.messages;
   var user_id = state.session.user_id;
-  var _ownProps$match$param = ownProps.match.params,
-    channel_id = _ownProps$match$param.channel_id,
-    workspace_address = _ownProps$match$param.workspace_address;
+  var _ownProps$params = ownProps.params,
+    channel_id = _ownProps$params.channel_id,
+    workspace_address = _ownProps$params.workspace_address;
   return {
     users: users,
     channel: channels[channel_id],
@@ -6358,7 +6366,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_channel_details_modal__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_6__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_channel_details_modal__WEBPACK_IMPORTED_MODULE_2__["default"])));
 
 /***/ }),
 
@@ -7737,6 +7745,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _new_channel_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./new_channel_modal */ "./frontend/components/modals/new_channel_modal.jsx");
 /* harmony import */ var _actions_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/channel_actions */ "./frontend/actions/channel_actions.jsx");
 /* harmony import */ var _selectors_selectors__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../selectors/selectors */ "./frontend/selectors/selectors.js");
+/* harmony import */ var _withRouter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../withRouter */ "./frontend/withRouter.jsx");
+
 
 
 
@@ -7744,7 +7754,7 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspace_id: state.session.workspace_id,
-    workspace_address: ownProps.match.params.workspace_address,
+    workspace_address: ownProps.params.workspace_address,
     channels: (0,_selectors_selectors__WEBPACK_IMPORTED_MODULE_3__.objectToNameArray)(state.entities.channels)
   };
 };
@@ -7755,7 +7765,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_new_channel_modal__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_4__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_new_channel_modal__WEBPACK_IMPORTED_MODULE_1__["default"])));
 
 /***/ }),
 
@@ -8150,7 +8160,7 @@ var UserPopupModal = /*#__PURE__*/function (_React$Component) {
         })).then(function (_ref) {
           var dmChannelUser = _ref.dmChannelUser;
           var channel_id = dmChannelUser.channel_id;
-          var workspace_address = _this2.props.match.params.workspace_address;
+          var workspace_address = _this2.props.params.workspace_address;
           _this2.props.navigate("/workspace/".concat(workspace_address, "/").concat(channel_id));
         });
       };
@@ -8847,6 +8857,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_workspace_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/workspace_actions */ "./frontend/actions/workspace_actions.jsx");
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.jsx");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+/* harmony import */ var _withRouter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../withRouter */ "./frontend/withRouter.jsx");
+
 
 
 
@@ -8856,9 +8868,9 @@ __webpack_require__.r(__webpack_exports__);
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
     workspaces: Object.values(state.entities.workspaces),
-    workspace_address: ownProps.match.params.workspace_address,
+    workspace_address: ownProps.params.workspace_address,
     workspace_id: state.session.workspace_id,
-    channel_id: ownProps.match.params.channel_id,
+    channel_id: ownProps.params.channel_id,
     channels: state.entities.channels,
     user: state.entities.users[state.session.user_id],
     users: state.entities.users,
@@ -8885,7 +8897,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_workspace__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_6__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_workspace__WEBPACK_IMPORTED_MODULE_1__["default"])));
 
 /***/ }),
 
@@ -9256,6 +9268,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _workspace_sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./workspace_sidebar */ "./frontend/components/workspace/workspace_sidebar.jsx");
 /* harmony import */ var _actions_dm_channel_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/dm_channel_actions */ "./frontend/actions/dm_channel_actions.jsx");
+/* harmony import */ var _withRouter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../withRouter */ "./frontend/withRouter.jsx");
+
 
 
 
@@ -9265,8 +9279,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     users: state.entities.users,
     channels: state.entities.channels,
     user_channels: Object.keys(state.session.user_channels),
-    workspace_address: ownProps.match.params.workspace_address,
-    channel_id: parseInt(ownProps.match.params.channel_id)
+    workspace_address: ownProps.arams.workspace_address,
+    channel_id: parseInt(ownProps.params.channel_id)
   };
 };
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -9276,7 +9290,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     }
   };
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_workspace_sidebar__WEBPACK_IMPORTED_MODULE_1__["default"]));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_withRouter__WEBPACK_IMPORTED_MODULE_3__.withRouter)((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_workspace_sidebar__WEBPACK_IMPORTED_MODULE_1__["default"])));
 
 /***/ }),
 
