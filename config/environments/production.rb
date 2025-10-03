@@ -100,9 +100,9 @@ Rails.application.configure do
   # config.web_socket_server_url = "wss://slock-app-2.herokuapp.com/"
 
   config.middleware.use ChatActionCable  
-  config.action_cable.url = "wss://slock-app-2.herokuapp.com/cable"
+  config.action_cable.url = "wss://slock-app.herokuapp.com/cable"
   config.action_cable.allowed_request_origins = [
-    "https://slock-app-2.herokuapp.com"
+    "https://slock-app.herokuapp.com"
   ]
 
   config.active_storage.service = :amazon_prod
