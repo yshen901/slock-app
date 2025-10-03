@@ -1,3 +1,5 @@
+require Rails.root.join("app/middleware/chat_action_cable")
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -94,7 +96,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.middleware.use ChatActionCable  
-  config.web_socket_server_url = "wss://slock-app.herokuapp.com/"
+  config.web_socket_server_url = "wss://slock-app-2.herokuapp.com/"
 
   config.active_storage.service = :amazon_prod
 end
