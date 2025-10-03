@@ -1,4 +1,4 @@
-# [Slock](https://https://slock-app-2-162b04752aa0.herokuapp.com/#/)
+# [Slock](https://slock-app-2-162b04752aa0.herokuapp.com/#/)
 
 ## Background 
 Slock is a text, voice, and video chatting platform that attempts to provide an identical experience to that of Slack. Built off of React/Redux and Ruby on Rails, Slock offers private workspaces and channels on which users can send live messages, share files, react to and save content, and video chat with teammates. 
