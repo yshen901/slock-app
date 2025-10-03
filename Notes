@@ -14,9 +14,8 @@ Frontend
 
 Heroku
     heroku login
-    heroku run rails db:reset DATABASE slock-app-2
-    heroku run rails db:migrate -a slock-app-2
-    heroku run rails db:seed -a slock-app-2
+    heroku run rails db:migrate -a slock-app
+    heroku run rails db:seed -a slock-app
 
 aws 
     EDITOR="code --wait" rails credentials:edit
