@@ -34,6 +34,7 @@ class ChannelChat extends React.Component {
     this.toggleUserPopup = this.toggleUserPopup.bind(this);
     this.calculatePos = this.calculatePos.bind(this);
     this.hasNewMessages = this.hasNewMessages.bind(this);
+    this.processLoadedMessages = this.processLoadedMessages.bind(this);
   }
 
   componentDidMount() {
@@ -54,12 +55,15 @@ class ChannelChat extends React.Component {
   componentDidUpdate(oldProps) {
     let {channel_id} = this.props.params;
     
+    // Loads messages through the thunk once the channel_id changes
+    // Then once the messages are actually loaded into the state, load the messages
     if (channel_id != "0") {
-      if (channel_id !== oldProps.params.channel_id || this.hasNewMessages(oldProps)) {
-          debugger
-          this.setState({ messagesList: [] });
-          this.loadMessages();
-        }
+      if (channel_id !== oldProps.params.channel_id) {
+        this.loadMessages();
+      }
+      else if (this.hasNewMessages(oldProps)) {
+        this.processLoadedMessages();
+      }
     }
   }
 
@@ -145,20 +149,24 @@ class ChannelChat extends React.Component {
   loadMessages() {
     let { getMessages, channel_id } = this.props;
 
-    getMessages(channel_id)
-      .then(
-        (resp) => {
-          
-          // popualate messagesList
-          let { messagesData } = this.props;
-          let messagesList = [];
-          for (let i = 0; i < messagesData.length; i++)
-            this.processNewMessage(messagesList, i);
+    getMessages(channel_id);
+    this.processLoadedMessages();
+  }
 
-          this.setState({ messagesList });
-          if (this.bottom.current) this.bottom.current.scrollIntoView();
-        }
-      )
+  processLoadedMessages() {
+    // popualate messagesList
+    let { messagesData } = this.props;
+    let messagesList = [];
+    for (let i = 0; i < messagesData.length; i++)
+      this.processNewMessage(messagesList, i);
+
+
+    // Add callback that only runs after setState is called.
+    this.setState({ messagesList }, () => {
+      if (this.bottom.current) {
+        this.bottom.current.scrollIntoView();
+      }
+    });
   }
 
   // Updates the relevant message and if necessary repopulates messagesList to redo time groupings
@@ -226,8 +234,9 @@ class ChannelChat extends React.Component {
         let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
         let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
         this.processNewMessage(messagesList, messagesData.length - 1);
-        this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom});
-        this.updateScroll();
+        this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom}, () => {
+          this.updateScroll();
+        });
       }
       else if (dm_channel) {
         // joins the dm channel if not already in it

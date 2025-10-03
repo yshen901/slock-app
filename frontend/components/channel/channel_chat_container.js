@@ -15,7 +15,6 @@ import {
 import { withRouter } from '../../withRouter';
 
 const mapStateToProps = (state, ownProps) => {
-  debugger
   return ({
     users: state.entities.users,
     messagesData: Object.values(state.entities.messages),

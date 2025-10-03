@@ -2903,6 +2903,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     _this.toggleUserPopup = _this.toggleUserPopup.bind(_this);
     _this.calculatePos = _this.calculatePos.bind(_this);
     _this.hasNewMessages = _this.hasNewMessages.bind(_this);
+    _this.processLoadedMessages = _this.processLoadedMessages.bind(_this);
     return _this;
   }
   _inherits(ChannelChat, _React$Component);
@@ -2928,13 +2929,14 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       var channel_id = this.props.params.channel_id;
+
+      // Loads messages through the thunk once the channel_id changes
+      // Then once the messages are actually loaded into the state, load the messages
       if (channel_id != "0") {
-        if (channel_id !== oldProps.params.channel_id || this.hasNewMessages(oldProps)) {
-          debugger;
-          this.setState({
-            messagesList: []
-          });
+        if (channel_id !== oldProps.params.channel_id) {
           this.loadMessages();
+        } else if (this.hasNewMessages(oldProps)) {
+          this.processLoadedMessages();
         }
       }
     }
@@ -3027,19 +3029,28 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "loadMessages",
     value: function loadMessages() {
-      var _this2 = this;
       var _this$props2 = this.props,
         getMessages = _this$props2.getMessages,
         channel_id = _this$props2.channel_id;
-      getMessages(channel_id).then(function (resp) {
-        // popualate messagesList
-        var messagesData = _this2.props.messagesData;
-        var messagesList = [];
-        for (var i = 0; i < messagesData.length; i++) _this2.processNewMessage(messagesList, i);
-        _this2.setState({
-          messagesList: messagesList
-        });
-        if (_this2.bottom.current) _this2.bottom.current.scrollIntoView();
+      getMessages(channel_id);
+      this.processLoadedMessages();
+    }
+  }, {
+    key: "processLoadedMessages",
+    value: function processLoadedMessages() {
+      var _this2 = this;
+      // popualate messagesList
+      var messagesData = this.props.messagesData;
+      var messagesList = [];
+      for (var i = 0; i < messagesData.length; i++) this.processNewMessage(messagesList, i);
+
+      // Add callback that only runs after setState is called.
+      this.setState({
+        messagesList: messagesList
+      }, function () {
+        if (_this2.bottom.current) {
+          _this2.bottom.current.scrollIntoView();
+        }
       });
     }
 
@@ -3116,6 +3127,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "receiveACData",
     value: function receiveACData(data) {
+      var _this3 = this;
       var message_data = data.message_data; //extract the data
       // For message updates and deletions
       if (message_data.type != "PUT") {
@@ -3138,8 +3150,9 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
           this.setState({
             messagesList: messagesList,
             oldDistanceFromBottom: distanceFromBottom
+          }, function () {
+            _this3.updateScroll();
           });
-          this.updateScroll();
         } else if (dm_channel) {
           // joins the dm channel if not already in it
           if (!getState().entities.channels[message.channel_id]) {
@@ -3155,10 +3168,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleUserPopup",
     value: function toggleUserPopup(userId) {
-      var _this3 = this;
+      var _this4 = this;
       return function (e) {
         e.stopPropagation();
-        _this3.setState({
+        _this4.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
         });
@@ -3167,7 +3180,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderUserPopup",
     value: function renderUserPopup() {
-      var _this4 = this;
+      var _this5 = this;
       var _this$props4 = this.props,
         users = _this$props4.users,
         showUser = _this$props4.showUser;
@@ -3175,7 +3188,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
         user: users[popupUserId],
         hidePopup: function hidePopup() {
-          return _this4.setState({
+          return _this5.setState({
             popupUserId: 0
           });
         },
@@ -3252,7 +3265,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-  debugger;
   return {
     users: state.entities.users,
     messagesData: Object.values(state.entities.messages),
