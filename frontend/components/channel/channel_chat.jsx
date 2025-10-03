@@ -190,8 +190,9 @@ class ChannelChat extends React.Component {
             let { offsetHeight, scrollTop, scrollHeight } = this.scrollBar.current; 
             let distanceFromBottom = scrollHeight - offsetHeight - scrollTop;
             this.props.receiveMessageReact(message_react);
-            this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom});
-            this.updateScroll();
+            this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom}, () => {
+              this.updateScroll();
+            });
           }
           else if (messageData.type == REMOVE_MESSAGE_REACT && messageData.user_id != current_user_id) {
             let message_react = { message_id: messageData.id, user_id: messageData.user_id, react_code: messageData.react_code};
@@ -203,8 +204,9 @@ class ChannelChat extends React.Component {
             this.props.receiveMessageSave({
               message_id: messageData.id,
             });
-            this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom});
-            this.updateScroll();
+            this.setState({messagesList, oldDistanceFromBottom: distanceFromBottom}, () => {
+              this.updateScroll();
+            });
           }
           else if (messageData.type == REMOVE_MESSAGE_SAVE && messageData.user_id == current_user_id && user_saved_messages[messageData.id]) {
             this.props.removeMessageSave({
@@ -227,7 +229,7 @@ class ChannelChat extends React.Component {
 
       // loads the message if its to the current channel
       if (message.channel_id == this.props.channel_id) {
-        this.props.receiveMessage(message)
+        this.props.receiveMessage(message);
         let { messagesData } = this.props;
         let messagesList = this.state.messagesList;
 

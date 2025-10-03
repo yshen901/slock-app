@@ -11,3 +11,8 @@ Backend
 
 Frontend
     npm run start
+
+Heroku
+    heroku login
+    heroku open -a slock-app
+    heroku run rails db:setup -a slock-app-2

@@ -3058,6 +3058,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "updateMessage",
     value: function updateMessage(messageData) {
+      var _this3 = this;
       var _this$props3 = this.props,
         messagesData = _this$props3.messagesData,
         current_user_id = _this$props3.current_user_id,
@@ -3091,8 +3092,9 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               this.setState({
                 messagesList: messagesList,
                 oldDistanceFromBottom: distanceFromBottom
+              }, function () {
+                _this3.updateScroll();
               });
-              this.updateScroll();
             } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_9__.REMOVE_MESSAGE_REACT && messageData.user_id != current_user_id) {
               var _message_react = {
                 message_id: messageData.id,
@@ -3113,8 +3115,9 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
               this.setState({
                 messagesList: messagesList,
                 oldDistanceFromBottom: _distanceFromBottom
+              }, function () {
+                _this3.updateScroll();
               });
-              this.updateScroll();
             } else if (messageData.type == _actions_message_actions__WEBPACK_IMPORTED_MODULE_9__.REMOVE_MESSAGE_SAVE && messageData.user_id == current_user_id && user_saved_messages[messageData.id]) {
               this.props.removeMessageSave({
                 message_id: messageData.id
@@ -3127,7 +3130,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "receiveACData",
     value: function receiveACData(data) {
-      var _this3 = this;
+      var _this4 = this;
       var message_data = data.message_data; //extract the data
       // For message updates and deletions
       if (message_data.type != "PUT") {
@@ -3151,7 +3154,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
             messagesList: messagesList,
             oldDistanceFromBottom: distanceFromBottom
           }, function () {
-            _this3.updateScroll();
+            _this4.updateScroll();
           });
         } else if (dm_channel) {
           // joins the dm channel if not already in it
@@ -3168,10 +3171,10 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "toggleUserPopup",
     value: function toggleUserPopup(userId) {
-      var _this4 = this;
+      var _this5 = this;
       return function (e) {
         e.stopPropagation();
-        _this4.setState({
+        _this5.setState({
           popupUserId: userId,
           popupUserTarget: e.currentTarget
         });
@@ -3180,7 +3183,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "renderUserPopup",
     value: function renderUserPopup() {
-      var _this5 = this;
+      var _this6 = this;
       var _this$props4 = this.props,
         users = _this$props4.users,
         showUser = _this$props4.showUser;
@@ -3188,7 +3191,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       if (popupUserId) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_modals_user_popup_modal_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
         user: users[popupUserId],
         hidePopup: function hidePopup() {
-          return _this5.setState({
+          return _this6.setState({
             popupUserId: 0
           });
         },
