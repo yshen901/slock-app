@@ -95,8 +95,15 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # Change slock
+  # config.middleware.use ChatActionCable  
+  # config.web_socket_server_url = "wss://slock-app-2.herokuapp.com/"
+
   config.middleware.use ChatActionCable  
-  config.web_socket_server_url = "wss://slock-app-2.herokuapp.com/"
+  config.action_cable.url = "wss://slock-app-2.herokuapp.com/cable"
+  config.action_cable.allowed_request_origins = [
+    "https://slock-app-2.herokuapp.com"
+  ]
 
   config.active_storage.service = :amazon_prod
 end

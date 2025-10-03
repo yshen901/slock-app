@@ -14,5 +14,11 @@ Frontend
 
 Heroku
     heroku login
-    heroku open -a slock-app
-    heroku run rails db:setup -a slock-app-2
+    heroku run rails db:reset DATABASE slock-app-2
+    heroku run rails db:migrate -a slock-app-2
+    heroku run rails db:seed -a slock-app-2
+
+aws 
+    EDITOR="code --wait" rails credentials:edit
+    EDITOR="code --wait" rails credentials:show
+    heroku config:set RAILS_MASTER_KEY=$(cat config/master.key) -a your-app-name
