@@ -33,6 +33,7 @@ class ChannelChat extends React.Component {
     this.receiveACData = this.receiveACData.bind(this);
     this.toggleUserPopup = this.toggleUserPopup.bind(this);
     this.calculatePos = this.calculatePos.bind(this);
+    this.hasNewMessages = this.hasNewMessages.bind(this);
   }
 
   componentDidMount() {
@@ -52,10 +53,30 @@ class ChannelChat extends React.Component {
   // Only trigger for non-transitional channels (channel_id != 0)
   componentDidUpdate(oldProps) {
     let {channel_id} = this.props.params;
-    if (channel_id != "0" && channel_id !== oldProps.params.channel_id) {
-      this.setState({ messagesList: [] });
-      this.loadMessages();
+    
+    if (channel_id != "0") {
+      if (channel_id !== oldProps.params.channel_id || this.hasNewMessages(oldProps)) {
+          debugger
+          this.setState({ messagesList: [] });
+          this.loadMessages();
+        }
     }
+  }
+
+  // Checks to see if new messages have been loaded
+  // TODO: See why this is necessary now, while before it was not. 
+  //       Is it due to what qualifies as an update?
+  hasNewMessages(oldProps) {
+    // If the original messagesData is empty, update if the new messagesData is not empty
+    if (oldProps.messagesData.length == 0) {
+      return this.props.messagesData.length > 0
+    }
+
+    // If the original messagesData is not empty, then check new messagesData to see if the channel has changed
+    if (this.props.messagesData.length != 0) {
+      return this.props.messagesData[0].channel_id != oldProps.messagesData[0].channel_id
+    }
+    return false;
   }
 
   componentWillUnmount() {
@@ -123,9 +144,11 @@ class ChannelChat extends React.Component {
   // Loads raw message data, and preloads message information to speed up future calculations
   loadMessages() {
     let { getMessages, channel_id } = this.props;
+
     getMessages(channel_id)
       .then(
-        () => {
+        (resp) => {
+          
           // popualate messagesList
           let { messagesData } = this.props;
           let messagesList = [];

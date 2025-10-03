@@ -14,14 +14,17 @@ import {
 
 import { withRouter } from '../../withRouter';
 
-const mapStateToProps = (state, ownProps) => ({
-  users: state.entities.users,
-  messagesData: Object.values(state.entities.messages),
-  current_user_id: state.session.user_id,
-  workspace_id: state.session.workspace_id,
-  channel_id: ownProps.params.channel_id,
-  user_saved_messages: state.session.user_saved_messages
-})
+const mapStateToProps = (state, ownProps) => {
+  debugger
+  return ({
+    users: state.entities.users,
+    messagesData: Object.values(state.entities.messages),
+    current_user_id: state.session.user_id,
+    workspace_id: state.session.workspace_id,
+    channel_id: ownProps.params.channel_id,
+    user_saved_messages: state.session.user_saved_messages
+  })
+}
 
 const mapDispatchToProps = dispatch => ({
   getMessages: (channel_id) => dispatch(getMessages(channel_id)),

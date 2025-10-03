@@ -31,8 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     store = configureStore(preloadedState);
+    window.store = store;
   } else {
     store = configureStore();
+    window.store = store;
   }
   delete window.currentUser;
   delete window.currentWorkspaces;

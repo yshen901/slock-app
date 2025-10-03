@@ -61,7 +61,9 @@ class Workspace extends React.Component {
         // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS/CHANNELS
         this.props.getWorkspace(workspace_address) 
           .then(
-            ({channels, workspace}) => {
+            (resp) => {
+              let { channels, workspace } = resp;
+
               this.first_channel = Object.keys(channels)[0];  // goes to first channel if url is invalid
               if (channel_id != "saved-browser" && channel_id != "channel-browser" && channel_id != "people-browser" && channels[channel_id] === undefined)
                 this.props.navigate(`/workspace/${workspace_address}/${this.first_channel}`, { replace: true })
@@ -334,6 +336,7 @@ class Workspace extends React.Component {
       );
 
     let { user_id, users } = this.props;
+
     return (
       <div id="workspace-container">
         <WorkspaceTopbar user={users[user_id]}/>

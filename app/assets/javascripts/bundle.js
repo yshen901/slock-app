@@ -2902,6 +2902,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     _this.receiveACData = _this.receiveACData.bind(_this);
     _this.toggleUserPopup = _this.toggleUserPopup.bind(_this);
     _this.calculatePos = _this.calculatePos.bind(_this);
+    _this.hasNewMessages = _this.hasNewMessages.bind(_this);
     return _this;
   }
   _inherits(ChannelChat, _React$Component);
@@ -2927,12 +2928,33 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(oldProps) {
       var channel_id = this.props.params.channel_id;
-      if (channel_id != "0" && channel_id !== oldProps.params.channel_id) {
-        this.setState({
-          messagesList: []
-        });
-        this.loadMessages();
+      if (channel_id != "0") {
+        if (channel_id !== oldProps.params.channel_id || this.hasNewMessages(oldProps)) {
+          debugger;
+          this.setState({
+            messagesList: []
+          });
+          this.loadMessages();
+        }
       }
+    }
+
+    // Checks to see if new messages have been loaded
+    // TODO: See why this is necessary now, while before it was not. 
+    //       Is it due to what qualifies as an update?
+  }, {
+    key: "hasNewMessages",
+    value: function hasNewMessages(oldProps) {
+      // If the original messagesData is empty, update if the new messagesData is not empty
+      if (oldProps.messagesData.length == 0) {
+        return this.props.messagesData.length > 0;
+      }
+
+      // If the original messagesData is not empty, then check new messagesData to see if the channel has changed
+      if (this.props.messagesData.length != 0) {
+        return this.props.messagesData[0].channel_id != oldProps.messagesData[0].channel_id;
+      }
+      return false;
     }
   }, {
     key: "componentWillUnmount",
@@ -3009,7 +3031,7 @@ var ChannelChat = /*#__PURE__*/function (_React$Component) {
       var _this$props2 = this.props,
         getMessages = _this$props2.getMessages,
         channel_id = _this$props2.channel_id;
-      getMessages(channel_id).then(function () {
+      getMessages(channel_id).then(function (resp) {
         // popualate messagesList
         var messagesData = _this2.props.messagesData;
         var messagesList = [];
@@ -3230,6 +3252,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
+  debugger;
   return {
     users: state.entities.users,
     messagesData: Object.values(state.entities.messages),
@@ -8507,9 +8530,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
           valid = true;
 
           // DESIGN: SETS SESSION.WORKSPACE_ID, SESSION.USER_CHANNELS, AND ENTITIES.USERS/CHANNELS
-          this.props.getWorkspace(workspace_address).then(function (_ref) {
-            var channels = _ref.channels,
-              workspace = _ref.workspace;
+          this.props.getWorkspace(workspace_address).then(function (resp) {
+            var channels = resp.channels,
+              workspace = resp.workspace;
             _this2.first_channel = Object.keys(channels)[0]; // goes to first channel if url is invalid
             if (channel_id != "saved-browser" && channel_id != "channel-browser" && channel_id != "people-browser" && channels[channel_id] === undefined) _this2.props.navigate("/workspace/".concat(workspace_address, "/").concat(_this2.first_channel), {
               replace: true
@@ -8610,9 +8633,9 @@ var Workspace = /*#__PURE__*/function (_React$Component) {
       this.loginACChannel = App.cable.subscriptions.create({
         channel: "LoginChannel"
       }, {
-        received: function received(_ref2) {
-          var workspace_data = _ref2.workspace_data,
-            channel_data = _ref2.channel_data;
+        received: function received(_ref) {
+          var workspace_data = _ref.workspace_data,
+            channel_data = _ref.channel_data;
           if (workspace_data) {
             if (workspace_data.user.id != _this4.props.user_id) {
               _this4.props.updateOtherUserWorkspaceStatus(workspace_data);
@@ -78737,8 +78760,10 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     };
     store = (0,_store_store__WEBPACK_IMPORTED_MODULE_4__["default"])(preloadedState);
+    window.store = store;
   } else {
     store = (0,_store_store__WEBPACK_IMPORTED_MODULE_4__["default"])();
+    window.store = store;
   }
   delete window.currentUser;
   delete window.currentWorkspaces;
