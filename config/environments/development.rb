@@ -1,5 +1,3 @@
-require Rails.root.join("app/middleware/chat_action_cable")
-
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
